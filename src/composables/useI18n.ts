@@ -226,14 +226,14 @@ const translations = {
     insufficientFundsMessage: 'Insufficient funds for purchase. Would you like to top up by',
     confirmPurchaseMessage: 'Are you sure you want to purchase this item?',
     shopLoginRequired: 'Log in to your account to access the Shop!',
-    
+
     // Shop Account Setup
     accountSetupRequired: 'Account Verification Required',
     shopAccessDescription: 'To access the shop, you first need to set your Minecraft nickname. This helps us link your account with Discord and ensure proper shop functionality.',
     profileSetupInstructions: 'Go to your profile page to generate a verification code and link your Minecraft account.',
     goToProfile: 'Go to Profile',
     selectServerForItem: 'Select server to receive the item:',
-    
+
     // Unauthorized Message
     authenticationRequired: 'Authentication Required',
     accessExclusiveItems: 'Access exclusive items',
@@ -313,7 +313,6 @@ const translations = {
     verificationStep1: 'Visit your profile page',
     verificationStep2: 'Generate verification code',
     verificationStep3: 'Use /verify <code> command in-game',
-    goToProfile: 'Go to Profile',
     profileImagePlaceholder: 'Profile setup screenshot will be placed here',
 
     // Quick Tips
@@ -665,14 +664,13 @@ const translations = {
     insufficientFundsMessage: 'Недостатньо коштів для покупки. Чи не бажаєте ви поповнити на',
     confirmPurchaseMessage: 'Ви впевнені, що хочете придбати цей товар?',
     shopLoginRequired: 'Увійдіть у свій обліковий запис, щоб мати доступ до Крамниці!',
-    
+
     // Shop Account Setup
     accountSetupRequired: 'Потрібно підтвердити акаунт',
     shopAccessDescription: 'Для доступу до крамниці спочатку потрібно встановити ваш Minecraft нікнейм. Це допоможе нам зв\'язати ваш акаунт з Discord та забезпечити коректну роботу крамниці.',
     profileSetupInstructions: 'Перейдіть на сторінку профілю, щоб створити код підтвердження та прив\'язати ваш Minecraft акаунт.',
-    goToProfile: 'Перейти до профілю',
     selectServerForItem: 'Оберіть сервер для отримання товару:',
-    
+
     // Unauthorized Message
     authenticationRequired: 'Необхідна автентифікація',
     accessExclusiveItems: 'Доступ до ексклюзивних товарів',
