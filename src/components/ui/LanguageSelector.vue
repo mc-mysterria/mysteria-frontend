@@ -19,7 +19,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n, type Language } from '@/composables/useI18n'
-import DropdownSelect from './DropdownSelect.vue'
+import DropdownSelect, { type ComponentProps } from './DropdownSelect.vue'
+
+interface DropdownOption {
+  label: string;
+  value: string | number;
+  [key: string]: string | number | undefined;
+}
 
 const { currentLanguage, setLanguage } = useI18n()
 
@@ -28,7 +34,7 @@ const languageOptions = computed(() => [
   { label: '🇺🇦 UK', value: 'uk' }
 ])
 
-const handleLanguageChange = (value: string | number) => {
+const handleLanguageChange = (value: string | number | string[], option: DropdownOption | null) => {
   setLanguage(value as Language)
 }
 </script>
