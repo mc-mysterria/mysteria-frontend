@@ -1,0 +1,58 @@
+{
+  "rewrites": [
+    {
+      "source": "/sentry",
+      "destination": "https://o4508362028351488.ingest.de.sentry.io/api/4509243370504272/envelope/"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "https://api.uaproject.net/v3/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://api.uaproject.net/v3/:path*"
+    },
+    {
+      "source": "/plan/:path*",
+      "destination": "https://catwalk.uaproject.net/:path*"
+    },
+    {
+      "source": "/catwalk/:path*",
+      "destination": "https://catwalk.uaproject.net/:path*"
+    },
+    {
+      "source": "/auth/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/game",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/shop",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/profile/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/users",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/logout",
+      "destination": "/index.html"
+    },
+  ],
+  "headers": [
+    {
+      "source": "/sentry",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, X-Sentry-Auth, Origin" }
+      ]
+    }
+  ]
+}

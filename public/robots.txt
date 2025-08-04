@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /game
+Allow: /wiki
+Allow: /shop
+Allow: /application
+Allow: /form
+Allow: /logout
+
+Disallow: /profile
+Disallow: /admin
+Disallow: /api/
+Disallow: /*?*
+
+Sitemap: https://uaproject.net/sitemap.xml

@@ -1,0 +1,54 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+bun.lockb
+bun.lockb.json
+.env.example
+.editorconfig
+.prettierignore
+.prettierrc.json
+bun.lock
+
+.env.local
+api-docs.json
+CLAUDE.md
+
+node_modules
+package-lock.json
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+/cypress/videos/
+/cypress/screenshots/
+
+# Editor directories and files
+.vscode/*
+.vercel/*
+android/*
+ios/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.tsbuildinfo
+*.env
+.env.*
+# Sentry Config File
+.env.sentry-build-plugin
+
+
+# AI
+.claude
+.cursor

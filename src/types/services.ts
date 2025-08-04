@@ -1,0 +1,149 @@
+import { type UserDefaultSort } from "./base";
+import { type Decimal } from "decimal.js";
+
+export type ServiceSort = UserDefaultSort | "name" | "price";
+
+// New API service types
+export enum ServiceType {
+  ROLE = "ROLE",
+  ITEM = "ITEM", 
+  PERMISSION = "PERMISSION",
+  COSMETIC = "COSMETIC",
+}
+
+export enum ServiceCategory {
+  DONATION = "donation",
+  SERVICE = "service",
+  OTHER = "other",
+}
+
+export interface ServicePoint {
+  text: string;
+  tooltip?: string;
+}
+
+export interface ServiceDiscount {
+  user_id?: string;
+  discount_percent: number;
+  start_date: Date;
+  end_date?: Date;
+  reason?: string;
+}
+
+export interface ServerAvailability {
+  mode: "all" | "specific" | "selectable";
+  servers: string[] | null;
+}
+
+export interface ServiceMetadata {
+  data?: Record<string, unknown>;
+  features?: {
+    neutral?: boolean;
+    town_create?: boolean;
+    town_rename?: boolean;
+    map_color?: boolean;
+    area_discount?: string;
+    pvp_toggle?: boolean;
+    fire_toggle?: boolean;
+    mobs_toggle?: boolean;
+    animal_revival?: string;
+    cosmetic_tokens?: string;
+    roleplay_commands?: string;
+    colored_chat?: boolean;
+    hide_on_map?: boolean;
+    plants_placement?: boolean;
+    mc_discord_chat?: boolean;
+    bonus?: string;
+    [key: string]: string | boolean | undefined;
+  };
+}
+
+// New API service interface based on ServiceDto
+export interface ServiceBase {
+  id: number; // API uses integer ID
+  name: string;
+  description?: string;
+  price: number; // API uses number, not Decimal
+  durationDays?: number; // API uses durationDays instead of duration_months
+  type: ServiceType;
+  isSubscription?: boolean; // API uses isSubscription boolean
+  metadata?: Record<string, any>; // API uses generic metadata object
+  isActive: boolean; // API uses isActive
+  createdAt?: string; // API timestamp
+}
+
+// Legacy interface for compatibility with existing components
+export interface ServiceResponse {
+  id: string;
+  name: string;
+  display_name?: string;
+  description?: string;
+  points?: ServicePoint[];
+  image?: string;
+  price: Decimal;
+  is_active: boolean;
+  category?: string;
+  type: ServiceType;
+  duration_months?: number;
+  is_upgradable?: boolean;
+  upgrade_from?: string;
+  upgrade_to?: string;
+  service_metadata?: ServiceMetadata;
+  discounts?: ServiceDiscount[];
+  server_availability?: ServerAvailability;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+// New API DTOs
+export interface CreateServiceDto {
+  name: string;
+  description?: string;
+  price: number;
+  durationDays?: number;
+  type: ServiceType;
+  isSubscription?: boolean;
+  apiCallbackUrl?: string;
+  metadata?: Record<string, any>;
+}
+
+export interface ServiceDto {
+  id: number;
+  name: string;
+  description?: string;
+  price: number;
+  durationDays?: number;
+  type: ServiceType;
+  isSubscription: boolean;
+  metadata?: Record<string, any>;
+  isActive: boolean;
+  createdAt: string;
+}
+
+// Purchase related DTOs
+export interface PurchaseRequest {
+  serviceId: number;
+}
+
+export interface PurchaseDto {
+  id: string;
+  userId: string;
+  service: ServiceDto;
+  paidAmount: number;
+  purchaseDate: string;
+  expiresAt?: string;
+  delivered: boolean;
+  notes?: string;
+  metadata?: Record<string, any>;
+}
+
+export type ServiceCreate = CreateServiceDto;
+export type ServiceUpdate = Partial<CreateServiceDto>;
+
+export interface ServiceFilterParams {
+  is_active?: boolean;
+  category?: string;
+  name?: string;
+  type?: ServiceType;
+  is_upgradable?: boolean;
+}
