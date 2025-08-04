@@ -906,7 +906,7 @@ onUnmounted(() => {
 .stats-dashboard {
   width: 100%;
   max-width: min(1320px, 95vw);
-  margin: 0 auto clamp(50px, 8vw, 100px) auto;
+  margin: 0 auto 2rem auto;
   color: #fff;
   position: relative;
 }
@@ -959,7 +959,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.24);
-  transition: transform 0.3s ease;
+  transform: translateZ(0);
 }
 
 .metric-card:hover {
@@ -1218,20 +1218,17 @@ onUnmounted(() => {
 }
 
 .fade-in-up {
-  animation: fade-in-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-  will-change: opacity, transform;
+  animation: fade-in-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
   backface-visibility: hidden;
 }
 
 .slide-in-left {
-  animation: slide-in-left 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
-  will-change: opacity, transform;
+  animation: slide-in-left 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
   backface-visibility: hidden;
 }
 
 .pulse-online {
-  animation: pulse-online 2s ease-in-out infinite;
-  will-change: opacity, transform;
+  animation: pulse-online 3s ease-in-out infinite;
 }
 
 .error-message {

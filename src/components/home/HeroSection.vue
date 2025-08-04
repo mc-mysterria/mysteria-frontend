@@ -80,8 +80,8 @@ onMounted(() => {
 .title {
   max-width: 1200px;
   width: 90%;
-  min-height: calc(100vh - 120px);
-  margin: 0 auto 80px auto;
+  min-height: calc(100vh - 160px);
+  margin: 0 auto 40px auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -243,7 +243,7 @@ h1 {
   .title {
     flex-direction: column;
     text-align: center;
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 180px);
     padding: 1rem 0;
     gap: 2rem;
   }
@@ -290,8 +290,8 @@ h1 {
   .title {
     width: 100%;
     padding: 0.75rem;
-    min-height: calc(100vh - 120px);
-    margin-bottom: clamp(60px, 8vw, 80px);
+    min-height: calc(100vh - 160px);
+    margin-bottom: clamp(20px, 4vw, 40px);
   }
 
   .title img {

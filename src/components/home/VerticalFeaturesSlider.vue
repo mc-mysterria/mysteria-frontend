@@ -7,9 +7,9 @@
       <p class="main-description">{{ t('mainDescription') }}</p>
     </section>
 
-    <!-- Features Blocks -->
+    <!-- Features Blocks Container -->
     <div class="features-blocks">
-      <!-- Gameplay Feature (Left) -->
+      <!-- Gameplay Feature (Center) -->
       <div class="feature-block left-block">
         <div class="block-content">
           <div class="block-text">
@@ -75,12 +75,7 @@
           <div class="block-text">
             <blockquote class="final-message">{{ t('finalMessage') }}</blockquote>
           </div>
-          <div class="block-image">
-            <div class="character-art truth-art">
-              <img src="@/assets/images/Happy.png" alt="Happy Character" class="character-image" />
-              <div class="mystical-aura truth-glow"></div>
-            </div>
-          </div>
+          <img src="@/assets/images/Happy.webp" alt="Happy Character" class="character-image" />
         </div>
       </div>
     </div>
@@ -94,15 +89,10 @@ const { t, tArray } = useI18n()
 </script>
 
 <style scoped>
-/*
- * This version removes ALL hover effects to guarantee the smoothest possible scrolling experience.
- * The visual appeal is maintained through high-quality static styles, focusing on typography,
- * spacing, color, and depth.
-*/
 
 .features-container {
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 110%;
+  margin-left: -5%;
   padding: 5rem 2rem;
   background-color: #1a1a2e;
 }
@@ -110,6 +100,7 @@ const { t, tArray } = useI18n()
 .welcome-section {
   text-align: center;
   margin-bottom: 7rem;
+  pointer-events: auto;
 }
 
 .section-title {
@@ -152,17 +143,24 @@ const { t, tArray } = useI18n()
   padding: 2rem 0;
 }
 
-/* Chess-like Layout */
+.feature-block {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.center-block {
+  justify-content: center;
+}
+
 .left-block {
-  align-self: flex-start;
-  width: 85%;
-  margin-left: 0;
+  justify-content: flex-start;
+  padding-left: 5%;
 }
 
 .right-block {
-  align-self: flex-end;
-  width: 85%;
-  margin-right: 0;
+  justify-content: flex-end;
+  padding-right: 5%;
 }
 
 .block-content {
@@ -171,19 +169,15 @@ const { t, tArray } = useI18n()
   gap: 4rem;
   padding: 3.5rem;
   background: linear-gradient(150deg, rgba(40, 30, 60, 0.2), rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(20px);
   border: 1px solid rgba(192, 164, 232, 0.15);
   border-radius: 28px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(192, 164, 232, 0.1);
-  position: relative;
-  overflow: hidden;
+  transform: translateZ(0);
+  max-width: 1200px;
+  width: 100%;
 }
 
 .left-block .block-content {
-  flex-direction: row;
-}
-
-.right-block .block-content {
   flex-direction: row-reverse;
 }
 
@@ -240,6 +234,10 @@ const { t, tArray } = useI18n()
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
 }
 
+.final-block .character-art {
+  border-radius: 12px;
+}
+
 .mystical-aura {
   position: absolute;
   width: 120%;
@@ -247,8 +245,9 @@ const { t, tArray } = useI18n()
   top: -10%;
   left: -10%;
   border-radius: 50%;
-  opacity: 0.5;
+  opacity: 0.3;
   z-index: 0;
+  transform: translateZ(0);
 }
 
 .character-image {
@@ -260,27 +259,37 @@ const { t, tArray } = useI18n()
   object-fit: cover;
   border-radius: 50%;
   z-index: 1;
-  filter: brightness(0.95) contrast(1.05) saturate(1.1);
+  transform: translateZ(0);
+}
+
+.final-block .character-image {
+  border-radius: 12px;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  order: -1;
+  margin-bottom: 2rem;
 }
 
 /* Different character themes */
 .beyonder-art .mystical-aura {
-  background: radial-gradient(circle, rgba(155, 132, 213, 0.5) 0%, rgba(165, 136, 214, 0) 70%);
+  background: radial-gradient(circle, rgba(155, 132, 213, 0.3) 0%, rgba(165, 136, 214, 0) 70%);
 }
 
 .scholar-glow {
-  background: radial-gradient(circle, rgba(228, 194, 151, 0.5) 0%, rgba(228, 194, 151, 0) 70%);
+  background: radial-gradient(circle, rgba(228, 194, 151, 0.3) 0%, rgba(228, 194, 151, 0) 70%);
 }
 
 .sequence-glow {
-  background: radial-gradient(circle, rgba(238, 206, 162, 0.5) 0%, rgba(238, 206, 162, 0) 70%);
+  background: radial-gradient(circle, rgba(238, 206, 162, 0.3) 0%, rgba(238, 206, 162, 0) 70%);
 }
 
 .truth-glow {
-  background: radial-gradient(circle, rgba(139, 115, 199, 0.6) 0%, rgba(139, 115, 199, 0) 70%);
+  background: radial-gradient(circle, rgba(139, 115, 199, 0.4) 0%, rgba(139, 115, 199, 0) 70%);
 }
 
-.final-content {
+.final-block .block-content {
   flex-direction: column;
   text-align: center;
   gap: 2rem;
@@ -297,6 +306,10 @@ const { t, tArray } = useI18n()
   line-height: 1.4;
 }
 
+.final-block .block-image {
+  order: -1;
+}
+
 /* Tablet Styles */
 @media (max-width: 1024px) {
   .features-container {
@@ -305,14 +318,15 @@ const { t, tArray } = useI18n()
   .features-blocks {
     gap: 6rem;
   }
-  .left-block,
-  .right-block {
-    width: 95%;
-    align-self: center;
+  .left-block, .right-block {
+    padding-left: 2%;
+    padding-right: 2%;
+    justify-content: center;
   }
   .block-content {
     gap: 3rem;
     padding: 2.5rem;
+    max-width: 95%;
   }
   .block-image {
     flex: 0 0 280px;
@@ -331,17 +345,20 @@ const { t, tArray } = useI18n()
   .features-blocks {
     gap: 4rem;
   }
-  .left-block,
-  .right-block {
-    width: 100%;
+  .left-block, .right-block, .center-block {
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: center;
   }
-  .block-content,
-  .left-block .block-content,
-  .right-block .block-content {
+  .block-content {
     flex-direction: column;
     text-align: center;
     gap: 2.5rem;
     padding: 2rem;
+    max-width: 100%;
+  }
+  .left-block .block-content {
+    flex-direction: column;
   }
   .feature-item::before {
     left: 50%;
@@ -350,9 +367,6 @@ const { t, tArray } = useI18n()
   .block-image {
     flex: 0 0 240px;
     height: 240px;
-  }
-  .final-content {
-    gap: 2rem;
   }
 }
 

@@ -1,6 +1,7 @@
 {
-  "name": "new-frontend",
-  "version": "0.0.0",
+  "name": "mysterria-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Mysterria - A Lord of The Mysteries inspired Minecraft server featuring Potions, Sequences, Pathways, and mystical adventures",
   "private": true,
   "type": "module",
   "scripts": {

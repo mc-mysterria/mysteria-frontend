@@ -115,6 +115,7 @@ const wikiURL = import.meta.env.VITE_WIKI_URL;
 
 const navigationLinks = computed<NavLink[]>(() => [
   { path: "/", title: t('navHome') || 'Home' },
+  { path: "/game", title: t('navGame') || 'Game' },
   { path: "/shop", title: t('navShop') || 'Shop' },
   { path: "/rules", title: t('navRules') || 'Rules' },
   {

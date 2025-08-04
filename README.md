@@ -1,17 +1,18 @@
 # Mysterria Frontend
 
-A modern Vue 3 gaming community platform built with TypeScript, Vite, and Pinia. This application serves as the frontend for a gaming community website featuring user applications, court systems, news, shop functionality, and support tickets.
+A modern Vue 3 frontend for Mysterria - a Lord of The Mysteries inspired Minecraft server. Built with TypeScript, Vite, and Pinia, this application serves as the web platform for a mystical gaming community featuring Potions, Sequences, Pathways, and immersive Lord of The Mysteries gameplay elements. Supports both Ukrainian and English languages.
 
 ## ✨ Features
 
-- **User Management**: Discord OAuth authentication with role-based permissions
-- **Application System**: Multi-step application forms with status tracking
-- **Court System**: Community-driven dispute resolution with case management
-- **News Platform**: Admin-controlled news creation and publishing
-- **E-commerce**: Shop functionality with subscription management
-- **Support System**: Real-time ticket system with WebSocket chat
-- **Community Features**: Player statistics dashboard and team profiles
-- **Real-time Updates**: WebSocket integration for live data
+- **Mystical User Management**: Discord OAuth authentication with Pathway-based role permissions
+- **Sequence Application System**: Multi-step progression forms with mystical advancement tracking
+- **Mystical Court System**: Community-driven resolution of supernatural disputes and conflicts
+- **Lord of The Mysteries News**: Admin-controlled mystical announcements and world updates
+- **Potion & Ingredient Shop**: E-commerce for mystical ingredients, potions, and advancement materials
+- **Support System**: Real-time ticket system with WebSocket chat for community assistance
+- **Beyonder Features**: Player statistics, Sequence progression, and Pathway team profiles
+- **Real-time Mystical Updates**: WebSocket integration for live world events and ritual notifications
+- **Multilingual Support**: Full Ukrainian and English language support for global mystical community
 
 ## 🛠 Tech Stack
 
@@ -61,7 +62,7 @@ src/
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd new-frontend
+cd mysterria-frontend
 
 # Install dependencies
 bun install

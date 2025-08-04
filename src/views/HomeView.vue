@@ -16,12 +16,11 @@
 
 <script setup lang="ts">
 import HeroSection from "@/components/home/HeroSection.vue";
-import VerticalFeaturesSlider from "@/components/home/VerticalFeaturesSlider.vue";
-import HomeStats from "@/components/home/HomeStats.vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 
-import { onMounted, ref, nextTick, defineAsyncComponent } from "vue";
+import { defineAsyncComponent, nextTick, onMounted, ref } from "vue";
+import VerticalFeaturesSlider from "@components/home/VerticalFeaturesSlider.vue";
 
 const PlayerStatsDashboard = defineAsyncComponent(
   () => import("@/components/home/PlayerStatsDashboard.vue"),
@@ -31,7 +30,7 @@ const light2 = ref<HTMLElement | null>(null);
 const light3 = ref<HTMLElement | null>(null);
 const light4 = ref<HTMLElement | null>(null);
 const light5 = ref<HTMLElement | null>(null);
-const visibleSections = ref<number[]>([]);
+// const visibleSections = ref<number[]>([]);
 
 const section0 = ref<HTMLElement | null>(null);
 const section1 = ref<HTMLElement | null>(null);
@@ -52,56 +51,26 @@ const sectionRefs = [
 
 onMounted(() => {
   nextTick(() => {
-    visibleSections.value.push(0);
+    const options = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -5% 0px",
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const element = entry.target as HTMLElement;
-            const sectionIndex = parseInt(element.dataset.sectionIndex || "-1");
-            if (
-              sectionIndex !== -1 &&
-              !visibleSections.value.includes(sectionIndex)
-            ) {
-              visibleSections.value.push(sectionIndex);
-            }
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      },
-    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("element-show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
 
-    sectionRefs.forEach((sectionRef, index) => {
-      if (sectionRef.value && index > 0) {
-        sectionRef.value.dataset.sectionIndex = index.toString();
-        observer.observe(sectionRef.value);
+    lightRefs.forEach((lightRef) => {
+      if (lightRef.value) {
+        observer.observe(lightRef.value);
+        lightRef.value.classList.add("element-animation");
       }
     });
-  });
-
-  const options = {
-    threshold: 0.2,
-    rootMargin: "0px 0px -10% 0px",
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("element-show");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, options);
-
-  lightRefs.forEach((lightRef) => {
-    if (lightRef.value) {
-      observer.observe(lightRef.value);
-      lightRef.value.classList.add("element-animation");
-    }
   });
 });
 </script>
@@ -126,11 +95,13 @@ export default {
 .home {
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 3vw, 2rem);
-  padding: clamp(0.5rem, 2vw, 1rem);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(0.5rem, 1vw, 0.75rem);
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
 }
 
 .home-section {
@@ -139,9 +110,7 @@ export default {
   transition:
     opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: opacity, transform;
   backface-visibility: hidden;
-  perspective: 1000px;
 }
 
 .home-section.section-visible {
@@ -152,14 +121,14 @@ export default {
 .player-stats-section {
   width: 100%;
   max-width: min(1320px, 95vw);
-  margin: 0 auto clamp(50px, 8vw, 100px) auto;
+  margin: 0 auto 2rem auto;
   padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 2vw, 2rem);
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 24px;
   border: 1px solid rgba(108, 93, 211, 0.1);
-  backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);
 }
 
 .community-title {
@@ -221,11 +190,14 @@ export default {
 }
 
 .animation-wrapper {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 0;
-  overflow: visible;
+  height: 100vh;
+  overflow: hidden;
   pointer-events: none;
+  z-index: -1;
 }
 
 .light2 {
@@ -244,25 +216,27 @@ export default {
 
 .light4 {
   position: absolute;
-  top: 80vh;
+  top: 60vh;
   right: -10%;
   transform: translate(50%, -50%);
 }
 
 .light5 {
   position: absolute;
-  top: 110vh;
+  top: 70vh;
   left: -10%;
   transform: translate(-50%, -50%);
 }
 
 .element-animation {
   opacity: 0;
-  transition: 0.8s;
+  transition: opacity 0.6s ease-out;
+  will-change: opacity;
 }
 
 .element-show {
   opacity: 1;
+  will-change: auto;
 }
 
 @container (max-width: 1200px) {

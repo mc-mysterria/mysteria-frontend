@@ -1,14 +1,7 @@
 <template>
+  <HeaderItem />
   <div class="rules-page">
     <div class="rules-container">
-      <!-- Back Button -->
-      <div class="back-navigation">
-        <button @click="goBack" class="back-button">
-          <i class="fa-solid fa-arrow-left"></i>
-          {{ t('back') }}
-        </button>
-      </div>
-
       <!-- Header Section -->
       <div class="rules-header">
         <h1 class="rules-title">{{ t('rulesTitle') }}</h1>
@@ -79,25 +72,18 @@
       </div>
     </div>
   </div>
+  <FooterItem />
 </template>
 
 <script setup lang="ts">
 import { useI18n } from '@/composables/useI18n'
-import { useRouter } from 'vue-router'
+import HeaderItem from '@/components/layout/HeaderItem.vue'
+import FooterItem from '@/components/layout/FooterItem.vue'
 
 const { t, currentLanguage } = useI18n()
-const router = useRouter()
 
-const goBack = () => {
-  if (window.history.length > 1) {
-    router.go(-1)
-  } else {
-    router.push('/')
-  }
-}
 
 const getRules = () => {
-  const rules: Record<string, { title: string; description: string }> = {}
   const lang = currentLanguage.value
   const translations = lang === 'uk' ? {
     '1.1': { title: 'Психологічний хаос', description: 'Токсичність, неадекват, флуд, спам, шантаж — неприйнятні. Місто не терпить божевілля поза Контролем.' },
@@ -131,7 +117,6 @@ const getRules = () => {
 }
 
 const getMinecraftRules = () => {
-  const rules: Record<string, { title: string; description: string }> = {}
   const lang = currentLanguage.value
   const translations = lang === 'uk' ? {
     '2.1': { title: 'Заборонені Модифікатори', description: 'Барітон, Х-Ray, автокліки, мультиакаунти — магія поза Балансом. Її ціна — вигнання.' },
@@ -165,43 +150,12 @@ const getMinecraftRules = () => {
 
 <style scoped>
 .rules-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-  padding: 2rem 1rem;
+  padding: 3rem 1rem;
   color: #e8e8e8;
 }
 
-.back-navigation {
-  max-width: 1200px;
-  margin: 0 auto 2rem auto;
-  padding: 0 1rem;
-}
-
-.back-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(160, 82, 45, 0.2) 100%);
-  border: 1px solid rgba(139, 69, 19, 0.4);
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  color: #d4af37;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
-}
-
-.back-button:hover {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.5) 0%, rgba(160, 82, 45, 0.3) 100%);
-  border-color: rgba(139, 69, 19, 0.6);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.back-button i {
-  font-size: 0.9rem;
-}
 
 .rules-container {
   max-width: 1200px;
@@ -477,11 +431,6 @@ const getMinecraftRules = () => {
   .main-rule-title, .soul-agreement-title {
     font-size: 1.5rem;
   }
-
-  .back-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -495,15 +444,6 @@ const getMinecraftRules = () => {
 
   .rules-title, .minecraft-rules-title {
     font-size: 1.75rem;
-  }
-
-  .back-navigation {
-    padding: 0 0.5rem;
-  }
-
-  .back-button {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
   }
 }
 </style>

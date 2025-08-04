@@ -10,6 +10,7 @@ const translations = {
     navHome: 'Home',
     navShop: 'Shop',
     navWiki: 'Wiki',
+    navGame: "Game Guide",
 
     // Hero Section
     serverName: 'Mysterria',
@@ -108,7 +109,6 @@ const translations = {
     copyright: '© 2024 Mysterria',
 
     // Notifications
-    copySuccess: 'Copied to clipboard!',
     copyError: 'Failed to copy',
 
     // Common Actions
@@ -226,6 +226,101 @@ const translations = {
     insufficientFundsMessage: 'Insufficient funds for purchase. Would you like to top up by',
     confirmPurchaseMessage: 'Are you sure you want to purchase this item?',
 
+    // Game Guide Page
+    gameGuideTitle: 'Getting Started Guide',
+    gameGuideSubtitle: 'Everything you need to know to begin your journey in Mysterria',
+
+    // Server Connection
+    serverConnectionTitle: 'Connect to Server',
+    serverConnectionDescription: 'Join our Minecraft server to start your adventure in the Lord of Mysteries universe.',
+    serverIP: 'Server IP',
+    copyToClipboard: 'Copy to clipboard',
+    copyIP: 'Copy IP',
+    copySuccess: 'Copied!',
+    serverVersion: 'Version',
+    serverEdition: 'Edition',
+    modsRequired: 'Mods Required',
+    noModsRequired: 'None (Optional)',
+    serverType: 'Server Type',
+    rpgServer: 'RPG/Roleplay',
+    serverScreenshotPlaceholder: 'Server lobby screenshot will be placed here',
+
+    // Lore & Anime
+    loreAnimeTitle: 'Understand the World',
+    loreAnimeDescription: 'Before diving into the game, we highly recommend familiarizing yourself with the source material.',
+    webNovelTitle: 'Web Novel',
+    webNovelDescription: 'Read the original Lord of the Mysteries web novel to understand the world better.',
+    readWebNovel: 'Read Web Novel',
+    animeTitle: 'Anime Series',
+    animeDescription: 'Watch the currently airing anime adaptation for visual storytelling.',
+    watchAnime: 'Watch Anime',
+    loreImagePlaceholder: 'Lord of Mysteries artwork will be placed here',
+
+    // Harmoniya Launcher
+    launcherTitle: 'Harmoniya Launcher',
+    launcherDescription: 'Our custom launcher with pre-configured modpack for the best server experience.',
+    launcherFeature1: 'Pre-installed server modpack',
+    launcherFeature2: 'Automatic updates and configuration',
+    launcherFeature3: 'Optional - no mods required to play',
+    launcherFeature4: 'Auto-login to server, no need to enter password',
+    launcherFeature5: 'Pre-installed client mods for extended Magic system support',
+    downloadLauncher: 'Download Launcher',
+    launcherScreenshotPlaceholder: 'Launcher interface screenshot will be placed here',
+
+    // Rules
+    rulesDescription: 'Familiarize yourself with our server rules before playing.',
+    readRules: 'Read Server Rules',
+    rulesImagePlaceholder: 'Rules illustration will be placed here',
+    mainRuleConcepts: 'Main Rule Concepts',
+    ruleConcepts: [
+      'No toxicity, spam, or psychological chaos',
+      'Russian language prohibited in text channels',
+      'No NSFW content or forbidden symbols',
+      'No cheating, hacking, or exploits',
+      'Respect others\' property - no griefing',
+    ],
+
+    // Discord Guild
+    discordTitle: 'Join Our Discord',
+    discordDescription: 'Connect with the community, get help, participate in events, and stay updated on server news.',
+    discordBenefits: [
+      'Get help from experienced players and staff',
+      'Participate in community events and giveaways',
+      'Stay updated on server news and announcements',
+      'Find teammates for adventures and quests',
+      'Access exclusive Discord-only content'
+    ],
+    joinDiscord: 'Join Discord Server',
+    discordImagePlaceholder: 'Discord server screenshot will be placed here',
+
+    // Profile & Verification
+    profileTitle: 'Setup Your Profile',
+    profileDescription: 'Link your Minecraft account to Discord for verification and access to all server features.',
+    verificationStep1: 'Visit your profile page',
+    verificationStep2: 'Generate verification code',
+    verificationStep3: 'Use /verify <code> command in-game',
+    goToProfile: 'Go to Profile',
+    profileImagePlaceholder: 'Profile setup screenshot will be placed here',
+
+    // Quick Tips
+    quickTipsTitle: 'Quick Tips for New Players',
+    quickTips: [
+      'Start by reading the lore to understand Beyonder pathways and sequences',
+      'Join Discord to connect with other players and get help',
+      'Visit the spawn area to find starter guides and tutorials',
+      'Ask questions in chat - the community is helpful to newcomers',
+      'Take your time to explore and learn the custom mechanics',
+      'Remember: this is an RPG server focused on immersion and roleplay',
+      'Check the project wiki for detailed guides and gameplay mechanics',
+      'Be respectful and friendly - help create a welcoming community for everyone'
+    ],
+
+    // Bottom CTA
+    readyToStart: 'Ready to Begin Your Journey?',
+    readyToStartDescription: 'Set up your profile and review the rules to get started on your path as a Beyonder.',
+    setupProfile: 'Setup Profile',
+    reviewRules: 'Review Rules',
+
     // Rules Page
     navRules: 'Rules',
     rulesTitle: 'Laws of Mysterria',
@@ -340,6 +435,7 @@ const translations = {
     navHome: 'Головна',
     navShop: 'Крамниця',
     navWiki: 'Вікіпедія',
+    navGame: 'Почати гру',
 
     // Hero Section
     serverName: 'Містеррія',
@@ -438,7 +534,6 @@ const translations = {
     copyright: '© 2024 Містеррія',
 
     // Notifications
-    copySuccess: 'Скопійовано в буфер!',
     copyError: 'Не вдалося скопіювати',
 
     // Common Actions
@@ -555,6 +650,101 @@ const translations = {
     // Shop Confirmations
     insufficientFundsMessage: 'Недостатньо коштів для покупки. Чи не бажаєте ви поповнити на',
     confirmPurchaseMessage: 'Ви впевнені, що хочете придбати цей товар?',
+
+    // Game Guide Page
+    gameGuideTitle: 'Посібник з Початку Гри',
+    gameGuideSubtitle: 'Все, що потрібно знати, щоб розпочати свою подорож у Містеррії',
+
+    // Server Connection
+    serverConnectionTitle: 'Підключення до Сервера',
+    serverConnectionDescription: 'Приєднайтеся до нашого Minecraft сервера, щоб розпочати пригоди у всесвіті Lord of the Mysteries.',
+    serverIP: 'IP Сервера',
+    copyToClipboard: 'Скопіювати у буфер',
+    copyIP: 'Скопіювати IP',
+    copySuccess: 'Скопійовано!',
+    serverVersion: 'Версія',
+    serverEdition: 'Видання',
+    modsRequired: 'Моди Потрібні',
+    noModsRequired: 'Не потрібні (Опціонально)',
+    serverType: 'Тип Сервера',
+    rpgServer: 'RPG/Рольова гра',
+    serverScreenshotPlaceholder: 'Тут буде розміщено скріншот лобі сервера',
+
+    // Lore & Anime
+    loreAnimeTitle: 'Розуміння Світу',
+    loreAnimeDescription: 'Перед зануренням у гру ми настійно рекомендуємо ознайомитися з оригінальним матеріалом.',
+    webNovelTitle: 'Веб-Новела',
+    webNovelDescription: 'Прочитайте оригінальну веб-новелу Lord of the Mysteries для кращого розуміння світу.',
+    readWebNovel: 'Читати Веб-Новелу',
+    animeTitle: 'Аніме Серіал',
+    animeDescription: 'Дивіться аніме адаптацію, що зараз виходить, для візуального розповідання.',
+    watchAnime: 'Дивитися Аніме',
+    loreImagePlaceholder: 'Тут буде розміщено ілюстрації Lord of the Mysteries',
+
+    // Harmoniya Launcher
+    launcherTitle: 'Лаунчер Harmoniya',
+    launcherDescription: 'Наш власний лаунчер з попередньо налаштованим модпаком для найкращого досвіду на сервері.',
+    launcherFeature1: 'Попередньо встановлений модпак сервера',
+    launcherFeature2: 'Автоматичні оновлення та налаштування',
+    launcherFeature3: 'Опціонально - моди не обов\'язкові для гри',
+    launcherFeature4: 'Авто-логін на сервер, не потрібно вводити пароль',
+    launcherFeature5: 'Попередньо встановлені клієнтські моди для розширеної підтримки системи Магії',
+    downloadLauncher: 'Завантажити Лаунчер',
+    launcherScreenshotPlaceholder: 'Тут буде розміщено скріншот інтерфейсу лаунчера',
+
+    // Rules
+    rulesDescription: 'Ознайомтеся з правилами нашого сервера перед грою.',
+    readRules: 'Читати Правила Сервера',
+    rulesImagePlaceholder: 'Тут буде розміщено ілюстрацію правил',
+    mainRuleConcepts: 'Основні Концепції Правил',
+    ruleConcepts: [
+      'Заборона токсичності, спаму та психологічного хаосу',
+      'Російська мова заборонена в текстових каналах',
+      'Заборона NSFW контенту та заборонених символів',
+      'Заборона читів, хаків та експлойтів',
+      'Повага до чужого майна - заборона гріферства',
+    ],
+
+    // Discord Guild
+    discordTitle: 'Приєднуйтесь до Discord',
+    discordDescription: 'Спілкуйтеся зі спільнотою, отримуйте допомогу, беріть участь у подіях та слідкуйте за новинами сервера.',
+    discordBenefits: [
+      'Отримуйте допомогу від досвідчених гравців та персоналу',
+      'Беріть участь у спільнотних подіях та роздачах',
+      'Слідкуйте за новинами та оголошеннями сервера',
+      'Знаходьте товаришів для пригод та квестів',
+      'Отримуйте доступ до ексклюзивного Discord контенту'
+    ],
+    joinDiscord: 'Приєднатися до Discord',
+    discordImagePlaceholder: 'Тут буде розміщено скріншот Discord сервера',
+
+    // Profile & Verification
+    profileTitle: 'Налаштування Профілю',
+    profileDescription: 'Зв\'яжіть свій Minecraft акаунт з Discord для верифікації та доступу до всіх функцій сервера.',
+    verificationStep1: 'Відвідайте сторінку свого профілю',
+    verificationStep2: 'Згенеруйте код верифікації',
+    verificationStep3: 'Використайте команду /verify <код> у грі',
+    goToProfile: 'Перейти до Профілю',
+    profileImagePlaceholder: 'Тут буде розміщено скріншот налаштування профілю',
+
+    // Quick Tips
+    quickTipsTitle: 'Швидкі Поради для Нових Гравців',
+    quickTips: [
+      'Почніть з читання лору, щоб зрозуміти шляхи Потойбічних та послідовності',
+      'Приєднайтеся до Discord, щоб спілкуватися з іншими гравцями та отримувати допомогу',
+      'Відвідайте зону спавну, щоб знайти посібники для початківців та туторіали',
+      'Задавайте питання в чаті - спільнота дружньо ставиться до новачків',
+      'Не поспішайте дослідити та вивчити власні механіки',
+      'Пам\'ятайте: це RPG сервер, зосереджений на зануренні та рольовій грі',
+      'Перевірте вікі проекту для детальних гайдів та ігрових механік',
+      'Будьте поважливими та дружніми - допоможіть створити гостинну спільноту для всіх'
+    ],
+
+    // Bottom CTA
+    readyToStart: 'Готові Розпочати Свою Подорож?',
+    readyToStartDescription: 'Налаштуйте свій профіль та перегляньте правила, щоб почати свій шлях як Потойбічний.',
+    setupProfile: 'Налаштувати Профіль',
+    reviewRules: 'Переглянути Правила',
 
     // Rules Page
     navRules: 'Правила',
