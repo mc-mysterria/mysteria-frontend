@@ -2,9 +2,9 @@
   <img
     class="icon-logo"
     src="@/assets/icons/sources/IconLogo.webp"
-    alt="Логотип UAProject"
+    alt="Логотип Mysterria"
     role="img"
-    aria-label="Логотип UAProject"
+    aria-label="Логотип Mysterria"
     tabindex="0"
   />
 </template>

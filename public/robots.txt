@@ -12,4 +12,4 @@ Disallow: /admin
 Disallow: /api/
 Disallow: /*?*
 
-Sitemap: https://uaproject.net/sitemap.xml
+Sitemap: https://mysterria.net/sitemap.xml

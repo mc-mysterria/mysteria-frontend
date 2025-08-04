@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
       copyRobotsPlugin(),
       sentryVitePlugin({
         authToken: env.SENTRY_AUTH_TOKEN,
-        org: 'uaproject',
+        org: 'mysterria',
         project: 'frontend',
         telemetry: false,
       }),
@@ -119,7 +119,7 @@ export default defineConfig(({ mode }) => {
           },
         },
         '/catwalk': {
-          target: 'https://catwalk.uaproject.net',
+          target: 'https://catwalk.mysterria.net',
           changeOrigin: true,
           secure: true,
           rewrite: (path: string) => path.replace(/^\/catwalk/, ''),
@@ -145,7 +145,7 @@ export default defineConfig(({ mode }) => {
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         credentials: true,
       },
-      allowedHosts: ['api.uaproject.net'],
+      allowedHosts: ['api.mysterria.net'],
     },
     build: {
       sourcemap: true,

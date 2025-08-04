@@ -12,7 +12,7 @@ import { APIError, RequestError } from "@/utils/api/errors";
 function convertServiceDtoToLegacy(service: ServiceDto): ServiceResponse {
   // Create service points based on type and metadata
   const points: ServicePoint[] = [];
-  
+
   // Add duration info if available
   if (service.durationDays) {
     if (service.durationDays === 1) {
@@ -89,7 +89,7 @@ interface BalanceState {
     requiresServerSelection?: boolean;
   } | null;
   services: ServiceDto[];
-  
+
   // Legacy compatibility getter
   legacyServices: ServiceResponse[];
   balanceCheckInterval: number | null;
@@ -117,7 +117,7 @@ export const useBalanceStore = defineStore("balance", {
       const user = authStore.user;
       const nickname = user?.nickname || `user_${user?.id}` || "";
       const balanceIdentifier = state.balance?.identifier || "";
-      return `https://donatello.to/uaproject?c=${nickname}&m=${balanceIdentifier}`;
+      return `https://donatello.to/mysterria?c=${nickname}&m=${balanceIdentifier}`;
     },
   },
 
@@ -134,9 +134,9 @@ export const useBalanceStore = defineStore("balance", {
             'Content-Type': 'application/json'
           }
         });
-        
+
         if (!response.ok) throw new Error('Failed to fetch balance');
-        
+
         const balanceData: BalanceDto = await response.json();
         this.balance = {
           id: balanceData.userId,
@@ -151,11 +151,11 @@ export const useBalanceStore = defineStore("balance", {
           error instanceof Error
             ? error.message
             : "Помилка при отриманні балансу";
-        
+
         const { show } = useNotification();
-        show("Не вдалося завантажити баланс", { 
-          type: "error", 
-          duration: 4000 
+        show("Не вдалося завантажити баланс", {
+          type: "error",
+          duration: 4000
         });
       } finally {
         this.isLoading = false;
@@ -171,12 +171,12 @@ export const useBalanceStore = defineStore("balance", {
             'Content-Type': 'application/json'
           }
         });
-        
+
         if (!response.ok) throw new Error(`Failed to fetch services: ${response.status}`);
-        
+
         const services = await response.json();
         this.services = services.filter((s: ServiceDto) => s.isActive);
-        
+
         // Convert to legacy format for compatibility
         this.legacyServices = this.services.map(convertServiceDtoToLegacy);
       } catch (error) {
@@ -204,7 +204,7 @@ export const useBalanceStore = defineStore("balance", {
 
     async initiatePurchase(itemId: string) {
       console.log("initiatePurchase called with itemId:", itemId);
-      
+
       if (!useAuthStore().isAuthenticated) {
         console.log("User not authenticated");
         const { show } = useNotification();
@@ -243,14 +243,14 @@ export const useBalanceStore = defineStore("balance", {
         }
 
         await this.fetchBalance();
-        
+
         // Show success notification
         const { show: showSuccess } = useNotification();
-        showSuccess(`Успішно придбано "${service.name}" за ${service.price}₴`, { 
+        showSuccess(`Успішно придбано "${service.name}" за ${service.price}₴`, {
           type: "success",
           duration: 5000
         });
-        
+
         return true;
       } catch (error: unknown) {
         console.error("Помилка при здійсненні покупки:", error);
@@ -261,7 +261,7 @@ export const useBalanceStore = defineStore("balance", {
           // Map common errors to user-friendly messages
           let errorMessage = error.message;
           let isServerError = false;
-          
+
           if (errorMessage.includes('Insufficient balance')) {
             errorMessage = 'Недостатньо коштів на балансі';
           } else if (errorMessage.includes('Service not found')) {
@@ -280,7 +280,7 @@ export const useBalanceStore = defineStore("balance", {
           } else if (errorMessage.includes('Internal Server Error') || error.message.includes('500')) {
             errorMessage = 'Внутрішня помилка сервера. Зверніться до адміністрації.';
             isServerError = true;
-            
+
             // Log detailed error for support
             console.error('Shop purchase 500 error details:', {
               itemId,
@@ -289,15 +289,15 @@ export const useBalanceStore = defineStore("balance", {
               timestamp: new Date().toISOString()
             });
           }
-          
+
           show(errorMessage, { type: "error", duration: isServerError ? 8000 : 5000 });
-          
+
           // Show additional support message for server errors
           if (isServerError) {
             setTimeout(() => {
-              show("Якщо проблема повторюється, зверніться до адміністрації через Discord або тікет-систему", { 
-                type: "info", 
-                duration: 6000 
+              show("Якщо проблема повторюється, зверніться до адміністрації через Discord або тікет-систему", {
+                type: "info",
+                duration: 6000
               });
             }, 1000);
           }
@@ -310,16 +310,16 @@ export const useBalanceStore = defineStore("balance", {
             stack: error instanceof Error ? error.stack : undefined,
             timestamp: new Date().toISOString()
           });
-          
-          show("Невідома помилка при здійсненні покупки. Зверніться до адміністрації.", { 
-            type: "error", 
-            duration: 6000 
+
+          show("Невідома помилка при здійсненні покупки. Зверніться до адміністрації.", {
+            type: "error",
+            duration: 6000
           });
-          
+
           setTimeout(() => {
-            show("Деталі помилки збережено в консолі браузера для діагностики", { 
-              type: "info", 
-              duration: 4000 
+            show("Деталі помилки збережено в консолі браузера для діагностики", {
+              type: "info",
+              duration: 4000
             });
           }, 1000);
         }
@@ -336,17 +336,17 @@ export const useBalanceStore = defineStore("balance", {
       }
 
       const { show } = useNotification();
-      show("Очікуємо поповнення балансу...", { 
+      show("Очікуємо поповнення балансу...", {
         type: "info",
-        duration: 5000 
+        duration: 5000
       });
 
       this.balanceCheckInterval = window.setInterval(async () => {
         await this.fetchBalance();
         if (this.balance && this.balance.amount >= amount) {
-          show("Баланс успішно поповнено!", { 
+          show("Баланс успішно поповнено!", {
             type: "success",
-            duration: 4000 
+            duration: 4000
           });
           this.cancelCurrentPurchase();
           return true;
@@ -358,9 +358,9 @@ export const useBalanceStore = defineStore("balance", {
           if (this.balanceCheckInterval) {
             clearInterval(this.balanceCheckInterval);
             this.balanceCheckInterval = null;
-            show("Час очікування поповнення балансу вийшов", { 
+            show("Час очікування поповнення балансу вийшов", {
               type: "warn",
-              duration: 4000 
+              duration: 4000
             });
           }
         },

@@ -1,24 +1,20 @@
 {
   "rewrites": [
     {
-      "source": "/sentry",
-      "destination": "https://o4508362028351488.ingest.de.sentry.io/api/4509243370504272/envelope/"
-    },
-    {
       "source": "/api/:path*/",
-      "destination": "https://api.uaproject.net/v3/:path*"
+      "destination": "https://api.mysterria.net/api/:path*"
     },
     {
       "source": "/api/:path*",
-      "destination": "https://api.uaproject.net/v3/:path*"
+      "destination": "https://api.mysterria.net/api/:path*"
     },
     {
       "source": "/plan/:path*",
-      "destination": "https://catwalk.uaproject.net/:path*"
+      "destination": "https://catwalk.mysterria.net/:path*"
     },
     {
       "source": "/catwalk/:path*",
-      "destination": "https://catwalk.uaproject.net/:path*"
+      "destination": "https://catwalk.mysterria.net/:path*"
     },
     {
       "source": "/auth/:path*",

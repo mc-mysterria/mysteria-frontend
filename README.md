@@ -1,4 +1,4 @@
-# UAProject Frontend
+# Mysterria Frontend
 
 A modern Vue 3 gaming community platform built with TypeScript, Vite, and Pinia. This application serves as the frontend for a gaming community website featuring user applications, court systems, news, shop functionality, and support tickets.
 
@@ -176,7 +176,7 @@ The application is configured for deployment on Vercel with:
 
 ## 📄 License
 
-This project is private and proprietary to UAProject.
+This project is private and proprietary to Mysterria.
 
 ## 🤝 Contributing
 

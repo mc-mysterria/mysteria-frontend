@@ -60,7 +60,7 @@ export function initSentry(app: App, router: Router) {
       environment === "development" ? 0 : replaysSessionSampleRate,
     replaysOnErrorSampleRate:
       environment === "development" ? 0 : replaysOnErrorSampleRate,
-    tracePropagationTargets: ["localhost", /^https:\/\/.*uaproject\.net/],
+    tracePropagationTargets: ["localhost", /^https:\/\/.*mysterria\.net/],
     beforeSend(event) {
       if (event.request?.headers) {
         delete event.request.headers["Authorization"];

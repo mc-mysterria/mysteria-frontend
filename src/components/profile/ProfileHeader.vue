@@ -4,7 +4,7 @@
       <div class="logoSection">
         <RouterLink to="/" class="logoLink">
           <IconLogo />
-          <span class="logoText">UAProject</span>
+          <span class="logoText">Mysterria</span>
         </RouterLink>
       </div>
 

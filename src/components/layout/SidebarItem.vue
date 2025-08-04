@@ -14,7 +14,7 @@
       <RouterLink to="/" class="logo-link">
         <div class="containerLogo">
           <IconLogo />
-          <span v-show="!isCollapsed" class="logo-text">UAProject</span>
+          <span v-show="!isCollapsed" class="logo-text">Mysterria</span>
         </div>
       </RouterLink>
     </div>
