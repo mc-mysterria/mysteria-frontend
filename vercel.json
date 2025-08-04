@@ -39,7 +39,7 @@
     {
       "source": "/logout",
       "destination": "/index.html"
-    },
+    }
   ],
   "headers": [
     {
