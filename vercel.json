@@ -25,6 +25,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/rules",
+      "destination": "/index.html"
+    },
+    {
       "source": "/shop",
       "destination": "/index.html"
     },
