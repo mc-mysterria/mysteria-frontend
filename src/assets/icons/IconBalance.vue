@@ -7,23 +7,9 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     role="img"
-    aria-label="Іконка балансу"
+    aria-label="Mysterria balance icon"
     tabindex="0"
   >
-    <path
-      d="M12 7.25V8.75"
-      stroke="#EE7828"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M12 16.25V17.75"
-      stroke="#EE7828"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
     <path
       d="M12 21.5C16.9706 21.5 21 17.4706 21 12.5C21 7.52944 16.9706 3.5 12 3.5C7.02944 3.5 3 7.52944 3 12.5C3 17.4706 7.02944 21.5 12 21.5Z"
       stroke="#EE7828"
@@ -31,12 +17,29 @@
       stroke-linecap="round"
       stroke-linejoin="round"
     />
+    <!-- Stylized uppercase M -->
     <path
-      d="M9.75 16.25H13.125C13.6223 16.25 14.0992 16.0525 14.4508 15.7008C14.8025 15.3492 15 14.8723 15 14.375C15 13.8777 14.8025 13.4008 14.4508 13.0492C14.0992 12.6975 13.6223 12.5 13.125 12.5H10.875C10.3777 12.5 9.90081 12.3025 9.54917 11.9508C9.19754 11.5992 9 11.1223 9 10.625C9 10.1277 9.19754 9.65081 9.54917 9.29917C9.90081 8.94754 10.3777 8.75 10.875 8.75H14.25"
+      d="M8.5 16.5V8.5H10.2L12 11.7L13.8 8.5H15.5V16.5H13.9V11.9L12 15.1L10.1 11.9V16.5H8.5Z"
+      fill="#EE7828"
+    />
+    <!-- Decorative circles -->
+    <circle
+      cx="12"
+      cy="12.5"
+      r="2"
+      fill="none"
       stroke="#EE7828"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      stroke-width="0.8"
+      opacity="0.6"
+    />
+    <circle
+      cx="12"
+      cy="12.5"
+      r="4"
+      fill="none"
+      stroke="#EE7828"
+      stroke-width="0.4"
+      opacity="0.3"
     />
   </svg>
 </template>
@@ -46,6 +49,34 @@
   width: 24px;
   height: 25px;
   display: block;
-  transition: transform 0.2s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 8px rgba(138, 43, 226, 0.3));
+}
+
+.icon-balance:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 0 12px rgba(138, 43, 226, 0.6));
+}
+
+@keyframes mystical-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.icon-balance circle {
+  animation: mystical-pulse 3s ease-in-out infinite;
+}
+
+.icon-balance circle:nth-of-type(1) {
+  animation-delay: 0s;
+}
+.icon-balance circle:nth-of-type(2) {
+  animation-delay: 0.5s;
 }
 </style>

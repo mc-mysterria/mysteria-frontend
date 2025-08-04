@@ -2,7 +2,7 @@
   <HeaderItem />
   <UnauthorizedMessage
     v-if="!profile"
-    message="Увійдіть у свій обліковий запис, щоб мати доступ до Крамниці!"
+    :message="t('shopLoginRequired')"
   />
 
   <!-- Basic info section removed - simplified shop without applications -->
@@ -19,17 +19,17 @@
     <div v-if="profile && !profile.nickname" class="profile-setup-message">
       <div class="setup-content">
         <i class="fa-solid fa-user-gear setup-icon"></i>
-        <h2>Потрібно підтвердити акаунт</h2>
+        <h2>{{ t('accountSetupRequired') }}</h2>
         <p>
-          Для доступу до крамниці спочатку потрібно встановити ваш Minecraft нікнейм. Це допоможе нам зв'язати ваш акаунт з Discord та забезпечити коректну роботу крамниці.
+          {{ t('shopAccessDescription') }}
         </p>
         <br>
         <p>
-          Перейдіть на сторінку профілю, щоб створити код підтвердження та прив'язати ваш Minecraft акаунт.
+          {{ t('profileSetupInstructions') }}
         </p>
         <router-link to="/profile" class="setup-btn">
           <i class="fa-solid fa-arrow-right"></i>
-          Перейти до профілю
+          {{ t('goToProfile') }}
         </router-link>
       </div>
     </div>
@@ -67,9 +67,9 @@ watch(
 
       if (newPurchase.requiresServerSelection) {
         confirmModal.value.showModal(
-          `Оберіть сервер для отримання товару:`,
-          "Придбати",
-          "Відмінити",
+          t('selectServerForItem'),
+          t('purchase'),
+          t('cancel'),
         );
         return;
       }
@@ -82,7 +82,7 @@ watch(
           Number(newPurchase.price.minus(shopStore.balance?.amount || 0)),
         );
         confirmModal.value.showModal(
-          `${t('insufficientFundsMessage')} ${amount}₴?`,
+          `${t('insufficientFundsMessage')} ${amount} Mysterria?`,
           t('topUp'),
           t('cancel'),
         );

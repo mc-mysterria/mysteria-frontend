@@ -25,10 +25,10 @@
 
     <div class="price-container">
       <div class="price" :class="{ discounted: hasDiscount }">
-        {{ finalPrice }}₴
+        {{ finalPrice }}<IconBalance class="price-currency" />
       </div>
       <div v-if="hasDiscount" class="original-price">
-        {{ item.price.toString() }}₴
+        {{ item.price.toString() }}<IconBalance class="price-currency-small" />
       </div>
     </div>
 
@@ -74,6 +74,7 @@ import { computed } from "vue";
 import { useI18n } from "@/composables/useI18n";
 import type { ServiceResponse } from "@/types/services";
 import { Decimal } from "decimal.js";
+import IconBalance from "@/assets/icons/IconBalance.vue";
 
 const props = defineProps<{
   item: ServiceResponse;
@@ -224,6 +225,9 @@ const handlePurchase = () => {
   font-size: 32px;
   font-family: "MontserratBold", system-ui, sans-serif;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .price.discounted {
@@ -234,6 +238,20 @@ const handlePurchase = () => {
   font-size: 22px;
   color: #8a8a8a;
   text-decoration: line-through;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price-currency {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.price-currency-small {
+  width: 20px !important;
+  height: 20px !important;
+  opacity: 0.7;
 }
 
 .price-subtitle {
@@ -399,6 +417,16 @@ const handlePurchase = () => {
 
   .price {
     font-size: 28px;
+  }
+
+  .price-currency {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .price-currency-small {
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .tooltip-content {

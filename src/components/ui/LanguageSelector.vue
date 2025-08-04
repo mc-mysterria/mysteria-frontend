@@ -1,24 +1,35 @@
 <template>
   <div class="language-selector">
-    <select
-      :value="currentLanguage"
+    <DropdownSelect
+      :model-value="currentLanguage"
+      :options="languageOptions"
       @change="handleLanguageChange"
-      class="language-select"
+      class="language-dropdown"
     >
-      <option value="en">🇬🇧 EN</option>
-      <option value="uk">🇺🇦 UK</option>
-    </select>
+      <template #selected="{ selectedOption }">
+        {{ selectedOption?.label || '🇬🇧 EN' }}
+      </template>
+      <template #option="{ option }">
+        {{ option.label }}
+      </template>
+    </DropdownSelect>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n, type Language } from '@/composables/useI18n'
+import DropdownSelect from './DropdownSelect.vue'
 
 const { currentLanguage, setLanguage } = useI18n()
 
-const handleLanguageChange = (event: Event) => {
-  const target = event.target as HTMLSelectElement
-  setLanguage(target.value as Language)
+const languageOptions = computed(() => [
+  { label: '🇬🇧 EN', value: 'en' },
+  { label: '🇺🇦 UK', value: 'uk' }
+])
+
+const handleLanguageChange = (value: string | number) => {
+  setLanguage(value as Language)
 }
 </script>
 
@@ -27,7 +38,7 @@ const handleLanguageChange = (event: Event) => {
   position: relative;
 }
 
-.language-select {
+.language-dropdown :deep(.dropdown-trigger) {
   background: rgba(139, 126, 255, 0.5);
   border: 1px solid #8b7eff;
   border-radius: 8px;
@@ -38,21 +49,17 @@ const handleLanguageChange = (event: Event) => {
   outline: none;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  min-height: auto;
+  box-shadow: none;
 }
 
-.language-select:hover {
+.language-dropdown :deep(.dropdown-trigger:hover:not(.is-disabled)) {
   background: #8b7eff;
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-.language-select:focus {
+.language-dropdown :deep(.dropdown-trigger.is-open) {
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 0 2px #8b7eff;
-}
-
-.language-select option {
-  background: rgba(255, 255, 255, 0.1);
-  color: #1a1a2e;
-  padding: 8px;
 }
 </style>

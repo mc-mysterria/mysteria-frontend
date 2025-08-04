@@ -430,7 +430,6 @@ export default {
 .hero-section {
   text-align: center;
   margin-bottom: clamp(2rem, 4vw, 3rem);
-  padding-top: clamp(1rem, 2vw, 2rem);
 }
 
 .hero-title {
@@ -441,7 +440,6 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 1rem;
   text-shadow: 0 4px 12px rgba(108, 93, 211, 0.3);
 }
 

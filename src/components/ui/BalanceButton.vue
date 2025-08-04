@@ -25,29 +25,38 @@ const donatelloUrl = computed(() => balanceStore.donatelloUrl);
   margin-right: 16px;
   background: linear-gradient(
     135deg,
-    rgba(238, 120, 40, 0.1) 0%,
-    rgba(255, 140, 66, 0.05) 100%
+    rgba(138, 43, 226, 0.15) 0%,
+    rgba(75, 0, 130, 0.08) 50%,
+    rgba(238, 120, 40, 0.05) 100%
   );
-  border: 1px solid rgba(238, 120, 40, 0.3);
-  border-radius: 12px;
+  border: 1px solid rgba(138, 43, 226, 0.4);
+  border-radius: 16px;
   position: relative;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(238, 120, 40, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(138, 43, 226, 0.15),
+    0 0 20px rgba(138, 43, 226, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   font-weight: 600;
   font-size: 0.95rem;
   color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .dollar:hover {
   background: linear-gradient(
     135deg,
-    rgba(238, 120, 40, 0.15) 0%,
-    rgba(255, 140, 66, 0.08) 100%
+    rgba(138, 43, 226, 0.25) 0%,
+    rgba(75, 0, 130, 0.15) 50%,
+    rgba(238, 120, 40, 0.1) 100%
   );
-  border-color: rgba(238, 120, 40, 0.5);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(238, 120, 40, 0.2);
+  border-color: rgba(138, 43, 226, 0.6);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 8px 25px rgba(138, 43, 226, 0.25),
+    0 0 30px rgba(138, 43, 226, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .addMoney {
@@ -63,19 +72,24 @@ const donatelloUrl = computed(() => balanceStore.donatelloUrl);
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #ee7828 0%, #ff8c42 100%);
+  background: linear-gradient(135deg, #8a2be2 0%, #4b0082 50%, #ee7828 100%);
   cursor: pointer;
   text-decoration: none;
   color: #ffffff;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(238, 120, 40, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(138, 43, 226, 0.4),
+    0 0 20px rgba(138, 43, 226, 0.3);
   border: 2px solid rgba(23, 26, 33, 1);
+  backdrop-filter: blur(5px);
 }
 
 .addMoney:hover {
-  background: linear-gradient(135deg, #ff8c42 0%, #ff9d5c 100%);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 20px rgba(238, 120, 40, 0.5);
+  background: linear-gradient(135deg, #9932cc 0%, #8a2be2 50%, #ff8c42 100%);
+  transform: translateY(-50%) scale(1.15) rotate(5deg);
+  box-shadow: 
+    0 6px 25px rgba(138, 43, 226, 0.6),
+    0 0 30px rgba(138, 43, 226, 0.4);
 }
 
 .addMoney:active {
