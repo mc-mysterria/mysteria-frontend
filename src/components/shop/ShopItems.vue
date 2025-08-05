@@ -19,18 +19,31 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, nextTick } from "vue";
 import { useBalanceStore } from "@/stores/balance";
+import { useUserStore } from "@/stores/user";
 import { useNotification } from "@/services/useNotification";
 import ShopItemCard from "./ShopItemCard.vue";
 import Decimal from "decimal.js";
 import type { ServiceResponse } from "@/types/services";
 
 const shopStore = useBalanceStore();
+const userStore = useUserStore();
 const items = computed(() => shopStore.items);
 const itemsGridRef = ref<HTMLElement>();
 const visibleItems = ref<number[]>([]);
+const profile = computed(() => userStore.currentUser);
 
 const handlePurchase = (itemId: string) => {
   const { show } = useNotification();
+
+  // Check if account is verified (has nickname) before allowing purchase
+  if (!profile.value?.nickname) {
+    show("Для покупки необхідно налаштувати профіль. Перейдіть до профілю та додайте нікнейм.", { 
+      type: "error", 
+      duration: 5000 
+    });
+    return;
+  }
+
   const item = items.value.find((item) => item.id === itemId);
 
   console.log("Purchase button clicked for item:", itemId, item);

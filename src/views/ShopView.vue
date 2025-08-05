@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div v-if="profile && profile.nickname" class="shop-content">
+    <div v-if="profile" class="shop-content">
       <ShopItems />
     </div>
 
