@@ -11,6 +11,7 @@ export interface UserUpdateRequest {
   nickname?: string;
   is_active?: boolean;
   biography?: string;
+  lang?: string;
 }
 
 export interface UserFilter {

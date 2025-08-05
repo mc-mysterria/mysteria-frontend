@@ -19,14 +19,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n, type Language } from '@/composables/useI18n'
-import DropdownSelect, { type ComponentProps } from './DropdownSelect.vue'
-
-interface DropdownOption {
-  label: string;
-  value: string | number;
-  [key: string]: string | number | undefined;
-}
-
+import DropdownSelect from './DropdownSelect.vue'
+import { userAPI } from '@/utils/api/user'
 const { currentLanguage, setLanguage } = useI18n()
 
 const languageOptions = computed(() => [
@@ -34,8 +28,15 @@ const languageOptions = computed(() => [
   { label: '🇺🇦 UK', value: 'uk' }
 ])
 
-const handleLanguageChange = (value: string | number | string[], option: DropdownOption | null) => {
-  setLanguage(value as Language)
+const handleLanguageChange = async (value: string | number | string[]) => {
+  const language = value as Language
+  setLanguage(language)
+
+  try {
+    await userAPI.updateCurrentUser({ lang: language })
+  } catch (error) {
+    console.error('Failed to update language preference:', error)
+  }
 }
 </script>
 
