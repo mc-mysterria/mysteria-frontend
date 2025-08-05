@@ -16,8 +16,8 @@
 
   <div class="shop-container">
     <!-- Profile setup required message -->
-    <div v-if="profile && !profile.nickname" class="profile-setup-message">
-      <div class="setup-content">
+    <div v-if="profile && !profile.nickname" class="profile-setup-message wide">
+      <div class="setup-content wide">
         <i class="fa-solid fa-user-gear setup-icon"></i>
         <h2>{{ t('accountSetupRequired') }}</h2>
         <p>
@@ -151,12 +151,21 @@ export default {
   padding: 20px;
 }
 
+.setup-content.wide {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+}
+.profile-setup-message.wide {
+  padding: 0;
+}
+
 .setup-content {
   background-color: #23262c;
   border-radius: 15px;
   padding: 40px;
   text-align: center;
-  max-width: 600px;
+  max-width: 100%;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
   border: 2px solid #6c5dd3;
 }
