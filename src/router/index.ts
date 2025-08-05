@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import ShopView from "@/views/ShopView.vue";
 import PageNotFoundView from "@/views/PageNotFoundView.vue";
+import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,28 @@ const router = createRouter({
       component: PageNotFoundView,
     },
   ],
+});
+
+// Navigation guard to check authentication
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+  
+  // If auth store is still loading, wait for it to complete
+  if (authStore.isLoading) {
+    // Wait a bit for auth to initialize
+    let attempts = 0;
+    while (authStore.isLoading && attempts < 50) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
+    }
+  }
+  
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    // Redirect to home if not authenticated
+    next({ name: 'home' });
+  } else {
+    next();
+  }
 });
 
 export default router;

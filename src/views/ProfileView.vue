@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { useAuthStore } from "@/stores/auth";
 import { useUserStore } from "@/stores/user";
 import { useCatwalkStore } from "@/stores/catwalk";
 import { useRoleStore } from "@/stores/roles";
@@ -34,6 +35,7 @@ import type { UserProfileDto } from "@/types/auth";
 import { catwalkAPI } from "@/utils/api/catwalk";
 import { punishmentsAPI } from "@/utils/api/punishments";
 
+const authStore = useAuthStore();
 const userStore = useUserStore();
 const catwalkStore = useCatwalkStore();
 const roleStore = useRoleStore();
@@ -54,20 +56,40 @@ const catwalkLoading = ref(false);
 const sidebarCollapsed = ref(false);
 
 const isOwnProfile = computed(() => {
-  const currentUser = userStore.currentUser;
+  const currentUser = authStore.currentUser;
   if (!currentUser || !displayedUser.value) return false;
 
   return currentUser.id === displayedUser.value.id;
 });
 
 const fetchUserProfile = async () => {
-  // Only show current user's profile since API only supports /api/user/profile
-  displayedUser.value = userStore.currentUser;
+  // Ensure auth store has user data loaded
+  if (!authStore.currentUser && authStore.isAuthenticated && !authStore.isLoading) {
+    await authStore.refreshUser();
+  }
+  
+  // Use auth store as the primary source of user data
+  displayedUser.value = authStore.currentUser;
+  
+  // Sync user store with auth store if needed
+  if (authStore.currentUser && !userStore.currentUser) {
+    userStore.user = authStore.currentUser;
+  }
 };
 
 
 const loadProfile = async () => {
   loading.value = true;
+  
+  // Wait for auth store to finish loading if it's still initializing
+  if (authStore.isLoading) {
+    let attempts = 0;
+    while (authStore.isLoading && attempts < 50) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
+    }
+  }
+  
   await fetchUserProfile();
 
   if (displayedUser.value) {
