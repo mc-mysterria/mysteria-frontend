@@ -17,10 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useI18n, type Language } from '@/composables/useI18n'
 import DropdownSelect from './DropdownSelect.vue'
-import { userAPI } from '@/utils/api/user'
+import { authAPI } from '@/utils/api/auth'
 const { currentLanguage, setLanguage } = useI18n()
 
 const languageOptions = computed(() => [
@@ -33,11 +33,22 @@ const handleLanguageChange = async (value: string | number | string[]) => {
   setLanguage(language)
 
   try {
-    await userAPI.updateCurrentUser({ lang: language })
+    await authAPI.updateUserProfile({ lang: language })
   } catch (error) {
     console.error('Failed to update language preference:', error)
   }
 }
+
+onMounted(async () => {
+  try {
+    const user = await authAPI.getCurrentUser()
+    if (user?.lang && user.lang !== currentLanguage.value) {
+      setLanguage(user.lang as Language)
+    }
+  } catch (error) {
+    console.error('Failed to fetch user language preference:', error)
+  }
+})
 </script>
 
 <style scoped>
