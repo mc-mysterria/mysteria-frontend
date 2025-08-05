@@ -315,15 +315,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, onMounted } from 'vue'
+import { ref, nextTick, onMounted, computed } from "vue";
 import { useI18n } from '@/composables/useI18n'
 import HeaderItem from '@/components/layout/HeaderItem.vue'
 import FooterItem from '@/components/layout/FooterItem.vue'
 
 const { t, tArray } = useI18n()
 
-// Server IP - this could be moved to a configuration file
-const serverIP = 'play.mysterria.net'
+const serverIP = computed(() => t('serverAddress'))
 
 // Refs for animation
 const light1 = ref<HTMLElement | null>(null)
@@ -337,7 +336,7 @@ const lightRefs = [light1, light2, light3]
 // Copy to clipboard functionality
 const copyToClipboard = async () => {
   try {
-    await navigator.clipboard.writeText(serverIP)
+    await navigator.clipboard.writeText(serverIP.value)
     // Show success feedback
     isCopied.value = true
     setTimeout(() => {
@@ -347,7 +346,7 @@ const copyToClipboard = async () => {
     console.error('Failed to copy: ', err)
     // Fallback for older browsers
     const textArea = document.createElement('textarea')
-    textArea.value = serverIP
+    textArea.value = serverIP.value
     document.body.appendChild(textArea)
     textArea.select()
     document.execCommand('copy')
