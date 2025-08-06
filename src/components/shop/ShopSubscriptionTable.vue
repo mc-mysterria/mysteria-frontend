@@ -428,7 +428,7 @@ const handlePurchase = (plan: ServiceResponse) => {
 }
 
 .info-icon {
-  color: #6c5dd3;
+  color: #4ade80;
   font-size: 14px;
   cursor: help;
 }
@@ -470,7 +470,7 @@ const handlePurchase = (plan: ServiceResponse) => {
 }
 
 .purchase-btn {
-  background-color: #6c5dd3;
+  background-color: #4ade80;
   color: white;
   border: none;
   border-radius: 7px;
@@ -483,7 +483,7 @@ const handlePurchase = (plan: ServiceResponse) => {
 }
 
 .purchase-btn:hover {
-  background-color: #7a6cdf;
+  background-color: #22d3ee;
 }
 
 .purchase-btn:disabled {

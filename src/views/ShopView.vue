@@ -167,12 +167,12 @@ export default {
   text-align: center;
   max-width: 100%;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-  border: 2px solid #6c5dd3;
+  border: 2px solid #4ade80;
 }
 
 .setup-icon {
   font-size: 48px;
-  color: #6c5dd3;
+  color: #4ade80;
   margin-bottom: 20px;
 }
 
@@ -194,7 +194,7 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background-color: #6c5dd3;
+  background-color: #4ade80;
   color: white;
   text-decoration: none;
   padding: 15px 30px;
@@ -206,9 +206,9 @@ export default {
 }
 
 .setup-btn:hover {
-  background-color: #7a6cdf;
+  background-color: #22d3ee;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(108, 93, 211, 0.3);
+  box-shadow: 0 8px 16px rgba(74, 222, 128, 0.3);
 }
 
 .setup-btn i {

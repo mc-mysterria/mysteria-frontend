@@ -57,8 +57,8 @@ onMounted(async () => {
 }
 
 .language-dropdown :deep(.dropdown-trigger) {
-  background: rgba(139, 126, 255, 0.5);
-  border: 1px solid #8b7eff;
+  background: rgba(74, 222, 128, 0.5);
+  border: 1px solid #4ade80;
   border-radius: 8px;
   color: white;
   padding: 8px 12px;
@@ -72,12 +72,12 @@ onMounted(async () => {
 }
 
 .language-dropdown :deep(.dropdown-trigger:hover:not(.is-disabled)) {
-  background: #8b7eff;
+  background: #4ade80;
   border-color: rgba(255, 255, 255, 0.5);
 }
 
 .language-dropdown :deep(.dropdown-trigger.is-open) {
   border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 2px #8b7eff;
+  box-shadow: 0 0 0 2px #4ade80;
 }
 </style>

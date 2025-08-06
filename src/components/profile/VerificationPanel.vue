@@ -119,7 +119,7 @@ const formatExpiry = (expiresAt: string) => {
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -136,7 +136,7 @@ const formatExpiry = (expiresAt: string) => {
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: 'Courier New', monospace;
-  color: #8b7eff;
+  color: #22d3ee;
 }
 
 .verification-actions {
@@ -146,7 +146,7 @@ const formatExpiry = (expiresAt: string) => {
 }
 
 .generate-btn {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   color: white;
   border: none;
   border-radius: 10px;
@@ -227,7 +227,7 @@ const formatExpiry = (expiresAt: string) => {
 }
 
 .command-hint {
-  color: #8b7eff;
+  color: #22d3ee;
   font-weight: 600;
 }
 

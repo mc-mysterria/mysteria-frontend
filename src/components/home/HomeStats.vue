@@ -78,14 +78,14 @@ const { t } = useI18n();
   width: 48px;
   height: 48px;
   margin-bottom: 20px;
-  color: #8b7eff;
+  color: #22d3ee;
   transition: all 0.3s ease;
 }
 
 .content:hover :deep(svg) {
-  color: #ee7828;
+  color: #4ade80;
   transform: scale(1.1);
-  filter: drop-shadow(0 4px 12px rgba(238, 120, 40, 0.3));
+  filter: drop-shadow(0 4px 12px rgba(74, 222, 128, 0.3));
 }
 
 .text {

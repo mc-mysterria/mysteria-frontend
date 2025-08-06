@@ -141,7 +141,7 @@ onMounted(() => {
 }
 
 .tab-button:focus-visible {
-  box-shadow: 0 0 0 2px #6c5dd3;
+  box-shadow: 0 0 0 2px #4ade80;
   border-radius: 4px;
 }
 
@@ -149,11 +149,11 @@ onMounted(() => {
   position: absolute;
   bottom: -1px;
   height: 3px;
-  background: linear-gradient(90deg, #6c5dd3, #7a6cdf);
+  background: linear-gradient(90deg, #4ade80, #22d3ee);
   border-radius: 3px 3px 0 0;
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 12px rgba(108, 93, 211, 0.4);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.4);
   pointer-events: none;
 }
 

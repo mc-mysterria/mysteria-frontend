@@ -628,8 +628,8 @@ onBeforeUnmount(() => {
 }
 
 .dropdown-trigger.is-open {
-  border-color: #6c5dd3;
-  box-shadow: 0 0 0 3px rgba(108, 93, 211, 0.1);
+  border-color: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
 }
 
 .dropdown-trigger.is-disabled {
@@ -719,8 +719,8 @@ onBeforeUnmount(() => {
 }
 
 .dropdown-search-input:focus {
-  border-color: #6c5dd3;
-  box-shadow: 0 0 0 2px rgba(108, 93, 211, 0.1);
+  border-color: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.1);
 }
 
 .dropdown-search-input::placeholder {
@@ -731,7 +731,7 @@ onBeforeUnmount(() => {
   overflow-y: auto;
   padding: 0 0;
   scrollbar-width: thin;
-  scrollbar-color: #6c5dd3 rgba(255, 255, 255, 0.05);
+  scrollbar-color: #4ade80 rgba(255, 255, 255, 0.05);
 }
 
 .dropdown-option {
@@ -768,12 +768,12 @@ onBeforeUnmount(() => {
 
 .dropdown-option:hover,
 .dropdown-option.is-highlighted {
-  background: rgba(108, 93, 211, 0.1);
+  background: rgba(74, 222, 128, 0.1);
 }
 
 .dropdown-option.is-selected {
   background: rgba(108, 93, 211, 0.2);
-  color: #8b7eff;
+  color: #22d3ee;
 }
 
 .dropdown-option.is-selected:hover {
@@ -811,10 +811,10 @@ onBeforeUnmount(() => {
 .custom-input-btn {
   width: 100%;
   padding: 12px 16px;
-  background: rgba(108, 93, 211, 0.1);
+  background: rgba(74, 222, 128, 0.1);
   border: 1px solid rgba(108, 93, 211, 0.3);
   border-radius: 6px;
-  color: #8b7eff;
+  color: #22d3ee;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.9rem;
@@ -845,7 +845,7 @@ onBeforeUnmount(() => {
 }
 
 .dropdown-options::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;

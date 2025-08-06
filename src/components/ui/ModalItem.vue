@@ -183,7 +183,7 @@ defineExpose({
 }
 
 .card {
-  background-color: #6c5dd3;
+  background-color: #4ade80;
   box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.24);
   padding: 24px;
   border-radius: 12px;

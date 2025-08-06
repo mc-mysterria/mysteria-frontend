@@ -261,7 +261,7 @@ onBeforeUnmount(() => {
   width: 50px;
   height: 50px;
   border: 5px solid #b4bbc5;
-  border-top: 5px solid #6c5dd3;
+  border-top: 5px solid #4ade80;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 100px auto;

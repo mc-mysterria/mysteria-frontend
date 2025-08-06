@@ -227,7 +227,7 @@ onMounted(() => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -266,7 +266,7 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   border: 4px solid rgba(108, 93, 211, 0.3);
-  border-top: 4px solid #6c5dd3;
+  border-top: 4px solid #4ade80;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -320,7 +320,7 @@ onMounted(() => {
 }
 
 .transaction-type {
-  color: #8b7eff;
+  color: #22d3ee;
   font-size: 0.9rem;
   font-weight: 500;
   margin: 0 0 0.25rem 0;
@@ -382,7 +382,7 @@ onMounted(() => {
 }
 
 .load-more-btn {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   color: white;
   border: none;
   border-radius: 10px;
@@ -407,7 +407,7 @@ onMounted(() => {
 
 /* Transaction type specific styling */
 .transaction-purchase {
-  border-left: 4px solid #6c5dd3;
+  border-left: 4px solid #4ade80;
 }
 
 .transaction-donation {

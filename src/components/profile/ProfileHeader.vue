@@ -198,7 +198,7 @@ header {
 }
 
 .logoText {
-  background: linear-gradient(135deg, #6c5dd3 0%, #8b7eff 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -401,13 +401,13 @@ header {
 
 .navLink:hover {
   background: rgba(108, 93, 211, 0.1);
-  color: #6c5dd3;
+  color: #4ade80;
 }
 
 .navLink.router-link-active {
   background: rgba(108, 93, 211, 0.2);
-  color: #6c5dd3;
-  border-right: 3px solid #6c5dd3;
+  color: #4ade80;
+  border-right: 3px solid #4ade80;
 }
 
 .logoutButton {

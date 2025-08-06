@@ -21,9 +21,9 @@
 
 body {
   font-family: "Montserrat", monospace;
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 75%, #0a0a0a 100%);
+  background: linear-gradient(135deg, #0a0f0a 0%, #0f1a0f 25%, #1a2d1a 50%, #0d1f0d 75%, #080a08 100%);
   background-attachment: fixed;
-  color: #e8e8e8;
+  color: #e8f5e8;
   margin: 0;
   overflow-x: hidden;
   position: relative;
@@ -34,36 +34,36 @@ body {
 }
 
 a {
-  color: #e8e8e8;
+  color: #e8f5e8;
   text-decoration: none;
 }
 
-.violetText {
-  color: #8b73c7;
+.ghostText {
+  color: #7bc97b;
 }
 
-.orangeText {
-  color: #d4a574;
+.mistText {
+  color: #a4d4a4;
 }
 
-/* Lord of Mysteries themed colors */
+/* Viego's corruption themed colors */
 .mystical-text {
-  background: linear-gradient(135deg, #8b73c7 0%, #a588d6 50%, #d4a574 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #a0dc8e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.pathway-text {
-  color: #c9a876;
+.corruption-text {
+  color: #86d686;
 }
 
-.beyonder-text {
-  color: #9b7dd8;
+.spectral-text {
+  color: #7dd89b;
 }
 
-.fog-text {
-  color: #a8a8a8;
+.mist-text {
+  color: #a8d4a8;
 }
 
 body::-webkit-scrollbar {
@@ -71,7 +71,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #ee7828;
+  background-color: #4ade80;
   border-radius: 20px;
 }
 
@@ -87,20 +87,20 @@ body::-webkit-scrollbar-thumb {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #8b73c7, #a588d6);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border-radius: 8px;
   border: 2px solid rgba(255, 255, 255, 0.05);
   transition: 0.3s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #7a649f, #9275b8);
+  background: linear-gradient(135deg, #22c55e, #06b6d4);
   border-color: rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(135deg, #6b5587, #8066a3);
+  background: linear-gradient(135deg, #16a34a, #0891b2);
 }
 
 ::-webkit-scrollbar-corner {
@@ -109,7 +109,7 @@ body::-webkit-scrollbar-thumb {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #8b73c7 rgba(255, 255, 255, 0.05);
+  scrollbar-color: #4ade80 rgba(255, 255, 255, 0.05);
 }
 
 .scroll-enhanced::-webkit-scrollbar {
@@ -118,15 +118,15 @@ body::-webkit-scrollbar-thumb {
 }
 
 .scroll-enhanced::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #8b73c7, #a588d6);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border-radius: 10px;
   border: 3px solid rgba(255, 255, 255, 0.05);
-  box-shadow: rgba(139, 115, 199, 0.3) 0px 2px 8px;
+  box-shadow: rgba(74, 222, 128, 0.3) 0px 2px 8px;
 }
 
 .scroll-enhanced::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #7a649f, #9275b8);
-  box-shadow: rgba(139, 115, 199, 0.4) 0px 4px 12px;
+  background: linear-gradient(135deg, #22c55e, #06b6d4);
+  box-shadow: rgba(74, 222, 128, 0.4) 0px 4px 12px;
 }
 
 .scroll-hidden {
@@ -327,6 +327,100 @@ h6,
   min-height: 36px;
 }
 
+/* Enhanced Ghost Green Button Styles */
+.btn-primary {
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  color: #ffffff;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  box-shadow: 0 4px 16px rgba(74, 222, 128, 0.2);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #22d3ee, #4ade80);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.4);
+  border-color: rgba(74, 222, 128, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(74, 222, 128, 0.2);
+  color: #22d3ee;
+  border-color: rgba(74, 222, 128, 0.5);
+  box-shadow: 0 4px 16px rgba(74, 222, 128, 0.2);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #86d686;
+  border: 1px solid rgba(134, 214, 134, 0.4);
+  backdrop-filter: blur(5px);
+}
+
+.btn-ghost:hover {
+  background: rgba(134, 214, 134, 0.1);
+  color: #4ade80;
+  border-color: #4ade80;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+}
+
+/* Ghost Green Glow Effects */
+.ghost-glow {
+  animation: ghostGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes ghostGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(74, 222, 128, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.4), 0 0 30px rgba(34, 211, 238, 0.2);
+  }
+}
+
+.corruption-pulse {
+  animation: corruptionPulse 4s ease-in-out infinite;
+}
+
+@keyframes corruptionPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1) hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: brightness(1.1) hue-rotate(10deg);
+  }
+}
+
+/* Enhanced Interactive Elements */
+.interactive-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(74, 222, 128, 0.1);
+}
+
+.interactive-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(74, 222, 128, 0.2);
+  border-color: rgba(74, 222, 128, 0.4);
+}
+
+/* Ghost Green Text Effects */
+.ghost-text-glow {
+  text-shadow: 
+    0 0 10px rgba(74, 222, 128, 0.5),
+    0 0 20px rgba(74, 222, 128, 0.3),
+    0 0 30px rgba(34, 211, 238, 0.2);
+}
+
 .card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -339,7 +433,7 @@ h6,
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  border-color: rgba(139, 115, 199, 0.2);
+  border-color: rgba(74, 222, 128, 0.2);
 }
 
 .grid {
@@ -497,7 +591,7 @@ h6,
 }
 
 *:focus-visible {
-  outline: 2px solid #ee7828;
+  outline: 2px solid #4ade80;
   outline-offset: 2px;
   border-radius: 4px;
 }

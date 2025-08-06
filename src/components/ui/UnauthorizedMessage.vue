@@ -85,19 +85,19 @@ withDefaults(defineProps<Props>(), {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(108, 93, 211, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.5), transparent);
 }
 
 .unauthorized-icon {
   width: 65px;
   height: 65px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 18px;
-  box-shadow: 0 8px 32px rgba(108, 93, 211, 0.3);
+  box-shadow: 0 8px 32px rgba(74, 222, 128, 0.3);
   animation: pulse 2s infinite;
 }
 
@@ -109,11 +109,11 @@ withDefaults(defineProps<Props>(), {
 @keyframes pulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 8px 32px rgba(108, 93, 211, 0.3);
+    box-shadow: 0 8px 32px rgba(74, 222, 128, 0.3);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(108, 93, 211, 0.5);
+    box-shadow: 0 12px 40px rgba(74, 222, 128, 0.5);
   }
 }
 
@@ -158,7 +158,7 @@ withDefaults(defineProps<Props>(), {
 
 .feature-item:hover {
   background: rgba(108, 93, 211, 0.15);
-  border-color: rgba(108, 93, 211, 0.3);
+  border-color: rgba(74, 222, 128, 0.3);
   transform: translateY(-2px);
 }
 

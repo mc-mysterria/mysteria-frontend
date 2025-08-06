@@ -435,11 +435,11 @@ export default {
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-family: 'MontserratBold', sans-serif;
   font-weight: 700;
-  background: linear-gradient(135deg, #6c5dd3 0%, #8b7eff 50%, #ee7828 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #a0dc8e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 4px 12px rgba(108, 93, 211, 0.3);
+  text-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .hero-subtitle {
@@ -462,7 +462,7 @@ export default {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 20px;
   padding: clamp(1.5rem, 3vw, 2rem);
-  border: 1px solid rgba(108, 93, 211, 0.15);
+  border: 1px solid rgba(74, 222, 128, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   position: relative;
@@ -474,8 +474,8 @@ export default {
 
 .guide-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(108, 93, 211, 0.2);
-  border-color: rgba(108, 93, 211, 0.3);
+  box-shadow: 0 12px 40px rgba(74, 222, 128, 0.2);
+  border-color: rgba(74, 222, 128, 0.3);
 }
 
 .guide-card::before {
@@ -485,14 +485,14 @@ export default {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #6c5dd3, #8b7eff, #ee7828);
+  background: linear-gradient(90deg, #4ade80, #22d3ee, #a0dc8e);
 }
 
 .card-icon {
   width: 48px;
   height: 48px;
   margin-bottom: 1rem;
-  color: #8b7eff;
+  color: #22d3ee;
 }
 
 .card-icon svg {
@@ -547,7 +547,7 @@ export default {
 }
 
 .info-value {
-  color: #8b7eff;
+  color: #22d3ee;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -565,7 +565,7 @@ export default {
   background: rgba(0, 0, 0, 0.3);
   padding: 1rem;
   border-radius: 12px;
-  border: 1px solid rgba(108, 93, 211, 0.2);
+  border: 1px solid rgba(74, 222, 128, 0.2);
 }
 
 .ip-label {
@@ -576,7 +576,7 @@ export default {
 .ip-address {
   font-family: 'Minecraft', monospace;
   font-size: 1.1rem;
-  color: #8b7eff;
+  color: #22d3ee;
   background: rgba(139, 126, 255, 0.1);
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
@@ -584,7 +584,7 @@ export default {
 }
 
 .copy-button {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border: none;
   color: white;
   padding: 0.75rem 1.5rem;
@@ -601,7 +601,7 @@ export default {
 
 .copy-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(108, 93, 211, 0.3);
+  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3);
 }
 
 .copy-button svg {
@@ -641,14 +641,14 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #8b7eff;
+  color: #22d3ee;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .external-link:hover {
-  color: #6c5dd3;
+  color: #4ade80;
 }
 
 .external-link svg {
@@ -684,7 +684,7 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border: none;
   color: white;
   padding: 0.75rem 1.5rem;
@@ -698,7 +698,7 @@ export default {
 
 .download-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(108, 93, 211, 0.3);
+  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3);
 }
 
 .download-button svg {
@@ -806,7 +806,7 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #8b7eff;
+  color: #22d3ee;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -816,7 +816,7 @@ export default {
 
 .rules-link:hover,
 .profile-link:hover {
-  color: #6c5dd3;
+  color: #4ade80;
   transform: translateX(4px);
 }
 
@@ -843,7 +843,7 @@ export default {
 }
 
 .step-number {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   color: white;
   width: 24px;
   height: 24px;
@@ -907,7 +907,7 @@ export default {
 }
 
 .image-container:hover {
-  border-color: rgba(108, 93, 211, 0.3);
+  border-color: rgba(74, 222, 128, 0.3);
   box-shadow: 0 4px 12px rgba(108, 93, 211, 0.1);
 }
 
@@ -920,7 +920,7 @@ export default {
   height: 180px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 12px;
-  border: 2px dashed rgba(108, 93, 211, 0.3);
+  border: 2px dashed rgba(74, 222, 128, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -941,7 +941,7 @@ export default {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 20px;
   padding: clamp(2rem, 4vw, 3rem);
-  border: 1px solid rgba(108, 93, 211, 0.15);
+  border: 1px solid rgba(74, 222, 128, 0.15);
   position: relative;
   overflow: hidden;
 }
@@ -953,7 +953,7 @@ export default {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #6c5dd3, #8b7eff, #ee7828);
+  background: linear-gradient(90deg, #4ade80, #22d3ee, #a0dc8e);
 }
 
 .bottom-cta h2 {
@@ -991,19 +991,19 @@ export default {
 }
 
 .cta-button.primary {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   color: white;
 }
 
 .cta-button.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(108, 93, 211, 0.3);
+  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3);
 }
 
 .cta-button.secondary {
   background: transparent;
-  color: #8b7eff;
-  border: 2px solid rgba(108, 93, 211, 0.3);
+  color: #22d3ee;
+  border: 2px solid rgba(74, 222, 128, 0.3);
 }
 
 .cta-button.secondary:hover {

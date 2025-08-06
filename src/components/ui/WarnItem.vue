@@ -167,7 +167,7 @@ img {
 }
 
 .debug {
-  --border-color: #802ecc;
+  --border-color: #16a34a;
 }
 
 .success {

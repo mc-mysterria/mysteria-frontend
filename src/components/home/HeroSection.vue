@@ -130,11 +130,11 @@ onMounted(() => {
 h1 {
   font-size: clamp(3rem, 8vw, 5rem);
   font-family: "MontserratBold", system-ui, sans-serif;
-  background: linear-gradient(135deg, #8b73c7 0%, #a588d6 50%, #d4a574 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  text-shadow: 0 4px 12px rgba(139, 115, 199, 0.4);
+  text-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
   letter-spacing: -0.02em;
   margin-bottom: 1rem;
 }
@@ -171,7 +171,7 @@ h1 {
 }
 
 .primary-button {
-  background: linear-gradient(135deg, #8b73c7, #a588d6);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border: 2px solid transparent;
   margin-right: 25px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -225,8 +225,8 @@ h1 {
   font-weight: 500;
 }
 
-.violetText {
-  background: linear-gradient(135deg, #8b73c7, #a588d6);
+.ghostText {
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

@@ -72,24 +72,24 @@ const donatelloUrl = computed(() => balanceStore.donatelloUrl);
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #8a2be2 0%, #4b0082 50%, #ee7828 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #16a34a 50%, #22d3ee 100%);
   cursor: pointer;
   text-decoration: none;
   color: #ffffff;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 
-    0 4px 16px rgba(138, 43, 226, 0.4),
-    0 0 20px rgba(138, 43, 226, 0.3);
+    0 4px 16px rgba(74, 222, 128, 0.4),
+    0 0 20px rgba(74, 222, 128, 0.3);
   border: 2px solid rgba(23, 26, 33, 1);
   backdrop-filter: blur(5px);
 }
 
 .addMoney:hover {
-  background: linear-gradient(135deg, #9932cc 0%, #8a2be2 50%, #ff8c42 100%);
+  background: linear-gradient(135deg, #22d3ee 0%, #4ade80 50%, #a0dc8e 100%);
   transform: translateY(-50%) scale(1.15) rotate(5deg);
   box-shadow: 
-    0 6px 25px rgba(138, 43, 226, 0.6),
-    0 0 30px rgba(138, 43, 226, 0.4);
+    0 6px 25px rgba(74, 222, 128, 0.6),
+    0 0 30px rgba(74, 222, 128, 0.4);
 }
 
 .addMoney:active {

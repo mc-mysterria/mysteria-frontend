@@ -54,7 +54,7 @@ onUnmounted(() => {
   position: absolute;
   width: 50px;
   height: 50px;
-  background-color: #491d99;
+  background-color: #16a34a;
   filter: blur(20px);
   border-radius: 50%;
   pointer-events: none;

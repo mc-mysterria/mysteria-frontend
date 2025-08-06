@@ -309,11 +309,11 @@ onMounted(() => {
   margin-bottom: 3rem;
   text-align: center;
   font-family: "MontserratBold", sans-serif;
-  background: linear-gradient(135deg, #6c5dd3 0%, #8b7eff 50%, #ee7828 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  text-shadow: 0 4px 12px rgba(108, 93, 211, 0.3);
+  text-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
   font-weight: 700;
 }
 
@@ -322,11 +322,11 @@ onMounted(() => {
   margin: 40px 0 20px 0;
   text-align: center;
   font-family: "MontserratBold", sans-serif;
-  background: linear-gradient(135deg, #8b7eff 0%, #6c5dd3 50%, #ee7828 100%);
+  background: linear-gradient(135deg, #22d3ee 0%, #4ade80 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  text-shadow: 0 2px 8px rgba(108, 93, 211, 0.2);
+  text-shadow: 0 2px 8px rgba(74, 222, 128, 0.2);
   font-weight: 600;
   position: relative;
 }
@@ -404,14 +404,14 @@ onMounted(() => {
 }
 
 .nav-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
-  border-color: rgba(108, 93, 211, 0.5);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  border-color: rgba(74, 222, 128, 0.5);
   transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 12px 32px rgba(108, 93, 211, 0.4);
+  box-shadow: 0 12px 32px rgba(74, 222, 128, 0.4);
 }
 
 .nav-btn:focus {
-  outline: 2px solid #6c5dd3;
+  outline: 2px solid #4ade80;
   outline-offset: 2px;
 }
 
@@ -442,11 +442,11 @@ onMounted(() => {
 }
 
 .point-active {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
-  border-color: rgba(108, 93, 211, 0.5);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  border-color: rgba(74, 222, 128, 0.5);
   width: 36px;
   height: 12px;
-  box-shadow: 0 4px 12px rgba(108, 93, 211, 0.4);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
 }
 
 .cardTeam {

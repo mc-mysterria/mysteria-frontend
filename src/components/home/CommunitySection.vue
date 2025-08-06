@@ -121,12 +121,12 @@
   margin-bottom: 84px;
 }
 
-.violetText {
-  color: #6c5dd3;
+.ghostText {
+  color: #4ade80;
 }
 
-.orangeText {
-  color: #ee7828;
+.mistText {
+  color: #a0dc8e;
 }
 
 .cardTextMobile {

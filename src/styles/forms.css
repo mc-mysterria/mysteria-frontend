@@ -16,22 +16,22 @@
 .form-section:hover {
   transform: translateY(-4px);
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-  border-color: rgba(108, 93, 211, 0.3);
+  border-color: rgba(74, 222, 128, 0.3);
 }
 
 .form-section--evervault {
-  border-color: rgba(238, 120, 40, 0.2);
+  border-color: rgba(34, 211, 238, 0.2);
 }
 
 .form-section--evervault:hover {
-  border-color: rgba(238, 120, 40, 0.4);
+  border-color: rgba(34, 211, 238, 0.4);
 }
 
 .section-title {
   font-size: 1.6rem;
   font-weight: 700;
   margin: 0 0 24px 0;
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -39,7 +39,7 @@
 }
 
 .section-title--evervault {
-  background: linear-gradient(135deg, #ee7828, #ff8f3a);
+  background: linear-gradient(135deg, #22d3ee, #06b6d4);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -52,12 +52,12 @@
   left: 0;
   width: 60px;
   height: 3px;
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border-radius: 2px;
 }
 
 .section-title--evervault::after {
-  background: linear-gradient(135deg, #ee7828, #ff8f3a);
+  background: linear-gradient(135deg, #22d3ee, #06b6d4);
   width: 80px;
 }
 

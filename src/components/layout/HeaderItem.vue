@@ -292,16 +292,16 @@ onUnmounted(() => {
 }
 
 .nav-link:focus-visible {
-  box-shadow: 0 0 0 2px #ee7828;
+  box-shadow: 0 0 0 2px #4ade80;
 }
 
 .nav-link:hover {
-  color: #ee7828;
+  color: #4ade80;
   background-color: rgba(255, 255, 255, 0.08);
 }
 
 .nav-link.active {
-  color: #ee7828;
+  color: #4ade80;
 }
 
 .nav-underline {

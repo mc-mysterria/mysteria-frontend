@@ -106,21 +106,21 @@ const { t, tArray } = useI18n()
 .section-title {
   font-size: clamp(2.8rem, 6vw, 4.5rem);
   font-family: "MontserratBold", sans-serif;
-  background: linear-gradient(135deg, #9b84d5 0%, #c0a4e8 50%, #e6d5b8 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #a0dc8e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 2rem;
-  text-shadow: 0 4px 20px rgba(155, 132, 213, 0.3);
+  text-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
 }
 
 .welcome-quote {
   font-size: clamp(1.25rem, 2.5vw, 1.7rem);
   font-style: italic;
   font-family: "Georgia", serif;
-  color: #c0a4e8;
+  color: #86d686;
   margin-bottom: 2.5rem;
-  border-left: 3px solid #a588d6;
+  border-left: 3px solid #4ade80;
   padding-left: 2rem;
   max-width: 700px;
   margin-left: auto;
@@ -189,7 +189,7 @@ const { t, tArray } = useI18n()
 .feature-title {
   font-size: clamp(2rem, 3.5vw, 3rem);
   font-family: "MontserratBold", sans-serif;
-  color: #c0a4e8;
+  color: #86d686;
   margin-bottom: 2rem;
   line-height: 1.3;
 }
@@ -212,7 +212,7 @@ const { t, tArray } = useI18n()
   content: "✧";
   position: absolute;
   left: 0;
-  color: #c0a4e8;
+  color: #86d686;
   font-weight: bold;
   font-size: 1.3em;
   top: 50%;
@@ -299,7 +299,7 @@ const { t, tArray } = useI18n()
   font-size: clamp(1.6rem, 3.2vw, 2.5rem);
   font-style: italic;
   font-family: "Georgia", serif;
-  color: #c0a4e8;
+  color: #86d686;
   margin: 0;
   border: none;
   padding: 0;

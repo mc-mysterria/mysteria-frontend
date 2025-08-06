@@ -256,14 +256,14 @@ export default {};
 }
 
 .sidenavContainer a:hover {
-  background: rgba(108, 93, 211, 0.1);
-  border-color: rgba(108, 93, 211, 0.3);
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.3);
   transform: translateX(4px);
 }
 
 .collapsed .sidenavContainer a:hover {
   transform: scale(1.1);
-  background: rgba(108, 93, 211, 0.2);
+  background: rgba(74, 222, 128, 0.2);
 }
 
 .containerMargin {
@@ -302,8 +302,8 @@ export default {};
 }
 
 .toggle-btn {
-  background: #6c5dd3;
-  border: 2px solid #8b7eff;
+  background: #4ade80;
+  border: 2px solid #22d3ee;
   border-radius: 8px;
   color: #fff;
   width: 36px;
@@ -314,15 +314,15 @@ export default {};
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(108, 93, 211, 0.4);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
   flex-shrink: 0;
 }
 
 .toggle-btn:hover {
-  background: #8b7eff;
-  border-color: #a394ff;
+  background: #22d3ee;
+  border-color: #06b6d4;
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(108, 93, 211, 0.6);
+  box-shadow: 0 6px 16px rgba(74, 222, 128, 0.6);
 }
 
 .link-text {
@@ -331,8 +331,8 @@ export default {};
 }
 
 .activeLink {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
-  border-color: rgba(108, 93, 211, 0.5);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  border-color: rgba(74, 222, 128, 0.5);
 }
 
 .containerLogo img {
@@ -350,11 +350,11 @@ export default {};
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  border: 1px solid rgba(108, 93, 211, 0.4);
+  border: 1px solid rgba(74, 222, 128, 0.4);
   background: linear-gradient(
     135deg,
-    rgba(108, 93, 211, 0.15),
-    rgba(139, 126, 255, 0.1)
+    rgba(74, 222, 128, 0.15),
+    rgba(34, 211, 238, 0.1)
   );
   border-radius: 8px;
   margin: 8px 0;
@@ -376,10 +376,10 @@ export default {};
 .viewed-profile-link:hover {
   background: linear-gradient(
     135deg,
-    rgba(108, 93, 211, 0.25),
-    rgba(139, 126, 255, 0.2)
+    rgba(74, 222, 128, 0.25),
+    rgba(34, 211, 238, 0.2)
   );
-  border-color: rgba(108, 93, 211, 0.6);
+  border-color: rgba(74, 222, 128, 0.6);
   transform: translateX(4px);
 }
 

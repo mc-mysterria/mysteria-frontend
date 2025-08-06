@@ -137,20 +137,20 @@ export default {
   text-align: center;
   word-wrap: break-word;
   hyphens: auto;
-  background: linear-gradient(135deg, #6c5dd3 0%, #8b7eff 50%, #ee7828 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #4ade80 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: "MontserratBold", sans-serif;
   font-weight: 700;
-  text-shadow: 0 4px 12px rgba(108, 93, 211, 0.3);
+  text-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .app {
   width: 100%;
   overflow-x: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(73, 29, 153, 0.3) transparent;
+  scrollbar-color: rgba(74, 222, 128, 0.3) transparent;
 }
 
 .app::-webkit-scrollbar {
@@ -162,14 +162,14 @@ export default {
 }
 
 .app::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
   border-radius: 3px;
 }
 
 .light {
   width: clamp(200px, 30vw, 500px);
   height: clamp(200px, 30vw, 500px);
-  background: radial-gradient(circle, #6c5dd3 0%, #8b7eff 100%);
+  background: radial-gradient(circle, #4ade80 0%, #22d3ee 100%);
   border-radius: 50%;
   filter: blur(clamp(80px, 15vw, 200px));
   z-index: -2;
