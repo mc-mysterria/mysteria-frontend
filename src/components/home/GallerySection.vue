@@ -69,9 +69,9 @@ export default {
   font-family: "MontserratBold", system-ui, sans-serif;
   background: linear-gradient(
     160deg,
-    rgba(99, 102, 241, 1) 0%,
-    rgba(217, 70, 239, 1) 50%,
-    rgba(236, 72, 153, 1) 100%
+    rgba(16, 185, 129, 1) 0%,
+    rgba(34, 197, 94, 1) 50%,
+    rgba(5, 150, 105, 1) 100%
   );
   color: transparent;
   background-clip: text;

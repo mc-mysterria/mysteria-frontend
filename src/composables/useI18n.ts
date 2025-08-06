@@ -106,7 +106,7 @@ const translations = {
 
     // Footer
     rights: 'All rights reserved',
-    copyright: '© 2024 Mysterria',
+    copyright: '© 2025 ~',
 
     // Notifications
     copyError: 'Failed to copy',
@@ -545,7 +545,7 @@ const translations = {
 
     // Footer
     rights: 'Всі права захищені',
-    copyright: '© 2024 Містеррія',
+    copyright: '© 2025 ~',
 
     // Notifications
     copyError: 'Не вдалося скопіювати',

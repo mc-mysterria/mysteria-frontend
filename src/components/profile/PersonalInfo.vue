@@ -156,7 +156,7 @@ const getRoleClass = () => {
 
 .personalInfoContainer:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(108, 93, 211, 0.2);
+  box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2);
 }
 
 .personalInfoContainer img {
@@ -164,13 +164,13 @@ const getRoleClass = () => {
   height: 200px;
   object-fit: cover;
   border-radius: 12px;
-  border: 3px solid rgba(108, 93, 211, 0.3);
+  border: 3px solid rgba(16, 185, 129, 0.3);
   transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
 .personalInfoContainer img:hover {
-  border-color: #6c5dd3;
+  border-color: #10b981;
   transform: scale(1.02);
 }
 
@@ -186,7 +186,7 @@ const getRoleClass = () => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 1rem 0;
-  background: linear-gradient(135deg, #6c5dd3, #8b7eff);
+  background: linear-gradient(135deg, #10b981, #22c55e);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -228,7 +228,7 @@ const getRoleClass = () => {
 .NameRoleBlock div:hover,
 .email:hover {
   background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(108, 93, 211, 0.5);
+  border-color: rgba(16, 185, 129, 0.5);
   transform: translateY(-1px);
 }
 
@@ -291,13 +291,13 @@ const getRoleClass = () => {
 }
 
 .role-high {
-  border-color: rgba(168, 85, 247, 0.6) !important;
+  border-color: rgba(34, 197, 94, 0.6) !important;
   background: linear-gradient(
     135deg,
-    rgba(168, 85, 247, 0.15),
+    rgba(34, 197, 94, 0.15),
     rgba(255, 255, 255, 0.1)
   ) !important;
-  color: #a855f7 !important;
+  color: #22c55e !important;
 }
 
 .role-medium {

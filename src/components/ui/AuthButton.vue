@@ -169,7 +169,7 @@ const handleLogout = async () => {
     rgba(108, 93, 211, 0.1) 0%,
     rgba(139, 126, 255, 0.05) 100%
   );
-  border: 1px solid rgba(74, 222, 128, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.3);
   padding: 8px 16px;
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -182,7 +182,7 @@ const handleLogout = async () => {
     rgba(108, 93, 211, 0.15) 0%,
     rgba(139, 126, 255, 0.08) 100%
   );
-  border-color: rgba(74, 222, 128, 0.5);
+  border-color: rgba(16, 185, 129, 0.5);
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(108, 93, 211, 0.2);
 }
@@ -193,7 +193,7 @@ const handleLogout = async () => {
     rgba(108, 93, 211, 0.2) 0%,
     rgba(139, 126, 255, 0.1) 100%
   );
-  border-color: #4ade80;
+  border-color: #10b981;
   box-shadow: 0 0 0 3px rgba(108, 93, 211, 0.1);
 }
 
@@ -215,15 +215,15 @@ const handleLogout = async () => {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(74, 222, 128, 0.4);
+  border: 2px solid rgba(16, 185, 129, 0.4);
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(108, 93, 211, 0.2);
 }
 
 .avatar-image:hover {
-  border-color: rgba(74, 222, 128, 0.8);
+  border-color: rgba(16, 185, 129, 0.8);
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .discord-icon {

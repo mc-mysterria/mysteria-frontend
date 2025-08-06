@@ -126,7 +126,7 @@ export default {
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 24px;
-  border: 1px solid rgba(108, 93, 211, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   transform: translateZ(0);
 }
@@ -137,20 +137,19 @@ export default {
   text-align: center;
   word-wrap: break-word;
   hyphens: auto;
-  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #4ade80 100%);
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #16a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: "MontserratBold", sans-serif;
   font-weight: 700;
-  text-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .app {
   width: 100%;
   overflow-x: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(74, 222, 128, 0.3) transparent;
+  scrollbar-color: rgba(16, 185, 129, 0.3) transparent;
 }
 
 .app::-webkit-scrollbar {
@@ -162,32 +161,24 @@ export default {
 }
 
 .app::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  background: linear-gradient(135deg, #10b981, #22c55e);
   border-radius: 3px;
 }
 
 .light {
-  width: clamp(200px, 30vw, 500px);
-  height: clamp(200px, 30vw, 500px);
-  background: radial-gradient(circle, #4ade80 0%, #22d3ee 100%);
+  width: clamp(150px, 25vw, 300px);
+  height: clamp(150px, 25vw, 300px);
+  background: 
+    /* Subtle geometric pattern instead of solid circle */
+    linear-gradient(45deg, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+    linear-gradient(-45deg, rgba(34, 197, 94, 0.06) 20%, transparent 60%);
   border-radius: 50%;
-  filter: blur(clamp(80px, 15vw, 200px));
+  filter: blur(clamp(40px, 8vw, 80px));
   z-index: -2;
-  opacity: 0.4;
-  animation: pulse-glow 6s ease-in-out infinite;
+  opacity: 0.5;
+  /* Removed glow animation for performance */
 }
 
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1);
-  }
-}
 
 .animation-wrapper {
   position: absolute;

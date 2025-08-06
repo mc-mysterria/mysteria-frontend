@@ -1,31 +1,50 @@
 <template>
   <footer>
+    <div class="footer-backdrop"></div>
     <div class="footer-content-wrapper">
-      <div class="footer-main">
-        <RouterLink to="/" class="footer-brand">
-          <div class="footer-logo-container">
-            <IconLogo />
+      <div class="footer-grid">
+        <div class="footer-brand-section">
+          <RouterLink to="/" class="footer-brand">
+            <div class="footer-logo-container">
+              <div class="logo-background-effect"></div>
+              <IconLogo />
+            </div>
+            <div class="brand-text">
+              <span class="project-name">{{ t('serverName') }}</span>
+              <span class="brand-tagline">Experience Beyond Reality</span>
+            </div>
+          </RouterLink>
+        </div>
+        
+        <div class="footer-social-section">
+          <h4 class="social-title">Connect With Us</h4>
+          <div class="footer-social-icons">
+            <a
+              v-for="url in urls"
+              :key="url.name"
+              :href="url.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="url.name"
+              :data-tooltip="url.tooltip"
+              class="social-link"
+            >
+              <div class="social-icon-background"></div>
+              <component :is="url.icon" />
+            </a>
           </div>
-          <span class="project-name">{{ t('serverName') }}</span>
-        </RouterLink>
-        <div class="footer-social-icons">
-          <a
-            v-for="url in urls"
-            :key="url.name"
-            :href="url.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            :aria-label="url.name"
-            :data-tooltip="url.tooltip"
-          >
-            <component :is="url.icon" />
-          </a>
         </div>
       </div>
+      
+      <div class="footer-divider"></div>
+      
       <div class="footer-legal">
         <div class="copyright-text">
           <p>
-            {{ t('copyright') }} {{ t('serverName') }}. {{ t('rights') }}.<br />
+            <span class="copyright-year">{{ t('copyright') }} {{ t('serverName') }}</span>
+            <span class="rights-text">{{ t('rights') }}</span>
+          </p>
+          <p class="disclaimer">
             We are in no way affiliated with or endorsed by Mojang or Microsoft.
           </p>
         </div>
@@ -86,112 +105,204 @@ const urls = [
 
 footer {
   width: calc(-1px + 100vw);
-  background: linear-gradient(
-    135deg,
-    rgb(26, 29, 36) 0%,
-    rgb(42, 46, 59) 50%,
-    rgb(26, 29, 36) 100%
-  );
-  padding: 50px 0;
+  background: 
+    /* Subtle upward gradient instead of radial */
+    linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.95) 100%),
+    linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%),
+    /* Subtle texture pattern */
+    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(16, 185, 129, 0.008) 2px, rgba(16, 185, 129, 0.008) 4px);
+  padding: 80px 0 60px 0;
   font-size: 16px;
-  color: rgb(224, 224, 224);
+  color: #cbd5e1;
   font-family: "Montserrat", sans-serif;
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
 }
+
+.footer-backdrop {
+  display: none;
+}
+
 footer::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
+  height: 2px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(108, 93, 211, 0.5) 50%,
+    rgba(16, 185, 129, 0.3) 25%,
+    rgba(34, 197, 94, 0.3) 75%,
     transparent 100%
   );
 }
 
+
 .footer-content-wrapper {
-  max-width: 1320px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 32px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
 }
-.footer-main {
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+  align-items: start;
+}
+
+.footer-brand-section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-social-section {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
+  align-items: flex-end;
 }
 .footer-brand {
   display: flex;
   align-items: center;
-  font-size: 24px;
-  font-weight: 600;
+  gap: 20px;
+  font-size: 28px;
+  font-weight: 700;
   text-decoration: none;
-  transition: transform 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(10px);
 }
+
 .footer-brand:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(16, 185, 129, 0.1) inset;
 }
 .footer-logo-container {
+  position: relative;
   overflow: visible;
-  width: fit-content;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 50%;
-  margin-right: 18px;
-  transition: 0.3s;
+  width: 64px;
+  height: 64px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
+  border: 2px solid rgba(16, 185, 129, 0.2);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.footer-logo-container:hover {
-  overflow: visible;
+
+.logo-background-effect {
+  display: none;
+}
+
+
+
+.footer-brand:hover .footer-logo-container {
   transform: scale(1.05);
-  box-shadow: rgba(108, 93, 211, 0.5) 0px 2px 0px inset;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.2));
+  border-color: rgba(16, 185, 129, 0.4);
 }
 .icon-logo {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
+  z-index: 1;
+  position: relative;
 }
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .project-name {
   background: linear-gradient(
     135deg,
-    rgb(238, 120, 40) 0%,
-    rgb(255, 140, 66) 100%
+    #10b981 0%,
+    #22c55e 50%,
+    #16a34a 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  font-weight: 700;
-  text-shadow: rgba(238, 120, 40, 0.3) 0px 2px 8px;
+  font-weight: 800;
+  font-size: 1.1em;
+  letter-spacing: -0.025em;
 }
+
+.brand-tagline {
+  color: #94a3b8;
+  font-size: 0.85em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.social-title {
+  color: #e2e8f0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.025em;
+  text-align: right;
+}
+
 .footer-social-icons {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
-.footer-social-icons a {
+.social-link {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+  border: 1px solid rgba(148, 163, 184, 0.1);
   text-decoration: none;
-  transition: transform 0.3s;
-  box-shadow: rgba(108, 93, 211, 0.5) 0px 1.5px 0px inset;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
 }
-.footer-social-icons a:hover {
+
+.social-icon-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.social-link:hover {
   transform: translateY(-2px) scale(1.05);
-  box-shadow: rgba(108, 93, 211, 0.2) 0px 3px 0px inset;
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(16, 185, 129, 0.2) inset;
+}
+
+.social-link:hover .social-icon-background {
+  opacity: 1;
 }
 .footer-social-icons svg,
 .footer-social-icons img,
@@ -199,114 +310,175 @@ footer::before {
 .footer-social-icons .icon-telegram,
 .footer-social-icons .icon-discord,
 .footer-social-icons .icon-wiki {
-  transition: 0.3s;
-  width: 20px !important;
-  height: 20px !important;
-  fill: rgba(255, 255, 255, 0.5) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 24px !important;
+  height: 24px !important;
+  fill: #94a3b8 !important;
+  position: relative;
+  z-index: 1;
 }
-.footer-social-icons a:hover svg * {
-  fill: #fff !important;
+.social-link:hover svg,
+.social-link:hover svg * {
+  fill: #ffffff !important;
+  transform: scale(1.05);
 }
-.footer-social-icons a::after {
+.social-link::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 120%;
+  bottom: 130%;
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 6px 8px;
-  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
-.footer-social-icons a::before {
+.social-link::before {
   content: "";
   position: absolute;
-  bottom: 110%;
+  bottom: 118%;
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  border: 6px solid transparent;
-  border-top-color: rgba(0, 0, 0, 0.8);
+  border: 8px solid transparent;
+  border-top-color: rgba(30, 41, 59, 0.95);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
-.footer-social-icons a:hover::after,
-.footer-social-icons a:hover::before {
+.social-link:hover::after,
+.social-link:hover::before {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
 }
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(148, 163, 184, 0.2) 20%,
+    rgba(16, 185, 129, 0.3) 50%,
+    rgba(148, 163, 184, 0.2) 80%,
+    transparent 100%
+  );
+  margin: 24px 0;
+}
+
 .footer-legal {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .copyright-text {
-  color: rgb(180, 187, 197);
+  color: #94a3b8;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.8;
   text-align: center;
+  max-width: 600px;
+}
+
+.copyright-year {
+  color: #e2e8f0;
+  font-weight: 600;
+  background: linear-gradient(135deg, #10b981, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rights-text {
+  margin-left: 8px;
+}
+
+.disclaimer {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #64748b;
+  font-style: italic;
 }
 .copyright-text p {
-  margin: 5px 0;
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.copyright-text p:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
 }
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {
   footer {
-    padding: 45px 0;
+    padding: 70px 0 50px 0;
   }
   .footer-content-wrapper {
     max-width: 100%;
-    padding: 0 24px;
-    gap: 28px;
+    padding: 0 28px;
+    gap: 40px;
+  }
+  .footer-grid {
+    gap: 48px;
   }
   .footer-brand {
-    font-size: 22px;
+    font-size: 26px;
+    padding: 14px;
   }
   .footer-logo-container {
-    padding: 10px;
-    margin-right: 16px;
-  }
-  .footer-social-icons {
-    gap: 16px;
-  }
-  .footer-social-icons a {
-    width: 42px;
-    height: 42px;
-  }
-}
-@media (max-width: 992px) {
-  footer {
-    padding: 40px 0;
-  }
-  .footer-content-wrapper {
-    padding: 0 20px;
-    gap: 25px;
-  }
-  .footer-main {
-    gap: 18px;
-  }
-  .footer-brand {
-    font-size: 20px;
-  }
-  .footer-logo-container {
-    padding: 9px;
-    margin-right: 14px;
+    width: 60px;
+    height: 60px;
+    padding: 14px;
   }
   .footer-social-icons {
     gap: 14px;
   }
-  .footer-social-icons a {
-    width: 40px;
-    height: 40px;
+  .social-link {
+    width: 48px;
+    height: 48px;
+  }
+}
+@media (max-width: 992px) {
+  footer {
+    padding: 60px 0 45px 0;
+  }
+  .footer-content-wrapper {
+    padding: 0 24px;
+    gap: 36px;
+  }
+  .footer-grid {
+    gap: 40px;
+  }
+  .footer-brand {
+    font-size: 24px;
+    padding: 12px;
+  }
+  .footer-logo-container {
+    width: 56px;
+    height: 56px;
+    padding: 12px;
+  }
+  .footer-social-icons {
+    gap: 12px;
+  }
+  .social-link {
+    width: 44px;
+    height: 44px;
   }
   .copyright-text {
     font-size: 13px;
@@ -314,31 +486,42 @@ footer::before {
 }
 @media (max-width: 768px) {
   footer {
-    padding: 35px 0;
+    padding: 50px 0 40px 0;
   }
   .footer-content-wrapper {
-    padding: 0 16px;
-    gap: 22px;
+    padding: 0 20px;
+    gap: 32px;
   }
-  .footer-main {
-    flex-direction: column;
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+  .footer-social-section {
     align-items: center;
-    gap: 20px;
+  }
+  .social-title {
+    text-align: center;
+  }
+  .footer-social-icons {
+    justify-content: center;
   }
   .footer-brand {
-    margin-bottom: 0;
-    font-size: 18px;
+    font-size: 22px;
+    padding: 14px;
+    justify-content: center;
   }
   .footer-logo-container {
-    padding: 8px;
-    margin-right: 12px;
+    width: 52px;
+    height: 52px;
+    padding: 12px;
   }
   .footer-social-icons {
     gap: 12px;
   }
-  .footer-social-icons a {
-    width: 38px;
-    height: 38px;
+  .social-link {
+    width: 44px;
+    height: 44px;
   }
   .copyright-text {
     font-size: 12px;
@@ -346,32 +529,35 @@ footer::before {
 }
 @media (max-width: 480px) {
   footer {
-    padding: 30px 0;
+    padding: 40px 0 35px 0;
   }
   .footer-content-wrapper {
-    padding: 0 12px;
-    gap: 20px;
+    padding: 0 16px;
+    gap: 28px;
   }
-  .footer-main {
-    gap: 16px;
+  .footer-grid {
+    gap: 28px;
   }
   .footer-brand {
-    font-size: 16px;
+    font-size: 20px;
+    padding: 12px;
+    gap: 16px;
   }
   .footer-logo-container {
-    padding: 7px;
-    margin-right: 10px;
+    width: 48px;
+    height: 48px;
+    padding: 10px;
   }
   .icon-logo {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
   }
   .footer-social-icons {
     gap: 10px;
   }
-  .footer-social-icons a {
-    width: 36px;
-    height: 36px;
+  .social-link {
+    width: 40px;
+    height: 40px;
   }
   .footer-social-icons svg,
   .footer-social-icons img,
@@ -379,15 +565,27 @@ footer::before {
   .footer-social-icons .icon-telegram,
   .footer-social-icons .icon-discord,
   .footer-social-icons .icon-wiki {
-    width: 18px !important;
-    height: 18px !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .social-title {
+    font-size: 1rem;
+  }
+  .project-name {
+    font-size: 1em;
+  }
+  .brand-tagline {
+    font-size: 0.75em;
   }
   .copyright-text {
     font-size: 11px;
-    line-height: 1.5;
+    line-height: 1.6;
   }
   .copyright-text p {
-    margin: 3px 0;
+    margin: 6px 0;
+  }
+  .disclaimer {
+    font-size: 11px;
   }
 }
 </style>

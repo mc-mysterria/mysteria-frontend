@@ -10,55 +10,84 @@
     class="sidenav"
     :class="{ collapsed: isCollapsed, 'mobile-open': isMobileOpen }"
   >
-    <div class="containerMargin">
-      <RouterLink to="/" class="logo-link">
-        <div class="containerLogo">
-          <IconLogo />
-          <span v-show="!isCollapsed" class="logo-text">Mysterria</span>
-        </div>
-      </RouterLink>
-    </div>
-    <div class="containerpoints">
-      <div class="sidenavContainer">
-        <RouterLink
-          :to="profileLink"
-          :class="{
-            activeLink: $route.path.startsWith('/profile'),
-          }"
-          :title="isCollapsed ? t('myProfile') : ''"
-        >
-          <IconUser />
-          <span v-show="!isCollapsed" class="link-text">{{ t('myProfile') }}</span>
+    <div class="sidebar-glow"></div>
+    <div class="sidebar-content">
+      <div class="containerMargin">
+        <RouterLink to="/" class="logo-link">
+          <div class="containerLogo">
+            <div class="logo-orbit">
+              <div class="orbit-ring"></div>
+              <IconLogo />
+            </div>
+            <div class="logo-text-container" v-show="!isCollapsed">
+              <span class="logo-text">Mysterria</span>
+              <span class="logo-subtitle">Portal</span>
+            </div>
+          </div>
         </RouterLink>
       </div>
-      <div class="sidenavContainer bottom-container">
-        <a
-          href="#"
-          @click.prevent="handleLogout"
-          :title="isCollapsed ? t('logout') : ''"
-          class="logout-link"
-        >
-          <IconSignOut />
-          <span v-show="!isCollapsed" class="link-text">{{ t('logout') }}</span>
-        </a>
-
-        <button
-          @click="toggleSidebar"
-          class="toggle-btn"
-          :title="isCollapsed ? 'Розгорнути' : 'Згорнути'"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
+      
+      <div class="containerpoints">
+        <div class="sidenavContainer">
+          <div class="nav-section-title" v-show="!isCollapsed">Navigation</div>
+          <RouterLink
+            :to="profileLink"
+            :class="{
+              activeLink: $route.path.startsWith('/profile'),
+            }"
+            :title="isCollapsed ? t('myProfile') : ''"
+            class="nav-item"
           >
-            <path d="M15 18l-6-6 6-6" v-if="!isCollapsed" />
-            <path d="M9 18l6-6-6-6" v-else />
-          </svg>
-        </button>
+            <div class="nav-item-background"></div>
+            <div class="nav-item-content">
+              <div class="nav-icon-container">
+                <IconUser />
+              </div>
+              <span v-show="!isCollapsed" class="link-text">{{ t('myProfile') }}</span>
+            </div>
+            <div class="nav-item-indicator"></div>
+          </RouterLink>
+        </div>
+        
+        <div class="sidenavContainer bottom-container">
+          <div class="nav-section-title" v-show="!isCollapsed">System</div>
+          <a
+            href="#"
+            @click.prevent="handleLogout"
+            :title="isCollapsed ? t('logout') : ''"
+            class="logout-link nav-item"
+          >
+            <div class="nav-item-background logout-bg"></div>
+            <div class="nav-item-content">
+              <div class="nav-icon-container">
+                <IconSignOut />
+              </div>
+              <span v-show="!isCollapsed" class="link-text">{{ t('logout') }}</span>
+            </div>
+            <div class="nav-item-indicator logout-indicator"></div>
+          </a>
+
+          <button
+            @click="toggleSidebar"
+            class="toggle-btn"
+            :title="isCollapsed ? 'Expand' : 'Collapse'"
+          >
+            <div class="toggle-btn-bg"></div>
+            <div class="toggle-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M15 18l-6-6 6-6" v-if="!isCollapsed" />
+                <path d="M9 18l6-6-6-6" v-else />
+              </svg>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -192,82 +221,177 @@ export default {};
 
 .sidenav {
   height: 100vh;
-  width: 260px;
-  padding: 20px 30px 0 30px;
+  width: 280px;
+  padding: 0;
   position: fixed;
   top: 0;
   left: 0;
-  background: linear-gradient(135deg, #1a1d23 0%, #23262c 100%);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  background: 
+    linear-gradient(180deg, rgba(2, 6, 23, 0.98) 0%, rgba(15, 23, 42, 0.95) 100%),
+    /* Subtle vertical lines pattern */
+    linear-gradient(90deg, transparent 49%, rgba(16, 185, 129, 0.02) 50%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, rgba(34, 197, 94, 0.015) 50%, transparent 51%);
+  background-size: 100% 100%, 80px 80px, 120px 120px;
+  border-right: 2px solid transparent;
+  border-image: linear-gradient(180deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.2), transparent) 1;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  z-index: 50;
+  box-shadow: 
+    4px 0 30px rgba(0, 0, 0, 0.3),
+    inset -1px 0 0 rgba(148, 163, 184, 0.1);
+}
+
+.sidebar-glow {
+  display: none;
+}
+
+.sidebar-content {
+  position: relative;
+  height: 100%;
+  padding: 24px;
   overflow-y: auto;
   overflow-x: hidden;
-  backdrop-filter: blur(10px);
-  z-index: 50;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidenav.collapsed {
-  width: 80px;
-  padding: 20px 15px 0 15px;
+  width: 90px;
 }
 
-.sidenav::-webkit-scrollbar {
-  width: 6px;
+.sidenav.collapsed .sidebar-content {
+  padding: 24px 20px;
 }
 
-.sidenav::-webkit-scrollbar-track {
+.sidebar-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.sidenav::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.4), rgba(34, 197, 94, 0.4));
+  border-radius: 2px;
 }
 
-.sidenav::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.6), rgba(34, 197, 94, 0.6));
 }
 
 .containerpoints {
-  min-height: calc(100vh - 85px);
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 20px;
+  gap: 32px;
+  min-height: 0;
 }
 
-.sidenavContainer a {
+.nav-section-title {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 16px 0 12px 16px;
+  opacity: 0.8;
+}
+
+.nav-item {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 0;
+  border-radius: 16px;
   margin: 8px 0;
-  color: inherit;
+  color: #e2e8f0;
   text-decoration: none;
-  transition: all 0.3s ease;
-  gap: 12px;
-  justify-content: flex-start;
-  border: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-.collapsed .sidenavContainer a {
+.nav-item-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.6));
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.nav-item-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  gap: 16px;
+  width: 100%;
+  z-index: 2;
+}
+
+.nav-icon-container {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 10px;
+  width: 24px;
+  height: 24px;
+  position: relative;
 }
 
-.sidenavContainer a:hover {
-  background: rgba(74, 222, 128, 0.1);
-  border-color: rgba(74, 222, 128, 0.3);
-  transform: translateX(4px);
+.nav-item-indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 0;
+  background: linear-gradient(180deg, #10b981, #22c55e);
+  border-radius: 0 2px 2px 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
 }
 
-.collapsed .sidenavContainer a:hover {
-  transform: scale(1.1);
-  background: rgba(74, 222, 128, 0.2);
+.collapsed .nav-item .nav-item-content {
+  justify-content: center;
+  padding: 14px 12px;
+}
+
+.collapsed .nav-section-title {
+  display: none;
+}
+
+.nav-item:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  transform: translateX(6px);
+  box-shadow: 
+    0 4px 20px rgba(16, 185, 129, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.nav-item:hover .nav-item-background {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(34, 197, 94, 0.1));
+}
+
+.nav-item:hover .nav-item-indicator {
+  height: 60%;
+}
+
+.collapsed .nav-item:hover {
+  transform: scale(1.05);
+}
+
+.collapsed .nav-item:hover .nav-item-indicator {
+  height: 40%;
+  width: 3px;
 }
 
 .containerMargin {
-  height: 60px;
+  margin-bottom: 32px;
   position: relative;
 }
 
@@ -275,112 +399,259 @@ export default {};
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  font-size: 24px;
-  font-family: "MontserratSemiBold";
-  gap: 12px;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.logo-orbit {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-top-color: #10b981;
+  border-right-color: #22c55e;
+  border-radius: 50%;
+  animation: orbit 3s linear infinite;
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.logo-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .logo-text {
-  transition: opacity 0.3s ease;
+  font-size: 20px;
+  font-family: "MontserratSemiBold";
+  font-weight: 700;
+  background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.4s ease;
+  letter-spacing: -0.025em;
+}
+
+.logo-subtitle {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.4s ease;
+}
+
+.logo-link {
+  text-decoration: none;
+  display: block;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-link:hover .containerLogo {
+  transform: translateY(-2px);
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 
+    0 6px 25px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.logo-link:hover .logo-text {
+  background: linear-gradient(135deg, #10b981, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-link:hover .logo-subtitle {
+  color: #94a3b8;
 }
 
 .bottom-container {
   display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 .collapsed .bottom-container {
-  flex-direction: column;
-  gap: 8px;
-  transform: translateY(-30px);
+  align-items: center;
+  gap: 12px;
 }
 
 .logout-link {
-  flex: 1;
+  width: 100%;
+}
+
+.logout-bg {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)) !important;
+}
+
+.logout-link:hover {
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+.logout-link:hover .logout-bg {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.15)) !important;
+}
+
+.logout-indicator {
+  background: linear-gradient(180deg, #ef4444, #dc2626) !important;
 }
 
 .toggle-btn {
-  background: #4ade80;
-  border: 2px solid #22d3ee;
-  border-radius: 8px;
-  color: #fff;
-  width: 36px;
-  height: 36px;
+  position: relative;
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  color: #e2e8f0;
+  width: 48px;
+  height: 48px;
   display: flex !important;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
-  flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  align-self: center;
+}
+
+.toggle-btn-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-icon {
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .toggle-btn:hover {
-  background: #22d3ee;
-  border-color: #06b6d4;
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(74, 222, 128, 0.6);
+}
+
+.toggle-btn:hover .toggle-btn-bg {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.2));
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 
+    0 4px 20px rgba(16, 185, 129, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.toggle-btn:hover .toggle-icon {
+  color: #ffffff;
 }
 
 .link-text {
-  transition: opacity 0.3s ease;
+  transition: all 0.4s ease;
   white-space: nowrap;
+  font-weight: 500;
+  letter-spacing: 0.025em;
 }
 
 .activeLink {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
-  border-color: rgba(74, 222, 128, 0.5);
+  border-color: rgba(16, 185, 129, 0.6) !important;
+  box-shadow: 
+    0 4px 20px rgba(16, 185, 129, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.containerLogo img {
-  height: 40px;
-  width: auto;
+.activeLink .nav-item-background {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.15)) !important;
 }
 
-.sidenavContainer svg {
-  width: 24px;
-  height: 24px;
+.activeLink .nav-item-indicator {
+  height: 70% !important;
+}
+
+.activeLink .link-text {
+  color: #ffffff;
+}
+
+.containerLogo .icon-logo {
+  height: 32px;
+  width: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-icon-container svg {
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item:hover .nav-icon-container svg {
+  transform: scale(1.05);
+}
+
+.activeLink .nav-icon-container svg {
+  transform: scale(1.05);
 }
 
 .viewed-profile-link {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  border: 1px solid rgba(74, 222, 128, 0.4);
+  padding: 0;
+  border: 1px solid rgba(16, 185, 129, 0.4);
   background: linear-gradient(
     135deg,
-    rgba(74, 222, 128, 0.15),
-    rgba(34, 211, 238, 0.1)
+    rgba(16, 185, 129, 0.15),
+    rgba(34, 197, 94, 0.1)
   );
-  border-radius: 8px;
-  margin: 8px 0;
-  margin-bottom: 12px !important;
+  border-radius: 16px;
+  margin: 8px 0 16px 0;
   color: inherit;
   text-decoration: none;
-  transition: all 0.3s ease;
-  gap: 12px;
-  justify-content: flex-start;
-  backdrop-filter: blur(5px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 2px 12px rgba(16, 185, 129, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.collapsed .viewed-profile-link {
+.collapsed .viewed-profile-link .nav-item-content {
   justify-content: center;
-  padding: 10px;
-  gap: 0;
+  padding: 14px 12px;
 }
 
 .viewed-profile-link:hover {
   background: linear-gradient(
     135deg,
-    rgba(74, 222, 128, 0.25),
-    rgba(34, 211, 238, 0.2)
+    rgba(16, 185, 129, 0.25),
+    rgba(34, 197, 94, 0.2)
   );
-  border-color: rgba(74, 222, 128, 0.6);
-  transform: translateX(4px);
+  border-color: rgba(16, 185, 129, 0.6);
+  transform: translateX(6px);
+  box-shadow: 
+    0 4px 20px rgba(16, 185, 129, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .profile-avatar {

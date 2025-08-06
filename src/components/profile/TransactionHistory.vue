@@ -265,7 +265,7 @@ onMounted(() => {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(108, 93, 211, 0.3);
+  border: 4px solid rgba(16, 185, 129, 0.3);
   border-top: 4px solid #4ade80;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -391,12 +391,12 @@ onMounted(() => {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(108, 93, 211, 0.3);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .load-more-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(108, 93, 211, 0.4);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
 
 .load-more-btn:disabled {
@@ -419,7 +419,7 @@ onMounted(() => {
 }
 
 .transaction-admin {
-  border-left: 4px solid #8b5cf6;
+  border-left: 4px solid #16a34a;
 }
 
 .transaction-refund {
@@ -427,7 +427,7 @@ onMounted(() => {
 }
 
 .transaction-subscription {
-  border-left: 4px solid #ec4899;
+  border-left: 4px solid #059669;
 }
 
 .transaction-penalty {

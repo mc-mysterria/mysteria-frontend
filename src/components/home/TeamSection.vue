@@ -309,11 +309,11 @@ onMounted(() => {
   margin-bottom: 3rem;
   text-align: center;
   font-family: "MontserratBold", sans-serif;
-  background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #a0dc8e 100%);
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  text-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+  text-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
   font-weight: 700;
 }
 
@@ -322,11 +322,11 @@ onMounted(() => {
   margin: 40px 0 20px 0;
   text-align: center;
   font-family: "MontserratBold", sans-serif;
-  background: linear-gradient(135deg, #22d3ee 0%, #4ade80 50%, #a0dc8e 100%);
+  background: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  text-shadow: 0 2px 8px rgba(74, 222, 128, 0.2);
+  text-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
   font-weight: 600;
   position: relative;
 }
@@ -404,14 +404,14 @@ onMounted(() => {
 }
 
 .nav-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
-  border-color: rgba(74, 222, 128, 0.5);
+  background: linear-gradient(135deg, #10b981, #22c55e);
+  border-color: rgba(16, 185, 129, 0.5);
   transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 12px 32px rgba(74, 222, 128, 0.4);
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
 }
 
 .nav-btn:focus {
-  outline: 2px solid #4ade80;
+  outline: 2px solid #10b981;
   outline-offset: 2px;
 }
 
@@ -442,11 +442,11 @@ onMounted(() => {
 }
 
 .point-active {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
-  border-color: rgba(74, 222, 128, 0.5);
+  background: linear-gradient(135deg, #10b981, #22c55e);
+  border-color: rgba(16, 185, 129, 0.5);
   width: 36px;
   height: 12px;
-  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .cardTeam {
@@ -746,30 +746,32 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(
-      circle at 20% 80%,
-      rgba(238, 120, 40, 0.15) 0%,
-      transparent 50%
+    linear-gradient(
+      135deg,
+      rgba(16, 185, 129, 0.08) 0%,
+      transparent 40%
     ),
-    radial-gradient(
-      circle at 80% 80%,
-      rgba(108, 93, 211, 0.1) 0%,
-      transparent 50%
+    linear-gradient(
+      45deg,
+      rgba(34, 197, 94, 0.06) 0%,
+      transparent 30%
     ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(238, 120, 40, 0.2) 0%,
-      transparent 50%
+    linear-gradient(
+      -45deg,
+      rgba(16, 185, 129, 0.05) 20%,
+      transparent 60%
     ),
-    radial-gradient(
-      circle at 30% 70%,
-      rgba(139, 126, 255, 0.1) 0%,
-      transparent 50%
+    repeating-linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(34, 197, 94, 0.03) 1px,
+      transparent 2px,
+      transparent 20px
     ),
-    radial-gradient(
-      circle at 70% 70%,
-      rgba(238, 120, 40, 0.1) 0%,
-      transparent 50%
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(16, 185, 129, 0.04) 100%
     );
   z-index: 2;
   pointer-events: none;
@@ -940,30 +942,32 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(
-      circle at 20% 80%,
-      rgba(220, 38, 38, 0.15) 0%,
-      transparent 50%
+    linear-gradient(
+      225deg,
+      rgba(16, 185, 129, 0.07) 0%,
+      transparent 35%
     ),
-    radial-gradient(
-      circle at 80% 80%,
-      rgba(185, 28, 28, 0.1) 0%,
-      transparent 50%
+    linear-gradient(
+      -135deg,
+      rgba(34, 197, 94, 0.05) 0%,
+      transparent 25%
     ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(220, 38, 38, 0.2) 0%,
-      transparent 50%
+    linear-gradient(
+      315deg,
+      rgba(16, 185, 129, 0.04) 30%,
+      transparent 70%
     ),
-    radial-gradient(
-      circle at 30% 70%,
-      rgba(239, 68, 68, 0.1) 0%,
-      transparent 50%
+    repeating-linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(34, 197, 94, 0.02) 1px,
+      transparent 3px,
+      transparent 25px
     ),
-    radial-gradient(
-      circle at 70% 70%,
-      rgba(220, 38, 38, 0.1) 0%,
-      transparent 50%
+    linear-gradient(
+      270deg,
+      transparent 0%,
+      rgba(16, 185, 129, 0.03) 100%
     );
   z-index: 2;
   pointer-events: none;

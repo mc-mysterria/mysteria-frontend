@@ -122,7 +122,7 @@
 }
 
 .ghostText {
-  color: #4ade80;
+  color: #10b981;
 }
 
 .mistText {

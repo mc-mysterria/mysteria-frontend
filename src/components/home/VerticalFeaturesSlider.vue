@@ -274,19 +274,31 @@ const { t, tArray } = useI18n()
 
 /* Different character themes */
 .beyonder-art .mystical-aura {
-  background: radial-gradient(circle, rgba(155, 132, 213, 0.3) 0%, rgba(165, 136, 214, 0) 70%);
+  background: 
+    /* Subtle directional gradient instead of radial */
+    linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
+    linear-gradient(-45deg, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
 }
 
 .scholar-glow {
-  background: radial-gradient(circle, rgba(228, 194, 151, 0.3) 0%, rgba(228, 194, 151, 0) 70%);
+  background: 
+    /* Warm accent - subtle diagonal */
+    linear-gradient(135deg, rgba(228, 194, 151, 0.15) 0%, transparent 50%),
+    linear-gradient(-45deg, rgba(245, 208, 165, 0.08) 20%, transparent 70%);
 }
 
 .sequence-glow {
-  background: radial-gradient(circle, rgba(238, 206, 162, 0.3) 0%, rgba(238, 206, 162, 0) 70%);
+  background: 
+    /* Golden accent - corner fade */
+    linear-gradient(45deg, rgba(238, 206, 162, 0.15) 0%, transparent 60%),
+    linear-gradient(225deg, rgba(250, 220, 180, 0.08) 0%, transparent 65%);
 }
 
 .truth-glow {
-  background: radial-gradient(circle, rgba(139, 115, 199, 0.4) 0%, rgba(139, 115, 199, 0) 70%);
+  background: 
+    /* Maintain theme consistency with Ghost Green */
+    linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, transparent 55%),
+    linear-gradient(-45deg, rgba(34, 197, 94, 0.12) 0%, transparent 75%);
 }
 
 .final-block .block-content {

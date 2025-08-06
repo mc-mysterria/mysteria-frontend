@@ -324,7 +324,6 @@ const { t, tArray } = useI18n()
 
 const serverIP = computed(() => t('serverAddress'))
 
-// Refs for animation
 const light1 = ref<HTMLElement | null>(null)
 const light2 = ref<HTMLElement | null>(null)
 const light3 = ref<HTMLElement | null>(null)
@@ -333,11 +332,9 @@ const isCopied = ref(false)
 
 const lightRefs = [light1, light2, light3]
 
-// Copy to clipboard functionality
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(serverIP.value)
-    // Show success feedback
     isCopied.value = true
     setTimeout(() => {
       isCopied.value = false
@@ -429,6 +426,7 @@ export default {
 .hero-section {
   text-align: center;
   margin-bottom: clamp(2rem, 4vw, 3rem);
+  margin-top: -20px;
 }
 
 .hero-title {
@@ -454,7 +452,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: clamp(1.5rem, 3vw, 2rem);
-  margin-bottom: clamp(3rem, 6vw, 4rem);
+  margin-bottom: clamp(3rem, 2vw, 4rem);
   align-items: stretch;
 }
 
@@ -1027,7 +1025,7 @@ export default {
 .light {
   width: clamp(300px, 40vw, 600px);
   height: clamp(300px, 40vw, 600px);
-  background: radial-gradient(circle, rgba(108, 93, 211, 0.4) 0%, rgba(139, 126, 255, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(34, 197, 94, 0.15) 100%);
   border-radius: 50%;
   filter: blur(clamp(100px, 20vw, 250px));
   position: absolute;

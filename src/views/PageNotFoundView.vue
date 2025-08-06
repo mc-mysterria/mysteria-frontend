@@ -89,9 +89,9 @@ h1 {
   font-size: clamp(60px, 15vw, 90px);
   background: linear-gradient(
     160deg,
-    rgba(217, 70, 239, 1) 0%,
-    rgba(168, 85, 247, 1) 50%,
-    rgba(99, 102, 241, 1) 100%
+    rgba(34, 197, 94, 1) 0%,
+    rgba(34, 197, 94, 1) 50%,
+    rgba(16, 185, 129, 1) 100%
   );
   color: transparent;
   background-clip: text;
@@ -128,7 +128,7 @@ p {
   font-size: clamp(14px, 3.2vw, 16px);
   border: none;
   color: #ffffff;
-  background-color: #6366f1;
+  background-color: #10b981;
   border-radius: 10px;
   cursor: pointer;
   transition:
@@ -138,20 +138,20 @@ p {
   text-decoration: none;
   width: fit-content;
   margin: 0 auto;
-  box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
 }
 
 .pnf-button:hover,
 .pnf-button:focus {
-  background-color: #7c7ff4;
+  background-color: #22c55e;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
   outline: none;
 }
 
 .pnf-button:active {
   transform: translateY(0px);
-  box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
 }
 
 .pnf-button img {
