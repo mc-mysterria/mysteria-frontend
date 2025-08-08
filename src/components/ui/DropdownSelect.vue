@@ -184,8 +184,8 @@ export interface ComponentProps {
 }
 
 const props = withDefaults(defineProps<ComponentProps>(), {
-  placeholder: '',
-  searchPlaceholder: '',
+  placeholder: "",
+  searchPlaceholder: "",
   displayKey: "label",
   valueKey: "value",
   descriptionKey: "description",
@@ -195,7 +195,7 @@ const props = withDefaults(defineProps<ComponentProps>(), {
   clearable: false,
   multiple: false,
   maxHeight: 300,
-  noResultsText: '',
+  noResultsText: "",
   minWidth: 200,
   maxWidth: 600,
   formFieldStyle: false,
@@ -206,9 +206,13 @@ const props = withDefaults(defineProps<ComponentProps>(), {
 const { t } = useI18n();
 
 // Computed properties for internationalized text
-const placeholderText = computed(() => props.placeholder || t('selectOption'));
-const searchPlaceholderText = computed(() => props.searchPlaceholder || t('search'));
-const noResultsText = computed(() => props.noResultsText || t('noResultsFound'));
+const placeholderText = computed(() => props.placeholder || t("selectOption"));
+const searchPlaceholderText = computed(
+  () => props.searchPlaceholder || t("search"),
+);
+const noResultsText = computed(
+  () => props.noResultsText || t("noResultsFound"),
+);
 
 const emit = defineEmits<{
   "update:modelValue": [value: string | number | string[]];

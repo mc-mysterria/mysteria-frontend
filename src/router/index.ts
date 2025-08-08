@@ -23,12 +23,17 @@ const router = createRouter({
       component: () => import("@/views/RulesView.vue"),
     },
     {
-      path: "/game",
-      name: "game",
-      component: () => import("@/views/GameView.vue"),
+      path: "/guide",
+      name: "guide",
+      component: () => import("@/views/GuideView.vue"),
     },
     {
-      path: "/logout", 
+      path: "/game",
+      name: "game",
+      component: () => import("@/views/GuideView.vue"),
+    },
+    {
+      path: "/logout",
       name: "logout",
       component: () => import("@/views/LogoutView.vue"),
       meta: {
@@ -49,6 +54,24 @@ const router = createRouter({
       component: () => import("@/views/AuthCallbackView.vue"),
     },
     {
+      path: "/news/:slug",
+      name: "news-article",
+      component: () => import("@/views/NewsView.vue"),
+    },
+    {
+      path: "/edit",
+      name: "edit",
+      component: () => import("@/views/EditView.vue"),
+      meta: { requiresAuth: true, requiresPrivileged: true },
+      children: [
+        {
+          path: "news",
+          name: "edit-news",
+          component: () => import("@/views/NewsEditView.vue"),
+        }
+      ],
+    },
+    {
       path: "/:pathMatch(.*)*",
       name: "404",
       component: PageNotFoundView,
@@ -59,20 +82,23 @@ const router = createRouter({
 // Navigation guard to check authentication
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  
+
   // If auth store is still loading, wait for it to complete
   if (authStore.isLoading) {
     // Wait a bit for auth to initialize
     let attempts = 0;
     while (authStore.isLoading && attempts < 50) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       attempts++;
     }
   }
-  
+
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     // Redirect to home if not authenticated
-    next({ name: 'home' });
+    next({ name: "home" });
+  } else if (to.meta.requiresPrivileged && !authStore.isPrivilegedUser) {
+    // Redirect to home if not privileged
+    next({ name: "home" });
   } else {
     next();
   }

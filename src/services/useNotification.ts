@@ -1,6 +1,6 @@
 import { ref } from "vue";
-import type { APIError, APIErrorResponse } from "@/types/api";
 import { RequestError } from "@/utils/api/errors";
+import type { ApiError, ApiErrorResponse } from "@/types/api";
 
 interface NotificationOptions {
   type: "info" | "warn" | "error" | "fatal" | "debug" | "success";
@@ -16,7 +16,7 @@ export interface Notification {
   duration?: number;
   clickable?: boolean;
   copyable?: boolean;
-  errorDetails?: APIError;
+  errorDetails?: ApiError;
   requestDetails?: {
     endpoint?: string;
     params?: Record<string, string | number | boolean>;
@@ -52,39 +52,49 @@ export function useNotification() {
     return notification.id;
   };
 
-  const showError = (error: APIErrorResponse | APIError | string | RequestError, options?: { suppressAuthRequired?: boolean }) => {
+  const showError = (
+    error: ApiErrorResponse | ApiError | string | RequestError,
+    options?: { suppressAuthRequired?: boolean },
+  ) => {
     if (typeof error === "string") {
       return show(error, { type: "error", duration: 5000 });
     }
 
-    let apiError: APIError;
-    let requestDetails: { endpoint?: string; params?: Record<string, string | number | boolean>; requestBody?: unknown } | undefined;
+    let apiError: ApiError;
+    let requestDetails:
+      | {
+          endpoint?: string;
+          params?: Record<string, string | number | boolean>;
+          requestBody?: unknown;
+        }
+      | undefined;
 
     if (error instanceof RequestError) {
       apiError = error.structuredError || {
-        code: 'UNKNOWN_ERROR',
+        code: "UNKNOWN_ERROR",
         message: error.message,
         details: {},
         timestamp: new Date().toISOString(),
-        request_id: 'unknown'
+        request_id: "unknown",
       };
       requestDetails = {
         endpoint: error.endpoint,
         params: error.params,
-        requestBody: error.requestBody
+        requestBody: error.requestBody,
       };
     } else {
-      apiError = 'error' in error ? error.error : error;
+      apiError = "error" in error ? error.error : error;
     }
 
-    if (options?.suppressAuthRequired && apiError.code === 'AUTH_REQUIRED') {
+    if (options?.suppressAuthRequired && apiError.code === "AUTH_REQUIRED") {
       return;
     }
 
     const userMessage = getHumanReadableError(apiError);
     show(userMessage, { type: "error", duration: 5000 });
 
-    const detailsMessage = "Натисніть щоб скопіювати детальну інформацію для адміністратора";
+    const detailsMessage =
+      "Натисніть щоб скопіювати детальну інформацію для адміністратора";
     const detailsNotification = {
       id: String(Date.now() + 1),
       message: detailsMessage,
@@ -100,7 +110,7 @@ export function useNotification() {
     return detailsNotification.id;
   };
 
-  const getHumanReadableError = (error: APIError): string => {
+  const getHumanReadableError = (error: ApiError): string => {
     if (error.message && error.message.trim()) {
       return error.message;
     }
@@ -150,17 +160,20 @@ ID запиту: ${error.request_id}`;
 
 Будь ласка, надайте цю інформацію адміністратору для швидшого вирішення проблеми.`;
 
-    navigator.clipboard.writeText(errorText.trim()).then(() => {
-      show("Інформацію про помилку скопійовано в буфер обміну", {
-        type: "success",
-        duration: 3000
+    navigator.clipboard
+      .writeText(errorText.trim())
+      .then(() => {
+        show("Інформацію про помилку скопійовано в буфер обміну", {
+          type: "success",
+          duration: 3000,
+        });
+      })
+      .catch(() => {
+        show("Не вдалося скопіювати інформацію", {
+          type: "error",
+          duration: 3000,
+        });
       });
-    }).catch(() => {
-      show("Не вдалося скопіювати інформацію", {
-        type: "error",
-        duration: 3000
-      });
-    });
   };
 
   const remove = (id: string) => {

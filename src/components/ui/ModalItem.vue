@@ -2,7 +2,7 @@
   <div v-if="isVisible" class="background" @click.self="onCancel">
     <div class="card">
       <p>{{ modalText }}</p>
-      
+
       <!-- Server Selection Dropdown -->
       <div v-if="showServerSelection" class="server-selection">
         <DropdownSelect
@@ -15,9 +15,9 @@
           @change="handleServerChange"
         />
       </div>
-      
-      <div 
-        class="buttonYes" 
+
+      <div
+        class="buttonYes"
         :class="{ disabled: isConfirmDisabled }"
         @click="onConfirm"
       >
@@ -39,8 +39,8 @@ import DropdownSelect from "@/components/ui/DropdownSelect.vue";
 const { t } = useI18n();
 const isVisible = ref(false);
 const modalText = ref("");
-const confirmText = ref('');
-const cancelText = ref('');
+const confirmText = ref("");
+const cancelText = ref("");
 const selectedServer = ref<string>("");
 const balanceStore = useBalanceStore();
 const { show } = useNotification();
@@ -52,24 +52,31 @@ const showServerSelection = computed(() => {
 
 const currentService = computed(() => {
   if (!balanceStore.currentPurchase) return null;
-  return balanceStore.items.find(s => s.id === balanceStore.currentPurchase?.id);
+  return balanceStore.items.find(
+    (s) => s.id === balanceStore.currentPurchase?.id,
+  );
 });
 
 const serverOptions = computed(() => {
   if (!currentService.value?.server_availability?.servers) return [];
-  
-  return currentService.value.server_availability.servers.map(server => ({
+
+  return currentService.value.server_availability.servers.map((server) => ({
     label: server.charAt(0).toUpperCase() + server.slice(1),
-    value: server
+    value: server,
   }));
 });
 
 const isConfirmDisabled = computed(() => {
   const needsServer = showServerSelection.value;
-  const hasServer = selectedServer.value || balanceStore.currentPurchase?.selectedServer;
-  
-  console.log("Button disabled check:", { needsServer, hasServer, selectedValue: selectedServer.value });
-  
+  const hasServer =
+    selectedServer.value || balanceStore.currentPurchase?.selectedServer;
+
+  console.log("Button disabled check:", {
+    needsServer,
+    hasServer,
+    selectedValue: selectedServer.value,
+  });
+
   if (needsServer && !hasServer) {
     return true;
   }
@@ -82,18 +89,21 @@ const handleServerChange = (value: string | number | string[]) => {
   selectedServer.value = serverValue;
   balanceStore.setSelectedServer(serverValue);
   console.log("Selected server state:", selectedServer.value);
-  console.log("Store selected server:", balanceStore.currentPurchase?.selectedServer);
+  console.log(
+    "Store selected server:",
+    balanceStore.currentPurchase?.selectedServer,
+  );
 };
 
 function showModal(text: string, confirmLabel?: string, cancelLabel?: string) {
   modalText.value = text;
-  confirmText.value = confirmLabel || t('yes');
-  cancelText.value = cancelLabel || t('no');
-  
+  confirmText.value = confirmLabel || t("yes");
+  cancelText.value = cancelLabel || t("no");
+
   // Sync with store state instead of resetting
   selectedServer.value = balanceStore.currentPurchase?.selectedServer || "";
   console.log("Modal opened, initial server value:", selectedServer.value);
-  
+
   isVisible.value = true;
 }
 
@@ -106,7 +116,7 @@ watch(
       selectedServer.value = newServerValue || "";
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 async function onConfirm() {
@@ -114,23 +124,23 @@ async function onConfirm() {
   if (isConfirmDisabled.value) {
     return;
   }
-  
-  if (confirmText.value === t('topUp')) {
+
+  if (confirmText.value === t("topUp")) {
     const price = balanceStore.currentPurchase?.price;
     const balance = balanceStore.currentBalance?.amount || new Decimal(0);
     if (price) {
       const amount = new Decimal(Math.ceil(Number(price.minus(balance))));
       const urlWithAmount = `${balanceStore.donatelloUrl}&a=${amount}`;
-      
-      show("Відкриваємо сторінку платежу...", { 
-        type: "info", 
-        duration: 3000 
+
+      show("Відкриваємо сторінку платежу...", {
+        type: "info",
+        duration: 3000,
       });
-      
+
       window.open(urlWithAmount, "_blank");
       balanceStore.startBalanceCheck(price);
     }
-  } else if (confirmText.value === t('purchase')) {
+  } else if (confirmText.value === t("purchase")) {
     const itemId = balanceStore.currentPurchase?.id;
     if (itemId) {
       try {
@@ -145,9 +155,9 @@ async function onConfirm() {
 
 function onCancel() {
   if (balanceStore.currentPurchase) {
-    show(t('purchaseCancelled'), { 
-      type: "info", 
-      duration: 2000 
+    show(t("purchaseCancelled"), {
+      type: "info",
+      duration: 2000,
     });
   }
   balanceStore.cancelCurrentPurchase();

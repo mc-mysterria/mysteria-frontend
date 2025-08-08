@@ -31,21 +31,30 @@ export const useAuthStore = defineStore("auth", {
   getters: {
     currentToken: (state) => state.accessToken || state.token, // Support both new and legacy
     currentUser: (state) => state.user,
-    userRole: (state) => state.user?.role || '',
-    isAdmin: (state) => state.user?.role === 'ADMIN',
+    userRole: (state) => state.user?.role || "",
+    isAdmin: (state) => state.user?.role === "ADMIN",
+    isPrivilegedUser: (state) => {
+      const role = state.user?.role?.toUpperCase();
+      return role === "ADMIN" || role === "LEADER";
+    },
     isVerified: (state) => state.user?.verified || false,
     userBalance: (state) => state.user?.balance || 0,
     // Legacy getters for compatibility
-    userRoles: (state) => state.user?.role ? [{ 
-      id: '1', 
-      name: state.user.role, 
-      display_name: state.user.role, 
-      weight: 1, 
-      permissions: [], 
-      created_at: state.user.createdAt, 
-      updated_at: state.user.createdAt 
-    }] : [],
-    isSuperuser: (state) => state.user?.role === 'ADMIN',
+    userRoles: (state) =>
+      state.user?.role
+        ? [
+            {
+              id: "1",
+              name: state.user.role,
+              display_name: state.user.role,
+              weight: 1,
+              permissions: [],
+              created_at: state.user.createdAt,
+              updated_at: state.user.createdAt,
+            },
+          ]
+        : [],
+    isSuperuser: (state) => state.user?.role === "ADMIN",
   },
 
   actions: {
@@ -55,7 +64,7 @@ export const useAuthStore = defineStore("auth", {
         // Try to get tokens from localStorage (new JWT system)
         this.accessToken = localStorage.getItem("access_token");
         this.refreshToken = localStorage.getItem("refresh_token");
-        
+
         // Legacy support: also check cookies
         if (!this.accessToken) {
           this.accessToken = this.getCookie("access_token");
@@ -98,7 +107,7 @@ export const useAuthStore = defineStore("auth", {
       this.accessToken = authResponse.accessToken;
       this.refreshToken = authResponse.refreshToken;
       this.token = authResponse.accessToken; // Legacy compatibility
-      
+
       // Store in localStorage for persistence
       localStorage.setItem("access_token", authResponse.accessToken);
       localStorage.setItem("refresh_token", authResponse.refreshToken);
@@ -118,14 +127,15 @@ export const useAuthStore = defineStore("auth", {
       this.accessToken = null;
       this.refreshToken = null;
       this.token = null;
-      
+
       // Clear from localStorage
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("user_id");
-      
+
       // Clear legacy cookie
-      document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie =
+        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     },
 
     // Legacy method for compatibility
@@ -141,7 +151,7 @@ export const useAuthStore = defineStore("auth", {
       try {
         const authResponse = await authAPI.refreshToken(this.refreshToken);
         this.setTokens(authResponse);
-        
+
         // Get updated user profile
         const user = await authAPI.getCurrentUser();
         if (user) {
@@ -154,7 +164,7 @@ export const useAuthStore = defineStore("auth", {
         this.clearTokens();
         this.clearAuth();
       }
-      
+
       return false;
     },
 
@@ -164,16 +174,16 @@ export const useAuthStore = defineStore("auth", {
       try {
         // Use new JWT-based Discord callback
         const authResponse = await authAPI.discordCallback(code);
-        
+
         // Store the tokens
         this.setTokens(authResponse);
-        
+
         // Get user profile
         const user = await authAPI.getCurrentUser();
         if (user) {
           this.user = user;
           this.isAuthenticated = true;
-          
+
           show("Successful authentication!", {
             type: "info",
             duration: 3000,
@@ -192,7 +202,7 @@ export const useAuthStore = defineStore("auth", {
     async checkAuthCode() {
       // Only process auth code if we're not in the callback view
       // to avoid duplicate processing
-      if (window.location.pathname === '/auth/callback') {
+      if (window.location.pathname === "/auth/callback") {
         return;
       }
 
@@ -203,7 +213,7 @@ export const useAuthStore = defineStore("auth", {
         if (code) {
           try {
             await this.processDiscordCallback(code);
-            
+
             // Clean up URL
             const newUrl = window.location.pathname + window.location.hash;
             window.history.replaceState({}, document.title, newUrl);
@@ -239,18 +249,20 @@ export const useAuthStore = defineStore("auth", {
 
     hasPermission(permission: string): boolean {
       // Admin has all permissions in the new system
-      if (this.user?.role === 'ADMIN') return true;
+      if (this.user?.role === "ADMIN") return true;
 
       // For now, we'll implement basic role-based permissions
       // This can be expanded based on the specific role system you implement
       const rolePermissions: Record<string, string[]> = {
-        'ADMIN': ['*'], // All permissions
-        'MODERATOR': ['user.ban', 'user.mute', 'user.kick', 'user.warn'],
-        'USER': ['profile.edit', 'shop.purchase'],
+        ADMIN: ["*"], // All permissions
+        MODERATOR: ["user.ban", "user.mute", "user.kick", "user.warn"],
+        USER: ["profile.edit", "shop.purchase"],
       };
 
-      const userPermissions = rolePermissions[this.user?.role || 'USER'] || [];
-      return userPermissions.includes('*') || userPermissions.includes(permission);
+      const userPermissions = rolePermissions[this.user?.role || "USER"] || [];
+      return (
+        userPermissions.includes("*") || userPermissions.includes(permission)
+      );
     },
 
     hasAnyPermission(permissions: string[]): boolean {
@@ -391,10 +403,10 @@ export const useAuthStore = defineStore("auth", {
         if (this.accessToken) {
           await authAPI.logout();
         }
-        
+
         this.clearAuth();
         this.clearTokens();
-        
+
         show("Successfully logged out", {
           type: "info",
           duration: 3000,
@@ -404,8 +416,9 @@ export const useAuthStore = defineStore("auth", {
         // Even if the API call fails, clear local tokens
         this.clearAuth();
         this.clearTokens();
-        
-        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error";
         show(errorMessage, {
           type: "error",
           duration: 5000,

@@ -56,14 +56,14 @@ export const useUserStore = defineStore("user", {
         if (!this.user?.id) throw new Error("Користувач не знайдений");
 
         // Use auth API instead of legacy user API since new API uses /api/user/profile
-        const { authAPI } = await import('@/utils/api/auth');
+        const { authAPI } = await import("@/utils/api/auth");
         const updateData = {
           nickname: data.nickname,
-          lang: data.lang || 'uk'
+          lang: data.lang || "uk",
         };
-        
+
         const updatedUser = await authAPI.updateUserProfile(updateData);
-        
+
         // Update local user data
         if (this.user) {
           this.user = { ...this.user, ...updatedUser };
@@ -74,10 +74,7 @@ export const useUserStore = defineStore("user", {
         if (error instanceof Error && error.message.includes("400")) {
           show("Дані профілю некоректні", { type: "error" });
         } else if (error instanceof Error && error.message.includes("403")) {
-          show(
-            "Недостатньо прав для оновлення профілю",
-            { type: "error" },
-          );
+          show("Недостатньо прав для оновлення профілю", { type: "error" });
         } else if (error instanceof Error && error.message.includes("404")) {
           show("Користувач не знайдений", { type: "error" });
         } else {

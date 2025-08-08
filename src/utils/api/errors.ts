@@ -1,5 +1,3 @@
-import type { APIError as APIErrorType } from "@/types/api";
-
 export class APIError extends Error {
   constructor(
     message: string,
@@ -13,12 +11,14 @@ export class APIError extends Error {
   }
 }
 
+import type { ApiError } from "@/types/api";
+
 export class RequestError extends APIError {
   constructor(
     message: string,
     endpoint?: string,
     params?: Record<string, string | number | boolean>,
-    public structuredError?: APIErrorType,
+    public structuredError?: ApiError,
     requestBody?: unknown,
   ) {
     super(message, endpoint, params, undefined, requestBody);

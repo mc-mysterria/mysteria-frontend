@@ -4,7 +4,6 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
 import fs from 'fs'
 import type { IncomingMessage, ClientRequest } from 'http'
 
@@ -24,8 +23,6 @@ function copyRobotsPlugin() {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const sentryDsn = env.VITE_SENTRY_DSN || 'https://dummy@sentry.io/dummy'
-  const [host, projectId] = sentryDsn.split('@')[1].split('/')
 
   return {
     plugins: [
@@ -34,12 +31,6 @@ export default defineConfig(({ mode }) => {
       vueDevTools(),
       vercel(),
       copyRobotsPlugin(),
-      sentryVitePlugin({
-        authToken: env.SENTRY_AUTH_TOKEN,
-        org: 'mysterria',
-        project: 'frontend',
-        telemetry: false,
-      }),
     ],
     vercel: {},
     optimizeDeps: {
@@ -81,43 +72,6 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/anaya/, ''),
         },
-        '/sentry': {
-          target: `https://${host}`,
-          changeOrigin: true,
-          secure: true,
-          ws: true,
-          xfwd: true,
-          rewrite: (path) => {
-            path = path.replace(/^\/sentry/, `/api/${projectId}/envelope/`)
-            return path
-          },
-          onProxyReq: (proxyReq: ClientRequest, req: IncomingMessage) => {
-            console.log('Proxy request to Sentry:', req.url)
-            console.log('Request headers:', req.headers)
-
-            Object.keys(req.headers).forEach((key) => {
-              const headerValue = req.headers[key]
-              if (headerValue) {
-                proxyReq.setHeader(key, headerValue)
-              }
-            })
-
-            if (!proxyReq.getHeader('origin')) {
-              proxyReq.setHeader('origin', 'http://localhost:8100')
-            }
-          },
-          onProxyRes: (proxyRes: IncomingMessage) => {
-            console.log('Proxy response from Sentry:', proxyRes.statusCode)
-            console.log('Response headers:', proxyRes.headers)
-
-            Object.assign(proxyRes.headers, {
-              'Access-Control-Allow-Origin': 'http://localhost:8100',
-              'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-              'Access-Control-Allow-Headers': '*',
-              'Access-Control-Allow-Credentials': 'true',
-            })
-          },
-        },
         '/catwalk': {
           target: 'https://catwalk.mysterria.net',
           changeOrigin: true,
@@ -141,7 +95,7 @@ export default defineConfig(({ mode }) => {
         port: 8100,
       },
       cors: {
-        origin: ['http://localhost:8100', 'https://discord.com', env.VITE_SENTRY_DSN],
+        origin: ['http://localhost:8100', 'https://discord.com'],
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         credentials: true,
       },
@@ -162,9 +116,6 @@ export default defineConfig(({ mode }) => {
               }
               if (id.includes('echarts')) {
                 return 'charts'
-              }
-              if (id.includes('@sentry')) {
-                return 'sentry'
               }
               if (id.includes('marked') || id.includes('@octokit')) {
                 return 'markdown'

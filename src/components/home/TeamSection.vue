@@ -746,21 +746,9 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background:
-    linear-gradient(
-      135deg,
-      rgba(16, 185, 129, 0.08) 0%,
-      transparent 40%
-    ),
-    linear-gradient(
-      45deg,
-      rgba(34, 197, 94, 0.06) 0%,
-      transparent 30%
-    ),
-    linear-gradient(
-      -45deg,
-      rgba(16, 185, 129, 0.05) 20%,
-      transparent 60%
-    ),
+    linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+    linear-gradient(45deg, rgba(34, 197, 94, 0.06) 0%, transparent 30%),
+    linear-gradient(-45deg, rgba(16, 185, 129, 0.05) 20%, transparent 60%),
     repeating-linear-gradient(
       90deg,
       transparent 0%,
@@ -768,11 +756,7 @@ onMounted(() => {
       transparent 2px,
       transparent 20px
     ),
-    linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(16, 185, 129, 0.04) 100%
-    );
+    linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.04) 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -942,21 +926,9 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background:
-    linear-gradient(
-      225deg,
-      rgba(16, 185, 129, 0.07) 0%,
-      transparent 35%
-    ),
-    linear-gradient(
-      -135deg,
-      rgba(34, 197, 94, 0.05) 0%,
-      transparent 25%
-    ),
-    linear-gradient(
-      315deg,
-      rgba(16, 185, 129, 0.04) 30%,
-      transparent 70%
-    ),
+    linear-gradient(225deg, rgba(16, 185, 129, 0.07) 0%, transparent 35%),
+    linear-gradient(-135deg, rgba(34, 197, 94, 0.05) 0%, transparent 25%),
+    linear-gradient(315deg, rgba(16, 185, 129, 0.04) 30%, transparent 70%),
     repeating-linear-gradient(
       45deg,
       transparent 0%,
@@ -964,11 +936,7 @@ onMounted(() => {
       transparent 3px,
       transparent 25px
     ),
-    linear-gradient(
-      270deg,
-      transparent 0%,
-      rgba(16, 185, 129, 0.03) 100%
-    );
+    linear-gradient(270deg, transparent 0%, rgba(16, 185, 129, 0.03) 100%);
   z-index: 2;
   pointer-events: none;
 }

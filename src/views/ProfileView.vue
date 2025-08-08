@@ -9,8 +9,14 @@
           :displayed-user="displayedUser"
           :subscription="subscription"
         />
-        <VerificationPanel :displayed-user="displayedUser" :is-own-profile="isOwnProfile" />
-        <TransactionHistory :displayed-user="displayedUser" :is-own-profile="isOwnProfile" />
+        <VerificationPanel
+          :displayed-user="displayedUser"
+          :is-own-profile="isOwnProfile"
+        />
+        <TransactionHistory
+          :displayed-user="displayedUser"
+          :is-own-profile="isOwnProfile"
+        />
         <ServerInfo :server-profile="serverProfile" :loading="catwalkLoading" />
         <ModerationPanel :target-user="displayedUser" />
       </div>
@@ -64,32 +70,35 @@ const isOwnProfile = computed(() => {
 
 const fetchUserProfile = async () => {
   // Ensure auth store has user data loaded
-  if (!authStore.currentUser && authStore.isAuthenticated && !authStore.isLoading) {
+  if (
+    !authStore.currentUser &&
+    authStore.isAuthenticated &&
+    !authStore.isLoading
+  ) {
     await authStore.refreshUser();
   }
-  
+
   // Use auth store as the primary source of user data
   displayedUser.value = authStore.currentUser;
-  
+
   // Sync user store with auth store if needed
   if (authStore.currentUser && !userStore.currentUser) {
     userStore.user = authStore.currentUser;
   }
 };
 
-
 const loadProfile = async () => {
   loading.value = true;
-  
+
   // Wait for auth store to finish loading if it's still initializing
   if (authStore.isLoading) {
     let attempts = 0;
     while (authStore.isLoading && attempts < 50) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       attempts++;
     }
   }
-  
+
   await fetchUserProfile();
 
   if (displayedUser.value) {
@@ -193,12 +202,14 @@ const loadUserPunishments = async () => {
     if (!displayedUser.value) return { warnings: "0 / 8", criminal_records: 0 };
 
     // Use the current API endpoint for punishments
-    const punishmentData = await punishmentsAPI.getList("", { 
+    const punishmentData = await punishmentsAPI.getList("", {
       filters: { user_id: displayedUser.value.id },
-      params: { page: 0, size: 100 }
+      params: { page: 0, size: 100 },
     });
 
-    const warningCount = punishmentData.data.filter(p => p.type === 'warn').length;
+    const warningCount = punishmentData.data.filter(
+      (p) => p.type === "warn",
+    ).length;
     const warnings = `${warningCount} / 8`;
 
     // Remove court system - no more criminal records from claims
@@ -213,7 +224,6 @@ const loadUserPunishments = async () => {
     return { warnings: "0 / 8", criminal_records: 0 };
   }
 };
-
 
 const updateSidebarState = () => {
   const collapsed = localStorage.getItem("sidebarCollapsed");
@@ -239,7 +249,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .main {
-  margin-left: 260px;
+  margin-left: 280px;
   padding: 40px;
   min-height: 100vh;
   background: linear-gradient(135deg, #0f1419 0%, #1a1d23 100%);
@@ -248,7 +258,7 @@ onBeforeUnmount(() => {
 }
 
 .main.sidebar-collapsed {
-  margin-left: 80px;
+  margin-left: 90px;
 }
 
 .profile-container {

@@ -59,7 +59,8 @@
 }
 
 @keyframes mystical-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }

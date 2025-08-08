@@ -6,54 +6,56 @@
     <div class="banner-content">
       <h3 class="banner-title">{{ title }}</h3>
       <p class="banner-message">{{ message }}</p>
-      <p v-if="additionalInfo" class="banner-additional">{{ additionalInfo }}</p>
+      <p v-if="additionalInfo" class="banner-additional">
+        {{ additionalInfo }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 
 interface Props {
-  type: 'shop' | 'form'
+  type: "shop" | "form";
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const bannerClass = computed(() => {
   return {
-    'shop-banner': props.type === 'shop',
-    'form-banner': props.type === 'form'
-  }
-})
+    "shop-banner": props.type === "shop",
+    "form-banner": props.type === "form",
+  };
+});
 
 const iconClass = computed(() => {
-  return props.type === 'shop'
-    ? 'fa-solid fa-shopping-cart'
-    : 'fa-solid fa-file-text'
-})
+  return props.type === "shop"
+    ? "fa-solid fa-shopping-cart"
+    : "fa-solid fa-file-text";
+});
 
 const title = computed(() => {
-  return props.type === 'shop'
-    ? 'Крамниця тимчасово недоступна'
-    : 'Анкети тимчасово не працюють'
-})
+  return props.type === "shop"
+    ? "Крамниця тимчасово недоступна"
+    : "Анкети тимчасово не працюють";
+});
 
 const message = computed(() => {
-  if (props.type === 'shop') {
-    return 'Система передачі покупок до Minecraft тимчасово недоступна. Якщо ви щось придбали, будь ласка, зверніться до підтримки в Discord для отримання вашої покупки.'
+  if (props.type === "shop") {
+    return "Система передачі покупок до Minecraft тимчасово недоступна. Якщо ви щось придбали, будь ласка, зверніться до підтримки в Discord для отримання вашої покупки.";
   } else {
-    return 'Система збереження анкет тимчасово недоступна. Ваші анкети будуть перевірені пізніше, коли систему буде відновлено.'
+    return "Система збереження анкет тимчасово недоступна. Ваші анкети будуть перевірені пізніше, коли систему буде відновлено.";
   }
-})
+});
 
 const additionalInfo = computed(() => {
-  if (props.type === 'shop') {
-    return 'Ви все ще можете здійснювати покупки, але їх доставка буде затримана.'
+  if (props.type === "shop") {
+    return "Ви все ще можете здійснювати покупки, але їх доставка буде затримана.";
   } else {
-    return 'Приносимо наші вибачення за незручності. Ми працюємо над відновленням системи.'
+    return "Приносимо наші вибачення за незручності. Ми працюємо над відновленням системи.";
   }
-})
+});
 </script>
 
 <style scoped>

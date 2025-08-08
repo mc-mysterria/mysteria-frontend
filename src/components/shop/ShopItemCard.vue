@@ -1,71 +1,87 @@
 <template>
-  <div
-    v-if="item.is_active"
-    class="item-card"
-    :class="{
-      'role-card': item.type === 'ROLE',
-      'item-card-type': item.type === 'ITEM', 
-      'permission-card': item.type === 'PERMISSION',
-      'cosmetic-card': item.type === 'COSMETIC',
-    }"
-  >
-    <h2>{{ item.display_name || item.name }}</h2>
-    <p v-if="item.description" class="subtitle">{{ item.description }}</p>
-
-    <div v-if="item.image" class="item-image-container">
+  <div v-if="item.is_active" class="myst-product-card group">
+    <!-- Image container -->
+    <div class="relative aspect-[4/3] overflow-hidden rounded-t-lg">
       <img
+        v-if="item.image"
         :src="getImagePath(item.image)"
-        :alt="item.name"
-        class="item-image"
+        :alt="item.display_name || item.name"
+        class="h-full w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
       />
-      <div v-if="hasDiscount" class="corner-ribbon">
-        -{{ discountPercent }}%
-      </div>
-    </div>
-
-    <div class="price-container">
-      <div class="price" :class="{ discounted: hasDiscount }">
-        {{ finalPrice }}<IconBalance class="price-currency" />
-      </div>
-      <div v-if="hasDiscount" class="original-price">
-        {{ item.price.toString() }}<IconBalance class="price-currency-small" />
-      </div>
-    </div>
-
-    <p v-if="item.description" class="price-subtitle">{{ item.description }}</p>
-
-    <ul v-if="item.points" class="features-list">
-      <li
-        v-for="(point, pIndex) in item.points"
-        :key="pIndex"
-        class="feature-item"
+      <div
+        v-else
+        class="h-full w-full bg-gradient-to-br from-var(--myst-bg) to-var(--myst-bg-secondary) flex items-center justify-center opacity-60"
       >
-        <div class="feature-with-tooltip">
-          <i class="fa-solid fa-check feature-check"></i>
-          {{ point.text }}
-          <span v-if="point.tooltip" class="tooltip-container">
-            <i class="fa-solid fa-circle-info info-icon"></i>
-            <div class="tooltip-content" v-html="point.tooltip"></div>
-          </span>
-        </div>
-      </li>
-    </ul>
+        <i class="fa-solid fa-image text-4xl text-var(--myst-offwhite)"></i>
+      </div>
 
-    <button
-      @click="handlePurchase"
-      :disabled="!item.is_active || isProcessing"
-      class="purchase-btn"
-      :class="{ 
-        'role-btn': isRoleCard,
-        'item-btn': isItemCard,
-        'permission-btn': isPermissionCard,
-        'cosmetic-btn': isCosmeticCard
-      }"
-    >
-      {{
-        isProcessing ? t('processing') : item.is_active ? t('purchase') : t('unavailable')
-      }}
-    </button>
+      <!-- Badge -->
+      <div v-if="getItemBadge()" class="absolute left-3 top-3">
+        <div class="myst-badge">
+          {{ getItemBadge() }}
+        </div>
+      </div>
+
+      <!-- Discount ribbon -->
+      <div v-if="hasDiscount" class="absolute right-3 top-3">
+        <div class="myst-discount-badge">-{{ discountPercent }}%</div>
+      </div>
+    </div>
+
+    <!-- Card header -->
+    <div class="myst-card-header">
+      <h3 class="myst-card-title">{{ item.display_name || item.name }}</h3>
+    </div>
+
+    <!-- Card content -->
+    <div class="myst-card-content">
+      <p v-if="item.description" class="myst-card-description">
+        {{ item.description }}
+      </p>
+
+      <!-- Features list -->
+      <ul v-if="item.points" class="myst-features-list">
+        <li
+          v-for="(point, pIndex) in item.points"
+          :key="pIndex"
+          class="myst-feature-item"
+        >
+          <i class="fa-solid fa-check myst-feature-check"></i>
+          <span>{{ point.text }}</span>
+          <span v-if="point.tooltip" class="myst-tooltip-container">
+            <i class="fa-solid fa-circle-info myst-info-icon"></i>
+            <div class="myst-tooltip-content" v-html="point.tooltip"></div>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Card footer -->
+    <div class="myst-card-footer">
+      <div class="myst-price-section">
+        <div v-if="hasDiscount" class="myst-original-price">
+          {{ item.price.toString() }}<IconBalance class="myst-currency-small" />
+        </div>
+        <div class="myst-current-price">
+          {{ finalPrice }}<IconBalance class="myst-currency" />
+        </div>
+      </div>
+
+      <button
+        @click="handlePurchase"
+        :disabled="!item.is_active || isProcessing"
+        class="myst-purchase-btn"
+      >
+        <i class="fa-solid fa-shopping-cart mr-2"></i>
+        {{
+          isProcessing
+            ? t("processing")
+            : item.is_active
+              ? t("purchase")
+              : t("unavailable")
+        }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -87,10 +103,20 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const isRoleCard = computed(() => props.item.type === "ROLE");
-const isItemCard = computed(() => props.item.type === "ITEM");
-const isPermissionCard = computed(() => props.item.type === "PERMISSION");
-const isCosmeticCard = computed(() => props.item.type === "COSMETIC");
+const getItemBadge = () => {
+  switch (props.item.type) {
+    case "ROLE":
+      return "Rank";
+    case "ITEM":
+      return "Relic";
+    case "PERMISSION":
+      return "Permission";
+    case "COSMETIC":
+      return "Cosmetic";
+    default:
+      return "";
+  }
+};
 
 const getImagePath = (path: string | undefined) => {
   if (!path) return "";
@@ -144,312 +170,260 @@ const handlePurchase = () => {
 </script>
 
 <style scoped>
-.item-card {
-  background-color: #23262c;
-  border-radius: 7px;
-  padding: 30px;
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.24);
+/* Product Card Styles */
+.myst-product-card {
+  background: rgba(19, 22, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  order: 1;
 }
 
-.role-card {
-  border-left: 4px solid #e74c3c;
+.myst-product-card:hover {
+  border-color: rgba(200, 178, 115, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-.item-card-type {
-  border-left: 4px solid #3498db;
+/* Badge */
+.myst-badge {
+  background: rgba(200, 178, 115, 0.2);
+  color: var(--myst-offwhite);
+  border: 1px solid rgba(200, 178, 115, 0.4);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
-.permission-card {
-  border-left: 4px solid #f39c12;
+/* Discount Badge */
+.myst-discount-badge {
+  background: var(--myst-gold);
+  color: var(--myst-bg);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.cosmetic-card {
-  border-left: 4px solid #9b59b6;
+/* Card Header */
+.myst-card-header {
+  padding: 20px 20px 0;
 }
 
-.item-card h2 {
-  font-size: 24px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
-  margin-bottom: 8px;
-  color: #ffffff;
+.myst-card-title {
+  color: var(--myst-offwhite);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
 }
 
-.subtitle {
-  color: #b4bbc5;
+/* Card Content */
+.myst-card-content {
+  padding: 8px 20px 0;
+  flex-grow: 1;
+}
+
+.myst-card-description {
+  color: rgb(161, 161, 170);
   font-size: 14px;
-  margin-bottom: 15px;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
 }
 
-.item-image-container {
-  position: relative;
-  width: 100%;
-  margin: 15px 0;
-}
-
-.item-image {
-  width: 100%;
-  border-radius: 7px;
-}
-
-.corner-ribbon {
-  position: absolute;
-  top: -60px;
-  right: -20px;
-  background-color: #ee7828;
-  color: white;
-  padding: 3px 40px;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 5px;
-  transform: rotate(45deg) translateX(28px) translateY(-10px);
-  transform-origin: top right;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-.price-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 5px;
-}
-
-.price {
-  font-size: 32px;
-  font-family: "MontserratBold", system-ui, sans-serif;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.price.discounted {
-  color: #ee7828;
-}
-
-.original-price {
-  font-size: 22px;
-  color: #8a8a8a;
-  text-decoration: line-through;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.price-currency {
-  width: 28px !important;
-  height: 28px !important;
-}
-
-.price-currency-small {
-  width: 20px !important;
-  height: 20px !important;
-  opacity: 0.7;
-}
-
-.price-subtitle {
-  color: #b4bbc5;
-  font-size: 14px;
-  margin-bottom: 15px;
-}
-
-.features-list {
-  width: 100%;
+/* Features List */
+.myst-features-list {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
-  text-align: left;
+  margin: 0;
 }
 
-.feature-item {
-  margin-bottom: 12px;
-  display: flex;
-}
-
-.feature-with-tooltip {
-  position: relative;
+.myst-feature-item {
   display: flex;
   align-items: center;
-  width: 100%;
-}
-
-.feature-check {
-  color: #6c5dd3;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
-
-.tooltip-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  z-index: 1;
-}
-
-.info-icon {
-  color: #6c5dd3;
+  margin-bottom: 8px;
   font-size: 14px;
-  cursor: help;
+  color: var(--myst-offwhite);
 }
 
-.tooltip-content {
+.myst-feature-check {
+  color: var(--myst-gold);
+  margin-right: 8px;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+/* Tooltip */
+.myst-tooltip-container {
+  position: relative;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.myst-info-icon {
+  color: var(--myst-gold);
+  font-size: 12px;
+  cursor: help;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.myst-info-icon:hover {
+  opacity: 1;
+}
+
+.myst-tooltip-content {
   position: absolute;
   visibility: hidden;
   width: 250px;
   max-width: calc(100vw - 40px);
-  background-color: #30343c;
-  color: white;
-  border-radius: 6px;
+  background: var(--myst-bg-secondary);
+  color: var(--myst-offwhite);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   padding: 12px;
-  z-index: 10000;
+  z-index: 1000;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  bottom: calc(100% + 10px);
-  right: 14px;
-  transform: translateX(calc(25px));
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-  text-align: left;
-  font-size: 14px;
+  transition: all 0.3s ease;
+  bottom: calc(100% + 8px);
+  right: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  font-size: 13px;
   line-height: 1.4;
   pointer-events: none;
 }
 
-.tooltip-content::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  right: 14px;
-  margin-right: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #30343c transparent transparent transparent;
-}
-
-.tooltip-container:hover .tooltip-content {
+.myst-tooltip-container:hover .myst-tooltip-content {
   visibility: visible;
   opacity: 1;
 }
 
-/* Alternative positioning for tooltips that would go off-screen */
-.tooltip-content.bottom {
-  bottom: auto;
-  top: calc(100% + 10px);
+/* Card Footer */
+.myst-card-footer {
+  padding: 16px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.tooltip-content.bottom::after {
-  top: auto;
-  bottom: 100%;
-  right: 20px;
-  margin-right: -5px;
-  border-color: transparent transparent #30343c transparent;
+/* Price Section */
+.myst-price-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.purchase-btn {
-  background-color: #6c5dd3;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  padding: 12px 24px;
+.myst-original-price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: rgb(113, 113, 122);
+  text-decoration: line-through;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.myst-current-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--myst-gold);
+  font-weight: 600;
   font-size: 16px;
+}
+
+.myst-currency {
+  width: 20px !important;
+  height: 20px !important;
+  color: var(--myst-gold);
+}
+
+.myst-currency-small {
+  width: 16px !important;
+  height: 16px !important;
+  opacity: 0.7;
+}
+
+/* Purchase Button */
+.myst-purchase-btn {
+  background: rgba(200, 178, 115, 0.2);
+  border: 1px solid rgba(200, 178, 115, 0.4);
+  color: var(--myst-offwhite);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: auto;
-  width: 100%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 
-.purchase-btn:hover:not(:disabled) {
-  background-color: #7a6cdf;
+.myst-purchase-btn:hover:not(:disabled) {
+  background: rgba(200, 178, 115, 0.3);
+  transform: translateY(-1px);
 }
 
-.purchase-btn:disabled {
-  background-color: #4f5665;
+.myst-purchase-btn:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
-.role-btn {
-  background-color: #e74c3c;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .myst-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
 
-.role-btn:hover:not(:disabled) {
-  background-color: #c0392b;
-}
+  .myst-price-section {
+    align-items: center;
+  }
 
-.item-btn {
-  background-color: #3498db;
-}
-
-.item-btn:hover:not(:disabled) {
-  background-color: #2980b9;
-}
-
-.permission-btn {
-  background-color: #f39c12;
-}
-
-.permission-btn:hover:not(:disabled) {
-  background-color: #e67e22;
-}
-
-.cosmetic-btn {
-  background-color: #9b59b6;
-}
-
-.cosmetic-btn:hover:not(:disabled) {
-  background-color: #8e44ad;
+  .myst-purchase-btn {
+    width: 100%;
+  }
 }
 
 @media (max-width: 576px) {
-  .item-card {
-    padding: 20px;
+  .myst-card-header {
+    padding: 16px 16px 0;
   }
 
-  .item-card h2 {
-    font-size: 20px;
+  .myst-card-content {
+    padding: 8px 16px 0;
   }
 
-  .price {
-    font-size: 28px;
+  .myst-card-footer {
+    padding: 12px 16px 16px;
   }
 
-  .price-currency {
-    width: 24px !important;
-    height: 24px !important;
+  .myst-card-title {
+    font-size: 16px;
   }
 
-  .price-currency-small {
-    width: 18px !important;
-    height: 18px !important;
+  .myst-card-description {
+    font-size: 13px;
   }
 
-  .tooltip-content {
+  .myst-tooltip-content {
     width: 200px;
     max-width: 85vw;
     font-size: 12px;
     padding: 10px;
-    right: -180px;
-    transform: none;
-  }
-
-  .tooltip-content::after {
-    right: 15px;
-    margin-right: -5px;
-  }
-
-  .original-price {
-    font-size: 20px;
-  }
-
-  .purchase-btn {
-    padding: 10px;
-    font-size: 15px;
+    right: -100px;
   }
 }
 </style>

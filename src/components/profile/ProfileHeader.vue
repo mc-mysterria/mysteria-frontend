@@ -42,9 +42,7 @@
               <img
                 v-if="userStore.currentUser?.discordId"
                 :src="`/anaya/member/avatar?discord_id=${userStore.currentUser.discordId}`"
-                :alt="
-                  userStore.currentUser?.nickname || 'User avatar'
-                "
+                :alt="userStore.currentUser?.nickname || 'User avatar'"
                 @error="handleImageError"
               />
               <div v-else class="avatarPlaceholder">
@@ -426,7 +424,6 @@ header {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-
 .mobile-nav-enter-active,
 .mobile-nav-leave-active {
   transition: all 0.3s ease;
@@ -452,7 +449,6 @@ header {
 .mobile-nav-leave-to .mobileNavContent {
   transform: translateX(-100%);
 }
-
 
 @media (max-width: 1200px) {
   .headerContainer {
@@ -508,6 +504,5 @@ header {
     padding: 0 12px;
     gap: 12px;
   }
-
 }
 </style>

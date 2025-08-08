@@ -39,7 +39,9 @@ export const useServicesStore = defineStore("services", {
       const { show } = useNotification();
 
       try {
-        const response = await serviceAPI.getList("", { filters: type ? { type: type as any } : {} });
+        const response = await serviceAPI.getList("", {
+          filters: type ? { type: type as any } : {},
+        });
         this.services = response.data;
       } catch (error) {
         this.error =

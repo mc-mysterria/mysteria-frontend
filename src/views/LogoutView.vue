@@ -1,6 +1,8 @@
 <template>
   <div class="logout-container">
-    <button @click="handleLogout" class="logout-button">{{ t('logout') }}</button>
+    <button @click="handleLogout" class="logout-button">
+      {{ t("logout") }}
+    </button>
   </div>
 </template>
 

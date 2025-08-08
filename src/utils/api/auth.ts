@@ -4,8 +4,8 @@ import type {
   AuthResponse,
   DiscordCallbackRequest,
   RefreshTokenRequest,
-  AuthUser,  // Legacy type for compatibility
-  AuthStatus  // Legacy type for compatibility
+  AuthUser, // Legacy type for compatibility
+  AuthStatus, // Legacy type for compatibility
 } from "@/types/auth";
 
 export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
@@ -19,9 +19,9 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
       "POST",
       "/api/auth/discord/callback",
       {
-        body: { code } as DiscordCallbackRequest
+        body: { code } as DiscordCallbackRequest,
       },
-      ""
+      "",
     );
     return response.data;
   }
@@ -31,9 +31,9 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
       "POST",
       "/api/auth/refresh",
       {
-        body: { refreshToken } as RefreshTokenRequest
+        body: { refreshToken } as RefreshTokenRequest,
       },
-      ""
+      "",
     );
     return response.data;
   }
@@ -48,7 +48,7 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
         "GET",
         "/api/user/profile",
         { suppressAuthRequired: true },
-        ""
+        "",
       );
       return response.data;
     } catch (error) {
@@ -57,12 +57,15 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
     }
   }
 
-  async updateUserProfile(data: { nickname?: string; lang?: string }): Promise<UserProfileDto> {
+  async updateUserProfile(data: {
+    nickname?: string;
+    lang?: string;
+  }): Promise<UserProfileDto> {
     const response = await this.request<UserProfileDto>(
       "PUT",
       "/api/user/profile",
       { body: data },
-      ""
+      "",
     );
     return response.data;
   }
@@ -73,10 +76,14 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
     const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
 
     if (!clientId) {
-      throw new Error("Discord Client ID not configured. Please set VITE_DISCORD_CLIENT_ID in your .env.local file.");
+      throw new Error(
+        "Discord Client ID not configured. Please set VITE_DISCORD_CLIENT_ID in your .env.local file.",
+      );
     }
 
-    const redirectUri = encodeURIComponent(`${window.location.origin}/auth/callback`);
+    const redirectUri = encodeURIComponent(
+      `${window.location.origin}/auth/callback`,
+    );
     const scope = encodeURIComponent("identify email guilds");
 
     return `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
@@ -87,24 +94,30 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
     try {
       const user = await this.getCurrentUser();
       // Convert new UserProfileDto to legacy AuthUser format
-      const legacyUser: AuthUser | undefined = user ? {
-        id: user.id,
-        discord_id: user.discordId.toString(),
-        nickname: user.nickname,
-        is_active: true,
-        created_at: user.createdAt,
-        updated_at: user.createdAt, // New API doesn't have updated_at
-        roles: user.role ? [{
-          id: '1',
-          name: user.role,
-          display_name: user.role,
-          weight: 1,
-          permissions: [],
-          created_at: user.createdAt,
-          updated_at: user.createdAt
-        }] : undefined,
-        permissions: {}
-      } : undefined;
+      const legacyUser: AuthUser | undefined = user
+        ? {
+            id: user.id,
+            discord_id: user.discordId.toString(),
+            nickname: user.nickname,
+            is_active: true,
+            created_at: user.createdAt,
+            updated_at: user.createdAt, // New API doesn't have updated_at
+            roles: user.role
+              ? [
+                  {
+                    id: "1",
+                    name: user.role,
+                    display_name: user.role,
+                    weight: 1,
+                    permissions: [],
+                    created_at: user.createdAt,
+                    updated_at: user.createdAt,
+                  },
+                ]
+              : undefined,
+            permissions: {},
+          }
+        : undefined;
 
       return {
         authenticated: !!user,

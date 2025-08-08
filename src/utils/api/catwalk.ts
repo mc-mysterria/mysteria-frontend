@@ -36,7 +36,10 @@ function getUkrPathwayName(pathway: string): string {
 }
 
 export function getUkrServerName(server: string): string {
-  return serverNamesUkr[server as keyof typeof serverNamesUkr] || server.charAt(0).toUpperCase() + server.slice(1);
+  return (
+    serverNamesUkr[server as keyof typeof serverNamesUkr] ||
+    server.charAt(0).toUpperCase() + server.slice(1)
+  );
 }
 
 export class CatwalkAPI {
@@ -127,13 +130,15 @@ export class CatwalkAPI {
   }
 
   async getStatsSummary(server?: string): Promise<StatsSummary> {
-    const serverUrl = server ? `${this.v1BaseUrl}/${server}` : this.v1HeavyBaseUrl;
+    const serverUrl = server
+      ? `${this.v1BaseUrl}/${server}`
+      : this.v1HeavyBaseUrl;
     const response = await this.makeRequest<StatsSummaryResponse>(
       `${serverUrl}/stats/summary`,
     );
 
     if (!response.success || !response.data?.summary) {
-      throw new Error(response.message || 'Failed to get stats summary');
+      throw new Error(response.message || "Failed to get stats summary");
     }
 
     const summary = response.data.summary;
@@ -141,13 +146,18 @@ export class CatwalkAPI {
       totalPlayers: summary.totalPlayers || 0,
       onlinePlayers: summary.onlinePlayers || 0,
       newPlayers: summary.newPlayers || 0,
-      tps: summary.tps || '20.0',
+      tps: summary.tps || "20.0",
       avgPlaytime: summary.avgPlaytime || 0,
     };
   }
 
-  async getTopPlayers(limit: number = 10, server?: string): Promise<TopPlayer[]> {
-    const serverUrl = server ? `${this.v1BaseUrl}/${server}` : this.v1HeavyBaseUrl;
+  async getTopPlayers(
+    limit: number = 10,
+    server?: string,
+  ): Promise<TopPlayer[]> {
+    const serverUrl = server
+      ? `${this.v1BaseUrl}/${server}`
+      : this.v1HeavyBaseUrl;
     const response = await this.makeRequest<any>(
       `${serverUrl}/stats/topplayers?limit=${limit}`,
     );
@@ -167,42 +177,62 @@ export class CatwalkAPI {
     const serversToQuery = servers || this.availableServers;
 
     try {
-      const promises = serversToQuery.map(server =>
-        this.getStatsSummary(server).catch(error => {
+      const promises = serversToQuery.map((server) =>
+        this.getStatsSummary(server).catch((error) => {
           console.warn(`Failed to get stats for server ${server}:`, error);
           return null;
-        })
+        }),
       );
 
       const results = await Promise.all(promises);
-      const validResults = results.filter(result => result !== null) as StatsSummary[];
+      const validResults = results.filter(
+        (result) => result !== null,
+      ) as StatsSummary[];
 
       if (validResults.length === 0) {
-        throw new Error('No server stats available');
+        throw new Error("No server stats available");
       }
 
       return {
-        totalPlayers: validResults.reduce((sum, stats) => sum + stats.totalPlayers, 0),
-        onlinePlayers: validResults.reduce((sum, stats) => sum + stats.onlinePlayers, 0),
-        newPlayers: validResults.reduce((sum, stats) => sum + stats.newPlayers, 0),
+        totalPlayers: validResults.reduce(
+          (sum, stats) => sum + stats.totalPlayers,
+          0,
+        ),
+        onlinePlayers: validResults.reduce(
+          (sum, stats) => sum + stats.onlinePlayers,
+          0,
+        ),
+        newPlayers: validResults.reduce(
+          (sum, stats) => sum + stats.newPlayers,
+          0,
+        ),
         tps: validResults.length > 1 ? "20" : validResults[0].tps,
-        avgPlaytime: Math.round(validResults.reduce((sum, stats) => sum + stats.avgPlaytime, 0) / validResults.length),
+        avgPlaytime: Math.round(
+          validResults.reduce((sum, stats) => sum + stats.avgPlaytime, 0) /
+            validResults.length,
+        ),
       };
     } catch (error) {
-      console.error('Error getting combined stats:', error);
+      console.error("Error getting combined stats:", error);
       throw error;
     }
   }
 
-  async getCombinedTopPlayers(limit: number = 10, servers?: string[]): Promise<TopPlayer[]> {
+  async getCombinedTopPlayers(
+    limit: number = 10,
+    servers?: string[],
+  ): Promise<TopPlayer[]> {
     const serversToQuery = servers || this.availableServers;
 
     try {
-      const promises = serversToQuery.map(server =>
-        this.getTopPlayers(limit, server).catch(error => {
-          console.warn(`Failed to get top players for server ${server}:`, error);
+      const promises = serversToQuery.map((server) =>
+        this.getTopPlayers(limit, server).catch((error) => {
+          console.warn(
+            `Failed to get top players for server ${server}:`,
+            error,
+          );
           return [];
-        })
+        }),
       );
 
       const results = await Promise.all(promises);
@@ -210,7 +240,7 @@ export class CatwalkAPI {
 
       const playerMap = new Map<string, TopPlayer>();
 
-      allPlayers.forEach(player => {
+      allPlayers.forEach((player) => {
         const existing = playerMap.get(player.uuid);
         if (!existing) {
           playerMap.set(player.uuid, { ...player });
@@ -223,23 +253,23 @@ export class CatwalkAPI {
         .sort((a, b) => b.playtime - a.playtime)
         .slice(0, limit);
     } catch (error) {
-      console.error('Error getting combined top players:', error);
+      console.error("Error getting combined top players:", error);
       throw error;
     }
   }
 
   async getOnlineHistory(days: number = 1, server?: string): Promise<any> {
-    const serverUrl = server ? `${this.v1BaseUrl}/${server}` : this.v1HeavyBaseUrl;
+    const serverUrl = server
+      ? `${this.v1BaseUrl}/${server}`
+      : this.v1HeavyBaseUrl;
     try {
-      return await this.makeRequest(
-        `${serverUrl}/stats/online?days=${days}`,
-      );
+      return await this.makeRequest(`${serverUrl}/stats/online?days=${days}`);
     } catch (error) {
       console.warn(`Failed to get online history, using fallback data:`, error);
       // Return fallback data that matches the expected structure
       const fallbackDistribution: Record<string, number> = {};
       for (let hour = 0; hour < 24; hour++) {
-        const hourStr = hour.toString().padStart(2, '0') + ':00';
+        const hourStr = hour.toString().padStart(2, "0") + ":00";
         // Simulate typical server activity pattern
         let playerCount;
         if (hour >= 6 && hour <= 10) {
@@ -258,57 +288,71 @@ export class CatwalkAPI {
   async getHourlyDistribution(server?: string): Promise<HourlyDistribution> {
     try {
       const onlineData = await this.getOnlineHistory(1, server); // Only 1 day
-      
+
       // Debug: log the raw response to understand structure
-      console.log(`Raw API response for server ${server || 'heavy'}:`, JSON.stringify(onlineData, null, 2));
-      
+      console.log(
+        `Raw API response for server ${server || "heavy"}:`,
+        JSON.stringify(onlineData, null, 2),
+      );
+
       // Check if response has the expected structure with players array
-      const playersArray = onlineData?.data?.players || onlineData?.players || (Array.isArray(onlineData) ? onlineData : null);
-      
+      const playersArray =
+        onlineData?.data?.players ||
+        onlineData?.players ||
+        (Array.isArray(onlineData) ? onlineData : null);
+
       // The API returns an array of objects with timestamp, online, hour, day
       if (Array.isArray(playersArray)) {
         const hourlyData: Record<string, number[]> = {};
-        
+
         // Initialize all hours with empty arrays
         for (let hour = 0; hour < 24; hour++) {
           hourlyData[hour.toString()] = [];
         }
-        
+
         // Collect all values for each hour
-        playersArray.forEach(dataPoint => {
-          if (dataPoint && typeof dataPoint.hour === 'number' && typeof dataPoint.online === 'number') {
+        playersArray.forEach((dataPoint) => {
+          if (
+            dataPoint &&
+            typeof dataPoint.hour === "number" &&
+            typeof dataPoint.online === "number"
+          ) {
             const hour = dataPoint.hour;
             if (hour >= 0 && hour < 24) {
               hourlyData[hour.toString()].push(dataPoint.online);
             }
           }
         });
-        
+
         // Calculate average for each hour
         const hourlyDistribution: Record<string, number> = {};
         for (let hour = 0; hour < 24; hour++) {
           const hourStr = hour.toString();
           const values = hourlyData[hourStr];
           if (values.length > 0) {
-            const average = values.reduce((sum, val) => sum + val, 0) / values.length;
+            const average =
+              values.reduce((sum, val) => sum + val, 0) / values.length;
             hourlyDistribution[hourStr] = Math.round(average);
           } else {
             hourlyDistribution[hourStr] = 0;
           }
         }
-        
+
         // Debug: log processed distribution
-        console.log(`Processed hourly distribution for server ${server || 'heavy'}:`, hourlyDistribution);
-        
+        console.log(
+          `Processed hourly distribution for server ${server || "heavy"}:`,
+          hourlyDistribution,
+        );
+
         return { hourly_distribution: hourlyDistribution };
       }
-      
+
       // NOTE: Skipping hourlyDistribution object from API as it contains inflated values
       // We only use the players array which provides accurate per-reading data
-      
-      throw new Error('API response format not recognized');
+
+      throw new Error("API response format not recognized");
     } catch (error) {
-      console.error('Error getting hourly distribution:', error);
+      console.error("Error getting hourly distribution:", error);
       // Return fallback hourly distribution
       const fallbackDistribution: Record<string, number> = {};
       for (let hour = 0; hour < 24; hour++) {
@@ -328,47 +372,61 @@ export class CatwalkAPI {
     }
   }
 
-  async getCombinedHourlyDistribution(servers?: string[]): Promise<HourlyDistribution> {
+  async getCombinedHourlyDistribution(
+    servers?: string[],
+  ): Promise<HourlyDistribution> {
     const serversToQuery = servers || this.availableServers;
 
     try {
-      const promises = serversToQuery.map(server =>
-        this.getHourlyDistribution(server).catch(error => {
-          console.warn(`Failed to get hourly distribution for server ${server}:`, error);
+      const promises = serversToQuery.map((server) =>
+        this.getHourlyDistribution(server).catch((error) => {
+          console.warn(
+            `Failed to get hourly distribution for server ${server}:`,
+            error,
+          );
           return null;
-        })
+        }),
       );
 
       const results = await Promise.all(promises);
-      const validResults = results.filter(result => result !== null) as HourlyDistribution[];
+      const validResults = results.filter(
+        (result) => result !== null,
+      ) as HourlyDistribution[];
 
       if (validResults.length === 0) {
-        throw new Error('No hourly distribution data available');
+        throw new Error("No hourly distribution data available");
       }
 
       const combinedDistribution: Record<string, number> = {};
-      
+
       // Debug: log all individual server results
-      console.log('Individual server hourly distributions:', validResults.map((result, i) => ({
-        server: serversToQuery[i],
-        data: result.hourly_distribution
-      })));
-      
+      console.log(
+        "Individual server hourly distributions:",
+        validResults.map((result, i) => ({
+          server: serversToQuery[i],
+          data: result.hourly_distribution,
+        })),
+      );
+
       for (let hour = 0; hour < 24; hour++) {
         const hourStr = hour.toString();
-        const hourValues = validResults.map(result => result.hourly_distribution[hourStr] || 0);
+        const hourValues = validResults.map(
+          (result) => result.hourly_distribution[hourStr] || 0,
+        );
         const sum = hourValues.reduce((total, value) => total + value, 0);
         combinedDistribution[hourStr] = sum;
-        
+
         // Debug for hours with high values
         if (sum > 50 || (hour >= 13 && hour <= 15)) {
-          console.log(`Hour ${hour}: servers [${serversToQuery.join(', ')}], values [${hourValues.join(', ')}], sum: ${sum}`);
+          console.log(
+            `Hour ${hour}: servers [${serversToQuery.join(", ")}], values [${hourValues.join(", ")}], sum: ${sum}`,
+          );
         }
       }
 
       return { hourly_distribution: combinedDistribution };
     } catch (error) {
-      console.error('Error getting combined hourly distribution:', error);
+      console.error("Error getting combined hourly distribution:", error);
       throw error;
     }
   }
@@ -439,7 +497,6 @@ export class CatwalkAPI {
       body: new URLSearchParams({ playerUuid, message }),
     });
   }
-
 }
 
 export const catwalkAPI = new CatwalkAPI();

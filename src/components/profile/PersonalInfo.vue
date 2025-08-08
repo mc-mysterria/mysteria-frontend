@@ -2,39 +2,39 @@
   <div class="personalInfoContainer">
     <img :src="currentAvatar" alt="User Avatar" @load="handleImageLoad" />
     <div class="personalInfo">
-      <p class="white">{{ t('personalInfo') }}:</p>
+      <p class="white">{{ t("personalInfo") }}:</p>
       <div class="NameRole">
-        <div
-          class="NameRoleBlock"
-          :title="t('nickname')"
-        >
-          <p>{{ t('nickname') }}</p>
+        <div class="NameRoleBlock" :title="t('nickname')">
+          <p>{{ t("nickname") }}</p>
           <div>
             {{
               displayedUser?.nickname ||
               displayedUser?.discord_id ||
-              t('unknown')
+              t("unknown")
             }}
           </div>
         </div>
         <div class="NameRoleBlock" :title="t('role')">
-          <p>{{ t('role') }}</p>
+          <p>{{ t("role") }}</p>
           <div :class="getRoleClass()">
             {{ displayRole }}
           </div>
         </div>
       </div>
       <div class="subscription-section" :title="t('subscription')">
-        <p>{{ t('subscription') }}</p>
+        <p>{{ t("subscription") }}</p>
         <div class="email">{{ subscription }}</div>
       </div>
       <div class="verification-section" :title="t('verification')">
-        <p>{{ t('verification') }}</p>
-        <div class="verification-status" :class="{
-          'verified': displayedUser?.verified,
-          'unverified': !displayedUser?.verified
-        }">
-          {{ displayedUser?.verified ? t('verified') : t('notVerified') }}
+        <p>{{ t("verification") }}</p>
+        <div
+          class="verification-status"
+          :class="{
+            verified: displayedUser?.verified,
+            unverified: !displayedUser?.verified,
+          }"
+        >
+          {{ displayedUser?.verified ? t("verified") : t("notVerified") }}
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@ const displayRole = computed(() => {
   if (props.displayedUser?.role) {
     return props.displayedUser.role;
   }
-  
+
   // Use the current role field from the API
   if (!props.displayedUser?.role) {
     return "Гравець";

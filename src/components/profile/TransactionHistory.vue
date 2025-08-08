@@ -4,7 +4,11 @@
       <div class="transaction-header">
         <h3>Історія транзакцій</h3>
         <div class="transaction-filters">
-          <select v-model="selectedType" @change="() => fetchTransactions()" class="filter-select">
+          <select
+            v-model="selectedType"
+            @change="() => fetchTransactions()"
+            class="filter-select"
+          >
             <option value="">Всі типи</option>
             <option value="PURCHASE">Покупки</option>
             <option value="DONATION">Донати</option>
@@ -28,23 +32,32 @@
       </div>
 
       <div v-else class="transactions-list">
-        <div 
-          v-for="transaction in transactions" 
+        <div
+          v-for="transaction in transactions"
           :key="transaction.id"
           class="transaction-item"
           :class="getTransactionClass(transaction.type)"
         >
           <div class="transaction-main">
             <div class="transaction-info">
-              <h4 class="transaction-description">{{ transaction.description }}</h4>
-              <p class="transaction-type">{{ getTransactionTypeLabel(transaction.type) }}</p>
-              <p class="transaction-date">{{ formatDate(transaction.createdAt) }}</p>
+              <h4 class="transaction-description">
+                {{ transaction.description }}
+              </h4>
+              <p class="transaction-type">
+                {{ getTransactionTypeLabel(transaction.type) }}
+              </p>
+              <p class="transaction-date">
+                {{ formatDate(transaction.createdAt) }}
+              </p>
             </div>
-            <div class="transaction-amount" :class="getAmountClass(transaction.amount)">
+            <div
+              class="transaction-amount"
+              :class="getAmountClass(transaction.amount)"
+            >
               {{ formatAmount(transaction.amount) }}₴
             </div>
           </div>
-          
+
           <div v-if="transaction.metadata" class="transaction-metadata">
             <details>
               <summary>Деталі</summary>
@@ -55,12 +68,12 @@
       </div>
 
       <div v-if="hasMorePages" class="pagination">
-        <button 
-          @click="loadMoreTransactions" 
+        <button
+          @click="loadMoreTransactions"
           :disabled="loadingMore"
           class="load-more-btn"
         >
-          {{ loadingMore ? t('loading2') : t('loadMore') }}
+          {{ loadingMore ? t("loading2") : t("loadMore") }}
         </button>
       </div>
     </div>
@@ -68,10 +81,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useNotification } from '@/services/useNotification';
-import { useI18n } from '@/composables/useI18n';
-import type { UserResponse } from '@/types/users';
+import { ref, onMounted } from "vue";
+import { useNotification } from "@/services/useNotification";
+import { useI18n } from "@/composables/useI18n";
+import type { UserResponse } from "@/types/users";
 
 const props = defineProps<{
   displayedUser: UserResponse | null;
@@ -82,7 +95,15 @@ interface TransactionDto {
   id: string;
   userId: string;
   amount: number;
-  type: 'PURCHASE' | 'DONATION' | 'VOTE_REWARD' | 'ADMIN_ADJUST' | 'REFUND' | 'SUBSCRIPTION' | 'PENALTY' | 'REWARD';
+  type:
+    | "PURCHASE"
+    | "DONATION"
+    | "VOTE_REWARD"
+    | "ADMIN_ADJUST"
+    | "REFUND"
+    | "SUBSCRIPTION"
+    | "PENALTY"
+    | "REWARD";
   description: string;
   metadata?: Record<string, any>;
   serverId?: string;
@@ -103,7 +124,7 @@ const { t } = useI18n();
 const loading = ref(false);
 const loadingMore = ref(false);
 const transactions = ref<TransactionDto[]>([]);
-const selectedType = ref<string>('');
+const selectedType = ref<string>("");
 const currentPage = ref(0);
 const hasMorePages = ref(false);
 
@@ -119,39 +140,38 @@ const fetchTransactions = async (reset = true) => {
   try {
     const params = new URLSearchParams({
       page: currentPage.value.toString(),
-      size: '10',
-      sort: 'createdAt,desc'
+      size: "10",
+      sort: "createdAt,desc",
     });
 
     if (selectedType.value) {
-      params.append('type', selectedType.value);
+      params.append("type", selectedType.value);
     }
 
     const response = await fetch(`/api/user/transactions?${params}`, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch transactions');
+      throw new Error("Failed to fetch transactions");
     }
 
     const data: TransactionPage = await response.json();
-    
+
     if (reset) {
       transactions.value = data.content;
     } else {
       transactions.value.push(...data.content);
     }
-    
+
     hasMorePages.value = !data.last;
     currentPage.value++;
-
   } catch (error) {
-    console.error('Failed to fetch transactions:', error);
-    show(t('errorLoadingTransactionHistory'), { type: 'error' });
+    console.error("Failed to fetch transactions:", error);
+    show(t("errorLoadingTransactionHistory"), { type: "error" });
   } finally {
     loading.value = false;
     loadingMore.value = false;
@@ -163,26 +183,26 @@ const loadMoreTransactions = () => {
 };
 
 const getTransactionTypeLabel = (type: string): string => {
-  const labels = t('transactionTypes') as unknown as Record<string, string>;
+  const labels = t("transactionTypes") as unknown as Record<string, string>;
   return labels[type] || type;
 };
 
 const getTransactionClass = (type: string): string => {
   const classes: Record<string, string> = {
-    'PURCHASE': 'transaction-purchase',
-    'DONATION': 'transaction-donation',
-    'VOTE_REWARD': 'transaction-reward',
-    'ADMIN_ADJUST': 'transaction-admin',
-    'REFUND': 'transaction-refund',
-    'SUBSCRIPTION': 'transaction-subscription',
-    'PENALTY': 'transaction-penalty',
-    'REWARD': 'transaction-reward'
+    PURCHASE: "transaction-purchase",
+    DONATION: "transaction-donation",
+    VOTE_REWARD: "transaction-reward",
+    ADMIN_ADJUST: "transaction-admin",
+    REFUND: "transaction-refund",
+    SUBSCRIPTION: "transaction-subscription",
+    PENALTY: "transaction-penalty",
+    REWARD: "transaction-reward",
   };
-  return classes[type] || '';
+  return classes[type] || "";
 };
 
 const getAmountClass = (amount: number): string => {
-  return amount >= 0 ? 'amount-positive' : 'amount-negative';
+  return amount >= 0 ? "amount-positive" : "amount-negative";
 };
 
 const formatAmount = (amount: number): string => {
@@ -190,7 +210,7 @@ const formatAmount = (amount: number): string => {
 };
 
 const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleString('uk-UA');
+  return new Date(dateString).toLocaleString("uk-UA");
 };
 
 onMounted(() => {
@@ -272,8 +292,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .no-transactions {
@@ -449,18 +473,18 @@ onMounted(() => {
   .transaction-container {
     padding: 1.5rem;
   }
-  
+
   .transaction-header {
     flex-direction: column;
     gap: 1rem;
     align-items: stretch;
   }
-  
+
   .transaction-main {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .transaction-amount {
     text-align: center;
   }

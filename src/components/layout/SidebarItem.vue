@@ -26,7 +26,7 @@
           </div>
         </RouterLink>
       </div>
-      
+
       <div class="containerpoints">
         <div class="sidenavContainer">
           <div class="nav-section-title" v-show="!isCollapsed">Navigation</div>
@@ -43,12 +43,52 @@
               <div class="nav-icon-container">
                 <IconUser />
               </div>
-              <span v-show="!isCollapsed" class="link-text">{{ t('myProfile') }}</span>
+              <span v-show="!isCollapsed" class="link-text">{{
+                t("myProfile")
+              }}</span>
             </div>
             <div class="nav-item-indicator"></div>
           </RouterLink>
         </div>
-        
+
+        <div class="sidenavContainer" v-if="authStore.isPrivilegedUser">
+          <div class="nav-section-title" v-show="!isCollapsed">Admin</div>
+          <RouterLink
+            to="/edit/news"
+            :class="{
+              activeLink: $route.path.startsWith('/edit/news'),
+            }"
+            :title="isCollapsed ? 'Edit News' : ''"
+            class="nav-item"
+          >
+            <div class="nav-item-background"></div>
+            <div class="nav-item-content">
+              <div class="nav-icon-container">
+                <!-- Add an icon for news editing -->
+              </div>
+              <span v-show="!isCollapsed" class="link-text">Edit News</span>
+            </div>
+            <div class="nav-item-indicator"></div>
+          </RouterLink>
+          <RouterLink
+            to="/edit/wiki"
+            :class="{
+              activeLink: $route.path.startsWith('/edit/wiki'),
+            }"
+            :title="isCollapsed ? 'Edit Wiki' : ''"
+            class="nav-item"
+          >
+            <div class="nav-item-background"></div>
+            <div class="nav-item-content">
+              <div class="nav-icon-container">
+                <!-- Add an icon for wiki editing -->
+              </div>
+              <span v-show="!isCollapsed" class="link-text">Edit Wiki</span>
+            </div>
+            <div class="nav-item-indicator"></div>
+          </RouterLink>
+        </div>
+
         <div class="sidenavContainer bottom-container">
           <div class="nav-section-title" v-show="!isCollapsed">System</div>
           <a
@@ -62,7 +102,9 @@
               <div class="nav-icon-container">
                 <IconSignOut />
               </div>
-              <span v-show="!isCollapsed" class="link-text">{{ t('logout') }}</span>
+              <span v-show="!isCollapsed" class="link-text">{{
+                t("logout")
+              }}</span>
             </div>
             <div class="nav-item-indicator logout-indicator"></div>
           </a>
@@ -102,7 +144,6 @@ import { useI18n } from "@/composables/useI18n";
 import IconLogo from "@/assets/icons/IconLogo.vue";
 import IconUser from "@/assets/icons/IconUser.vue";
 import IconSignOut from "@/assets/icons/IconSignOut.vue";
-
 
 const router = useRouter();
 const { show } = useNotification();
@@ -146,7 +187,6 @@ const handleMobileSidebarToggle = () => {
 const profileLink = computed(() => {
   return "/profile";
 });
-
 
 const handleLogout = async () => {
   try {
@@ -220,25 +260,48 @@ export default {};
 }
 
 .sidenav {
-  height: 100vh;
+  height: calc(100vh - 80px);
   width: 280px;
   padding: 0;
   position: fixed;
-  top: 0;
+  top: 80px;
   left: 0;
-  background: 
-    linear-gradient(180deg, rgba(2, 6, 23, 0.98) 0%, rgba(15, 23, 42, 0.95) 100%),
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2, 6, 23, 0.98) 0%,
+      rgba(15, 23, 42, 0.95) 100%
+    ),
     /* Subtle vertical lines pattern */
-    linear-gradient(90deg, transparent 49%, rgba(16, 185, 129, 0.02) 50%, transparent 51%),
-    linear-gradient(0deg, transparent 49%, rgba(34, 197, 94, 0.015) 50%, transparent 51%);
-  background-size: 100% 100%, 80px 80px, 120px 120px;
+      linear-gradient(
+        90deg,
+        transparent 49%,
+        rgba(16, 185, 129, 0.02) 50%,
+        transparent 51%
+      ),
+    linear-gradient(
+      0deg,
+      transparent 49%,
+      rgba(34, 197, 94, 0.015) 50%,
+      transparent 51%
+    );
+  background-size:
+    100% 100%,
+    80px 80px,
+    120px 120px;
   border-right: 2px solid transparent;
-  border-image: linear-gradient(180deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.2), transparent) 1;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  border-image: linear-gradient(
+      180deg,
+      rgba(16, 185, 129, 0.2),
+      rgba(34, 197, 94, 0.2),
+      transparent
+    )
+    1;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   overflow: hidden;
   backdrop-filter: blur(20px);
   z-index: 50;
-  box-shadow: 
+  box-shadow:
     4px 0 30px rgba(0, 0, 0, 0.3),
     inset -1px 0 0 rgba(148, 163, 184, 0.1);
 }
@@ -274,12 +337,20 @@ export default {};
 }
 
 .sidebar-content::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(16, 185, 129, 0.4), rgba(34, 197, 94, 0.4));
+  background: linear-gradient(
+    180deg,
+    rgba(16, 185, 129, 0.4),
+    rgba(34, 197, 94, 0.4)
+  );
   border-radius: 2px;
 }
 
 .sidebar-content::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(16, 185, 129, 0.6), rgba(34, 197, 94, 0.6));
+  background: linear-gradient(
+    180deg,
+    rgba(16, 185, 129, 0.6),
+    rgba(34, 197, 94, 0.6)
+  );
 }
 
 .containerpoints {
@@ -319,7 +390,11 @@ export default {};
 .nav-item-background {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.6));
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.8),
+    rgba(30, 41, 59, 0.6)
+  );
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
 }
@@ -368,13 +443,17 @@ export default {};
 .nav-item:hover {
   border-color: rgba(16, 185, 129, 0.4);
   transform: translateX(6px);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(16, 185, 129, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .nav-item:hover .nav-item-background {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(34, 197, 94, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.15),
+    rgba(34, 197, 94, 0.1)
+  );
 }
 
 .nav-item:hover .nav-item-indicator {
@@ -428,8 +507,12 @@ export default {};
 }
 
 @keyframes orbit {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .logo-text-container {
@@ -469,7 +552,7 @@ export default {};
   transform: translateY(-2px);
   background: rgba(15, 23, 42, 0.8);
   border-color: rgba(16, 185, 129, 0.3);
-  box-shadow: 
+  box-shadow:
     0 6px 25px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -502,7 +585,11 @@ export default {};
 }
 
 .logout-bg {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.1),
+    rgba(220, 38, 38, 0.1)
+  ) !important;
 }
 
 .logout-link:hover {
@@ -510,7 +597,11 @@ export default {};
 }
 
 .logout-link:hover .logout-bg {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.15)) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.2),
+    rgba(220, 38, 38, 0.15)
+  ) !important;
 }
 
 .logout-indicator {
@@ -537,7 +628,11 @@ export default {};
 .toggle-btn-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.1),
+    rgba(34, 197, 94, 0.1)
+  );
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -554,9 +649,13 @@ export default {};
 }
 
 .toggle-btn:hover .toggle-btn-bg {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.2));
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.2),
+    rgba(34, 197, 94, 0.2)
+  );
   border-color: rgba(16, 185, 129, 0.4);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(16, 185, 129, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -574,13 +673,17 @@ export default {};
 
 .activeLink {
   border-color: rgba(16, 185, 129, 0.6) !important;
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(16, 185, 129, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .activeLink .nav-item-background {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.15)) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.2),
+    rgba(34, 197, 94, 0.15)
+  ) !important;
 }
 
 .activeLink .nav-item-indicator {
@@ -631,7 +734,7 @@ export default {};
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   backdrop-filter: blur(10px);
-  box-shadow: 
+  box-shadow:
     0 2px 12px rgba(16, 185, 129, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -649,7 +752,7 @@ export default {};
   );
   border-color: rgba(16, 185, 129, 0.6);
   transform: translateX(6px);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(16, 185, 129, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }

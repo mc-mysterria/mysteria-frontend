@@ -1,14 +1,14 @@
 <template>
   <div class="title">
     <div class="hero-text" :class="{ 'hero-visible': isTextVisible }">
-      <h1>{{ t('serverName') }}</h1>
+      <h1>{{ t("serverName") }}</h1>
       <div class="subTitle">
         <p v-html="formatSubtitle(t('heroSubtitle'))"></p>
       </div>
       <div class="buttonContainer">
         <RouterLink to="/game" class="primary-button">
           <IconGamepad />
-          {{ t('joinServer') }}
+          {{ t("joinServer") }}
         </RouterLink>
         <a :href="wikiURL" rel="noopener noreferrer" class="secondary-button">
           <svg
@@ -27,11 +27,11 @@
               fill="#F0F1F5"
             />
           </svg>
-          {{ t('lorePathways') }}
+          {{ t("lorePathways") }}
         </a>
       </div>
       <p class="version">
-        {{ t('versionInfo') }}
+        {{ t("versionInfo") }}
       </p>
     </div>
     <img
@@ -55,10 +55,16 @@ const isPlanetVisible = ref(false);
 
 const formatSubtitle = (text: string) => {
   return text
-    .replace(/\n/g, '<br />')
-    .replace(/Lord of Mysteries/g, '<span class="violetText">Lord of Mysteries</span>')
+    .replace(/\n/g, "<br />")
+    .replace(
+      /Lord of Mysteries/g,
+      '<span class="violetText">Lord of Mysteries</span>',
+    )
     .replace(/pathways/g, '<span class="violetText">pathways</span>')
-    .replace(/Lord of the Mysteries/g, '<span class="violetText">Lord of the Mysteries</span>')
+    .replace(
+      /Lord of the Mysteries/g,
+      '<span class="violetText">Lord of the Mysteries</span>',
+    )
     .replace(/Потойбічний/g, '<span class="violetText">Потойбічний</span>')
     .replace(/Послідовність/g, '<span class="violetText">Послідовність</span>');
 };

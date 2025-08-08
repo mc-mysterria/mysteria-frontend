@@ -1,49 +1,49 @@
 <template>
   <div class="serverInfo">
-    <p class="serverTitle">{{ t('serverInformation') }}</p>
+    <p class="serverTitle">{{ t("serverInformation") }}</p>
     <div v-if="loading" class="loading-container">
       <div class="loading-spinner"></div>
-      <p>{{ t('loadingServerData') }}</p>
+      <p>{{ t("loadingServerData") }}</p>
     </div>
     <div v-else>
       <div class="infoContainer">
         <div class="infoBlock" :title="t('timePlayedTitle')">
-          <p>{{ t('timePlayed') }}</p>
-          <div class="info">{{ serverProfile?.playtime || t('unknown') }}</div>
+          <p>{{ t("timePlayed") }}</p>
+          <div class="info">{{ serverProfile?.playtime || t("unknown") }}</div>
         </div>
         <div class="infoBlock" :title="t('magicPathTitle')">
-          <p>{{ t('magicPathLabel') }}</p>
+          <p>{{ t("magicPathLabel") }}</p>
           <div class="info">
-            {{ serverProfile?.magic_path || t('unknown') }}
+            {{ serverProfile?.magic_path || t("unknown") }}
           </div>
         </div>
         <div class="infoBlock" :title="t('residenceTitle')">
-          <p>{{ t('livesIn') }}</p>
-          <div class="info">{{ serverProfile?.residence || t('unknown') }}</div>
+          <p>{{ t("livesIn") }}</p>
+          <div class="info">{{ serverProfile?.residence || t("unknown") }}</div>
         </div>
       </div>
 
       <div class="infoContainer infoContainerPC">
         <div class="infoBlockSecond">
-          <p>{{ t('magicLevel') }}</p>
+          <p>{{ t("magicLevel") }}</p>
           <div class="info">
-            {{ serverProfile?.magic_level ?? t('unknown') }}
+            {{ serverProfile?.magic_level ?? t("unknown") }}
           </div>
         </div>
         <div class="infoBlockSecond">
-          <p>{{ t('experienceLevel') }}</p>
+          <p>{{ t("experienceLevel") }}</p>
           <div class="info">
-            {{ serverProfile?.experience_level || t('unknown') }}
+            {{ serverProfile?.experience_level || t("unknown") }}
           </div>
         </div>
         <div class="infoBlockSecond">
-          <p>{{ t('warnings') }}</p>
+          <p>{{ t("warnings") }}</p>
           <div class="info green">{{ serverProfile?.warnings || "0 / 8" }}</div>
         </div>
         <div class="infoBlockSecond">
-          <p>{{ t('criminalRecords') }}</p>
+          <p>{{ t("criminalRecords") }}</p>
           <div class="info green">
-            {{ serverProfile?.criminal_records || t('unknown') }}
+            {{ serverProfile?.criminal_records || t("unknown") }}
           </div>
         </div>
       </div>
@@ -51,29 +51,29 @@
       <div class="infoContainer infoContainerMobile">
         <div class="infoMobile">
           <div class="infoBlockSecond">
-            <p>{{ t('magicLevel') }}</p>
+            <p>{{ t("magicLevel") }}</p>
             <div class="info">
-              {{ serverProfile?.magic_level ?? t('unknown') }}
+              {{ serverProfile?.magic_level ?? t("unknown") }}
             </div>
           </div>
           <div class="infoBlockSecond">
-            <p>{{ t('experienceLevel') }}</p>
+            <p>{{ t("experienceLevel") }}</p>
             <div class="info">
-              {{ serverProfile?.experience_level || t('unknown') }}
+              {{ serverProfile?.experience_level || t("unknown") }}
             </div>
           </div>
         </div>
         <div class="infoMobile">
           <div class="infoBlockSecond">
-            <p>{{ t('warnings') }}</p>
+            <p>{{ t("warnings") }}</p>
             <div class="info green">
               {{ serverProfile?.warnings || "0 / 8" }}
             </div>
           </div>
           <div class="infoBlockSecond">
-            <p>{{ t('criminalRecords') }}</p>
+            <p>{{ t("criminalRecords") }}</p>
             <div class="info green">
-              {{ serverProfile?.criminal_records || t('unknown') }}
+              {{ serverProfile?.criminal_records || t("unknown") }}
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from '@/composables/useI18n';
+import { useI18n } from "@/composables/useI18n";
 
 const { t } = useI18n();
 

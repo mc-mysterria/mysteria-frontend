@@ -37,10 +37,13 @@ const handlePurchase = (itemId: string) => {
 
   // Check if account is verified (has nickname) before allowing purchase
   if (!profile.value?.nickname) {
-    show("Для покупки необхідно налаштувати профіль. Перейдіть до профілю та додайте нікнейм.", { 
-      type: "error", 
-      duration: 5000 
-    });
+    show(
+      "Для покупки необхідно налаштувати профіль. Перейдіть до профілю та додайте нікнейм.",
+      {
+        type: "error",
+        duration: 5000,
+      },
+    );
     return;
   }
 
@@ -56,17 +59,22 @@ const handlePurchase = (itemId: string) => {
 
   if (!item.is_active) {
     console.log("Item not active, showing warning notification");
-    show("Цей товар наразі недоступний для покупки", { type: "warn", duration: 4000 });
+    show("Цей товар наразі недоступний для покупки", {
+      type: "warn",
+      duration: 4000,
+    });
     return;
   }
 
   console.log("Showing purchase preparation notification");
 
-  const requiresServerSelection = item.server_availability?.mode === "selectable";
+  const requiresServerSelection =
+    item.server_availability?.mode === "selectable";
 
-  const existingServer = shopStore.currentPurchase?.id === item.id
-    ? shopStore.currentPurchase.selectedServer
-    : undefined;
+  const existingServer =
+    shopStore.currentPurchase?.id === item.id
+      ? shopStore.currentPurchase.selectedServer
+      : undefined;
 
   shopStore.currentPurchase = {
     id: item.id,
@@ -137,9 +145,9 @@ onMounted(() => {
 
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 0 10px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
 }
 
 .shop-item-card {
@@ -154,10 +162,18 @@ onMounted(() => {
   transform: translateY(0);
 }
 
+@media (max-width: 768px) {
+  .items-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+}
+
 @media (max-width: 576px) {
   .items-grid {
     grid-template-columns: 1fr;
-    padding: 0;
+    gap: 16px;
+    margin-top: 24px;
   }
 }
 </style>

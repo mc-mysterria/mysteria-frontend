@@ -42,7 +42,7 @@ onMounted(async () => {
     }
 
     console.log("Processing auth code with new JWT system...");
-    
+
     // Process the Discord callback directly without calling checkAuthCode
     // which would cause a duplicate call
     const authResponse = await authStore.processDiscordCallback(code);

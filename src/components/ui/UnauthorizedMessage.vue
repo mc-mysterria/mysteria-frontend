@@ -5,20 +5,22 @@
         <div class="unauthorized-icon">
           <i class="fa-solid fa-lock"></i>
         </div>
-        <h2 class="unauthorized-title">{{ title || t('authenticationRequired') }}</h2>
+        <h2 class="unauthorized-title">
+          {{ title || t("authenticationRequired") }}
+        </h2>
         <p class="unauthorized-text">{{ message }}</p>
         <div class="unauthorized-features">
           <div class="feature-item" v-if="showFeatures">
             <i class="fa-solid fa-shopping-cart"></i>
-            <span>{{ t('accessExclusiveItems') }}</span>
+            <span>{{ t("accessExclusiveItems") }}</span>
           </div>
           <div class="feature-item" v-if="showFeatures">
             <i class="fa-solid fa-coins"></i>
-            <span>{{ t('manageYourBalance') }}</span>
+            <span>{{ t("manageYourBalance") }}</span>
           </div>
         </div>
         <AuthButton class="enhanced-auth-button"></AuthButton>
-        <p class="disclaimer">{{ disclaimer || t('secureLoginDisclaimer') }}</p>
+        <p class="disclaimer">{{ disclaimer || t("secureLoginDisclaimer") }}</p>
       </div>
     </div>
   </div>
@@ -69,7 +71,7 @@ withDefaults(defineProps<Props>(), {
   max-width: 600px;
   padding: 35px 35px;
   text-align: center;
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.3),
     0 8px 16px rgba(108, 93, 211, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -79,13 +81,18 @@ withDefaults(defineProps<Props>(), {
 }
 
 .unauthorized-message::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.5), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(74, 222, 128, 0.5),
+    transparent
+  );
 }
 
 .unauthorized-icon {
@@ -107,7 +114,8 @@ withDefaults(defineProps<Props>(), {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: 0 8px 32px rgba(74, 222, 128, 0.3);
   }
@@ -193,45 +201,45 @@ withDefaults(defineProps<Props>(), {
     padding: 15px;
     min-height: calc(100vh - 150px);
   }
-  
+
   .unauthorized-message {
     padding: 35px 25px;
     max-width: 100%;
   }
-  
+
   .unauthorized-icon {
     width: 65px;
     height: 65px;
     margin-bottom: 20px;
   }
-  
+
   .unauthorized-icon i {
     font-size: 26px;
   }
-  
+
   .unauthorized-title {
     font-size: 24px;
     margin-bottom: 12px;
   }
-  
+
   .unauthorized-text {
     font-size: 16px;
     margin-bottom: 25px;
   }
-  
+
   .unauthorized-features {
     margin-bottom: 25px;
   }
-  
+
   .feature-item {
     padding: 10px 16px;
     gap: 10px;
   }
-  
+
   .feature-item span {
     font-size: 13px;
   }
-  
+
   .enhanced-auth-button {
     transform: scale(1);
   }
@@ -242,28 +250,28 @@ withDefaults(defineProps<Props>(), {
     padding: 30px 20px;
     border-radius: 16px;
   }
-  
+
   .unauthorized-icon {
     width: 55px;
     height: 55px;
   }
-  
+
   .unauthorized-icon i {
     font-size: 22px;
   }
-  
+
   .unauthorized-title {
     font-size: 20px;
   }
-  
+
   .unauthorized-text {
     font-size: 14px;
   }
-  
+
   .feature-item {
     padding: 8px 14px;
   }
-  
+
   .feature-item span {
     font-size: 12px;
   }

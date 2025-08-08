@@ -1,30 +1,39 @@
 <template>
-  <div class="verification-panel" v-if="props.isOwnProfile && !props.displayedUser?.verified">
+  <div
+    class="verification-panel"
+    v-if="props.isOwnProfile && !props.displayedUser?.verified"
+  >
     <div class="verification-container">
-      <h3>{{ t('verifyMinecraftAccount') }}</h3>
-      <p class="verification-description" v-html="t('verificationDescription')">
-      </p>
-      
+      <h3>{{ t("verifyMinecraftAccount") }}</h3>
+      <p
+        class="verification-description"
+        v-html="t('verificationDescription')"
+      ></p>
+
       <div class="verification-actions">
-        <button 
-          @click="generateCode" 
+        <button
+          @click="generateCode"
           :disabled="isGenerating || !!verificationCode"
           class="generate-btn"
         >
-          {{ isGenerating ? t('generating') : t('generateCode') }}
+          {{ isGenerating ? t("generating") : t("generateCode") }}
         </button>
-        
+
         <div v-if="verificationCode" class="code-display">
-          <p class="code-label">{{ t('yourVerificationCode') }}</p>
+          <p class="code-label">{{ t("yourVerificationCode") }}</p>
           <div class="code-container">
             <code class="verification-code">{{ verificationCode.code }}</code>
             <button @click="copyCode" class="copy-btn">
-              {{ copied ? '✓' : '📋' }}
+              {{ copied ? "✓" : "📋" }}
             </button>
           </div>
-          <p class="code-expires">{{ t('codeValidUntil') }} {{ formatExpiry(verificationCode.expiresAt) }}</p>
+          <p class="code-expires">
+            {{ t("codeValidUntil") }}
+            {{ formatExpiry(verificationCode.expiresAt) }}
+          </p>
           <p class="command-hint">
-            {{ t('enterOnServer') }} <code>/verify {{ verificationCode.code }}</code>
+            {{ t("enterOnServer") }}
+            <code>/verify {{ verificationCode.code }}</code>
           </p>
         </div>
       </div>
@@ -33,10 +42,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useNotification } from '@/services/useNotification';
-import { useI18n } from '@/composables/useI18n';
-import type { UserResponse } from '@/types/users';
+import { ref } from "vue";
+import { useNotification } from "@/services/useNotification";
+import { useI18n } from "@/composables/useI18n";
+import type { UserResponse } from "@/types/users";
 
 const props = defineProps<{
   displayedUser: UserResponse | null;
@@ -56,26 +65,26 @@ const copied = ref(false);
 
 const generateCode = async () => {
   isGenerating.value = true;
-  
+
   try {
-    const response = await fetch('/api/user/verify', {
-      method: 'POST',
+    const response = await fetch("/api/user/verify", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        "Content-Type": "application/json",
+      },
     });
-    
+
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to generate code');
+      throw new Error(errorData.message || "Failed to generate code");
     }
-    
+
     verificationCode.value = await response.json();
-    show('Код верифікації згенеровано!', { type: 'success' });
+    show("Код верифікації згенеровано!", { type: "success" });
   } catch (error) {
-    console.error('Failed to generate verification code:', error);
-    show('Помилка при генеруванні коду верифікації', { type: 'error' });
+    console.error("Failed to generate verification code:", error);
+    show("Помилка при генеруванні коду верифікації", { type: "error" });
   } finally {
     isGenerating.value = false;
   }
@@ -83,22 +92,22 @@ const generateCode = async () => {
 
 const copyCode = async () => {
   if (!verificationCode.value) return;
-  
+
   try {
     await navigator.clipboard.writeText(verificationCode.value.code);
     copied.value = true;
-    show('Код скопійовано!', { type: 'info' });
+    show("Код скопійовано!", { type: "info" });
     setTimeout(() => {
       copied.value = false;
     }, 2000);
   } catch (error) {
-    console.error('Failed to copy code:', error);
-    show('Помилка при копіюванні коду', { type: 'error' });
+    console.error("Failed to copy code:", error);
+    show("Помилка при копіюванні коду", { type: "error" });
   }
 };
 
 const formatExpiry = (expiresAt: string) => {
-  return new Date(expiresAt).toLocaleString('uk-UA');
+  return new Date(expiresAt).toLocaleString("uk-UA");
 };
 </script>
 
@@ -135,7 +144,7 @@ const formatExpiry = (expiresAt: string) => {
   background: rgba(255, 255, 255, 0.1);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   color: #22d3ee;
 }
 
@@ -196,7 +205,7 @@ const formatExpiry = (expiresAt: string) => {
   color: #22c55e;
   padding: 1rem 1.5rem;
   border-radius: 8px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 1.5rem;
   font-weight: bold;
   letter-spacing: 2px;
@@ -235,7 +244,7 @@ const formatExpiry = (expiresAt: string) => {
   background: rgba(139, 126, 255, 0.1);
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
 }
 
 @keyframes fadeInUp {
@@ -253,12 +262,12 @@ const formatExpiry = (expiresAt: string) => {
   .verification-panel {
     padding: 1.5rem;
   }
-  
+
   .code-container {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .verification-code {
     font-size: 1.2rem;
     width: 100%;

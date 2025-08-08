@@ -2,30 +2,27 @@
   <header class="main-header">
     <RouterLink to="/" @click="closeMobileNav" class="header-logo-link">
       <IconLogo />
+      <span class="logo-text">Mysterria</span>
     </RouterLink>
 
     <nav class="navigation" ref="navigationRef">
-      <div class="nav-links-container">
-        <component
-          v-for="link in navigationLinks"
-          :key="link.path"
-          :is="link.external ? 'a' : 'RouterLink'"
-          v-bind="getNavLinkProps(link)"
-          :class="[
-            'nav-link',
-            { active: !link.external && route.path === link.path },
-          ]"
-          :data-path="link.path"
-          @mouseenter="handleMouseEnter"
-          @mouseleave="handleMouseLeave"
-        >
-          {{ link.title }}
-        </component>
-      </div>
-      <div class="nav-underline" ref="underlineRef"></div>
+      <component
+        v-for="link in navigationLinks"
+        :key="link.path"
+        :is="link.external ? 'a' : 'RouterLink'"
+        v-bind="getNavLinkProps(link)"
+        :class="[
+          'nav-link',
+          { active: !link.external && route.path === link.path },
+        ]"
+        :data-path="link.path"
+      >
+        {{ link.title }}
+      </component>
     </nav>
 
     <div class="header-actions">
+      <ThemeToggle />
       <LanguageSelector />
       <BalanceButton />
       <AuthButton class="auth-desktop" />
@@ -84,11 +81,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, computed, watch, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import AuthButton from "@/components/ui/AuthButton.vue";
 import BalanceButton from "@/components/ui/BalanceButton.vue";
 import LanguageSelector from "@/components/ui/LanguageSelector.vue";
+import ThemeToggle from "@/components/ui/ThemeToggle.vue";
 import IconLogo from "@/assets/icons/IconLogo.vue";
 import IconNavbar from "@/assets/icons/IconNavbar.vue";
 import { useI18n } from "@/composables/useI18n";
@@ -103,28 +101,13 @@ interface NavLink {
 
 const route = useRoute();
 const { t } = useI18n();
-const navigationRef = ref<HTMLElement>();
-const underlineRef = ref<HTMLElement>();
 const isMobileNavOpen = ref(false);
 
-let activeElement: HTMLElement | null = null;
-let resizeObserver: ResizeObserver | null = null;
-let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-
-const wikiURL = import.meta.env.VITE_WIKI_URL;
-
 const navigationLinks = computed<NavLink[]>(() => [
-  { path: "/", title: t('navHome') || 'Home' },
-  { path: "/game", title: t('navGame') || 'Game' },
-  { path: "/shop", title: t('navShop') || 'Shop' },
-  { path: "/rules", title: t('navRules') || 'Rules' },
-  {
-    path: wikiURL || "#",
-    title: t('navWiki') || 'Wiki',
-    external: true,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
+  { path: "/", title: t("navHome") || "Home" },
+  { path: "/guide", title: t("navGame") || "Guide" },
+  { path: "/shop", title: t("navShop") || "Shop" },
+  { path: "/wiki", title: t("navWiki") || "Wiki" },
 ]);
 
 const getNavLinkProps = (link: NavLink) => {
@@ -140,67 +123,6 @@ const getNavLinkProps = (link: NavLink) => {
   };
 };
 
-const findActiveElement = (): HTMLElement | null => {
-  if (!navigationRef.value) return null;
-
-  const activeLink = navigationRef.value.querySelector(
-    `.nav-link[data-path="${route.path}"]`,
-  ) as HTMLElement;
-
-  return activeLink || null;
-};
-
-const updateUnderline = (
-  targetElement: HTMLElement | null,
-  immediate = false,
-) => {
-  if (!underlineRef.value || !navigationRef.value) return;
-
-  const underline = underlineRef.value;
-
-  if (immediate) {
-    underline.style.transition = "none";
-  }
-
-  if (targetElement) {
-    const navRect = navigationRef.value.getBoundingClientRect();
-    const targetRect = targetElement.getBoundingClientRect();
-
-    const width = targetElement.offsetWidth;
-    const left = targetRect.left - navRect.left;
-
-    underline.style.width = `${width}px`;
-    underline.style.left = `${left}px`;
-    underline.style.opacity = "1";
-  } else {
-    underline.style.opacity = "0";
-  }
-
-  if (immediate) {
-    requestAnimationFrame(() => {
-      underline.style.transition = "";
-    });
-  }
-};
-
-const setActiveUnderline = (immediate = false) => {
-  activeElement = findActiveElement();
-  updateUnderline(activeElement, immediate);
-};
-
-const handleMouseEnter = (event: MouseEvent) => {
-  if (debounceTimer) clearTimeout(debounceTimer);
-  const target = event.currentTarget as HTMLElement;
-  updateUnderline(target);
-};
-
-const handleMouseLeave = () => {
-  if (debounceTimer) clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    updateUnderline(activeElement);
-  }, 100);
-};
-
 const toggleMobileNav = () => {
   isMobileNavOpen.value = !isMobileNavOpen.value;
 };
@@ -208,14 +130,6 @@ const toggleMobileNav = () => {
 const closeMobileNav = () => {
   isMobileNavOpen.value = false;
 };
-
-watch(
-  () => route.path,
-  () => {
-    nextTick(() => setActiveUnderline());
-  },
-  { immediate: true },
-);
 
 watch(isMobileNavOpen, (isOpen) => {
   if (isOpen) {
@@ -225,20 +139,8 @@ watch(isMobileNavOpen, (isOpen) => {
   }
 });
 
-onMounted(() => {
-  nextTick(() => setActiveUnderline(true));
-
-  if (navigationRef.value) {
-    resizeObserver = new ResizeObserver(() => {
-      nextTick(() => setActiveUnderline(true));
-    });
-    resizeObserver.observe(navigationRef.value);
-  }
-});
-
 onUnmounted(() => {
   document.body.style.overflow = "";
-  resizeObserver?.disconnect();
 });
 </script>
 
@@ -248,107 +150,73 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 90px;
-  max-width: 1600px;
+  height: 64px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 32px;
-  gap: 40px;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  padding: 0 16px;
+  gap: 24px;
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
   z-index: 1000;
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.9) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 24px;
-  margin-top: 12px;
-  box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.25),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .header-logo-link {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  padding: 8px 16px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 8px;
+  text-decoration: none;
+  color: var(--myst-ink);
+  transition: all 0.3s ease;
 }
 
 .header-logo-link:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.2));
+  color: var(--myst-gold);
+}
+
+.logo-text {
+  font-family: "MontserratSemiBold", serif;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .navigation {
-  position: relative;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  min-width: 0;
-  background: rgba(15, 23, 42, 0.6);
-  border-radius: 20px;
-  padding: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.1);
-}
-
-.nav-links-container {
   display: flex;
   align-items: center;
-  gap: 4px;
-  position: relative;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .navigation {
+    display: none;
+  }
 }
 
 .nav-link {
-  position: relative;
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: #a1a1aa;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 60px;
+  text-align: center;
   display: flex;
   align-items: center;
-  padding: 14px 24px;
-  color: #e2e8f0;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  white-space: nowrap;
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  outline: none;
-  letter-spacing: 0.025em;
-  background: transparent;
-  border: 1px solid transparent;
-}
-
-.nav-link:focus-visible {
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.4);
-  border-color: rgba(16, 185, 129, 0.6);
+  justify-content: center;
+  height: 40px;
 }
 
 .nav-link:hover {
-  color: #ffffff;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(34, 197, 94, 0.1));
-  border-color: rgba(16, 185, 129, 0.3);
-  transform: translateY(-1px);
+  color: var(--myst-ink-strong);
 }
 
 .nav-link.active {
-  color: #ffffff;
-  background: linear-gradient(135deg, #10b981, #22c55e);
-  border-color: rgba(16, 185, 129, 0.4);
-  box-shadow:
-    0 2px 8px rgba(16, 185, 129, 0.2),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-}
-
-.nav-underline {
-  position: absolute;
-  bottom: -6px;
-  height: 2px;
-  background: linear-gradient(90deg, #10b981, #22c55e);
-  border-radius: 1px;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-  will-change: left, opacity;
+  color: var(--myst-ink-strong);
+  background: color-mix(in srgb, white 5%, transparent);
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
 }
 
 .header-actions {
@@ -356,29 +224,36 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
-  background: rgba(15, 23, 42, 0.6);
-  padding: 8px 12px;
-  border-radius: 18px;
-  border: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 .mobile-nav-toggle {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  color: #e2e8f0;
+  width: 40px;
+  height: 40px;
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
+  color: var(--myst-ink);
   cursor: pointer;
-  border-radius: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
 }
 
 .mobile-nav-toggle:hover {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.2));
-  transform: scale(1.02);
+  background: color-mix(in srgb, white 5%, transparent);
+  border-color: color-mix(in srgb, white 30%, transparent);
+}
+
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
+  .auth-desktop {
+    display: none;
+  }
 }
 
 .mobile-nav-overlay {
@@ -391,53 +266,49 @@ onUnmounted(() => {
 .mobile-nav-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
 }
 
 .mobile-nav {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 320px;
   height: 100vh;
-  background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-  border-right: 1px solid rgba(148, 163, 184, 0.2);
+  background: var(--myst-bg);
+  border-right: 1px solid color-mix(in srgb, white 10%, transparent);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-  box-shadow: 20px 0 40px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
 .mobile-nav-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 28px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-  background: rgba(15, 23, 42, 0.8);
+  padding: 16px;
+  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
 }
 
 .mobile-nav-close {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 12px;
-  color: #f87171;
-  font-size: 1.4rem;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
+  border-radius: 6px;
+  color: var(--myst-ink);
+  font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
 }
 
 .mobile-nav-close:hover {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  background: color-mix(in srgb, white 5%, transparent);
+  border-color: color-mix(in srgb, white 30%, transparent);
 }
 
 .mobile-nav-content {
@@ -467,7 +338,11 @@ onUnmounted(() => {
 
 .mobile-nav-link.active {
   color: #ffffff;
-  background: linear-gradient(90deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.1));
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.2),
+    rgba(34, 197, 94, 0.1)
+  );
   border-left-color: #22c55e;
   box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.1) inset;
 }
@@ -505,70 +380,5 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 992px) {
-  .main-header {
-    height: 78px;
-    padding: 0 24px;
-    margin-top: 8px;
-  }
-
-  .nav-links-container {
-    gap: 2px;
-  }
-
-  .nav-link {
-    padding: 12px 18px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .main-header {
-    height: 70px;
-    padding: 0 20px;
-    border-radius: 20px;
-  }
-
-  .navigation {
-    display: none;
-  }
-
-  .auth-desktop {
-    display: none;
-  }
-
-  .mobile-nav-toggle {
-    display: flex;
-  }
-
-  .header-actions {
-    padding: 6px 8px;
-    gap: 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-header {
-    padding: 0 16px;
-    gap: 20px;
-    margin-top: 6px;
-  }
-
-  .mobile-nav {
-    max-width: 320px;
-  }
-
-  .mobile-nav-header {
-    padding: 20px 24px;
-  }
-
-  .mobile-nav-link {
-    padding: 16px 24px;
-    font-size: 1rem;
-  }
-
-  .mobile-nav-auth {
-    padding: 0 24px;
-  }
-}
+/* Remove old styles - they're replaced by simpler modern approach */
 </style>

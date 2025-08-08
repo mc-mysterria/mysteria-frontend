@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="profile && !profile.nickname"
-    class="nickname-input-container"
-  >
+  <div v-if="profile && !profile.nickname" class="nickname-input-container">
     <div class="unauthorized-message">
       <p>Для купівлі чогось потрібно спочатку вказати нікнейм Minecraft</p>
       <div class="input-container">
@@ -41,7 +38,7 @@ const isProcessing = ref(false);
 
 const handleSave = async () => {
   if (!nicknameInput.value.trim()) {
-    show(t('nicknameCannotBeEmpty'), { type: "error" });
+    show(t("nicknameCannotBeEmpty"), { type: "error" });
     return;
   }
 
@@ -49,7 +46,7 @@ const handleSave = async () => {
 
   try {
     await userStore.updateNickname(nicknameInput.value.trim());
-    show(t('nicknameSavedSuccessfully'), { type: "info" });
+    show(t("nicknameSavedSuccessfully"), { type: "info" });
   } catch {
   } finally {
     isProcessing.value = false;

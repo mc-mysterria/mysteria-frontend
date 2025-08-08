@@ -4,8 +4,12 @@
       <h1 class="dashboard-title fade-in-up">{{ titleText }}</h1>
 
       <!-- Server Selector -->
-      <div v-if="showServerSelector" class="server-selector fade-in-up" :style="{ 'animation-delay': '0.1s' }">
-        <label for="server-select">{{ t('server') }}:</label>
+      <div
+        v-if="showServerSelector"
+        class="server-selector fade-in-up"
+        :style="{ 'animation-delay': '0.1s' }"
+      >
+        <label for="server-select">{{ t("server") }}:</label>
         <DropdownSelect
           v-model="selectedServer"
           :options="serverOptions"
@@ -136,9 +140,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, onUnmounted, ref, watch, nextTick} from "vue";
-import {catwalkAPI, getUkrServerName} from "@/utils/api/catwalk";
-import type {StatsSummary, TopPlayer, HourlyDistribution} from "@/types/catwalk";
+import { computed, onMounted, onUnmounted, ref, watch, nextTick } from "vue";
+import { catwalkAPI, getUkrServerName } from "@/utils/api/catwalk";
+import type {
+  StatsSummary,
+  TopPlayer,
+  HourlyDistribution,
+} from "@/types/catwalk";
 import DropdownSelect from "../ui/DropdownSelect.vue";
 import { useI18n } from "@/composables/useI18n";
 import * as echarts from "echarts/core";
@@ -169,7 +177,6 @@ type PlayerItem = {
   playtime: number;
   online: boolean;
 };
-
 
 interface LocalStatsSummary {
   totalPlayers: number;
@@ -205,13 +212,13 @@ const props = withDefaults(
     showServerSelector?: boolean;
   }>(),
   {
-    title: '',
-    playerCountLabel: '',
-    onlineLabel: '',
-    newPlayersLabel: '',
-    avgPlaytimeLabel: '',
-    playersOnlineLabel: '',
-    topPlayersLabel: '',
+    title: "",
+    playerCountLabel: "",
+    onlineLabel: "",
+    newPlayersLabel: "",
+    avgPlaytimeLabel: "",
+    playersOnlineLabel: "",
+    topPlayersLabel: "",
     serverIdentifier: "",
     autoRefreshInterval: 0,
     apiBasePath: "plan/v1",
@@ -225,14 +232,20 @@ const { t } = useI18n();
 const dashboardRef = ref<HTMLElement | null>(null);
 
 // Computed properties for internationalized labels
-const titleText = computed(() => props.title || t('networkStatistics'));
-const playerCountLabelText = computed(() => props.playerCountLabel || t('players'));
-const onlineLabelText = computed(() => props.onlineLabel || t('online'));
-const newPlayersLabelText = computed(() => props.newPlayersLabel || t('newPlayers24h'));
+const titleText = computed(() => props.title || t("networkStatistics"));
+const playerCountLabelText = computed(
+  () => props.playerCountLabel || t("players"),
+);
+const onlineLabelText = computed(() => props.onlineLabel || t("online"));
+const newPlayersLabelText = computed(
+  () => props.newPlayersLabel || t("newPlayers24h"),
+);
 // Unused for now but available if needed in future
 // const avgPlaytimeLabelText = computed(() => props.avgPlaytimeLabel || t('avgPlaytime'));
 // const playersOnlineLabelText = computed(() => props.playersOnlineLabel || t('playersOnline'));
-const topPlayersLabelText = computed(() => props.topPlayersLabel || t('topPlayers'));
+const topPlayersLabelText = computed(
+  () => props.topPlayersLabel || t("topPlayers"),
+);
 
 const isLoading = ref(true);
 const error = ref<string | null>(null);
@@ -246,11 +259,11 @@ const activeTab = ref(0);
 
 const isLoadingHourly = ref(false);
 const hourlyError = ref<string | undefined>(undefined);
-const hourlyChartData = ref<Array<{hour: number; players: number}>>([]);
+const hourlyChartData = ref<Array<{ hour: number; players: number }>>([]);
 const hourlyChart = ref<HTMLElement | null>(null);
 let hourlyChartInstance: echarts.ECharts | null = null;
 const tabs = computed<TabOption[]>(() => [
-  { label: t('hourlyActivity'), key: "hourly" },
+  { label: t("hourlyActivity"), key: "hourly" },
   { label: topPlayersLabelText.value, key: "topPlayers" },
 ]);
 
@@ -264,13 +277,14 @@ const animatedNewPlayers = ref(0);
 const selectedServer = ref<string>("combined");
 
 const serverOptions = computed(() => {
-  const servers = props.servers.length > 0 ? props.servers : [...catwalkAPI.availableServers];
+  const servers =
+    props.servers.length > 0 ? props.servers : [...catwalkAPI.availableServers];
   return [
-    { value: "combined", label: t('allServers') },
-    ...servers.map(server => ({
+    { value: "combined", label: t("allServers") },
+    ...servers.map((server) => ({
       value: server,
-      label: getUkrServerName(server)
-    }))
+      label: getUkrServerName(server),
+    })),
   ];
 });
 
@@ -309,7 +323,7 @@ const onServerChange = async (value: string | number | string[]) => {
   // Reset data
   topPlayers.value = [];
   hourlyChartData.value = [];
-  
+
   // Dispose hourly chart instance
   if (hourlyChartInstance) {
     hourlyChartInstance.dispose();
@@ -328,7 +342,7 @@ const onServerChange = async (value: string | number | string[]) => {
 
 const cache = new Map<string, CacheData<unknown>>();
 const CACHE_TTL = 60000;
-const PERSISTENT_CACHE_KEY = 'hourly-chart-cache';
+const PERSISTENT_CACHE_KEY = "hourly-chart-cache";
 const PERSISTENT_CACHE_TTL = 5 * 60000; // 5 minutes
 
 const cachedFetch = async <T,>(
@@ -366,21 +380,24 @@ const saveToPersistentCache = (key: string, data: any) => {
   try {
     const cacheData = {
       data,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
-    localStorage.setItem(`${PERSISTENT_CACHE_KEY}-${key}`, JSON.stringify(cacheData));
+    localStorage.setItem(
+      `${PERSISTENT_CACHE_KEY}-${key}`,
+      JSON.stringify(cacheData),
+    );
   } catch (error) {
-    console.warn('Failed to save to localStorage:', error);
+    console.warn("Failed to save to localStorage:", error);
   }
 };
 
-const loadFromPersistentCache = <T>(key: string): T | null => {
+const loadFromPersistentCache = <T,>(key: string): T | null => {
   try {
     const cached = localStorage.getItem(`${PERSISTENT_CACHE_KEY}-${key}`);
     if (cached) {
       const cacheData = JSON.parse(cached);
       const now = Date.now();
-      
+
       // Check if cache is still valid
       if (now - cacheData.timestamp < PERSISTENT_CACHE_TTL) {
         return cacheData.data as T;
@@ -390,7 +407,7 @@ const loadFromPersistentCache = <T>(key: string): T | null => {
       }
     }
   } catch (error) {
-    console.warn('Failed to load from localStorage:', error);
+    console.warn("Failed to load from localStorage:", error);
   }
   return null;
 };
@@ -404,7 +421,10 @@ const fetchStatsSummary = async (
       let statsSummary: StatsSummary;
 
       if (selectedServer.value === "combined") {
-        const servers = props.servers.length > 0 ? props.servers : [...catwalkAPI.availableServers];
+        const servers =
+          props.servers.length > 0
+            ? props.servers
+            : [...catwalkAPI.availableServers];
         statsSummary = await catwalkAPI.getCombinedStatsSummary(servers);
       } else {
         statsSummary = await catwalkAPI.getStatsSummary(selectedServer.value);
@@ -423,13 +443,15 @@ const fetchStatsSummary = async (
   );
 };
 
-
 const fetchTopPlayers = async (limit = 10, bypassCache = false) => {
   const cacheKey = `top-players-${limit}-${selectedServer.value}`;
   return cachedFetch(
     async () => {
       if (selectedServer.value === "combined") {
-        const servers = props.servers.length > 0 ? props.servers : [...catwalkAPI.availableServers];
+        const servers =
+          props.servers.length > 0
+            ? props.servers
+            : [...catwalkAPI.availableServers];
         return await catwalkAPI.getCombinedTopPlayers(limit, servers);
       } else {
         return await catwalkAPI.getTopPlayers(limit, selectedServer.value);
@@ -440,12 +462,17 @@ const fetchTopPlayers = async (limit = 10, bypassCache = false) => {
   );
 };
 
-const fetchHourlyData = async (bypassCache = false): Promise<HourlyDistribution> => {
+const fetchHourlyData = async (
+  bypassCache = false,
+): Promise<HourlyDistribution> => {
   const cacheKey = `hourly-data-${selectedServer.value}`;
   return cachedFetch(
     async () => {
       if (selectedServer.value === "combined") {
-        const servers = props.servers.length > 0 ? props.servers : [...catwalkAPI.availableServers];
+        const servers =
+          props.servers.length > 0
+            ? props.servers
+            : [...catwalkAPI.availableServers];
         return await catwalkAPI.getCombinedHourlyDistribution(servers);
       } else {
         return await catwalkAPI.getHourlyDistribution(selectedServer.value);
@@ -458,10 +485,13 @@ const fetchHourlyData = async (bypassCache = false): Promise<HourlyDistribution>
 
 const loadHourlyData = async (forceRefresh = false) => {
   const cacheKey = `hourly-data-${selectedServer.value}`;
-  
+
   // Try to load from persistent cache first (instant loading)
   if (!forceRefresh && hourlyChartData.value.length === 0) {
-    const cachedChartData = loadFromPersistentCache<Array<{hour: number; players: number}>>(cacheKey);
+    const cachedChartData =
+      loadFromPersistentCache<Array<{ hour: number; players: number }>>(
+        cacheKey,
+      );
     if (cachedChartData && cachedChartData.length > 0) {
       hourlyChartData.value = cachedChartData;
       nextTick(() => {
@@ -472,7 +502,7 @@ const loadHourlyData = async (forceRefresh = false) => {
 
   // Always fetch fresh data in background (unless already loading)
   if (isLoadingHourly.value) return;
-  
+
   // Only show loading indicator if we don't have cached data
   if (hourlyChartData.value.length === 0) {
     isLoadingHourly.value = true;
@@ -481,24 +511,24 @@ const loadHourlyData = async (forceRefresh = false) => {
 
   try {
     const data = await fetchHourlyData(forceRefresh);
-    
+
     if (data && data.hourly_distribution) {
       const chartData = [];
       for (let hour = 0; hour < 24; hour++) {
         const playerCount = data.hourly_distribution[hour.toString()] || 0;
         chartData.push({ hour, players: playerCount });
       }
-      
+
       const newDataString = JSON.stringify(chartData);
       const oldDataString = JSON.stringify(hourlyChartData.value);
-      
+
       // Only update if data actually changed
       if (newDataString !== oldDataString) {
         hourlyChartData.value = chartData;
-        
+
         // Save to persistent cache
         saveToPersistentCache(cacheKey, chartData);
-        
+
         nextTick(() => {
           initHourlyChart();
         });
@@ -506,7 +536,7 @@ const loadHourlyData = async (forceRefresh = false) => {
     }
   } catch (err: unknown) {
     const apiError = err as ApiError;
-    hourlyError.value = `${t('failedToLoadHourlyData')}: ${apiError?.message || t('unknownError')}`;
+    hourlyError.value = `${t("failedToLoadHourlyData")}: ${apiError?.message || t("unknownError")}`;
     console.error("Error loading hourly data:", apiError);
   } finally {
     isLoadingHourly.value = false;
@@ -515,7 +545,7 @@ const loadHourlyData = async (forceRefresh = false) => {
 
 const initHourlyChart = () => {
   if (!hourlyChart.value || !hourlyChartData.value.length) return;
-  
+
   // Check if chart element is visible (active tab)
   if (activeTab.value !== 0) return;
 
@@ -528,32 +558,34 @@ const initHourlyChart = () => {
   try {
     hourlyChartInstance = echarts.init(hourlyChart.value);
 
-    const hours = hourlyChartData.value.map(d => `${d.hour.toString().padStart(2, '0')}:00`);
-    const playerCounts = hourlyChartData.value.map(d => d.players);
+    const hours = hourlyChartData.value.map(
+      (d) => `${d.hour.toString().padStart(2, "0")}:00`,
+    );
+    const playerCounts = hourlyChartData.value.map((d) => d.players);
 
     hourlyChartInstance.setOption({
-      backgroundColor: 'transparent',
+      backgroundColor: "transparent",
       animation: true,
       animationDuration: 1000,
-      animationEasing: 'cubicOut',
+      animationEasing: "cubicOut",
       grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '10%',
-        top: '10%',
-        containLabel: true
+        left: "3%",
+        right: "4%",
+        bottom: "10%",
+        top: "10%",
+        containLabel: true,
       },
       tooltip: {
-        trigger: 'axis',
-        backgroundColor: 'rgba(30, 33, 43, 0.95)',
-        borderColor: '#10b981',
+        trigger: "axis",
+        backgroundColor: "rgba(30, 33, 43, 0.95)",
+        borderColor: "#10b981",
         borderWidth: 1,
         textStyle: {
-          color: '#fff',
+          color: "#fff",
           fontSize: 14,
         },
         padding: [12, 16],
-        extraCssText: 'border-radius: 8px; backdrop-filter: blur(10px);',
+        extraCssText: "border-radius: 8px; backdrop-filter: blur(10px);",
         formatter: (params: any) => {
           const data = params[0];
           return `
@@ -563,64 +595,64 @@ const initHourlyChart = () => {
               ${data.value} гравців онлайн
             </div>
           `;
-        }
+        },
       },
       xAxis: {
-        type: 'category',
+        type: "category",
         data: hours,
         axisLine: {
           lineStyle: {
-            color: '#34373d'
-          }
+            color: "#34373d",
+          },
         },
         axisLabel: {
-          color: '#b4bbc5',
-          fontSize: 12
+          color: "#b4bbc5",
+          fontSize: 12,
         },
         splitLine: {
-          show: false
-        }
+          show: false,
+        },
       },
       yAxis: {
-        type: 'value',
+        type: "value",
         min: 0,
         axisLine: {
-          show: false
+          show: false,
         },
         axisTick: {
-          show: false
+          show: false,
         },
         axisLabel: {
-          color: '#b4bbc5',
-          fontSize: 12
+          color: "#b4bbc5",
+          fontSize: 12,
         },
         splitLine: {
           lineStyle: {
-            color: '#34373d',
-            type: 'dashed'
-          }
-        }
+            color: "#34373d",
+            type: "dashed",
+          },
+        },
       },
       series: [
         {
-          name: t('onlinePlayersChart'),
-          type: 'line',
+          name: t("onlinePlayersChart"),
+          type: "line",
           data: playerCounts,
           smooth: true,
-          symbol: 'circle',
+          symbol: "circle",
           symbolSize: 6,
           lineStyle: {
-            color: '#10b981',
-            width: 3
+            color: "#10b981",
+            width: 3,
           },
           itemStyle: {
-            color: '#10b981',
-            borderColor: '#10b981',
-            borderWidth: 2
+            color: "#10b981",
+            borderColor: "#10b981",
+            borderWidth: 2,
           },
           areaStyle: {
             color: {
-              type: 'linear',
+              type: "linear",
               x: 0,
               y: 0,
               x2: 0,
@@ -628,27 +660,27 @@ const initHourlyChart = () => {
               colorStops: [
                 {
                   offset: 0,
-                  color: 'rgba(16, 185, 129, 0.3)'
+                  color: "rgba(16, 185, 129, 0.3)",
                 },
                 {
                   offset: 1,
-                  color: 'rgba(16, 185, 129, 0.05)'
-                }
-              ]
-            }
+                  color: "rgba(16, 185, 129, 0.05)",
+                },
+              ],
+            },
           },
           emphasis: {
-            focus: 'series',
+            focus: "series",
             itemStyle: {
-              color: '#10b981',
-              borderColor: '#fff',
+              color: "#10b981",
+              borderColor: "#fff",
               borderWidth: 2,
               shadowBlur: 10,
-              shadowColor: 'rgba(16, 185, 129, 0.5)'
-            }
-          }
-        }
-      ]
+              shadowColor: "rgba(16, 185, 129, 0.5)",
+            },
+          },
+        },
+      ],
     });
 
     const handleResize = () => {
@@ -657,16 +689,16 @@ const initHourlyChart = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
   } catch (err: unknown) {
     const apiError = err as ApiError;
-    console.error('Error initializing hourly chart:', apiError);
+    console.error("Error initializing hourly chart:", apiError);
   }
 };
 
 const loadEssentialData = async (forceRefresh = false) => {
   const cacheKey = `stats-summary-${selectedServer.value}`;
-  
+
   // Load from persistent cache first (instant loading)
   if (!forceRefresh && totalPlayers.value === 0) {
     const cachedStats = loadFromPersistentCache<StatsSummary>(cacheKey);
@@ -677,7 +709,7 @@ const loadEssentialData = async (forceRefresh = false) => {
       newPlayers.value = cachedStats.newPlayers || 0;
       tps.value = cachedStats.tps?.toString() || "20.0";
       avgPlaytime.value = cachedStats.avgPlaytime || 0;
-      
+
       // Set animated values to match (no jarring jumps)
       animatedTotalPlayers.value = totalPlayers.value;
       animatedOnlinePlayers.value = onlinePlayers.value;
@@ -698,21 +730,22 @@ const loadEssentialData = async (forceRefresh = false) => {
     const newAvgPlaytime = summary.avgPlaytime || 0;
 
     // Only animate and update if values have changed
-    if (newTotalPlayers !== totalPlayers.value || 
-        newOnlinePlayers !== onlinePlayers.value || 
-        newNewPlayers !== newPlayers.value ||
-        newTps !== tps.value ||
-        newAvgPlaytime !== avgPlaytime.value) {
-      
+    if (
+      newTotalPlayers !== totalPlayers.value ||
+      newOnlinePlayers !== onlinePlayers.value ||
+      newNewPlayers !== newPlayers.value ||
+      newTps !== tps.value ||
+      newAvgPlaytime !== avgPlaytime.value
+    ) {
       // Save to persistent cache
       saveToPersistentCache(cacheKey, {
         totalPlayers: newTotalPlayers,
         onlinePlayers: newOnlinePlayers,
         newPlayers: newNewPlayers,
         tps: newTps,
-        avgPlaytime: newAvgPlaytime
+        avgPlaytime: newAvgPlaytime,
       });
-      
+
       // Animate numbers smoothly to new values
       animateNumber(
         animatedTotalPlayers.value,
@@ -741,7 +774,7 @@ const loadEssentialData = async (forceRefresh = false) => {
     }
   } catch (err: unknown) {
     const apiError = err as ApiError;
-    error.value = `${t('failedToLoadSummary')}: ${apiError?.message || t('unknownError')}`;
+    error.value = `${t("failedToLoadSummary")}: ${apiError?.message || t("unknownError")}`;
   } finally {
     isLoading.value = false;
   }
@@ -749,10 +782,13 @@ const loadEssentialData = async (forceRefresh = false) => {
 
 const loadTopPlayersData = async (forceRefresh = false) => {
   const cacheKey = `top-players-10-${selectedServer.value}`;
-  
+
   // Load from persistent cache first (instant loading)
   if (!forceRefresh && topPlayers.value.length === 0) {
-    const cachedPlayers = loadFromPersistentCache<(PlayerItem & { name: string; online: boolean })[]>(cacheKey);
+    const cachedPlayers =
+      loadFromPersistentCache<
+        (PlayerItem & { name: string; online: boolean })[]
+      >(cacheKey);
     if (cachedPlayers && cachedPlayers.length > 0) {
       topPlayers.value = cachedPlayers;
     }
@@ -766,13 +802,13 @@ const loadTopPlayersData = async (forceRefresh = false) => {
         name:
           (p as TopPlayer & { name?: string }).name ||
           p.displayName ||
-          t('unknownPlayer'),
+          t("unknownPlayer"),
         online: false,
       }));
-      
+
       const newPlayersString = JSON.stringify(formattedPlayers);
       const oldPlayersString = JSON.stringify(topPlayers.value);
-      
+
       // Only update if data changed
       if (newPlayersString !== oldPlayersString) {
         topPlayers.value = formattedPlayers;
@@ -785,8 +821,6 @@ const loadTopPlayersData = async (forceRefresh = false) => {
     console.error("Error loading top players:", apiError);
   }
 };
-
-
 
 const formatPlaytime = (milliseconds: number): string => {
   if (!milliseconds) return "0г 0хв";
@@ -803,7 +837,6 @@ const formatPlaytime = (milliseconds: number): string => {
     return `${hours}г ${minutes}хв`;
   }
 };
-
 
 watch(activeTab, async (newTab) => {
   if (newTab === 0) {
@@ -894,7 +927,7 @@ onUnmounted(() => {
     hourlyChartInstance = null;
   }
 
-  window.removeEventListener('resize', () => {
+  window.removeEventListener("resize", () => {
     if (hourlyChartInstance && !hourlyChartInstance.isDisposed()) {
       hourlyChartInstance.resize();
     }
@@ -1083,7 +1116,6 @@ onUnmounted(() => {
   color: #b4bbc5;
   z-index: 10;
 }
-
 
 .top-players-list {
   padding: 16px;

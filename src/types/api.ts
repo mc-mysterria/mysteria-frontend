@@ -1,37 +1,20 @@
-export interface APIResponse<T> {
-  data: T;
-  message?: string;
-  status: number;
+export interface Page<T> {
+  content: T[];
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
 }
 
-export interface APIError {
-  code: string;
+// Structured API error types used across the app
+export interface ApiError {
+  code: string; // e.g., AUTH_REQUIRED, VALIDATION_ERROR
   message: string;
   details: Record<string, unknown>;
-  timestamp: string;
+  timestamp: string; // ISO string
   request_id: string;
 }
 
-export interface APIErrorResponse {
-  error: APIError;
-}
-
-export interface RequestConfig {
-  baseURL?: string;
-  url?: string;
-  headers?: Record<string, string>;
-  params?: URLSearchParams;
-  body?: string;
-  method?: string;
-}
-
-export interface RequestOptions {
-  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  url: string;
-  data?: unknown;
-  config?: RequestConfig;
-  params?: Record<string, string | number | boolean>;
-  body?: unknown;
-  isList?: boolean;
-  raise?: boolean;
+export interface ApiErrorResponse {
+  error: ApiError;
 }

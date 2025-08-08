@@ -8,7 +8,7 @@
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
-      {{ t('items') }}
+      {{ t("items") }}
     </button>
     <button
       @click="setActiveTab('subscriptions')"
@@ -18,7 +18,7 @@
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
-      {{ t('subscriptions') }}
+      {{ t("subscriptions") }}
     </button>
     <div class="tab-underline" ref="underlineRef"></div>
   </div>

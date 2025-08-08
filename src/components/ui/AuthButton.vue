@@ -41,7 +41,9 @@
       <div class="button-content">
         <i class="fa-brands fa-discord discord-icon"></i>
         <span class="login-text">
-          {{ authStore.isLoading ? t('loading') + '...' : t('loginWithDiscord') }}
+          {{
+            authStore.isLoading ? t("loading") + "..." : t("loginWithDiscord")
+          }}
         </span>
       </div>
       <div v-if="authStore.isLoading" class="loading-spinner">
@@ -81,7 +83,7 @@ const { t } = useI18n();
 const selectedAction = ref("");
 
 const userDisplayText = computed(() => {
-  return userStore.currentUser?.nickname || t('profile');
+  return userStore.currentUser?.nickname || t("profile");
 });
 
 const profileUrl = computed(() => {
@@ -92,12 +94,12 @@ const profileUrl = computed(() => {
 
 const userMenuOptions = computed(() => [
   {
-    label: t('profile'),
+    label: t("profile"),
     value: "profile",
     icon: "fa-solid fa-user",
   },
   {
-    label: authStore.isLoading ? t('loading') + '...' : t('logout'),
+    label: authStore.isLoading ? t("loading") + "..." : t("logout"),
     value: "logout",
     icon: "fa-solid fa-right-from-bracket",
   },
@@ -144,7 +146,7 @@ const handleLogout = async () => {
     }
     await authStore.logout();
   } catch {
-    show(t('error'), { type: "error" });
+    show(t("error"), { type: "error" });
   }
 };
 </script>
@@ -164,44 +166,32 @@ const handleLogout = async () => {
 }
 
 .user-dropdown :deep(.dropdown-trigger) {
-  background: linear-gradient(
-    135deg,
-    rgba(108, 93, 211, 0.1) 0%,
-    rgba(139, 126, 255, 0.05) 100%
-  );
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
   padding: 8px 16px;
-  border-radius: 12px;
+  border-radius: 6px;
+  height: 40px;
+  display: flex;
+  align-items: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(108, 93, 211, 0.1);
+  backdrop-filter: blur(8px);
 }
 
 .user-dropdown :deep(.dropdown-trigger):hover {
-  background: linear-gradient(
-    135deg,
-    rgba(108, 93, 211, 0.15) 0%,
-    rgba(139, 126, 255, 0.08) 100%
-  );
-  border-color: rgba(16, 185, 129, 0.5);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(108, 93, 211, 0.2);
+  background: color-mix(in srgb, white 5%, transparent);
+  border-color: color-mix(in srgb, white 30%, transparent);
 }
 
 .user-dropdown :deep(.dropdown-trigger.is-open) {
-  background: linear-gradient(
-    135deg,
-    rgba(108, 93, 211, 0.2) 0%,
-    rgba(139, 126, 255, 0.1) 100%
-  );
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(108, 93, 211, 0.1);
+  border-color: var(--myst-gold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 .user-button-content {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 6px 0;
+  gap: 8px;
+  padding: 0;
 }
 
 .menu-option {
@@ -211,63 +201,57 @@ const handleLogout = async () => {
 }
 
 .avatar-image {
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(16, 185, 129, 0.4);
+  border: 1px solid color-mix(in srgb, white 20%, transparent);
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(108, 93, 211, 0.2);
 }
 
 .avatar-image:hover {
-  border-color: rgba(16, 185, 129, 0.8);
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  border-color: var(--myst-gold);
 }
 
 .discord-icon {
-  font-size: 20px;
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  color: var(--myst-ink);
 }
 
 .username {
-  font-weight: 600;
-  color: #ffffff;
-  max-width: 150px;
+  font-weight: 500;
+  color: var(--myst-ink);
+  max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 0.95rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
 }
 
 .auth-login-button {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  border-radius: 12px;
-  border: 2px solid #5865f2;
-  background: linear-gradient(135deg, #5865f2 0%, #7289da 100%);
-  color: white;
+  gap: 8px;
+  padding: 8px 16px;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  color: var(--myst-ink);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   text-decoration: none;
   font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.2);
+  backdrop-filter: blur(8px);
 }
 
 .auth-login-button:hover:not(.auth-login-button--loading) {
-  background: linear-gradient(135deg, #4752c4 0%, #6172c7 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(88, 101, 242, 0.4);
-  border-color: #4752c4;
+  background: color-mix(in srgb, white 5%, transparent);
+  border-color: color-mix(in srgb, white 30%, transparent);
 }
 
 .auth-login-button:active {

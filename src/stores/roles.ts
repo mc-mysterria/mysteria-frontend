@@ -19,12 +19,12 @@ export const useRoleStore = defineStore("role", () => {
   ];
 
   const getRoleDisplayName = (roleName: string): string => {
-    const role = roleHierarchy.find(r => r.name === roleName);
+    const role = roleHierarchy.find((r) => r.name === roleName);
     return role?.displayName || roleName;
   };
 
   const getRoleWeight = (roleName: string): number => {
-    const role = roleHierarchy.find(r => r.name === roleName);
+    const role = roleHierarchy.find((r) => r.name === roleName);
     return role?.weight || 0;
   };
 

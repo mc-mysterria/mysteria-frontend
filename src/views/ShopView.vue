@@ -1,46 +1,41 @@
 <template>
-  <HeaderItem />
-  <UnauthorizedMessage
-    v-if="!profile"
-    :message="t('shopLoginRequired')"
-  />
+  <div class="min-h-screen relative">
+    <HeaderItem />
 
-  <!-- Basic info section removed - simplified shop without applications -->
+    <UnauthorizedMessage v-if="!profile" :message="t('shopLoginRequired')" />
 
-  <!-- Carrier Status Banner -->
-  <!-- <CarrierStatusBanner
-    v-if="profile"
-    type="shop"
-  />
-  -->
+    <main class="shop-main" v-if="profile">
+      <div class="shop-container">
+        <SectionTitle
+          eyebrow="Shop"
+          title="Wares of the Evernight"
+          subtitle="Clean, elegant, and fair. Your support sustains the city's lamps."
+        />
 
-  <div class="shop-container">
-    <!-- Profile setup required message -->
-    <div v-if="profile && !profile.nickname" class="profile-setup-message wide">
-      <div class="setup-content wide">
-        <i class="fa-solid fa-user-gear setup-icon"></i>
-        <h2>{{ t('accountSetupRequired') }}</h2>
-        <p>
-          {{ t('shopAccessDescription') }}
-        </p>
-        <br>
-        <p>
-          {{ t('profileSetupInstructions') }}
-        </p>
-        <router-link to="/profile" class="setup-btn">
-          <i class="fa-solid fa-arrow-right"></i>
-          {{ t('goToProfile') }}
-        </router-link>
+        <!-- Profile setup required message -->
+        <div v-if="!profile.nickname" class="profile-setup-message">
+          <div class="setup-content">
+            <i class="fa-solid fa-user-gear setup-icon"></i>
+            <h2>{{ t("accountSetupRequired") }}</h2>
+            <p>{{ t("shopAccessDescription") }}</p>
+            <p>{{ t("profileSetupInstructions") }}</p>
+            <router-link to="/profile" class="setup-btn">
+              <i class="fa-solid fa-arrow-right"></i>
+              {{ t("goToProfile") }}
+            </router-link>
+          </div>
+        </div>
+
+        <div v-else class="shop-content">
+          <ShopItems />
+        </div>
+
+        <ModalItem ref="confirmModal" />
       </div>
-    </div>
+    </main>
 
-    <div v-if="profile" class="shop-content">
-      <ShopItems />
-    </div>
-
-    <ModalItem ref="confirmModal" />
+    <FooterItem />
   </div>
-  <FooterItem />
 </template>
 
 <script setup lang="ts">
@@ -53,6 +48,7 @@ import UnauthorizedMessage from "@/components/ui/UnauthorizedMessage.vue";
 import ShopItems from "@/components/shop/ShopItems.vue";
 import ModalItem from "@/components/ui/ModalItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
+import SectionTitle from "@/components/ui/SectionTitle.vue";
 const userStore = useUserStore();
 const profile = computed(() => userStore.currentUser);
 const shopStore = useBalanceStore();
@@ -67,9 +63,9 @@ watch(
 
       if (newPurchase.requiresServerSelection) {
         confirmModal.value.showModal(
-          t('selectServerForItem'),
-          t('purchase'),
-          t('cancel'),
+          t("selectServerForItem"),
+          t("purchase"),
+          t("cancel"),
         );
         return;
       }
@@ -82,15 +78,15 @@ watch(
           Number(newPurchase.price.minus(shopStore.balance?.amount || 0)),
         );
         confirmModal.value.showModal(
-          `${t('insufficientFundsMessage')} ${amount} Mysterria?`,
-          t('topUp'),
-          t('cancel'),
+          `${t("insufficientFundsMessage")} ${amount} Mysterria?`,
+          t("topUp"),
+          t("cancel"),
         );
       } else {
         confirmModal.value.showModal(
-          t('confirmPurchaseMessage'),
-          t('purchase'),
-          t('cancel'),
+          t("confirmPurchaseMessage"),
+          t("purchase"),
+          t("cancel"),
         );
       }
     }

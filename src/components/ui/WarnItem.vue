@@ -1,8 +1,8 @@
 <template>
   <Transition name="slide-fade">
-    <div 
-      v-if="isVisible" 
-      :class="['notification-card', type, { clickable: clickable }]" 
+    <div
+      v-if="isVisible"
+      :class="['notification-card', type, { clickable: clickable }]"
       role="alert"
       @click="handleClick"
     >
@@ -176,7 +176,9 @@ img {
 
 .clickable {
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .clickable:hover {

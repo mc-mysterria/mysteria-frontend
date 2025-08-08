@@ -60,10 +60,10 @@
         >
           {{
             isProcessing
-              ? t('processing')
+              ? t("processing")
               : plan.is_active
-                ? t('purchase')
-                : t('unavailable')
+                ? t("purchase")
+                : t("unavailable")
           }}
         </button>
       </div>

@@ -35,10 +35,10 @@
                 >
                   {{
                     isProcessing
-                      ? t('processing')
+                      ? t("processing")
                       : plan.is_active
-                        ? t('purchase')
-                        : t('unavailable')
+                        ? t("purchase")
+                        : t("unavailable")
                   }}
                 </button>
               </div>
@@ -259,8 +259,9 @@ const isHighlightedFeature = (
 };
 
 const handlePurchase = (plan: ServiceResponse) => {
-  const requiresServerSelection = plan.server_availability?.mode === "selectable";
-  
+  const requiresServerSelection =
+    plan.server_availability?.mode === "selectable";
+
   shopStore.currentPurchase = {
     id: plan.id,
     price: new Decimal(plan.price),

@@ -275,7 +275,7 @@ const canModerate = computed(() => {
   if (isOwnProfile) return false;
 
   // Superuser has all permissions
-  if (currentUser.role === 'ADMIN') return true;
+  if (currentUser.role === "ADMIN") return true;
 
   // Check permissions for moderation
   const hasPermissions = authStore.hasAnyPermission([

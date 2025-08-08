@@ -61,8 +61,15 @@ class TransactionAPI extends BaseCRUD<
     super("user", false);
   }
 
-  async getUserTransactions(params?: any): Promise<APIResponse<TransactionResponse[]>> {
-    return this.request<TransactionResponse[]>("GET", "/api/user/transactions", { params }, "");
+  async getUserTransactions(
+    params?: any,
+  ): Promise<APIResponse<TransactionResponse[]>> {
+    return this.request<TransactionResponse[]>(
+      "GET",
+      "/api/user/transactions",
+      { params },
+      "",
+    );
   }
 
   async createTransaction(
@@ -100,7 +107,12 @@ class ShopAPI extends BaseCRUD<any, any, any, any> {
   }
 
   async purchaseService(serviceId: number): Promise<APIResponse<any>> {
-    return this.request<any>("POST", "/api/shop/purchase", { body: { serviceId } }, "");
+    return this.request<any>(
+      "POST",
+      "/api/shop/purchase",
+      { body: { serviceId } },
+      "",
+    );
   }
 
   async getPurchases(params?: any): Promise<APIResponse<any[]>> {

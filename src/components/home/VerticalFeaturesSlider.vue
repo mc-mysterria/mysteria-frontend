@@ -2,9 +2,9 @@
   <div class="features-container">
     <!-- Welcome Section -->
     <section class="welcome-section">
-      <h2 class="section-title">{{ t('welcomeTitle') }}</h2>
-      <blockquote class="welcome-quote">{{ t('welcomeQuote') }}</blockquote>
-      <p class="main-description">{{ t('mainDescription') }}</p>
+      <h2 class="section-title">{{ t("welcomeTitle") }}</h2>
+      <blockquote class="welcome-quote">{{ t("welcomeQuote") }}</blockquote>
+      <p class="main-description">{{ t("mainDescription") }}</p>
     </section>
 
     <!-- Features Blocks Container -->
@@ -13,16 +13,24 @@
       <div class="feature-block left-block">
         <div class="block-content">
           <div class="block-text">
-            <h3 class="feature-title">{{ t('gameplayTitle') }}</h3>
+            <h3 class="feature-title">{{ t("gameplayTitle") }}</h3>
             <ul class="feature-list">
-              <li v-for="feature in tArray('gameplayFeatures')" :key="feature" class="feature-item">
+              <li
+                v-for="feature in tArray('gameplayFeatures')"
+                :key="feature"
+                class="feature-item"
+              >
                 {{ feature }}
               </li>
             </ul>
           </div>
           <div class="block-image">
             <div class="character-art beyonder-art">
-              <img src="@/assets/images/Klein.jpg" alt="Hero Character" class="character-image" />
+              <img
+                src="@/assets/images/Klein.jpg"
+                alt="Hero Character"
+                class="character-image"
+              />
               <div class="mystical-aura"></div>
             </div>
           </div>
@@ -33,16 +41,24 @@
       <div class="feature-block right-block">
         <div class="block-content">
           <div class="block-text">
-            <h3 class="feature-title">{{ t('guidesTitle') }}</h3>
+            <h3 class="feature-title">{{ t("guidesTitle") }}</h3>
             <ul class="feature-list">
-              <li v-for="feature in tArray('guidesFeatures')" :key="feature" class="feature-item">
+              <li
+                v-for="feature in tArray('guidesFeatures')"
+                :key="feature"
+                class="feature-item"
+              >
                 {{ feature }}
               </li>
             </ul>
           </div>
           <div class="block-image">
             <div class="character-art scholar-art">
-              <img src="@/assets/images/Amon.png" alt="Amon Character" class="character-image" />
+              <img
+                src="@/assets/images/Amon.png"
+                alt="Amon Character"
+                class="character-image"
+              />
               <div class="mystical-aura scholar-glow"></div>
             </div>
           </div>
@@ -53,16 +69,24 @@
       <div class="feature-block left-block">
         <div class="block-content">
           <div class="block-text">
-            <h3 class="feature-title">{{ t('awaitsTitle') }}</h3>
+            <h3 class="feature-title">{{ t("awaitsTitle") }}</h3>
             <ul class="feature-list">
-              <li v-for="feature in tArray('awaitsFeatures')" :key="feature" class="feature-item">
+              <li
+                v-for="feature in tArray('awaitsFeatures')"
+                :key="feature"
+                class="feature-item"
+              >
                 {{ feature }}
               </li>
             </ul>
           </div>
           <div class="block-image">
             <div class="character-art sequence-art">
-              <img src="@/assets/images/City.webp" alt="City View" class="character-image" />
+              <img
+                src="@/assets/images/City.webp"
+                alt="City View"
+                class="character-image"
+              />
               <div class="mystical-aura sequence-glow"></div>
             </div>
           </div>
@@ -73,9 +97,15 @@
       <div class="feature-block right-block final-block">
         <div class="block-content final-content">
           <div class="block-text">
-            <blockquote class="final-message">{{ t('finalMessage') }}</blockquote>
+            <blockquote class="final-message">
+              {{ t("finalMessage") }}
+            </blockquote>
           </div>
-          <img src="@/assets/images/Happy.webp" alt="Happy Character" class="character-image" />
+          <img
+            src="@/assets/images/Happy.webp"
+            alt="Happy Character"
+            class="character-image"
+          />
         </div>
       </div>
     </div>
@@ -83,13 +113,12 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from '@/composables/useI18n'
+import { useI18n } from "@/composables/useI18n";
 
-const { t, tArray } = useI18n()
+const { t, tArray } = useI18n();
 </script>
 
 <style scoped>
-
 .features-container {
   width: 110%;
   margin-left: -5%;
@@ -168,10 +197,16 @@ const { t, tArray } = useI18n()
   align-items: center;
   gap: 4rem;
   padding: 3.5rem;
-  background: linear-gradient(150deg, rgba(40, 30, 60, 0.2), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(
+    150deg,
+    rgba(40, 30, 60, 0.2),
+    rgba(255, 255, 255, 0.05)
+  );
   border: 1px solid rgba(192, 164, 232, 0.15);
   border-radius: 28px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(192, 164, 232, 0.1);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(192, 164, 232, 0.1);
   transform: translateZ(0);
   max-width: 1200px;
   width: 100%;
@@ -330,7 +365,8 @@ const { t, tArray } = useI18n()
   .features-blocks {
     gap: 6rem;
   }
-  .left-block, .right-block {
+  .left-block,
+  .right-block {
     padding-left: 2%;
     padding-right: 2%;
     justify-content: center;
@@ -357,7 +393,9 @@ const { t, tArray } = useI18n()
   .features-blocks {
     gap: 4rem;
   }
-  .left-block, .right-block, .center-block {
+  .left-block,
+  .right-block,
+  .center-block {
     padding-left: 0;
     padding-right: 0;
     justify-content: center;

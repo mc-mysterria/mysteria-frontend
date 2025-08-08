@@ -3,12 +3,12 @@
   <div class="pnf-container">
     <div class="pnf-card">
       <h1>404</h1>
-      <h3>{{ t('pageNotFoundTitle') }}</h3>
+      <h3>{{ t("pageNotFoundTitle") }}</h3>
       <p>
-        {{ t('pageNotFoundMessage') }}
+        {{ t("pageNotFoundMessage") }}
       </p>
       <button @click="goBack" class="pnf-button">
-        {{ t('goBack') }}
+        {{ t("goBack") }}
         <IconArrowRight :aria-label="t('goBack')" />
       </button>
     </div>

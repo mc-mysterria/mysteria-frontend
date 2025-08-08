@@ -1,9 +1,16 @@
-import { type RequestConfig, type APIErrorResponse } from "@/types";
 import { APIError, RequestError } from "./errors";
-import * as Sentry from "@sentry/vue";
 import { useNotification } from "@/services/useNotification";
+import type { ApiErrorResponse } from "@/types/api";
 
 export type RequestPrefix = `/${string}`;
+
+interface RequestConfig {
+  method: string;
+  url: string;
+  headers: Record<string, string>;
+  body?: string;
+  params?: URLSearchParams;
+}
 
 export interface RequestOptions {
   params?: Record<string, string | number | boolean>;
@@ -45,7 +52,7 @@ export class BaseCRUD<
 
   private getAuthToken(): string | null {
     // Try to get token from localStorage first (new JWT system)
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (token) {
       return token;
     }
@@ -56,7 +63,7 @@ export class BaseCRUD<
     if (parts.length === 2) {
       return parts.pop()?.split(";").shift() || null;
     }
-    
+
     return null;
   }
 
@@ -66,7 +73,13 @@ export class BaseCRUD<
     options: Partial<RequestOptions> = {},
     prefix: string | null = null,
   ): Promise<APIResponse<T>> {
-    const { params, body, isList = false, raise = true, suppressAuthRequired = false } = options;
+    const {
+      params,
+      body,
+      isList = false,
+      raise = true,
+      suppressAuthRequired = false,
+    } = options;
     const url = `${prefix || this.prefix}${endpoint}`.replace(/\/+/g, "/");
 
     const headers: Record<string, string> = {
@@ -113,13 +126,11 @@ export class BaseCRUD<
         const processedText = this.preprocessJsonForLargeNumbers(responseText);
         data = JSON.parse(processedText);
       } catch (e) {
-        Sentry.captureException(e, {
-          extra: {
-            responseText,
-            url,
-            params,
-            type: "JSON_PARSE_ERROR",
-          },
+        console.error("JSON parse error:", {
+          responseText,
+          url,
+          params,
+          type: "JSON_PARSE_ERROR",
         });
         throw new APIError(
           `Invalid JSON response: ${responseText}`,
@@ -159,21 +170,23 @@ export class BaseCRUD<
 
         // Check if response has new structured error format
         let error: RequestError;
-        if (data.error && typeof data.error === 'object' && data.error.code) {
+        if (data.error && typeof data.error === "object" && data.error.code) {
           // New structured error format
-          const apiErrorResponse = data as APIErrorResponse;
+          const apiErrorResponse = data as ApiErrorResponse;
           error = new RequestError(
             apiErrorResponse.error.message || "Сталася невідома помилка!",
             url,
             params,
             apiErrorResponse.error,
-            body
+            body,
           );
-          
+
           // Show notification for structured errors, but suppress AUTH_REQUIRED in popup windows or when requested
           const { showError } = useNotification();
           const isPopupWindow = window.opener !== null;
-          showError(error, { suppressAuthRequired: isPopupWindow || suppressAuthRequired });
+          showError(error, {
+            suppressAuthRequired: isPopupWindow || suppressAuthRequired,
+          });
         } else {
           // Legacy error format
           error = new RequestError(
@@ -181,9 +194,9 @@ export class BaseCRUD<
             url,
             params,
             undefined,
-            body
+            body,
           );
-          
+
           // Show notification for legacy errors
           const { showError } = useNotification();
           showError(error);
@@ -191,7 +204,7 @@ export class BaseCRUD<
 
         // Enhanced logging for 500 errors
         if (response.status === 500) {
-          console.error('API 500 Error Details:', {
+          console.error("API 500 Error Details:", {
             url,
             params,
             requestBody: this.prefix,
@@ -200,19 +213,20 @@ export class BaseCRUD<
           });
         }
 
-        Sentry.captureException(error, {
-          extra: {
-            response: data,
-            status: response.status,
-            url,
-            params,
-            type: "API_ERROR",
-            requestDetails: response.status === 500 ? {
-              fullUrl: url,
-              method,
-              timestamp: new Date().toISOString(),
-            } : undefined,
-          },
+        console.error("API Error:", {
+          response: data,
+          status: response.status,
+          url,
+          params,
+          type: "API_ERROR",
+          requestDetails:
+            response.status === 500
+              ? {
+                  fullUrl: url,
+                  method,
+                  timestamp: new Date().toISOString(),
+                }
+              : undefined,
         });
         throw error;
       }
@@ -223,15 +237,13 @@ export class BaseCRUD<
           url,
           params,
           undefined,
-          body
+          body,
         );
-        Sentry.captureException(error, {
-          extra: {
-            response: data,
-            url,
-            params,
-            type: "EMPTY_RESPONSE",
-          },
+        console.error("Empty response:", {
+          response: data,
+          url,
+          params,
+          type: "EMPTY_RESPONSE",
         });
         throw error;
       }
@@ -266,14 +278,12 @@ export class BaseCRUD<
         body,
       );
 
-      Sentry.captureException(error, {
-        extra: {
-          url,
-          params,
-          error: error instanceof Error ? error.message : "Unknown error",
-          type: "UNEXPECTED_ERROR",
-          requestConfig: config,
-        },
+      console.error("Unexpected error:", {
+        url,
+        params,
+        error: error instanceof Error ? error.message : "Unknown error",
+        type: "UNEXPECTED_ERROR",
+        requestConfig: config,
       });
 
       throw apiError;
@@ -293,7 +303,7 @@ export class BaseCRUD<
   }
 
   async get(id: string): Promise<APIResponse<TModel>> {
-    return this.request<TModel>("GET", `/${id}`);
+    return this.request<TModel>("GET", `/admin/${id}`);
   }
 
   async getByUserId(
