@@ -70,14 +70,6 @@
             </div>
             <div class="nav-item-indicator"></div>
           </RouterLink>
-          <RouterLink
-            to="/edit/wiki"
-            :class="{
-              activeLink: $route.path.startsWith('/edit/wiki'),
-            }"
-            :title="isCollapsed ? 'Edit Wiki' : ''"
-            class="nav-item"
-          >
             <div class="nav-item-background"></div>
             <div class="nav-item-content">
               <div class="nav-icon-container">

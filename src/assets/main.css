@@ -34,14 +34,14 @@
 
 /* Parchment theme */
 :root[data-theme="parchment"] {
-  --myst-bg: #f7f5ef;
-  --myst-bg-2: #efe9d8;
-  --myst-ink: #1a1e3a;
-  --myst-ink-muted: #2b324a;
-  --myst-ink-strong: #1a1e3a;
-  --myst-gold: #a99354;
-  --myst-gold-soft: #b19b63;
-  --myst-offwhite: #1a1e3a;
+  --myst-bg: #fefefe;
+  --myst-bg-2: #f8f9fa;
+  --myst-ink: #1a1d29;
+  --myst-ink-muted: #6b7280;
+  --myst-ink-strong: #111827;
+  --myst-gold: #d97706;
+  --myst-gold-soft: #f59e0b;
+  --myst-offwhite: #111827;
 }
 
 body {
@@ -79,7 +79,7 @@ body {
   color: var(--myst-ink-muted) !important;
 }
 :root[data-theme="parchment"] .text-zinc-300 {
-  color: color-mix(in srgb, var(--myst-ink) 85%, transparent) !important;
+  color: color-mix(in srgb, var(--myst-ink) 75%, var(--myst-ink-muted)) !important;
 }
 
 /* Card/Panel backgrounds */
@@ -87,7 +87,8 @@ body {
   background-color: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
 }
 :root[data-theme="parchment"] .bg-panel {
-  background-color: color-mix(in srgb, var(--myst-bg-2) 90%, transparent);
+  background-color: var(--myst-bg-2);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
 }
 
 a {

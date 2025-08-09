@@ -3,27 +3,8 @@
     <MysticBackground />
     <NotificationContainer />
     
-    <!-- Loading Overlay -->
-    <Transition name="loading-overlay">
-      <div v-if="isLoading" class="loading-overlay">
-        <div class="loading-content">
-          <div class="loading-spinner">
-            <div class="spinner-ring"></div>
-          </div>
-          <div class="loading-text">Loading...</div>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
-          </div>
-        </div>
-      </div>
-    </Transition>
-    
     <!-- Main Content -->
-    <RouterView v-slot="{ Component }">
-      <Transition :name="isLoading ? '' : 'page'" mode="out-in">
-        <component :is="Component" :key="$route.path" />
-      </Transition>
-    </RouterView>
+    <RouterView />
   </div>
   <div class="cursor-background" ref="cursor"></div>
 </template>
@@ -32,7 +13,7 @@
 import NotificationContainer from "@/components/ui/NotificationContainer.vue";
 import MysticBackground from "@/components/ui/MysticBackground.vue";
 import { onMounted, onUnmounted, ref } from "vue";
-import { RouterView, useRouter } from "vue-router";
+import { RouterView } from "vue-router";
 import { useBalanceWatcher } from "@/stores/balance";
 import { useUserWatcher } from "./stores/user";
 import { useServicesWatcher } from "./stores/services";
@@ -41,44 +22,7 @@ useUserWatcher();
 useBalanceWatcher();
 useServicesWatcher();
 
-const router = useRouter();
-const isLoading = ref(false);
-let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
-
-// Add loading state for route transitions
-router.beforeEach(() => {
-  // Clear any existing timeout to prevent race conditions
-  if (loadingTimeout) {
-    clearTimeout(loadingTimeout);
-  }
-  isLoading.value = true;
-  return true; // Allow navigation to continue
-});
-
-router.afterEach(() => {
-  // Show loading for a more noticeable duration to allow smooth transition
-  loadingTimeout = setTimeout(() => {
-    isLoading.value = false;
-    loadingTimeout = null;
-  }, 500);
-  
-  // Safety fallback - force hide loading after max time to prevent stuck states
-  setTimeout(() => {
-    if (isLoading.value) {
-      console.warn('Forcing loading state to false after timeout');
-      isLoading.value = false;
-    }
-  }, 2000);
-});
-
-// Handle navigation errors
-router.onError((error) => {
-  console.error('Router error:', error);
-  if (loadingTimeout) {
-    clearTimeout(loadingTimeout);
-  }
-  isLoading.value = false;
-});
+// All loading animation logic removed
 
 const cursor = ref<HTMLDivElement | null>(null);
 const cursorSize = 50;
@@ -115,11 +59,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener("mousemove", updateCursorPosition);
-  
-  // Clean up any pending loading timeouts
-  if (loadingTimeout) {
-    clearTimeout(loadingTimeout);
-  }
 });
 </script>
 
