@@ -70,15 +70,6 @@
             </div>
             <div class="nav-item-indicator"></div>
           </RouterLink>
-            <div class="nav-item-background"></div>
-            <div class="nav-item-content">
-              <div class="nav-icon-container">
-                <!-- Add an icon for wiki editing -->
-              </div>
-              <span v-show="!isCollapsed" class="link-text">Edit Wiki</span>
-            </div>
-            <div class="nav-item-indicator"></div>
-          </RouterLink>
         </div>
 
         <div class="sidenavContainer bottom-container">
