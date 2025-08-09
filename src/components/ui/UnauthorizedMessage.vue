@@ -57,7 +57,7 @@ withDefaults(defineProps<Props>(), {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 20px;
 }
 
 .unauthorized-message {
@@ -65,120 +65,106 @@ withDefaults(defineProps<Props>(), {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1e2126 0%, #23262c 50%, #2a2d35 100%);
-  border-radius: 20px;
-  margin: 0 auto;
-  max-width: 600px;
-  padding: 35px 35px;
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  border-radius: 12px;
+  margin: 60px auto 0;
+  width: 100%;
+  max-width: 1000px;
+  padding: 40px;
   text-align: center;
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.3),
-    0 8px 16px rgba(108, 93, 211, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(108, 93, 211, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
-.unauthorized-message::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(74, 222, 128, 0.5),
-    transparent
-  );
+.unauthorized-message:hover {
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 .unauthorized-icon {
-  width: 65px;
-  height: 65px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  background: var(--myst-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
-  box-shadow: 0 8px 32px rgba(74, 222, 128, 0.3);
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--myst-gold) 30%, transparent);
   animation: pulse 2s infinite;
 }
 
 .unauthorized-icon i {
-  font-size: 26px;
-  color: white;
+  font-size: 24px;
+  color: var(--myst-bg);
 }
 
 @keyframes pulse {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 8px 32px rgba(74, 222, 128, 0.3);
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--myst-gold) 30%, transparent);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(74, 222, 128, 0.5);
+    box-shadow: 0 12px 40px color-mix(in srgb, var(--myst-gold) 50%, transparent);
   }
 }
 
 .unauthorized-title {
-  color: #ffffff;
+  color: var(--myst-ink-strong);
   font-size: 24px;
   font-family: "MontserratSemiBold", system-ui, sans-serif;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #ffffff, #e0e0e0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
 .unauthorized-text {
-  color: #b4bbc5;
+  color: var(--myst-ink-muted);
   font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 25px;
-  max-width: 420px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 1200px;
 }
 
 .unauthorized-features {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 25px;
+  gap: 16px;
+  margin-bottom: 32px;
   width: 100%;
-  max-width: 380px;
+  max-width: 800px;
 }
 
 .feature-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 20px;
-  background: rgba(108, 93, 211, 0.1);
-  border-radius: 12px;
-  border: 1px solid rgba(108, 93, 211, 0.2);
+  padding: 16px 20px;
+  background: color-mix(in srgb, var(--myst-bg) 40%, transparent);
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
   transition: all 0.3s ease;
 }
 
 .feature-item:hover {
-  background: rgba(108, 93, 211, 0.15);
-  border-color: rgba(74, 222, 128, 0.3);
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 25%, transparent);
   transform: translateY(-2px);
 }
 
 .feature-item i {
-  color: #8b7eff;
+  color: var(--myst-gold);
   font-size: 16px;
   width: 20px;
   text-align: center;
 }
 
 .feature-item span {
-  color: #ffffff;
+  color: var(--myst-ink-strong);
   font-size: 14px;
   font-weight: 500;
 }
@@ -189,50 +175,50 @@ withDefaults(defineProps<Props>(), {
 }
 
 .disclaimer {
-  color: #7a8189;
-  font-size: 11px;
-  line-height: 1.3;
+  color: var(--myst-ink-muted);
+  font-size: 12px;
+  line-height: 1.4;
   margin: 0;
   opacity: 0.8;
 }
 
 @media (max-width: 768px) {
   .unauthorized-container {
-    padding: 15px;
+    padding: 16px;
     min-height: calc(100vh - 150px);
   }
 
   .unauthorized-message {
-    padding: 35px 25px;
+    padding: 32px 24px;
     max-width: 100%;
   }
 
   .unauthorized-icon {
-    width: 65px;
-    height: 65px;
+    width: 56px;
+    height: 56px;
     margin-bottom: 20px;
   }
 
   .unauthorized-icon i {
-    font-size: 26px;
+    font-size: 22px;
   }
 
   .unauthorized-title {
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 12px;
   }
 
   .unauthorized-text {
-    font-size: 16px;
-    margin-bottom: 25px;
+    font-size: 15px;
+    margin-bottom: 24px;
   }
 
   .unauthorized-features {
-    margin-bottom: 25px;
+    margin-bottom: 24px;
   }
 
   .feature-item {
-    padding: 10px 16px;
+    padding: 14px 18px;
     gap: 10px;
   }
 
@@ -247,17 +233,17 @@ withDefaults(defineProps<Props>(), {
 
 @media (max-width: 480px) {
   .unauthorized-message {
-    padding: 30px 20px;
-    border-radius: 16px;
+    padding: 28px 20px;
+    border-radius: 10px;
   }
 
   .unauthorized-icon {
-    width: 55px;
-    height: 55px;
+    width: 48px;
+    height: 48px;
   }
 
   .unauthorized-icon i {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .unauthorized-title {
@@ -269,7 +255,7 @@ withDefaults(defineProps<Props>(), {
   }
 
   .feature-item {
-    padding: 8px 14px;
+    padding: 12px 16px;
   }
 
   .feature-item span {

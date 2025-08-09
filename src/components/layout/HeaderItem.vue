@@ -1,39 +1,41 @@
 <template>
   <header class="main-header">
-    <RouterLink to="/" @click="closeMobileNav" class="header-logo-link">
-      <IconLogo />
-      <span class="logo-text">Mysterria</span>
-    </RouterLink>
+    <div class="header-content">
+      <RouterLink to="/" @click="closeMobileNav" class="header-logo-link">
+        <IconLogo />
+        <span class="logo-text">Mysterria</span>
+      </RouterLink>
 
-    <nav class="navigation" ref="navigationRef">
-      <component
-        v-for="link in navigationLinks"
-        :key="link.path"
-        :is="link.external ? 'a' : 'RouterLink'"
-        v-bind="getNavLinkProps(link)"
-        :class="[
-          'nav-link',
-          { active: !link.external && route.path === link.path },
-        ]"
-        :data-path="link.path"
-      >
-        {{ link.title }}
-      </component>
-    </nav>
+      <nav class="navigation" ref="navigationRef">
+        <component
+          v-for="link in navigationLinks"
+          :key="link.path"
+          :is="link.external ? 'a' : 'RouterLink'"
+          v-bind="getNavLinkProps(link)"
+          :class="[
+            'nav-link',
+            { active: !link.external && route.path === link.path },
+          ]"
+          :data-path="link.path"
+        >
+          {{ link.title }}
+        </component>
+      </nav>
 
-    <div class="header-actions">
-      <ThemeToggle />
-      <LanguageSelector />
-      <BalanceButton />
-      <AuthButton class="auth-desktop" />
-      <button
-        @click="toggleMobileNav"
-        class="mobile-nav-toggle"
-        :aria-expanded="isMobileNavOpen"
-        aria-label="Toggle navigation"
-      >
-        <IconNavbar />
-      </button>
+      <div class="header-actions">
+        <ThemeToggle />
+        <LanguageSelector />
+        <BalanceButton />
+        <AuthButton class="auth-desktop" />
+        <button
+          @click="toggleMobileNav"
+          class="mobile-nav-toggle"
+          :aria-expanded="isMobileNavOpen"
+          aria-label="Toggle navigation"
+        >
+          <IconNavbar />
+        </button>
+      </div>
     </div>
   </header>
 
@@ -81,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onUnmounted } from "vue";
+import { computed, onUnmounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import AuthButton from "@/components/ui/AuthButton.vue";
 import BalanceButton from "@/components/ui/BalanceButton.vue";
@@ -106,8 +108,8 @@ const isMobileNavOpen = ref(false);
 const navigationLinks = computed<NavLink[]>(() => [
   { path: "/", title: t("navHome") || "Home" },
   { path: "/guide", title: t("navGame") || "Guide" },
+  { path: "/rules", title: t("navRules") || "Rules" },
   { path: "/shop", title: t("navShop") || "Shop" },
-  { path: "/wiki", title: t("navWiki") || "Wiki" },
 ]);
 
 const getNavLinkProps = (link: NavLink) => {
@@ -146,19 +148,31 @@ onUnmounted(() => {
 
 <style scoped>
 .main-header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
-  max-width: 1200px;
-  margin: 0 auto;
   padding: 0 16px;
   gap: 24px;
-  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
+  background: color-mix(in srgb, var(--myst-bg) 80%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid color-mix(in srgb, white 15%, transparent);
   z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 24px;
 }
 
 .header-logo-link {
@@ -361,9 +375,11 @@ onUnmounted(() => {
 .mobile-nav-enter-active,
 .mobile-nav-leave-active {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
   .mobile-nav {
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
   .mobile-nav-backdrop {
     transition: opacity 0.4s ease;
   }
@@ -372,9 +388,11 @@ onUnmounted(() => {
 .mobile-nav-enter-from,
 .mobile-nav-leave-to {
   opacity: 0;
+
   .mobile-nav {
     transform: translateX(-100%);
   }
+
   .mobile-nav-backdrop {
     opacity: 0;
   }

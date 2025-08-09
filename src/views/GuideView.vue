@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen relative">
+  <div class="page-container">
     <HeaderItem />
 
     <main class="guide-main">
@@ -694,7 +694,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, onMounted, computed } from "vue";
+import { ref, computed } from "vue";
 import { useI18n } from "@/composables/useI18n";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
@@ -747,21 +747,22 @@ const openLauncher = () => {
   src: url("@/assets/fonts/Monocraft.ttf");
 }
 
+/* Page Container */
+.page-container {
+  min-height: 100vh;
+  position: relative;
+}
+
 .guide-main {
   position: relative;
-  z-index: 20;
-  min-height: 100vh;
-  background: linear-gradient(
-    180deg,
-    rgba(12, 12, 24, 1) 0%,
-    rgba(20, 20, 40, 1) 100%
-  );
+  background: var(--myst-bg);
+  padding: 80px 0;
 }
 
 .guide-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 2vw, 2rem);
+  padding: 0 16px;
 }
 
 .guide-content {
@@ -771,8 +772,8 @@ const openLauncher = () => {
 .guide-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: clamp(1.5rem, 3vw, 2rem);
-  margin-bottom: clamp(3rem, 2vw, 4rem);
+  gap: 24px;
+  margin-bottom: 48px;
   align-items: stretch;
 }
 
@@ -781,11 +782,10 @@ const openLauncher = () => {
 }
 
 .guide-card {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 20px;
-  padding: clamp(1.5rem, 3vw, 2rem);
-  border: 1px solid rgba(74, 222, 128, 0.15);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  border-radius: 8px;
+  padding: 24px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -795,26 +795,14 @@ const openLauncher = () => {
 }
 
 .guide-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(74, 222, 128, 0.2);
-  border-color: rgba(74, 222, 128, 0.3);
-}
-
-.guide-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #4ade80, #22d3ee, #a0dc8e);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 .card-icon {
   width: 48px;
   height: 48px;
-  margin-bottom: 1rem;
-  color: #22d3ee;
+  margin-bottom: 16px;
+  color: var(--myst-gold);
 }
 
 .card-icon svg {
@@ -823,107 +811,106 @@ const openLauncher = () => {
 }
 
 .card-title {
-  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-size: 18px;
   font-family: "MontserratBold", sans-serif;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
+  margin-bottom: 12px;
 }
 
 .card-description {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--myst-ink-muted);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
   min-height: 3em;
 }
 
 /* Server Details Section */
 .server-details {
   flex-grow: 1;
-  margin: 1.5rem 0;
+  margin: 24px 0;
 }
 
 .server-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .info-item {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.75rem;
+  gap: 4px;
+  background: color-mix(in srgb, var(--myst-bg) 40%, transparent);
+  padding: 12px;
   border-radius: 8px;
-  border: 1px solid rgba(108, 93, 211, 0.1);
+  border: 1px solid color-mix(in srgb, white 5%, transparent);
 }
 
 .info-label {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.8rem;
+  color: var(--myst-ink-muted);
+  font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .info-value {
-  color: #22d3ee;
+  color: var(--myst-gold);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 
 .server-ip-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 12px;
 }
 
 .server-ip {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(74, 222, 128, 0.2);
+  gap: 12px;
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 .ip-label {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--myst-ink);
   font-weight: 500;
 }
 
 .ip-address {
   font-family: "Minecraft", monospace;
-  font-size: 1.1rem;
-  color: #22d3ee;
-  background: rgba(139, 126, 255, 0.1);
-  padding: 0.5rem 0.75rem;
+  font-size: 16px;
+  color: var(--myst-gold);
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  padding: 8px 12px;
   border-radius: 6px;
   flex: 1;
 }
 
 .copy-button {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  background: var(--myst-gold);
   border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+  color: var(--myst-bg);
+  padding: 12px 24px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 8px;
   font-weight: 600;
   width: 100%;
 }
 
 .copy-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3);
+  background: color-mix(in srgb, var(--myst-gold) 80%, transparent);
 }
 
 .copy-button svg {
@@ -935,42 +922,44 @@ const openLauncher = () => {
 .recommendations {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 16px;
+  margin-bottom: 16px;
   flex-grow: 1;
 }
 
 .recommendation-item {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(108, 93, 211, 0.1);
+  background: color-mix(in srgb, var(--myst-bg) 40%, transparent);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, white 5%, transparent);
 }
 
 .recommendation-item h3 {
-  color: #ffffff;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  color: var(--myst-ink-strong);
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .recommendation-item p {
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 0.75rem;
-  font-size: 0.9rem;
+  color: var(--myst-ink-muted);
+  margin-bottom: 12px;
+  font-size: 14px;
 }
 
 .external-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #22d3ee;
+  gap: 8px;
+  color: var(--myst-gold);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .external-link:hover {
-  color: #4ade80;
+  color: color-mix(in srgb, var(--myst-gold) 80%, transparent);
+  text-decoration: underline;
 }
 
 .external-link svg {
@@ -982,22 +971,22 @@ const openLauncher = () => {
 .launcher-features {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 12px;
+  margin-bottom: 16px;
   flex-grow: 1;
 }
 
 .feature-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
+  gap: 12px;
+  color: var(--myst-ink);
 }
 
 .feature-item svg {
   width: 20px;
   height: 20px;
-  color: #4ade80;
+  color: var(--myst-gold);
   flex-shrink: 0;
 }
 
@@ -1005,22 +994,21 @@ const openLauncher = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  gap: 8px;
+  background: var(--myst-gold);
   border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+  color: var(--myst-bg);
+  padding: 12px 24px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   margin-top: auto;
 }
 
 .download-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3);
+  background: color-mix(in srgb, var(--myst-gold) 80%, transparent);
 }
 
 .download-button svg {
@@ -1032,22 +1020,22 @@ const openLauncher = () => {
 .discord-benefits {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 12px;
+  margin-bottom: 16px;
   flex-grow: 1;
 }
 
 .benefit-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
+  gap: 12px;
+  color: var(--myst-ink);
 }
 
 .benefit-item svg {
   width: 20px;
   height: 20px;
-  color: #4ade80;
+  color: var(--myst-gold);
   flex-shrink: 0;
 }
 
@@ -1055,22 +1043,20 @@ const openLauncher = () => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 8px;
   background: #5865f2;
   color: white;
   text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+  padding: 12px 24px;
+  border-radius: 8px;
   font-weight: 600;
   transition: all 0.2s ease;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   margin-top: auto;
 }
 
 .discord-link:hover {
   background: #4752c4;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(88, 101, 242, 0.3);
 }
 
 .discord-link svg {
@@ -1081,45 +1067,44 @@ const openLauncher = () => {
 /* Main Rules Preview */
 .main-rules-preview {
   flex-grow: 1;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .preview-title {
-  font-size: 1.1rem;
+  font-size: 16px;
   font-weight: 600;
-  color: #d4af37;
-  margin-bottom: 1rem;
+  color: var(--myst-gold);
+  margin-bottom: 16px;
   text-align: center;
 }
 
 .rule-concepts {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 12px;
 }
 
 .rule-concept {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.9rem;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.75rem;
+  gap: 12px;
+  color: var(--myst-ink);
+  font-size: 14px;
+  background: color-mix(in srgb, var(--myst-bg) 40%, transparent);
+  padding: 12px;
   border-radius: 8px;
-  border: 1px solid rgba(139, 69, 19, 0.2);
+  border: 1px solid color-mix(in srgb, white 5%, transparent);
   transition: all 0.2s ease;
 }
 
 .rule-concept:hover {
-  border-color: rgba(139, 69, 19, 0.4);
-  background: rgba(139, 69, 19, 0.1);
+  border-color: color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 .concept-icon {
-  font-size: 1.2rem;
+  font-size: 18px;
   flex-shrink: 0;
-  color: #d4af37;
+  color: var(--myst-gold);
 }
 
 /* Links */
@@ -1127,19 +1112,19 @@ const openLauncher = () => {
 .profile-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #22d3ee;
+  gap: 8px;
+  color: var(--myst-gold);
   text-decoration: none;
   font-weight: 500;
   transition: all 0.2s ease;
-  padding: 0.5rem 0;
+  padding: 8px 0;
   margin-top: auto;
 }
 
 .rules-link:hover,
 .profile-link:hover {
-  color: #4ade80;
-  transform: translateX(4px);
+  color: color-mix(in srgb, var(--myst-gold) 80%, transparent);
+  text-decoration: underline;
 }
 
 .rules-link svg,
@@ -1152,28 +1137,28 @@ const openLauncher = () => {
 .verification-steps {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 12px;
+  margin-bottom: 16px;
   flex-grow: 1;
 }
 
 .step-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
+  gap: 12px;
+  color: var(--myst-ink);
 }
 
 .step-number {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
-  color: white;
+  background: var(--myst-gold);
+  color: var(--myst-bg);
   width: 24px;
   height: 24px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
+  font-size: 12px;
   font-weight: 600;
   flex-shrink: 0;
 }
@@ -1181,9 +1166,9 @@ const openLauncher = () => {
 /* Image Containers */
 .image-container {
   height: 180px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  border: 1px solid rgba(108, 93, 211, 0.1);
+  background: color-mix(in srgb, var(--myst-bg) 40%, transparent);
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, white 5%, transparent);
   overflow: hidden;
   margin-top: auto;
   transition: all 0.2s ease;
@@ -1194,24 +1179,24 @@ const openLauncher = () => {
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  opacity: 0.9;
 }
 
 .image-container:hover {
-  border-color: rgba(74, 222, 128, 0.3);
-  box-shadow: 0 4px 12px rgba(108, 93, 211, 0.1);
+  border-color: color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 .image-container:hover img {
-  transform: scale(1.05);
+  opacity: 1;
 }
 
 /* Quick Tips */
 .quick-tips {
-  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
   border: 1px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
-  border-radius: 12px;
-  padding: 32px;
-  margin-bottom: 2rem;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
 }
 
 .tips-title {
@@ -1225,26 +1210,26 @@ const openLauncher = () => {
 .tips-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  gap: 16px;
 }
 
 .tip-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(108, 93, 211, 0.1);
+  gap: 12px;
+  background: color-mix(in srgb, var(--myst-bg) 40%, transparent);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, white 5%, transparent);
 }
 
 .tip-icon {
-  font-size: 1.5rem;
+  font-size: 24px;
   flex-shrink: 0;
 }
 
 .tip-item p {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--myst-ink);
   margin: 0;
   line-height: 1.5;
 }
@@ -1252,34 +1237,23 @@ const openLauncher = () => {
 /* Bottom CTA */
 .bottom-cta {
   text-align: center;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 20px;
-  padding: clamp(2rem, 4vw, 3rem);
-  border: 1px solid rgba(74, 222, 128, 0.15);
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border-radius: 8px;
+  padding: 32px;
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
   position: relative;
-  overflow: hidden;
-}
-
-.bottom-cta::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #4ade80, #22d3ee, #a0dc8e);
 }
 
 .bottom-cta h2 {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-size: 32px;
   font-family: "MontserratBold", sans-serif;
-  color: #ffffff;
-  margin-bottom: 1rem;
+  color: var(--myst-ink-strong);
+  margin-bottom: 16px;
 }
 
 .bottom-cta p {
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 2rem;
+  color: var(--myst-ink-muted);
+  margin-bottom: 32px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -1287,7 +1261,7 @@ const openLauncher = () => {
 
 .cta-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -1296,8 +1270,8 @@ const openLauncher = () => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 2rem;
-  border-radius: 12px;
+  padding: 12px 32px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s ease;
@@ -1305,25 +1279,23 @@ const openLauncher = () => {
 }
 
 .cta-button.primary {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
-  color: white;
+  background: var(--myst-gold);
+  color: var(--myst-bg);
 }
 
 .cta-button.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3);
+  background: color-mix(in srgb, var(--myst-gold) 80%, transparent);
 }
 
 .cta-button.secondary {
   background: transparent;
-  color: #22d3ee;
-  border: 2px solid rgba(74, 222, 128, 0.3);
+  color: var(--myst-gold);
+  border: 2px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 .cta-button.secondary:hover {
-  background: rgba(108, 93, 211, 0.1);
-  border-color: rgba(108, 93, 211, 0.5);
-  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
+  border-color: var(--myst-gold);
 }
 
 /* Responsive Design */
@@ -1339,8 +1311,17 @@ const openLauncher = () => {
 }
 
 @media (max-width: 768px) {
+  .guide-main {
+    padding: 40px 0;
+  }
+
+  .guide-container {
+    padding: 0 16px;
+  }
+
   .guide-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .server-info-grid {
@@ -1350,25 +1331,37 @@ const openLauncher = () => {
   .server-ip {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.5rem;
+    gap: 8px;
   }
 
   .recommendations {
-    gap: 0.75rem;
+    gap: 12px;
   }
 
   .tips-grid {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 480px) {
-  .guide-container {
-    padding: 1rem;
+  .bottom-cta {
+    padding: 24px;
   }
 
+  .bottom-cta h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 640px) {
   .guide-card {
-    padding: 1rem;
+    padding: 16px;
+  }
+
+  .quick-tips {
+    padding: 16px;
+  }
+
+  .cta-buttons {
+    gap: 12px;
   }
 }
 </style>

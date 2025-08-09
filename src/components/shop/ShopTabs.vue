@@ -2,22 +2,32 @@
   <div class="tabs-navigation" ref="tabsNavigationRef">
     <button
       @click="setActiveTab('items')"
-      :class="{ 'active-tab': activeTab === 'items' }"
+      :class="{ 
+        'active-tab': activeTab === 'items',
+        'loading': isTabLoading 
+      }"
+      :disabled="isTabLoading"
       class="tab-button"
       data-tab="items"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
+      <span v-if="isTabLoading && activeTab === 'items'" class="tab-spinner"></span>
       {{ t("items") }}
     </button>
     <button
       @click="setActiveTab('subscriptions')"
-      :class="{ 'active-tab': activeTab === 'subscriptions' }"
+      :class="{ 
+        'active-tab': activeTab === 'subscriptions',
+        'loading': isTabLoading 
+      }"
+      :disabled="isTabLoading"
       class="tab-button"
       data-tab="subscriptions"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
+      <span v-if="isTabLoading && activeTab === 'subscriptions'" class="tab-spinner"></span>
       {{ t("subscriptions") }}
     </button>
     <div class="tab-underline" ref="underlineRef"></div>
@@ -28,6 +38,12 @@
 import { ref, watch, onMounted, nextTick } from "vue";
 import { useI18n } from "@/composables/useI18n";
 
+// Define emits
+const emit = defineEmits<{
+  tabChanged: [tab: "items" | "subscriptions"];
+  loadingChange: [loading: boolean];
+}>();
+
 // Local tab state management
 const { t } = useI18n();
 const activeTab = ref<"items" | "subscriptions">("items");
@@ -36,8 +52,22 @@ const underlineRef = ref<HTMLElement>();
 
 let activeElement: HTMLElement | null = null;
 
+const isTabLoading = ref(false);
+
 const setActiveTab = (tab: "items" | "subscriptions") => {
-  activeTab.value = tab;
+  if (activeTab.value === tab) return;
+  
+  isTabLoading.value = true;
+  emit('loadingChange', true);
+  
+  setTimeout(() => {
+    activeTab.value = tab;
+    emit('tabChanged', tab);
+    setTimeout(() => {
+      isTabLoading.value = false;
+      emit('loadingChange', false);
+    }, 200);
+  }, 100);
 };
 
 const findActiveElement = (): HTMLElement | null => {
@@ -145,6 +175,27 @@ onMounted(() => {
   border-radius: 4px;
 }
 
+.tab-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.tab-button.loading {
+  position: relative;
+}
+
+.tab-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: tab-spin 1s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 .tab-underline {
   position: absolute;
   bottom: -1px;
@@ -177,6 +228,15 @@ onMounted(() => {
   .tab-button {
     padding: 10px 15px;
     font-size: 16px;
+  }
+}
+
+@keyframes tab-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

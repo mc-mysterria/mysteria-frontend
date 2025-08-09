@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1.1",
+    "title": "Psychological Chaos",
+    "content": "Deliberate incantations of hostility, prolonged debates intended to sow hatred (Flame), and the persecution of individuals (Cyberbullying) are acts that corrupt the spirit and invite madness. Such toxicity is an uncontrolled ritual that disrupts the fragile sanity of Mysterria and is unacceptable. The City does not tolerate madness that escapes its Control."
+  },
+  {
+    "id": "1.2",
+    "title": "Enemy Language",
+    "content": "To speak words of the world beyond the Veil (Out-of-Character) within the sacred channels of roleplay is to perform a discordant ritual (MixChat). Likewise, the use of excessive profanity and blasphemy is a tongue of madness that frays the fabric of reality. These enemy languages are forbidden; your words must resonate with the character you embody."
+  },
+  {
+    "id": "1.3",
+    "title": "Forbidden Artifacts",
+    "content": "The creation or display of profane artifacts is a grave heresy. This includes symbols that praise abhorrent ideologies, signs of terror, or any form of NSFW / 18+ content. The Church of the Sun will instantly destroy such abominations and purge the souls of their creators."
+  },
+  {
+    "id": "1.4",
+    "title": "Inhuman Word",
+    "content": "Spells of discrimination, racism, sexism, and chauvinism are vile incantations that have no place in Mysterria. Respect for all souls is the fundamental law of coexistence. Uttering such inhuman words marks you as a lost one, devoid of moral protection and subject to immediate judgment."
+  },
+  {
+    "id": "1.5",
+    "title": "Unauthorized Intrusion",
+    "content": "Any form of promotion or advertisement not sanctioned by the Guardians is an act of spiritual invasion. To project your call into the minds of others without permission, even in private whispers (DMs), is to trespass against the soul. Such intrusions will be repelled with force."
+  },
+  {
+    "id": "1.6",
+    "title": "Breaking the Veil",
+    "content": "The Veil between Mysterria and the mundane world is sacred. Divulging the personal information of another soul, thereby exposing their worldly shell, is a forbidden act of the highest order. Breaking the Veil, even in private, is punishable by spiritual exile into the endless Fog."
+  },
+  {
+    "id": "1.6.1",
+    "title": "Whispers from Beyond",
+    "content": "The first level of sacrilege occurs when a soul brings or utilizes knowledge whispered from ethereal platforms beyond the Veil of Roleplay (such as Discord, Telegram, etc.), polluting the purity of in-world discovery."
+  },
+  {
+    "id": "1.6.2",
+    "title": "Shadows of Consequence",
+    "content": "The transgression deepens to the second level if these forbidden whispers invoke tangible consequences upon another soul, such as a phantom fine, a spiritual interrogation, or an invasive inspection of their worldly possessions."
+  },
+  {
+    "id": "1.6.3",
+    "title": "The Iron Grip of Fate",
+    "content": "The gravest sacrilege, the third level, manifests when a torrent of forbidden knowledge leads to profound consequences: an unjust arrest, a raid upon a sanctum, or the discovery of potent, illegal artifacts that seal a soul's fate."
+  },
+  {
+    "id": "1.7",
+    "title": "Verbal Magic",
+    "content": "Every word is a ritual, a casting of verbal magic that shapes the world. The excessive use of profanity exhausts your spiritual energy and taints your soul. Use your words with the wisdom of a seasoned Seer."
+  },
+  {
+    "id": "1.7.1",
+    "title": "Coward's Thoughts",
+    "content": "The channeling of one's thoughts through action commands is a sacred art, not a tool for cowards. Using it to voice provocations or to utter phrases that, if spoken aloud, would place you in deserved peril is a perversion of this magic and is strictly forbidden."
+  },
+  {
+    "id": "1.7.2",
+    "title": "The Maddening Drone",
+    "content": "To flood the aether by endlessly repeating the same or similar message is to create a maddening drone that disrupts the spiritual balance. This chaotic chant is forbidden in all private channels, whether of work, a secret society, or any other private communion."
+  },
+  {
+    "id": "1.8",
+    "title": "Ritual without Altar",
+    "content": "Every channel of communication is a consecrated altar for a specific type of ritual. To perform your incantations in the wrong place (Off-topic) is to cast magic without a proper focus, resulting in chaotic and unforeseen consequences. You will be punished for such carelessness."
+  },
+  {
+    "id": "1.9",
+    "title": "Empty Shells",
+    "content": "Your soul is bound to a single vessel in this realm. Creating alternate, empty shells (Alts/second accounts) or possessing more than one account is forbidden. This arcane identity substitution is a crime against the natural order."
+  },
+  {
+    "id": "1.9.1",
+    "title": "The Vessel's Keeper",
+    "content": "Every soul is the sole keeper of its vessel. The Guardians will never ask for your secret words of power (passwords), and any troubles arising from sharing them with another are your burden to bear alone."
+  },
+  {
+    "id": "1.9.2",
+    "title": "The Fugitive Spirit",
+    "content": "To use a secondary shell to circumvent a judgment or punishment placed upon your primary vessel is a cowardly and futile act. The Guardians see all, and such attempts to escape fate will only worsen your sentence."
+  },
+  {
+    "id": "1.10",
+    "title": "False Knight",
+    "content": "To impersonate the Guardians of the Veil (Staff) is to wear a stolen halo, a blasphemy of the highest degree. Deceiving other souls or fabricating false visions (evidence) to mislead the Guardians will result in your eternal silence, your voice lost to the choking Mist."
+  },
+  {
+    "id": "1.10.1",
+    "title": "Slanderous Spirits",
+    "content": "To spread false accusations of negligence or insubordination against the Guardians is to unleash a slanderous spirit into the world. This act, often done to protect a source of forbidden knowledge, is a grave offense and will be met with severe retribution."
+  },
+  {
+    "id": "1.11",
+    "title": "Incitement Rituals",
+    "content": "Casting rituals of provocation with the intent of forcing another soul to violate the Decrees is a damnable act. You are responsible not only for your own actions but for the madness your influence awakens in others. Those who perform such incitement rituals will be cast into the Abyss alongside those they corrupted."
+  },
+  {
+    "id": "1.11.1",
+    "title": "The Provoker's Gambit",
+    "content": "It is forbidden to initiate any action with the precise goal of baiting a counter-attack, orchestrating a takedown, or otherwise manufacturing a justification from another's reaction. This is a manipulative gambit that pollutes the flow of fate."
+  },
+  {
+    "id": "1.12",
+    "title": "Chaos Spreaders",
+    "content": "Souls who revel in creating conflict and escalating negativity are spreaders of psychic plagues. They perform reverse rituals, unraveling order and weaving chaos. For such transgressions, the consequences will manifest before you have a chance to voice regret. The cosmos does not forgive those who willingly spread its madness."
+  },
+  {
+    "id": "1.12.1",
+    "title": "The Soulless Husk",
+    "content": "To allow your vessel to become a soulless husk (AFK) within the living dream of Roleplay is forbidden. To do so while another soul is performing a ritual upon you (e.g., a robbery) is a grave insult, and the Guardians will ensure the ritual is completed in your absence, to your detriment."
+  },
+  {
+    "id": "1.12.2",
+    "title": "The Coward's Escape",
+    "content": "To tear your soul from the weave (log out) during a critical action—be it a hunt, a raid, a robbery, or a battle—is the ultimate act of cowardice. Even if unintentional, this rupture is a violation. The action will be halted, and the Guardians will resume it by assuming the worst possible outcome for the one who fled."
+  },
+  {
+    "id": "1.12.3",
+    "title": "The Guardian's Judgment",
+    "content": "Should a soul shatter a Decree to escape the consequences of an unfolding action, the Guardians will intervene. They will assess the broken rite and allow it to resume based on the most dreadful, yet plausible, outcome for the transgressor, ensuring that fate cannot be cheated."
+  }
+]

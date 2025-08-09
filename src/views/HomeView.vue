@@ -1,32 +1,54 @@
 <template>
-  <div class="min-h-screen relative">
+  <div class="page-container">
     <HeaderItem />
 
     <!-- Hero Section -->
-    <section class="hero-section relative">
-      <div class="hero-container">
-        <FadeInSection>
-          <div class="hero-content">
-            <h1 class="hero-title">
-              Mysterria
-              <span class="hero-subtitle">
-                {{ t('home.heroSubtitleHome') }}
-              </span>
-            </h1>
-            <p class="hero-description">
-              {{ t('home.heroDescriptionHome') }}
-            </p>
-            <div class="hero-actions">
-              <CopyIPButton ip="play.mysterria.gg" />
-              <RouterLink to="/guide" class="guide-button">
-                <IconWiki class="h-4 w-4" />
-                {{ t('home.readGuide') }}
-              </RouterLink>
-            </div>
-          </div>
-        </FadeInSection>
+    <section
+      class="hero-section"
+      :style="heroStyle"
+      role="banner"
+    >
+      <!-- Overlay for readability -->
+      <div
+        class="hero-overlay"
+        aria-hidden="true"
+      />
 
-        <!-- Quick Features -->
+      <!-- Content -->
+      <div class="hero-content">
+        <FadeInSection>
+          <button
+            @click="showJoinModal = true"
+            class="play-button"
+          >
+            {{ t('home.letsPlay') }}
+          </button>
+        </FadeInSection>
+      </div>
+
+      <!-- Down Arrow -->
+      <button
+        @click="scrollToFeatures"
+        class="scroll-arrow"
+        aria-label="Scroll to features"
+      >
+        <IconArrowDown class="w-6 h-6" />
+      </button>
+
+      <!-- Wavy Divider -->
+      <div class="wavy-divider" aria-hidden="true">
+        <svg class="w-full block" viewBox="0 0 1440 90" preserveAspectRatio="none">
+          <path
+            d="M0,64 C120,80 240,48 360,48 C480,48 600,80 720,74 C840,68 960,32 1080,37 C1200,43 1320,74 1440,80 L1440,160 L0,160 Z"
+            fill="var(--myst-bg)"
+          />
+        </svg>
+      </div>
+    </section>
+
+    <!-- Features Section (previously embedded in hero) -->
+    <section class="features-section relative" id="features">
+      <div class="features-container">
         <FadeInSection delay="100">
           <div class="features-grid">
             <div
@@ -80,6 +102,9 @@
     </section>
 
     <FooterItem />
+
+    <!-- Join Server Modal -->
+    <JoinServerModal :show="showJoinModal" @close="showJoinModal = false" />
   </div>
 </template>
 
@@ -89,18 +114,38 @@ import FooterItem from "@/components/layout/FooterItem.vue";
 import CopyIPButton from "@/components/ui/CopyIPButton.vue";
 import FadeInSection from "@/components/ui/FadeInSection.vue";
 import SectionTitle from "@/components/ui/SectionTitle.vue";
+import JoinServerModal from "@/components/ui/JoinServerModal.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import IconArrowRight from "@/assets/icons/IconArrowRight.vue";
+import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
 import IconStars from "@/assets/icons/IconStars.vue";
 import IconGamepad from "@/assets/icons/IconGamepad.vue";
 import IconUsers from "@/assets/icons/IconUsers.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { newsAPI } from "@/utils/api/news";
 import type { NewsArticle } from "@/types/news";
 import { useI18n } from "@/composables/useI18n";
+import bannerImg from "@/assets/images/banner.png";
 
 const { t, currentLanguage } = useI18n();
 const news = ref<NewsArticle[]>([]);
+const showJoinModal = ref(false);
+
+
+const heroStyle = computed(() => ({
+  backgroundImage: `url('${bannerImg}')`,
+  backgroundPosition: 'center',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  minHeight: 'min(100vh, 960px)',
+}));
+
+function scrollToFeatures() {
+  const el = document.querySelector('#features');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
 
 onMounted(async () => {
   try {
@@ -137,71 +182,110 @@ export default {
 </script>
 
 <style scoped>
-/* Hero Section */
-.hero-section {
+/* Page Container */
+.page-container {
+  min-height: 100vh;
   position: relative;
 }
 
-.hero-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 64px 16px 80px;
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
 }
 
 .hero-content {
-  max-width: 768px;
-}
-
-.hero-title {
-  font-family: "MontserratBold", serif;
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--myst-ink-strong);
-  letter-spacing: -0.025em;
-}
-
-.hero-subtitle {
-  display: block;
-  font-size: clamp(1.25rem, 3vw, 2rem);
-  margin-top: 8px;
-  color: #a1a1aa;
-}
-
-.hero-description {
-  margin-top: 16px;
-  color: #a1a1aa;
-  max-width: 512px;
-}
-
-.hero-actions {
+  position: relative;
+  z-index: 10;
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-@media (min-width: 640px) {
-  .hero-actions {
-    flex-direction: row;
-  }
-}
-
-.guide-button {
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: 1px solid color-mix(in srgb, white 15%, transparent);
-  border-radius: 6px;
-  text-decoration: none;
-  color: var(--myst-ink);
-  transition: all 0.3s ease;
+  justify-content: center;
+  padding: 64px 16px 120px;
 }
 
-.guide-button:hover {
-  border-color: color-mix(in srgb, white 30%, transparent);
-  color: var(--myst-ink-strong);
+.play-button {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1e3a;
+  border: none;
+  padding: 20px 48px;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: "MontserratBold", serif;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.play-button:hover {
+  background: white;
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  scale: 1.05;
+}
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  color: #1a1e3a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.scroll-arrow:hover {
+  background: white;
+  transform: translateX(-50%) translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.wavy-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+}
+
+/* Features Section */
+.features-section {
+  position: relative;
+  background: var(--myst-bg);
+  padding: 80px 0;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 /* Features Grid */
