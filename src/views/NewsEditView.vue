@@ -203,7 +203,7 @@ watch(() => selectedArticle.value, () => {
 }, { deep: true });
 
 const goBack = () => {
-  router.push({ name: '/profile' });
+  router.push('/profile');
 };
 
 const loadArticles = async () => {
