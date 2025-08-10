@@ -7,23 +7,7 @@
         <div class="article-meta">
           <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
         </div>
-        <!-- Debug info -->
-        <div style="background: #f0f0f0; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 12px;">
-          <strong>Debug Info:</strong><br>
-          article exists: {{ !!article }}<br>
-          article.renderedContent exists: {{ !!article.renderedContent }}<br>
-          article.content exists: {{ !!article.content }}<br>
-          renderedContent exists: {{ !!renderedContent }}<br>
-          Content length: {{ (article.renderedContent || renderedContent || '').length }}
-        </div>
-        
         <div class="article-content" v-dompurify-html="article.renderedContent || renderedContent"></div>
-        
-        <!-- Fallback test without v-dompurify-html -->
-        <div style="background: #ffe; padding: 10px; margin: 10px 0; border: 1px solid #ee0;">
-          <strong>Raw content test:</strong><br>
-          <pre style="white-space: pre-wrap; font-size: 11px;">{{ article.renderedContent || renderedContent || 'No content' }}</pre>
-        </div>
       </div>
       <div v-else-if="loading">
         <p>Loading article...</p>

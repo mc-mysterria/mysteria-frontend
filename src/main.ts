@@ -3,6 +3,7 @@ import "./assets/main.css";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import VueCookies from "vue-cookies";
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 import App from "./App.vue";
 import router from "./router";
@@ -14,6 +15,7 @@ const pinia = createPinia();
 app.use(pinia);
 app.use(router);
 app.use(VueCookies);
+app.use(VueDOMPurifyHTML);
 
 window.$cookies = VueCookies;
 
