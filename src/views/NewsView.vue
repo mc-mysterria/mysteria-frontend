@@ -7,16 +7,7 @@
         <div class="article-meta">
           <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
         </div>
-        <div class="article-content">
-          <div v-if="article.renderedContent" v-dompurify-html="article.renderedContent"></div>
-          <div v-else-if="renderedContent" v-dompurify-html="renderedContent"></div>
-          <div v-else>
-            <p>Debug: No rendered content available</p>
-            <p>article.renderedContent: {{ !!article.renderedContent }}</p>
-            <p>renderedContent: {{ !!renderedContent }}</p>
-            <p>article.content: {{ !!article.content }}</p>
-          </div>
-        </div>
+        <div class="article-content" v-dompurify-html="article.renderedContent || renderedContent"></div>
       </div>
       <div v-else-if="loading">
         <p>Loading article...</p>
@@ -51,15 +42,8 @@ const md = new MarkdownIt({
 });
 
 const renderedContent = computed(() => {
-  console.log("Computing rendered content. Article:", article.value);
-  if (!article.value?.content) {
-    console.log("No content found");
-    return '';
-  }
-  console.log("Content:", article.value.content);
-  const rendered = md.render(article.value.content);
-  console.log("Rendered:", rendered);
-  return rendered;
+  if (!article.value?.content) return '';
+  return md.render(article.value.content);
 });
 
 const formatDate = (dateString: string) => {
@@ -76,7 +60,6 @@ onMounted(async () => {
     try {
       loading.value = true;
       const response = await newsAPI.getBySlug(currentLanguage.value, slug);
-      console.log("Article response:", response.data);
       article.value = response.data;
     } catch (error) {
       console.error('Failed to fetch news article:', error);

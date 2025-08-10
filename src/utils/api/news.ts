@@ -6,8 +6,8 @@ class NewsAPI extends BaseCRUD<NewsArticle, CreateNewsData, UpdateNewsData, Reco
     super("/news");
   }
 
-  async getLatest(language: 'en' | 'uk'): Promise<APIResponse<NewsPreview[]>> {
-    return this.request<NewsPreview[]>("GET", `/${language}/latest`);
+  async getLatest(language: 'en' | 'uk'): Promise<APIResponse<NewsArticle[]>> {
+    return this.request<NewsArticle[]>("GET", `/${language}/latest`);
   }
 
   async getBySlug(language: 'en' | 'uk', slug: string): Promise<APIResponse<NewsArticle>> {

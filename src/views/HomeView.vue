@@ -123,12 +123,12 @@ import IconGamepad from "@/assets/icons/IconGamepad.vue";
 import IconUsers from "@/assets/icons/IconUsers.vue";
 import { onMounted, ref, computed } from "vue";
 import { newsAPI } from "@/utils/api/news";
-import type { NewsPreview } from "@/types/news";
+import type { NewsArticle } from "@/types/news";
 import { useI18n } from "@/composables/useI18n";
 import bannerImg from "@/assets/images/banner.png";
 
 const { t, currentLanguage } = useI18n();
-const news = ref<NewsPreview[]>([]);
+const news = ref<NewsArticle[]>([]);
 const showJoinModal = ref(false);
 
 
