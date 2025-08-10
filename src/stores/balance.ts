@@ -136,16 +136,49 @@ export const useBalanceStore = defineStore("balance", {
       this.isLoading = true;
       this.error = null;
 
+      const authStore = useAuthStore();
+      
+      // Check if we have a token before making the request
+      if (!authStore.accessToken) {
+        this.isLoading = false;
+        return;
+      }
+
       try {
         // Use new API endpoint for balance
         const response = await fetch("/api/user/balance", {
           headers: {
-            Authorization: `Bearer ${useAuthStore().accessToken}`,
+            Authorization: `Bearer ${authStore.accessToken}`,
             "Content-Type": "application/json",
           },
         });
 
-        if (!response.ok) throw new Error("Failed to fetch balance");
+        if (!response.ok) {
+          // If unauthorized, it might be a timing issue - retry once after a short delay
+          if (response.status === 401 && authStore.isAuthenticated && authStore.accessToken) {
+            await new Promise(resolve => setTimeout(resolve, 200));
+            const retryResponse = await fetch("/api/user/balance", {
+              headers: {
+                Authorization: `Bearer ${authStore.accessToken}`,
+                "Content-Type": "application/json",
+              },
+            });
+            
+            if (!retryResponse.ok) throw new Error("Failed to fetch balance");
+            
+            const balanceData: BalanceDto = await retryResponse.json();
+            this.balance = {
+              id: balanceData.userId,
+              user_id: balanceData.userId,
+              identifier: balanceData.userId,
+              amount: new Decimal(balanceData.balance).toDecimalPlaces(2),
+              created_at: new Date(balanceData.lastUpdated),
+              updated_at: new Date(balanceData.lastUpdated),
+            };
+            return;
+          }
+          throw new Error("Failed to fetch balance");
+        }
 
         const balanceData: BalanceDto = await response.json();
         this.balance = {
@@ -173,17 +206,42 @@ export const useBalanceStore = defineStore("balance", {
     },
 
     async fetchServices() {
+      const authStore = useAuthStore();
+      
+      // Check if we have a token before making the request
+      if (!authStore.accessToken) {
+        return;
+      }
+
       try {
         // Use new API endpoint for getting all services
         const response = await fetch("/api/shop/services", {
           headers: {
-            Authorization: `Bearer ${useAuthStore().accessToken}`,
+            Authorization: `Bearer ${authStore.accessToken}`,
             "Content-Type": "application/json",
           },
         });
 
-        if (!response.ok)
+        if (!response.ok) {
+          // If unauthorized, it might be a timing issue - retry once after a short delay
+          if (response.status === 401 && authStore.isAuthenticated && authStore.accessToken) {
+            await new Promise(resolve => setTimeout(resolve, 200));
+            const retryResponse = await fetch("/api/shop/services", {
+              headers: {
+                Authorization: `Bearer ${authStore.accessToken}`,
+                "Content-Type": "application/json",
+              },
+            });
+            
+            if (!retryResponse.ok) throw new Error(`Failed to fetch services: ${retryResponse.status}`);
+            
+            const services = await retryResponse.json();
+            this.services = services.filter((s: ServiceDto) => s.isActive);
+            this.legacyServices = this.services.map(convertServiceDtoToLegacy);
+            return;
+          }
           throw new Error(`Failed to fetch services: ${response.status}`);
+        }
 
         const services = await response.json();
         this.services = services.filter((s: ServiceDto) => s.isActive);
@@ -415,8 +473,14 @@ export function useBalanceWatcher() {
     () => authStore.isAuthenticated,
     (isAuthenticated) => {
       if (isAuthenticated) {
-        balanceStore.fetchBalance();
-        balanceStore.fetchServices();
+        // Add a small delay to ensure token is fully available
+        setTimeout(async () => {
+          // Double-check authentication and token availability
+          if (authStore.isAuthenticated && authStore.accessToken) {
+            await balanceStore.fetchBalance();
+            await balanceStore.fetchServices();
+          }
+        }, 100);
       } else {
         balanceStore.$reset();
       }
