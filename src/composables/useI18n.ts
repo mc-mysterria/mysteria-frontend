@@ -208,6 +208,12 @@ const translations = {
     loading2: "Loading...",
     loadMore: "Load more",
     errorLoadingTransactionHistory: "Error loading transaction history",
+    transactionHistory: {
+      allTypes: "All types",
+      loading: "Loading transaction history...",
+      noTransactions: "Transaction history is empty",
+      details: "Details",
+    },
     transactionTypes: {
       PURCHASE: "Purchase",
       DONATION: "Donation",
@@ -779,6 +785,12 @@ const translations = {
     loadMore: "Завантажити більше",
     errorLoadingTransactionHistory:
       "Помилка при завантаженні історії транзакцій",
+    transactionHistory: {
+      allTypes: "Всі типи",
+      loading: "Завантаження історії транзакцій...",
+      noTransactions: "Історія транзакцій порожня",
+      details: "Деталі",
+    },
     transactionTypes: {
       PURCHASE: "Покупка",
       DONATION: "Донат",

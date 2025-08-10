@@ -2,33 +2,33 @@
   <div class="transaction-history" v-if="isOwnProfile">
     <div class="transaction-container">
       <div class="transaction-header">
-        <h3>Історія транзакцій</h3>
+        <h3>{{ t('transactionHistory') }}</h3>
         <div class="transaction-filters">
           <select
             v-model="selectedType"
             @change="() => fetchTransactions()"
             class="filter-select"
           >
-            <option value="">Всі типи</option>
-            <option value="PURCHASE">Покупки</option>
-            <option value="DONATION">Донати</option>
-            <option value="VOTE_REWARD">Винагороди за голоси</option>
-            <option value="ADMIN_ADJUST">Корегування адміна</option>
-            <option value="REFUND">Повернення</option>
-            <option value="SUBSCRIPTION">Підписки</option>
-            <option value="PENALTY">Штрафи</option>
-            <option value="REWARD">Нагороди</option>
+            <option value="">{{ t('transactionHistory.allTypes') }}</option>
+            <option value="PURCHASE">{{ t('transactionTypes.PURCHASE') }}</option>
+            <option value="DONATION">{{ t('transactionTypes.DONATION') }}</option>
+            <option value="VOTE_REWARD">{{ t('transactionTypes.VOTE_REWARD') }}</option>
+            <option value="ADMIN_ADJUST">{{ t('transactionTypes.ADMIN_ADJUST') }}</option>
+            <option value="REFUND">{{ t('transactionTypes.REFUND') }}</option>
+            <option value="SUBSCRIPTION">{{ t('transactionTypes.SUBSCRIPTION') }}</option>
+            <option value="PENALTY">{{ t('transactionTypes.PENALTY') }}</option>
+            <option value="REWARD">{{ t('transactionTypes.REWARD') }}</option>
           </select>
         </div>
       </div>
 
       <div v-if="loading" class="loading-spinner">
         <div class="spinner"></div>
-        <p>Завантаження історії транзакцій...</p>
+        <p>{{ t('transactionHistory.loading') }}</p>
       </div>
 
       <div v-else-if="transactions.length === 0" class="no-transactions">
-        <p>Історія транзакцій порожня</p>
+        <p>{{ t('transactionHistory.noTransactions') }}</p>
       </div>
 
       <div v-else class="transactions-list">
@@ -60,7 +60,7 @@
 
           <div v-if="transaction.metadata" class="transaction-metadata">
             <details>
-              <summary>Деталі</summary>
+              <summary>{{ t('transactionHistory.details') }}</summary>
               <pre>{{ JSON.stringify(transaction.metadata, null, 2) }}</pre>
             </details>
           </div>
@@ -210,7 +210,9 @@ const formatAmount = (amount: number): string => {
 };
 
 const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleString("uk-UA");
+  const { currentLanguage } = useI18n();
+  const locale = currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US';
+  return new Date(dateString).toLocaleString(locale);
 };
 
 onMounted(() => {
