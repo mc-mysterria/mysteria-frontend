@@ -1,15 +1,15 @@
 User-agent: *
 Allow: /
 Allow: /game
-Allow: /wiki
 Allow: /shop
-Allow: /application
-Allow: /form
-Allow: /logout
+Allow: /rules
+Allow: /guide
 
 Disallow: /profile
 Disallow: /admin
 Disallow: /api/
+Disallow: /auth/
+Disallow: /edit
 Disallow: /*?*
 
 Sitemap: https://mysterria.net/sitemap.xml

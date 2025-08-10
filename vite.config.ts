@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
+import { generateSitemap } from 'vite-plugin-sitemap'
 import fs from 'fs'
 import type { IncomingMessage, ClientRequest } from 'http'
 
@@ -31,6 +32,18 @@ export default defineConfig(({ mode }) => {
       vueDevTools(),
       vercel(),
       copyRobotsPlugin(),
+      generateSitemap({
+        hostname: 'https://mysterria.net',
+        routes: [
+          '/',
+          '/shop',
+          '/rules',
+          '/guide',
+          '/game'
+        ],
+        changefreq: 'weekly',
+        priority: 0.7,
+      }),
     ],
     vercel: {},
     optimizeDeps: {

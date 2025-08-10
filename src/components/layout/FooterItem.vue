@@ -7,7 +7,7 @@
           inspired by Lord of the Mysteries.
         </div>
         <nav class="footer-nav">
-          <RouterLink to="/wiki" class="footer-link">Wiki</RouterLink>
+          <RouterLink to="https://wiki.mysterria.net" class="footer-link">Wiki</RouterLink>
           <RouterLink to="/guide" class="footer-link">Guide</RouterLink>
           <RouterLink to="/shop" class="footer-link">Shop</RouterLink>
         </nav>
