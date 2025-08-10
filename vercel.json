@@ -33,6 +33,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/edit/news",
+      "destination": "/index.html"
+    },
+    {
       "source": "/shop",
       "destination": "/index.html"
     },
