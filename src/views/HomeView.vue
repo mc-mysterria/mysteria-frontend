@@ -87,7 +87,7 @@
               </div>
               <div class="news-content">
                 <h3 class="news-title">{{ n.title }}</h3>
-                <p class="news-text">{{ n.content }}</p>
+                <p class="news-text">{{ n.shortDescription || n.preview }}</p>
                 <div class="news-link-container">
                   <RouterLink :to="`/news/${n.slug}`" class="news-link">
                     {{ t('home.readMore') }}
@@ -123,12 +123,12 @@ import IconGamepad from "@/assets/icons/IconGamepad.vue";
 import IconUsers from "@/assets/icons/IconUsers.vue";
 import { onMounted, ref, computed } from "vue";
 import { newsAPI } from "@/utils/api/news";
-import type { NewsArticle } from "@/types/news";
+import type { NewsPreview } from "@/types/news";
 import { useI18n } from "@/composables/useI18n";
 import bannerImg from "@/assets/images/banner.png";
 
 const { t, currentLanguage } = useI18n();
-const news = ref<NewsArticle[]>([]);
+const news = ref<NewsPreview[]>([]);
 const showJoinModal = ref(false);
 
 
@@ -150,7 +150,7 @@ function scrollToFeatures() {
 onMounted(async () => {
   try {
     const response = await newsAPI.getLatest(currentLanguage.value);
-    news.value = response.data as unknown as NewsArticle[];
+    news.value = response.data;
   } catch (error) {
     console.error("Failed to fetch news:", error);
   }

@@ -43,6 +43,10 @@
     {
       "source": "/logout",
       "destination": "/index.html"
+    },
+    {
+      "source": "/news/:path*",
+      "destination": "/index.html"
     }
   ],
   "headers": [

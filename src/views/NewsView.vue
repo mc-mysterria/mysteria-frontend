@@ -7,10 +7,13 @@
         <div class="article-meta">
           <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
         </div>
-        <div class="article-content" v-dompurify-html="renderedContent"></div>
+        <div class="article-content" v-dompurify-html="article.renderedContent || renderedContent"></div>
+      </div>
+      <div v-else-if="loading">
+        <p>Loading article...</p>
       </div>
       <div v-else>
-        <p>Loading article...</p>
+        <p>Article not found or failed to load.</p>
       </div>
     </div>
     <FooterItem />
@@ -29,6 +32,7 @@ import MarkdownIt from 'markdown-it';
 
 const route = useRoute();
 const article = ref<NewsArticle | null>(null);
+const loading = ref(true);
 const { currentLanguage } = useI18n();
 
 const md = new MarkdownIt({
@@ -54,11 +58,17 @@ onMounted(async () => {
   const slug = route.params.slug as string;
   if (slug) {
     try {
+      loading.value = true;
       const response = await newsAPI.getBySlug(currentLanguage.value, slug);
       article.value = response.data;
     } catch (error) {
       console.error('Failed to fetch news article:', error);
+      article.value = null;
+    } finally {
+      loading.value = false;
     }
+  } else {
+    loading.value = false;
   }
 });
 </script>
