@@ -2,7 +2,7 @@
   <div class="transaction-history" v-if="isOwnProfile">
     <div class="transaction-container">
       <div class="transaction-header">
-        <h3>{{ t('transactionHistory') }}</h3>
+        <h3>{{ t('transactionHistoryTitle') }}</h3>
         <div class="transaction-filters">
           <select
             v-model="selectedType"
