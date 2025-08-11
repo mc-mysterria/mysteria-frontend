@@ -266,6 +266,14 @@ const translations = {
     confirmPurchaseMessage: "Are you sure you want to purchase this item?",
     shopLoginRequired: "Log in to your account to access the Shop!",
 
+    // Shop UI
+    shopEyebrow: "Shop",
+    shopTitle: "Wares of the Evernight",
+    shopSubtitle: "Clean, elegant, and fair. Your support sustains the city's lamps.",
+    shopLoading: "Loading shop...",
+    shopLoadFailed: "Failed to load shop",
+    tryAgain: "Try Again",
+
     // Shop Account Setup
     accountSetupRequired: "Account Verification Required",
     shopAccessDescription:
@@ -843,6 +851,14 @@ const translations = {
     confirmPurchaseMessage: "Ви впевнені, що хочете придбати цей товар?",
     shopLoginRequired:
       "Увійдіть у свій обліковий запис, щоб мати доступ до Крамниці!",
+
+    // Shop UI
+    shopEyebrow: "Крамниця",
+    shopTitle: "Товари Вічної Ночі",
+    shopSubtitle: "Чисто, елегантно та справедливо. Ваша підтримка підтримує вогні міста.",
+    shopLoading: "Завантаження крамниці...",
+    shopLoadFailed: "Не вдалося завантажити крамницю",
+    tryAgain: "Спробувати знову",
 
     // Shop Account Setup
     accountSetupRequired: "Потрібно підтвердити акаунт",

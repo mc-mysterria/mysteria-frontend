@@ -20,13 +20,17 @@
 import { computed, ref, watch, onMounted, nextTick } from "vue";
 import { useBalanceStore } from "@/stores/balance";
 import { useUserStore } from "@/stores/user";
+import { useAuthStore } from "@/stores/auth";
 import { useNotification } from "@/services/useNotification";
+import { useI18n } from "@/composables/useI18n";
 import ShopItemCard from "./ShopItemCard.vue";
 import Decimal from "decimal.js";
 import type { ServiceResponse } from "@/types/services";
 
 const shopStore = useBalanceStore();
 const userStore = useUserStore();
+const authStore = useAuthStore();
+const { t } = useI18n();
 const items = computed(() => shopStore.items);
 const itemsGridRef = ref<HTMLElement>();
 const visibleItems = ref<number[]>([]);
@@ -35,12 +39,24 @@ const profile = computed(() => userStore.currentUser);
 const handlePurchase = (itemId: string) => {
   const { show } = useNotification();
 
-  // Check if account is verified (has nickname) before allowing purchase
-  if (!profile.value?.nickname) {
+  // Check if user is authenticated
+  if (!authStore.isAuthenticated) {
     show(
-      "Для покупки необхідно налаштувати профіль. Перейдіть до профілю та додайте нікнейм.",
+      t('shopLoginRequired') || "Please log in to make purchases",
       {
-        type: "error",
+        type: "warn",
+        duration: 5000,
+      },
+    );
+    return;
+  }
+
+  // Check if account is verified (has nickname) before allowing purchase
+  if (!profile.value?.verified || !profile.value?.nickname) {
+    show(
+      t('profileSetupRequired') || "Please verify your account and set up your profile to make purchases",
+      {
+        type: "warn",
         duration: 5000,
       },
     );
@@ -53,13 +69,13 @@ const handlePurchase = (itemId: string) => {
 
   if (!item) {
     console.log("Item not found, showing error notification");
-    show("Товар не знайдено", { type: "error", duration: 3000 });
+    show(t('itemNotFound') || "Item not found", { type: "error", duration: 3000 });
     return;
   }
 
   if (!item.is_active) {
     console.log("Item not active, showing warning notification");
-    show("Цей товар наразі недоступний для покупки", {
+    show(t('itemNotAvailable') || "This item is currently unavailable for purchase", {
       type: "warn",
       duration: 4000,
     });

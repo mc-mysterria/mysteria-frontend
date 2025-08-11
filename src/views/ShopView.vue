@@ -2,14 +2,12 @@
   <div class="min-h-screen relative">
     <HeaderItem />
 
-    <UnauthorizedMessage v-if="!profile" :message="t('shopLoginRequired')" />
-
-    <main class="shop-main" v-if="profile">
+    <main class="shop-main">
       <div class="shop-container">
         <SectionTitle
-          eyebrow="Shop"
-          title="Wares of the Evernight"
-          subtitle="Clean, elegant, and fair. Your support sustains the city's lamps."
+          :eyebrow="t('shopEyebrow')"
+          :title="t('shopTitle')"
+          :subtitle="t('shopSubtitle')"
         />
 
         <!-- Loading state -->
@@ -17,33 +15,19 @@
           <div class="loading-spinner">
             <div class="spinner-ring"></div>
           </div>
-          <p class="loading-text">Loading shop...</p>
+          <p class="loading-text">{{ t('shopLoading') }}</p>
         </div>
 
         <!-- Error state -->
         <div v-else-if="shopError" class="shop-error">
           <div class="error-content">
             <i class="fa-solid fa-triangle-exclamation error-icon"></i>
-            <h3>Failed to load shop</h3>
+            <h3>{{ t('shopLoadFailed') }}</h3>
             <p>{{ shopError }}</p>
             <button @click="retryLoading" class="retry-btn">
               <i class="fa-solid fa-rotate-right"></i>
-              Try Again
+              {{ t('tryAgain') }}
             </button>
-          </div>
-        </div>
-
-        <!-- Profile setup required message -->
-        <div v-else-if="!profile.nickname" class="profile-setup-message">
-          <div class="setup-content">
-            <i class="fa-solid fa-user-gear setup-icon"></i>
-            <h2>{{ t("accountSetupRequired") }}</h2>
-            <p>{{ t("shopAccessDescription") }}</p>
-            <p>{{ t("profileSetupInstructions") }}</p>
-            <router-link to="/profile" class="setup-btn">
-              <i class="fa-solid fa-arrow-right"></i>
-              {{ t("goToProfile") }}
-            </router-link>
           </div>
         </div>
 
@@ -61,21 +45,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import { useBalanceStore } from "@/stores/balance";
-import { useUserStore } from "@/stores/user";
 import { useAuthStore } from "@/stores/auth";
 import { useI18n } from "@/composables/useI18n";
-import UnauthorizedMessage from "@/components/ui/UnauthorizedMessage.vue";
 import ShopItems from "@/components/shop/ShopItems.vue";
 import ModalItem from "@/components/ui/ModalItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import SectionTitle from "@/components/ui/SectionTitle.vue";
 
-const userStore = useUserStore();
 const authStore = useAuthStore();
-const profile = computed(() => userStore.currentUser);
 const shopStore = useBalanceStore();
 const { t } = useI18n();
 const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
@@ -87,28 +67,23 @@ onMounted(async () => {
   try {
     console.log('ShopView mounted, auth state:', authStore.isAuthenticated);
     
-    if (authStore.isAuthenticated) {
-      console.log('User authenticated, fetching shop data');
-      
-      // Wait for services to be fetched if not already loaded
-      if (shopStore.items.length === 0) {
-        console.log('No items in store, fetching services');
-        await shopStore.fetchServices();
-      }
-      
-      // Fetch balance if not already loaded
-      if (!shopStore.balance) {
-        console.log('No balance in store, fetching balance');
-        await shopStore.fetchBalance();
-      }
-      
-      console.log('Shop data loaded:', {
-        itemsCount: shopStore.items.length,
-        hasBalance: !!shopStore.balance
-      });
-    } else {
-      console.log('User not authenticated, skipping shop data fetch');
+    // Always fetch services (public access)
+    if (shopStore.items.length === 0) {
+      console.log('No items in store, fetching services');
+      await shopStore.fetchServices(false); // false = no auth required
     }
+    
+    // Fetch balance only if authenticated
+    if (authStore.isAuthenticated && !shopStore.balance) {
+      console.log('User authenticated, fetching balance');
+      await shopStore.fetchBalance();
+    }
+    
+    console.log('Shop data loaded:', {
+      itemsCount: shopStore.items.length,
+      hasBalance: !!shopStore.balance,
+      isAuthenticated: authStore.isAuthenticated
+    });
   } catch (error) {
     console.error('Error loading shop data:', error);
     shopError.value = error instanceof Error ? error.message : 'Unknown error loading shop';
@@ -121,20 +96,17 @@ onMounted(async () => {
 watch(() => authStore.isAuthenticated, async (isAuthenticated) => {
   console.log('Auth state changed in ShopView:', isAuthenticated);
   
-  if (isAuthenticated && shopStore.items.length === 0) {
-    console.log('User authenticated and no items, refetching shop data');
-    isShopLoading.value = true;
+  if (isAuthenticated) {
+    console.log('User authenticated, fetching balance');
     
     try {
-      await Promise.all([
-        shopStore.fetchServices(),
-        shopStore.fetchBalance()
-      ]);
+      // Always fetch balance when user authenticates
+      await shopStore.fetchBalance();
+      
+      // Re-fetch services with auth to get user-specific data if needed
+      await shopStore.fetchServices(true);
     } catch (error) {
       console.error('Error reloading shop data after auth change:', error);
-      shopError.value = error instanceof Error ? error.message : 'Failed to reload shop data';
-    } finally {
-      isShopLoading.value = false;
     }
   }
 }, { immediate: false });
@@ -224,63 +196,10 @@ export default {
   overflow-x: hidden;
 }
 
-.unauthorized-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 250px;
-  background-color: #23262c;
-  border-radius: 7px;
-  margin: 0 auto;
-  max-width: 600px;
-  padding: 30px;
-  text-align: center;
-}
-
 .unauthorized-message p {
   color: #ffffff;
   font-size: 18px;
   margin-bottom: 20px;
-}
-
-.profile-setup-message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-  padding: 20px;
-}
-
-.setup-content.wide {
-  max-width: 100%;
-  width: 100%;
-  margin: 0;
-}
-.profile-setup-message.wide {
-  padding: 0;
-}
-
-.setup-content {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
-  border-radius: 12px;
-  padding: 40px;
-  text-align: center;
-  max-width: 100%;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-}
-
-.setup-content:hover {
-  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-}
-
-.setup-icon {
-  font-size: 48px;
-  color: var(--myst-gold);
-  margin-bottom: 24px;
 }
 
 .setup-content h2 {
@@ -296,27 +215,6 @@ export default {
   font-size: 16px;
   line-height: 1.6;
   margin-bottom: 15px;
-}
-
-.setup-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--myst-gold);
-  color: var(--myst-bg);
-  text-decoration: none;
-  padding: 15px 30px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 20px;
-  transition: all 0.3s ease;
-}
-
-.setup-btn:hover {
-  background: color-mix(in srgb, var(--myst-gold) 90%, var(--myst-ink));
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 .setup-btn i {
@@ -335,21 +233,6 @@ export default {
     margin-top: 20px;
   }
 
-  .profile-setup-message {
-    min-height: 300px;
-    padding: 10px;
-  }
-
-  .setup-content {
-    padding: 25px;
-    border-radius: 10px;
-  }
-
-  .setup-icon {
-    font-size: 36px;
-    margin-bottom: 15px;
-  }
-
   .setup-content h2 {
     font-size: 22px;
     margin-bottom: 15px;
@@ -358,12 +241,6 @@ export default {
   .setup-content p {
     font-size: 14px;
     margin-bottom: 12px;
-  }
-
-  .setup-btn {
-    padding: 12px 24px;
-    font-size: 14px;
-    margin-top: 15px;
   }
 }
 

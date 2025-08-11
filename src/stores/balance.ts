@@ -7,73 +7,101 @@ import type {
   ServicePoint,
 } from "@/types/services";
 import { useAuthStore } from "@/stores/auth";
+import { useUserStore } from "@/stores/user";
 import { watch } from "vue";
 import { useNotification } from "@/services/useNotification";
 import { Decimal } from "decimal.js";
 import { APIError, RequestError } from "@/utils/api/errors";
 
 // Helper function to convert new API ServiceDto to legacy ServiceResponse format
-function convertServiceDtoToLegacy(service: ServiceDto): ServiceResponse {
-  // Create service points based on type and metadata
+function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): ServiceResponse {
+  // Use internationalized fields if available, fallback to default
+  const name = lang === "en" 
+    ? (service.nameEn || service.name)
+    : (service.nameUk || service.name);
+  
+  const description = lang === "en" 
+    ? (service.descriptionEn || service.description)
+    : (service.descriptionUk || service.description);
+  
+  const bulletPoints = lang === "en" 
+    ? (service.bulletPointsEn || [])
+    : (service.bulletPointsUk || []);
+
+  // Create service points from bullet points or generate from metadata
   const points: ServicePoint[] = [];
-
-  // Add duration info if available
-  if (service.durationDays) {
-    if (service.durationDays === 1) {
-      points.push({ text: `Термін дії: 1 день` });
-    } else if (service.durationDays < 30) {
-      points.push({ text: `Термін дії: ${service.durationDays} днів` });
-    } else {
-      const months = Math.round(service.durationDays / 30);
-      points.push({
-        text: `Термін дії: ${months} ${months === 1 ? "місяць" : "місяці"}`,
-      });
-    }
+  
+  // Add bullet points if available
+  if (bulletPoints.length > 0) {
+    bulletPoints.forEach((point: string) => {
+      points.push({ text: point });
+    });
   } else {
-    points.push({ text: "Назавжди" });
-  }
-
-  // Add type-specific information
-  switch (service.type) {
-    case "ROLE":
-      points.push({ text: "Роль на сервері" });
-      if (service.metadata?.role) {
-        points.push({ text: `Роль: ${service.metadata.role}` });
-      }
-      break;
-    case "ITEM":
-      points.push({ text: "Предмет в грі" });
-      if (service.metadata?.item) {
-        points.push({ text: `Предмет: ${service.metadata.item}` });
-      }
-      if (service.metadata?.items && Array.isArray(service.metadata.items)) {
+    // Fallback to generate points from metadata (for backward compatibility)
+    // Add duration info if available
+    if (service.durationDays) {
+      if (service.durationDays === 1) {
+        points.push({ text: lang === "en" ? "Duration: 1 day" : "Термін дії: 1 день" });
+      } else if (service.durationDays < 30) {
+        points.push({ text: lang === "en" 
+          ? `Duration: ${service.durationDays} days` 
+          : `Термін дії: ${service.durationDays} днів` });
+      } else {
+        const months = Math.round(service.durationDays / 30);
         points.push({
-          text: `Кількість предметів: ${service.metadata.items.length}`,
+          text: lang === "en" 
+            ? `Duration: ${months} month${months > 1 ? 's' : ''}` 
+            : `Термін дії: ${months} ${months === 1 ? "місяць" : "місяці"}`,
         });
       }
-      if (service.metadata?.enchantments) {
-        points.push({ text: "З зачаруваннями" });
-      }
-      break;
-    case "PERMISSION":
-      points.push({ text: "Дозвіл/права" });
-      if (service.metadata?.permission) {
-        points.push({ text: `Дозвіл: ${service.metadata.permission}` });
-      }
-      break;
-    case "COSMETIC":
-      points.push({ text: "Косметичний предмет" });
-      if (service.metadata?.type) {
-        points.push({ text: `Тип: ${service.metadata.type}` });
-      }
-      break;
+    } else {
+      points.push({ text: lang === "en" ? "Permanent" : "Назавжди" });
+    }
+
+    // Add type-specific information
+    switch (service.type) {
+      case "ROLE":
+        points.push({ text: lang === "en" ? "Server role" : "Роль на сервері" });
+        if (service.metadata?.role) {
+          points.push({ text: lang === "en" ? `Role: ${service.metadata.role}` : `Роль: ${service.metadata.role}` });
+        }
+        break;
+      case "ITEM":
+        points.push({ text: lang === "en" ? "In-game item" : "Предмет в грі" });
+        if (service.metadata?.item) {
+          points.push({ text: lang === "en" ? `Item: ${service.metadata.item}` : `Предмет: ${service.metadata.item}` });
+        }
+        if (service.metadata?.items && Array.isArray(service.metadata.items)) {
+          points.push({
+            text: lang === "en" 
+              ? `Number of items: ${service.metadata.items.length}`
+              : `Кількість предметів: ${service.metadata.items.length}`,
+          });
+        }
+        if (service.metadata?.enchantments) {
+          points.push({ text: lang === "en" ? "With enchantments" : "З зачаруваннями" });
+        }
+        break;
+      case "PERMISSION":
+        points.push({ text: lang === "en" ? "Permission/rights" : "Дозвіл/права" });
+        if (service.metadata?.permission) {
+          points.push({ text: lang === "en" ? `Permission: ${service.metadata.permission}` : `Дозвіл: ${service.metadata.permission}` });
+        }
+        break;
+      case "COSMETIC":
+        points.push({ text: lang === "en" ? "Cosmetic item" : "Косметичний предмет" });
+        if (service.metadata?.type) {
+          points.push({ text: lang === "en" ? `Type: ${service.metadata.type}` : `Тип: ${service.metadata.type}` });
+        }
+        break;
+    }
   }
 
   return {
     id: service.id.toString(),
-    name: service.name,
-    display_name: service.name,
-    description: service.description,
+    name,
+    display_name: name,
+    description,
     points,
     price: new Decimal(service.price),
     is_active: service.isActive,
@@ -205,49 +233,69 @@ export const useBalanceStore = defineStore("balance", {
       }
     },
 
-    async fetchServices() {
+    async fetchServices(requireAuth: boolean = true): Promise<void> {
       const authStore = useAuthStore();
+      const userStore = useUserStore();
+      const currentUser = userStore.currentUser;
+      const lang = currentUser?.lang || 'uk';
       
-      // Check if we have a token before making the request
-      if (!authStore.accessToken) {
+      // Check if we have a token when authentication is required
+      if (requireAuth && !authStore.accessToken) {
         return;
       }
 
       try {
-        // Use new API endpoint for getting all services
-        const response = await fetch("/api/shop/services", {
-          headers: {
-            Authorization: `Bearer ${authStore.accessToken}`,
-            "Content-Type": "application/json",
-          },
-        });
+        // Use new API endpoint for getting all services with language parameter
+        const url = `/api/shop/services?lang=${lang}`;
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+        
+        // Add auth header only if token is available and auth is required
+        if (authStore.accessToken && requireAuth) {
+          headers.Authorization = `Bearer ${authStore.accessToken}`;
+        }
+
+        const response = await fetch(url, { headers });
 
         if (!response.ok) {
-          // If unauthorized, it might be a timing issue - retry once after a short delay
-          if (response.status === 401 && authStore.isAuthenticated && authStore.accessToken) {
+          // If unauthorized but auth is required, retry once
+          if (response.status === 401 && requireAuth && authStore.isAuthenticated && authStore.accessToken) {
             await new Promise(resolve => setTimeout(resolve, 200));
-            const retryResponse = await fetch("/api/shop/services", {
+            const retryResponse = await fetch(url, {
               headers: {
                 Authorization: `Bearer ${authStore.accessToken}`,
                 "Content-Type": "application/json",
               },
             });
             
-            if (!retryResponse.ok) throw new Error(`Failed to fetch services: ${retryResponse.status}`);
+            if (!retryResponse.ok) {
+              // If still fails with auth, try without auth for public access
+              if (retryResponse.status === 401) {
+                return this.fetchServices(false);
+              }
+              throw new Error(`Failed to fetch services: ${retryResponse.status}`);
+            }
             
             const services = await retryResponse.json();
             this.services = services.filter((s: ServiceDto) => s.isActive);
-            this.legacyServices = this.services.map(convertServiceDtoToLegacy);
+            this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
             return;
           }
+          
+          // If unauthorized but auth not required, this is expected for public access
+          if (response.status === 401 && !requireAuth) {
+            throw new Error(`Failed to fetch services: ${response.status}`);
+          }
+          
           throw new Error(`Failed to fetch services: ${response.status}`);
         }
 
         const services = await response.json();
         this.services = services.filter((s: ServiceDto) => s.isActive);
 
-        // Convert to legacy format for compatibility
-        this.legacyServices = this.services.map(convertServiceDtoToLegacy);
+        // Convert to legacy format for compatibility with proper internationalization
+        this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
       } catch (error) {
         console.error("Помилка при отриманні послуг:", error);
         const { show } = useNotification();
@@ -478,11 +526,18 @@ export function useBalanceWatcher() {
           // Double-check authentication and token availability
           if (authStore.isAuthenticated && authStore.accessToken) {
             await balanceStore.fetchBalance();
-            await balanceStore.fetchServices();
+            await balanceStore.fetchServices(true); // Re-fetch with auth for user-specific data
           }
         }, 100);
       } else {
-        balanceStore.$reset();
+        // When logging out, only reset balance but keep services for public viewing
+        balanceStore.balance = null;
+        balanceStore.currentPurchase = null;
+        balanceStore.isProcessing = false;
+        if (balanceStore.balanceCheckInterval) {
+          clearInterval(balanceStore.balanceCheckInterval);
+          balanceStore.balanceCheckInterval = null;
+        }
       }
     },
     { immediate: true },

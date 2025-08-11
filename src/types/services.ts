@@ -111,6 +111,13 @@ export interface ServiceDto {
   id: number;
   name: string;
   description?: string;
+  nameEn?: string;
+  nameUk?: string;
+  descriptionEn?: string;
+  descriptionUk?: string;
+  bulletPointsEn?: string[];
+  bulletPointsUk?: string[];
+  imageUrl?: string;
   price: number;
   durationDays?: number;
   type: ServiceType;
