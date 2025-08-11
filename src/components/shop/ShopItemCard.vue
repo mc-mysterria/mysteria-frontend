@@ -10,9 +10,9 @@
       />
       <div
         v-else
-        class="h-full w-full bg-gradient-to-br from-var(--myst-bg) to-var(--myst-bg-secondary) flex items-center justify-center opacity-60"
+        class="h-full w-full bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_80%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_60%,transparent)] flex items-center justify-center opacity-60"
       >
-        <i class="fa-solid fa-image text-4xl text-var(--myst-offwhite)"></i>
+        <i class="fa-solid fa-image text-4xl" style="color: var(--myst-ink-muted)"></i>
       </div>
 
       <!-- Badge -->
@@ -120,6 +120,19 @@ const getItemBadge = () => {
 
 const getImagePath = (path: string | undefined) => {
   if (!path) return "";
+  
+  // Handle HTTP/HTTPS URLs (from API)
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+  
+  // Handle relative API paths
+  if (path.startsWith("/")) {
+    // If it's an absolute path from the API, prepend the API base URL or serve as static file
+    return path;
+  }
+  
+  // Handle local assets (fallback for legacy compatibility)
   try {
     if (path.startsWith("@/assets/")) {
       return new URL(path.replace("@/assets/", "/src/assets/"), import.meta.url)
@@ -128,9 +141,9 @@ const getImagePath = (path: string | undefined) => {
     if (path.startsWith("src/")) {
       return new URL("/" + path, import.meta.url).href;
     }
-    return new URL(path, import.meta.url).href;
+    return path; // Return as-is if it doesn't match any pattern
   } catch (error) {
-    console.error("Помилка завантаження зображення:", error);
+    console.error("Image loading error:", error);
     return path;
   }
 };
@@ -172,32 +185,34 @@ const handlePurchase = () => {
 <style scoped>
 /* Product Card Styles */
 .myst-product-card {
-  background: rgba(19, 22, 42, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(10px);
 }
 
 .myst-product-card:hover {
-  border-color: rgba(200, 178, 115, 0.3);
+  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--myst-bg) 60%, transparent);
 }
 
 /* Badge */
 .myst-badge {
-  background: rgba(200, 178, 115, 0.2);
-  color: var(--myst-offwhite);
-  border: 1px solid rgba(200, 178, 115, 0.4);
+  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  color: var(--myst-ink-strong);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 40%, transparent);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  backdrop-filter: blur(5px);
 }
 
 /* Discount Badge */
@@ -208,6 +223,7 @@ const handlePurchase = () => {
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
+  box-shadow: 0 2px 4px color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 /* Card Header */
@@ -216,7 +232,7 @@ const handlePurchase = () => {
 }
 
 .myst-card-title {
-  color: var(--myst-offwhite);
+  color: var(--myst-ink-strong);
   font-size: 18px;
   font-weight: 600;
   margin: 0;
@@ -230,7 +246,7 @@ const handlePurchase = () => {
 }
 
 .myst-card-description {
-  color: rgb(161, 161, 170);
+  color: var(--myst-ink-muted);
   font-size: 14px;
   line-height: 1.5;
   margin: 0 0 16px 0;
@@ -248,7 +264,7 @@ const handlePurchase = () => {
   align-items: center;
   margin-bottom: 8px;
   font-size: 14px;
-  color: var(--myst-offwhite);
+  color: var(--myst-ink);
 }
 
 .myst-feature-check {
@@ -283,9 +299,9 @@ const handlePurchase = () => {
   visibility: hidden;
   width: 250px;
   max-width: calc(100vw - 40px);
-  background: var(--myst-bg-secondary);
-  color: var(--myst-offwhite);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--myst-bg-2);
+  color: var(--myst-ink-strong);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
   border-radius: 8px;
   padding: 12px;
   z-index: 1000;
@@ -293,10 +309,11 @@ const handlePurchase = () => {
   transition: all 0.3s ease;
   bottom: calc(100% + 8px);
   right: 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--myst-bg) 40%, transparent);
   font-size: 13px;
   line-height: 1.4;
   pointer-events: none;
+  backdrop-filter: blur(10px);
 }
 
 .myst-tooltip-container:hover .myst-tooltip-content {
@@ -324,10 +341,11 @@ const handlePurchase = () => {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: rgb(113, 113, 122);
+  color: var(--myst-ink-muted);
   text-decoration: line-through;
   font-size: 14px;
   margin-bottom: 2px;
+  opacity: 0.7;
 }
 
 .myst-current-price {
@@ -353,9 +371,9 @@ const handlePurchase = () => {
 
 /* Purchase Button */
 .myst-purchase-btn {
-  background: rgba(200, 178, 115, 0.2);
-  border: 1px solid rgba(200, 178, 115, 0.4);
-  color: var(--myst-offwhite);
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  color: var(--myst-ink-strong);
   padding: 10px 16px;
   border-radius: 8px;
   font-size: 14px;
@@ -367,17 +385,23 @@ const handlePurchase = () => {
   justify-content: center;
   gap: 8px;
   white-space: nowrap;
+  backdrop-filter: blur(5px);
 }
 
 .myst-purchase-btn:hover:not(:disabled) {
-  background: rgba(200, 178, 115, 0.3);
+  background: color-mix(in srgb, var(--myst-gold) 25%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 50%, transparent);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 .myst-purchase-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  background: color-mix(in srgb, var(--myst-ink-muted) 10%, transparent);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  color: var(--myst-ink-muted);
 }
 
 /* Responsive Design */

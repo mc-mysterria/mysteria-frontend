@@ -265,6 +265,9 @@ const translations = {
       "Insufficient funds for purchase. Would you like to top up by",
     confirmPurchaseMessage: "Are you sure you want to purchase this item?",
     shopLoginRequired: "Log in to your account to access the Shop!",
+    profileSetupRequired: "Please verify your account and set up your profile to make purchases",
+    itemNotFound: "Item not found",
+    itemNotAvailable: "This item is currently unavailable for purchase",
 
     // Shop UI
     shopEyebrow: "Shop",
@@ -851,6 +854,9 @@ const translations = {
     confirmPurchaseMessage: "Ви впевнені, що хочете придбати цей товар?",
     shopLoginRequired:
       "Увійдіть у свій обліковий запис, щоб мати доступ до Крамниці!",
+    profileSetupRequired: "Будь ласка, підтвердіть свій акаунт і налаштуйте профіль для здійснення покупок",
+    itemNotFound: "Товар не знайдено",
+    itemNotAvailable: "Цей товар наразі недоступний для покупки",
 
     // Shop UI
     shopEyebrow: "Крамниця",

@@ -102,6 +102,7 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
     name,
     display_name: name,
     description,
+    image: service.imageUrl, // Map imageUrl to image for compatibility
     points,
     price: new Decimal(service.price),
     is_active: service.isActive,

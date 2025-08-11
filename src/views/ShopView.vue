@@ -57,7 +57,7 @@ import SectionTitle from "@/components/ui/SectionTitle.vue";
 
 const authStore = useAuthStore();
 const shopStore = useBalanceStore();
-const { t } = useI18n();
+const { t, currentLanguage } = useI18n();
 const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
 const isShopLoading = ref(true);
 const shopError = ref<string | null>(null);
@@ -107,6 +107,29 @@ watch(() => authStore.isAuthenticated, async (isAuthenticated) => {
       await shopStore.fetchServices(true);
     } catch (error) {
       console.error('Error reloading shop data after auth change:', error);
+    }
+  }
+}, { immediate: false });
+
+// Watch for language changes and reload services
+watch(currentLanguage, async (newLanguage, oldLanguage) => {
+  if (oldLanguage && newLanguage !== oldLanguage) {
+    console.log('Language changed, reloading services:', oldLanguage, '->', newLanguage);
+    
+    isShopLoading.value = true;
+    shopError.value = null;
+    
+    try {
+      // Re-fetch services with new language
+      const requireAuth = authStore.isAuthenticated;
+      await shopStore.fetchServices(requireAuth);
+      
+      console.log('Services reloaded for language:', newLanguage);
+    } catch (error) {
+      console.error('Error reloading services after language change:', error);
+      shopError.value = error instanceof Error ? error.message : 'Failed to reload services for new language';
+    } finally {
+      isShopLoading.value = false;
     }
   }
 }, { immediate: false });
