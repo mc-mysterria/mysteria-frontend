@@ -10,6 +10,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useUserStore } from "@/stores/user";
 import { watch } from "vue";
 import { useNotification } from "@/services/useNotification";
+import { useI18n } from "@/composables/useI18n";
 import { Decimal } from "decimal.js";
 import { APIError, RequestError } from "@/utils/api/errors";
 
@@ -237,8 +238,8 @@ export const useBalanceStore = defineStore("balance", {
     async fetchServices(requireAuth: boolean = true): Promise<void> {
       const authStore = useAuthStore();
       const userStore = useUserStore();
-      const currentUser = userStore.currentUser;
-      const lang = currentUser?.lang || 'uk';
+      const { currentLanguage } = useI18n();
+      const lang = currentLanguage.value;
       
       // Check if we have a token when authentication is required
       if (requireAuth && !authStore.accessToken) {
