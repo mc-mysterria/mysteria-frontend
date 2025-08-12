@@ -109,8 +109,8 @@ const navigationLinks = computed<NavLink[]>(() => [
   { path: "/", title: t("navHome") || "Home" },
   { path: "/guide", title: t("navGame") || "Guide" },
   { path: "/rules", title: t("navRules") || "Rules" },
-  { path: "/shop", title: t("navShop") || "Shop" },
-  { path: "https://wiki.mysterria.net", title: t("navWiki") || "Wiki" },
+  { path: "/store", title: t("navShop") || "Shop" },
+  { path: "https://wiki.mysterria.net", title: t("navWiki") || "Wiki", external: true, target: "_blank", rel: "noopener" },
 ]);
 
 const getNavLinkProps = (link: NavLink) => {

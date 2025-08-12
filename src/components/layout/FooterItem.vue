@@ -9,7 +9,7 @@
         <nav class="footer-nav">
           <a href="https://wiki.mysterria.net" class="footer-link" target="_blank" rel="noopener">Wiki</a>
           <RouterLink to="/guide" class="footer-link">Guide</RouterLink>
-          <RouterLink to="/shop" class="footer-link">Shop</RouterLink>
+          <RouterLink to="/store" class="footer-link">Shop</RouterLink>
         </nav>
       </div>
     </div>
