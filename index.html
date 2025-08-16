@@ -64,6 +64,45 @@
     <link rel="preconnect" href="https://catwalk.mysterria.net">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Critical CSS for font loading optimization -->
+    <style>
+      /* Prevent layout shift while fonts load */
+      body { 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+        visibility: hidden;
+      }
+      
+      /* Show content once fonts are ready or after timeout */
+      .fonts-loaded body,
+      body.no-fonts { 
+        visibility: visible; 
+      }
+    </style>
+    
+    <script>
+      // Font loading optimization
+      if ('fonts' in document) {
+        Promise.all([
+          document.fonts.load('400 16px Montserrat'),
+          document.fonts.load('600 16px MontserratSemiBold'),
+          document.fonts.load('700 16px MontserratBold')
+        ]).then(() => {
+          document.documentElement.classList.add('fonts-loaded');
+        }).catch(() => {
+          document.body.classList.add('no-fonts');
+        });
+        
+        // Fallback timeout to prevent invisible content
+        setTimeout(() => {
+          if (!document.documentElement.classList.contains('fonts-loaded')) {
+            document.body.classList.add('no-fonts');
+          }
+        }, 3000);
+      } else {
+        document.body.classList.add('no-fonts');
+      }
+    </script>
 
     <title>Mysterria - Lord of The Mysteries Minecraft Server</title>
   </head>

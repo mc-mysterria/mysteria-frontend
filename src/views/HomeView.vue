@@ -198,6 +198,16 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  /* Enable hardware acceleration for smooth scrolling */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Disable fixed attachment on mobile for better performance */
+@media (max-width: 768px) {
+  .hero-section {
+    background-attachment: scroll;
+  }
 }
 
 .hero-overlay {

@@ -83,25 +83,21 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  // For protected routes, wait briefly for auth, but don't block indefinitely
-  if ((to.meta.requiresAuth || to.meta.requiresPrivileged) && authStore.isLoading) {
-    // Wait maximum 1 second for auth to initialize
-    let attempts = 0;
-    while (authStore.isLoading && attempts < 10) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      attempts++;
-    }
-    
-    // If still loading after timeout, assume not authenticated
+  // For protected routes, check auth state without artificial delays
+  if (to.meta.requiresAuth || to.meta.requiresPrivileged) {
+    // If still loading, let the route load and handle auth in the component
+    // This prevents blocking navigation with artificial delays
     if (authStore.isLoading) {
-      console.warn('Auth still loading after timeout, assuming not authenticated');
+      console.warn('Auth loading during navigation, proceeding to route - auth will be handled by component');
+      next();
+      return;
     }
   }
 
-  // Check authentication only for protected routes
-  if (to.meta.requiresAuth && (!authStore.isAuthenticated || authStore.isLoading)) {
+  // Synchronous checks only - no setTimeout or polling
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: "home" });
-  } else if (to.meta.requiresPrivileged && (!authStore.isPrivilegedUser || authStore.isLoading)) {
+  } else if (to.meta.requiresPrivileged && !authStore.isPrivilegedUser) {
     next({ name: "home" });
   } else {
     next();

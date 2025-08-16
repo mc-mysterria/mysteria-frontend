@@ -1,6 +1,9 @@
 @font-face {
   font-family: "Montserrat";
-  src: url("@/assets/fonts/Montserrat-Regular.ttf");
+  src: url("@/assets/fonts/Montserrat-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -45,7 +48,8 @@
 }
 
 body {
-  font-family: "Montserrat", system-ui, sans-serif;
+  /* Use system fallbacks first for faster initial render */
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--myst-bg);
   color: var(--myst-ink);
   margin: 0;
@@ -774,6 +778,52 @@ html {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Performance optimizations for animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-slow-spin,
+  .animate-slower-spin {
+    animation: none;
+  }
+}
+
+/* Reduce animation frequency on mobile */
+@media (max-width: 768px) {
+  .animate-slow-spin {
+    animation: slow-spin 120s linear infinite;
+  }
+  .animate-slower-spin {
+    animation: slow-spin 180s linear infinite;
+  }
+  
+  /* Reduce expensive effects on mobile */
+  .hero-section {
+    background-attachment: scroll !important; /* Fixed attachment is expensive on mobile */
+  }
+}
+
+/* Performance optimizations for low-end devices */
+@media (max-width: 480px) {
+  /* Simplify backdrop filters on very small screens */
+  [style*="backdrop-filter"] {
+    backdrop-filter: none !important;
+  }
+  
+  /* Reduce blur effects that are GPU intensive */
+  .play-button,
+  .scroll-arrow {
+    backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+}
+
+/* Hardware acceleration hints for frequently animated elements */
+.hero-section,
+.cursor-background,
+.fade-section {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .fade-section {

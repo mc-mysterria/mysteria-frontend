@@ -4,6 +4,7 @@ import type { UserUpdateRequest } from "@/types/users";
 import { useAuthStore } from "./auth";
 import { watch } from "vue";
 import { useNotification } from "@/services/useNotification";
+import { debounce } from "lodash-es";
 
 interface UserState {
   user: UserProfileDto | null;
@@ -96,12 +97,21 @@ export function useUserWatcher() {
   const userStore = useUserStore();
   const authStore = useAuthStore();
 
+  // Debounced user fetch to prevent rapid API calls
+  const debouncedFetchUser = debounce(() => {
+    if (authStore.isAuthenticated) {
+      userStore.fetchUser();
+    }
+  }, 300);
+
   watch(
     () => authStore.isAuthenticated,
     (isAuthenticated) => {
       if (isAuthenticated) {
-        userStore.fetchUser();
+        debouncedFetchUser();
       } else {
+        // Cancel any pending debounced calls
+        debouncedFetchUser.cancel();
         userStore.reset();
       }
     },

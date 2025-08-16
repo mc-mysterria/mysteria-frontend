@@ -13,9 +13,21 @@ import { useNotification } from "@/services/useNotification";
 import { useI18n } from "@/composables/useI18n";
 import { Decimal } from "decimal.js";
 import { APIError, RequestError } from "@/utils/api/errors";
+import { debounce } from "lodash-es";
 
-// Helper function to convert new API ServiceDto to legacy ServiceResponse format
+// Cache for expensive service transformations
+const serviceTransformCache = new Map<string, ServiceResponse>();
+
+// Helper function to convert new API ServiceDto to legacy ServiceResponse format with caching
 function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): ServiceResponse {
+  // Create cache key based on service id, language, and last update
+  const updateTime = (service as any).updatedAt || service.createdAt || Date.now();
+  const cacheKey = `${service.id}-${lang}-${updateTime}`;
+  
+  // Check cache first
+  if (serviceTransformCache.has(cacheKey)) {
+    return serviceTransformCache.get(cacheKey)!;
+  }
   // Use internationalized fields if available, fallback to default
   const name = lang === "en" 
     ? (service.nameEn || service.name)
@@ -98,7 +110,7 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
     }
   }
 
-  return {
+  const converted = {
     id: service.id.toString(),
     name,
     display_name: name,
@@ -115,6 +127,19 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
     service_metadata: service.metadata ? { data: service.metadata } : undefined,
     created_at: service.createdAt ? new Date(service.createdAt) : undefined,
   };
+  
+  // Store in cache for future use
+  serviceTransformCache.set(cacheKey, converted);
+  
+  // Limit cache size to prevent memory leaks
+  if (serviceTransformCache.size > 100) {
+    const firstKey = serviceTransformCache.keys().next().value;
+    if (firstKey) {
+      serviceTransformCache.delete(firstKey);
+    }
+  }
+  
+  return converted;
 }
 
 interface BalanceState {
@@ -162,6 +187,11 @@ export const useBalanceStore = defineStore("balance", {
   },
 
   actions: {
+    // Clear service transformation cache (useful when services are updated)
+    clearServiceCache() {
+      serviceTransformCache.clear();
+    },
+
     async fetchBalance() {
       this.isLoading = true;
       this.error = null;
@@ -281,7 +311,15 @@ export const useBalanceStore = defineStore("balance", {
             
             const services = await retryResponse.json();
             this.services = services.filter((s: ServiceDto) => s.isActive);
-            this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
+            
+            // Use requestIdleCallback for non-critical transformation work
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(() => {
+                this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
+              });
+            } else {
+              this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
+            }
             return;
           }
           
@@ -297,7 +335,15 @@ export const useBalanceStore = defineStore("balance", {
         this.services = services.filter((s: ServiceDto) => s.isActive);
 
         // Convert to legacy format for compatibility with proper internationalization
-        this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
+        // Use requestIdleCallback for non-critical transformation work
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => {
+            this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
+          });
+        } else {
+          // Fallback for browsers without requestIdleCallback
+          this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
+        }
       } catch (error) {
         console.error("Помилка при отриманні послуг:", error);
         const { show } = useNotification();
@@ -519,19 +565,24 @@ export function useBalanceWatcher() {
   const balanceStore = useBalanceStore();
   const authStore = useAuthStore();
 
+  // Debounced function to prevent rapid successive API calls
+  const debouncedFetchData = debounce(async () => {
+    if (authStore.isAuthenticated && authStore.accessToken) {
+      await balanceStore.fetchBalance();
+      await balanceStore.fetchServices(true); // Re-fetch with auth for user-specific data
+    }
+  }, 300);
+
   watch(
     () => authStore.isAuthenticated,
     (isAuthenticated) => {
       if (isAuthenticated) {
-        // Add a small delay to ensure token is fully available
-        setTimeout(async () => {
-          // Double-check authentication and token availability
-          if (authStore.isAuthenticated && authStore.accessToken) {
-            await balanceStore.fetchBalance();
-            await balanceStore.fetchServices(true); // Re-fetch with auth for user-specific data
-          }
-        }, 100);
+        // Use debounced function instead of setTimeout
+        debouncedFetchData();
       } else {
+        // Cancel any pending debounced calls
+        debouncedFetchData.cancel();
+        
         // When logging out, only reset balance but keep services for public viewing
         balanceStore.balance = null;
         balanceStore.currentPurchase = null;

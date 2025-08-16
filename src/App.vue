@@ -26,21 +26,27 @@ useServicesWatcher();
 
 const cursor = ref<HTMLDivElement | null>(null);
 const cursorSize = 50;
+let rafId: number | null = null;
 
 const updateCursorPosition = (event: MouseEvent) => {
-  if (cursor.value) {
-    const halfSize = cursorSize / 2;
-    const x = Math.min(
-      Math.max(event.pageX - halfSize, 0),
-      window.innerWidth - cursorSize,
-    );
-    const y = Math.min(
-      Math.max(event.pageY - halfSize, 0),
-      document.documentElement.scrollHeight - cursorSize,
-    );
+  if (cursor.value && !rafId) {
+    rafId = requestAnimationFrame(() => {
+      if (cursor.value) {
+        const halfSize = cursorSize / 2;
+        const x = Math.min(
+          Math.max(event.pageX - halfSize, 0),
+          window.innerWidth - cursorSize,
+        );
+        const y = Math.min(
+          Math.max(event.pageY - halfSize, 0),
+          document.documentElement.scrollHeight - cursorSize,
+        );
 
-    cursor.value.style.left = `${x}px`;
-    cursor.value.style.top = `${y}px`;
+        // Use transform instead of left/top for better performance
+        cursor.value.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
+      rafId = null;
+    });
   }
 };
 
@@ -70,6 +76,8 @@ onUnmounted(() => {
 
 .cursor-background {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 50px;
   height: 50px;
   background-color: var(--myst-gold);
@@ -78,6 +86,7 @@ onUnmounted(() => {
   pointer-events: none;
   z-index: -2;
   opacity: 0.3;
+  will-change: transform;
 }
 
 @media (max-width: 576px) {

@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 interface Props {
   delay?: string | number;
@@ -21,15 +21,18 @@ const props = withDefaults(defineProps<Props>(), {
 
 const sectionRef = ref<HTMLElement>();
 
+let observer: IntersectionObserver | null = null;
+
 onMounted(() => {
   if (!sectionRef.value) return;
 
-  const observer = new IntersectionObserver(
+  observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
+          // Clean up immediately after animation triggers
+          observer?.unobserve(entry.target);
         }
       });
     },
@@ -40,6 +43,14 @@ onMounted(() => {
   );
 
   observer.observe(sectionRef.value);
+});
+
+// Ensure proper cleanup on component unmount
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect();
+    observer = null;
+  }
 });
 </script>
 

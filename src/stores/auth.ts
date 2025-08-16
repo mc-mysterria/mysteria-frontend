@@ -13,6 +13,9 @@ interface AuthState {
   // Legacy fields for compatibility during migration
   token: string | null;
   userPermissions: Record<string, boolean>[];
+  // Cache timestamp for user data to avoid excessive API calls
+  lastUserFetch: number;
+  userCacheTimeout: number;
 }
 
 export const useAuthStore = defineStore("auth", {
@@ -26,6 +29,9 @@ export const useAuthStore = defineStore("auth", {
     // Legacy fields for compatibility
     token: null,
     userPermissions: [],
+    // Cache management
+    lastUserFetch: 0,
+    userCacheTimeout: 5 * 60 * 1000, // 5 minutes cache
   }),
 
   getters: {
@@ -224,11 +230,18 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async refreshUser() {
+    async refreshUser(forceRefresh: boolean = false) {
+      // Check cache first unless force refresh is requested
+      const now = Date.now();
+      if (!forceRefresh && this.user && (now - this.lastUserFetch) < this.userCacheTimeout) {
+        return; // Use cached data
+      }
+
       try {
         const user = await authAPI.getCurrentUser();
         this.user = user;
         this.isAuthenticated = !!user;
+        this.lastUserFetch = now;
 
         // Note: User permissions are now part of the role system in the new API
         // Will be handled in the admin/user management system update
@@ -237,6 +250,7 @@ export const useAuthStore = defineStore("auth", {
         this.user = null;
         this.isAuthenticated = false;
         this.userPermissions = [];
+        this.lastUserFetch = 0; // Reset cache on error
       }
     },
 
@@ -245,6 +259,7 @@ export const useAuthStore = defineStore("auth", {
       this.isAuthenticated = false;
       this.error = null;
       this.userPermissions = [];
+      this.lastUserFetch = 0; // Reset cache timestamp
     },
 
     hasPermission(permission: string): boolean {
@@ -271,6 +286,11 @@ export const useAuthStore = defineStore("auth", {
 
     hasPermissions(permissions: string[]): boolean {
       return permissions.every((permission) => this.hasPermission(permission));
+    },
+
+    // Force refresh user data bypassing cache
+    async forceUserRefresh() {
+      return this.refreshUser(true);
     },
 
     async openDiscordAuth() {

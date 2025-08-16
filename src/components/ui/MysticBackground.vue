@@ -71,7 +71,11 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: sepia(100%) saturate(200%) hue-rotate(30deg) brightness(0.7);
+  /* Reduce filter complexity for better performance */
+  filter: sepia(50%) brightness(0.8);
+  /* Enable hardware acceleration */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .noise-overlay {
@@ -90,5 +94,35 @@ onMounted(() => {
 :root[data-theme="parchment"] .noise-overlay {
   opacity: 0.02;
   mix-blend-mode: multiply;
+}
+
+/* Pause animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gear {
+    animation: none;
+  }
+}
+
+/* Reduce animation complexity on mobile for better performance */
+@media (max-width: 768px) {
+  .gear-container {
+    opacity: 0.02;
+  }
+  
+  .gear img {
+    /* Simplify filters on mobile */
+    filter: brightness(0.9);
+  }
+}
+
+/* Optimize for low-end devices */
+@media (max-width: 480px) {
+  .gear-container {
+    opacity: 0.01;
+  }
+  
+  .noise-overlay {
+    display: none;
+  }
 }
 </style>
