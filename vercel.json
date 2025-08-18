@@ -41,6 +41,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/wiki",
+      "destination": "/index.html"
+    },
+    {
       "source": "/profile/:path*",
       "destination": "/index.html"
     },

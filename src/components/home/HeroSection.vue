@@ -10,7 +10,7 @@
           <IconGamepad />
           {{ t("joinServer") }}
         </RouterLink>
-        <a :href="wikiURL" rel="noopener noreferrer" class="secondary-button">
+        <RouterLink to="/wiki" class="secondary-button">
           <svg
             width="32"
             height="32"
@@ -28,7 +28,7 @@
             />
           </svg>
           {{ t("lorePathways") }}
-        </a>
+        </RouterLink>
       </div>
       <p class="version">
         {{ t("versionInfo") }}

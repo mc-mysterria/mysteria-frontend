@@ -28,6 +28,11 @@ const router = createRouter({
       component: () => import("@/views/GuideView.vue"),
     },
     {
+      path: "/wiki",
+      name: "wiki",
+      component: () => import("@/views/WikiView.vue"),
+    },
+    {
       path: "/game",
       name: "game",
       component: () => import("@/views/GuideView.vue"),
