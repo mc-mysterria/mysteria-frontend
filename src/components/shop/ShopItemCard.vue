@@ -6,7 +6,7 @@
         v-if="item.image"
         :src="getImagePath(item.image)"
         :alt="item.display_name || item.name"
-        class="h-full w-full object-contain opacity-90 group-hover:opacity-100 transition-opacity"
+        class="shop-item-image opacity-90 group-hover:opacity-100 transition-opacity"
       />
       <div
         v-else
@@ -193,6 +193,19 @@ const handlePurchase = () => {
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(10px);
+}
+
+/* Image Styles */
+.shop-item-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .myst-product-card:hover {
