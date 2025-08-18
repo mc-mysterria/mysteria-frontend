@@ -105,14 +105,14 @@ const { t } = useI18n();
 
 const getItemBadge = () => {
   switch (props.item.type) {
-    case "ROLE":
+    case "DISCORD_ROLE":
       return "Rank";
     case "ITEM":
       return "Relic";
     case "PERMISSION":
       return "Permission";
-    case "COSMETIC":
-      return "Cosmetic";
+    case "SUBSCRIPTION":
+      return "Subscription";
     default:
       return "";
   }

@@ -5,10 +5,10 @@ export type ServiceSort = UserDefaultSort | "name" | "price";
 
 // New API service types
 export enum ServiceType {
-  ROLE = "ROLE",
   ITEM = "ITEM",
   PERMISSION = "PERMISSION",
-  COSMETIC = "COSMETIC",
+  SUBSCRIPTION = "SUBSCRIPTION",
+  DISCORD_ROLE = "DISCORD_ROLE",
 }
 
 export enum ServiceCategory {

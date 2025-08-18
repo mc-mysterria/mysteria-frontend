@@ -73,7 +73,7 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
 
     // Add type-specific information
     switch (service.type) {
-      case "ROLE":
+      case "DISCORD_ROLE":
         points.push({ text: lang === "en" ? "Server role" : "Роль на сервері" });
         if (service.metadata?.role) {
           points.push({ text: lang === "en" ? `Role: ${service.metadata.role}` : `Роль: ${service.metadata.role}` });
@@ -101,8 +101,8 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
           points.push({ text: lang === "en" ? `Permission: ${service.metadata.permission}` : `Дозвіл: ${service.metadata.permission}` });
         }
         break;
-      case "COSMETIC":
-        points.push({ text: lang === "en" ? "Cosmetic item" : "Косметичний предмет" });
+      case "SUBSCRIPTION":
+        points.push({ text: lang === "en" ? "Subscription service" : "Підписка" });
         if (service.metadata?.type) {
           points.push({ text: lang === "en" ? `Type: ${service.metadata.type}` : `Тип: ${service.metadata.type}` });
         }
