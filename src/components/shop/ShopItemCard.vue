@@ -1,7 +1,7 @@
 <template>
   <div v-if="item.is_active" class="myst-product-card group">
     <!-- Image container -->
-    <div class="relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
+    <div class="image-container relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
       <img
         v-if="item.image"
         :src="getImagePath(item.image)"
@@ -195,9 +195,17 @@ const handlePurchase = () => {
   backdrop-filter: blur(10px);
 }
 
+/* Image Container */
+.image-container {
+  position: relative;
+  z-index: 1;
+}
+
 /* Image Styles */
 .shop-item-image {
-  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
