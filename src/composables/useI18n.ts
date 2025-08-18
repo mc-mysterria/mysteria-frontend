@@ -269,6 +269,18 @@ const translations = {
     itemNotFound: "Item not found",
     itemNotAvailable: "This item is currently unavailable for purchase",
 
+    // Shop Categories
+    shopCategoryItems: "Items",
+    shopCategoryItemsDesc: "In-game items and equipment",
+    shopCategoryPermissions: "Permissions", 
+    shopCategoryPermissionsDesc: "Special permissions and abilities",
+    shopCategorySubscriptions: "Subscriptions",
+    shopCategorySubscriptionsDesc: "Recurring premium services",
+    shopCategoryDiscordRoles: "Discord Roles",
+    shopCategoryDiscordRolesDesc: "Discord server roles and benefits",
+    shopCategoryOther: "Other",
+    shopCategoryOtherDesc: "Miscellaneous services",
+
     // Shop UI
     shopEyebrow: "Shop",
     shopTitle: "Wares of the Evernight",
@@ -857,6 +869,18 @@ const translations = {
     profileSetupRequired: "Будь ласка, підтвердіть свій акаунт і налаштуйте профіль для здійснення покупок",
     itemNotFound: "Товар не знайдено",
     itemNotAvailable: "Цей товар наразі недоступний для покупки",
+
+    // Shop Categories
+    shopCategoryItems: "Предмети",
+    shopCategoryItemsDesc: "Ігрові предмети та спорядження",
+    shopCategoryPermissions: "Дозволи",
+    shopCategoryPermissionsDesc: "Спеціальні дозволи та здібності",
+    shopCategorySubscriptions: "Підписки",
+    shopCategorySubscriptionsDesc: "Регулярні преміум послуги",
+    shopCategoryDiscordRoles: "Discord Ролі",
+    shopCategoryDiscordRolesDesc: "Ролі Discord сервера та переваги",
+    shopCategoryOther: "Інше",
+    shopCategoryOtherDesc: "Різноманітні послуги",
 
     // Shop UI
     shopEyebrow: "Крамниця",
