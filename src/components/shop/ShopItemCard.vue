@@ -1,7 +1,7 @@
 <template>
   <div v-if="item.is_active" class="myst-product-card group">
     <!-- Image container -->
-    <div class="relative aspect-[4/3] overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
+    <div class="relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
       <img
         v-if="item.image"
         :src="getImagePath(item.image)"
