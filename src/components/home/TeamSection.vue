@@ -254,17 +254,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "Minecraft";
-  src: url("@/assets/fonts/Monocraft.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: "MontserratBold";
-  src: url("@/assets/fonts/Montserrat-Bold.ttf");
-}
 
 .cards-wrapper {
   position: relative;
@@ -308,7 +298,7 @@ onMounted(() => {
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   margin-bottom: 3rem;
   text-align: center;
-  font-family: "MontserratBold", sans-serif;
+  font-family: "Inter", sans-serif;
   background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;
@@ -321,7 +311,7 @@ onMounted(() => {
   font-size: clamp(1.8rem, 3.5vw, 2.5rem);
   margin: 40px 0 20px 0;
   text-align: center;
-  font-family: "MontserratBold", sans-serif;
+  font-family: "Inter", sans-serif;
   background: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;

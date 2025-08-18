@@ -191,7 +191,7 @@ onUnmounted(() => {
 }
 
 .logo-text {
-  font-family: "MontserratSemiBold", serif;
+  font-family: "Inter", serif;
   font-size: 18px;
   font-weight: 600;
 }

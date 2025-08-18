@@ -239,7 +239,7 @@ onMounted(() => {
 .category-title {
   color: var(--myst-ink-strong);
   font-size: 28px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-weight: 600;
   margin: 0 0 8px 0;
   background: linear-gradient(135deg, var(--myst-gold, #4ade80), var(--myst-ink-strong));

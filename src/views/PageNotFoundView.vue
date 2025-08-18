@@ -41,19 +41,7 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "MontserratBold";
-  src: url("@/assets/fonts/Montserrat-Bold.ttf");
-}
 
-@font-face {
-  font-family: "MontserratRegular";
-  src: url("@/assets/fonts/Montserrat-Regular.ttf");
-}
-@font-face {
-  font-family: "MontserratSemiBold";
-  src: url("@/assets/fonts/Montserrat-SemiBold.ttf");
-}
 
 .pnf-container,
 .pnf-card,
@@ -85,7 +73,7 @@ export default {
 }
 
 h1 {
-  font-family: "MontserratBold", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(60px, 15vw, 90px);
   background: linear-gradient(
     160deg,
@@ -102,7 +90,7 @@ h1 {
 }
 
 h3 {
-  font-family: "MontserratSemiBold", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(20px, 5vw, 24px);
   color: #f3f4f6;
   margin-block-start: 0;
@@ -111,7 +99,7 @@ h3 {
 }
 
 p {
-  font-family: "MontserratRegular", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(14px, 3.5vw, 16px);
   color: #d1d5db;
   margin-block-start: 0;
@@ -124,7 +112,7 @@ p {
   align-items: center;
   justify-content: center;
   padding: clamp(12px, 2vh, 14px) clamp(24px, 4.5vw, 32px);
-  font-family: "MontserratSemiBold", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(14px, 3.2vw, 16px);
   border: none;
   color: #ffffff;

@@ -228,7 +228,7 @@ export default {
 .setup-content h2 {
   color: var(--myst-ink-strong);
   font-size: 28px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-weight: 600;
   margin-bottom: 20px;
 }
@@ -329,7 +329,7 @@ export default {
 .error-content h3 {
   color: var(--myst-ink-strong);
   font-size: 24px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-weight: 600;
   margin-bottom: 15px;
 }

@@ -117,7 +117,7 @@ withDefaults(defineProps<Props>(), {
 .unauthorized-title {
   color: var(--myst-ink-strong);
   font-size: 24px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   margin-bottom: 16px;
   font-weight: 600;
 }

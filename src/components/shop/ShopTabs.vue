@@ -154,7 +154,7 @@ onMounted(() => {
   border: none;
   padding: 15px 30px;
   font-size: 18px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   color: #b4bbc5;
   cursor: pointer;
   position: relative;

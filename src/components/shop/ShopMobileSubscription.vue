@@ -321,7 +321,7 @@ const handlePurchase = (plan: ServiceResponse) => {
 
 .card-header h2 {
   font-size: 24px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   margin-bottom: 5px;
   text-align: center;
   width: 100%;
@@ -351,7 +351,7 @@ const handlePurchase = (plan: ServiceResponse) => {
 
 .price {
   font-size: 32px;
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .price.discounted {

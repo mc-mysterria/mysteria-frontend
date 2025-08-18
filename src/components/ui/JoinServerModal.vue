@@ -112,7 +112,7 @@ const { t } = useI18n();
 }
 
 .modal-title {
-  font-family: "MontserratBold", serif;
+  font-family: "Inter", serif;
   font-size: 24px;
   font-weight: 700;
   color: var(--myst-ink-strong);

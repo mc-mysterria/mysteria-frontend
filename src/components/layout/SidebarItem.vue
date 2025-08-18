@@ -237,10 +237,6 @@ export default {};
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "MontserratSemiBold";
-  src: url("@/assets/fonts/Montserrat-SemiBold.ttf");
-}
 
 .sidenav {
   height: calc(100vh - 80px);
@@ -506,7 +502,7 @@ export default {};
 
 .logo-text {
   font-size: 20px;
-  font-family: "MontserratSemiBold";
+  font-family: "Inter";
   font-weight: 700;
   background: linear-gradient(135deg, #e2e8f0, #94a3b8);
   -webkit-background-clip: text;

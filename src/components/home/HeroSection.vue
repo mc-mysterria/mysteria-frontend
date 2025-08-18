@@ -37,7 +37,7 @@
     <img
       class="animationPlanet hero-planet"
       :class="{ 'hero-visible': isPlanetVisible }"
-      src="@/assets/images/Hero.png"
+      src="@/assets/images/optimized/Hero.webp"
       :alt="t('serverName') + ' world'"
     />
   </div>
@@ -135,7 +135,7 @@ onMounted(() => {
 
 h1 {
   font-size: clamp(3rem, 8vw, 5rem);
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   background: linear-gradient(135deg, #4ade80 0%, #22d3ee 50%, #a0dc8e 100%);
   color: transparent;
   background-clip: text;

@@ -6,10 +6,10 @@
     <!-- Animated gear elements -->
     <div class="gear-container">
       <div class="gear gear-1 animate-slow-spin">
-        <img src="/src/assets/images/gear-1.png" alt="" aria-hidden="true" />
+        <img src="/src/assets/images/optimized/gear-1.webp" alt="" aria-hidden="true" />
       </div>
       <div class="gear gear-2 animate-slower-spin">
-        <img src="/src/assets/images/gear-2.png" alt="" aria-hidden="true" />
+        <img src="/src/assets/images/optimized/gear-2.webp" alt="" aria-hidden="true" />
       </div>
     </div>
 
@@ -81,7 +81,7 @@ onMounted(() => {
 .noise-overlay {
   position: absolute;
   inset: 0;
-  background-image: url("/new/public/images/noise.png");
+  /* Removed broken noise.png reference for better performance */
   background-repeat: repeat;
   opacity: 0.015;
   mix-blend-mode: overlay;

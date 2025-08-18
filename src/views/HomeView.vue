@@ -125,7 +125,7 @@ import { onMounted, ref, computed } from "vue";
 import { newsAPI } from "@/utils/api/news";
 import type { NewsArticle } from "@/types/news";
 import { useI18n } from "@/composables/useI18n";
-import bannerImg from "@/assets/images/banner.png";
+import bannerWebp from "@/assets/images/optimized/banner.webp";
 
 const { t, currentLanguage } = useI18n();
 const news = ref<NewsArticle[]>([]);
@@ -133,7 +133,8 @@ const showJoinModal = ref(false);
 
 
 const heroStyle = computed(() => ({
-  backgroundImage: `url('${bannerImg}')`,
+  // Use optimized WebP for maximum performance
+  backgroundImage: `url('${bannerWebp}')`,
   backgroundPosition: 'center',
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
@@ -233,7 +234,7 @@ export default {
   padding: 20px 48px;
   font-size: 24px;
   font-weight: 700;
-  font-family: "MontserratBold", serif;
+  font-family: "Inter", serif;
   border-radius: 60px;
   cursor: pointer;
   transition: all 0.3s ease;

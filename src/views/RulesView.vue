@@ -122,7 +122,7 @@ watch(currentLanguage, (newLang) => {
   color: var(--myst-ink-strong);
   margin-bottom: 16px;
   letter-spacing: -0.02em;
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .rules-subtitle {
@@ -161,7 +161,7 @@ watch(currentLanguage, (newLang) => {
   color: var(--myst-ink-strong);
   margin-bottom: 24px;
   text-align: center;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .rules-nav {
@@ -194,7 +194,7 @@ watch(currentLanguage, (newLang) => {
   min-width: 40px;
   text-align: center;
   flex-shrink: 0;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .nav-title {
@@ -242,7 +242,7 @@ watch(currentLanguage, (newLang) => {
   height: fit-content;
   text-align: center;
   flex-shrink: 0;
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .rule-content {
@@ -256,7 +256,7 @@ watch(currentLanguage, (newLang) => {
   color: var(--myst-ink-strong);
   margin-bottom: 8px;
   line-height: 1.4;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
 .rule-description {

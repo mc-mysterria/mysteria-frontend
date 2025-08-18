@@ -66,7 +66,7 @@ export default {
   font-size: clamp(2rem, 5vw, 3.5rem);
   margin-bottom: clamp(25px, 4vw, 50px);
   text-align: center;
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   background: linear-gradient(
     160deg,
     rgba(16, 185, 129, 1) 0%,

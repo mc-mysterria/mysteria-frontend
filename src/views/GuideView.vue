@@ -122,7 +122,7 @@
 
                 <div class="image-container server-image">
                   <img
-                    src="@/assets/images/Server.png"
+                    src="@/assets/images/optimized/Server.webp"
                     :alt="t('serverScreenshotPlaceholder')"
                   />
                 </div>
@@ -247,7 +247,7 @@
 
                 <div class="image-container lore-image">
                   <img
-                    src="@/assets/images/Anime.jpg"
+                    src="@/assets/images/optimized/Anime.webp"
                     :alt="t('loreImagePlaceholder')"
                   />
                 </div>
@@ -415,7 +415,7 @@
 
                 <div class="image-container launcher-image">
                   <img
-                    src="@/assets/images/Harmoniya.png"
+                    src="@/assets/images/optimized/Harmoniya.webp"
                     :alt="t('launcherScreenshotPlaceholder')"
                   />
                 </div>
@@ -737,15 +737,7 @@ const openLauncher = () => {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "MontserratBold";
-  src: url("@/assets/fonts/Montserrat-Bold.ttf");
-}
 
-@font-face {
-  font-family: "Minecraft";
-  src: url("@/assets/fonts/Monocraft.ttf");
-}
 
 /* Page Container */
 .page-container {
@@ -812,7 +804,7 @@ const openLauncher = () => {
 
 .card-title {
   font-size: 18px;
-  font-family: "MontserratBold", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   color: var(--myst-ink-strong);
   margin-bottom: 12px;
@@ -1200,7 +1192,7 @@ const openLauncher = () => {
 }
 
 .tips-title {
-  font-family: "MontserratBold", serif;
+  font-family: "Inter", serif;
   font-size: 20px;
   color: var(--myst-gold);
   margin-bottom: 20px;
@@ -1246,7 +1238,7 @@ const openLauncher = () => {
 
 .bottom-cta h2 {
   font-size: 32px;
-  font-family: "MontserratBold", sans-serif;
+  font-family: "Inter", sans-serif;
   color: var(--myst-ink-strong);
   margin-bottom: 16px;
 }

@@ -196,7 +196,7 @@ defineExpose({
     0 0 30px rgba(200, 178, 115, 0.1);
   padding: clamp(24px, 4vw, 32px);
   border-radius: 16px;
-  font-family: "MontserratSemiBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   max-width: 480px;
   width: 90%;
   text-align: center;

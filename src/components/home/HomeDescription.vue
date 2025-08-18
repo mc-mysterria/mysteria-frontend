@@ -42,7 +42,7 @@ export default {
 }
 
 .description h2 {
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 36px;
   margin-bottom: 24px;
 }
@@ -82,7 +82,7 @@ export default {
 }
 
 .feature h3 {
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 20px;
   margin-bottom: 12px;
 }

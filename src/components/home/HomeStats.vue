@@ -103,7 +103,7 @@ const { t } = useI18n();
 }
 
 .hrTitle {
-  font-family: "MontserratBold", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: clamp(1.5rem, 3vw, 2rem);
   margin-bottom: 10px;
   color: #ee7828;

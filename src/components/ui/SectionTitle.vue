@@ -32,7 +32,7 @@ defineProps<Props>();
 }
 
 .section-main-title {
-  font-family: "MontserratBold", serif;
+  font-family: "Inter", serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   color: var(--myst-ink-strong);
