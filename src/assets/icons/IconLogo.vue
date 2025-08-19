@@ -6,6 +6,7 @@
     role="img"
     aria-label="Логотип Mysterria"
     tabindex="0"
+    fetchpriority="high"
   />
 </template>
 

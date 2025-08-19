@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
-import ShopView from "@/views/ShopView.vue";
-import PageNotFoundView from "@/views/PageNotFoundView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -10,12 +7,12 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: () => import("@/views/HomeView.vue"),
     },
     {
       path: "/store",
       name: "shop",
-      component: ShopView,
+      component: () => import("@/views/ShopView.vue"),
     },
     {
       path: "/rules",
@@ -79,7 +76,7 @@ const router = createRouter({
     {
       path: "/:pathMatch(.*)*",
       name: "404",
-      component: PageNotFoundView,
+      component: () => import("@/views/PageNotFoundView.vue"),
     },
   ],
 });
