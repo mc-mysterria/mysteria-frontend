@@ -1,7 +1,7 @@
 <template>
   <div class="wiki-view">
     <iframe
-      src="https://wiki.mysterria.net"
+      :src="wikiUrl"
       class="wiki-frame"
       title="Mysterria Wiki"
       allow="fullscreen"
@@ -11,7 +11,16 @@
 </template>
 
 <script setup lang="ts">
-// No additional logic needed for basic iframe implementation
+import { computed } from 'vue'
+import { useI18n } from '@/composables/useI18n'
+
+const { currentLanguage } = useI18n()
+
+const wikiUrl = computed(() => {
+  return currentLanguage.value === 'uk' 
+    ? 'https://wiki.mysterria.net' 
+    : 'https://wiki.mysterria.net/en'
+})
 </script>
 
 <style scoped>
