@@ -11,10 +11,30 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useI18n } from '@/composables/useI18n'
 
+const router = useRouter()
 const { currentLanguage } = useI18n()
+
+const handleSpaMessage = (event: MessageEvent) => {
+  if (event.data && event.data.type === 'spa-navigate') {
+    if (event.data.path && event.data.path.startsWith('/')) {
+      router.push(event.data.path)
+    } else if (event.data.url) {
+      window.location.assign(event.data.url)
+    }
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('message', handleSpaMessage)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('message', handleSpaMessage)
+})
 
 const wikiUrl = computed(() => {
   return currentLanguage.value === 'uk' 
