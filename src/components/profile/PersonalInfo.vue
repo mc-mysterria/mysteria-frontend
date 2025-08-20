@@ -1,5 +1,5 @@
 <template>
-  <div class="personalInfoContainer">
+  <div class="personalInfoContainer personal-info-card">
     <img :src="currentAvatar" alt="User Avatar" @load="handleImageLoad" />
     <div class="personalInfo">
       <p class="white">{{ t("personalInfo") }}:</p>
@@ -140,23 +140,19 @@ const getRoleClass = () => {
 
 <style scoped>
 .personalInfoContainer {
-  width: 100%;
-  margin: 0 auto 3rem auto;
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.3s ease;
   display: flex;
   gap: 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  animation: fadeInUp 0.6s ease-out;
+  width: 100%;
   box-sizing: border-box;
 }
 
 .personalInfoContainer:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 .personalInfoContainer img {
@@ -186,10 +182,7 @@ const getRoleClass = () => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 1rem 0;
-  background: linear-gradient(135deg, #10b981, #22c55e);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--myst-ink-strong);
 }
 
 .NameRole {
@@ -205,7 +198,7 @@ const getRoleClass = () => {
 .NameRoleBlock > p {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #cccccc;
+  color: var(--myst-ink-muted);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -213,23 +206,20 @@ const getRoleClass = () => {
 
 .NameRoleBlock div,
 .email {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: color-mix(in srgb, var(--myst-bg) 50%, transparent);
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
   padding: 1rem 1.25rem;
-  border-radius: 10px;
-  color: #ffffff;
+  border-radius: 6px;
+  color: var(--myst-ink);
   font-size: 1rem;
   font-weight: 500;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   word-break: break-word;
 }
 
 .NameRoleBlock div:hover,
 .email:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(16, 185, 129, 0.5);
-  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
 }
 
 .subscription-section,
@@ -241,20 +231,19 @@ const getRoleClass = () => {
 .verification-section > p {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #cccccc;
+  color: var(--myst-ink-muted);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .verification-status {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: color-mix(in srgb, var(--myst-bg) 50%, transparent);
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
   padding: 1rem 1.25rem;
-  border-radius: 10px;
+  border-radius: 6px;
   font-size: 1rem;
   font-weight: 500;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   word-break: break-word;
 }

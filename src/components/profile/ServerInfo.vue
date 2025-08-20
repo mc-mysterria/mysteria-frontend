@@ -1,5 +1,5 @@
 <template>
-  <div class="serverInfo">
+  <div class="serverInfo server-info-card">
     <p class="serverTitle">{{ t("serverInformation") }}</p>
     <div v-if="loading" class="loading-container">
       <div class="loading-spinner"></div>
@@ -109,21 +109,17 @@ defineProps<{
 
 <style scoped>
 .serverInfo {
-  width: 100%;
-  margin: 0 auto 3rem auto;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  border-radius: 8px;
+  padding: 24px;
   transition: all 0.3s ease;
-  animation: fadeInUp 0.6s ease-out;
+  width: 100%;
   box-sizing: border-box;
 }
 
 .serverInfo:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(108, 93, 211, 0.2);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 .serverTitle {

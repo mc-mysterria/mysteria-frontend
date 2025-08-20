@@ -1,12 +1,6 @@
 <template>
   <header>
     <div class="headerContainer">
-      <div class="logoSection">
-        <RouterLink to="/" class="logoLink">
-          <IconLogo />
-          <span class="logoText">Mysterria</span>
-        </RouterLink>
-      </div>
 
       <div class="searchSection">
         <!-- User search temporarily disabled - needs new API endpoint -->
@@ -95,7 +89,6 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import NotificationBell from "@/components/ui/NotificationBell.vue";
-import IconLogo from "@/assets/icons/IconLogo.vue";
 const mapURL = import.meta.env.VITE_MAP_URL;
 const router = useRouter();
 const userStore = useUserStore();
@@ -145,31 +138,6 @@ header {
   gap: 32px;
 }
 
-.logoSection {
-  flex-shrink: 0;
-}
-
-.logoLink {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 20px;
-  transition: all 0.2s ease;
-}
-
-.logoLink:hover {
-  transform: translateY(-1px);
-}
-
-.logoImage {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-}
-
 .mobileMenuButton {
   display: none;
   flex-direction: column;
@@ -193,13 +161,6 @@ header {
   margin: 3px 0;
   transition: all 0.3s ease;
   border-radius: 1px;
-}
-
-.logoText {
-  background: linear-gradient(135deg, #10b981 0%, #22c55e 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .searchSection {
@@ -295,146 +256,10 @@ header {
   transform: translateY(1px);
 }
 
-.mobileNav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  z-index: 1000;
-  display: none;
-}
-
-.mobileNavContent {
-  width: 90%;
-  max-width: 400px;
-  height: 100vh;
-  background: linear-gradient(135deg, #1a1d23 0%, #23262c 100%);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
-.mobileNavHeader {
-  padding: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.mobileUserInfo {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.mobileUserAvatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .mobileUserAvatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.mobileUserName {
-  font-weight: 600;
-  color: #ffffff;
-  font-size: 16px;
-}
-
-.mobileUserRole {
-  font-size: 14px;
-  color: #8b8b8b;
-}
-
-.closeButton {
-  background: none;
-  border: none;
-  color: #8b8b8b;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.closeButton:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.mobileNavLinks {
-  flex: 1;
-  padding: 24px 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.navLink {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 24px;
-  color: #ffffff;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  font-weight: 500;
-  border: none;
-  background: none;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-}
-
-.navLink:hover {
-  background: rgba(108, 93, 211, 0.1);
-  color: #10b981;
-}
-
-.navLink.router-link-active {
-  background: rgba(108, 93, 211, 0.2);
-  color: #10b981;
-  border-right: 3px solid #10b981;
-}
-
-.logoutButton {
-  margin-top: auto;
-  color: #ff6b6b;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logoutButton:hover {
-  background: rgba(255, 107, 107, 0.1);
-  color: #ff6b6b;
-}
-
-.mobileNavFooter {
-  padding: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.mobile-nav-enter-active,
-.mobile-nav-leave-active {
-  transition: all 0.3s ease;
-}
-
-.mobile-nav-enter-from {
-  opacity: 0;
-}
-
-.mobile-nav-leave-to {
-  opacity: 0;
 }
 
 .mobile-nav-enter-active .mobileNavContent,

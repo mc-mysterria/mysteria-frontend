@@ -1,26 +1,46 @@
 <template>
-  <ProfileHeader />
-  <Sidebar ref="sidebarRef" />
-  <div class="main" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
-    <div class="profile-container">
-      <div v-if="loading" class="loadingSpinner"></div>
-      <div v-else>
-        <PersonalInfo
-          :displayed-user="displayedUser"
-          :subscription="subscription"
+  <div class="page-container">
+    <HeaderItem />
+    
+    <main class="profile-main">
+      <div class="profile-container">
+        <SectionTitle
+          :eyebrow="t('myProfile')"
+          :title="displayedUser?.nickname || t('profileTitle')"
+          :subtitle="t('personalInfo')"
         />
-        <VerificationPanel
-          :displayed-user="displayedUser"
-          :is-own-profile="isOwnProfile"
-        />
-        <TransactionHistory
-          :displayed-user="displayedUser"
-          :is-own-profile="isOwnProfile"
-        />
-        <ServerInfo :server-profile="serverProfile" :loading="catwalkLoading" />
-        <ModerationPanel :target-user="displayedUser" />
+
+        <!-- Loading state -->
+        <div v-if="loading" class="profile-loading">
+          <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+          </div>
+          <p class="loading-text">{{ t('loading') }}</p>
+        </div>
+
+        <!-- Profile content -->
+        <div v-else class="profile-content">
+          <div class="profile-grid">
+            <PersonalInfo
+              :displayed-user="displayedUser"
+              :subscription="subscription"
+            />
+            <VerificationPanel
+              :displayed-user="displayedUser"
+              :is-own-profile="isOwnProfile"
+            />
+            <TransactionHistory
+              :displayed-user="displayedUser"
+              :is-own-profile="isOwnProfile"
+            />
+            <ServerInfo :server-profile="serverProfile" :loading="catwalkLoading" />
+            <ModerationPanel :target-user="displayedUser" />
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
+
+    <FooterItem />
   </div>
 </template>
 
@@ -30,17 +50,20 @@ import { useAuthStore } from "@/stores/auth";
 import { useUserStore } from "@/stores/user";
 import { useCatwalkStore } from "@/stores/catwalk";
 import { useRoleStore } from "@/stores/roles";
-import ProfileHeader from "@/components/profile/ProfileHeader.vue";
+import { useI18n } from "@/composables/useI18n";
+import HeaderItem from "@/components/layout/HeaderItem.vue";
+import FooterItem from "@/components/layout/FooterItem.vue";
+import SectionTitle from "@/components/ui/SectionTitle.vue";
 import PersonalInfo from "@/components/profile/PersonalInfo.vue";
 import VerificationPanel from "@/components/profile/VerificationPanel.vue";
 import TransactionHistory from "@/components/profile/TransactionHistory.vue";
 import ServerInfo from "@/components/profile/ServerInfo.vue";
 import ModerationPanel from "@/components/profile/ModerationPanel.vue";
-import Sidebar from "@/components/layout/SidebarItem.vue";
 import type { UserProfileDto } from "@/types/auth";
 import { catwalkAPI } from "@/utils/api/catwalk";
 import { punishmentsAPI } from "@/utils/api/punishments";
 
+const { t } = useI18n();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const catwalkStore = useCatwalkStore();
@@ -59,7 +82,6 @@ const serverProfile = ref<{
 const subscription = ref("");
 const loading = ref(true);
 const catwalkLoading = ref(false);
-const sidebarCollapsed = ref(false);
 
 const isOwnProfile = computed(() => {
   const currentUser = authStore.currentUser;
@@ -102,17 +124,17 @@ const loadProfile = async () => {
   await fetchUserProfile();
 
   if (displayedUser.value) {
-    subscription.value = "Відсутня"; // Remove access field reference as it doesn't exist in current API
+    subscription.value = t('unavailable'); // Remove access field reference as it doesn't exist in current API
 
     serverProfile.value = {
-      playtime: "Завантаження...",
-      magic_path: "Завантаження...",
-      residence: "Завантаження...",
+      playtime: t('loading'),
+      magic_path: t('loading'),
+      residence: t('loading'),
       magic_level: 0,
       experience_level: 0,
-      warnings: "Завантаження...",
+      warnings: t('loading'),
       criminal_records: 0,
-      server_role: "Завантаження...",
+      server_role: t('loading'),
     };
 
     loading.value = false;
@@ -138,7 +160,7 @@ const loadCatwalkData = async (minecraftNickname: string) => {
       catwalkAPI.getTownyResident(minecraftNickname),
     ]);
 
-    let playtime = "Невідомо";
+    let playtime = t('unknown');
     if (playerStats?.playtime) {
       const totalSeconds = Math.floor(playerStats.playtime / 1000);
       const hours = Math.floor(totalSeconds / 3600);
@@ -147,15 +169,15 @@ const loadCatwalkData = async (minecraftNickname: string) => {
       const remainingHours = hours % 24;
 
       if (days > 0) {
-        playtime = `${days} днів ${remainingHours} годин`;
+        playtime = `${days}d ${remainingHours}h`;
       } else {
-        playtime = `${hours}г ${minutes}хв`;
+        playtime = `${hours}h ${minutes}m`;
       }
     }
 
     const experienceLevel = playerStats?.level || 0;
 
-    let residence = "Невідомо";
+    let residence = t('unknown');
     if (townyData?.success && townyData.data?.townId) {
       try {
         const townData = await catwalkAPI.getTownyTown(townyData.data.townId);
@@ -167,14 +189,14 @@ const loadCatwalkData = async (minecraftNickname: string) => {
       }
     }
 
-    let serverRole = "Гравець";
+    let serverRole = t('unknown');
     if (displayedUser.value?.role) {
       serverRole = roleStore.getRoleDisplayName(displayedUser.value.role);
     }
 
     serverProfile.value = {
       playtime,
-      magic_path: catwalkStore.magic.translatedPathway || "Невідомо",
+      magic_path: catwalkStore.magic.translatedPathway || t('unknown'),
       residence,
       magic_level: catwalkStore.magic.sequence || 0,
       experience_level: experienceLevel,
@@ -185,14 +207,14 @@ const loadCatwalkData = async (minecraftNickname: string) => {
   } catch (error) {
     console.error("Помилка при завантаженні даних Catwalk:", error);
     serverProfile.value = {
-      playtime: "Невідомо",
-      magic_path: catwalkStore.magic.translatedPathway || "Невідомо",
-      residence: "Невідомо",
+      playtime: t('unknown'),
+      magic_path: catwalkStore.magic.translatedPathway || t('unknown'),
+      residence: t('unknown'),
       magic_level: catwalkStore.magic.sequence || 0,
       experience_level: 0,
       warnings: "0 / 8",
       criminal_records: 0,
-      server_role: "Невідомо",
+      server_role: t('unknown'),
     };
   }
 };
@@ -225,56 +247,94 @@ const loadUserPunishments = async () => {
   }
 };
 
-const updateSidebarState = () => {
-  const collapsed = localStorage.getItem("sidebarCollapsed");
-  sidebarCollapsed.value = collapsed === "true";
-};
-
-const handleStorageChange = () => {
-  updateSidebarState();
-};
-
 onMounted(async () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   await loadProfile();
-  updateSidebarState();
-  window.addEventListener("storage", handleStorageChange);
-  window.addEventListener("sidebar-toggle", updateSidebarState);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("storage", handleStorageChange);
-  window.removeEventListener("sidebar-toggle", updateSidebarState);
 });
 </script>
 
 <style scoped>
-.main {
-  margin-left: 280px;
-  padding: 40px;
+/* Page Container */
+.page-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f1419 0%, #1a1d23 100%);
-  color: #ffffff;
-  transition: margin-left 0.3s ease;
+  position: relative;
 }
 
-.main.sidebar-collapsed {
-  margin-left: 90px;
+/* Profile Main */
+.profile-main {
+  background: var(--myst-bg);
+  padding: 80px 0;
 }
 
 .profile-container {
   max-width: 1200px;
   margin: 0 auto;
-  width: 100%;
+  padding: 0 16px;
 }
 
-.loadingSpinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #b4bbc5;
-  border-top: 5px solid #10b981;
+/* Loading state styles */
+.profile-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 40px;
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.spinner-ring {
+  width: 40px;
+  height: 40px;
+  border: 3px solid transparent;
   border-radius: 50%;
+  border-top: 3px solid var(--myst-gold);
   animation: spin 1s linear infinite;
-  margin: 100px auto;
+}
+
+.loading-text {
+  color: var(--myst-ink-strong);
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Profile Content */
+.profile-content {
+  margin-top: 48px;
+}
+
+.profile-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .profile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Profile sections should span full width for some components */
+.profile-grid :deep(.personal-info-card),
+.profile-grid :deep(.server-info-card),
+.profile-grid :deep(.verification-panel-card),
+.profile-grid :deep(.transaction-history),
+.profile-grid :deep(.moderation-panel) {
+  grid-column: 1 / -1;
 }
 
 @keyframes spin {
@@ -286,29 +346,22 @@ onBeforeUnmount(() => {
   }
 }
 
+/* Mobile adjustments */
 @media (max-width: 768px) {
-  .main {
-    margin-left: 240px;
+  .profile-main {
+    padding: 40px 0;
   }
-
-  .main.sidebar-collapsed {
-    margin-left: 70px;
-  }
-}
-
-@media (max-width: 576px) {
-  .main {
-    margin-left: 0;
-    padding: 20px 15px 120px 15px;
-  }
-
-  .main.sidebar-collapsed {
-    margin-left: 0;
-  }
-
+  
   .profile-container {
-    max-width: 100%;
-    padding: 0;
+    padding: 0 16px;
+  }
+  
+  .profile-content {
+    margin-top: 32px;
+  }
+  
+  .profile-grid {
+    gap: 16px;
   }
 }
 </style>

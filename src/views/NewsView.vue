@@ -55,6 +55,8 @@ const formatDate = (dateString: string) => {
 };
 
 onMounted(async () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
   const slug = route.params.slug as string;
   if (slug) {
     try {

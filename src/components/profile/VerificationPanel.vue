@@ -1,6 +1,6 @@
 <template>
   <div
-    class="verification-panel"
+    class="verification-panel verification-panel-card"
     v-if="props.isOwnProfile && !props.displayedUser?.verified"
   >
     <div class="verification-container">

@@ -92,18 +92,39 @@ const profileUrl = computed(() => {
     : "";
 });
 
-const userMenuOptions = computed(() => [
-  {
-    label: t("profile"),
-    value: "profile",
-    icon: "fa-solid fa-user",
-  },
-  {
+const userMenuOptions = computed(() => {
+  const options = [
+    {
+      label: t("profile"),
+      value: "profile",
+      icon: "fa-solid fa-user",
+    },
+  ];
+
+  // Add admin options for privileged users
+  if (authStore.isPrivilegedUser) {
+    options.push(
+      {
+        label: "Edit News",
+        value: "edit-news",
+        icon: "fa-solid fa-newspaper",
+      },
+      {
+        label: "Admin Panel",
+        value: "admin",
+        icon: "fa-solid fa-cog",
+      }
+    );
+  }
+
+  options.push({
     label: authStore.isLoading ? t("loading") + "..." : t("logout"),
     value: "logout",
     icon: "fa-solid fa-right-from-bracket",
-  },
-]);
+  });
+
+  return options;
+});
 
 const buttonClasses = computed(() => ({
   "auth-login-button": true,
@@ -116,6 +137,10 @@ const handleMenuAction = (value: string | number | string[]) => {
 
   if (value === "profile") {
     router.push(profileUrl.value);
+  } else if (value === "edit-news") {
+    router.push("/edit/news");
+  } else if (value === "admin") {
+    router.push("/admin");
   } else if (value === "logout") {
     handleLogout();
   }

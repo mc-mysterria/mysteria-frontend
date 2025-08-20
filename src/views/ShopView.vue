@@ -64,6 +64,8 @@ const shopError = ref<string | null>(null);
 
 // Initialize shop data when component mounts
 onMounted(async () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
   try {
     console.log('ShopView mounted, auth state:', authStore.isAuthenticated);
     
