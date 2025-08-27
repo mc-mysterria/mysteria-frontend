@@ -6,6 +6,24 @@
       <div class="rules-header">
         <h1 class="rules-title">{{ t("rulesTitle") }}</h1>
         <p class="rules-subtitle">{{ t("rulesSubtitle") }}</p>
+        
+        <!-- Tabs for privileged users -->
+        <div v-if="isPrivilegedUser" class="rules-tabs">
+          <button 
+            class="tab-button"
+            :class="{ active: activeTab === 'player' }"
+            @click="setActiveTab('player')"
+          >
+            {{ t('playerRules') }}
+          </button>
+          <button 
+            class="tab-button"
+            :class="{ active: activeTab === 'staff' }"
+            @click="setActiveTab('staff')"
+          >
+            {{ t('staffRules') }}
+          </button>
+        </div>
       </div>
 
       <!-- Two Column Layout -->
@@ -14,22 +32,45 @@
         <div class="rules-sidebar">
           <h2 class="sidebar-title">{{ t('tableOfContents') }}</h2>
           <nav class="rules-nav">
-            <div
-              v-for="rule in rules"
-              :key="rule.id"
-              class="nav-item"
-              @click="scrollToRule(rule.id)"
-            >
-              <span class="nav-number">{{ rule.id }}</span>
-              <span class="nav-title">{{ rule.title }}</span>
+            <!-- Player Rules Navigation -->
+            <div v-if="activeTab === 'player'">
+              <div
+                v-for="rule in rules"
+                :key="rule.id"
+                class="nav-item"
+                @click="scrollToRule(rule.id)"
+              >
+                <span class="nav-number">{{ rule.id }}</span>
+                <span class="nav-title">{{ rule.title }}</span>
+              </div>
+            </div>
+            
+            <!-- Staff Rules Navigation -->
+            <div v-else-if="activeTab === 'staff'">
+              <div
+                v-for="group in staffRules"
+                :key="group.group"
+                class="nav-group"
+              >
+                <div class="nav-group-title">{{ group.group }}</div>
+                <div
+                  v-for="rule in group.rules"
+                  :key="rule.id"
+                  class="nav-item staff-nav-item"
+                  @click="scrollToRule(rule.id)"
+                >
+                  <span class="nav-number">{{ rule.id }}</span>
+                  <span class="nav-title">{{ rule.title }}</span>
+                </div>
+              </div>
             </div>
           </nav>
         </div>
 
         <!-- Rules Display Area -->
         <div class="rules-main">
-          <!-- Regular Rules -->
-          <div class="all-rules">
+          <!-- Player Rules -->
+          <div v-if="activeTab === 'player'" class="all-rules">
             <div
               v-for="rule in rules"
               :key="rule.id"
@@ -44,13 +85,8 @@
             </div>
           </div>
 
-          <!-- Staff Rules Section -->
-          <div v-if="isPrivilegedUser && staffRules.length > 0" class="staff-rules-section">
-            <div class="section-divider">
-              <h2 class="section-title">{{ t('staffRules') }}</h2>
-              <div class="divider-line"></div>
-            </div>
-            
+          <!-- Staff Rules -->
+          <div v-else-if="activeTab === 'staff'" class="staff-rules-section">
             <div 
               v-for="(group, groupIndex) in staffRules" 
               :key="groupIndex" 
@@ -113,8 +149,28 @@ const isPrivilegedUser = computed(() => {
   return role && role !== 'MEMBER' && role !== 'PLAYER' && role !== 'USER'
 })
 
+const activeTab = ref<'player' | 'staff'>('player')
+
+const currentRules = computed(() => {
+  if (activeTab.value === 'staff') {
+    return staffRules.value.flatMap(group => 
+      group.rules.map(rule => ({
+        ...rule,
+        id: `${rule.id}`,
+        groupTitle: group.group
+      }))
+    )
+  }
+  return rules.value
+})
+
+const setActiveTab = (tab: 'player' | 'staff') => {
+  activeTab.value = tab
+}
+
 const scrollToRule = (ruleId: string) => {
-  const element = document.getElementById(`rule-${ruleId}`)
+  const elementId = activeTab.value === 'staff' ? `staff-rule-${ruleId}` : `rule-${ruleId}`
+  const element = document.getElementById(elementId)
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -208,6 +264,49 @@ watch(isPrivilegedUser, () => {
   margin: 0 auto;
 }
 
+/* Tabs */
+.rules-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+  padding: 4px;
+  background: color-mix(in srgb, var(--myst-bg-2) 50%, transparent);
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, white 5%, transparent);
+  backdrop-filter: blur(10px);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--myst-ink-muted);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Inter", system-ui, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tab-button:hover {
+  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
+  color: var(--myst-ink);
+}
+
+.tab-button.active {
+  background: var(--myst-gold);
+  color: var(--myst-bg);
+  font-weight: 600;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
 /* Two Column Layout */
 .rules-content {
   display: flex;
@@ -281,6 +380,35 @@ watch(isPrivilegedUser, () => {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+/* Navigation Groups for Staff Rules */
+.nav-group {
+  margin-bottom: 24px;
+}
+
+.nav-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--myst-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
+  border-radius: 6px;
+  border-left: 3px solid var(--myst-gold);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.staff-nav-item {
+  margin-left: 8px;
+  border-left: 2px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  padding-left: 12px;
+}
+
+.staff-nav-item:hover {
+  border-left-color: var(--myst-gold);
 }
 
 
@@ -528,6 +656,26 @@ watch(isPrivilegedUser, () => {
   
   .group-title {
     font-size: 1.25rem;
+  }
+  
+  .rules-tabs {
+    max-width: 320px;
+    margin-top: 24px;
+  }
+  
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .nav-group {
+    margin-bottom: 16px;
+  }
+  
+  .nav-group-title {
+    font-size: 12px;
+    padding: 6px 12px;
+    margin-bottom: 8px;
   }
 }
 

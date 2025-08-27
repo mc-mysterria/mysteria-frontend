@@ -473,6 +473,9 @@ const translations = {
     rulesSubtitle:
       '"He who enters the City of Fog is bound to obey the Laws of Mysterria. Violators will be cursed by the Entity itself..."',
     tableOfContents: "Table of Contents",
+    staffRules: "Staff Rules",
+    examples: "Examples",
+    playerRules: "Player Rules",
     mainRule: "The Main Rule",
     mainRuleDescription:
       "Participation in the server means automatic agreement to the following. Ignorance does not exempt from responsibility. And punishment will always find you...!",
@@ -1073,6 +1076,9 @@ const translations = {
     rulesSubtitle:
       '"Той, хто входить у Місто Туману, зобов\'язаний коритись Законам Містеррії. Порушники будуть прокляті самою Сутністю..."',
     tableOfContents: "Зміст",
+    staffRules: "Правила Персоналу",
+    examples: "Приклади",
+    playerRules: "Правила Гравців",
     mainRule: "Основне правило",
     mainRuleDescription:
       "Участь у сервері означає автоматичну згоду з нижченаведеним. Незнання не звільняє від відповідальності. А покарання вас завжди знайде.",
