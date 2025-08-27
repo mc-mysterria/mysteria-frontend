@@ -28,6 +28,7 @@
 
         <!-- Rules Display Area -->
         <div class="rules-main">
+          <!-- Regular Rules -->
           <div class="all-rules">
             <div
               v-for="rule in rules"
@@ -42,6 +43,39 @@
               </div>
             </div>
           </div>
+
+          <!-- Staff Rules Section -->
+          <div v-if="isPrivilegedUser && staffRules.length > 0" class="staff-rules-section">
+            <div class="section-divider">
+              <h2 class="section-title">{{ t('staffRules') }}</h2>
+              <div class="divider-line"></div>
+            </div>
+            
+            <div 
+              v-for="(group, groupIndex) in staffRules" 
+              :key="groupIndex" 
+              class="staff-rule-group"
+            >
+              <h3 class="group-title">{{ group.group }}</h3>
+              <div class="group-rules">
+                <div
+                  v-for="rule in group.rules"
+                  :key="rule.id"
+                  class="rule-card staff-rule-card"
+                  :id="`staff-rule-${rule.id}`"
+                >
+                  <div class="rule-number staff-rule-number">{{ rule.id }}</div>
+                  <div class="rule-content">
+                    <h4 class="rule-title">{{ rule.title }}</h4>
+                    <p class="rule-description">{{ rule.content }}</p>
+                    <p v-if="rule.examples" class="rule-examples">
+                      <strong>{{ t('examples') }}:</strong> {{ rule.examples }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -52,18 +86,32 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useI18n } from "@/composables/useI18n";
+import { useAuthStore } from "@/stores/auth";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 
 const { t, currentLanguage } = useI18n();
+const authStore = useAuthStore();
 
 interface Rule {
   id: string
   title: string
   content: string
+  examples?: string
+}
+
+interface StaffRuleGroup {
+  group: string
+  rules: Rule[]
 }
 
 const rules = ref<Rule[]>([])
+const staffRules = ref<StaffRuleGroup[]>([])
+
+const isPrivilegedUser = computed(() => {
+  const role = authStore.userRole?.toUpperCase()
+  return role && role !== 'MEMBER' && role !== 'PLAYER' && role !== 'USER'
+})
 
 const scrollToRule = (ruleId: string) => {
   const element = document.getElementById(`rule-${ruleId}`)
@@ -88,12 +136,39 @@ const loadRulesForLanguage = async (lang: string) => {
   }
 }
 
+const loadStaffRulesForLanguage = async (lang: string) => {
+  if (!isPrivilegedUser.value) {
+    staffRules.value = []
+    return
+  }
+  
+  try {
+    const staffRulesModule = await import(`@/assets/sources/staff_rules_${lang}.json`)
+    staffRules.value = staffRulesModule.default as StaffRuleGroup[]
+  } catch (error) {
+    // Fallback to English if language file not found
+    try {
+      const staffRulesModule = await import('@/assets/sources/staff_rules_en.json')
+      staffRules.value = staffRulesModule.default as StaffRuleGroup[]
+    } catch (fallbackError) {
+      console.error('Failed to load staff rules:', fallbackError)
+      staffRules.value = []
+    }
+  }
+}
+
 onMounted(() => {
   loadRulesForLanguage(currentLanguage.value)
+  loadStaffRulesForLanguage(currentLanguage.value)
 })
 
 watch(currentLanguage, (newLang) => {
   loadRulesForLanguage(newLang)
+  loadStaffRulesForLanguage(newLang)
+})
+
+watch(isPrivilegedUser, () => {
+  loadStaffRulesForLanguage(currentLanguage.value)
 })
 </script>
 
@@ -363,6 +438,97 @@ watch(currentLanguage, (newLang) => {
 
 .rules-sidebar::-webkit-scrollbar-thumb:hover {
   background: var(--myst-gold);
+}
+
+/* Staff Rules Section */
+.staff-rules-section {
+  margin-top: 48px;
+}
+
+.section-divider {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--myst-ink-strong);
+  text-align: center;
+  margin-bottom: 16px;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.divider-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--myst-gold), transparent);
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.staff-rule-group {
+  margin-bottom: 40px;
+}
+
+.group-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
+  margin-bottom: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.group-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.staff-rule-card {
+  border-left: 4px solid var(--myst-gold);
+  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
+}
+
+.staff-rule-number {
+  background: linear-gradient(135deg, var(--myst-gold), color-mix(in srgb, var(--myst-gold) 80%, white));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+.rule-examples {
+  margin-top: 12px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--myst-bg) 50%, transparent);
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-left: 3px solid var(--myst-gold-soft);
+  font-style: italic;
+}
+
+.rule-examples strong {
+  color: var(--myst-ink-strong);
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Responsive Design for Staff Rules */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .staff-rules-section {
+    margin-top: 32px;
+  }
+  
+  .staff-rule-group {
+    margin-bottom: 32px;
+  }
+  
+  .group-title {
+    font-size: 1.25rem;
+  }
 }
 
 /* Dark theme specific overrides */
