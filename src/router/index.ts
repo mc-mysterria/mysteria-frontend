@@ -61,6 +61,11 @@ const router = createRouter({
       component: () => import("@/views/NewsView.vue"),
     },
     {
+      path: "/services/:slug",
+      name: "service-detail",
+      component: () => import("@/views/ServiceView.vue"),
+    },
+    {
       path: "/edit",
       name: "edit",
       component: () => import("@/views/EditView.vue"),
@@ -70,6 +75,11 @@ const router = createRouter({
           path: "news",
           name: "edit-news",
           component: () => import("@/views/NewsEditView.vue"),
+        },
+        {
+          path: "services",
+          name: "edit-services",
+          component: () => import("@/views/ServiceEditView.vue"),
         }
       ],
     },
@@ -90,7 +100,6 @@ router.beforeEach(async (to, from, next) => {
     // If still loading, let the route load and handle auth in the component
     // This prevents blocking navigation with artificial delays
     if (authStore.isLoading) {
-      console.warn('Auth loading during navigation, proceeding to route - auth will be handled by component');
       next();
       return;
     }

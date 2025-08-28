@@ -288,6 +288,23 @@ const translations = {
     shopLoading: "Loading shop...",
     shopLoadFailed: "Failed to load shop",
     tryAgain: "Try Again",
+    viewDetails: "View Details",
+    
+    // Service Types
+    serviceTypeItem: "Item",
+    serviceTypePermission: "Permission",
+    serviceTypeSubscription: "Subscription",
+    serviceTypeDiscordRole: "Discord Role",
+    
+    // Service Page
+    loadingService: "Loading service...",
+    serviceNotFound: "Service Not Found",
+    serviceNotFoundMessage: "This service content is not available yet or has been moved.",
+    serviceContentNotCreated: "The detailed information for this service has not been created yet.",
+    backToShop: "Back to Shop",
+    loginToPurchase: "Please log in to purchase this service",
+    purchaseError: "Failed to prepare purchase",
+    purchaseSuccess: "Purchase successful!",
 
     // Shop Account Setup
     accountSetupRequired: "Account Verification Required",
@@ -892,6 +909,23 @@ const translations = {
     shopLoading: "Завантаження крамниці...",
     shopLoadFailed: "Не вдалося завантажити крамницю",
     tryAgain: "Спробувати знову",
+    viewDetails: "Детальніше",
+    
+    // Service Types
+    serviceTypeItem: "Предмет",
+    serviceTypePermission: "Дозвіл",
+    serviceTypeSubscription: "Підписка",
+    serviceTypeDiscordRole: "Discord Роль",
+    
+    // Service Page
+    loadingService: "Завантаження сервісу...",
+    serviceNotFound: "Сервіс Не Знайдено",
+    serviceNotFoundMessage: "Контент цього сервісу ще недоступний або був переміщений.",
+    serviceContentNotCreated: "Детальна інформація для цього сервісу ще не була створена.",
+    backToShop: "Назад до Крамниці",
+    loginToPurchase: "Будь ласка, увійдіть в систему, щоб придбати цей сервіс",
+    purchaseError: "Не вдалося підготувати покупку",
+    purchaseSuccess: "Покупка успішна!",
 
     // Shop Account Setup
     accountSetupRequired: "Потрібно підтвердити акаунт",

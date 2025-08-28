@@ -1,7 +1,8 @@
 <template>
   <div v-if="item.is_active" class="myst-product-card group">
     <!-- Image container -->
-    <div class="image-container relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
+    <router-link :to="getServiceDetailPath(item)" class="image-link">
+      <div class="image-container relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
       <img
         v-if="item.image"
         :src="getImagePath(item.image)"
@@ -26,7 +27,8 @@
       <div v-if="hasDiscount" class="absolute right-3 top-3">
         <div class="myst-discount-badge">-{{ discountPercent }}%</div>
       </div>
-    </div>
+      </div>
+    </router-link>
 
     <!-- Card header -->
     <div class="myst-card-header">
@@ -67,20 +69,27 @@
         </div>
       </div>
 
-      <button
-        @click="handlePurchase"
-        :disabled="!item.is_active || isProcessing"
-        class="myst-purchase-btn"
-      >
-        <i class="fa-solid fa-shopping-cart mr-2"></i>
-        {{
-          isProcessing
-            ? t("processing")
-            : item.is_active
-              ? t("purchase")
-              : t("unavailable")
-        }}
-      </button>
+      <div class="myst-actions">
+        <router-link :to="getServiceDetailPath(item)" class="myst-details-btn">
+          <i class="fa-solid fa-eye"></i>
+          {{ t("viewDetails") || "Details" }}
+        </router-link>
+        
+        <button
+          @click="handlePurchase"
+          :disabled="!item.is_active || isProcessing"
+          class="myst-purchase-btn"
+        >
+          <i class="fa-solid fa-shopping-cart mr-2"></i>
+          {{
+            isProcessing
+              ? t("processing")
+              : item.is_active
+                ? t("purchase")
+                : t("unavailable")
+          }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +100,7 @@ import { useI18n } from "@/composables/useI18n";
 import type { ServiceResponse } from "@/types/services";
 import { Decimal } from "decimal.js";
 import IconBalance from "@/assets/icons/IconBalance.vue";
+import { getServiceDetailPath } from "@/utils/slug";
 
 const props = defineProps<{
   item: ServiceResponse;
@@ -338,6 +348,17 @@ const handlePurchase = () => {
   opacity: 1;
 }
 
+/* Image link */
+.image-link {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.image-link:hover {
+  transform: scale(1.02);
+}
+
 /* Card Footer */
 .myst-card-footer {
   padding: 16px 20px 20px;
@@ -345,6 +366,14 @@ const handlePurchase = () => {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+/* Actions container */
+.myst-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 /* Price Section */
@@ -384,6 +413,32 @@ const handlePurchase = () => {
   width: 16px !important;
   height: 16px !important;
   opacity: 0.7;
+}
+
+/* Details Button */
+.myst-details-btn {
+  background: color-mix(in srgb, var(--myst-ink-muted) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  color: var(--myst-ink-strong);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  backdrop-filter: blur(5px);
+  text-decoration: none;
+}
+
+.myst-details-btn:hover {
+  background: color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  transform: translateY(-1px);
 }
 
 /* Purchase Button */
@@ -433,8 +488,14 @@ const handlePurchase = () => {
     align-items: center;
   }
 
+  .myst-actions {
+    justify-content: space-between;
+  }
+
+  .myst-details-btn,
   .myst-purchase-btn {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
   }
 }
 

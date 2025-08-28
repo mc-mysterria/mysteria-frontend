@@ -93,6 +93,7 @@ export interface ServiceResponse {
   server_availability?: ServerAvailability;
   created_at?: Date;
   updated_at?: Date;
+  slug_name?: string; // For consistent URL generation regardless of language
 }
 
 // New API DTOs
@@ -153,4 +154,37 @@ export interface ServiceFilterParams {
   name?: string;
   type?: ServiceType;
   is_upgradable?: boolean;
+}
+
+// Service markdown content DTOs
+export interface ServiceMarkdownDto {
+  id: number;
+  name: string;
+  slug: string | null;
+  nameEn?: string;
+  nameUk?: string;
+  markdownContent: string | null;
+  markdownContentEn?: string;
+  markdownContentUk?: string;
+  imageUrl?: string;
+  price: number;
+  type: ServiceType;
+  isSubscription: boolean;
+  createdAt: string;
+  updatedAt: string | null;
+  publishedAt?: string | null;
+}
+
+export interface CreateServiceMarkdownDto {
+  slug: string;
+  markdownContentEn?: string;
+  markdownContentUk?: string;
+  isPublished?: boolean;
+}
+
+export interface UpdateServiceMarkdownDto {
+  slug?: string;
+  markdownContentEn?: string;
+  markdownContentUk?: string;
+  isPublished?: boolean;
 }

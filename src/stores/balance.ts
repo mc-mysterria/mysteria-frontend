@@ -5,6 +5,7 @@ import type {
   ServiceResponse,
   ServiceDto,
   ServicePoint,
+  ServiceMarkdownDto,
 } from "@/types/services";
 import { useAuthStore } from "@/stores/auth";
 import { useUserStore } from "@/stores/user";
@@ -14,9 +15,12 @@ import { useI18n } from "@/composables/useI18n";
 import { Decimal } from "decimal.js";
 import { APIError, RequestError } from "@/utils/api/errors";
 import { debounce } from "lodash-es";
+import { shopAPI } from "@/utils/api/shop";
 
 // Cache for expensive service transformations
 const serviceTransformCache = new Map<string, ServiceResponse>();
+// Cache for service markdown content
+const serviceMarkdownCache = new Map<string, ServiceMarkdownDto>();
 
 // Helper function to convert new API ServiceDto to legacy ServiceResponse format with caching
 function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): ServiceResponse {
@@ -126,6 +130,8 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
       : undefined,
     service_metadata: service.metadata ? { data: service.metadata } : undefined,
     created_at: service.createdAt ? new Date(service.createdAt) : undefined,
+    // Add consistent slug field for URLs (always use English name or fallback to original name)
+    slug_name: service.nameEn || service.name,
   };
   
   // Store in cache for future use
@@ -158,6 +164,10 @@ interface BalanceState {
   // Legacy compatibility getter
   legacyServices: ServiceResponse[];
   balanceCheckInterval: number | null;
+  
+  // Service markdown content
+  serviceMarkdownContent: Map<string, ServiceMarkdownDto>;
+  isLoadingServiceContent: boolean;
 }
 
 export const useBalanceStore = defineStore("balance", {
@@ -170,6 +180,8 @@ export const useBalanceStore = defineStore("balance", {
     services: [],
     legacyServices: [],
     balanceCheckInterval: null,
+    serviceMarkdownContent: new Map(),
+    isLoadingServiceContent: false,
   }),
 
   getters: {
@@ -190,6 +202,51 @@ export const useBalanceStore = defineStore("balance", {
     // Clear service transformation cache (useful when services are updated)
     clearServiceCache() {
       serviceTransformCache.clear();
+      serviceMarkdownCache.clear();
+    },
+
+    // Fetch service markdown content by slug
+    async fetchServiceMarkdownContent(slug: string, lang: string = 'en'): Promise<ServiceMarkdownDto | null> {
+      const cacheKey = `${slug}-${lang}`;
+      
+      // Check cache first
+      if (serviceMarkdownCache.has(cacheKey)) {
+        const cached = serviceMarkdownCache.get(cacheKey)!;
+        this.serviceMarkdownContent.set(cacheKey, cached);
+        return cached;
+      }
+
+      this.isLoadingServiceContent = true;
+      
+      try {
+        const response = await shopAPI.getServiceContent(slug, lang);
+        const content = response.data;
+        
+        // Store in both caches
+        serviceMarkdownCache.set(cacheKey, content);
+        this.serviceMarkdownContent.set(cacheKey, content);
+        
+        // Limit cache size
+        if (serviceMarkdownCache.size > 50) {
+          const firstKey = serviceMarkdownCache.keys().next().value;
+          if (firstKey) {
+            serviceMarkdownCache.delete(firstKey);
+          }
+        }
+        
+        return content;
+      } catch (error) {
+        console.error('Failed to fetch service markdown content:', error);
+        return null;
+      } finally {
+        this.isLoadingServiceContent = false;
+      }
+    },
+
+    // Get cached service markdown content
+    getServiceMarkdownContent(slug: string, lang: string = 'en'): ServiceMarkdownDto | null {
+      const cacheKey = `${slug}-${lang}`;
+      return this.serviceMarkdownContent.get(cacheKey) || null;
     },
 
     async fetchBalance() {

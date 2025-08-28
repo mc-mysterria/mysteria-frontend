@@ -110,6 +110,11 @@ const userMenuOptions = computed(() => {
         icon: "fa-solid fa-newspaper",
       },
       {
+        label: "Edit Services",
+        value: "edit-services",
+        icon: "fa-solid fa-shopping-cart",
+      },
+      {
         label: "Admin Panel",
         value: "admin",
         icon: "fa-solid fa-cog",
@@ -139,6 +144,8 @@ const handleMenuAction = (value: string | number | string[]) => {
     router.push(profileUrl.value);
   } else if (value === "edit-news") {
     router.push("/edit/news");
+  } else if (value === "edit-services") {
+    router.push("/edit/services");
   } else if (value === "admin") {
     router.push("/admin");
   } else if (value === "logout") {
