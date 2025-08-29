@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { shopAPI } from '@/utils/api/shop';
 import type { ServiceMarkdownDto } from '@/types/services';
@@ -232,42 +232,49 @@ const cancelPurchase = () => {
   pendingPurchase.value = null;
 };
 
-onMounted(async () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  
-  const slugParam = route.params.slug as string;
-  
-  if (slugParam) {
-    try {
-      loading.value = true;
-      
-      // Extract the actual slug from the parameter
-      // Format is "service-name-123" where 123 is the ID
-      let slug = slugParam;
-      
-      // If the slug contains an ID at the end, remove it for the API call
-      const lastDashIndex = slugParam.lastIndexOf('-');
-      if (lastDashIndex !== -1 && !isNaN(Number(slugParam.substring(lastDashIndex + 1)))) {
-        slug = slugParam.substring(0, lastDashIndex);
-      }
-      
-      
-      // Make sure we have a valid slug before making the API call
-      if (!slug || slug.trim() === '') {
-        service.value = null;
-        return;
-      }
-      
-      const response = await shopAPI.getServiceContent(slug, currentLanguage.value);
-      service.value = response.data;
-    } catch (error) {
-      service.value = null;
-    } finally {
-      loading.value = false;
+// Watch for route changes to scroll to top and load service
+watch(
+  () => route.params.slug,
+  async (newSlug) => {
+    if (newSlug) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      await loadService(newSlug as string);
     }
-  } else {
+  },
+  { immediate: true }
+);
+
+const loadService = async (slugParam: string) => {
+  try {
+    loading.value = true;
+    
+    // Extract the actual slug from the parameter
+    // Format is "service-name-123" where 123 is the ID
+    let slug = slugParam;
+    
+    // If the slug contains an ID at the end, remove it for the API call
+    const lastDashIndex = slugParam.lastIndexOf('-');
+    if (lastDashIndex !== -1 && !isNaN(Number(slugParam.substring(lastDashIndex + 1)))) {
+      slug = slugParam.substring(0, lastDashIndex);
+    }
+    
+    // Make sure we have a valid slug before making the API call
+    if (!slug || slug.trim() === '') {
+      service.value = null;
+      return;
+    }
+    
+    const response = await shopAPI.getServiceContent(slug, currentLanguage.value);
+    service.value = response.data;
+  } catch (error) {
+    service.value = null;
+  } finally {
     loading.value = false;
   }
+};
+
+onMounted(async () => {
+  // Initial load is handled by the route watcher
 });
 </script>
 
