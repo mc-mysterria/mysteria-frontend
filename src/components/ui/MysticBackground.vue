@@ -12,7 +12,7 @@ onMounted(() => {
   try {
     const saved = localStorage.getItem("myst-theme");
     document.documentElement.dataset.theme = saved === "parchment" ? "parchment" : "dark";
-  } catch (_) {
+  } catch {
     document.documentElement.dataset.theme = "dark";
   }
 });

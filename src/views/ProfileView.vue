@@ -33,8 +33,6 @@
               :displayed-user="displayedUser"
               :is-own-profile="isOwnProfile"
             />
-            <ServerInfo :server-profile="serverProfile" :loading="catwalkLoading" />
-            <ModerationPanel :target-user="displayedUser" />
           </div>
         </div>
       </div>
@@ -45,11 +43,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useUserStore } from "@/stores/user";
-import { useCatwalkStore } from "@/stores/catwalk";
-import { useRoleStore } from "@/stores/roles";
 import { useI18n } from "@/composables/useI18n";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
@@ -57,17 +53,11 @@ import SectionTitle from "@/components/ui/SectionTitle.vue";
 import PersonalInfo from "@/components/profile/PersonalInfo.vue";
 import VerificationPanel from "@/components/profile/VerificationPanel.vue";
 import TransactionHistory from "@/components/profile/TransactionHistory.vue";
-import ServerInfo from "@/components/profile/ServerInfo.vue";
-import ModerationPanel from "@/components/profile/ModerationPanel.vue";
 import type { UserProfileDto } from "@/types/auth";
-import { catwalkAPI } from "@/utils/api/catwalk";
-import { punishmentsAPI } from "@/utils/api/punishments";
 
 const { t } = useI18n();
 const authStore = useAuthStore();
 const userStore = useUserStore();
-const catwalkStore = useCatwalkStore();
-const roleStore = useRoleStore();
 const displayedUser = ref<UserProfileDto | null>(null);
 const serverProfile = ref<{
   playtime?: string;
@@ -81,7 +71,6 @@ const serverProfile = ref<{
 } | null>(null);
 const subscription = ref("");
 const loading = ref(true);
-const catwalkLoading = ref(false);
 
 const isOwnProfile = computed(() => {
   const currentUser = authStore.currentUser;
@@ -124,7 +113,7 @@ const loadProfile = async () => {
   await fetchUserProfile();
 
   if (displayedUser.value) {
-    subscription.value = t('unavailable'); // Remove access field reference as it doesn't exist in current API
+    subscription.value = t('unavailable');
 
     serverProfile.value = {
       playtime: t('loading'),
@@ -138,112 +127,8 @@ const loadProfile = async () => {
     };
 
     loading.value = false;
-
-    if (displayedUser.value.nickname) {
-      catwalkLoading.value = true;
-      loadCatwalkData(displayedUser.value.nickname).finally(() => {
-        catwalkLoading.value = false;
-      });
-    }
   } else {
     loading.value = false;
-  }
-};
-
-const loadCatwalkData = async (minecraftNickname: string) => {
-  try {
-    await catwalkStore.fetchMagic(minecraftNickname);
-
-    const [playerStats, punishments, townyData] = await Promise.all([
-      catwalkAPI.getPlayerStats(),
-      loadUserPunishments(),
-      catwalkAPI.getTownyResident(minecraftNickname),
-    ]);
-
-    let playtime = t('unknown');
-    if (playerStats?.playtime) {
-      const totalSeconds = Math.floor(playerStats.playtime / 1000);
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const days = Math.floor(hours / 24);
-      const remainingHours = hours % 24;
-
-      if (days > 0) {
-        playtime = `${days}d ${remainingHours}h`;
-      } else {
-        playtime = `${hours}h ${minutes}m`;
-      }
-    }
-
-    const experienceLevel = playerStats?.level || 0;
-
-    let residence = t('unknown');
-    if (townyData?.success && townyData.data?.townId) {
-      try {
-        const townData = await catwalkAPI.getTownyTown(townyData.data.townId);
-        if (townData?.success && townData.data?.name) {
-          residence = townData.data.name;
-        }
-      } catch (error) {
-        console.error("Error fetching town name:", error);
-      }
-    }
-
-    let serverRole = t('unknown');
-    if (displayedUser.value?.role) {
-      serverRole = roleStore.getRoleDisplayName(displayedUser.value.role);
-    }
-
-    serverProfile.value = {
-      playtime,
-      magic_path: catwalkStore.magic.translatedPathway || t('unknown'),
-      residence,
-      magic_level: catwalkStore.magic.sequence || 0,
-      experience_level: experienceLevel,
-      warnings: punishments.warnings || "0 / 8",
-      criminal_records: punishments.criminal_records || 0,
-      server_role: serverRole,
-    };
-  } catch (error) {
-    console.error("Помилка при завантаженні даних Catwalk:", error);
-    serverProfile.value = {
-      playtime: t('unknown'),
-      magic_path: catwalkStore.magic.translatedPathway || t('unknown'),
-      residence: t('unknown'),
-      magic_level: catwalkStore.magic.sequence || 0,
-      experience_level: 0,
-      warnings: "0 / 8",
-      criminal_records: 0,
-      server_role: t('unknown'),
-    };
-  }
-};
-
-const loadUserPunishments = async () => {
-  try {
-    if (!displayedUser.value) return { warnings: "0 / 8", criminal_records: 0 };
-
-    // Use the current API endpoint for punishments
-    const punishmentData = await punishmentsAPI.getList("", {
-      filters: { user_id: displayedUser.value.id },
-      params: { page: 0, size: 100 },
-    });
-
-    const warningCount = punishmentData.data.filter(
-      (p) => p.type === "warn",
-    ).length;
-    const warnings = `${warningCount} / 8`;
-
-    // Remove court system - no more criminal records from claims
-    const criminal_records = 0;
-
-    return {
-      warnings,
-      criminal_records,
-    };
-  } catch (error) {
-    console.error("Error loading punishments:", error);
-    return { warnings: "0 / 8", criminal_records: 0 };
   }
 };
 

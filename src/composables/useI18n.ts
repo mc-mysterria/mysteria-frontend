@@ -140,6 +140,18 @@ const translations = {
 
     // Notifications
     copyError: "Failed to copy",
+    errorDetailsClickToCopy: "Click to copy detailed information for administrator",
+    errorDetailsCopied: "Error information copied to clipboard",
+    errorDetailsFailedToCopy: "Failed to copy information",
+    errorLabel: "Error",
+    messageLabel: "Message", 
+    timeLabel: "Time",
+    requestIdLabel: "Request ID",
+    urlLabel: "URL",
+    requestParamsLabel: "Request Parameters",
+    requestDataLabel: "Request Data",
+    additionalInfoLabel: "Additional Information",
+    errorDetailsFooter: "Please provide this information to the administrator for faster problem resolution.",
 
     // Common Actions
     edit: "Edit",
@@ -759,6 +771,18 @@ const translations = {
 
     // Notifications
     copyError: "Не вдалося скопіювати",
+    errorDetailsClickToCopy: "Натисніть щоб скопіювати детальну інформацію для адміністратора",
+    errorDetailsCopied: "Інформацію про помилку скопійовано в буфер обміну",
+    errorDetailsFailedToCopy: "Не вдалося скопіювати інформацію",
+    errorLabel: "Помилка",
+    messageLabel: "Повідомлення",
+    timeLabel: "Час",
+    requestIdLabel: "ID запиту",
+    urlLabel: "URL",
+    requestParamsLabel: "Параметри запиту",
+    requestDataLabel: "Дані запиту",
+    additionalInfoLabel: "Додаткова інформація",
+    errorDetailsFooter: "Будь ласка, надайте цю інформацію адміністратору для швидшого вирішення проблеми.",
 
     // Common Actions
     edit: "Редагувати",

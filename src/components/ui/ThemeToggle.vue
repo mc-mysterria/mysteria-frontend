@@ -28,7 +28,7 @@ const toggleTheme = () => {
   // Save to localStorage
   try {
     localStorage.setItem("myst-theme", newTheme);
-  } catch (_) {
+  } catch {
     // Handle localStorage not available
   }
 };
@@ -41,7 +41,7 @@ onMounted(() => {
       currentTheme.value = saved;
       document.documentElement.dataset.theme = saved;
     }
-  } catch (_) {
+  } catch {
     // Handle localStorage not available
   }
 });

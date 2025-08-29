@@ -1,40 +1,16 @@
-export type SortOrder = "asc" | "desc";
+export type UserDefaultSort = "createdAt" | "updatedAt" | "id";
 
-export type DefaultSort = "id" | "created_at" | "updated_at";
-
-export type UserDefaultSort = "id" | "user_id" | "created_at" | "updated_at";
-
-export interface TimestampsMixin {
-  created_at: Date;
-  updated_at?: Date;
-}
-
-export interface BaseResponse {
-  id: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface BaseResponseList<T> {
-  items: T[];
-  total: number;
-}
-
-export interface BaseFilterParams {
+export interface PaginationParams {
+  page?: number;
   limit?: number;
-  offset?: number;
-  search?: string;
+  sort?: string;
+  order?: "asc" | "desc";
 }
 
-export interface BaseSortParams {
-  sort_by?: string;
-  sort_order?: "asc" | "desc";
-}
-
-export interface BaseCreate {
-  [key: string]: unknown;
-}
-
-export interface BaseUpdate {
-  [key: string]: unknown;
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }

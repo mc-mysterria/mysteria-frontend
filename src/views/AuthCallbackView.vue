@@ -45,7 +45,7 @@ onMounted(async () => {
 
     // Process the Discord callback directly without calling checkAuthCode
     // which would cause a duplicate call
-    const authResponse = await authStore.processDiscordCallback(code);
+    await authStore.processDiscordCallback(code);
 
     if (authStore.isAuthenticated) {
       isProcessing.value = false;

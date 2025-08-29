@@ -16,10 +16,6 @@
   </footer>
 </template>
 
-<script setup lang="ts">
-// Simple footer, no additional imports needed
-</script>
-
 <style scoped>
 .footer {
   border-top: 1px solid color-mix(in srgb, white 10%, transparent);

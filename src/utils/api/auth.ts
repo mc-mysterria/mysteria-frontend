@@ -3,9 +3,7 @@ import type {
   UserProfileDto,
   AuthResponse,
   DiscordCallbackRequest,
-  RefreshTokenRequest,
-  AuthUser, // Legacy type for compatibility
-  AuthStatus, // Legacy type for compatibility
+  RefreshTokenRequest
 } from "@/types/auth";
 
 export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
@@ -13,7 +11,6 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
     super("", false); // No prefix, we'll use full paths
   }
 
-  // New JWT-based authentication methods
   async discordCallback(code: string): Promise<AuthResponse> {
     const response = await this.request<AuthResponse>(
       "POST",
@@ -87,46 +84,6 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
     const scope = encodeURIComponent("identify email guilds");
 
     return `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
-  }
-
-  // Legacy method for compatibility during migration
-  async checkAuthStatus(): Promise<AuthStatus> {
-    try {
-      const user = await this.getCurrentUser();
-      // Convert new UserProfileDto to legacy AuthUser format
-      const legacyUser: AuthUser | undefined = user
-        ? {
-            id: user.id,
-            discord_id: user.discordId.toString(),
-            nickname: user.nickname,
-            is_active: true,
-            created_at: user.createdAt,
-            updated_at: user.createdAt, // New API doesn't have updated_at
-            roles: user.role
-              ? [
-                  {
-                    id: "1",
-                    name: user.role,
-                    display_name: user.role,
-                    weight: 1,
-                    permissions: [],
-                    created_at: user.createdAt,
-                    updated_at: user.createdAt,
-                  },
-                ]
-              : undefined,
-            permissions: {},
-          }
-        : undefined;
-
-      return {
-        authenticated: !!user,
-        user: legacyUser,
-      };
-    } catch (error) {
-      console.error("Error checking auth status:", error);
-      return { authenticated: false };
-    }
   }
 }
 

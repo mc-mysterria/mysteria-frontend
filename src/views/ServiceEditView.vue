@@ -185,6 +185,7 @@ const loadServices = async () => {
     }
     services.value = shopStore.services;
   } catch (err) {
+    console.error('Failed to load services:', err);
     error.value = 'Failed to load services';
   } finally {
     loading.value = false;
@@ -231,6 +232,7 @@ const loadServiceContent = async () => {
         }
       }
     } catch (err) {
+      console.error('Failed to load service content:', err);
       // If content doesn't exist yet, create a new one
       createNewContentForService();
     } finally {
@@ -309,6 +311,7 @@ const saveContent = async () => {
     
     showSuccess('Service content saved successfully!');
   } catch (err) {
+    console.error('Failed to save service content:', err);
     error.value = 'Failed to save service content';
   } finally {
     loading.value = false;
@@ -334,6 +337,7 @@ const deleteContent = async () => {
     // selectedServiceId.value = '';
     // showSuccess('Service content deleted successfully!');
   } catch (err) {
+    console.error('Failed to delete service content:', err);
     error.value = 'Failed to delete service content';
   } finally {
     loading.value = false;

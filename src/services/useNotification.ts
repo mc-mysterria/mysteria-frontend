@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { RequestError } from "@/utils/api/errors";
 import type { ApiError, ApiErrorResponse } from "@/types/api";
+import { useI18n } from "@/composables/useI18n";
 
 interface NotificationOptions {
   type: "info" | "warn" | "error" | "fatal" | "debug" | "success";
@@ -27,6 +28,7 @@ export interface Notification {
 const notifications = ref<Notification[]>([]);
 
 export function useNotification() {
+  const { t } = useI18n();
   const show = (
     message: string,
     options: NotificationOptions = { type: "info", duration: 3000 },
@@ -93,8 +95,7 @@ export function useNotification() {
     const userMessage = getHumanReadableError(apiError);
     show(userMessage, { type: "error", duration: 5000 });
 
-    const detailsMessage =
-      "Натисніть щоб скопіювати детальну інформацію для адміністратора";
+    const detailsMessage = t("errorDetailsClickToCopy");
     const detailsNotification = {
       id: String(Date.now() + 1),
       message: detailsMessage,
@@ -139,37 +140,37 @@ export function useNotification() {
     const request = notification.requestDetails;
 
     let errorText = `
-Помилка: ${error.code}
-Повідомлення: ${error.message}
-Час: ${error.timestamp}
-ID запиту: ${error.request_id}`;
+${t("errorLabel")}: ${error.code}
+${t("messageLabel")}: ${error.message}
+${t("timeLabel")}: ${error.timestamp}
+${t("requestIdLabel")}: ${error.request_id}`;
 
     if (request?.endpoint) {
-      errorText += `\nURL: ${request.endpoint}`;
+      errorText += `\n${t("urlLabel")}: ${request.endpoint}`;
     }
 
     if (request?.params && Object.keys(request.params).length > 0) {
-      errorText += `\nПараметри запиту: ${JSON.stringify(request.params, null, 2)}`;
+      errorText += `\n${t("requestParamsLabel")}: ${JSON.stringify(request.params, null, 2)}`;
     }
 
     if (request?.requestBody) {
-      errorText += `\nДані запиту: ${JSON.stringify(request.requestBody, null, 2)}`;
+      errorText += `\n${t("requestDataLabel")}: ${JSON.stringify(request.requestBody, null, 2)}`;
     }
 
-    errorText += `\nДодаткова інформація: ${JSON.stringify(error.details, null, 2)}
+    errorText += `\n${t("additionalInfoLabel")}: ${JSON.stringify(error.details, null, 2)}
 
-Будь ласка, надайте цю інформацію адміністратору для швидшого вирішення проблеми.`;
+${t("errorDetailsFooter")}`;
 
     navigator.clipboard
       .writeText(errorText.trim())
       .then(() => {
-        show("Інформацію про помилку скопійовано в буфер обміну", {
+        show(t("errorDetailsCopied"), {
           type: "success",
           duration: 3000,
         });
       })
       .catch(() => {
-        show("Не вдалося скопіювати інформацію", {
+        show(t("errorDetailsFailedToCopy"), {
           type: "error",
           duration: 3000,
         });

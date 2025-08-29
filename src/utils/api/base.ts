@@ -45,19 +45,15 @@ export class BaseCRUD<
   }
 
   private preprocessJsonForLargeNumbers(jsonText: string): string {
-    // Convert all large numbers (15+ digits) to strings to prevent precision loss
-    // This prevents issues with JavaScript Number.MAX_SAFE_INTEGER (2^53 - 1)
     return jsonText.replace(/"([^"]+)":\s*(\d{15,})/g, '"$1":"$2"');
   }
 
   private getAuthToken(): string | null {
-    // Try to get token from localStorage first (new JWT system)
     const token = localStorage.getItem("access_token");
     if (token) {
       return token;
     }
 
-    // Fallback to cookie-based token for legacy support during migration
     const value = `; ${document.cookie}`;
     const parts = value.split(`; access_token=`);
     if (parts.length === 2) {
@@ -87,7 +83,6 @@ export class BaseCRUD<
       "Accept-Language": "uk",
     };
 
-    // Add JWT Bearer token if available
     const token = this.getAuthToken();
     if (token) {
       headers.Authorization = `Bearer ${token}`;
@@ -115,8 +110,6 @@ export class BaseCRUD<
         method: config.method,
         headers: config.headers,
         body: config.body,
-        // Remove credentials: "include" for JWT Bearer token auth
-        // credentials: "include",
       });
 
       const responseText = await response.text();
@@ -304,19 +297,6 @@ export class BaseCRUD<
 
   async get(id: string): Promise<APIResponse<TModel>> {
     return this.request<TModel>("GET", `/admin/${id}`);
-  }
-
-  async getByUserId(
-    userId: string,
-    endpoint?: string,
-    params?: Record<string, string | number | boolean>,
-    isList: boolean = false,
-  ): Promise<APIResponse<TModel | TModel[]>> {
-    const path = endpoint || `/users/${userId}`;
-    return this.request<TModel | TModel[]>("GET", path, {
-      params: { ...params, user_id: userId },
-      isList,
-    });
   }
 
   async getList(

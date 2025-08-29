@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { useNotification } from "@/services/useNotification";
 import { authAPI } from "@/utils/api/auth";
-import type { UserProfileDto, AuthResponse, AuthUser } from "@/types/auth";
+import type { UserProfileDto, AuthResponse } from "@/types/auth";
 
 interface AuthState {
   user: UserProfileDto | null;
@@ -10,10 +10,8 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   isAuthenticated: boolean;
-  // Legacy fields for compatibility during migration
   token: string | null;
   userPermissions: Record<string, boolean>[];
-  // Cache timestamp for user data to avoid excessive API calls
   lastUserFetch: number;
   userCacheTimeout: number;
 }
@@ -26,10 +24,8 @@ export const useAuthStore = defineStore("auth", {
     isLoading: false,
     error: null,
     isAuthenticated: false,
-    // Legacy fields for compatibility
     token: null,
     userPermissions: [],
-    // Cache management
     lastUserFetch: 0,
     userCacheTimeout: 5 * 60 * 1000, // 5 minutes cache
   }),

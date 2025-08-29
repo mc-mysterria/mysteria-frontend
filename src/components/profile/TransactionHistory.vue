@@ -105,6 +105,7 @@ interface TransactionDto {
     | "PENALTY"
     | "REWARD";
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
   serverId?: string;
   createdAt: string;

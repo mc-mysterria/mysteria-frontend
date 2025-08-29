@@ -14,7 +14,6 @@ class ShopAPI extends BaseCRUD<ServiceDto, CreateServiceDto, Partial<CreateServi
     super("/shop");
   }
 
-  // Get all services
   async getServices(type?: string, lang: string = 'en'): Promise<APIResponse<ServiceDto[]>> {
     const params: Record<string, string> = { lang };
     if (type) {

@@ -31,7 +31,7 @@ const copyIP = async () => {
     setTimeout(() => {
       showCopied.value = false;
     }, 2000);
-  } catch (err) {
+  } catch {
     // Fallback for older browsers
     const textArea = document.createElement("textarea");
     textArea.value = props.ip;

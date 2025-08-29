@@ -17,7 +17,7 @@ app.use(router);
 app.use(VueCookies);
 app.use(VueDOMPurifyHTML);
 
-window.$cookies = VueCookies;
+window.$cookies = VueCookies.VueCookies;
 
 const authStore = useAuthStore(pinia);
 authStore.init();
@@ -54,6 +54,7 @@ if (import.meta.env.DEV) {
       // Monitor cumulative layout shift
       const clsObserver = new PerformanceObserver((entries) => {
         let clsValue = 0;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         entries.getEntries().forEach((entry: any) => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
@@ -70,6 +71,7 @@ if (import.meta.env.DEV) {
 
       // Monitor first input delay
       const fidObserver = new PerformanceObserver((entries) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         entries.getEntries().forEach((entry: any) => {
           console.log(`⚡ FID: ${entry.processingStart - entry.startTime}ms`);
           if (entry.processingStart - entry.startTime > 100) {
@@ -87,6 +89,7 @@ if (import.meta.env.DEV) {
   // Monitor memory usage (Chrome only)
   if ('memory' in performance) {
     const logMemory = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const memory = (performance as any).memory;
       console.log(`💾 Memory: ${(memory.usedJSHeapSize / 1048576).toFixed(2)}MB used / ${(memory.totalJSHeapSize / 1048576).toFixed(2)}MB total`);
     };

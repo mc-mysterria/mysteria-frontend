@@ -23,7 +23,7 @@ import type { NewsArticle } from '@/types/news';
 
 const articles = ref<NewsArticle[]>([]);
 const selectedArticleId = ref<number | string>('');
-// Relax typing to avoid strict mismatches during admin editing
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const selectedArticle = ref<any>(null);
 
 onMounted(async () => {

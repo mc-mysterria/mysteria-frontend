@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-// import { balanceAPI, transactionAPI, serviceAPI } from "@/utils/api/payments";
 import type { BalanceResponse, BalanceDto } from "@/types/balance";
 import type {
   ServiceResponse,
@@ -8,7 +7,6 @@ import type {
   ServiceMarkdownDto,
 } from "@/types/services";
 import { useAuthStore } from "@/stores/auth";
-import { useUserStore } from "@/stores/user";
 import { watch } from "vue";
 import { useNotification } from "@/services/useNotification";
 import { useI18n } from "@/composables/useI18n";
@@ -17,22 +15,18 @@ import { APIError, RequestError } from "@/utils/api/errors";
 import { debounce } from "lodash-es";
 import { shopAPI } from "@/utils/api/shop";
 
-// Cache for expensive service transformations
 const serviceTransformCache = new Map<string, ServiceResponse>();
-// Cache for service markdown content
 const serviceMarkdownCache = new Map<string, ServiceMarkdownDto>();
 
-// Helper function to convert new API ServiceDto to legacy ServiceResponse format with caching
 function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): ServiceResponse {
-  // Create cache key based on service id, language, and last update
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateTime = (service as any).updatedAt || service.createdAt || Date.now();
   const cacheKey = `${service.id}-${lang}-${updateTime}`;
   
-  // Check cache first
   if (serviceTransformCache.has(cacheKey)) {
     return serviceTransformCache.get(cacheKey)!;
   }
-  // Use internationalized fields if available, fallback to default
+  
   const name = lang === "en" 
     ? (service.nameEn || service.name)
     : (service.nameUk || service.name);
@@ -324,7 +318,6 @@ export const useBalanceStore = defineStore("balance", {
 
     async fetchServices(requireAuth: boolean = true): Promise<void> {
       const authStore = useAuthStore();
-      const userStore = useUserStore();
       const { currentLanguage } = useI18n();
       const lang = currentLanguage.value;
       
@@ -634,7 +627,6 @@ export function useBalanceWatcher() {
     () => authStore.isAuthenticated,
     (isAuthenticated) => {
       if (isAuthenticated) {
-        // Use debounced function instead of setTimeout
         debouncedFetchData();
       } else {
         // Cancel any pending debounced calls

@@ -151,6 +151,7 @@ const isPrivilegedUser = computed(() => {
 
 const activeTab = ref<'player' | 'staff'>('player')
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const currentRules = computed(() => {
   if (activeTab.value === 'staff') {
     return staffRules.value.flatMap(group => 
@@ -180,7 +181,7 @@ const loadRulesForLanguage = async (lang: string) => {
   try {
     const rulesModule = await import(`@/assets/sources/rules_${lang}.json`)
     rules.value = rulesModule.default as Rule[]
-  } catch (error) {
+  } catch {
     // Fallback to English if language file not found
     try {
       const rulesModule = await import('@/assets/sources/rules_en.json')
@@ -201,7 +202,7 @@ const loadStaffRulesForLanguage = async (lang: string) => {
   try {
     const staffRulesModule = await import(`@/assets/sources/staff_rules_${lang}.json`)
     staffRules.value = staffRulesModule.default as StaffRuleGroup[]
-  } catch (error) {
+  } catch {
     // Fallback to English if language file not found
     try {
       const staffRulesModule = await import('@/assets/sources/staff_rules_en.json')

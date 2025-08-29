@@ -1,28 +1,4 @@
-import { type UserDefaultSort } from "./base";
 import { type RoleResponse } from "./roles";
-
-export type SearchMode = "similar" | "any";
-
-export interface UserTokenResponse {
-  id: string;
-  token: string;
-  user_id: string;
-  created_at: string;
-}
-
-export interface UserCreate {
-  id: string;
-  nickname?: string;
-  discord_id?: string;
-  is_superuser?: boolean;
-}
-
-export interface UserUpdate {
-  nickname?: string;
-  discord_id?: string;
-  is_superuser?: boolean;
-  biography?: string;
-}
 
 export interface UserUpdateRequest {
   nickname?: string;
@@ -47,17 +23,3 @@ export interface UserResponse {
 
   roles?: RoleResponse[];
 }
-
-export interface UserFilterParams {
-  user_id?: string;
-  discord_id?: string;
-  nickname?: string;
-  is_superuser?: boolean;
-  role_name?: string;
-}
-
-export type UserSort =
-  | UserDefaultSort
-  | "nickname"
-  | "discord_id"
-  | "role_weight";

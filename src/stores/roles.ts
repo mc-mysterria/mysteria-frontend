@@ -1,21 +1,18 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-// Simplified role store for basic role management
-// Current API only supports role as a string field in user profiles
 export const useRoleStore = defineStore("role", () => {
   const isLoading = ref(false);
 
   // Basic role hierarchy for display purposes
   const roleHierarchy = [
-    { name: "owner", displayName: "Owner", weight: 100 },
-    { name: "admin", displayName: "Administrator", weight: 90 },
+    { name: "admin", displayName: "Owner", weight: 100 },
+    { name: "leader", displayName: "Leader", weight: 90 },
     { name: "moderator", displayName: "Moderator", weight: 80 },
-    { name: "helper", displayName: "Helper", weight: 70 },
-    { name: "vip", displayName: "VIP", weight: 60 },
-    { name: "premium", displayName: "Premium", weight: 50 },
+    { name: "shepherd", displayName: "Shepherd", weight: 60 },
+    { name: "radiant", displayName: "Radiant", weight: 50 },
     { name: "player", displayName: "Player", weight: 10 },
-    { name: "default", displayName: "Default", weight: 0 },
+    { name: "member", displayName: "Default", weight: 0 },
   ];
 
   const getRoleDisplayName = (roleName: string): string => {

@@ -1,15 +1,6 @@
-import { type UserDefaultSort } from "./base";
-
 export type PunishmentType = "warn" | "mute" | "ban" | "kick" | "restriction";
 
 export type PunishmentStatus = "active" | "expired" | "revoked";
-
-export type PunishmentSort =
-  | UserDefaultSort
-  | "type"
-  | "status"
-  | "user_id"
-  | "expires_at";
 
 export interface PunishmentMetadata {
   reason?: string;
@@ -56,30 +47,4 @@ export interface PunishmentFilterParams {
   min_expires_at?: Date;
   max_expires_at?: Date;
   config_id?: string;
-}
-
-export interface PunishmentConfigBase {
-  name: string;
-  description?: string;
-  is_active: boolean;
-  warn_threshold: number;
-  warn_decay_days: number;
-  config_data: PunishmentMetadata;
-}
-
-export type PunishmentConfigCreate = PunishmentConfigBase;
-
-export interface PunishmentConfigUpdate {
-  name?: string;
-  description?: string;
-  is_active?: boolean;
-  warn_threshold?: number;
-  warn_decay_days?: number;
-  config_data?: PunishmentMetadata;
-}
-
-export interface PunishmentConfigResponse extends PunishmentConfigBase {
-  id: string;
-  created_at: Date;
-  updated_at: Date;
 }

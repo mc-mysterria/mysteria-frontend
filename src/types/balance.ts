@@ -1,7 +1,4 @@
-import { type UserDefaultSort } from "./base";
 import { type Decimal } from "decimal.js";
-
-export type BalanceSort = UserDefaultSort | "amount";
 
 export interface BalanceUpdate {
   amount?: Decimal;
@@ -28,7 +25,6 @@ export interface UserTotalBalanceResponse {
   balances: BalanceResponse[];
 }
 
-// New API balance DTO
 export interface BalanceDto {
   userId: string;
   balance: number;

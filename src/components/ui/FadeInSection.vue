@@ -15,9 +15,7 @@ interface Props {
   delay?: string | number;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  delay: 0,
-});
+const {delay = 0} = defineProps<Props>();
 
 const sectionRef = ref<HTMLElement>();
 

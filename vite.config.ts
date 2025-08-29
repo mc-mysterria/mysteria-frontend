@@ -6,7 +6,6 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
 import generateSitemap from 'vite-plugin-sitemap'
 import fs from 'fs'
-import type { IncomingMessage, ClientRequest } from 'http'
 
 function copyRobotsPlugin() {
   return {

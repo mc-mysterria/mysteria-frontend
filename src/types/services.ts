@@ -3,18 +3,11 @@ import { type Decimal } from "decimal.js";
 
 export type ServiceSort = UserDefaultSort | "name" | "price";
 
-// New API service types
 export enum ServiceType {
   ITEM = "ITEM",
   PERMISSION = "PERMISSION",
   SUBSCRIPTION = "SUBSCRIPTION",
   DISCORD_ROLE = "DISCORD_ROLE",
-}
-
-export enum ServiceCategory {
-  DONATION = "donation",
-  SERVICE = "service",
-  OTHER = "other",
 }
 
 export interface ServicePoint {
@@ -67,6 +60,7 @@ export interface ServiceBase {
   durationDays?: number; // API uses durationDays instead of duration_months
   type: ServiceType;
   isSubscription?: boolean; // API uses isSubscription boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>; // API uses generic metadata object
   isActive: boolean; // API uses isActive
   createdAt?: string; // API timestamp
@@ -105,6 +99,7 @@ export interface CreateServiceDto {
   type: ServiceType;
   isSubscription?: boolean;
   apiCallbackUrl?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
 }
 
@@ -123,6 +118,7 @@ export interface ServiceDto {
   durationDays?: number;
   type: ServiceType;
   isSubscription: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
   isActive: boolean;
   createdAt: string;
@@ -142,6 +138,7 @@ export interface PurchaseDto {
   expiresAt?: string;
   delivered: boolean;
   notes?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
 }
 

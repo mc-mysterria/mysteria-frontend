@@ -32,9 +32,7 @@ export const useUserStore = defineStore("user", {
       this.error = null;
 
       try {
-        // Use auth store instead of legacy user API since the new API uses /api/user/profile
         const authStore = useAuthStore();
-        const userResponse = await authStore.refreshUser();
         this.user = authStore.currentUser;
       } catch (error) {
         this.error =
@@ -84,12 +82,6 @@ export const useUserStore = defineStore("user", {
         throw error;
       }
     },
-
-    async updateNickname(nickname: string) {
-      return this.updateProfile({ nickname });
-    },
-
-    // Biography feature removed - not supported by new API
   },
 });
 
@@ -97,7 +89,6 @@ export function useUserWatcher() {
   const userStore = useUserStore();
   const authStore = useAuthStore();
 
-  // Debounced user fetch to prevent rapid API calls
   const debouncedFetchUser = debounce(() => {
     if (authStore.isAuthenticated) {
       userStore.fetchUser();
@@ -110,7 +101,6 @@ export function useUserWatcher() {
       if (isAuthenticated) {
         debouncedFetchUser();
       } else {
-        // Cancel any pending debounced calls
         debouncedFetchUser.cancel();
         userStore.reset();
       }

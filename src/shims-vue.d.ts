@@ -7,3 +7,12 @@ declare module "*.vue" {
   >;
   export default component;
 }
+
+import { VueCookies } from "vue-cookies";
+
+declare global {
+  interface Window {
+    $cookies: VueCookies;
+  }
+}
+

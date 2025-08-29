@@ -111,11 +111,9 @@
 <script setup lang="ts">
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
-import CopyIPButton from "@/components/ui/CopyIPButton.vue";
 import FadeInSection from "@/components/ui/FadeInSection.vue";
 import SectionTitle from "@/components/ui/SectionTitle.vue";
 import JoinServerModal from "@/components/ui/JoinServerModal.vue";
-import IconWiki from "@/assets/icons/IconWiki.vue";
 import IconArrowRight from "@/assets/icons/IconArrowRight.vue";
 import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
 import IconStars from "@/assets/icons/IconStars.vue";

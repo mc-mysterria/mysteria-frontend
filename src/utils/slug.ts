@@ -27,10 +27,11 @@ export function getServiceDetailPath(service: {
   display_name?: string;
   slug_name?: string;
   // Add support for accessing original service data if available
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }): string {
   // Use slug_name for consistent URLs across languages, fallback to name
-  let nameForSlug = service.slug_name || service.name;
+  const nameForSlug = service.slug_name || service.name;
   
   const slug = createSlug(nameForSlug);
   

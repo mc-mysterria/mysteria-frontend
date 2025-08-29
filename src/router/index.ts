@@ -91,21 +91,16 @@ const router = createRouter({
   ],
 });
 
-// Navigation guard to check authentication
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  // For protected routes, check auth state without artificial delays
   if (to.meta.requiresAuth || to.meta.requiresPrivileged) {
-    // If still loading, let the route load and handle auth in the component
-    // This prevents blocking navigation with artificial delays
     if (authStore.isLoading) {
       next();
       return;
     }
   }
 
-  // Synchronous checks only - no setTimeout or polling
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: "home" });
   } else if (to.meta.requiresPrivileged && !authStore.isPrivilegedUser) {

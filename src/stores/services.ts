@@ -6,8 +6,6 @@ import { useNotification } from "@/services/useNotification";
 import type {
   ServiceResponse,
   ServiceCreate,
-  ServiceUpdate,
-  ServiceFilterParams,
 } from "@/types/services";
 
 interface ServicesState {
@@ -40,6 +38,7 @@ export const useServicesStore = defineStore("services", {
 
       try {
         const response = await serviceAPI.getList("", {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           filters: type ? { type: type as any } : {},
         });
         this.services = response.data;
