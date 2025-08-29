@@ -197,29 +197,42 @@ const loadServiceContent = async () => {
       loading.value = true;
       error.value = '';
       
-      const response = await shopAPI.getServiceContentAdmin(Number(selectedServiceId.value));
-      const data = response.data;
+      // Load both English and Ukrainian content to prevent data loss
+      const [enResponse, ukResponse] = await Promise.allSettled([
+        shopAPI.getServiceContentAdmin(Number(selectedServiceId.value), 'en'),
+        shopAPI.getServiceContentAdmin(Number(selectedServiceId.value), 'uk')
+      ]);
       
-      // If the service has no slug or markdown content, create new content template
-      if (!data.slug || (!data.markdownContent && !data.markdownContentEn && !data.markdownContentUk)) {
+      let enData = null;
+      let ukData = null;
+      
+      if (enResponse.status === 'fulfilled') {
+        enData = enResponse.value.data;
+      }
+      if (ukResponse.status === 'fulfilled') {
+        ukData = ukResponse.value.data;
+      }
+      
+      // If no content exists for either language, create new content template
+      if (!enData && !ukData) {
         createNewContentForService();
       } else {
-        // Map the response data to our expected format
-        selectedContent.value = {
-          ...data,
-          markdownContentEn: data.markdownContentEn || data.markdownContent || '',
-          markdownContentUk: data.markdownContentUk || '',
-          isPublished: data.publishedAt !== null
-        };
+        // Merge data from both languages, preferring English for base properties
+        const baseData = enData || ukData;
+        if (baseData) {
+          selectedContent.value = {
+            ...baseData,
+            markdownContentEn: enData?.markdownContentEn || enData?.markdownContent || '',
+            markdownContentUk: ukData?.markdownContentUk || ukData?.markdownContent || '',
+            isPublished: baseData.publishedAt !== null
+          };
+        } else {
+          createNewContentForService();
+        }
       }
     } catch (err) {
       // If content doesn't exist yet, create a new one
-      if ((err as any)?.response?.status === 404 || (err as any)?.status === 404) {
-        createNewContentForService();
-      } else {
-        error.value = 'Failed to load service content: ' + (err instanceof Error ? err.message : 'Unknown error');
-        selectedContent.value = null;
-      }
+      createNewContentForService();
     } finally {
       loading.value = false;
     }

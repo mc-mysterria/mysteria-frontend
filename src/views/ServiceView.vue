@@ -23,7 +23,7 @@
             <h1 class="service-title">{{ service.name }}</h1>
             <div class="service-meta">
               <span class="service-type">{{ getTypeLabel(service.type) }}</span>
-              <span class="service-price">{{ service.price }} Mysterria</span>
+              <span class="service-price">{{ service.price }} {{ currentLanguage === 'uk' ? 'Марок' : 'Marks' }}</span>
               <span v-if="service.isSubscription" class="service-subscription">{{ t('subscription') }}</span>
             </div>
           </div>
@@ -176,8 +176,9 @@ const handlePurchase = async () => {
       const missingAmount = Math.ceil(
         Number(servicePrice.minus(shopStore.balance?.amount || 0))
       );
+      const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
       confirmModal.value?.showModal(
-        `${t('insufficientFundsMessage')} ${missingAmount} Mysterria?`,
+        `${t('insufficientFundsMessage')} ${missingAmount} ${currencyName}?`,
         t('topUp'),
         t('cancel')
       );
@@ -204,8 +205,8 @@ const confirmPurchase = async () => {
     
     // Check if it's insufficient funds case (topUp button)
     if (!shopStore.balance || shopStore.balance.amount.lessThan(servicePrice)) {
-      // Handle top-up logic here if needed
-      show('Please top up your balance to continue', { type: 'info' });
+      // Redirect to top-up or show appropriate message
+      show(t('insufficientFundsMessage') || 'Insufficient funds. Please top up your balance to continue.', { type: 'info' });
       return;
     }
     

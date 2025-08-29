@@ -179,8 +179,9 @@ watch(
         const amount = Math.ceil(
           Number(newPurchase.price.minus(shopStore.balance?.amount || 0)),
         );
+        const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
         confirmModal.value.showModal(
-          `${t("insufficientFundsMessage")} ${amount} Mysterria?`,
+          `${t("insufficientFundsMessage")} ${amount} ${currencyName}?`,
           t("topUp"),
           t("cancel"),
         );
