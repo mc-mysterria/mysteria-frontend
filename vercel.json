@@ -59,6 +59,10 @@
     {
       "source": "/news/:path*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/services/:path*",
+      "destination": "/index.html"
     }
   ],
   "headers": [
