@@ -562,7 +562,7 @@
                 </div>
 
                 <a
-                  href="#"
+                  href="https://discord.com/invite/jc7GSxBWgb"
                   class="discord-link"
                   target="_blank"
                   rel="noopener noreferrer"
