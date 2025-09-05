@@ -34,10 +34,10 @@ export const useAuthStore = defineStore("auth", {
     currentToken: (state) => state.accessToken || state.token, // Support both new and legacy
     currentUser: (state) => state.user,
     userRole: (state) => state.user?.role || "",
-    isAdmin: (state) => state.user?.role === "ADMIN",
+    isAdmin: (state) => state.user?.role === "OWNER",
     isPrivilegedUser: (state) => {
       const role = state.user?.role?.toUpperCase();
-      return role === "ADMIN" || role === "LEADER";
+      return role === "OWNER" || role === "LEADER";
     },
     isVerified: (state) => state.user?.verified || false,
     userBalance: (state) => state.user?.balance || 0,
