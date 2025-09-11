@@ -36,6 +36,7 @@ const translations = {
       newsTitle: "From Behind the Fog",
       newsSubtitle: "Updates and dispatches from the Evernight.",
       readMore: "Read more",
+      loadAdditional: "Show more",
     },
 
     // Hero Section
@@ -667,6 +668,7 @@ const translations = {
       newsTitle: "З-за Туману",
       newsSubtitle: "Оновлення та повідомлення від Вічної Ночі.",
       readMore: "Читати далі",
+      loadAdditional: "Показати більше",
     },
 
     // Hero Section

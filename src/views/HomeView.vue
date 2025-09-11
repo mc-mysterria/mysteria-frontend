@@ -77,7 +77,7 @@
         />
         <FadeInSection>
           <div class="news-grid">
-            <div class="news-card" v-for="n in news" :key="n.id">
+            <div class="news-card" v-for="n in displayedNews" :key="n.id">
               <div class="news-image">
                 <img
                   :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
@@ -98,6 +98,13 @@
             </div>
           </div>
         </FadeInSection>
+        
+        <!-- Load More Button -->
+        <div v-if="!showAllNews && news.length > 3" class="load-more-container">
+          <button @click="showAllNews = true" class="load-more-button">
+            {{ t('home.loadAdditional') }}
+          </button>
+        </div>
       </div>
     </section>
 
@@ -128,6 +135,7 @@ import bannerWebp from "@/assets/images/optimized/banner.webp";
 const { t, currentLanguage } = useI18n();
 const news = ref<NewsArticle[]>([]);
 const showJoinModal = ref(false);
+const showAllNews = ref(false);
 
 
 const heroStyle = computed(() => ({
@@ -153,6 +161,10 @@ onMounted(async () => {
   } catch (error) {
     console.error("Failed to fetch news:", error);
   }
+});
+
+const displayedNews = computed(() => {
+  return showAllNews.value ? news.value : news.value.slice(0, 3);
 });
 
 const features = [
@@ -459,6 +471,33 @@ export default {
 
 .news-link:hover {
   text-decoration: underline;
+}
+
+/* Load More Button */
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.load-more-button {
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  color: var(--myst-gold);
+  padding: 12px 32px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.load-more-button:hover {
+  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
+  border-color: var(--myst-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.2);
 }
 
 /* Stats Section */
