@@ -29,7 +29,6 @@
     "title": "Names & Avatars",
     "content": "Nicknames, avatars, or skins with offensive, extremist, or NSFW content are forbidden. Example: Nazi skins, hentai profile pics, or racist usernames = instant action by staff."
   },
-
   {
     "id": "2",
     "title": "Profane Creations (Builds & World Behavior)",
@@ -50,7 +49,6 @@
     "title": "Lag & Exploit Machines",
     "content": "Machines or farms that cause lag (like TNT spam) or unauthorized chunk loaders are not allowed. Example: building a redstone clock to crash the server = ban."
   },
-
   {
     "id": "3",
     "title": "Forbidden Powers (Cheats & Exploits)",
@@ -66,7 +64,6 @@
     "title": "Bug Abuse",
     "content": "If you find a glitch, report it. Do not abuse it. Example: finding a way to duplicate items and using it = permaban. You will be rewarded for reporting it."
   },
-
   {
     "id": "4",
     "title": "Veil & Identity (Privacy & Accounts)",
@@ -92,7 +89,6 @@
     "title": "Impersonation",
     "content": "Do not impersonate staff or other players. Faking evidence or pretending to be a Guardian = permanent ban."
   },
-
   {
     "id": "5",
     "title": "Respect of Souls (Community Behavior)",
@@ -123,7 +119,11 @@
     "title": "Begging & Pestering",
     "content": "Do not spam staff for free items, ranks, or attention. Example: 'pls gimme op' every 5 minutes = punishable."
   },
-
+  {
+    "id": "5.6",
+    "title": "Black Market",
+    "content": "Trading in-game valuables for real money bypassing the server is strictly prohibited. We respect your entrepreneurial spirit, but please, let’s not turn the server into a marketplace!"
+  },
   {
     "id": "6",
     "title": "Ritual Order (Channels & Promotion)",
@@ -139,7 +139,6 @@
     "title": "Advertising",
     "content": "No advertising or promotion unless approved by staff. This includes other servers, Discords, or YouTube channels. Example: DMing players your server IP = ban."
   },
-
   {
     "id": "7",
     "title": "Judgment of Guardians (Punishments)",
