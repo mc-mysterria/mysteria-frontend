@@ -34,8 +34,10 @@ onMounted(async () => {
 
   try {
     const code = route.query.code as string;
+    const redirectUrl = route.query.redirect as string;
 
     console.log("Auth code:", code);
+    console.log("Redirect URL:", redirectUrl);
 
     if (!code) {
       throw new Error("Authorization code not received");
@@ -50,6 +52,27 @@ onMounted(async () => {
     if (authStore.isAuthenticated) {
       isProcessing.value = false;
 
+      // Check if this is a cross-domain authentication request
+      if (redirectUrl) {
+        console.log("Cross-domain authentication detected, redirecting with token...");
+
+        // Get the current access token to pass to the archive
+        const token = authStore.currentToken;
+
+        if (token) {
+          // Construct redirect URL with token
+          const finalRedirectUrl = `${redirectUrl}&token=${encodeURIComponent(token)}`;
+          console.log("Redirecting to:", finalRedirectUrl);
+
+          // Redirect to the archive with the token
+          window.location.href = finalRedirectUrl;
+          return;
+        } else {
+          throw new Error("Failed to get authentication token");
+        }
+      }
+
+      // Normal authentication flow (popup window)
       console.log("Sending message to opener...");
       if (window.opener) {
         window.opener.postMessage(

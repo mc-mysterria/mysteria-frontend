@@ -68,7 +68,7 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
   }
 
   // Legacy method for compatibility during migration
-  async getDiscordLoginUrl(): Promise<string> {
+  async getDiscordLoginUrl(redirectUrl?: string): Promise<string> {
     // Get Discord Client ID from environment
     const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
 
@@ -78,9 +78,13 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
       );
     }
 
-    const redirectUri = encodeURIComponent(
-      `${window.location.origin}/auth/callback`,
-    );
+    // Build callback URL with optional redirect parameter
+    let callbackUrl = `${window.location.origin}/auth/callback`;
+    if (redirectUrl) {
+      callbackUrl += `?redirect=${encodeURIComponent(redirectUrl)}`;
+    }
+
+    const redirectUri = encodeURIComponent(callbackUrl);
     const scope = encodeURIComponent("identify email guilds");
 
     return `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;

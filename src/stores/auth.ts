@@ -284,18 +284,55 @@ export const useAuthStore = defineStore("auth", {
       return permissions.every((permission) => this.hasPermission(permission));
     },
 
+    // Generate archive-specific permissions based on user role
+    getArchivePermissions(): string[] {
+      if (!this.user) return [];
+
+      const role = this.user.role?.toUpperCase();
+
+      switch (role) {
+        case "ADMIN":
+        case "OWNER":
+          return ["PERM_ARCHIVE:READ", "PERM_ARCHIVE:WRITE", "PERM_ARCHIVE:DELETE", "PERM_ARCHIVE:MODERATE"];
+        case "MODERATOR":
+        case "LEADER":
+          return ["PERM_ARCHIVE:READ", "PERM_ARCHIVE:WRITE", "PERM_ARCHIVE:MODERATE"];
+        case "PLAYER":
+          return ["PERM_ARCHIVE:READ", "PERM_ARCHIVE:WRITE"];
+        case "USER":
+        default:
+          return ["PERM_ARCHIVE:READ"];
+      }
+    },
+
+    // Get user information formatted for JWT token cross-domain sharing
+    getJWTUserInfo() {
+      if (!this.user) return null;
+
+      return {
+        sub: this.user.id,
+        username: this.user.nickname || `User${this.user.discordId}`,
+        email: this.user.email,
+        permissions: this.getArchivePermissions(),
+        role: this.user.role,
+        verified: this.user.verified,
+        iat: Math.floor(Date.now() / 1000),
+        exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 hours
+      };
+    },
+
     // Force refresh user data bypassing cache
     async forceUserRefresh() {
       return this.refreshUser(true);
     },
 
-    async openDiscordAuth() {
+    async openDiscordAuth(redirectUrl?: string) {
       const { show } = useNotification();
       this.isLoading = true;
       this.error = null;
 
       try {
-        const url = await authAPI.getDiscordLoginUrl();
+        const url = await authAPI.getDiscordLoginUrl(redirectUrl);
 
         const isMobile =
           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
