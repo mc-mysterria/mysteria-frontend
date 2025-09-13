@@ -34,10 +34,22 @@ onMounted(async () => {
 
   try {
     const code = route.query.code as string;
-    const redirectUrl = route.query.redirect as string;
+    const state = route.query.state as string;
 
     console.log("Auth code:", code);
-    console.log("Redirect URL:", redirectUrl);
+    console.log("State:", state);
+
+    // Parse redirect URL from state parameter
+    let redirectUrl = "";
+    if (state) {
+      try {
+        const stateData = JSON.parse(decodeURIComponent(state));
+        redirectUrl = stateData.redirect;
+        console.log("Redirect URL from state:", redirectUrl);
+      } catch (e) {
+        console.warn("Failed to parse state parameter:", e);
+      }
+    }
 
     if (!code) {
       throw new Error("Authorization code not received");

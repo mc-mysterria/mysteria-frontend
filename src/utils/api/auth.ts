@@ -78,16 +78,20 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
       );
     }
 
-    // Build callback URL with optional redirect parameter
-    let callbackUrl = `${window.location.origin}/auth/callback`;
-    if (redirectUrl) {
-      callbackUrl += `?redirect=${encodeURIComponent(redirectUrl)}`;
-    }
-
+    // Use exact registered redirect URI without query parameters
+    const callbackUrl = `${window.location.origin}/auth/callback`;
     const redirectUri = encodeURIComponent(callbackUrl);
     const scope = encodeURIComponent("identify email guilds");
 
-    return `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+    // Use Discord's state parameter to pass redirect URL
+    let authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+
+    if (redirectUrl) {
+      const state = encodeURIComponent(JSON.stringify({ redirect: redirectUrl }));
+      authUrl += `&state=${state}`;
+    }
+
+    return authUrl;
   }
 }
 
