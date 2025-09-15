@@ -91,6 +91,8 @@ const translations = {
     loginWithDiscord: "Login with Discord",
     profile: "Profile",
     welcome: "Welcome",
+    processing: "Processing...",
+    secureLoginDisclaimer: "Secure login via Discord - your privacy is protected",
 
     // Shop
     shop: "Shop",
@@ -723,6 +725,8 @@ const translations = {
     loginWithDiscord: "Увійти через Discord",
     profile: "Профіль",
     welcome: "Ласкаво просимо",
+    processing: "Обробка...",
+    secureLoginDisclaimer: "Безпечний вхід через Discord - ваша конфіденційність захищена",
 
     // Shop
     shop: "Крамниця",
