@@ -185,7 +185,6 @@ const translations = {
     myProfile: "My Profile",
     accountVerification: "Account Verification",
     verifyMinecraftAccount: "Verify Minecraft Account",
-    processing: "Processing...",
     unavailable: "Unavailable",
 
     // Verification Panel
@@ -334,8 +333,6 @@ const translations = {
     authenticationRequired: "Authentication Required",
     accessExclusiveItems: "Access exclusive items",
     manageYourBalance: "Manage your balance",
-    secureLoginDisclaimer:
-      "Secure login via Discord - your privacy is protected",
 
     // Game Guide Page
     gameGuideTitle: "Getting Started Guide",
@@ -819,7 +816,6 @@ const translations = {
     myProfile: "Мій профіль",
     accountVerification: "Верифікація акаунту",
     verifyMinecraftAccount: "Верифікація Minecraft акаунту",
-    processing: "Обробка...",
     unavailable: "Недоступно",
 
     // Verification Panel
@@ -969,8 +965,6 @@ const translations = {
     authenticationRequired: "Необхідна автентифікація",
     accessExclusiveItems: "Доступ до ексклюзивних товарів",
     manageYourBalance: "Керування вашим балансом",
-    secureLoginDisclaimer:
-      "Безпечний вхід через Discord - ваша конфіденційність захищена",
 
     // Game Guide Page
     gameGuideTitle: "Посібник з Початку Гри",
