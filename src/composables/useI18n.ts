@@ -292,6 +292,10 @@ const translations = {
     shopCategorySubscriptionsDesc: "Recurring premium services",
     shopCategoryDiscordRoles: "Discord Roles",
     shopCategoryDiscordRolesDesc: "Discord server roles and benefits",
+    shopCategoryCosmetics: "Cosmetics",
+    shopCategoryCosmeticsDesc: "Cosmetic items and appearance customizations",
+    shopCategoryAppeals: "Appeals",
+    shopCategoryAppealsDesc: "Ban appeals and account recovery services",
     shopCategoryOther: "Other",
     shopCategoryOtherDesc: "Miscellaneous services",
 
@@ -925,6 +929,10 @@ const translations = {
     shopCategorySubscriptionsDesc: "Регулярні преміум послуги",
     shopCategoryDiscordRoles: "Discord Ролі",
     shopCategoryDiscordRolesDesc: "Ролі Discord сервера та переваги",
+    shopCategoryCosmetics: "Косметика",
+    shopCategoryCosmeticsDesc: "Косметичні предмети та налаштування зовнішності",
+    shopCategoryAppeals: "Апеляції",
+    shopCategoryAppealsDesc: "Апеляції щодо банів та відновлення акаунтів",
     shopCategoryOther: "Інше",
     shopCategoryOtherDesc: "Різноманітні послуги",
 

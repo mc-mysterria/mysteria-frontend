@@ -8,6 +8,8 @@ export enum ServiceType {
   PERMISSION = "PERMISSION",
   SUBSCRIPTION = "SUBSCRIPTION",
   DISCORD_ROLE = "DISCORD_ROLE",
+  APPEAL = "APPEAL",
+  COSMETIC = "COSMETIC",
 }
 
 export interface ServicePoint {

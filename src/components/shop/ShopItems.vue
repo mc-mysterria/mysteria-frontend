@@ -53,9 +53,11 @@ const categories = computed(() => {
   // Initialize categories in desired order
   const categoryOrder: ServiceType[] = [
     ServiceType.ITEM,
-    ServiceType.PERMISSION, 
+    ServiceType.COSMETIC,
+    ServiceType.PERMISSION,
     ServiceType.SUBSCRIPTION,
-    ServiceType.DISCORD_ROLE
+    ServiceType.DISCORD_ROLE,
+    ServiceType.APPEAL
   ];
   
   categoryOrder.forEach(type => {
@@ -87,12 +89,16 @@ const getCategoryTitle = (type: ServiceType): string => {
   switch (type) {
     case ServiceType.ITEM:
       return t('shopCategoryItems') || 'Items';
+    case ServiceType.COSMETIC:
+      return t('shopCategoryCosmetics') || 'Cosmetics';
     case ServiceType.PERMISSION:
       return t('shopCategoryPermissions') || 'Permissions';
     case ServiceType.SUBSCRIPTION:
       return t('shopCategorySubscriptions') || 'Subscriptions';
     case ServiceType.DISCORD_ROLE:
       return t('shopCategoryDiscordRoles') || 'Discord Roles';
+    case ServiceType.APPEAL:
+      return t('shopCategoryAppeals') || 'Appeals';
     default:
       return t('shopCategoryOther') || 'Other';
   }
@@ -102,12 +108,16 @@ const getCategoryDescription = (type: ServiceType): string => {
   switch (type) {
     case ServiceType.ITEM:
       return t('shopCategoryItemsDesc') || 'In-game items and equipment';
+    case ServiceType.COSMETIC:
+      return t('shopCategoryCosmeticsDesc') || 'Cosmetic items and appearance customizations';
     case ServiceType.PERMISSION:
       return t('shopCategoryPermissionsDesc') || 'Special permissions and abilities';
     case ServiceType.SUBSCRIPTION:
       return t('shopCategorySubscriptionsDesc') || 'Recurring premium services';
     case ServiceType.DISCORD_ROLE:
       return t('shopCategoryDiscordRolesDesc') || 'Discord server roles and benefits';
+    case ServiceType.APPEAL:
+      return t('shopCategoryAppealsDesc') || 'Ban appeals and account recovery services';
     default:
       return t('shopCategoryOtherDesc') || 'Miscellaneous services';
   }
