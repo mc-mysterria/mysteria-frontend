@@ -26,8 +26,10 @@ const router = createRouter({
     },
     {
       path: "/wiki",
-      name: "wiki",
-      component: () => import("@/views/WikiView.vue"),
+      redirect: () => {
+        window.open("https://wiki.mysterria.net/", "_blank");
+        return "/";
+      },
     },
     {
       path: "/game",

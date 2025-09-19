@@ -11,6 +11,16 @@ const translations = {
     navShop: "Shop",
     navWiki: "Wiki",
     navGame: "Game Guide",
+    navServices: "Services",
+
+    // Services
+    servicesWikiDesc: "Knowledge base & guides",
+    servicesDiscord: "Discord",
+    servicesDiscordDesc: "Join our community",
+    servicesArchive: "Archive",
+    servicesArchiveDesc: "Browse past content",
+    servicesMap: "Live Map",
+    servicesMapDesc: "Explore the world",
 
     // Home Page
     home: {
@@ -651,6 +661,16 @@ const translations = {
     navShop: "Крамниця",
     navWiki: "Вікіпедія",
     navGame: "Почати гру",
+    navServices: "Сервіси",
+
+    // Services
+    servicesWikiDesc: "База знань та посібники",
+    servicesDiscord: "Discord",
+    servicesDiscordDesc: "Приєднуйтесь до спільноти",
+    servicesArchive: "Архів",
+    servicesArchiveDesc: "Переглянути минулий контент",
+    servicesMap: "Карта",
+    servicesMapDesc: "Досліджуйте світ",
 
     // Home Page
     home: {

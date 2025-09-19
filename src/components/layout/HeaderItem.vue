@@ -20,6 +20,55 @@
         >
           {{ link.title }}
         </component>
+
+        <!-- Services Dropdown -->
+        <div class="services-dropdown" @mouseenter="clearCloseServicesTimeout" @mouseleave="scheduleCloseServicesDropdown">
+          <button
+            @click="toggleServicesDropdown"
+            @mouseenter="openServicesDropdown"
+            :class="['nav-link', 'services-trigger', { 'active': isServicesOpen }]"
+          >
+            {{ t('navServices') }}
+            <span v-if="showServicesDot" class="attention-dot" aria-hidden="true"></span>
+            <svg
+              class="dropdown-arrow"
+              :class="{ 'rotate': isServicesOpen }"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="6,9 12,15 18,9"></polyline>
+            </svg>
+          </button>
+
+          <Transition name="dropdown">
+            <div v-if="isServicesOpen" class="services-dropdown-menu" @mouseenter="clearCloseServicesTimeout" @mouseleave="scheduleCloseServicesDropdown">
+              <a
+                v-for="service in servicesLinks"
+                :key="service.url"
+                :href="service.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="service-link"
+                @click="closeServicesDropdown"
+              >
+                <component :is="service.icon" class="service-icon" />
+                <div class="service-info">
+                  <span class="service-name">{{ service.name }}</span>
+                  <span class="service-description">{{ service.description }}</span>
+                </div>
+                <svg class="external-link-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15,3 21,3 21,9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+          </Transition>
+        </div>
       </nav>
 
       <div class="header-actions">
@@ -69,6 +118,28 @@
               {{ link.title }}
             </component>
 
+            <!-- Mobile Services Links -->
+            <div class="mobile-services-section">
+              <div class="mobile-services-header">{{ t('navServices') }}
+                              <span v-if="showServicesDot" class="attention-dot mobile" aria-hidden="true"></span>
+                            </div>
+              <a
+                v-for="service in servicesLinks"
+                :key="service.url"
+                :href="service.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mobile-service-link"
+                @click="closeMobileNav"
+              >
+                <component :is="service.icon" class="mobile-service-icon" />
+                <div class="mobile-service-info">
+                  <span class="mobile-service-name">{{ service.name }}</span>
+                  <span class="mobile-service-description">{{ service.description }}</span>
+                </div>
+              </a>
+            </div>
+
             <div class="mobile-nav-auth">
               <div class="mobile-language-selector">
                 <LanguageSelector />
@@ -91,6 +162,10 @@ import LanguageSelector from "@/components/ui/LanguageSelector.vue";
 import ThemeToggle from "@/components/ui/ThemeToggle.vue";
 import IconLogo from "@/assets/icons/IconLogo.vue";
 import IconNavbar from "@/assets/icons/IconNavbar.vue";
+import IconArchive from "@/assets/icons/IconArchive.vue";
+import IconMap from "@/assets/icons/IconMap.vue";
+import IconWiki from "@/assets/icons/IconWiki.vue";
+import IconDiscord from "@/assets/icons/IconDiscord.vue";
 import { useI18n } from "@/composables/useI18n";
 
 interface NavLink {
@@ -104,13 +179,68 @@ interface NavLink {
 const route = useRoute();
 const { t } = useI18n();
 const isMobileNavOpen = ref(false);
+const isServicesOpen = ref(false);
+let closeDropdownTimeout: NodeJS.Timeout | null = null;
+
+// Show a small attention dot on the Services trigger until user opens it once.
+const showServicesDot = ref(true);
+try {
+  showServicesDot.value = !localStorage.getItem('servicesDotDismissed_v1');
+} catch {
+  // If localStorage is unavailable, default to showing the dot.
+  showServicesDot.value = true;
+}
+
+const markServicesSeen = () => {
+  if (showServicesDot.value) {
+    showServicesDot.value = false;
+    try {
+      localStorage.setItem('servicesDotDismissed_v1', '1');
+    } catch {
+      // ignore storage errors
+    }
+  }
+};
 
 const navigationLinks = computed<NavLink[]>(() => [
   { path: "/", title: t("navHome") || "Home" },
   { path: "/guide", title: t("navGame") || "Guide" },
   { path: "/rules", title: t("navRules") || "Rules" },
   { path: "/store", title: t("navShop") || "Shop" },
-  { path: "/wiki", title: t("navWiki") || "Wiki" },
+]);
+
+const iconComponents = {
+  IconArchive,
+  IconMap,
+  IconWiki,
+  IconDiscord
+};
+
+const servicesLinks = computed(() => [
+  {
+    name: t("navWiki") || "Wiki",
+    description: t("servicesWikiDesc") || "Knowledge base & guides",
+    url: "https://wiki.mysterria.net/",
+    icon: iconComponents.IconWiki
+  },
+  {
+    name: t("servicesDiscord") || "Discord",
+    description: t("servicesDiscordDesc") || "Join our community",
+    url: "https://discord.com/invite/jc7GSxBWgb",
+    icon: iconComponents.IconDiscord
+  },
+  {
+    name: t("servicesArchive") || "Archive",
+    description: t("servicesArchiveDesc") || "Browse past content",
+    url: "https://archive.mysterria.net/",
+    icon: iconComponents.IconArchive
+  },
+  {
+    name: t("servicesMap") || "Live Map",
+    description: t("servicesMapDesc") || "Explore the world",
+    url: "https://map.mysterria.net/",
+    icon: iconComponents.IconMap
+  }
 ]);
 
 const getNavLinkProps = (link: NavLink) => {
@@ -134,6 +264,39 @@ const closeMobileNav = () => {
   isMobileNavOpen.value = false;
 };
 
+const toggleServicesDropdown = () => {
+  if (!isServicesOpen.value) {
+    markServicesSeen();
+  }
+  isServicesOpen.value = !isServicesOpen.value;
+};
+
+const clearCloseServicesTimeout = () => {
+  if (closeDropdownTimeout) {
+    clearTimeout(closeDropdownTimeout);
+    closeDropdownTimeout = null;
+  }
+};
+
+const scheduleCloseServicesDropdown = () => {
+  clearCloseServicesTimeout();
+  closeDropdownTimeout = setTimeout(() => {
+    isServicesOpen.value = false;
+    closeDropdownTimeout = null;
+  }, 220);
+};
+
+const openServicesDropdown = () => {
+  clearCloseServicesTimeout();
+  markServicesSeen();
+  isServicesOpen.value = true;
+};
+
+const closeServicesDropdown = () => {
+  clearCloseServicesTimeout();
+  isServicesOpen.value = false;
+};
+
 watch(isMobileNavOpen, (isOpen) => {
   if (isOpen) {
     document.body.style.overflow = "hidden";
@@ -144,6 +307,7 @@ watch(isMobileNavOpen, (isOpen) => {
 
 onUnmounted(() => {
   document.body.style.overflow = "";
+  clearCloseServicesTimeout();
 });
 </script>
 
@@ -399,5 +563,201 @@ onUnmounted(() => {
   }
 }
 
-/* Remove old styles - they're replaced by simpler modern approach */
+/* Services Dropdown Styles */
+.services-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.services-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+.services-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  min-width: 280px;
+  background: color-mix(in srgb, var(--myst-bg) 95%, transparent);
+  backdrop-filter: blur(20px);
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.service-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  text-decoration: none;
+  color: var(--myst-ink);
+  transition: all 0.2s ease;
+  border-bottom: 1px solid color-mix(in srgb, white 8%, transparent);
+}
+
+.service-link:last-child {
+  border-bottom: none;
+}
+
+.service-link:hover {
+  background: color-mix(in srgb, var(--myst-gold) 8%, transparent);
+  color: var(--myst-ink-strong);
+}
+
+.service-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--myst-gold);
+}
+
+.service-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.service-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
+}
+
+.service-description {
+  font-size: 12px;
+  color: #a1a1aa;
+}
+
+.external-link-icon {
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.service-link:hover .external-link-icon {
+  opacity: 1;
+}
+
+/* Dropdown animations */
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px);
+}
+
+/* Mobile responsive adjustments for dropdown */
+@media (max-width: 768px) {
+  .services-dropdown {
+    display: none;
+  }
+}
+
+/* Mobile Services Section */
+.mobile-services-section {
+  margin-top: 20px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  padding-top: 20px;
+}
+
+.mobile-services-header {
+  padding: 0 28px 12px;
+  color: #a1a1aa;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.mobile-service-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  color: #e2e8f0;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 4px solid transparent;
+}
+
+.mobile-service-link:hover {
+  color: #ffffff;
+  background: linear-gradient(90deg, rgba(200, 178, 115, 0.1), transparent);
+  border-left-color: var(--myst-gold);
+  transform: translateX(6px);
+}
+
+.mobile-service-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--myst-gold);
+}
+
+.mobile-service-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile-service-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mobile-service-description {
+  font-size: 11px;
+  color: #a1a1aa;
+}
+
+/* Attention dot styles for Services */
+.services-trigger {
+  position: relative;
+}
+
+.attention-dot {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--myst-gold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--myst-bg) 85%, transparent);
+}
+
+/* Mobile variant inside header label */
+.mobile-services-header {
+  position: relative;
+}
+.attention-dot.mobile {
+  position: absolute;
+  top: 8px;
+  left: calc(100% + 6px);
+}
 </style>

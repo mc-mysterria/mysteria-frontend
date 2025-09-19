@@ -433,6 +433,7 @@ export default {
   );
   border-top: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  padding-top: 80px;
 }
 
 .pinned-news-grid {
@@ -491,6 +492,7 @@ export default {
 /* News Section */
 .news-section {
   position: relative;
+  padding-top: 80px;
 }
 
 .news-container {

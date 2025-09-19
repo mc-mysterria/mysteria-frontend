@@ -19,7 +19,7 @@ defineProps<Props>();
 <style scoped>
 .section-title {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
 .section-eyebrow {
