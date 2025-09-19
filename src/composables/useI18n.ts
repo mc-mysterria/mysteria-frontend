@@ -18,7 +18,7 @@ const translations = {
     servicesDiscord: "Discord",
     servicesDiscordDesc: "Join our community",
     servicesArchive: "Archive",
-    servicesArchiveDesc: "Browse past content",
+    servicesArchiveDesc: "Like a library, for new items",
     servicesMap: "Live Map",
     servicesMapDesc: "Explore the world",
 
@@ -668,7 +668,7 @@ const translations = {
     servicesDiscord: "Discord",
     servicesDiscordDesc: "Приєднуйтесь до спільноти",
     servicesArchive: "Архів",
-    servicesArchiveDesc: "Переглянути минулий контент",
+    servicesArchiveDesc: "Як бібліотека, але для нових предметів",
     servicesMap: "Карта",
     servicesMapDesc: "Досліджуйте світ",
 
