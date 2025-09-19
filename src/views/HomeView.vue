@@ -67,7 +67,53 @@
       </div>
     </section>
 
-    <!-- News Section -->
+    <!-- Pinned News Section -->
+    <section v-if="pinnedNews.length > 0" class="pinned-news-section relative">
+      <div class="news-container">
+        <SectionTitle
+          :eyebrow="t('home.pinnedNewsEyebrow')"
+          :title="t('home.pinnedNewsTitle')"
+          :subtitle="t('home.pinnedNewsSubtitle')"
+        />
+        <FadeInSection>
+          <div class="pinned-news-grid">
+            <div class="news-card news-card--pinned" v-for="n in displayedPinnedNews" :key="n.id">
+              <!-- Pinned badge -->
+              <div class="pinned-badge">
+                <IconStars class="w-4 h-4" />
+                <span>{{ t('home.pinnedNews') }}</span>
+              </div>
+              <div class="news-image">
+                <img
+                  :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
+                  :alt="`Image for ${n.title}`"
+                  class="news-img"
+                />
+              </div>
+              <div class="news-content">
+                <h3 class="news-title">{{ n.title }}</h3>
+                <p class="news-text">{{ n.shortDescription || n.preview }}</p>
+                <div class="news-link-container">
+                  <RouterLink :to="`/news/${n.slug}`" class="news-link">
+                    {{ t('home.readMore') }}
+                    <IconArrowRight class="h-4 w-4" />
+                  </RouterLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        </FadeInSection>
+
+        <!-- Load More Pinned Button -->
+        <div v-if="!showAllPinned && pinnedNews.length > 2" class="load-more-container">
+          <button @click="showAllPinned = true" class="load-more-button load-more-button--pinned">
+            {{ t('home.loadMorePinned') }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest News Section -->
     <section class="news-section relative">
       <div class="news-container">
         <SectionTitle
@@ -77,12 +123,7 @@
         />
         <FadeInSection>
           <div class="news-grid">
-            <div class="news-card" v-for="n in displayedNews" :key="n.id" :class="{ 'news-card--pinned': n.isPinned }">
-              <!-- Pinned badge -->
-              <div v-if="n.isPinned" class="pinned-badge">
-                <IconStars class="w-4 h-4" />
-                <span>{{ t('home.pinnedNews') }}</span>
-              </div>
+            <div class="news-card" v-for="n in displayedNews" :key="n.id">
               <div class="news-image">
                 <img
                   :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
@@ -133,14 +174,16 @@ import IconGamepad from "@/assets/icons/IconGamepad.vue";
 import IconUsers from "@/assets/icons/IconUsers.vue";
 import { onMounted, ref, computed } from "vue";
 import { newsAPI } from "@/utils/api/news";
-import type { NewsArticle } from "@/types/news";
+import type { NewsArticle, NewsPreview } from "@/types/news";
 import { useI18n } from "@/composables/useI18n";
 import bannerWebp from "@/assets/images/optimized/banner.webp";
 
 const { t, currentLanguage } = useI18n();
 const news = ref<NewsArticle[]>([]);
+const pinnedNews = ref<NewsPreview[]>([]);
 const showJoinModal = ref(false);
 const showAllNews = ref(false);
+const showAllPinned = ref(false);
 
 
 const heroStyle = computed(() => ({
@@ -161,22 +204,33 @@ function scrollToFeatures() {
 
 onMounted(async () => {
   try {
-    const response = await newsAPI.getLatest(currentLanguage.value);
-    news.value = response.data;
+    // Fetch regular latest news and pinned news separately
+    const [latestResponse, pinnedResponse] = await Promise.all([
+      newsAPI.getLatest(currentLanguage.value),
+      newsAPI.getPinned(currentLanguage.value)
+    ]);
+
+    news.value = latestResponse.data;
+    pinnedNews.value = pinnedResponse.data;
   } catch (error) {
     console.error("Failed to fetch news:", error);
   }
 });
 
 const displayedNews = computed(() => {
+  // Sort by publish date (newest first) - no need to sort by pinned since they're separate now
   const sortedNews = [...news.value].sort((a, b) => {
-    // Pinned articles first
-    if (a.isPinned && !b.isPinned) return -1;
-    if (!a.isPinned && b.isPinned) return 1;
-    // Then by publish date (newest first)
     return new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime();
   });
   return showAllNews.value ? sortedNews : sortedNews.slice(0, 3);
+});
+
+const displayedPinnedNews = computed(() => {
+  // Sort pinned by publish date (newest first)
+  const sortedPinned = [...pinnedNews.value].sort((a, b) => {
+    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+  });
+  return showAllPinned.value ? sortedPinned : sortedPinned.slice(0, 2);
 });
 
 const features = [
@@ -368,6 +422,70 @@ export default {
 .feature-description {
   color: #a1a1aa;
   font-size: 14px;
+}
+
+/* Pinned News Section */
+.pinned-news-section {
+  position: relative;
+  background: linear-gradient(135deg,
+    var(--myst-bg),
+    color-mix(in srgb, var(--myst-gold) 3%, var(--myst-bg))
+  );
+  border-top: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
+}
+
+.pinned-news-grid {
+  margin-top: 24px;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0 16px;
+  margin: 24px -16px 0;
+}
+
+.pinned-news-grid .news-card {
+  flex-shrink: 0;
+  width: 90%;
+}
+
+.pinned-news-grid::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .pinned-news-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 24px 0 0;
+    padding: 0;
+    overflow: visible;
+    gap: 24px;
+  }
+
+  .pinned-news-grid .news-card {
+    width: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pinned-news-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+.load-more-button--pinned {
+  background: color-mix(in srgb, var(--myst-gold) 15%, var(--myst-bg-2) 80%);
+  border: 1px solid var(--myst-gold);
+  color: var(--myst-gold);
+}
+
+.load-more-button--pinned:hover {
+  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  border-color: var(--myst-gold);
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3);
 }
 
 /* News Section */
