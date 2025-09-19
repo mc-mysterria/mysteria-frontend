@@ -29,6 +29,7 @@ defineProps<Props>();
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 8px;
+  margin-top: 2px;
 }
 
 .section-main-title {
