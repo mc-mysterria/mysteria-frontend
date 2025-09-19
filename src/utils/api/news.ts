@@ -45,6 +45,10 @@ class NewsAPI extends BaseCRUD<NewsArticle, CreateNewsData, UpdateNewsData, Reco
   override async get(id: string): Promise<APIResponse<NewsArticle>> {
     return this.getByIdAdmin(parseInt(id));
   }
+
+  async togglePin(id: number): Promise<APIResponse<NewsArticle>> {
+    return this.request<NewsArticle>("PATCH", `/${id}/pin`);
+  }
 }
 
 export const newsAPI = new NewsAPI();

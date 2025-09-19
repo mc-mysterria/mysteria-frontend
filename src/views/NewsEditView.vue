@@ -18,6 +18,9 @@
         </option>
       </select>
       <button @click="createNewArticle">New Article</button>
+      <button v-if="selectedArticle && selectedArticle.id" @click="togglePin" class="pin-btn">
+        {{ selectedArticle.isPinned ? 'Unpin' : 'Pin' }} Article
+      </button>
       <button v-if="selectedArticle && selectedArticle.id" @click="deleteArticle" class="delete-btn">
         Delete Article
       </button>
@@ -92,6 +95,13 @@
         <label>
           <input type="checkbox" v-model="selectedArticle.isPublished" />
           Published
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" v-model="selectedArticle.isPinned" />
+          Pinned (will appear at the top of the news list)
         </label>
       </div>
 
@@ -250,6 +260,7 @@ const createNewArticle = () => {
     preview: '',
     content: '',
     isPublished: false,
+    isPinned: false,
     createdAt: '',
     updatedAt: '',
   };
@@ -278,6 +289,7 @@ const saveArticle = async () => {
         preview: selectedArticle.value.preview,
         content: selectedArticle.value.content,
         isPublished: selectedArticle.value.isPublished,
+        isPinned: selectedArticle.value.isPinned,
       };
       await newsAPI.update(String(selectedArticle.value.id), updateData);
     } else {
@@ -290,6 +302,7 @@ const saveArticle = async () => {
         preview: selectedArticle.value.preview,
         content: selectedArticle.value.content,
         isPublished: selectedArticle.value.isPublished,
+        isPinned: selectedArticle.value.isPinned,
       };
       await newsAPI.create(createData);
     }
@@ -327,6 +340,29 @@ const deleteArticle = async () => {
   } catch (err) {
     error.value = 'Failed to delete article';
     console.error('Failed to delete article:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const togglePin = async () => {
+  if (!selectedArticle.value?.id) return;
+
+  try {
+    loading.value = true;
+    error.value = '';
+    const response = await newsAPI.togglePin(selectedArticle.value.id);
+
+    // Update the current article with the response
+    selectedArticle.value = response.data;
+
+    // Refresh the articles list
+    await loadArticles();
+
+    showSuccess(`Article ${selectedArticle.value.isPinned ? 'pinned' : 'unpinned'} successfully!`);
+  } catch (err) {
+    error.value = 'Failed to toggle pin status';
+    console.error('Failed to toggle pin:', err);
   } finally {
     loading.value = false;
   }
@@ -427,6 +463,16 @@ const cancelEdit = () => {
 
 .controls button:first-of-type:hover {
   background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.pin-btn {
+  background: #f59e0b !important;
+  color: white !important;
+}
+
+.pin-btn:hover {
+  background: #d97706 !important;
   transform: translateY(-1px);
 }
 

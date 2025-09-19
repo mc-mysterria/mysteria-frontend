@@ -8,6 +8,7 @@ export interface NewsArticle {
   content: string;
   renderedContent?: string;
   isPublished: boolean;
+  isPinned?: boolean;
   createdAt: string;
   updatedAt: string;
   publishedAt?: string;
@@ -20,6 +21,7 @@ export interface NewsPreview {
   language: 'EN' | 'UK';
   shortDescription: string;
   preview: string;
+  isPinned?: boolean;
   publishedAt: string;
 }
 
@@ -31,6 +33,7 @@ export interface CreateNewsData {
   preview?: string;
   content: string;
   isPublished?: boolean;
+  isPinned?: boolean;
 }
 
 export interface UpdateNewsData {
@@ -40,6 +43,7 @@ export interface UpdateNewsData {
   preview?: string;
   content?: string;
   isPublished?: boolean;
+  isPinned?: boolean;
 }
 
 export interface Page<T> {

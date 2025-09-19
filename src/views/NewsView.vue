@@ -3,7 +3,13 @@
     <HeaderItem />
     <main class="news-article-container">
       <div v-if="article">
-        <h1 class="article-title">{{ article.title }}</h1>
+        <div class="article-header">
+          <h1 class="article-title">{{ article.title }}</h1>
+          <div v-if="article.isPinned" class="pinned-badge">
+            <IconStars class="w-4 h-4" />
+            <span>Pinned</span>
+          </div>
+        </div>
         <div class="article-meta">
           <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
         </div>
@@ -29,6 +35,7 @@ import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import { useI18n } from '@/composables/useI18n';
 import MarkdownIt from 'markdown-it';
+import IconStars from '@/assets/icons/IconStars.vue';
 
 const route = useRoute();
 const article = ref<NewsArticle | null>(null);
@@ -92,12 +99,42 @@ onMounted(async () => {
   width: 100%;
 }
 
+.article-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .article-title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin: 0;
   color: var(--myst-ink-strong);
   line-height: 1.2;
+  flex: 1;
+}
+
+.pinned-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--myst-gold), #e6cc85);
+  color: var(--myst-bg);
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 12px rgba(200, 178, 115, 0.3);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.pinned-badge span {
+  font-size: 12px;
 }
 
 .article-meta {
@@ -258,14 +295,30 @@ onMounted(async () => {
     padding: 20px 16px;
   }
   
+  .article-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
   .article-title {
     font-size: 2rem;
   }
-  
+
+  .pinned-badge {
+    align-self: flex-start;
+    margin-top: 0;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .pinned-badge span {
+    font-size: 10px;
+  }
+
   .article-content :deep(h1) {
     font-size: 1.875rem;
   }
-  
+
   .article-content :deep(h2) {
     font-size: 1.5rem;
   }

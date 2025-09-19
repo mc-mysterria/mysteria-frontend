@@ -77,7 +77,12 @@
         />
         <FadeInSection>
           <div class="news-grid">
-            <div class="news-card" v-for="n in displayedNews" :key="n.id">
+            <div class="news-card" v-for="n in displayedNews" :key="n.id" :class="{ 'news-card--pinned': n.isPinned }">
+              <!-- Pinned badge -->
+              <div v-if="n.isPinned" class="pinned-badge">
+                <IconStars class="w-4 h-4" />
+                <span>{{ t('home.pinnedNews') }}</span>
+              </div>
               <div class="news-image">
                 <img
                   :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
@@ -164,7 +169,14 @@ onMounted(async () => {
 });
 
 const displayedNews = computed(() => {
-  return showAllNews.value ? news.value : news.value.slice(0, 3);
+  const sortedNews = [...news.value].sort((a, b) => {
+    // Pinned articles first
+    if (a.isPinned && !b.isPinned) return -1;
+    if (!a.isPinned && b.isPinned) return 1;
+    // Then by publish date (newest first)
+    return new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime();
+  });
+  return showAllNews.value ? sortedNews : sortedNews.slice(0, 3);
 });
 
 const features = [
@@ -471,6 +483,47 @@ export default {
 
 .news-link:hover {
   text-decoration: underline;
+}
+
+/* Pinned news styles */
+.news-card--pinned {
+  border-color: var(--myst-gold) !important;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--myst-bg-2) 85%, transparent),
+    color-mix(in srgb, var(--myst-gold) 5%, var(--myst-bg-2) 85%)
+  );
+  position: relative;
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.15);
+}
+
+.news-card--pinned:hover {
+  border-color: var(--myst-gold) !important;
+  box-shadow: 0 8px 24px rgba(200, 178, 115, 0.25);
+  transform: translateY(-2px);
+}
+
+.pinned-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, var(--myst-gold), #e6cc85);
+  color: var(--myst-bg);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(200, 178, 115, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.pinned-badge span {
+  font-size: 11px;
 }
 
 /* Load More Button */
