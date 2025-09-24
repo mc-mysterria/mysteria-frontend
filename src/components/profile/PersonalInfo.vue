@@ -1,6 +1,6 @@
 <template>
   <div class="personalInfoContainer personal-info-card">
-    <img :src="currentAvatar" alt="User Avatar" @load="handleImageLoad" />
+    <UserAvatar :user="displayedUser" size="large" class="profile-avatar" />
     <div class="personalInfo">
       <p class="white">{{ t("personalInfo") }}:</p>
       <div class="NameRole">
@@ -42,11 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { computed } from "vue";
 import type { UserResponse } from "@/types/users";
 import { useRoleStore } from "@/stores/roles";
 import { useI18n } from "@/composables/useI18n";
-import logoUrl from "@/assets/icons/sources/IconLogo.webp";
+import UserAvatar from "@/components/ui/UserAvatar.vue";
 
 const props = defineProps<{
   displayedUser: UserResponse | null;
@@ -54,31 +54,6 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-
-const userAvatarUrl = computed(() => {
-  if (props.displayedUser?.discord_id) {
-    return `/anaya/member/avatar?discord_id=${props.displayedUser.discord_id}`;
-  }
-  return null;
-});
-
-const currentAvatar = ref<string>(logoUrl);
-
-watch(
-  () => props.displayedUser?.discord_id,
-  () => {
-    currentAvatar.value = logoUrl;
-  },
-);
-
-const handleImageLoad = (event: Event) => {
-  if (userAvatarUrl.value && currentAvatar.value === logoUrl) {
-    const img = event.target as HTMLImageElement;
-    if (img.src.endsWith(userAvatarUrl.value)) return;
-    currentAvatar.value = userAvatarUrl.value;
-  }
-};
-
 const roleStore = useRoleStore();
 
 const displayRole = computed(() => {
@@ -155,18 +130,14 @@ const getRoleClass = () => {
   border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
-.personalInfoContainer img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 3px solid rgba(16, 185, 129, 0.3);
-  transition: all 0.3s ease;
+.profile-avatar {
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 12px !important;
   flex-shrink: 0;
 }
 
-.personalInfoContainer img:hover {
-  border-color: #10b981;
+.profile-avatar:hover {
   transform: scale(1.02);
 }
 
@@ -341,9 +312,9 @@ const getRoleClass = () => {
     gap: 1.5rem;
   }
 
-  .personalInfoContainer img {
-    width: 150px;
-    height: 150px;
+  .profile-avatar {
+    width: 150px !important;
+    height: 150px !important;
     align-self: center;
   }
 
@@ -358,9 +329,9 @@ const getRoleClass = () => {
     padding: 1rem;
   }
 
-  .personalInfoContainer img {
-    width: 120px;
-    height: 120px;
+  .profile-avatar {
+    width: 120px !important;
+    height: 120px !important;
   }
 
   .personalInfo > p {

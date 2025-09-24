@@ -20,6 +20,7 @@ export interface UserResponse {
   biography?: string;
   created_at?: string;
   updated_at?: string;
+  avatarUrl?: string;
 
   roles?: RoleResponse[];
 }

@@ -95,7 +95,7 @@ onMounted(async () => {
   flex: 1;
   max-width: 800px;
   margin: 0 auto;
-  padding: 40px 16px;
+  padding: 104px 16px 40px;
   width: 100%;
 }
 
@@ -292,7 +292,7 @@ onMounted(async () => {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .news-article-container {
-    padding: 20px 16px;
+    padding: 84px 16px 20px;
   }
   
   .article-header {

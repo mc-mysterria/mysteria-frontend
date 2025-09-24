@@ -10,6 +10,7 @@ export interface UserProfileDto {
   firstJoinAt?: string;
   createdAt: string;
   verified: boolean;
+  avatarUrl?: string;
 }
 
 export interface AuthResponse {

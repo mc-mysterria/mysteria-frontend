@@ -11,12 +11,11 @@
       >
         <template #selected="{ placeholder }">
           <div class="user-button-content">
-            <img
-              v-if="userStore.currentUser?.discordId"
-              :src="`/anaya/member/avatar?discord_id=${userStore.currentUser.discordId}`"
-              :alt="userStore.currentUser?.nickname || 'User avatar'"
-              class="avatar-image"
-              @error="handleImageError"
+            <UserAvatar
+              v-if="userStore.currentUser"
+              :user="userStore.currentUser"
+              size="small"
+              class="header-avatar"
             />
             <i v-else class="fa-brands fa-discord discord-icon"></i>
             <span class="username">{{ placeholder }}</span>
@@ -61,6 +60,7 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "@/composables/useI18n";
 import DropdownSelect from "@/components/ui/DropdownSelect.vue";
+import UserAvatar from "@/components/ui/UserAvatar.vue";
 
 export interface ComponentProps {
   mobileMode?: boolean;
@@ -157,10 +157,6 @@ const handleMenuAction = (value: string | number | string[]) => {
   }
 };
 
-const handleImageError = (event: Event) => {
-  const img = event.target as HTMLImageElement;
-  img.style.display = "none";
-};
 
 const handleLogin = () => {
   if (!authStore.isAuthenticated && !authStore.isLoading) {
@@ -232,17 +228,9 @@ const handleLogout = async () => {
   gap: 12px;
 }
 
-.avatar-image {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid color-mix(in srgb, white 20%, transparent);
-  transition: all 0.3s ease;
-}
-
-.avatar-image:hover {
-  border-color: var(--myst-gold);
+.header-avatar {
+  width: 24px !important;
+  height: 24px !important;
 }
 
 .discord-icon {
@@ -331,9 +319,9 @@ const handleLogout = async () => {
     font-size: 0.9rem;
   }
 
-  .avatar-image {
-    width: 36px;
-    height: 36px;
+  .header-avatar {
+    width: 36px !important;
+    height: 36px !important;
   }
 }
 
@@ -347,9 +335,9 @@ const handleLogout = async () => {
     font-size: 0.85rem;
   }
 
-  .avatar-image {
-    width: 34px;
-    height: 34px;
+  .header-avatar {
+    width: 34px !important;
+    height: 34px !important;
   }
 
   .username {
@@ -363,9 +351,9 @@ const handleLogout = async () => {
     min-width: 150px;
   }
 
-  .avatar-image {
-    width: 32px;
-    height: 32px;
+  .header-avatar {
+    width: 32px !important;
+    height: 32px !important;
   }
 
   .username {
@@ -384,9 +372,9 @@ const handleLogout = async () => {
     min-width: 140px;
   }
 
-  .avatar-image {
-    width: 28px;
-    height: 28px;
+  .header-avatar {
+    width: 28px !important;
+    height: 28px !important;
   }
 
   .username {

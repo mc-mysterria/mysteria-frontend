@@ -174,7 +174,8 @@ const { t } = useI18n();
 }
 
 .server-ip {
-  margin-top: 12px;
+  margin-top: 16px;
+  width: 100%;
 }
 
 .modal-footer {

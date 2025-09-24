@@ -216,7 +216,7 @@ onMounted(async () => {
 /* Profile sections should span full width for some components */
 .profile-grid :deep(.personal-info-card),
 .profile-grid :deep(.server-info-card),
-.profile-grid :deep(.verification-panel-card),
+.profile-grid :deep(.verification-panel),
 .profile-grid :deep(.transaction-history),
 .profile-grid :deep(.moderation-panel) {
   grid-column: 1 / -1;

@@ -1,79 +1,121 @@
 <template>
   <div class="transaction-history" v-if="isOwnProfile">
-    <div class="transaction-container">
-      <div class="transaction-header">
-        <h3>{{ t('transactionHistoryTitle') }}</h3>
-        <div class="transaction-filters">
-          <select
-            v-model="selectedType"
-            @change="() => fetchTransactions()"
-            class="filter-select"
-          >
-            <option value="">{{ t('transactionHistory.allTypes') }}</option>
-            <option value="PURCHASE">{{ t('transactionTypes.PURCHASE') }}</option>
-            <option value="DONATION">{{ t('transactionTypes.DONATION') }}</option>
-            <option value="VOTE_REWARD">{{ t('transactionTypes.VOTE_REWARD') }}</option>
-            <option value="ADMIN_ADJUST">{{ t('transactionTypes.ADMIN_ADJUST') }}</option>
-            <option value="REFUND">{{ t('transactionTypes.REFUND') }}</option>
-            <option value="SUBSCRIPTION">{{ t('transactionTypes.SUBSCRIPTION') }}</option>
-            <option value="PENALTY">{{ t('transactionTypes.PENALTY') }}</option>
-            <option value="REWARD">{{ t('transactionTypes.REWARD') }}</option>
-          </select>
-        </div>
+    <!-- Header Section -->
+    <div class="section-header">
+      <h3 class="section-title">{{ t('transactionHistoryTitle') }}</h3>
+      <div class="filter-container">
+        <select
+          v-model="selectedType"
+          @change="() => fetchTransactions()"
+          class="transaction-filter"
+        >
+          <option value="">{{ t('transactionHistory.allTypes') }}</option>
+          <option value="PURCHASE">{{ t('transactionTypes.PURCHASE') }}</option>
+          <option value="DONATION">{{ t('transactionTypes.DONATION') }}</option>
+          <option value="VOTE_REWARD">{{ t('transactionTypes.VOTE_REWARD') }}</option>
+          <option value="ADMIN_ADJUST">{{ t('transactionTypes.ADMIN_ADJUST') }}</option>
+          <option value="REFUND">{{ t('transactionTypes.REFUND') }}</option>
+          <option value="SUBSCRIPTION">{{ t('transactionTypes.SUBSCRIPTION') }}</option>
+          <option value="PENALTY">{{ t('transactionTypes.PENALTY') }}</option>
+          <option value="REWARD">{{ t('transactionTypes.REWARD') }}</option>
+        </select>
       </div>
+    </div>
 
-      <div v-if="loading" class="loading-spinner">
-        <div class="spinner"></div>
-        <p>{{ t('transactionHistory.loading') }}</p>
+    <!-- Loading State -->
+    <div v-if="loading" class="loading-state">
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
       </div>
+      <p class="loading-text">{{ t('transactionHistory.loading') }}</p>
+    </div>
 
-      <div v-else-if="transactions.length === 0" class="no-transactions">
-        <p>{{ t('transactionHistory.noTransactions') }}</p>
+    <!-- Empty State -->
+    <div v-else-if="transactions.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
       </div>
+      <h4 class="empty-title">{{ t('transactionHistory.noTransactions') }}</h4>
+      <p class="empty-description">
+        <template v-if="selectedType">
+          {{ getNoFilterResultsMessage() }}
+        </template>
+        <template v-else>
+          {{ t('transactionHistory.noTransactionsDescription') }}
+        </template>
+      </p>
+    </div>
 
-      <div v-else class="transactions-list">
+    <!-- Transactions List -->
+    <div v-else class="transactions-container">
+      <div class="transactions-grid">
         <div
           v-for="transaction in transactions"
           :key="transaction.id"
-          class="transaction-item"
+          class="transaction-card"
           :class="getTransactionClass(transaction.type)"
         >
-          <div class="transaction-main">
-            <div class="transaction-info">
-              <h4 class="transaction-description">
-                {{ transaction.description }}
-              </h4>
-              <p class="transaction-type">
-                {{ getTransactionTypeLabel(transaction.type) }}
-              </p>
-              <p class="transaction-date">
-                {{ formatDate(transaction.createdAt) }}
-              </p>
-            </div>
-            <div
-              class="transaction-amount"
-              :class="getAmountClass(transaction.amount)"
-            >
-              {{ formatAmount(transaction.amount) }}₴
-            </div>
-          </div>
+          <!-- Transaction Status Indicator -->
+          <div class="transaction-indicator" :class="getIndicatorClass(transaction.type)"></div>
 
-          <div v-if="transaction.metadata" class="transaction-metadata">
-            <details>
-              <summary>{{ t('transactionHistory.details') }}</summary>
-              <pre>{{ JSON.stringify(transaction.metadata, null, 2) }}</pre>
-            </details>
+          <!-- Transaction Content -->
+          <div class="transaction-content">
+            <div class="transaction-header-row">
+              <div class="transaction-type-badge" :class="getTypeBadgeClass(transaction.type)">
+                {{ getTransactionTypeLabel(transaction.type) }}
+              </div>
+              <div class="transaction-amount" :class="getAmountClass(transaction.amount)">
+                {{ formatAmount(transaction.amount) }}₴
+              </div>
+            </div>
+
+            <div class="transaction-body">
+              <h4 class="transaction-title">{{ transaction.description }}</h4>
+              <div class="transaction-meta">
+                <span class="transaction-date">{{ formatDate(transaction.createdAt) }}</span>
+                <span v-if="transaction.serverId" class="transaction-server">{{ transaction.serverId }}</span>
+              </div>
+            </div>
+
+            <!-- Expandable Metadata -->
+            <div v-if="transaction.metadata" class="transaction-details">
+              <button
+                @click="toggleDetails(transaction.id)"
+                class="details-toggle"
+                :class="{ 'expanded': expandedTransactions.has(transaction.id) }"
+              >
+                <span>{{ t('transactionHistory.details') }}</span>
+                <svg class="details-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </button>
+
+              <div v-if="expandedTransactions.has(transaction.id)" class="metadata-content">
+                <div class="metadata-json">
+                  <pre>{{ formatMetadata(transaction.metadata) }}</pre>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div v-if="hasMorePages" class="pagination">
+      <!-- Load More -->
+      <div v-if="hasMorePages" class="load-more-container">
         <button
           @click="loadMoreTransactions"
           :disabled="loadingMore"
-          class="load-more-btn"
+          class="load-more-button"
         >
-          {{ loadingMore ? t("loading2") : t("loadMore") }}
+          <span v-if="loadingMore" class="button-loading">
+            <div class="button-spinner"></div>
+            {{ t("loading2") }}
+          </span>
+          <span v-else>{{ t("loadMore") }}</span>
         </button>
       </div>
     </div>
@@ -128,6 +170,7 @@ const transactions = ref<TransactionDto[]>([]);
 const selectedType = ref<string>("");
 const currentPage = ref(0);
 const hasMorePages = ref(false);
+const expandedTransactions = ref<Set<string>>(new Set());
 
 const fetchTransactions = async (reset = true) => {
   if (reset) {
@@ -141,7 +184,7 @@ const fetchTransactions = async (reset = true) => {
   try {
     const params = new URLSearchParams({
       page: currentPage.value.toString(),
-      size: "10",
+      size: reset ? "2" : "5", // Show only 3 transactions initially, then 10 more when loading more
       sort: "createdAt,desc",
     });
 
@@ -216,6 +259,52 @@ const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleString(locale);
 };
 
+const toggleDetails = (transactionId: string) => {
+  if (expandedTransactions.value.has(transactionId)) {
+    expandedTransactions.value.delete(transactionId);
+  } else {
+    expandedTransactions.value.add(transactionId);
+  }
+};
+
+const formatMetadata = (metadata: Record<string, any>): string => {
+  return JSON.stringify(metadata, null, 2);
+};
+
+const getIndicatorClass = (type: string): string => {
+  const classes: Record<string, string> = {
+    PURCHASE: "indicator-purchase",
+    DONATION: "indicator-donation",
+    VOTE_REWARD: "indicator-reward",
+    ADMIN_ADJUST: "indicator-admin",
+    REFUND: "indicator-refund",
+    SUBSCRIPTION: "indicator-subscription",
+    PENALTY: "indicator-penalty",
+    REWARD: "indicator-reward",
+  };
+  return classes[type] || "indicator-default";
+};
+
+const getTypeBadgeClass = (type: string): string => {
+  const classes: Record<string, string> = {
+    PURCHASE: "badge-purchase",
+    DONATION: "badge-donation",
+    VOTE_REWARD: "badge-reward",
+    ADMIN_ADJUST: "badge-admin",
+    REFUND: "badge-refund",
+    SUBSCRIPTION: "badge-subscription",
+    PENALTY: "badge-penalty",
+    REWARD: "badge-reward",
+  };
+  return classes[type] || "badge-default";
+};
+
+const getNoFilterResultsMessage = (): string => {
+  const filterLabel = getTransactionTypeLabel(selectedType.value);
+  const template = t('transactionHistory.noFilterResults');
+  return template.replace('{filter}', filterLabel);
+};
+
 onMounted(() => {
   if (props.isOwnProfile) {
     fetchTransactions();
@@ -224,247 +313,299 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Main Container */
 .transaction-history {
   width: 100%;
-  margin: 2rem auto;
+  margin: 0;
 }
 
-.transaction-container {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.transaction-header {
+/* Header Section */
+.section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
 }
 
-.transaction-header h3 {
-  color: #ffffff;
-  font-size: 1.5rem;
-  font-weight: 700;
+.section-title {
   margin: 0;
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
 }
 
-.transaction-filters {
+.filter-container {
   display: flex;
-  gap: 1rem;
+  gap: 12px;
 }
 
-.filter-select {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+.transaction-filter {
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, white 15%, transparent);
+  color: var(--myst-ink);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.filter-select option {
-  background: #1a1d23;
-  color: #ffffff;
+.transaction-filter:hover {
+  background: color-mix(in srgb, white 5%, transparent);
+  border-color: color-mix(in srgb, white 30%, transparent);
 }
 
-.loading-spinner {
+.transaction-filter option {
+  background: var(--myst-bg);
+  color: var(--myst-ink);
+}
+
+/* Loading State */
+.loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  color: #cccccc;
+  gap: 16px;
+  padding: 64px 16px;
+  text-align: center;
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(16, 185, 129, 0.3);
-  border-top: 4px solid #4ade80;
+.loading-spinner {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.spinner-ring {
+  width: 48px;
+  height: 48px;
+  border: 3px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  border-top-color: var(--myst-gold);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.no-transactions {
+.loading-text {
+  margin: 0;
+  color: var(--myst-ink);
+  font-size: 16px;
+}
+
+/* Empty State */
+.empty-state {
   text-align: center;
-  padding: 3rem;
-  color: #888;
+  padding: 64px 16px;
 }
 
-.transactions-list {
+.empty-icon {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 24px;
+  width: 64px;
+  height: 64px;
+  color: color-mix(in srgb, var(--myst-ink) 40%, transparent);
 }
 
-.transaction-item {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.empty-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
+}
+
+.empty-description {
+  margin: 0;
+  color: var(--myst-ink-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Transactions Container */
+.transactions-container {
+  margin-top: 16px;
+}
+
+.transactions-grid {
+  display: grid;
+  gap: 16px;
+}
+
+/* Transaction Cards */
+.transaction-card {
+  position: relative;
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
   border-radius: 12px;
-  padding: 1.5rem;
+  overflow: hidden;
   transition: all 0.3s ease;
 }
 
-.transaction-item:hover {
+.transaction-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border-color: color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
-.transaction-main {
+/* Transaction Indicator */
+.transaction-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.indicator-purchase { background: var(--myst-gold); }
+.indicator-donation { background: #22c55e; }
+.indicator-reward { background: #f59e0b; }
+.indicator-admin { background: #8b5cf6; }
+.indicator-refund { background: #0ea5e9; }
+.indicator-subscription { background: #ec4899; }
+.indicator-penalty { background: #ef4444; }
+.indicator-default { background: #6b7280; }
+
+/* Transaction Content */
+.transaction-content {
+  padding: 20px;
+  margin-left: 4px;
+}
+
+.transaction-header-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
-.transaction-info {
-  flex: 1;
-}
-
-.transaction-description {
-  color: #ffffff;
-  font-size: 1.1rem;
+/* Type Badges */
+.transaction-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
   font-weight: 600;
-  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
-.transaction-type {
-  color: #22d3ee;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin: 0 0 0.25rem 0;
-}
+.badge-purchase { background: color-mix(in srgb, var(--myst-gold) 15%, transparent); color: var(--myst-gold); }
+.badge-donation { background: color-mix(in srgb, #22c55e 15%, transparent); color: #22c55e; }
+.badge-reward { background: color-mix(in srgb, #f59e0b 15%, transparent); color: #f59e0b; }
+.badge-admin { background: color-mix(in srgb, #8b5cf6 15%, transparent); color: #8b5cf6; }
+.badge-refund { background: color-mix(in srgb, #0ea5e9 15%, transparent); color: #0ea5e9; }
+.badge-subscription { background: color-mix(in srgb, #ec4899 15%, transparent); color: #ec4899; }
+.badge-penalty { background: color-mix(in srgb, #ef4444 15%, transparent); color: #ef4444; }
+.badge-default { background: color-mix(in srgb, #6b7280 15%, transparent); color: #6b7280; }
 
-.transaction-date {
-  color: #888;
-  font-size: 0.8rem;
-  margin: 0;
-}
-
+/* Transaction Amount */
 .transaction-amount {
-  font-size: 1.3rem;
-  font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: monospace;
+  padding: 6px 12px;
+  border-radius: 6px;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .amount-positive {
   color: #22c55e;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: color-mix(in srgb, #22c55e 10%, transparent);
 }
 
 .amount-negative {
   color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: color-mix(in srgb, #ef4444 10%, transparent);
 }
 
-.transaction-metadata {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* Transaction Body */
+.transaction-body {
+  margin-bottom: 16px;
 }
 
-.transaction-metadata details {
-  color: #cccccc;
-}
-
-.transaction-metadata summary {
-  cursor: pointer;
+.transaction-title {
+  margin: 0 0 8px;
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  color: var(--myst-ink-strong);
+  line-height: 1.4;
 }
 
-.transaction-metadata pre {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  overflow-x: auto;
+.transaction-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.pagination {
-  margin-top: 2rem;
-  text-align: center;
+.transaction-date {
+  color: var(--myst-ink-muted);
+  font-size: 14px;
 }
 
-.load-more-btn {
-  background: linear-gradient(135deg, #4ade80, #22d3ee);
-  color: white;
+.transaction-server {
+  background: color-mix(in srgb, var(--myst-ink) 10%, transparent);
+  color: var(--myst-ink);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Transaction Details */
+.transaction-details {
+  border-top: 1px solid color-mix(in srgb, white 8%, transparent);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.details-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
   border: none;
-  border-radius: 10px;
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
+  color: var(--myst-ink);
+  padding: 8px 0;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-.load-more-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+.details-toggle:hover {
+  color: var(--myst-ink-strong);
 }
 
-.load-more-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+.details-icon {
+  transition: transform 0.2s ease;
 }
 
-/* Transaction type specific styling */
-.transaction-purchase {
-  border-left: 4px solid #4ade80;
+.details-toggle.expanded .details-icon {
+  transform: rotate(180deg);
 }
 
-.transaction-donation {
-  border-left: 4px solid #22c55e;
+.metadata-content {
+  margin-top: 12px;
+  animation: slideDown 0.3s ease-out;
 }
 
-.transaction-reward {
-  border-left: 4px solid #f59e0b;
-}
-
-.transaction-admin {
-  border-left: 4px solid #16a34a;
-}
-
-.transaction-refund {
-  border-left: 4px solid #0ea5e9;
-}
-
-.transaction-subscription {
-  border-left: 4px solid #059669;
-}
-
-.transaction-penalty {
-  border-left: 4px solid #ef4444;
-}
-
-@keyframes fadeInUp {
+@keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
@@ -472,24 +613,110 @@ onMounted(() => {
   }
 }
 
-@media (max-width: 768px) {
-  .transaction-container {
-    padding: 1.5rem;
-  }
+.metadata-json {
+  background: color-mix(in srgb, var(--myst-bg) 80%, transparent);
+  border: 1px solid color-mix(in srgb, white 8%, transparent);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+}
 
-  .transaction-header {
+.metadata-json pre {
+  margin: 0;
+  font-size: 12px;
+  color: var(--myst-ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Load More */
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.load-more-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  color: var(--myst-gold);
+  padding: 12px 32px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.load-more-button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
+  border-color: var(--myst-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.2);
+}
+
+.load-more-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  border-top-color: var(--myst-gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-header {
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
     align-items: stretch;
   }
 
-  .transaction-main {
+  .transaction-header-row {
     flex-direction: column;
-    gap: 1rem;
+    gap: 12px;
+    align-items: stretch;
   }
 
   .transaction-amount {
-    text-align: center;
+    text-align: left;
+  }
+
+  .transaction-meta {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .transaction-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .empty-state,
+  .loading-state {
+    padding: 48px 16px;
+  }
+
+  .section-title {
+    font-size: 20px;
   }
 }
 </style>

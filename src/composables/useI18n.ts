@@ -28,6 +28,7 @@ const translations = {
       heroDescriptionHome: "Step through the fog and into the era of steam and divination. Join an immersive server where fate, sequences, and secret organizations intertwine.",
       readGuide: "Read the Guide",
       letsPlay: "Let's Play!",
+      wiki: "Wiki",
       joinServerTitle: "How to Join Mysterria",
       step1Title: "Launch Minecraft",
       step1Description: "Start Minecraft Java Edition (version 1.21.8)",
@@ -210,6 +211,8 @@ const translations = {
     yourVerificationCode: "Your verification code:",
     codeValidUntil: "Code valid until:",
     enterOnServer: "Enter on server:",
+    verificationCodeGenerated: "Verification code generated!",
+    verificationCodeError: "Error generating verification code",
 
     // Shop
     processing2: "Processing...",
@@ -241,6 +244,8 @@ const translations = {
       allTypes: "All types",
       loading: "Loading transaction history...",
       noTransactions: "Transaction history is empty",
+      noFilterResults: "No transactions found for the selected filter: {filter}",
+      noTransactionsDescription: "Your transaction history will appear here once you make your first transaction.",
       details: "Details",
     },
     transactionTypes: {
@@ -678,6 +683,7 @@ const translations = {
       heroDescriptionHome: "Пройдіть крізь туман в епоху пари та ворожіння. Приєднуйтесь до захоплюючого сервера, де переплітаються доля, послідовності та таємні організації.",
       readGuide: "Читати Гайд",
       letsPlay: "Грайте!",
+      wiki: "Вікі",
       joinServerTitle: "Як приєднатися до Містеррії",
       step1Title: "Запустіть Minecraft",
       step1Description: "Запустіть Minecraft Java Edition (версія 1.21.8)",
@@ -860,6 +866,8 @@ const translations = {
     yourVerificationCode: "Ваш код верифікації:",
     codeValidUntil: "Код дійсний до:",
     enterOnServer: "Введіть на сервері:",
+    verificationCodeGenerated: "Код верифікації згенеровано!",
+    verificationCodeError: "Помилка при генеруванні коду верифікації",
 
     // Shop
     processing2: "Обробка...",
@@ -892,6 +900,8 @@ const translations = {
       allTypes: "Всі типи",
       loading: "Завантаження історії транзакцій...",
       noTransactions: "Історія транзакцій порожня",
+      noFilterResults: "Не знайдено транзакцій для обраного фільтра: {filter}",
+      noTransactionsDescription: "Ваша історія транзакцій з'явиться тут після першої транзакції.",
       details: "Деталі",
     },
     transactionTypes: {

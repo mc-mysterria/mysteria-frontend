@@ -51,46 +51,70 @@ const copyIP = async () => {
 <style scoped>
 .copy-ip-btn {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
-  background: var(--myst-gold);
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--myst-gold), #d4b86a);
   color: var(--myst-bg);
-  border: none;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+  border: 2px solid var(--myst-gold);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .copy-ip-btn:hover {
-  background: var(--myst-gold-soft);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #e6cc85, var(--myst-gold));
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(200, 178, 115, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
 }
 
 .copy-ip-btn.copied {
-  background: #22c55e;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border-color: #22c55e;
+  transform: scale(0.98);
 }
 
 .ip-text {
-  font-family: "monospace";
+  font-family: "Inter", "Roboto", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .copy-feedback {
   position: absolute;
-  top: -30px;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--myst-bg-2);
-  color: var(--myst-ink);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 11px;
+  background: #22c55e;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  animation: fadeInScale 0.3s ease;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
 }
 
 .copy-feedback::after {
@@ -99,7 +123,7 @@ const copyIP = async () => {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border: 4px solid transparent;
-  border-top-color: var(--myst-bg-2);
+  border: 6px solid transparent;
+  border-top-color: #22c55e;
 }
 </style>
