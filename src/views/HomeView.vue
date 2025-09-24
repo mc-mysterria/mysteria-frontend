@@ -230,9 +230,9 @@ let rotationInterval: NodeJS.Timeout | null = null;
 
 // Hero background images array
 const heroImages = [
+  kleinWebp,
   bannerWebp,
   serverWebp,
-  kleinWebp,
 ];
 
 
