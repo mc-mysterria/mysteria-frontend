@@ -466,6 +466,89 @@ const translations = {
     setupProfile: "Setup Profile",
     reviewRules: "Review Rules",
 
+    // Guide Steps
+    guideStep1Title: "Copy IP",
+    guideStep1Description: "Copy server IP address",
+    guideStep2Title: "Add Server",
+    guideStep2Description: "Add Mysteria server",
+    guideStep3Title: "Join Server",
+    guideStep3Description: "Connect to server",
+    guideStep4Title: "Verify",
+    guideStep4Description: "Verify your account",
+    guideStep5Title: "Enter World",
+    guideStep5Description: "Leave lobby area",
+    guideStep6Title: "Learn Lore",
+    guideStep6Description: "Read about Beyonders",
+    guideStep7Title: "Start Playing",
+    guideStep7Description: "Begin your adventure",
+    guideStep8Title: "Harmoniya Launcher",
+    guideStep8Description: "Optional enhanced client",
+
+    // Common UI
+    optional: "Optional",
+    launcherBenefits: "Launcher Benefits",
+
+    // Guide Step Content - Full Titles and Descriptions
+    guideStep1FullTitle: "Copy Server IP Address",
+    guideStep1FullDescription: "First, copy our server IP address to connect to Mysteria.",
+    guideStep2FullTitle: "Add Mysteria Server",
+    guideStep2FullDescription: "Add our server to your server list using the IP address you copied.",
+    guideStep3FullTitle: "Join the Server",
+    guideStep3FullDescription: "Connect to Mysteria by joining the server you just added.",
+    guideStep4FullTitle: "Verify Your Account",
+    guideStep4FullDescription: "Get your verification code from your profile and verify in-game.",
+    guideStep5FullTitle: "Enter the Open World",
+    guideStep5FullDescription: "Leave the lobby area and enter the main game world to begin your adventure.",
+    guideStep6FullTitle: "Learn About Beyonders",
+    guideStep6FullDescription: "Read our wiki to understand the mystical system of Beyonders and how to advance.",
+    guideStep7FullTitle: "Begin Your Adventure!",
+    guideStep7FullDescription: "You're all set! Start your journey in the mystical world of Mysteria.",
+
+    // Guide Step Instructions
+    guideStep2Instruction1: "Click \"Add Server\" in the multiplayer menu",
+    guideStep2Instruction2: "Enter \"Mysteria\" as the server name",
+    guideStep2Instruction3: "Paste the server IP in the address field",
+    guideStep2Instruction4: "Click \"Done\" to save the server",
+
+    guideStep3Instruction1: "Select \"Mysteria\" from your server list",
+    guideStep3Instruction2: "Click \"Join Server\" to connect",
+    guideStep3Instruction3: "Wait for the connection to establish",
+    guideStep3Instruction4: "Accept the server resource pack when prompted",
+
+    guideStep4Instruction1: "Visit your profile page on our website",
+    guideStep4Instruction2: "Copy your verification code",
+    guideStep4Instruction3: "Type the code in chat: /verify [code]",
+    guideStep4Instruction4: "Wait for verification confirmation",
+
+    guideStep5Instruction1: "Look for the world portal in the lobby",
+    guideStep5Instruction2: "Right-click or walk through the portal",
+    guideStep5Instruction3: "Choose your starting location",
+    guideStep5Instruction4: "Begin exploring the mystical world",
+
+    // Guide Step 6 - Lore Content
+    guideStep6LoreTitle1: "Understanding Pathways",
+    guideStep6LoreDesc1: "Learn about the 22 mystical pathways and their unique abilities",
+    guideStep6LoreTitle2: "Potion System",
+    guideStep6LoreDesc2: "Discover how to advance through sequences using potions",
+    guideStep6LoreTitle3: "Mystical Items",
+    guideStep6LoreDesc3: "Explore the various artifacts and their supernatural powers",
+
+    // Guide Step 7 - Final Tips
+    guideStep7JourneyTitle: "Your Journey Begins Here",
+    guideStep7Tip1: "Start as a mortal and work your way up the mystical sequences",
+    guideStep7Tip2: "Choose your pathway carefully - each has unique abilities",
+    guideStep7Tip3: "Join our Discord community for help and roleplay",
+    guideStep7Tip4: "Read the rules to understand our roleplay guidelines",
+
+    // Image Placeholders
+    guideStep1ImagePlaceholder: "Copy IP Screenshot Placeholder",
+    guideStep2ImagePlaceholder: "Add Server Screenshot Placeholder",
+    guideStep3ImagePlaceholder: "Join Server Screenshot Placeholder",
+    guideStep4ImagePlaceholder: "Account Verification Screenshot Placeholder",
+    guideStep5ImagePlaceholder: "World Portal Screenshot Placeholder",
+    guideStep6ImagePlaceholder: "Wiki/Lore Screenshot Placeholder",
+    guideStep7ImagePlaceholder: "Gameplay Screenshot Placeholder",
+
     // Wiki Page
     wikiEyebrow: "Wiki",
     wikiTitle: "Knowledge Compendium",
@@ -1121,6 +1204,89 @@ const translations = {
       "Налаштуйте свій профіль та перегляньте правила, щоб почати свій шлях як Потойбічний.",
     setupProfile: "Налаштувати Профіль",
     reviewRules: "Переглянути Правила",
+
+    // Guide Steps
+    guideStep1Title: "Скопіювати IP",
+    guideStep1Description: "Скопіювати адресу сервера",
+    guideStep2Title: "Додати Сервер",
+    guideStep2Description: "Додати сервер Містеррії",
+    guideStep3Title: "Приєднатися",
+    guideStep3Description: "Підключитися до сервера",
+    guideStep4Title: "Верифікація",
+    guideStep4Description: "Підтвердити акаунт",
+    guideStep5Title: "Увійти у Світ",
+    guideStep5Description: "Покинути лобі",
+    guideStep6Title: "Вивчити Лор",
+    guideStep6Description: "Дізнатися про Потойбічних",
+    guideStep7Title: "Почати Гру",
+    guideStep7Description: "Розпочати пригоди",
+    guideStep8Title: "Лаунчер Harmoniya",
+    guideStep8Description: "Опціональний клієнт",
+
+    // Common UI
+    optional: "Опціонально",
+    launcherBenefits: "Переваги Лаунчера",
+
+    // Guide Step Content - Full Titles and Descriptions
+    guideStep1FullTitle: "Скопіювати IP адресу сервера",
+    guideStep1FullDescription: "Спочатку скопіюйте IP адресу нашого сервера для підключення до Містеррії.",
+    guideStep2FullTitle: "Додати сервер Містеррії",
+    guideStep2FullDescription: "Додайте наш сервер до списку серверів, використовуючи скопійовану IP адресу.",
+    guideStep3FullTitle: "Приєднатися до сервера",
+    guideStep3FullDescription: "Підключіться до Містеррії, приєднавшись до щойно доданого сервера.",
+    guideStep4FullTitle: "Підтвердити ваш акаунт",
+    guideStep4FullDescription: "Отримайте код верифікації з вашого профілю та підтвердіть в грі.",
+    guideStep5FullTitle: "Увійти у відкритий світ",
+    guideStep5FullDescription: "Покиньте область лобі та увійдіть у основний ігровий світ, щоб розпочати пригоди.",
+    guideStep6FullTitle: "Дізнатися про Потойбічних",
+    guideStep6FullDescription: "Прочитайте нашу вікі, щоб зрозуміти містичну систему Потойбічних та як прогресувати.",
+    guideStep7FullTitle: "Почніть свою пригоду!",
+    guideStep7FullDescription: "Все готово! Розпочніть свою подорож у містичному світі Містеррії.",
+
+    // Guide Step Instructions
+    guideStep2Instruction1: "Натисніть \"Додати сервер\" в меню мультиплеєра",
+    guideStep2Instruction2: "Введіть \"Mysteria\" як назву сервера",
+    guideStep2Instruction3: "Вставте IP сервера в поле адреси",
+    guideStep2Instruction4: "Натисніть \"Готово\", щоб зберегти сервер",
+
+    guideStep3Instruction1: "Виберіть \"Mysteria\" зі списку серверів",
+    guideStep3Instruction2: "Натисніть \"Приєднатися до сервера\" для підключення",
+    guideStep3Instruction3: "Дочекайтеся встановлення з'єднання",
+    guideStep3Instruction4: "Прийміть ресурс-пак сервера при запиті",
+
+    guideStep4Instruction1: "Відвідайте сторінку вашого профілю на нашому сайті",
+    guideStep4Instruction2: "Скопіюйте ваш код верифікації",
+    guideStep4Instruction3: "Введіть код у чат: /verify [код]",
+    guideStep4Instruction4: "Дочекайтеся підтвердження верифікації",
+
+    guideStep5Instruction1: "Знайдіть портал світу в лобі",
+    guideStep5Instruction2: "Клікніть правою кнопкою або пройдіть крізь портал",
+    guideStep5Instruction3: "Виберіть вашу початкову локацію",
+    guideStep5Instruction4: "Починайте досліджувати містичний світ",
+
+    // Guide Step 6 - Lore Content
+    guideStep6LoreTitle1: "Розуміння Шляхів",
+    guideStep6LoreDesc1: "Дізнайтеся про 22 містичні шляхи та їх унікальні здібності",
+    guideStep6LoreTitle2: "Система Зілля",
+    guideStep6LoreDesc2: "Відкрийте, як прогресувати через послідовності за допомогою зілля",
+    guideStep6LoreTitle3: "Містичні Предмети",
+    guideStep6LoreDesc3: "Досліджуйте різноманітні артефакти та їх надприродні сили",
+
+    // Guide Step 7 - Final Tips
+    guideStep7JourneyTitle: "Ваша подорож починається тут",
+    guideStep7Tip1: "Почніть як смертний і пробивайтеся вгору містичними послідовностями",
+    guideStep7Tip2: "Обирайте свій шлях обережно - кожен має унікальні здібності",
+    guideStep7Tip3: "Приєднуйтесь до нашої Discord спільноти для допомоги та рольової гри",
+    guideStep7Tip4: "Прочитайте правила, щоб зрозуміти наші рекомендації з рольової гри",
+
+    // Image Placeholders
+    guideStep1ImagePlaceholder: "Заповнювач скріншота копіювання IP",
+    guideStep2ImagePlaceholder: "Заповнювач скріншота додавання сервера",
+    guideStep3ImagePlaceholder: "Заповнювач скріншота приєднання до сервера",
+    guideStep4ImagePlaceholder: "Заповнювач скріншота верифікації акаунту",
+    guideStep5ImagePlaceholder: "Заповнювач скріншота порталу світу",
+    guideStep6ImagePlaceholder: "Заповнювач скріншота Вікі/Лору",
+    guideStep7ImagePlaceholder: "Заповнювач скріншота геймплею",
 
     // Wiki Page
     wikiEyebrow: "Вікі",
