@@ -45,7 +45,7 @@
               {{ t('home.letsPlay') }}
             </button>
             <a
-                href="https://wiki.mysterria.net"
+                href="https://wiki.mysterria.net/en"
                 class="wiki-button"
                 target="_blank"
                 rel="noopener noreferrer"
