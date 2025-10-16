@@ -1,4 +1,5 @@
 <template>
+  <Analytics />
   <div class="app">
     <MysticBackground />
     <NotificationContainer />
@@ -17,12 +18,11 @@ import { RouterView } from "vue-router";
 import { useBalanceWatcher } from "@/stores/balance";
 import { useUserWatcher } from "./stores/user";
 import { useServicesWatcher } from "./stores/services";
+import { Analytics } from '@vercel/analytics/vue';
 
 useUserWatcher();
 useBalanceWatcher();
 useServicesWatcher();
-
-// All loading animation logic removed
 
 const cursor = ref<HTMLDivElement | null>(null);
 const cursorSize = 50;

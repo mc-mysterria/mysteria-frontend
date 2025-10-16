@@ -1,191 +1,82 @@
-# Mysterria Frontend
+# Mysteria Frontend
 
-A modern Vue 3 frontend for Mysterria - a Lord of The Mysteries inspired Minecraft server. Built with TypeScript, Vite, and Pinia, this application serves as the web platform for a mystical gaming community featuring Potions, Sequences, Pathways, and immersive Lord of The Mysteries gameplay elements. Supports both Ukrainian and English languages.
+A modern Vue 3 frontend for Mysteria, a Lord of The Mysteries-inspired Minecraft server. Built with TypeScript, Vite, and Pinia.
 
 ## ✨ Features
 
-- **Mystical User Management**: Discord OAuth authentication with Pathway-based role permissions
-- **Sequence Application System**: Multi-step progression forms with mystical advancement tracking
-- **Mystical Court System**: Community-driven resolution of supernatural disputes and conflicts
-- **Lord of The Mysteries News**: Admin-controlled mystical announcements and world updates
-- **Potion & Ingredient Shop**: E-commerce for mystical ingredients, potions, and advancement materials
-- **Support System**: Real-time ticket system with WebSocket chat for community assistance
-- **Beyonder Features**: Player statistics, Sequence progression, and Pathway team profiles
-- **Real-time Mystical Updates**: WebSocket integration for live world events and ritual notifications
-- **Multilingual Support**: Full Ukrainian and English language support for global mystical community
+-   **Authentication**: Discord OAuth for user login.
+-   **User Profiles**: View and manage user information.
+-   **E-commerce**: In-game item shop.
+-   **News & Updates**: Announcements and articles.
+-   **Admin Panel**: Content and user management.
+-   **Static Pages**: Rules, guides, and wiki.
+-   **Multi-language Support**: English and Ukrainian.
 
 ## 🛠 Tech Stack
 
-- **Framework**: Vue 3 with Composition API
-- **Language**: TypeScript
-- **Build Tool**: Vite
-- **State Management**: Pinia
-- **Routing**: Vue Router
-- **Testing**: Vitest + jsdom
-- **Styling**: PostCSS + Custom CSS
-- **Package Manager**: Bun
-- **Error Tracking**: Sentry
-- **Analytics**: Vercel Analytics
-
-## 📁 Project Structure
-
-```
-src/
-├── components/        # Feature-organized Vue components
-│   ├── application/   # Application system components
-│   ├── court/         # Court system components
-│   ├── home/          # Homepage components
-│   ├── layout/        # Layout components (header, footer, sidebar)
-│   ├── news/          # News system components
-│   ├── profile/       # User profile components
-│   ├── shop/          # E-commerce components
-│   ├── tickets/       # Support ticket components
-│   └── ui/            # Reusable UI components
-├── stores/            # Pinia state management
-├── views/             # Page-level components
-├── utils/api/         # API client classes
-├── types/             # TypeScript definitions
-├── services/          # Business logic services
-├── composables/       # Vue composables
-└── assets/            # Static assets
-```
+-   **Framework**: Vue 3 (Composition API)
+-   **Language**: TypeScript
+-   **Build Tool**: Vite
+-   **State Management**: Pinia
+-   **Routing**: Vue Router
+-   **Styling**: PostCSS
+-   **Package Manager**: Bun
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) (recommended) or Node.js 18+
-- Modern web browser
+-   [Bun](https://bun.sh/) or Node.js 18+
 
 ### Installation
 
-```bash
-# Clone the repository
-git clone <repository-url>
-cd mysterria-frontend
+1.  Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd mysteria-frontend
+    ```
 
-# Install dependencies
-bun install
-```
+2.  Install dependencies:
+    ```bash
+    bun install
+    ```
 
 ### Development
 
+Start the development server:
+
 ```bash
-# Start development server with hot reload
 bun dev
-
-# The application will be available at http://localhost:8100
 ```
 
-### Building
+The application will be available at `http://localhost:8100`.
+
+### Building for Production
 
 ```bash
-# Type-check and build for production
 bun run build
-
-# Preview production build
-bun run preview
 ```
 
-## 🧪 Testing
+## 📁 Project Structure
 
-```bash
-# Run unit tests
-bun test:unit
-
-# Run tests in watch mode
-bun test:unit --watch
 ```
-
-## 🔧 Code Quality
-
-```bash
-# Lint with ESLint (auto-fix)
-bun lint
-
-# Format code with Prettier
-bun run format
-
-# Type checking only
-bun run type-check
+src/
+├── assets/            # Static assets (images, styles, fonts)
+├── components/        # Reusable Vue components
+│   ├── admin/
+│   ├── layout/
+│   ├── profile/
+│   ├── shop/
+│   └── ui/
+├── composables/       # Vue composables (e.g., useI18n)
+├── router/            # Vue Router configuration
+├── services/          # Business logic services
+├── stores/            # Pinia state management stores
+├── types/             # TypeScript type definitions
+├── utils/             # Utility functions and API helpers
+└── views/             # Page-level components
 ```
-
-## 🌐 API Integration
-
-The application integrates with multiple backend services:
-
-- **Main API** (`/api`): Core application functionality
-- **Aphrodite API** (`/aphrodite`): User management
-- **Plan API** (`/plan`): Planning and scheduling
-- **Anaya API** (`/anaya`): Additional services
-- **Catwalk API** (`/catwalk`): Statistics and analytics
-
-All API endpoints are proxied through Vite for development.
-
-## 🏗 Architecture Highlights
-
-### State Management
-- Pinia stores with dedicated watchers for real-time updates
-- Feature-based store organization (auth, balance, applications, etc.)
-- Centralized error handling and notifications
-
-### Component Architecture
-- Feature-driven component organization
-- Reusable UI component library
-- Composition API throughout for better TypeScript support
-
-### Performance Optimizations
-- Route-based code splitting
-- Custom Vite chunk optimization
-- Tree-shaking and minification with Terser
-- Asset optimization and compression
-
-## 🔒 Security Features
-
-- Cookie-based authentication with Discord OAuth
-- Route guards for protected pages
-- Input sanitization with DOMPurify
-- Error tracking with Sentry
-- CORS configuration for API security
-
-## 🎨 Development Guidelines
-
-### IDE Setup
-- **Recommended**: VSCode with Volar extension
-- Disable Vetur if installed
-- TypeScript strict mode enabled
-
-### Code Style
-- ESLint + Prettier configuration
-- Vue 3 Composition API preferred
-- TypeScript strict typing
-- Feature-based file organization
-
-## 📱 Browser Support
-
-- Modern browsers with ES2020+ support
-- Mobile-responsive design
-- Progressive Web App features
-
-## 🚢 Deployment
-
-The application is configured for deployment on Vercel with:
-- Automatic builds on push
-- Environment variable management
-- CDN optimization
-- Analytics integration
 
 ## 📄 License
 
 This project is private and proprietary to Mysterria.
-
-## 🤝 Contributing
-
-1. Follow the established code style and architecture patterns
-2. Write tests for new features
-3. Update documentation as needed
-4. Ensure all checks pass before submitting PRs
-
-## 📞 Support
-
-For technical support or questions about the codebase, please refer to the project documentation or contact the development team.
