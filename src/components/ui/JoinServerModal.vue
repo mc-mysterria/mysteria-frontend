@@ -31,7 +31,7 @@
             <h3>{{ t('home.step2Title') }}</h3>
             <p>{{ t('home.step2Description') }}</p>
             <div class="server-ip">
-              <CopyIPButton ip="play.mysterria.net" />
+              <CopyIPButton ip="mc.mysterria.net" />
             </div>
           </div>
         </div>

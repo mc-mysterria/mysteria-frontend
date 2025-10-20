@@ -21,8 +21,8 @@ export function createSlug(name: string): string {
  * @param service Service object with optional language-specific names
  * @returns Route path for the service detail page
  */
-export function getServiceDetailPath(service: { 
-  id: string | number; 
+export function getServiceDetailPath(service: {
+  id: string | number;
   name: string;
   display_name?: string;
   slug_name?: string;
@@ -32,12 +32,11 @@ export function getServiceDetailPath(service: {
 }): string {
   // Use slug_name for consistent URLs across languages, fallback to name
   const nameForSlug = service.slug_name || service.name;
-  
+
   const slug = createSlug(nameForSlug);
-  
+
   // If slug is empty after processing, use a fallback
   const finalSlug = slug || 'service';
-  
-  // Include ID in the slug for uniqueness, similar to how some sites handle it
-  return `/services/${finalSlug}-${service.id}`;
+
+  return `/services/${finalSlug}`;
 }

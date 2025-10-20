@@ -15,8 +15,8 @@ const router = createRouter({
         behavior: 'smooth',
       };
     }
-    // For all other navigation, scroll to top
-    return { top: 0, behavior: 'smooth' };
+    // For all other navigation, scroll to top immediately
+    return { top: 0, left: 0 };
   },
   routes: [
     {

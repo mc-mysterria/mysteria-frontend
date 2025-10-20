@@ -235,43 +235,16 @@ const cancelPurchase = () => {
 };
 
 onMounted(async () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const slug = route.params.slug as string;
 
-  const slugParam = route.params.slug as string;
-
-  if (slugParam) {
+  if (slug) {
     try {
       loading.value = true;
+      console.log('Loading service with slug:', slug);
 
-      // Try using the full slug first (including ID)
-      console.log('Loading service with slug:', slugParam);
-
-      try {
-        // First attempt: use the full slug as-is
-        const response = await shopAPI.getServiceContent(slugParam, currentLanguage.value);
-        service.value = response.data;
-        console.log('Service loaded successfully:', service.value);
-      } catch (fullSlugError) {
-        console.log('Full slug failed, trying without ID suffix');
-
-        // Second attempt: try removing the ID suffix
-        // Format is "service-name-123" where 123 is the ID
-        const lastDashIndex = slugParam.lastIndexOf('-');
-        if (lastDashIndex !== -1 && !isNaN(Number(slugParam.substring(lastDashIndex + 1)))) {
-          const slugWithoutId = slugParam.substring(0, lastDashIndex);
-          console.log('Trying slug without ID:', slugWithoutId);
-
-          if (slugWithoutId && slugWithoutId.trim() !== '') {
-            const response = await shopAPI.getServiceContent(slugWithoutId, currentLanguage.value);
-            service.value = response.data;
-            console.log('Service loaded with slug without ID:', service.value);
-          } else {
-            throw fullSlugError; // Re-throw original error if slug is invalid
-          }
-        } else {
-          throw fullSlugError; // Re-throw if we can't extract a different slug
-        }
-      }
+      const response = await shopAPI.getServiceContent(slug, currentLanguage.value);
+      service.value = response.data;
+      console.log('Service loaded successfully:', service.value);
     } catch (error) {
       console.error('Failed to load service:', error);
       service.value = null;
