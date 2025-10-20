@@ -62,7 +62,7 @@ const translations = {
             "Step into the mystical world of\nthe Lord of Mysteries universe\nwhere pathways and ancient secrets await",
         joinServer: "Join Server",
         lorePathways: "Lore & Pathways",
-        versionInfo: "1.21.8 · Minecraft: Java Edition · No License Required",
+        versionInfo: "1.21.8 · Minecraft · No License Required",
 
         // Main Description
         welcomeTitle: "WELCOME TO MYSTERRIA",
@@ -375,7 +375,7 @@ const translations = {
         copySuccess: "Copied!",
         serverVersion: "Version",
         minecraftVersion: "1.21.8",
-        serverEdition: "Java Edition",
+        serverEdition: "Java & Bedrock",
         modsRequired: "Mods Required",
         noModsRequired: "None (Optional)",
         serverType: "Server Type",
@@ -801,7 +801,7 @@ const translations = {
             "Зануртесь у містичний світ\nвсесвіту Lord of the Mysteries\nде шляхи та давні таємниці чекають",
         joinServer: "Приєднатися",
         lorePathways: "Лор і Шляхи",
-        versionInfo: "1.21.8 · Minecraft: Java Edition · Ліцензія не обов'язкова",
+        versionInfo: "1.21.8 · Minecraft · Ліцензія не обов'язкова",
 
         // Main Description
         welcomeTitle: "ВІТАЄМО У МІСТЕРРІЇ",
@@ -1115,7 +1115,7 @@ const translations = {
         copySuccess: "Скопійовано!",
         serverVersion: "Версія",
         minecraftVersion: "1.21.8",
-        serverEdition: "Java Edition",
+        serverEdition: "Java & Bedrock",
         modsRequired: "Моди Потрібні",
         noModsRequired: "Не потрібні (Опціонально)",
         serverType: "Тип Сервера",

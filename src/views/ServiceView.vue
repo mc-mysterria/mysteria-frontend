@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { shopAPI } from '@/utils/api/shop';
 import type { ServiceMarkdownDto } from '@/types/services';
@@ -235,6 +235,10 @@ const cancelPurchase = () => {
 };
 
 onMounted(async () => {
+  // Ensure scroll to top happens
+  await nextTick();
+  window.scrollTo(0, 0);
+
   const slug = route.params.slug as string;
 
   if (slug) {

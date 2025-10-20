@@ -1,22 +1,33 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { nextTick } from "vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    // If the user clicked back/forward, restore the saved scroll position
-    if (savedPosition) {
-      return savedPosition;
-    }
-    // For hash links (e.g., #section), scroll to the element
-    if (to.hash) {
-      return {
-        el: to.hash,
-        behavior: 'smooth',
-      };
-    }
-    // For all other navigation, scroll to top immediately
-    return { top: 0, left: 0 };
+    // Return a promise to ensure scroll happens after component is mounted
+    return new Promise((resolve) => {
+      // Use a small delay to ensure DOM is fully rendered
+      setTimeout(() => {
+        nextTick(() => {
+          // If the user clicked back/forward, restore the saved scroll position
+          if (savedPosition) {
+            resolve(savedPosition);
+          }
+          // For hash links (e.g., #section), scroll to the element
+          else if (to.hash) {
+            resolve({
+              el: to.hash,
+              behavior: 'smooth',
+            });
+          }
+          // For all other navigation, scroll to top immediately
+          else {
+            resolve({ top: 0, left: 0 });
+          }
+        });
+      }, 0);
+    });
   },
   routes: [
     {

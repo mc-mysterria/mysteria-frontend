@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { newsAPI } from '@/utils/api/news';
 import type { NewsArticle } from '@/types/news';
@@ -62,6 +62,10 @@ const formatDate = (dateString: string) => {
 };
 
 onMounted(async () => {
+  // Ensure scroll to top happens
+  await nextTick();
+  window.scrollTo(0, 0);
+
   const slug = route.params.slug as string;
   if (slug) {
     try {
