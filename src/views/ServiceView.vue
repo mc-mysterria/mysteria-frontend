@@ -62,12 +62,14 @@
           <h3>{{ t('serviceNotFound') || 'Service Not Found' }}</h3>
           <p>{{ t('serviceNotFoundMessage') || 'This service content is not available yet or has been moved.' }}</p>
           <p class="error-details">
-            {{ t('serviceContentNotCreated') || 'The detailed information for this service has not been created yet.' }}
+            {{ t('serviceContentNotCreated') || 'The detailed description for this service has not been created yet. You can still purchase it from the shop page.' }}
           </p>
-          <router-link to="/store" class="back-to-shop-btn">
-            <i class="fa-solid fa-arrow-left"></i>
-            {{ t('backToShop') || 'Back to Shop' }}
-          </router-link>
+          <div class="error-actions">
+            <router-link to="/store" class="back-to-shop-btn">
+              <i class="fa-solid fa-arrow-left"></i>
+              {{ t('backToShop') || 'Back to Shop' }}
+            </router-link>
+          </div>
         </div>
       </div>
     </main>
@@ -234,33 +236,44 @@ const cancelPurchase = () => {
 
 onMounted(async () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  
+
   const slugParam = route.params.slug as string;
-  
+
   if (slugParam) {
     try {
       loading.value = true;
-      
-      // Extract the actual slug from the parameter
-      // Format is "service-name-123" where 123 is the ID
-      let slug = slugParam;
-      
-      // If the slug contains an ID at the end, remove it for the API call
-      const lastDashIndex = slugParam.lastIndexOf('-');
-      if (lastDashIndex !== -1 && !isNaN(Number(slugParam.substring(lastDashIndex + 1)))) {
-        slug = slugParam.substring(0, lastDashIndex);
+
+      // Try using the full slug first (including ID)
+      console.log('Loading service with slug:', slugParam);
+
+      try {
+        // First attempt: use the full slug as-is
+        const response = await shopAPI.getServiceContent(slugParam, currentLanguage.value);
+        service.value = response.data;
+        console.log('Service loaded successfully:', service.value);
+      } catch (fullSlugError) {
+        console.log('Full slug failed, trying without ID suffix');
+
+        // Second attempt: try removing the ID suffix
+        // Format is "service-name-123" where 123 is the ID
+        const lastDashIndex = slugParam.lastIndexOf('-');
+        if (lastDashIndex !== -1 && !isNaN(Number(slugParam.substring(lastDashIndex + 1)))) {
+          const slugWithoutId = slugParam.substring(0, lastDashIndex);
+          console.log('Trying slug without ID:', slugWithoutId);
+
+          if (slugWithoutId && slugWithoutId.trim() !== '') {
+            const response = await shopAPI.getServiceContent(slugWithoutId, currentLanguage.value);
+            service.value = response.data;
+            console.log('Service loaded with slug without ID:', service.value);
+          } else {
+            throw fullSlugError; // Re-throw original error if slug is invalid
+          }
+        } else {
+          throw fullSlugError; // Re-throw if we can't extract a different slug
+        }
       }
-      
-      
-      // Make sure we have a valid slug before making the API call
-      if (!slug || slug.trim() === '') {
-        service.value = null;
-        return;
-      }
-      
-      const response = await shopAPI.getServiceContent(slug, currentLanguage.value);
-      service.value = response.data;
     } catch (error) {
+      console.error('Failed to load service:', error);
       service.value = null;
     } finally {
       loading.value = false;
@@ -612,7 +625,18 @@ export default {
   color: var(--myst-ink-muted);
   font-size: 16px;
   line-height: 1.6;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
+}
+
+.error-details {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.error-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
 }
 
 @keyframes spin {

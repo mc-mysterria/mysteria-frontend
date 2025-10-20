@@ -1,5 +1,5 @@
 <template>
-  <HeaderItem />
+  <HeaderItem/>
   <div class="pnf-container">
     <div class="pnf-card">
       <h1>404</h1>
@@ -9,19 +9,22 @@
       </p>
       <button @click="goBack" class="pnf-button">
         {{ t("goBack") }}
-        <IconArrowRight :aria-label="t('goBack')" />
+        <IconArrowRight :aria-label="t('goBack')"/>
       </button>
     </div>
   </div>
+  <FooterItem/>
+
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import IconArrowRight from "@/assets/icons/IconArrowRight.vue";
-import { useI18n } from "@/composables/useI18n";
+import {useI18n} from "@/composables/useI18n";
+import FooterItem from '@/components/layout/FooterItem.vue';
 
-const { t } = useI18n();
+const {t} = useI18n();
 
 const router = useRouter();
 
@@ -76,10 +79,10 @@ h1 {
   font-family: "Inter", sans-serif;
   font-size: clamp(60px, 15vw, 90px);
   background: linear-gradient(
-    160deg,
-    rgba(34, 197, 94, 1) 0%,
-    rgba(34, 197, 94, 1) 50%,
-    rgba(16, 185, 129, 1) 100%
+      160deg,
+      rgba(34, 197, 94, 1) 0%,
+      rgba(34, 197, 94, 1) 50%,
+      rgba(16, 185, 129, 1) 100%
   );
   color: transparent;
   background-clip: text;
@@ -119,10 +122,9 @@ p {
   background-color: #10b981;
   border-radius: 10px;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease-in-out,
-    transform 0.1s ease-in-out,
-    box-shadow 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out,
+  transform 0.1s ease-in-out,
+  box-shadow 0.2s ease-in-out;
   text-decoration: none;
   width: fit-content;
   margin: 0 auto;
@@ -156,15 +158,19 @@ p {
     margin-right: 10px;
     border-radius: 12px;
   }
+
   h1 {
     font-size: clamp(48px, 12vw, 70px);
   }
+
   h3 {
     font-size: clamp(18px, 4.5vw, 22px);
   }
+
   p {
     font-size: clamp(13px, 3vw, 15px);
   }
+
   .pnf-button {
     width: 100%;
     max-width: 280px;

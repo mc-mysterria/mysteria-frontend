@@ -3,6 +3,21 @@ import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    // If the user clicked back/forward, restore the saved scroll position
+    if (savedPosition) {
+      return savedPosition;
+    }
+    // For hash links (e.g., #section), scroll to the element
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth',
+      };
+    }
+    // For all other navigation, scroll to top
+    return { top: 0, behavior: 'smooth' };
+  },
   routes: [
     {
       path: "/",

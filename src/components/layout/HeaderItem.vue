@@ -221,7 +221,7 @@ const servicesLinks = computed(() => [
   {
     name: t("navWiki") || "Wiki",
     description: t("servicesWikiDesc") || "Knowledge base & guides",
-    url: "https://wiki.mysterria.net/",
+    url: "https://wiki.mysterria.net/en",
     icon: iconComponents.IconWiki
   },
   {

@@ -11,11 +11,7 @@
           v-for="item in category.items"
           :key="item.id"
           :item="item"
-          :class="[
-            'shop-item-card',
-            { 'item-visible': visibleItems.includes(item.originalIndex) },
-          ]"
-          :style="{ '--animation-delay': `${item.originalIndex * 0.1}s` }"
+          class="shop-item-card"
           @purchase="handlePurchase"
         />
       </div>
@@ -24,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, nextTick } from "vue";
+import { computed, ref } from "vue";
 import { useBalanceStore } from "@/stores/balance";
 import { useUserStore } from "@/stores/user";
 import { useAuthStore } from "@/stores/auth";
@@ -40,7 +36,6 @@ const userStore = useUserStore();
 const authStore = useAuthStore();
 const { t } = useI18n();
 const items = computed(() => shopStore.items);
-const visibleItems = ref<number[]>([]);
 const profile = computed(() => userStore.currentUser);
 
 interface CategoryItem extends ServiceResponse {
@@ -192,39 +187,6 @@ const handlePurchase = (itemId: string) => {
   };
 };
 
-const animateItems = () => {
-  visibleItems.value = [];
-  
-  let delay = 0;
-  categories.value.forEach((category) => {
-    category.items.forEach((item) => {
-      setTimeout(() => {
-        visibleItems.value.push(item.originalIndex);
-      }, delay * 67);
-      delay++;
-    });
-  });
-};
-
-watch(
-  () => items.value.length,
-  () => {
-    if (items.value.length > 0) {
-      nextTick(() => {
-        animateItems();
-      });
-    }
-  },
-  { immediate: true },
-);
-
-onMounted(() => {
-  if (items.value.length > 0) {
-    nextTick(() => {
-      animateItems();
-    });
-  }
-});
 </script>
 
 <style scoped>
@@ -275,15 +237,20 @@ onMounted(() => {
 }
 
 .shop-item-card {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  transition-delay: var(--animation-delay);
-}
-
-.shop-item-card.item-visible {
   opacity: 1;
   transform: translateY(0);
+  animation: fadeInUp 0.4s ease-out backwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {
