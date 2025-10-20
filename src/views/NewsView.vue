@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick } from 'vue';
+import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { newsAPI } from '@/utils/api/news';
 import type { NewsArticle } from '@/types/news';
@@ -61,11 +61,7 @@ const formatDate = (dateString: string) => {
   });
 };
 
-onMounted(async () => {
-  // Ensure scroll to top happens
-  await nextTick();
-  window.scrollTo(0, 0);
-
+const loadArticle = async () => {
   const slug = route.params.slug as string;
   if (slug) {
     try {
@@ -81,6 +77,39 @@ onMounted(async () => {
   } else {
     loading.value = false;
   }
+};
+
+// Watch for route changes to handle navigation between articles
+watch(() => route.params.slug, async (newSlug, oldSlug) => {
+  if (newSlug && newSlug !== oldSlug) {
+    // Immediately scroll to top
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+
+    await loadArticle();
+
+    // Scroll again after content loads
+    await nextTick();
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+}, { immediate: false });
+
+onMounted(async () => {
+  // Ensure scroll to top happens immediately
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo(0, 0);
+
+  await loadArticle();
+
+  // Scroll again after content loads
+  await nextTick();
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo(0, 0);
 });
 </script>
 

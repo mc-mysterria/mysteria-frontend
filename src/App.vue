@@ -13,8 +13,8 @@
 <script setup lang="ts">
 import NotificationContainer from "@/components/ui/NotificationContainer.vue";
 import MysticBackground from "@/components/ui/MysticBackground.vue";
-import { onMounted, onUnmounted, ref } from "vue";
-import { RouterView } from "vue-router";
+import { onMounted, onUnmounted, ref, watch } from "vue";
+import { RouterView, useRoute } from "vue-router";
 import { useBalanceWatcher } from "@/stores/balance";
 import { useUserWatcher } from "./stores/user";
 import { useServicesWatcher } from "./stores/services";
@@ -23,6 +23,18 @@ import { Analytics } from '@vercel/analytics/vue';
 useUserWatcher();
 useBalanceWatcher();
 useServicesWatcher();
+
+const route = useRoute();
+
+// Force scroll to top on every route change
+watch(() => route.path, () => {
+  // Use requestAnimationFrame to ensure it happens after DOM updates
+  requestAnimationFrame(() => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+  });
+}, { immediate: false });
 
 const cursor = ref<HTMLDivElement | null>(null);
 const cursorSize = 50;

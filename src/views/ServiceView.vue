@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick } from 'vue';
+import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { shopAPI } from '@/utils/api/shop';
 import type { ServiceMarkdownDto } from '@/types/services';
@@ -234,11 +234,7 @@ const cancelPurchase = () => {
   pendingPurchase.value = null;
 };
 
-onMounted(async () => {
-  // Ensure scroll to top happens
-  await nextTick();
-  window.scrollTo(0, 0);
-
+const loadService = async () => {
   const slug = route.params.slug as string;
 
   if (slug) {
@@ -258,6 +254,39 @@ onMounted(async () => {
   } else {
     loading.value = false;
   }
+};
+
+// Watch for route changes to handle navigation between services
+watch(() => route.params.slug, async (newSlug, oldSlug) => {
+  if (newSlug && newSlug !== oldSlug) {
+    // Immediately scroll to top
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+
+    await loadService();
+
+    // Scroll again after content loads
+    await nextTick();
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+}, { immediate: false });
+
+onMounted(async () => {
+  // Ensure scroll to top happens immediately
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo(0, 0);
+
+  await loadService();
+
+  // Scroll again after content loads
+  await nextTick();
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo(0, 0);
 });
 </script>
 
