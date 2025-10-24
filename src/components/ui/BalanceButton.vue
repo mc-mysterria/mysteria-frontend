@@ -97,6 +97,18 @@ const closeCurrencyModal = () => {
   border-color: color-mix(in srgb, white 30%, transparent);
 }
 
+:root[data-theme="parchment"] .dollar {
+  background: var(--myst-bg-2);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+  color: var(--myst-ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="parchment"] .dollar:hover {
+  background: var(--myst-bg);
+  border-color: var(--myst-ink-muted);
+}
+
 .addMoney {
   position: absolute;
   top: 0;
@@ -150,7 +162,6 @@ const closeCurrencyModal = () => {
   .dollar {
     padding: 10px 16px;
     font-size: 0.9rem;
-    margin-right: 12px;
   }
 
   .addMoney {
@@ -170,7 +181,6 @@ const closeCurrencyModal = () => {
   .dollar {
     padding: 8px 14px;
     font-size: 0.85rem;
-    margin-right: 10px;
   }
 
   .addMoney {

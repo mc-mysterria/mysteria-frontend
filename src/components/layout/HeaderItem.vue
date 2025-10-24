@@ -73,8 +73,8 @@
 
       <div class="header-actions">
         <ThemeToggle />
-        <LanguageSelector />
-        <BalanceButton />
+        <LanguageSelector class="language-desktop" />
+        <BalanceButton class="balance-desktop" />
         <AuthButton class="auth-desktop" />
         <button
           @click="toggleMobileNav"
@@ -143,6 +143,9 @@
             <div class="mobile-nav-auth">
               <div class="mobile-language-selector">
                 <LanguageSelector />
+              </div>
+              <div class="mobile-balance-wrapper">
+                <BalanceButton />
               </div>
               <AuthButton mobile-mode @mobile-action="closeMobileNav" />
             </div>
@@ -421,9 +424,20 @@ onUnmounted(() => {
   backdrop-filter: blur(8px);
 }
 
+:root[data-theme="parchment"] .mobile-nav-toggle {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
 .mobile-nav-toggle:hover {
   background: color-mix(in srgb, white 5%, transparent);
   border-color: color-mix(in srgb, white 30%, transparent);
+}
+
+:root[data-theme="parchment"] .mobile-nav-toggle:hover {
+  background: var(--myst-bg);
+  border-color: var(--myst-ink-muted);
 }
 
 @media (max-width: 768px) {
@@ -431,7 +445,9 @@ onUnmounted(() => {
     display: flex;
   }
 
-  .auth-desktop {
+  .auth-desktop,
+  .balance-desktop,
+  .language-desktop {
     display: none;
   }
 }
@@ -535,7 +551,28 @@ onUnmounted(() => {
 }
 
 .mobile-language-selector {
-  margin: 24px 0 20px 0;
+  margin: 24px 0 16px 0;
+}
+
+.mobile-balance-wrapper {
+  margin-bottom: 16px;
+}
+
+.mobile-balance-wrapper :deep(.dollar) {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 20px;
+  font-size: 1rem;
+}
+
+:root[data-theme="parchment"] .mobile-balance-wrapper :deep(.dollar) {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+}
+
+:root[data-theme="parchment"] .mobile-balance-wrapper :deep(.dollar):hover {
+  background: var(--myst-bg);
+  border-color: var(--myst-ink-muted);
 }
 
 .mobile-nav-enter-active,

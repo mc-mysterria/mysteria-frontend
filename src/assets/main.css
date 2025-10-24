@@ -13,14 +13,14 @@
 
 /* Parchment theme */
 :root[data-theme="parchment"] {
-    --myst-bg: #fefefe;
-    --myst-bg-2: #f8f9fa;
-    --myst-ink: #1a1d29;
-    --myst-ink-muted: #6b7280;
-    --myst-ink-strong: #111827;
-    --myst-gold: #d97706;
-    --myst-gold-soft: #f59e0b;
-    --myst-offwhite: #111827;
+    --myst-bg: #f5f3ed;
+    --myst-bg-2: #e8e4d8;
+    --myst-ink: #2c2416;
+    --myst-ink-muted: #6b6350;
+    --myst-ink-strong: #1a1410;
+    --myst-gold: #b8860b;
+    --myst-gold-soft: #d4a517;
+    --myst-offwhite: #1a1410;
 }
 
 body {
@@ -69,6 +69,18 @@ body {
 :root[data-theme="parchment"] .bg-panel {
     background-color: var(--myst-bg-2);
     border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+}
+
+/* Light theme card improvements */
+:root[data-theme="parchment"] .card {
+    background: var(--myst-bg-2);
+    border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="parchment"] .card:hover {
+    border-color: var(--myst-gold);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 a {

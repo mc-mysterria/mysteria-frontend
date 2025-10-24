@@ -205,14 +205,29 @@ const handleLogout = async () => {
   backdrop-filter: blur(8px);
 }
 
+:root[data-theme="parchment"] .user-dropdown :deep(.dropdown-trigger) {
+  background: var(--myst-bg-2);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
 .user-dropdown :deep(.dropdown-trigger):hover {
   background: color-mix(in srgb, white 5%, transparent);
   border-color: color-mix(in srgb, white 30%, transparent);
 }
 
+:root[data-theme="parchment"] .user-dropdown :deep(.dropdown-trigger):hover {
+  background: var(--myst-bg);
+  border-color: var(--myst-ink-muted);
+}
+
 .user-dropdown :deep(.dropdown-trigger.is-open) {
   border-color: var(--myst-gold);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--myst-gold) 20%, transparent);
+}
+
+:root[data-theme="parchment"] .user-dropdown :deep(.dropdown-trigger.is-open) {
+  box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.15);
 }
 
 .user-button-content {
@@ -269,9 +284,20 @@ const handleLogout = async () => {
   backdrop-filter: blur(8px);
 }
 
+:root[data-theme="parchment"] .auth-login-button {
+  background: var(--myst-bg-2);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
 .auth-login-button:hover:not(.auth-login-button--loading) {
   background: color-mix(in srgb, white 5%, transparent);
   border-color: color-mix(in srgb, white 30%, transparent);
+}
+
+:root[data-theme="parchment"] .auth-login-button:hover:not(.auth-login-button--loading) {
+  background: var(--myst-bg);
+  border-color: var(--myst-ink-muted);
 }
 
 .auth-login-button:active {

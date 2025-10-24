@@ -1525,4 +1525,226 @@ const copyToClipboard = async () => {
     width: 100%;
   }
 }
+
+/* Light Theme (Parchment) Styles */
+:root[data-theme="parchment"] .guide-main {
+  background: var(--myst-bg);
+}
+
+:root[data-theme="parchment"] .step-background {
+  filter: blur(8px) brightness(0.9) saturate(1.2);
+}
+
+:root[data-theme="parchment"] .progress-bar {
+  background: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+}
+
+:root[data-theme="parchment"] .progress-fill {
+  background: linear-gradient(90deg, var(--myst-gold), var(--myst-gold-soft));
+}
+
+:root[data-theme="parchment"] .step-counter {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .step-title {
+  color: var(--myst-ink-strong);
+}
+
+:root[data-theme="parchment"] .step-description {
+  color: var(--myst-ink-muted);
+}
+
+:root[data-theme="parchment"] .instruction-item {
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+}
+
+:root[data-theme="parchment"] .instruction-item:hover {
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  background: var(--myst-bg-2);
+}
+
+:root[data-theme="parchment"] .instruction-item span {
+  color: var(--myst-ink);
+}
+
+:root[data-theme="parchment"] .info-item {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+}
+
+:root[data-theme="parchment"] .server-ip {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+:root[data-theme="parchment"] .ip-label {
+  color: var(--myst-ink);
+}
+
+:root[data-theme="parchment"] .ip-address {
+  background: var(--myst-bg);
+  color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .copy-button {
+  background: var(--myst-gold);
+  color: var(--myst-bg);
+}
+
+:root[data-theme="parchment"] .copy-button:hover {
+  background: var(--myst-gold-soft);
+}
+
+:root[data-theme="parchment"] .lore-item {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+}
+
+:root[data-theme="parchment"] .lore-item h3 {
+  color: var(--myst-ink-strong);
+}
+
+:root[data-theme="parchment"] .lore-item p {
+  color: var(--myst-ink-muted);
+}
+
+:root[data-theme="parchment"] .external-link {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .external-link:hover {
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+}
+
+:root[data-theme="parchment"] .profile-link {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .profile-link:hover {
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+}
+
+:root[data-theme="parchment"] .final-tips h3 {
+  color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .tip-item {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+}
+
+:root[data-theme="parchment"] .tip-item p {
+  color: var(--myst-ink);
+}
+
+:root[data-theme="parchment"] .action-button.rules {
+  color: var(--myst-gold);
+  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
+}
+
+:root[data-theme="parchment"] .action-button.rules:hover {
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  border-color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .launcher-features h3 {
+  color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .feature-item {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+}
+
+:root[data-theme="parchment"] .feature-item:hover {
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+:root[data-theme="parchment"] .feature-item span {
+  color: var(--myst-ink);
+}
+
+:root[data-theme="parchment"] .launcher-download-button {
+  background: var(--myst-gold);
+  color: var(--myst-bg);
+}
+
+:root[data-theme="parchment"] .launcher-download-button:hover {
+  background: var(--myst-gold-soft);
+}
+
+:root[data-theme="parchment"] .optional-note {
+  color: var(--myst-ink-muted);
+}
+
+:root[data-theme="parchment"] .guide-image {
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+:root[data-theme="parchment"] .guide-image:hover {
+  border-color: var(--myst-gold);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme="parchment"] .step-indicators-footer {
+  background: var(--myst-bg);
+  border-top-color: color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+}
+
+:root[data-theme="parchment"] .step-indicator:hover {
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+}
+
+:root[data-theme="parchment"] .indicator-dot {
+  background: var(--myst-bg-2);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+}
+
+:root[data-theme="parchment"] .step-indicator.active .indicator-dot {
+  background: var(--myst-gold);
+  border-color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .step-indicator.completed .indicator-dot {
+  background: color-mix(in srgb, var(--myst-gold) 70%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 70%, transparent);
+}
+
+:root[data-theme="parchment"] .indicator-label {
+  color: var(--myst-ink-muted);
+}
+
+:root[data-theme="parchment"] .step-indicator.active .indicator-label {
+  color: var(--myst-gold);
+}
+
+:root[data-theme="parchment"] .nav-arrow {
+  color: var(--myst-ink);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="parchment"] .nav-arrow:hover:not(:disabled) {
+  color: var(--myst-gold);
+  text-shadow:
+    0 0 5px rgba(184, 134, 11, 0.3),
+    0 0 10px rgba(184, 134, 11, 0.2);
+}
+
+:root[data-theme="parchment"] .nav-arrow svg {
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.1));
+}
+
+:root[data-theme="parchment"] .nav-arrow:hover:not(:disabled) svg {
+  filter:
+    drop-shadow(0 0 3px rgba(184, 134, 11, 0.3))
+    drop-shadow(0 0 6px rgba(184, 134, 11, 0.2));
+}
 </style>
