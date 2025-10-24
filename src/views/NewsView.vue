@@ -3,12 +3,12 @@
     <HeaderItem />
     <main class="news-article-container">
       <div v-if="article">
+        <button @click="goBack" class="back-button">
+          <IconArrowLeft class="w-5 h-5" />
+          <span>Back</span>
+        </button>
         <div class="article-header">
           <h1 class="article-title">{{ article.title }}</h1>
-          <div v-if="article.isPinned" class="pinned-badge">
-            <IconStars class="w-4 h-4" />
-            <span>Pinned</span>
-          </div>
         </div>
         <div class="article-meta">
           <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
@@ -28,16 +28,17 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { newsAPI } from '@/utils/api/news';
 import type { NewsArticle } from '@/types/news';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import { useI18n } from '@/composables/useI18n';
 import MarkdownIt from 'markdown-it';
-import IconStars from '@/assets/icons/IconStars.vue';
+import IconArrowLeft from '@/assets/icons/IconArrowLeft.vue';
 
 const route = useRoute();
+const router = useRouter();
 const article = ref<NewsArticle | null>(null);
 const loading = ref(true);
 const { currentLanguage } = useI18n();
@@ -79,37 +80,52 @@ const loadArticle = async () => {
   }
 };
 
+const scrollToTop = () => {
+  // Use requestAnimationFrame for better timing with browser rendering
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
+};
+
+const goBack = () => {
+  router.back();
+};
+
 // Watch for route changes to handle navigation between articles
 watch(() => route.params.slug, async (newSlug, oldSlug) => {
   if (newSlug && newSlug !== oldSlug) {
-    // Immediately scroll to top
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    window.scrollTo(0, 0);
+    // Scroll to top immediately
+    scrollToTop();
 
     await loadArticle();
 
-    // Scroll again after content loads
+    // Ensure scroll after content loads with multiple RAF cycles
     await nextTick();
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    window.scrollTo(0, 0);
+    scrollToTop();
+
+    // Additional delay to ensure DOM is fully settled
+    setTimeout(() => {
+      scrollToTop();
+    }, 50);
   }
 }, { immediate: false });
 
 onMounted(async () => {
-  // Ensure scroll to top happens immediately
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  window.scrollTo(0, 0);
+  // Scroll to top immediately on mount
+  scrollToTop();
 
   await loadArticle();
 
-  // Scroll again after content loads
+  // Ensure scroll after content loads
   await nextTick();
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  window.scrollTo(0, 0);
+  scrollToTop();
+
+  // Additional delay to ensure DOM is fully settled
+  setTimeout(() => {
+    scrollToTop();
+  }, 50);
 });
 </script>
 
@@ -124,16 +140,35 @@ onMounted(async () => {
 
 .news-article-container {
   flex: 1;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 104px 16px 40px;
+  padding: 104px 32px 40px;
   width: 100%;
 }
 
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  color: var(--myst-ink-strong);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+}
+
+.back-button:hover {
+  background: color-mix(in srgb, var(--myst-bg-2) 90%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  transform: translateX(-4px);
+}
+
 .article-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -143,29 +178,6 @@ onMounted(async () => {
   margin: 0;
   color: var(--myst-ink-strong);
   line-height: 1.2;
-  flex: 1;
-}
-
-.pinned-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, var(--myst-gold), #e6cc85);
-  color: var(--myst-bg);
-  padding: 8px 16px;
-  border-radius: 16px;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 12px rgba(200, 178, 115, 0.3);
-  backdrop-filter: blur(10px);
-  flex-shrink: 0;
-  margin-top: 8px;
-}
-
-.pinned-badge span {
-  font-size: 12px;
 }
 
 .article-meta {
@@ -287,9 +299,31 @@ onMounted(async () => {
 .article-content :deep(img) {
   max-width: 100%;
   height: auto;
-  margin: 1.5rem 0;
+  margin: 2rem auto;
+  display: block;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border: 1px solid color-mix(in srgb, white 5%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-content :deep(img:hover) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Image with caption (paragraph containing only an image + em) */
+.article-content :deep(p:has(img)) {
+  text-align: center;
+}
+
+.article-content :deep(img + em) {
+  display: block;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--myst-ink-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
 }
 
 /* Tables */
@@ -325,25 +359,14 @@ onMounted(async () => {
   .news-article-container {
     padding: 84px 16px 20px;
   }
-  
-  .article-header {
-    flex-direction: column;
-    gap: 0.75rem;
+
+  .back-button {
+    padding: 8px 14px;
+    font-size: 13px;
   }
 
   .article-title {
     font-size: 2rem;
-  }
-
-  .pinned-badge {
-    align-self: flex-start;
-    margin-top: 0;
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-
-  .pinned-badge span {
-    font-size: 10px;
   }
 
   .article-content :deep(h1) {

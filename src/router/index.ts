@@ -7,26 +7,30 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     // Return a promise to ensure scroll happens after component is mounted
     return new Promise((resolve) => {
-      // Use a small delay to ensure DOM is fully rendered
-      setTimeout(() => {
+      // If the user clicked back/forward, restore the saved scroll position
+      if (savedPosition) {
+        setTimeout(() => {
+          resolve(savedPosition);
+        }, 100);
+      }
+      // For hash links (e.g., #section), scroll to the element
+      else if (to.hash) {
         nextTick(() => {
-          // If the user clicked back/forward, restore the saved scroll position
-          if (savedPosition) {
-            resolve(savedPosition);
-          }
-          // For hash links (e.g., #section), scroll to the element
-          else if (to.hash) {
-            resolve({
-              el: to.hash,
-              behavior: 'smooth',
-            });
-          }
-          // For all other navigation, scroll to top immediately
-          else {
-            resolve({ top: 0, left: 0 });
-          }
+          resolve({
+            el: to.hash,
+            behavior: 'smooth',
+          });
         });
-      }, 0);
+      }
+      // For all other navigation, scroll to top immediately
+      else {
+        // Use requestAnimationFrame for better timing
+        requestAnimationFrame(() => {
+          nextTick(() => {
+            resolve({ top: 0, left: 0, behavior: 'instant' });
+          });
+        });
+      }
     });
   },
   routes: [

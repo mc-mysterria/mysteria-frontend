@@ -110,12 +110,6 @@
         <FadeInSection>
           <div class="pinned-news-grid">
             <RouterLink :to="`/news/${n.slug}`" class="pinned-news-card" v-for="n in displayedPinnedNews" :key="n.id">
-              <!-- Pinned badge - larger and more prominent -->
-              <div class="pinned-badge-large">
-                <IconStars class="w-5 h-5" />
-                <span class="pinned-text">{{ t('home.pinnedNews') }}</span>
-              </div>
-
               <!-- Card content with new layout -->
               <div class="pinned-card-content">
                 <div class="pinned-news-image">
@@ -126,7 +120,10 @@
                   />
                 </div>
                 <div class="pinned-news-text-content">
-                  <h3 class="pinned-news-title">{{ n.title }}</h3>
+                  <h3 class="pinned-news-title">
+                    <IconStars class="pinned-icon" />
+                    {{ n.title }}
+                  </h3>
                   <p class="pinned-news-description">{{ n.shortDescription || n.preview }}</p>
                   <div class="pinned-news-link-container">
                     <span class="pinned-news-link">
@@ -827,38 +824,14 @@ export default {
   border-color: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
 }
 
-/* Large prominent pinned badge */
-.pinned-badge-large {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 15;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, var(--myst-gold), #d4b86a, var(--myst-gold));
-  color: var(--myst-bg);
-  padding: 12px 20px;
-  border-radius: 20px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transform: rotate(-2deg);
-  transition: all 0.3s ease;
-}
-
-.pinned-news-card:hover .pinned-badge-large {
-  transform: rotate(0deg) scale(1.05);
-  box-shadow: 0 6px 20px rgba(200, 178, 115, 0.5), 0 3px 12px rgba(0, 0, 0, 0.25);
-}
-
-.pinned-text {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.8px;
+/* Pinned icon - minimal star next to title */
+.pinned-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--myst-gold);
+  flex-shrink: 0;
+  margin-right: 8px;
+  vertical-align: middle;
 }
 
 /* Card content layout */
@@ -923,11 +896,10 @@ export default {
   font-weight: 700;
   color: var(--myst-ink-strong);
   margin-bottom: 12px;
-  line-height: 1.3;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
 }
 
 .pinned-news-description {
