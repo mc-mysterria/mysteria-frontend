@@ -389,7 +389,7 @@ const cancelEdit = () => {
   gap: 16px;
   margin-bottom: 32px;
   padding-bottom: 16px;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid color-mix(in srgb, var(--myst-ink-muted) 40%, transparent);
 }
 
 .back-button {
@@ -397,18 +397,18 @@ const cancelEdit = () => {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--myst-bg-2);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
-  color: #475569;
+  color: var(--myst-ink-muted);
 }
 
 .back-button:hover {
-  background: #e2e8f0;
-  color: #334155;
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, var(--myst-gold));
+  color: var(--myst-ink);
   transform: translateX(-2px);
 }
 
@@ -416,7 +416,7 @@ const cancelEdit = () => {
   margin: 0;
   font-size: 28px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--myst-ink);
 }
 
 .controls {
@@ -425,25 +425,26 @@ const cancelEdit = () => {
   gap: 12px;
   align-items: center;
   padding: 20px;
-  background: #f8fafc;
+  background: var(--myst-bg-2);
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
 }
 
 .controls select {
   flex: 1;
   padding: 12px 16px;
-  border: 1px solid #d1d5db;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 40%, transparent);
   border-radius: 8px;
   font-size: 14px;
-  background: white;
+  background: var(--myst-bg);
+  color: var(--myst-ink);
   transition: border-color 0.2s ease;
 }
 
 .controls select:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--myst-gold);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 .controls button {
@@ -457,12 +458,12 @@ const cancelEdit = () => {
 }
 
 .controls button:first-of-type {
-  background: #3b82f6;
-  color: white;
+  background: var(--myst-gold);
+  color: var(--myst-bg);
 }
 
 .controls button:first-of-type:hover {
-  background: #2563eb;
+  background: var(--myst-gold-soft);
   transform: translateY(-1px);
 }
 
@@ -490,11 +491,11 @@ const cancelEdit = () => {
   display: flex;
   flex-direction: column;
   gap: 28px;
-  background: white;
+  background: var(--myst-bg-2);
   padding: 32px;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  box-shadow: 0 1px 3px color-mix(in srgb, black 10%, transparent);
 }
 
 .form-group {
@@ -505,12 +506,12 @@ const cancelEdit = () => {
 
 .form-group label {
   font-weight: 600;
-  color: #374151;
+  color: var(--myst-ink);
   font-size: 14px;
 }
 
 .form-group small {
-  color: #6b7280;
+  color: var(--myst-ink-muted);
   font-size: 12px;
   margin-top: 4px;
 }
@@ -520,20 +521,22 @@ const cancelEdit = () => {
 .form-group textarea {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #d1d5db;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 40%, transparent);
   border-radius: 8px;
   font-family: inherit;
   font-size: 14px;
   transition: all 0.2s ease;
   box-sizing: border-box;
+  background: var(--myst-bg);
+  color: var(--myst-ink);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--myst-gold);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 .form-group input.error,
@@ -545,7 +548,7 @@ const cancelEdit = () => {
 .form-group input.error:focus,
 .form-group select.error:focus,
 .form-group textarea.error:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 }
 
 .field-error {
@@ -572,7 +575,7 @@ const cancelEdit = () => {
   display: flex;
   gap: 12px;
   padding-top: 24px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
 }
 
 .save-btn {
@@ -594,15 +597,15 @@ const cancelEdit = () => {
 }
 
 .save-btn:disabled {
-  background: #9ca3af;
+  background: color-mix(in srgb, var(--myst-ink-muted) 50%, transparent);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
 .cancel-btn {
-  background: #6b7280;
-  color: white;
+  background: var(--myst-ink-muted);
+  color: var(--myst-bg);
   padding: 14px 28px;
   border: none;
   border-radius: 8px;
@@ -613,18 +616,18 @@ const cancelEdit = () => {
 }
 
 .cancel-btn:hover {
-  background: #4b5563;
+  background: var(--myst-ink);
   transform: translateY(-1px);
 }
 
 .loading {
   text-align: center;
   padding: 32px;
-  color: #6b7280;
+  color: var(--myst-ink-muted);
   font-size: 14px;
-  background: #f8fafc;
+  background: var(--myst-bg-2);
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -634,8 +637,8 @@ const cancelEdit = () => {
 .loading-spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid #e2e8f0;
-  border-top: 2px solid #3b82f6;
+  border: 2px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  border-top: 2px solid var(--myst-gold);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -657,22 +660,22 @@ const cancelEdit = () => {
 }
 
 .success {
-  background: #f0fdf4;
-  color: #166534;
+  background: color-mix(in srgb, #10b981 15%, transparent);
+  color: #10b981;
   padding: 16px 20px;
   border-radius: 8px;
-  border: 1px solid #bbf7d0;
+  border: 1px solid color-mix(in srgb, #10b981 40%, transparent);
   margin-bottom: 24px;
   font-size: 14px;
   font-weight: 500;
 }
 
 .error {
-  background: #fef2f2;
-  color: #991b1b;
+  background: color-mix(in srgb, #ef4444 15%, transparent);
+  color: #ef4444;
   padding: 16px 20px;
   border-radius: 8px;
-  border: 1px solid #fecaca;
+  border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
   margin-bottom: 24px;
   font-size: 14px;
   font-weight: 500;

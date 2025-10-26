@@ -137,13 +137,20 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
+  // Wait for auth to finish loading before checking permissions
   if (to.meta.requiresAuth || to.meta.requiresPrivileged || to.meta.requiresAdmin) {
     if (authStore.isLoading) {
-      next();
-      return;
+      // Wait for auth to finish loading
+      const maxWait = 50; // Max 5 seconds
+      let attempts = 0;
+      while (authStore.isLoading && attempts < maxWait) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+      }
     }
   }
 
+  // Check permissions after auth has loaded
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: "home" });
   } else if (to.meta.requiresPrivileged && !authStore.isPrivilegedUser) {
