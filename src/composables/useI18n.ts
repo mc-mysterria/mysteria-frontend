@@ -221,6 +221,17 @@ const translations = {
         // Language Switcher
         changeLanguage: "Change Language",
 
+        // Auth Callback
+        authCallback: {
+            processing: "Processing authentication...",
+            authError: "Authentication Error",
+            authSuccess: "Authentication Successful!",
+            closeWindow: "You can close this window",
+            authorizationCodeNotReceived: "Authorization code not received",
+            authenticationFailed: "Authentication failed",
+            failedToGetToken: "Failed to get authentication token",
+        },
+
         // Player Stats Dashboard
         networkStatistics: "Network Statistics",
         newPlayers24h: "New (24h)",
@@ -959,6 +970,17 @@ const translations = {
 
         // Language Switcher
         changeLanguage: "Змінити мову",
+
+        // Auth Callback
+        authCallback: {
+            processing: "Обробка автентифікації...",
+            authError: "Помилка автентифікації",
+            authSuccess: "Автентифікація успішна!",
+            closeWindow: "Ви можете закрити це вікно",
+            authorizationCodeNotReceived: "Код авторизації не отримано",
+            authenticationFailed: "Автентифікація не вдалася",
+            failedToGetToken: "Не вдалося отримати токен автентифікації",
+        },
 
         // Player Stats Dashboard
         networkStatistics: "Статистика Мережі",

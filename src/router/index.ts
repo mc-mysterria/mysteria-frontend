@@ -123,7 +123,7 @@ const router = createRouter({
     {
       path: "/admin",
       name: "admin",
-      component: () => import("@/views/AdminPanelView.vue"),
+      component: () => import("@components/admin/AdminPanel.vue"),
       meta: { requiresAuth: true, requiresAdmin: true },
     },
     {

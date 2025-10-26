@@ -3,17 +3,17 @@
     <div class="callback-content">
       <div v-if="isProcessing" class="processing">
         <div class="spinner"></div>
-        <h2>Processing authentication...</h2>
+        <h2>{{ t('authCallback.processing') }}</h2>
       </div>
       <div v-else-if="error" class="error">
-        <h2>Authentication Error</h2>
+        <h2>{{ t('authCallback.authError') }}</h2>
         <p>{{ error }}</p>
-        <button @click="closeWindow">Close</button>
+        <button @click="closeWindow">{{ t('close') }}</button>
       </div>
       <div v-else class="success">
-        <h2>Authentication Successful!</h2>
-        <p>You can close this window</p>
-        <button @click="closeWindow">Close</button>
+        <h2>{{ t('authCallback.authSuccess') }}</h2>
+        <p>{{ t('authCallback.closeWindow') }}</p>
+        <button @click="closeWindow">{{ t('close') }}</button>
       </div>
     </div>
   </div>
@@ -23,9 +23,11 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useI18n } from "@/composables/useI18n";
 
 const route = useRoute();
 const authStore = useAuthStore();
+const { t } = useI18n();
 const isProcessing = ref(true);
 const error = ref("");
 
@@ -52,7 +54,7 @@ onMounted(async () => {
     }
 
     if (!code) {
-      throw new Error("Authorization code not received");
+      throw new Error(t('authCallback.authorizationCodeNotReceived'));
     }
 
     console.log("Processing auth code with new JWT system...");
@@ -80,7 +82,7 @@ onMounted(async () => {
           window.location.href = finalRedirectUrl;
           return;
         } else {
-          throw new Error("Failed to get authentication token");
+          throw new Error(t('authCallback.failedToGetToken'));
         }
       }
 
@@ -105,11 +107,11 @@ onMounted(async () => {
         closeWindow();
       }, 2000);
     } else {
-      throw new Error("Authentication failed");
+      throw new Error(t('authCallback.authenticationFailed'));
     }
   } catch (err) {
     console.error("Auth callback error:", err);
-    error.value = err instanceof Error ? err.message : "Unknown error";
+    error.value = err instanceof Error ? err.message : t('unknownError');
     isProcessing.value = false;
   }
 });
