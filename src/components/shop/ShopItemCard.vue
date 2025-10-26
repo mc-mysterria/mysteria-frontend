@@ -62,10 +62,14 @@
     <div class="myst-card-footer">
       <div class="myst-price-section">
         <div v-if="hasDiscount" class="myst-original-price">
-          {{ item.price.toString() }}<IconBalance class="myst-currency-small" />
+          <span v-if="showCurrencySymbol" class="price-currency-symbol">{{ currencySymbol }}</span>
+          <span>{{ displayOriginalPrice }}</span>
+          <IconBalance v-if="!showCurrencySymbol" class="myst-currency-small" />
         </div>
         <div class="myst-current-price">
-          {{ finalPrice }}<IconBalance class="myst-currency" />
+          <span v-if="showCurrencySymbol" class="price-currency-symbol">{{ currencySymbol }}</span>
+          <span>{{ displayPrice }}</span>
+          <IconBalance v-if="!showCurrencySymbol" class="myst-currency" />
         </div>
       </div>
 
@@ -97,6 +101,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "@/composables/useI18n";
+import { useCurrency } from "@/composables/useCurrency";
 import type { ServiceResponse } from "@/types/services";
 import { Decimal } from "decimal.js";
 import IconBalance from "@/assets/icons/IconBalance.vue";
@@ -111,7 +116,8 @@ const emit = defineEmits<{
   (e: "purchase", itemId: string): void;
 }>();
 
-const { t } = useI18n();
+const { t, currentLanguage } = useI18n();
+const { currentCurrency, formatCurrency, getCurrencySymbol } = useCurrency();
 
 const getItemBadge = () => {
   switch (props.item.type) {
@@ -181,10 +187,35 @@ const discountPercent = computed(() => {
 
 const finalPrice = computed(() => {
   const price = new Decimal(props.item.price);
-  if (!hasDiscount.value) return price.toString();
+  if (!hasDiscount.value) return price;
   return price
-    .mul(new Decimal(1).minus(new Decimal(discountPercent.value).div(100)))
-    .toString();
+    .mul(new Decimal(1).minus(new Decimal(discountPercent.value).div(100)));
+});
+
+const displayPrice = computed(() => {
+  if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
+    return formatCurrency(finalPrice.value, { showSymbol: false, decimals: 2 });
+  }
+  return finalPrice.value.toString();
+});
+
+const displayOriginalPrice = computed(() => {
+  const price = new Decimal(props.item.price);
+  if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
+    return formatCurrency(price, { showSymbol: false, decimals: 2 });
+  }
+  return price.toString();
+});
+
+const showCurrencySymbol = computed(() => {
+  return currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS';
+});
+
+const currencySymbol = computed(() => {
+  if (showCurrencySymbol.value) {
+    return getCurrencySymbol();
+  }
+  return '';
 });
 
 const handlePurchase = () => {
@@ -401,6 +432,11 @@ const handlePurchase = () => {
   color: var(--myst-gold);
   font-weight: 600;
   font-size: 16px;
+}
+
+.price-currency-symbol {
+  font-weight: 600;
+  margin-right: 2px;
 }
 
 .myst-currency {

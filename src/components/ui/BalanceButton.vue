@@ -5,12 +5,13 @@
       @click="showCurrencyModal = true"
       class="addMoney currency-info-btn"
       type="button"
-      title="Currency conversion info"
+      title="Currency settings and top up"
     >
       i
     </button>
     <a v-else :href="donatelloUrl" target="_blank" class="addMoney">+</a>
-    <IconBalance />{{ balanceStore.currentBalance?.amount ?? 0 }}
+    <span v-if="displayCurrencySymbol" class="currency-symbol">{{ displayCurrencySymbol }}</span>
+    <IconBalance v-if="currentLanguage !== 'en' || currentCurrency === 'POINTS'" />{{ displayBalance }}
   </div>
 
   <!-- Currency Conversion Modal -->
@@ -18,34 +19,65 @@
     <div v-if="showCurrencyModal" class="modal-overlay" @click="closeCurrencyModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h3>Currency Conversion</h3>
+          <h3>Currency Settings</h3>
           <button @click="closeCurrencyModal" class="modal-close">×</button>
         </div>
         <div class="modal-body">
-          <p class="modal-description">
-            Currency may be converted into project marks via the following distribution:
-          </p>
-          <div class="conversion-table">
-            <div class="conversion-row">
-              <span class="currency">UAH</span>
-              <span class="rate">1:1</span>
-            </div>
-            <div class="conversion-row">
-              <span class="currency">USD</span>
-              <span class="rate">1:40</span>
-            </div>
-            <div class="conversion-row">
-              <span class="currency">EUR</span>
-              <span class="rate">1:44</span>
-            </div>
-            <div class="conversion-row">
-              <span class="currency">USDT</span>
-              <span class="rate">1:40</span>
+          <div class="currency-selector">
+            <h4 class="section-title">Display Currency</h4>
+            <p class="section-description">Choose how you want to see your balance and prices:</p>
+            <div class="currency-options">
+              <button
+                @click="selectCurrency('USD')"
+                :class="['currency-option', { active: currentCurrency === 'USD' }]"
+              >
+                <span class="currency-symbol-large">$</span>
+                <span class="currency-name">USD</span>
+                <span class="currency-info">1 USD = 40 Marks</span>
+              </button>
+              <button
+                @click="selectCurrency('EUR')"
+                :class="['currency-option', { active: currentCurrency === 'EUR' }]"
+              >
+                <span class="currency-symbol-large">€</span>
+                <span class="currency-name">EUR</span>
+                <span class="currency-info">1 EUR = 44 Marks</span>
+              </button>
+              <button
+                @click="selectCurrency('POINTS')"
+                :class="['currency-option', { active: currentCurrency === 'POINTS' }]"
+              >
+                <IconBalance class="currency-icon-large" />
+                <span class="currency-name">Marks</span>
+                <span class="currency-info">Show actual points</span>
+              </button>
             </div>
           </div>
+
+          <div class="conversion-info">
+            <h4 class="section-title">Payment Conversion Rates</h4>
+            <p class="section-description">
+              When topping up, currency is converted to Marks at these rates:
+            </p>
+            <div class="conversion-table">
+<!--              <div class="conversion-row">-->
+<!--                <span class="currency">UAH</span>-->
+<!--                <span class="rate">1:1</span>-->
+<!--              </div>-->
+              <div class="conversion-row">
+                <span class="currency">USD</span>
+                <span class="rate">1:40</span>
+              </div>
+              <div class="conversion-row">
+                <span class="currency">EUR</span>
+                <span class="rate">1:44</span>
+              </div>
+            </div>
+          </div>
+
           <div class="modal-actions">
             <a :href="donatelloUrl" target="_blank" class="top-up-button">
-              Top Up
+              Top Up Balance
             </a>
           </div>
         </div>
@@ -58,19 +90,40 @@
 import { useBalanceStore } from "@/stores/balance";
 import { useUserStore } from "@/stores/user";
 import { useI18n } from "@/composables/useI18n";
+import { useCurrency } from "@/composables/useCurrency";
 import { computed, ref } from "vue";
 import IconBalance from "@/assets/icons/IconBalance.vue";
 
 const balanceStore = useBalanceStore();
 const userStore = useUserStore();
 const { currentLanguage } = useI18n();
+const { currentCurrency, setCurrency, formatCurrency, getCurrencySymbol, showCurrencyToggle } = useCurrency();
 
 const profile = computed(() => userStore.currentUser);
 const donatelloUrl = computed(() => balanceStore.donatelloUrl);
 const showCurrencyModal = ref(false);
 
+const displayBalance = computed(() => {
+  const balance = balanceStore.currentBalance?.amount ?? 0;
+  if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
+    return formatCurrency(balance, { showSymbol: false, decimals: 2 });
+  }
+  return balance.toString();
+});
+
+const displayCurrencySymbol = computed(() => {
+  if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
+    return getCurrencySymbol();
+  }
+  return '';
+});
+
 const closeCurrencyModal = () => {
   showCurrencyModal.value = false;
+};
+
+const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
+  setCurrency(currency);
 };
 </script>
 
@@ -194,6 +247,14 @@ const closeCurrencyModal = () => {
 
 <!-- Global modal styles -->
 <style>
+/* Balance currency symbol */
+.currency-symbol {
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 2px;
+  color: var(--myst-ink);
+}
+
 /* Currency Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -261,6 +322,87 @@ const closeCurrencyModal = () => {
   line-height: 1.5;
 }
 
+/* Currency Selector Section */
+.currency-selector {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
+}
+
+.section-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
+}
+
+.section-description {
+  margin: 0 0 16px;
+  color: var(--myst-ink-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.currency-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.currency-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 12px;
+  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
+  border: 2px solid color-mix(in srgb, white 10%, transparent);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 6px;
+}
+
+.currency-option:hover {
+  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+}
+
+.currency-option.active {
+  border-color: var(--myst-gold);
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--myst-gold) 20%, transparent);
+}
+
+.currency-symbol-large {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
+}
+
+.currency-icon-large {
+  width: 28px;
+  height: 28px;
+  color: var(--myst-gold);
+}
+
+.currency-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--myst-ink-strong);
+}
+
+.currency-info {
+  font-size: 11px;
+  color: var(--myst-ink-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.conversion-info {
+  margin-bottom: 24px;
+}
+
 .conversion-table {
   background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
   border-radius: 8px;
@@ -314,5 +456,21 @@ const closeCurrencyModal = () => {
   background: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(200, 178, 115, 0.4);
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .currency-options {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .currency-option {
+    padding: 14px 12px;
+  }
+
+  .modal-content {
+    max-width: 95vw;
+  }
 }
 </style>
