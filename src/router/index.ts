@@ -121,6 +121,12 @@ const router = createRouter({
       ],
     },
     {
+      path: "/admin",
+      name: "admin",
+      component: () => import("@/views/AdminPanelView.vue"),
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
       path: "/:pathMatch(.*)*",
       name: "404",
       component: () => import("@/views/PageNotFoundView.vue"),
@@ -131,7 +137,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  if (to.meta.requiresAuth || to.meta.requiresPrivileged) {
+  if (to.meta.requiresAuth || to.meta.requiresPrivileged || to.meta.requiresAdmin) {
     if (authStore.isLoading) {
       next();
       return;
@@ -141,6 +147,8 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: "home" });
   } else if (to.meta.requiresPrivileged && !authStore.isPrivilegedUser) {
+    next({ name: "home" });
+  } else if (to.meta.requiresAdmin && !authStore.isAdmin) {
     next({ name: "home" });
   } else {
     next();

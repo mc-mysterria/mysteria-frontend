@@ -101,7 +101,7 @@ const userMenuOptions = computed(() => {
     },
   ];
 
-  // Add admin options for privileged users
+  // Add content editing options for privileged users
   if (authStore.isPrivilegedUser) {
     options.push(
       {
@@ -113,13 +113,17 @@ const userMenuOptions = computed(() => {
         label: "Edit Services",
         value: "edit-services",
         icon: "fa-solid fa-shopping-cart",
-      },
-      {
-        label: "Admin Panel",
-        value: "admin",
-        icon: "fa-solid fa-cog",
       }
     );
+  }
+
+  // Add admin panel for admins only (OWNER role)
+  if (authStore.isAdmin) {
+    options.push({
+      label: "Admin Panel",
+      value: "admin",
+      icon: "fa-solid fa-cog",
+    });
   }
 
   options.push({
