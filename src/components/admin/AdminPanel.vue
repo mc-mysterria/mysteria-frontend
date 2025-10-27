@@ -23,7 +23,7 @@
             class="search-input"
           />
         </div>
-        <button @click="loadUsers" class="refresh-btn" :disabled="loading">
+        <button @click="() => loadUsers()" class="refresh-btn" :disabled="loading">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
           </svg>
@@ -33,7 +33,7 @@
 
       <div class="user-list">
         <div
-          v-for="user in filteredUsers"
+          v-for="user in users"
           :key="user.id"
           class="user-item"
           :class="{ 'selected': selectedUser?.id === user.id }"
@@ -54,9 +54,39 @@
           </div>
         </div>
 
-        <div v-if="filteredUsers.length === 0 && !loading" class="no-users">
+        <div v-if="users.length === 0 && !loading" class="no-users">
           {{ searchQuery ? 'No users found matching your search' : 'No users available' }}
         </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div v-if="totalPages > 1" class="pagination">
+        <button
+          @click="() => goToPage(currentPage - 1)"
+          :disabled="currentPage === 0 || loading"
+          class="pagination-btn"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          Previous
+        </button>
+
+        <div class="pagination-info">
+          Page {{ currentPage + 1 }} of {{ totalPages }}
+          <span class="total-count">({{ totalElements }} total)</span>
+        </div>
+
+        <button
+          @click="() => goToPage(currentPage + 1)"
+          :disabled="currentPage >= totalPages - 1 || loading"
+          class="pagination-btn"
+        >
+          Next
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -177,7 +207,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { adminAPI } from '@/utils/api/admin.ts';
 import { USER_ROLES } from '@/types/admin.ts';
@@ -197,19 +227,17 @@ const error = ref<string>('');
 const successMessage = ref<string>('');
 const validationErrors = ref<Record<string, string>>({});
 
+// Pagination state
+const currentPage = ref<number>(0);
+const pageSize = ref<number>(20);
+const totalPages = ref<number>(0);
+const totalElements = ref<number>(0);
+
+// Search debounce timer
+let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+
 // Computed
 const availableRoles = computed(() => USER_ROLES);
-
-const filteredUsers = computed(() => {
-  if (!searchQuery.value) return users.value;
-
-  const query = searchQuery.value.toLowerCase();
-  return users.value.filter(user =>
-    user.nickname?.toLowerCase().includes(query) ||
-    user.email?.toLowerCase().includes(query) ||
-    user.discordId.toString().includes(query)
-  );
-});
 
 const canAdjustBalance = computed(() => {
   return selectedUser.value &&
@@ -236,13 +264,21 @@ const goBack = () => {
   router.push('/profile');
 };
 
-const loadUsers = async () => {
+const loadUsers = async (page: number = currentPage.value) => {
   try {
     loading.value = true;
     error.value = '';
-    const response = await adminAPI.getUsers();
-    const data = response.data as UserProfileDto[] | { content: UserProfileDto[] };
-    users.value = Array.isArray(data) ? data : data.content || [];
+    const response = await adminAPI.getUsers(
+      page,
+      pageSize.value,
+      searchQuery.value || undefined,
+      'createdAt,desc'
+    );
+
+    users.value = response.data.content;
+    currentPage.value = response.data.number;
+    totalPages.value = response.data.totalPages;
+    totalElements.value = response.data.totalElements;
   } catch (err) {
     console.error('Failed to load users:', err);
     showError('Failed to load users. Please check your permissions.');
@@ -250,6 +286,24 @@ const loadUsers = async () => {
     loading.value = false;
   }
 };
+
+const goToPage = (page: number) => {
+  if (page >= 0 && page < totalPages.value) {
+    loadUsers(page);
+  }
+};
+
+// Watch for search query changes and debounce
+watch(searchQuery, () => {
+  if (searchDebounceTimer) {
+    clearTimeout(searchDebounceTimer);
+  }
+
+  searchDebounceTimer = setTimeout(() => {
+    currentPage.value = 0; // Reset to first page on new search
+    loadUsers(0);
+  }, 500); // 500ms debounce
+});
 
 const selectUser = (user: UserProfileDto) => {
   selectedUser.value = user;
@@ -758,5 +812,59 @@ onMounted(() => {
   margin-bottom: 24px;
   font-size: 14px;
   font-weight: 500;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: var(--myst-bg-2);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  border-radius: 8px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--myst-gold);
+  color: var(--myst-bg);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--myst-gold-soft);
+  transform: translateY(-1px);
+}
+
+.pagination-btn:disabled {
+  background: color-mix(in srgb, var(--myst-ink-muted) 50%, transparent);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--myst-ink);
+}
+
+.pagination-info .total-count {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--myst-ink-muted);
 }
 </style>

@@ -110,6 +110,13 @@
           <span v-if="loading" class="button-spinner"></span>
           {{ loading ? 'Saving...' : (selectedArticle.id ? 'Update' : 'Create') + ' Article' }}
         </button>
+        <button @click="openPreview" class="preview-btn" :disabled="!selectedArticle.content.trim() || loading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          Preview
+        </button>
         <button @click="cancelEdit" class="cancel-btn" :disabled="loading">Cancel</button>
       </div>
     </div>
@@ -120,6 +127,44 @@
       Loading...
     </div>
     <div v-if="error" class="error">{{ error }}</div>
+
+    <!-- Preview Modal -->
+    <div v-if="showPreview" class="preview-modal" @click="closePreview">
+      <div class="preview-modal-content" @click.stop>
+        <div class="preview-header">
+          <h2>Article Preview</h2>
+          <button @click="closePreview" class="close-preview-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="preview-body">
+          <div class="preview-article">
+            <div class="preview-article-header">
+              <h1 class="preview-article-title">{{ selectedArticle?.title || 'Untitled Article' }}</h1>
+              <div class="preview-article-meta">
+                <span class="preview-language">{{ selectedArticle?.language === 'EN' ? 'English' : 'Ukrainian' }}</span>
+                <span v-if="selectedArticle?.isPublished" class="preview-status published">Published</span>
+                <span v-else class="preview-status draft">Draft</span>
+                <span v-if="selectedArticle?.isPinned" class="preview-pinned">Pinned</span>
+              </div>
+            </div>
+
+            <div v-if="selectedArticle?.shortDescription" class="preview-short-description">
+              {{ selectedArticle.shortDescription }}
+            </div>
+
+            <div v-if="selectedArticle?.preview" class="preview-image-wrapper">
+              <img :src="selectedArticle.preview" :alt="selectedArticle.title" class="preview-image" />
+            </div>
+
+            <div class="preview-article-content" v-dompurify-html="renderedContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -128,6 +173,7 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { newsAPI } from '@/utils/api/news';
 import type { NewsArticle, CreateNewsData, UpdateNewsData } from '@/types/news';
+import MarkdownIt from 'markdown-it';
 
 const router = useRouter();
 const articles = ref<NewsArticle[]>([]);
@@ -137,14 +183,39 @@ const loading = ref(false);
 const error = ref<string>('');
 const validationErrors = ref<Record<string, string>>({});
 const successMessage = ref<string>('');
+const showPreview = ref(false);
+
+// Initialize markdown renderer
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true
+});
 
 const canSave = computed(() => {
-  return selectedArticle.value && 
-         selectedArticle.value.title.trim() && 
-         selectedArticle.value.slug.trim() && 
+  return selectedArticle.value &&
+         selectedArticle.value.title.trim() &&
+         selectedArticle.value.slug.trim() &&
          selectedArticle.value.content.trim() &&
          Object.keys(validationErrors.value).length === 0;
 });
+
+const renderedContent = computed(() => {
+  if (!selectedArticle.value?.content) return '';
+  return md.render(selectedArticle.value.content);
+});
+
+const openPreview = () => {
+  showPreview.value = true;
+  // Prevent body scrolling when modal is open
+  document.body.style.overflow = 'hidden';
+};
+
+const closePreview = () => {
+  showPreview.value = false;
+  // Restore body scrolling
+  document.body.style.overflow = '';
+};
 
 const validateSlug = (slug: string): boolean => {
   const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -620,6 +691,35 @@ const cancelEdit = () => {
   transform: translateY(-1px);
 }
 
+.preview-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #3b82f6 !important;
+  color: white !important;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.preview-btn:hover:not(:disabled) {
+  background: #2563eb !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.preview-btn:disabled {
+  background: color-mix(in srgb, var(--myst-ink-muted) 50%, transparent) !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
 .loading {
   text-align: center;
   padding: 32px;
@@ -679,5 +779,255 @@ const cancelEdit = () => {
   margin-bottom: 24px;
   font-size: 14px;
   font-weight: 500;
+}
+
+/* Preview Modal Styles */
+.preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.preview-modal-content {
+  background: var(--myst-bg);
+  border-radius: 16px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+}
+
+.preview-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--myst-ink);
+}
+
+.close-preview-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--myst-ink-muted);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-preview-btn:hover {
+  background: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  color: var(--myst-ink);
+}
+
+.preview-body {
+  overflow-y: auto;
+  padding: 32px;
+  flex: 1;
+}
+
+.preview-article {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.preview-article-header {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+}
+
+.preview-article-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--myst-ink);
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.preview-article-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.preview-language,
+.preview-status,
+.preview-pinned {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.preview-language {
+  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  color: var(--myst-gold);
+}
+
+.preview-status.published {
+  background: color-mix(in srgb, #10b981 20%, transparent);
+  color: #10b981;
+}
+
+.preview-status.draft {
+  background: color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  color: var(--myst-ink-muted);
+}
+
+.preview-pinned {
+  background: color-mix(in srgb, #f59e0b 20%, transparent);
+  color: #f59e0b;
+}
+
+.preview-short-description {
+  font-size: 16px;
+  color: var(--myst-ink-muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.preview-image-wrapper {
+  margin-bottom: 32px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.preview-article-content {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--myst-ink);
+}
+
+.preview-article-content h1,
+.preview-article-content h2,
+.preview-article-content h3,
+.preview-article-content h4,
+.preview-article-content h5,
+.preview-article-content h6 {
+  color: var(--myst-ink);
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.preview-article-content h1 { font-size: 28px; }
+.preview-article-content h2 { font-size: 24px; }
+.preview-article-content h3 { font-size: 20px; }
+.preview-article-content h4 { font-size: 18px; }
+
+.preview-article-content p {
+  margin-bottom: 16px;
+}
+
+.preview-article-content a {
+  color: var(--myst-gold);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.preview-article-content a:hover {
+  color: var(--myst-gold-soft);
+}
+
+.preview-article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+
+.preview-article-content ul,
+.preview-article-content ol {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.preview-article-content li {
+  margin-bottom: 8px;
+}
+
+.preview-article-content blockquote {
+  border-left: 4px solid var(--myst-gold);
+  padding-left: 20px;
+  margin: 24px 0;
+  font-style: italic;
+  color: var(--myst-ink-muted);
+}
+
+.preview-article-content code {
+  background: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.preview-article-content pre {
+  background: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 24px 0;
+}
+
+.preview-article-content pre code {
+  background: none;
+  padding: 0;
 }
 </style>

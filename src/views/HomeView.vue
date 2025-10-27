@@ -108,7 +108,7 @@
           :subtitle="t('home.pinnedNewsSubtitle')"
         />
         <FadeInSection>
-          <div class="pinned-news-grid">
+          <div class="pinned-news-grid" :class="{ 'pinned-news-grid--single': displayedPinnedNews.length === 1 }">
             <RouterLink :to="`/news/${n.slug}`" class="pinned-news-card" v-for="n in displayedPinnedNews" :key="n.id">
               <!-- Card content with new layout -->
               <div class="pinned-card-content">
@@ -652,12 +652,37 @@ export default {
   .pinned-news-grid .pinned-news-card {
     width: auto;
   }
+
+  /* Center single pinned article - wider than 2-column layout */
+  .pinned-news-grid--single {
+    display: flex;
+    justify-content: center;
+    grid-template-columns: unset;
+  }
+
+  .pinned-news-grid--single .pinned-news-card {
+    width: 75%;
+    max-width: none;
+  }
 }
 
 @media (min-width: 1024px) {
   .pinned-news-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 36px;
+  }
+
+  /* Center single pinned article on large screens - even wider */
+  .pinned-news-grid--single .pinned-news-card {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* On very large screens, cap it at a reasonable width */
+  .pinned-news-grid--single .pinned-news-card {
+    width: 70%;
+    max-width: 1000px;
   }
 }
 

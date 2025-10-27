@@ -1,6 +1,7 @@
 import {type APIResponse, BaseCRUD} from "./base";
 import type {AdjustBalanceRequest, ChangeUserRoleRequest, ChangeUserRoleResponse, TransactionDto,} from "@/types/admin";
 import type {UserProfileDto} from "@/types/auth";
+import type {Page} from "@/types/base";
 
 class AdminAPI extends BaseCRUD<never, never, never, never> {
     constructor() {
@@ -12,10 +13,32 @@ class AdminAPI extends BaseCRUD<never, never, never, never> {
      *
      * Endpoint: GET /api/admin/users
      *
-     * @returns List of all users with basic information
+     * @param page - Page number (0-indexed)
+     * @param size - Number of items per page
+     * @param search - Optional search query
+     * @param sort - Optional sort fields (e.g., "createdAt,desc")
+     * @returns Paginated list of users
      */
-    async getUsers(): Promise<APIResponse<UserProfileDto[]>> {
-        return this.request<UserProfileDto[]>("GET", "/users");
+    async getUsers(
+        page: number = 0,
+        size: number = 20,
+        search?: string,
+        sort?: string
+    ): Promise<APIResponse<Page<UserProfileDto>>> {
+        const params: Record<string, string | number> = {
+            page,
+            size,
+        };
+
+        if (search) {
+            params.search = search;
+        }
+
+        if (sort) {
+            params.sort = sort;
+        }
+
+        return this.request<Page<UserProfileDto>>("GET", "/users", { params });
     }
 
     /**
