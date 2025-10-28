@@ -75,8 +75,14 @@
             </div>
           </div>
 
+          <div v-if="currentLanguage === 'en'" class="donation-warning">
+            <p class="warning-text">
+              ⚠️ Important: When making a donation, please set your name to your in-game nickname so we can credit your account.
+            </p>
+          </div>
+
           <div class="modal-actions">
-            <a :href="donatelloUrl" target="_blank" class="top-up-button">
+            <a :href="topUpUrl" target="_blank" class="top-up-button">
               Top Up Balance
             </a>
           </div>
@@ -101,6 +107,11 @@ const { currentCurrency, setCurrency, formatCurrency, getCurrencySymbol, showCur
 
 const profile = computed(() => userStore.currentUser);
 const donatelloUrl = computed(() => balanceStore.donatelloUrl);
+const topUpUrl = computed(() =>
+  currentLanguage.value === 'en'
+    ? 'https://buymeacoffee.com/mysterria'
+    : donatelloUrl.value
+);
 const showCurrencyModal = ref(false);
 
 const displayBalance = computed(() => {
@@ -431,6 +442,21 @@ const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
   font-family: monospace;
   color: var(--myst-gold);
   font-weight: 500;
+}
+
+.donation-warning {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  border-radius: 8px;
+}
+
+.warning-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--myst-ink-strong);
 }
 
 .modal-actions {
