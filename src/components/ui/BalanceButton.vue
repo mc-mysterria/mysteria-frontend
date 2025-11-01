@@ -335,8 +335,8 @@ const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
 
 /* Currency Selector Section */
 .currency-selector {
-  margin-bottom: 32px;
-  padding-bottom: 24px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
   border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
 }
 
@@ -365,13 +365,13 @@ const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 12px;
+  padding: 10px 8px;
   background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
   border: 2px solid color-mix(in srgb, white 10%, transparent);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  gap: 6px;
+  gap: 4px;
 }
 
 .currency-option:hover {
@@ -386,32 +386,32 @@ const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
 }
 
 .currency-symbol-large {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 600;
   color: var(--myst-ink-strong);
 }
 
 .currency-icon-large {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   color: var(--myst-gold);
 }
 
 .currency-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--myst-ink-strong);
 }
 
 .currency-info {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--myst-ink-muted);
   text-align: center;
   line-height: 1.3;
 }
 
 .conversion-info {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .conversion-table {
