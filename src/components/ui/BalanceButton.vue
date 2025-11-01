@@ -1,17 +1,18 @@
 <template>
   <div v-if="profile" class="dollar">
     <button
-      v-if="currentLanguage === 'en'"
-      @click="showCurrencyModal = true"
-      class="addMoney currency-info-btn"
-      type="button"
-      title="Currency settings and top up"
+        v-if="currentLanguage === 'en'"
+        @click="showCurrencyModal = true"
+        class="addMoney currency-info-btn"
+        type="button"
+        title="Currency settings and top up"
     >
       i
     </button>
     <a v-else :href="donatelloUrl" target="_blank" class="addMoney">+</a>
     <span v-if="displayCurrencySymbol" class="currency-symbol">{{ displayCurrencySymbol }}</span>
-    <IconBalance v-if="currentLanguage !== 'en' || currentCurrency === 'POINTS'" />{{ displayBalance }}
+    <IconBalance v-if="currentLanguage !== 'en' || currentCurrency === 'POINTS'"/>
+    {{ displayBalance }}
   </div>
 
   <!-- Currency Conversion Modal -->
@@ -25,29 +26,29 @@
         <div class="modal-body">
           <div class="currency-selector">
             <h4 class="section-title">Display Currency</h4>
-            <p class="section-description">Choose how you want to see your balance and prices:</p>
+            <p class="section-description">Display balance &amp; prices in:</p>
             <div class="currency-options">
               <button
-                @click="selectCurrency('USD')"
-                :class="['currency-option', { active: currentCurrency === 'USD' }]"
+                  @click="selectCurrency('USD')"
+                  :class="['currency-option', { active: currentCurrency === 'USD' }]"
               >
                 <span class="currency-symbol-large">$</span>
                 <span class="currency-name">USD</span>
                 <span class="currency-info">1 USD = 40 Marks</span>
               </button>
               <button
-                @click="selectCurrency('EUR')"
-                :class="['currency-option', { active: currentCurrency === 'EUR' }]"
+                  @click="selectCurrency('EUR')"
+                  :class="['currency-option', { active: currentCurrency === 'EUR' }]"
               >
                 <span class="currency-symbol-large">€</span>
                 <span class="currency-name">EUR</span>
                 <span class="currency-info">1 EUR = 44 Marks</span>
               </button>
               <button
-                @click="selectCurrency('POINTS')"
-                :class="['currency-option', { active: currentCurrency === 'POINTS' }]"
+                  @click="selectCurrency('POINTS')"
+                  :class="['currency-option', { active: currentCurrency === 'POINTS' }]"
               >
-                <IconBalance class="currency-icon-large" />
+                <IconBalance class="currency-icon-large"/>
                 <span class="currency-name">Marks</span>
                 <span class="currency-info">Show actual points</span>
               </button>
@@ -56,14 +57,12 @@
 
           <div class="conversion-info">
             <h4 class="section-title">Payment Conversion Rates</h4>
-            <p class="section-description">
-              When topping up, currency is converted to Marks at these rates:
-            </p>
+            <p class="section-description">Top-up conversion rates:</p>
             <div class="conversion-table">
-<!--              <div class="conversion-row">-->
-<!--                <span class="currency">UAH</span>-->
-<!--                <span class="rate">1:1</span>-->
-<!--              </div>-->
+              <!--              <div class="conversion-row">-->
+              <!--                <span class="currency">UAH</span>-->
+              <!--                <span class="rate">1:1</span>-->
+              <!--              </div>-->
               <div class="conversion-row">
                 <span class="currency">USD</span>
                 <span class="rate">1:40</span>
@@ -77,7 +76,8 @@
 
           <div v-if="currentLanguage === 'en'" class="donation-warning">
             <p class="warning-text">
-              ⚠️ Important: When making a donation, please set your name to your in-game nickname so we can credit your account.
+              ⚠️ Important: When making a donation, please set your name to your in-game nickname so we can credit your
+              account.
             </p>
           </div>
 
@@ -93,31 +93,31 @@
 </template>
 
 <script setup lang="ts">
-import { useBalanceStore } from "@/stores/balance";
-import { useUserStore } from "@/stores/user";
-import { useI18n } from "@/composables/useI18n";
-import { useCurrency } from "@/composables/useCurrency";
-import { computed, ref } from "vue";
+import {useBalanceStore} from "@/stores/balance";
+import {useUserStore} from "@/stores/user";
+import {useI18n} from "@/composables/useI18n";
+import {useCurrency} from "@/composables/useCurrency";
+import {computed, ref} from "vue";
 import IconBalance from "@/assets/icons/IconBalance.vue";
 
 const balanceStore = useBalanceStore();
 const userStore = useUserStore();
-const { currentLanguage } = useI18n();
-const { currentCurrency, setCurrency, formatCurrency, getCurrencySymbol, showCurrencyToggle } = useCurrency();
+const {currentLanguage} = useI18n();
+const {currentCurrency, setCurrency, formatCurrency, getCurrencySymbol, showCurrencyToggle} = useCurrency();
 
 const profile = computed(() => userStore.currentUser);
 const donatelloUrl = computed(() => balanceStore.donatelloUrl);
 const topUpUrl = computed(() =>
-  currentLanguage.value === 'en'
-    ? 'https://buymeacoffee.com/mysterria'
-    : donatelloUrl.value
+    currentLanguage.value === 'en'
+        ? 'https://buymeacoffee.com/mysterria'
+        : donatelloUrl.value
 );
 const showCurrencyModal = ref(false);
 
 const displayBalance = computed(() => {
   const balance = balanceStore.currentBalance?.amount ?? 0;
   if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
-    return formatCurrency(balance, { showSymbol: false, decimals: 2 });
+    return formatCurrency(balance, {showSymbol: false, decimals: 2});
   }
   return balance.toString();
 });
@@ -191,9 +191,8 @@ const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
   text-decoration: none;
   color: var(--myst-bg);
   transition: all 0.3s ease;
-  box-shadow:
-    0 4px 16px rgba(16, 185, 129, 0.4),
-    0 0 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4),
+  0 0 20px rgba(16, 185, 129, 0.3);
   border: 2px solid rgba(23, 26, 33, 1);
   backdrop-filter: blur(5px);
 }
@@ -201,9 +200,8 @@ const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
 .addMoney:hover {
   background: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #a0dc8e 100%);
   transform: translateY(-50%) scale(1.15) rotate(5deg);
-  box-shadow:
-    0 6px 25px rgba(16, 185, 129, 0.6),
-    0 0 30px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6),
+  0 0 30px rgba(16, 185, 129, 0.4);
 }
 
 .addMoney:active {
