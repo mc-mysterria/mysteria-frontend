@@ -1,16 +1,16 @@
 <template>
   <div class="page-container">
-    <HeaderItem />
+    <HeaderItem/>
 
     <!-- Hero Section -->
     <section
-      class="hero-section"
-      role="banner"
+        class="hero-section"
+        role="banner"
     >
       <!-- Layered backgrounds for cross-fade -->
       <div
-        class="hero-background hero-bg-base"
-        :style="{
+          class="hero-background hero-bg-base"
+          :style="{
           backgroundImage: `url('${heroImages[activeImageIndex]}')`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
@@ -18,9 +18,9 @@
         }"
       />
       <div
-        v-if="isTransitioning"
-        class="hero-background hero-bg-overlay"
-        :style="{
+          v-if="isTransitioning"
+          class="hero-background hero-bg-overlay"
+          :style="{
           backgroundImage: `url('${heroImages[transitionTarget]}')`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
@@ -30,8 +30,8 @@
 
       <!-- Overlay for readability -->
       <div
-        class="hero-overlay"
-        aria-hidden="true"
+          class="hero-overlay"
+          aria-hidden="true"
       />
 
       <!-- Content -->
@@ -39,8 +39,8 @@
         <FadeInSection>
           <div class="hero-buttons">
             <button
-              @click="showJoinModal = true"
-              class="play-button"
+                @click="showJoinModal = true"
+                class="play-button"
             >
               {{ t('home.letsPlay') }}
             </button>
@@ -50,7 +50,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
             >
-              <IconWiki class="w-5 h-5" />
+              <IconWiki class="w-5 h-5"/>
               {{ t('home.wiki') }}
             </a>
           </div>
@@ -60,19 +60,19 @@
 
       <!-- Down Arrow -->
       <button
-        @click="scrollToFeatures"
-        class="scroll-arrow"
-        aria-label="Scroll to features"
+          @click="scrollToFeatures"
+          class="scroll-arrow"
+          aria-label="Scroll to features"
       >
-        <IconArrowDown class="w-6 h-6" />
+        <IconArrowDown class="w-6 h-6"/>
       </button>
 
       <!-- Wavy Divider -->
       <div class="wavy-divider" aria-hidden="true">
         <svg class="w-full block" viewBox="0 0 1440 90" preserveAspectRatio="none">
           <path
-            d="M0,64 C120,80 240,48 360,48 C480,48 600,80 720,74 C840,68 960,32 1080,37 C1200,43 1320,74 1440,80 L1440,160 L0,160 Z"
-            fill="var(--myst-bg)"
+              d="M0,64 C120,80 240,48 360,48 C480,48 600,80 720,74 C840,68 960,32 1080,37 C1200,43 1320,74 1440,80 L1440,160 L0,160 Z"
+              fill="var(--myst-bg)"
           />
         </svg>
       </div>
@@ -84,12 +84,12 @@
         <FadeInSection delay="100">
           <div class="features-grid">
             <div
-              class="feature-card"
-              v-for="(feature, index) in features"
-              :key="index"
+                class="feature-card"
+                v-for="(feature, index) in features"
+                :key="index"
             >
               <div class="feature-header">
-                <component :is="feature.icon" class="feature-icon" />
+                <component :is="feature.icon" class="feature-icon"/>
                 <span class="feature-title">{{ feature.title }}</span>
               </div>
               <p class="feature-description">{{ feature.description }}</p>
@@ -103,9 +103,9 @@
     <section v-if="pinnedNews.length > 0" class="pinned-news-section relative" id="pinned-news">
       <div class="news-container">
         <SectionTitle
-          :eyebrow="t('home.pinnedNewsEyebrow')"
-          :title="t('home.pinnedNewsTitle')"
-          :subtitle="t('home.pinnedNewsSubtitle')"
+            :eyebrow="t('home.pinnedNewsEyebrow')"
+            :title="t('home.pinnedNewsTitle')"
+            :subtitle="t('home.pinnedNewsSubtitle')"
         />
         <FadeInSection>
           <div class="pinned-news-grid" :class="{ 'pinned-news-grid--single': displayedPinnedNews.length === 1 }">
@@ -114,21 +114,21 @@
               <div class="pinned-card-content">
                 <div class="pinned-news-image">
                   <img
-                    :src="n.preview || 'https://via.placeholder.com/300x160/1a1e3a/c8b273?text=News+Image'"
-                    :alt="`Image for ${n.title}`"
-                    class="pinned-news-img"
+                      :src="n.preview || 'https://via.placeholder.com/300x160/1a1e3a/c8b273?text=News+Image'"
+                      :alt="`Image for ${n.title}`"
+                      class="pinned-news-img"
                   />
                 </div>
                 <div class="pinned-news-text-content">
                   <h3 class="pinned-news-title">
-                    <IconStars class="pinned-icon" />
+                    <IconStars class="pinned-icon"/>
                     {{ n.title }}
                   </h3>
                   <p class="pinned-news-description">{{ n.shortDescription || n.preview }}</p>
                   <div class="pinned-news-link-container">
                     <span class="pinned-news-link">
                       {{ t('home.readMore') }}
-                      <IconArrowRight class="h-4 w-4" />
+                      <IconArrowRight class="h-4 w-4"/>
                     </span>
                   </div>
                 </div>
@@ -150,18 +150,18 @@
     <section class="news-section relative" id="news">
       <div class="news-container">
         <SectionTitle
-          :eyebrow="t('home.newsEyebrow')"
-          :title="t('home.newsTitle')"
-          :subtitle="t('home.newsSubtitle')"
+            :eyebrow="t('home.newsEyebrow')"
+            :title="t('home.newsTitle')"
+            :subtitle="t('home.newsSubtitle')"
         />
         <FadeInSection>
           <div class="news-grid">
             <RouterLink :to="`/news/${n.slug}`" class="news-card" v-for="n in displayedNews" :key="n.id">
               <div class="news-image">
                 <img
-                  :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
-                  :alt="`Image for ${n.title}`"
-                  class="news-img"
+                    :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
+                    :alt="`Image for ${n.title}`"
+                    class="news-img"
                 />
               </div>
               <div class="news-content">
@@ -170,14 +170,14 @@
                 <div class="news-link-container">
                   <span class="news-link">
                     {{ t('home.readMore') }}
-                    <IconArrowRight class="h-4 w-4" />
+                    <IconArrowRight class="h-4 w-4"/>
                   </span>
                 </div>
               </div>
             </RouterLink>
           </div>
         </FadeInSection>
-        
+
         <!-- Load More Button -->
         <div v-if="!showAllNews && news.length > 3" class="load-more-container">
           <button @click="showAllNews = true" class="load-more-button">
@@ -187,10 +187,10 @@
       </div>
     </section>
 
-    <FooterItem />
+    <FooterItem/>
 
     <!-- Join Server Modal -->
-    <JoinServerModal :show="showJoinModal" @close="showJoinModal = false" />
+    <JoinServerModal :show="showJoinModal" @close="showJoinModal = false"/>
   </div>
 </template>
 
@@ -206,15 +206,15 @@ import IconStars from "@/assets/icons/IconStars.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import IconGamepad from "@/assets/icons/IconGamepad.vue";
 import IconUsers from "@/assets/icons/IconUsers.vue";
-import { onMounted, onUnmounted, ref, computed } from "vue";
-import { newsAPI } from "@/utils/api/news";
-import type { NewsArticle, NewsPreview } from "@/types/news";
-import { useI18n } from "@/composables/useI18n";
+import {computed, onMounted, onUnmounted, ref} from "vue";
+import {newsAPI} from "@/utils/api/news";
+import type {NewsArticle, NewsPreview} from "@/types/news";
+import {useI18n} from "@/composables/useI18n";
 import bannerWebp from "@/assets/images/optimized/banner.webp";
 import serverWebp from "@/assets/images/optimized/Server.webp";
 import kleinWebp from "@/assets/images/optimized/Klein.webp";
 
-const { t, currentLanguage } = useI18n();
+const {t, currentLanguage} = useI18n();
 const news = ref<NewsArticle[]>([]);
 const pinnedNews = ref<NewsPreview[]>([]);
 const showJoinModal = ref(false);
@@ -299,7 +299,7 @@ function scrollToFeatures() {
   }
 
   if (targetEl) {
-    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    targetEl.scrollIntoView({behavior: 'smooth', block: 'start'});
   }
 }
 
@@ -612,8 +612,8 @@ export default {
 .pinned-news-section {
   position: relative;
   background: linear-gradient(135deg,
-    var(--myst-bg),
-    color-mix(in srgb, var(--myst-gold) 3%, var(--myst-bg))
+  var(--myst-bg),
+  color-mix(in srgb, var(--myst-gold) 3%, var(--myst-bg))
   );
   border-top: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
@@ -821,8 +821,8 @@ export default {
 .pinned-news-card {
   border: 2px solid var(--myst-gold);
   background: linear-gradient(135deg,
-    color-mix(in srgb, var(--myst-bg-2) 90%, transparent),
-    color-mix(in srgb, var(--myst-gold) 8%, var(--myst-bg-2) 85%)
+  color-mix(in srgb, var(--myst-bg-2) 90%, transparent),
+  color-mix(in srgb, var(--myst-gold) 8%, var(--myst-bg-2) 85%)
   );
   border-radius: 16px;
   overflow: hidden;

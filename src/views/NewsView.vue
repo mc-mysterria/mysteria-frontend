@@ -1,10 +1,10 @@
 <template>
   <div class="news-page">
-    <HeaderItem />
+    <HeaderItem/>
     <main class="news-article-container">
       <div v-if="article">
         <button @click="goBack" class="back-button">
-          <IconArrowLeft class="w-5 h-5" />
+          <IconArrowLeft class="w-5 h-5"/>
           <span>Back</span>
         </button>
         <div class="article-header">
@@ -22,18 +22,18 @@
         <p>Article not found or failed to load.</p>
       </div>
     </main>
-    <FooterItem />
+    <FooterItem/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { newsAPI } from '@/utils/api/news';
-import type { NewsArticle } from '@/types/news';
+import {computed, nextTick, onMounted, ref, watch} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import {newsAPI} from '@/utils/api/news';
+import type {NewsArticle} from '@/types/news';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
-import { useI18n } from '@/composables/useI18n';
+import {useI18n} from '@/composables/useI18n';
 import MarkdownIt from 'markdown-it';
 import IconArrowLeft from '@/assets/icons/IconArrowLeft.vue';
 
@@ -41,7 +41,7 @@ const route = useRoute();
 const router = useRouter();
 const article = ref<NewsArticle | null>(null);
 const loading = ref(true);
-const { currentLanguage } = useI18n();
+const {currentLanguage} = useI18n();
 
 const md = new MarkdownIt({
   html: true,
@@ -83,7 +83,7 @@ const loadArticle = async () => {
 const scrollToTop = () => {
   // Use requestAnimationFrame for better timing with browser rendering
   requestAnimationFrame(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    window.scrollTo({top: 0, left: 0, behavior: 'instant'});
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   });
@@ -110,7 +110,7 @@ watch(() => route.params.slug, async (newSlug, oldSlug) => {
       scrollToTop();
     }, 50);
   }
-}, { immediate: false });
+}, {immediate: false});
 
 onMounted(async () => {
   // Scroll to top immediately on mount

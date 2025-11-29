@@ -2,41 +2,42 @@
   <div v-if="item.is_active" class="myst-product-card group">
     <!-- Image container -->
     <router-link :to="getServiceDetailPath(item)" class="image-link">
-      <div class="image-container relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
-      <img
-        v-if="item.image"
-        :src="getImagePath(item.image)"
-        :alt="item.display_name || item.name"
-        class="shop-item-image opacity-90 group-hover:opacity-100 transition-opacity"
-      />
       <div
-        v-else
-        class="h-full w-full bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_80%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_60%,transparent)] flex items-center justify-center opacity-60"
-      >
-        <i class="fa-solid fa-image text-4xl" style="color: var(--myst-ink-muted)"></i>
-      </div>
-
-      <!-- Badge -->
-      <div v-if="getItemBadge()" class="absolute left-3 top-3">
-        <div class="myst-badge">
-          {{ getItemBadge() }}
+          class="image-container relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
+        <img
+            v-if="item.image"
+            :src="getImagePath(item.image)"
+            :alt="item.display_name || item.name"
+            class="shop-item-image opacity-90 group-hover:opacity-100 transition-opacity"
+        />
+        <div
+            v-else
+            class="h-full w-full bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_80%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_60%,transparent)] flex items-center justify-center opacity-60"
+        >
+          <i class="fa-solid fa-image text-4xl" style="color: var(--myst-ink-muted)"></i>
         </div>
-      </div>
 
-      <!-- Discount ribbon -->
-      <div v-if="hasDiscount" class="absolute right-3 top-3">
-        <div class="myst-discount-badge">-{{ discountPercent }}%</div>
-      </div>
+        <!-- Badge -->
+        <div v-if="getItemBadge()" class="absolute left-3 top-3">
+          <div class="myst-badge">
+            {{ getItemBadge() }}
+          </div>
+        </div>
+
+        <!-- Discount ribbon -->
+        <div v-if="hasDiscount" class="absolute right-3 top-3">
+          <div class="myst-discount-badge">-{{ discountPercent }}%</div>
+        </div>
       </div>
     </router-link>
 
     <!-- Comparison toggle (only in comparison mode) - outside image container -->
     <div v-if="comparisonMode" class="comparison-toggle">
       <button
-        @click.stop.prevent="$emit('toggle-comparison', item.id)"
-        :disabled="comparisonDisabled"
-        :class="['comparison-checkbox', { selected: inComparison, disabled: comparisonDisabled }]"
-        :title="inComparison ? t('removeFromComparison') : t('addToComparison')"
+          @click.stop.prevent="$emit('toggle-comparison', item.id)"
+          :disabled="comparisonDisabled"
+          :class="['comparison-checkbox', { selected: inComparison, disabled: comparisonDisabled }]"
+          :title="inComparison ? t('removeFromComparison') : t('addToComparison')"
       >
         <i :class="inComparison ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"></i>
       </button>
@@ -56,9 +57,9 @@
       <!-- Features list -->
       <ul v-if="item.points" class="myst-features-list">
         <li
-          v-for="(point, pIndex) in item.points"
-          :key="pIndex"
-          class="myst-feature-item"
+            v-for="(point, pIndex) in item.points"
+            :key="pIndex"
+            class="myst-feature-item"
         >
           <i class="fa-solid fa-check myst-feature-check"></i>
           <span>{{ point.text }}</span>
@@ -76,12 +77,12 @@
         <div v-if="hasDiscount" class="myst-original-price">
           <span v-if="showCurrencySymbol" class="price-currency-symbol">{{ currencySymbol }}</span>
           <span>{{ displayOriginalPrice }}</span>
-          <IconBalance v-if="!showCurrencySymbol" class="myst-currency-small" />
+          <IconBalance v-if="!showCurrencySymbol" class="myst-currency-small"/>
         </div>
         <div class="myst-current-price">
           <span v-if="showCurrencySymbol" class="price-currency-symbol">{{ currencySymbol }}</span>
           <span>{{ displayPrice }}</span>
-          <IconBalance v-if="!showCurrencySymbol" class="myst-currency" />
+          <IconBalance v-if="!showCurrencySymbol" class="myst-currency"/>
         </div>
       </div>
 
@@ -90,19 +91,19 @@
           <i class="fa-solid fa-eye"></i>
           {{ t("viewDetails") || "Details" }}
         </router-link>
-        
+
         <button
-          @click="handlePurchase"
-          :disabled="!item.is_active || isProcessing"
-          class="myst-purchase-btn"
+            @click="handlePurchase"
+            :disabled="!item.is_active || isProcessing"
+            class="myst-purchase-btn"
         >
           <i class="fa-solid fa-shopping-cart mr-2"></i>
           {{
             isProcessing
-              ? t("processing")
-              : item.is_active
-                ? t("purchase")
-                : t("unavailable")
+                ? t("processing")
+                : item.is_active
+                    ? t("purchase")
+                    : t("unavailable")
           }}
         </button>
       </div>
@@ -111,13 +112,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "@/composables/useI18n";
-import { useCurrency } from "@/composables/useCurrency";
-import type { ServiceResponse } from "@/types/services";
-import { Decimal } from "decimal.js";
+import {computed} from "vue";
+import {useI18n} from "@/composables/useI18n";
+import {useCurrency} from "@/composables/useCurrency";
+import type {ServiceResponse} from "@/types/services";
+import {Decimal} from "decimal.js";
 import IconBalance from "@/assets/icons/IconBalance.vue";
-import { getServiceDetailPath } from "@/utils/slug";
+import {getServiceDetailPath} from "@/utils/slug";
 
 const props = defineProps<{
   item: ServiceResponse;
@@ -132,43 +133,32 @@ const emit = defineEmits<{
   (e: "toggle-comparison", itemId: string): void;
 }>();
 
-const { t, currentLanguage } = useI18n();
-const { currentCurrency, formatCurrency, getCurrencySymbol } = useCurrency();
+const {t, currentLanguage} = useI18n();
+const {currentCurrency, formatCurrency, getCurrencySymbol} = useCurrency();
 
 const getItemBadge = () => {
-  switch (props.item.type) {
-    case "DISCORD_ROLE":
-      return "Rank";
-    case "ITEM":
-      return "Relic";
-    case "PERMISSION":
-      return "Permission";
-    case "SUBSCRIPTION":
-      return "Subscription";
-    default:
-      return "";
-  }
+  return props.item.category;
 };
 
 const getImagePath = (path: string | undefined) => {
   if (!path) return "";
-  
+
   // Handle HTTP/HTTPS URLs (from API)
   if (path.startsWith("http://") || path.startsWith("https://")) {
     return path;
   }
-  
+
   // Handle relative API paths
   if (path.startsWith("/")) {
     // If it's an absolute path from the API, prepend the API base URL or serve as static file
     return path;
   }
-  
+
   // Handle local assets (fallback for legacy compatibility)
   try {
     if (path.startsWith("@/assets/")) {
       return new URL(path.replace("@/assets/", "/src/assets/"), import.meta.url)
-        .href;
+          .href;
     }
     if (path.startsWith("src/")) {
       return new URL("/" + path, import.meta.url).href;
@@ -205,12 +195,12 @@ const finalPrice = computed(() => {
   const price = new Decimal(props.item.price);
   if (!hasDiscount.value) return price;
   return price
-    .mul(new Decimal(1).minus(new Decimal(discountPercent.value).div(100)));
+      .mul(new Decimal(1).minus(new Decimal(discountPercent.value).div(100)));
 });
 
 const displayPrice = computed(() => {
   if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
-    return formatCurrency(finalPrice.value, { showSymbol: false, decimals: 2 });
+    return formatCurrency(finalPrice.value, {showSymbol: false, decimals: 2});
   }
   return finalPrice.value.toString();
 });
@@ -218,7 +208,7 @@ const displayPrice = computed(() => {
 const displayOriginalPrice = computed(() => {
   const price = new Decimal(props.item.price);
   if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
-    return formatCurrency(price, { showSymbol: false, decimals: 2 });
+    return formatCurrency(price, {showSymbol: false, decimals: 2});
   }
   return price.toString();
 });
@@ -323,30 +313,6 @@ const handlePurchase = () => {
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-}
-
-.comparison-checkbox:hover:not(.disabled) {
-  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
-  border-color: var(--myst-gold);
-  color: var(--myst-gold);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--myst-gold) 40%, transparent);
-}
-
-.comparison-checkbox.selected {
-  background: var(--myst-gold);
-  border-color: var(--myst-gold);
-  color: var(--myst-bg);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--myst-gold) 50%, transparent);
-}
-
-.comparison-checkbox.disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.myst-product-card:has(.comparison-checkbox.selected) {
-  border-color: var(--myst-gold);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 /* Card Header */

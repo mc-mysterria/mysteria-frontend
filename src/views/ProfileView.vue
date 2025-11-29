@@ -1,13 +1,13 @@
 <template>
   <div class="page-container">
-    <HeaderItem />
-    
+    <HeaderItem/>
+
     <main class="profile-main">
       <div class="profile-container">
         <SectionTitle
-          :eyebrow="t('myProfile')"
-          :title="displayedUser?.nickname || t('profileTitle')"
-          :subtitle="t('personalInfo')"
+            :eyebrow="t('myProfile')"
+            :title="displayedUser?.nickname || t('profileTitle')"
+            :subtitle="t('personalInfo')"
         />
 
         <!-- Loading state -->
@@ -22,40 +22,40 @@
         <div v-else class="profile-content">
           <div class="profile-grid">
             <PersonalInfo
-              :displayed-user="displayedUser"
-              :subscription="subscription"
+                :displayed-user="displayedUser"
+                :subscription="subscription"
             />
             <VerificationPanel
-              :displayed-user="displayedUser"
-              :is-own-profile="isOwnProfile"
+                :displayed-user="displayedUser"
+                :is-own-profile="isOwnProfile"
             />
             <TransactionHistory
-              :displayed-user="displayedUser"
-              :is-own-profile="isOwnProfile"
+                :displayed-user="displayedUser"
+                :is-own-profile="isOwnProfile"
             />
           </div>
         </div>
       </div>
     </main>
 
-    <FooterItem />
+    <FooterItem/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useAuthStore } from "@/stores/auth";
-import { useUserStore } from "@/stores/user";
-import { useI18n } from "@/composables/useI18n";
+import {computed, onMounted, ref} from "vue";
+import {useAuthStore} from "@/stores/auth";
+import {useUserStore} from "@/stores/user";
+import {useI18n} from "@/composables/useI18n";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import SectionTitle from "@/components/ui/SectionTitle.vue";
 import PersonalInfo from "@/components/profile/PersonalInfo.vue";
 import VerificationPanel from "@/components/profile/VerificationPanel.vue";
 import TransactionHistory from "@/components/profile/TransactionHistory.vue";
-import type { UserProfileDto } from "@/types/auth";
+import type {UserProfileDto} from "@/types/auth";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const displayedUser = ref<UserProfileDto | null>(null);
@@ -82,9 +82,9 @@ const isOwnProfile = computed(() => {
 const fetchUserProfile = async () => {
   // Ensure auth store has user data loaded
   if (
-    !authStore.currentUser &&
-    authStore.isAuthenticated &&
-    !authStore.isLoading
+      !authStore.currentUser &&
+      authStore.isAuthenticated &&
+      !authStore.isLoading
   ) {
     await authStore.refreshUser();
   }
@@ -133,7 +133,7 @@ const loadProfile = async () => {
 };
 
 onMounted(async () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top: 0, behavior: 'smooth'});
   await loadProfile();
 });
 </script>
@@ -236,15 +236,15 @@ onMounted(async () => {
   .profile-main {
     padding: 40px 0;
   }
-  
+
   .profile-container {
     padding: 0 16px;
   }
-  
+
   .profile-content {
     margin-top: 32px;
   }
-  
+
   .profile-grid {
     gap: 16px;
   }

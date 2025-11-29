@@ -1,11 +1,11 @@
 <template>
-  <Analytics />
+  <Analytics/>
   <div class="app">
-    <MysticBackground />
-    <NotificationContainer />
-    
+    <MysticBackground/>
+    <NotificationContainer/>
+
     <!-- Main Content -->
-    <RouterView />
+    <RouterView/>
   </div>
   <div class="cursor-background" ref="cursor"></div>
 </template>
@@ -13,12 +13,12 @@
 <script setup lang="ts">
 import NotificationContainer from "@/components/ui/NotificationContainer.vue";
 import MysticBackground from "@/components/ui/MysticBackground.vue";
-import { onMounted, onUnmounted, ref, watch } from "vue";
-import { RouterView, useRoute } from "vue-router";
-import { useBalanceWatcher } from "@/stores/balance";
-import { useUserWatcher } from "./stores/user";
-import { useServicesWatcher } from "./stores/services";
-import { Analytics } from '@vercel/analytics/vue';
+import {onMounted, onUnmounted, ref, watch} from "vue";
+import {RouterView, useRoute} from "vue-router";
+import {useBalanceWatcher} from "@/stores/balance";
+import {useUserWatcher} from "./stores/user";
+import {useServicesWatcher} from "./stores/services";
+import {Analytics} from '@vercel/analytics/vue';
 
 useUserWatcher();
 useBalanceWatcher();
@@ -34,7 +34,7 @@ watch(() => route.path, () => {
     document.body.scrollTop = 0;
     window.scrollTo(0, 0);
   });
-}, { immediate: false });
+}, {immediate: false});
 
 const cursor = ref<HTMLDivElement | null>(null);
 const cursorSize = 50;
@@ -46,12 +46,12 @@ const updateCursorPosition = (event: MouseEvent) => {
       if (cursor.value) {
         const halfSize = cursorSize / 2;
         const x = Math.min(
-          Math.max(event.pageX - halfSize, 0),
-          window.innerWidth - cursorSize,
+            Math.max(event.pageX - halfSize, 0),
+            window.innerWidth - cursorSize,
         );
         const y = Math.min(
-          Math.max(event.pageY - halfSize, 0),
-          document.documentElement.scrollHeight - cursorSize,
+            Math.max(event.pageY - halfSize, 0),
+            document.documentElement.scrollHeight - cursorSize,
         );
 
         // Use transform instead of left/top for better performance

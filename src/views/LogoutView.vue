@@ -7,13 +7,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
-import { useI18n } from "@/composables/useI18n";
+import {useAuthStore} from "@/stores/auth";
+import {useRouter} from "vue-router";
+import {useI18n} from "@/composables/useI18n";
 
 const authStore = useAuthStore();
 const router = useRouter();
-const { t } = useI18n();
+const {t} = useI18n();
 
 const handleLogout = async () => {
   try {

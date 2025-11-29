@@ -1,15 +1,15 @@
 <template>
   <div v-if="isPrivileged">
-    <router-view />
+    <router-view/>
   </div>
   <div v-else>
-    <UnauthorizedMessage />
+    <UnauthorizedMessage/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useAuthStore } from '@/stores/auth';
+import {computed} from 'vue';
+import {useAuthStore} from '@/stores/auth';
 import UnauthorizedMessage from '@/components/ui/UnauthorizedMessage.vue';
 
 const authStore = useAuthStore();

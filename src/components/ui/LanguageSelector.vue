@@ -1,10 +1,10 @@
 <template>
   <div class="language-selector">
     <DropdownSelect
-      :model-value="currentLanguage"
-      :options="languageOptions"
-      @change="handleLanguageChange"
-      class="language-dropdown"
+        :model-value="currentLanguage"
+        :options="languageOptions"
+        @change="handleLanguageChange"
+        class="language-dropdown"
     >
       <template #selected="{ selectedOption }">
         {{ selectedOption?.label || "🇬🇧 EN" }}
@@ -17,15 +17,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import { useI18n, type Language } from "@/composables/useI18n";
+import {computed, onMounted} from "vue";
+import {type Language, useI18n} from "@/composables/useI18n";
 import DropdownSelect from "./DropdownSelect.vue";
-import { authAPI } from "@/utils/api/auth";
-const { currentLanguage, setLanguage } = useI18n();
+import {authAPI} from "@/utils/api/auth";
+
+const {currentLanguage, setLanguage} = useI18n();
 
 const languageOptions = computed(() => [
-  { label: "🇬🇧 EN", value: "en" },
-  { label: "🇺🇦 UK", value: "uk" },
+  {label: "🇬🇧 EN", value: "en"},
+  {label: "🇺🇦 UK", value: "uk"},
 ]);
 
 const handleLanguageChange = async (value: string | number | string[]) => {
@@ -33,7 +34,7 @@ const handleLanguageChange = async (value: string | number | string[]) => {
   setLanguage(language);
 
   try {
-    await authAPI.updateUserProfile({ lang: language });
+    await authAPI.updateUserProfile({lang: language});
   } catch (error) {
     console.error("Failed to update language preference:", error);
   }

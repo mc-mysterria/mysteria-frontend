@@ -1,5 +1,5 @@
 <template>
-  <AdminPanel />
+  <AdminPanel/>
 </template>
 
 <script setup lang="ts">

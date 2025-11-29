@@ -1,25 +1,25 @@
 <template>
-  <HeaderItem />
+  <HeaderItem/>
   <div class="rules-page">
     <div class="rules-container">
       <!-- Header Section -->
       <div class="rules-header">
         <h1 class="rules-title">{{ t("rulesTitle") }}</h1>
         <p class="rules-subtitle">{{ t("rulesSubtitle") }}</p>
-        
+
         <!-- Tabs for privileged users -->
         <div v-if="isPrivilegedUser" class="rules-tabs">
-          <button 
-            class="tab-button"
-            :class="{ active: activeTab === 'player' }"
-            @click="setActiveTab('player')"
+          <button
+              class="tab-button"
+              :class="{ active: activeTab === 'player' }"
+              @click="setActiveTab('player')"
           >
             {{ t('playerRules') }}
           </button>
-          <button 
-            class="tab-button"
-            :class="{ active: activeTab === 'staff' }"
-            @click="setActiveTab('staff')"
+          <button
+              class="tab-button"
+              :class="{ active: activeTab === 'staff' }"
+              @click="setActiveTab('staff')"
           >
             {{ t('staffRules') }}
           </button>
@@ -35,29 +35,29 @@
             <!-- Player Rules Navigation -->
             <div v-if="activeTab === 'player'">
               <div
-                v-for="rule in rules"
-                :key="rule.id"
-                class="nav-item"
-                @click="scrollToRule(rule.id)"
+                  v-for="rule in rules"
+                  :key="rule.id"
+                  class="nav-item"
+                  @click="scrollToRule(rule.id)"
               >
                 <span class="nav-number">{{ rule.id }}</span>
                 <span class="nav-title">{{ rule.title }}</span>
               </div>
             </div>
-            
+
             <!-- Staff Rules Navigation -->
             <div v-else-if="activeTab === 'staff'">
               <div
-                v-for="group in staffRules"
-                :key="group.group"
-                class="nav-group"
+                  v-for="group in staffRules"
+                  :key="group.group"
+                  class="nav-group"
               >
                 <div class="nav-group-title">{{ group.group }}</div>
                 <div
-                  v-for="rule in group.rules"
-                  :key="rule.id"
-                  class="nav-item staff-nav-item"
-                  @click="scrollToRule(rule.id)"
+                    v-for="rule in group.rules"
+                    :key="rule.id"
+                    class="nav-item staff-nav-item"
+                    @click="scrollToRule(rule.id)"
                 >
                   <span class="nav-number">{{ rule.id }}</span>
                   <span class="nav-title">{{ rule.title }}</span>
@@ -72,10 +72,10 @@
           <!-- Player Rules -->
           <div v-if="activeTab === 'player'" class="all-rules">
             <div
-              v-for="rule in rules"
-              :key="rule.id"
-              class="rule-card"
-              :id="`rule-${rule.id}`"
+                v-for="rule in rules"
+                :key="rule.id"
+                class="rule-card"
+                :id="`rule-${rule.id}`"
             >
               <div class="rule-number">{{ rule.id }}</div>
               <div class="rule-content">
@@ -87,18 +87,18 @@
 
           <!-- Staff Rules -->
           <div v-else-if="activeTab === 'staff'" class="staff-rules-section">
-            <div 
-              v-for="(group, groupIndex) in staffRules" 
-              :key="groupIndex" 
-              class="staff-rule-group"
+            <div
+                v-for="(group, groupIndex) in staffRules"
+                :key="groupIndex"
+                class="staff-rule-group"
             >
               <h3 class="group-title">{{ group.group }}</h3>
               <div class="group-rules">
                 <div
-                  v-for="rule in group.rules"
-                  :key="rule.id"
-                  class="rule-card staff-rule-card"
-                  :id="`staff-rule-${rule.id}`"
+                    v-for="rule in group.rules"
+                    :key="rule.id"
+                    class="rule-card staff-rule-card"
+                    :id="`staff-rule-${rule.id}`"
                 >
                   <div class="rule-number staff-rule-number">{{ rule.id }}</div>
                   <div class="rule-content">
@@ -116,17 +116,17 @@
       </div>
     </div>
   </div>
-  <FooterItem />
+  <FooterItem/>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
-import { useI18n } from "@/composables/useI18n";
-import { useAuthStore } from "@/stores/auth";
+import {computed, onMounted, ref, watch} from 'vue'
+import {useI18n} from "@/composables/useI18n";
+import {useAuthStore} from "@/stores/auth";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 
-const { t, currentLanguage } = useI18n();
+const {t, currentLanguage} = useI18n();
 const authStore = useAuthStore();
 
 interface Rule {
@@ -154,12 +154,12 @@ const activeTab = ref<'player' | 'staff'>('player')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const currentRules = computed(() => {
   if (activeTab.value === 'staff') {
-    return staffRules.value.flatMap(group => 
-      group.rules.map(rule => ({
-        ...rule,
-        id: `${rule.id}`,
-        groupTitle: group.group
-      }))
+    return staffRules.value.flatMap(group =>
+        group.rules.map(rule => ({
+          ...rule,
+          id: `${rule.id}`,
+          groupTitle: group.group
+        }))
     )
   }
   return rules.value
@@ -173,7 +173,7 @@ const scrollToRule = (ruleId: string) => {
   const elementId = activeTab.value === 'staff' ? `staff-rule-${ruleId}` : `rule-${ruleId}`
   const element = document.getElementById(elementId)
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    element.scrollIntoView({behavior: 'smooth', block: 'start'})
   }
 }
 
@@ -198,7 +198,7 @@ const loadStaffRulesForLanguage = async (lang: string) => {
     staffRules.value = []
     return
   }
-  
+
   try {
     const staffRulesModule = await import(`@/assets/sources/staff_rules_${lang}.json`)
     staffRules.value = staffRulesModule.default as StaffRuleGroup[]
@@ -474,14 +474,14 @@ watch(isPrivilegedUser, () => {
   .rules-content {
     flex-direction: column;
   }
-  
+
   .rules-sidebar {
     flex: none;
     position: static;
     max-height: none;
     order: -1;
   }
-  
+
   .rules-nav {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -513,7 +513,7 @@ watch(isPrivilegedUser, () => {
   .rules-sidebar {
     padding: 16px;
   }
-  
+
   .rules-nav {
     grid-template-columns: 1fr;
   }
@@ -535,12 +535,12 @@ watch(isPrivilegedUser, () => {
   .rules-content {
     gap: 16px;
   }
-  
+
   .sidebar-title {
     font-size: 18px;
     margin-bottom: 16px;
   }
-  
+
   .nav-item {
     padding: 10px 12px;
   }
@@ -646,33 +646,33 @@ watch(isPrivilegedUser, () => {
   .section-title {
     font-size: 2rem;
   }
-  
+
   .staff-rules-section {
     margin-top: 32px;
   }
-  
+
   .staff-rule-group {
     margin-bottom: 32px;
   }
-  
+
   .group-title {
     font-size: 1.25rem;
   }
-  
+
   .rules-tabs {
     max-width: 320px;
     margin-top: 24px;
   }
-  
+
   .tab-button {
     padding: 10px 16px;
     font-size: 13px;
   }
-  
+
   .nav-group {
     margin-bottom: 16px;
   }
-  
+
   .nav-group-title {
     font-size: 12px;
     padding: 6px 12px;

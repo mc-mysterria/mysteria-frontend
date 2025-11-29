@@ -6,20 +6,20 @@
       <!-- Server Selection Dropdown -->
       <div v-if="showServerSelection" class="server-selection">
         <DropdownSelect
-          v-model="selectedServer"
-          :options="serverOptions"
-          placeholder="Оберіть сервер..."
-          display-key="label"
-          value-key="value"
-          :form-field-style="true"
-          @change="handleServerChange"
+            v-model="selectedServer"
+            :options="serverOptions"
+            placeholder="Оберіть сервер..."
+            display-key="label"
+            value-key="value"
+            :form-field-style="true"
+            @change="handleServerChange"
         />
       </div>
 
       <div
-        class="buttonYes"
-        :class="{ disabled: isConfirmDisabled }"
-        @click="onConfirm"
+          class="buttonYes"
+          :class="{ disabled: isConfirmDisabled }"
+          @click="onConfirm"
       >
         {{ confirmText }}
       </div>
@@ -29,21 +29,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
-import { useBalanceStore } from "@/stores/balance";
-import { useNotification } from "@/services/useNotification";
-import { useI18n } from "@/composables/useI18n";
-import { Decimal } from "decimal.js";
+import {computed, ref, watch} from "vue";
+import {useBalanceStore} from "@/stores/balance";
+import {useNotification} from "@/services/useNotification";
+import {useI18n} from "@/composables/useI18n";
+import {Decimal} from "decimal.js";
 import DropdownSelect from "@/components/ui/DropdownSelect.vue";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const isVisible = ref(false);
 const modalText = ref("");
 const confirmText = ref("");
 const cancelText = ref("");
 const selectedServer = ref<string>("");
 const balanceStore = useBalanceStore();
-const { show } = useNotification();
+const {show} = useNotification();
 
 // Server selection logic
 const showServerSelection = computed(() => {
@@ -53,7 +53,7 @@ const showServerSelection = computed(() => {
 const currentService = computed(() => {
   if (!balanceStore.currentPurchase) return null;
   return balanceStore.items.find(
-    (s) => s.id === balanceStore.currentPurchase?.id,
+      (s) => s.id === balanceStore.currentPurchase?.id,
   );
 });
 
@@ -69,7 +69,7 @@ const serverOptions = computed(() => {
 const isConfirmDisabled = computed(() => {
   const needsServer = showServerSelection.value;
   const hasServer =
-    selectedServer.value || balanceStore.currentPurchase?.selectedServer;
+      selectedServer.value || balanceStore.currentPurchase?.selectedServer;
 
   console.log("Button disabled check:", {
     needsServer,
@@ -90,8 +90,8 @@ const handleServerChange = (value: string | number | string[]) => {
   balanceStore.setSelectedServer(serverValue);
   console.log("Selected server state:", selectedServer.value);
   console.log(
-    "Store selected server:",
-    balanceStore.currentPurchase?.selectedServer,
+      "Store selected server:",
+      balanceStore.currentPurchase?.selectedServer,
   );
 };
 
@@ -109,14 +109,14 @@ function showModal(text: string, confirmLabel?: string, cancelLabel?: string) {
 
 // Watch for changes in the store's selected server and sync with local state
 watch(
-  () => balanceStore.currentPurchase?.selectedServer,
-  (newServerValue) => {
-    if (newServerValue !== selectedServer.value) {
-      console.log("Store server changed, syncing local state:", newServerValue);
-      selectedServer.value = newServerValue || "";
-    }
-  },
-  { immediate: true },
+    () => balanceStore.currentPurchase?.selectedServer,
+    (newServerValue) => {
+      if (newServerValue !== selectedServer.value) {
+        console.log("Store server changed, syncing local state:", newServerValue);
+        selectedServer.value = newServerValue || "";
+      }
+    },
+    {immediate: true},
 );
 
 async function onConfirm() {
@@ -191,9 +191,8 @@ defineExpose({
 .card {
   background: color-mix(in srgb, var(--myst-bg-2) 95%, transparent);
   border: 1px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(200, 178, 115, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+  0 0 30px rgba(200, 178, 115, 0.1);
   padding: clamp(24px, 4vw, 32px);
   border-radius: 16px;
   font-family: "Inter", system-ui, sans-serif;
@@ -218,9 +217,8 @@ defineExpose({
 
 .card:hover {
   border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  box-shadow: 
-    0 24px 48px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(200, 178, 115, 0.2);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5),
+  0 0 40px rgba(200, 178, 115, 0.2);
 }
 
 p {
@@ -306,7 +304,7 @@ p {
   .background {
     padding: 15px;
   }
-  
+
   .card {
     padding: clamp(20px, 5vw, 28px);
     max-width: 400px;
@@ -354,16 +352,14 @@ p {
 :root[data-theme="parchment"] .card {
   background: color-mix(in srgb, var(--myst-bg) 95%, transparent);
   border-color: color-mix(in srgb, var(--myst-gold) 25%, transparent);
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.15),
-    0 0 30px rgba(217, 119, 6, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15),
+  0 0 30px rgba(217, 119, 6, 0.1);
 }
 
 :root[data-theme="parchment"] .card:hover {
   border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
-  box-shadow: 
-    0 24px 48px rgba(0, 0, 0, 0.2),
-    0 0 40px rgba(217, 119, 6, 0.15);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2),
+  0 0 40px rgba(217, 119, 6, 0.15);
 }
 
 :root[data-theme="parchment"] .buttonYes {

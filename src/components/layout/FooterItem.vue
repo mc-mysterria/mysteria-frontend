@@ -3,7 +3,8 @@
     <div class="footer-container">
       <div class="footer-content">
         <div class="flex-1">
-          © {{ new Date().getFullYear() }} Mysterria — unofficial fan project ✨ | All rights reserved | Not affiliated with original IPs
+          © {{ new Date().getFullYear() }} Mysterria — unofficial fan project ✨ | All rights reserved | Not affiliated
+          with original IPs
         </div>
         <nav class="footer-nav">
           <RouterLink to="/wiki" class="footer-link">Wiki</RouterLink>

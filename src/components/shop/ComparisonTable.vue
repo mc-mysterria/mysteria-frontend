@@ -17,116 +17,118 @@
         <table class="comparison-table">
           <!-- Item Headers -->
           <thead>
-            <tr>
-              <th class="row-label-cell"></th>
-              <th v-for="item in items" :key="item.id" class="item-header-cell">
-                <div class="item-header">
-                  <div class="item-image-wrapper">
-                    <img
+          <tr>
+            <th class="row-label-cell"></th>
+            <th v-for="item in items" :key="item.id" class="item-header-cell">
+              <div class="item-header">
+                <div class="item-image-wrapper">
+                  <img
                       v-if="item.image"
                       :src="getImagePath(item.image)"
                       :alt="item.display_name || item.name"
                       class="item-image"
-                    />
-                    <div v-else class="item-image-placeholder">
-                      <i class="fa-solid fa-image"></i>
-                    </div>
+                  />
+                  <div v-else class="item-image-placeholder">
+                    <i class="fa-solid fa-image"></i>
                   </div>
-                  <h3 class="item-name">{{ item.display_name || item.name }}</h3>
-                  <span v-if="getItemBadge(item)" class="item-badge">{{ getItemBadge(item) }}</span>
                 </div>
-              </th>
-            </tr>
+                <h3 class="item-name">{{ item.display_name || item.name }}</h3>
+                <span v-if="getItemBadge(item)" class="item-badge">{{ getItemBadge(item) }}</span>
+              </div>
+            </th>
+          </tr>
           </thead>
 
           <!-- Comparison Rows -->
           <tbody>
-            <!-- Price Row -->
-            <tr>
-              <td class="row-label">{{ t('price') }}</td>
-              <td v-for="item in items" :key="`price-${item.id}`" :class="['comparison-cell', { highlight: isCheapest(item) }]">
-                <div class="price-cell">
-                  <div v-if="hasDiscount(item)" class="original-price">
-                    {{ formatPrice(item.price) }}
-                  </div>
-                  <div class="current-price">
-                    {{ formatPrice(getFinalPrice(item)) }}
-                    <i v-if="isCheapest(item)" class="fa-solid fa-star best-value-icon" title="Best value"></i>
-                  </div>
+          <!-- Price Row -->
+          <tr>
+            <td class="row-label">{{ t('price') }}</td>
+            <td v-for="item in items" :key="`price-${item.id}`"
+                :class="['comparison-cell', { highlight: isCheapest(item) }]">
+              <div class="price-cell">
+                <div v-if="hasDiscount(item)" class="original-price">
+                  {{ formatPrice(item.price) }}
                 </div>
-              </td>
-            </tr>
+                <div class="current-price">
+                  {{ formatPrice(getFinalPrice(item)) }}
+                  <i v-if="isCheapest(item)" class="fa-solid fa-star best-value-icon" title="Best value"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
 
-            <!-- Type Row -->
-            <tr>
-              <td class="row-label">{{ t('comparisonType') }}</td>
-              <td v-for="item in items" :key="`type-${item.id}`" class="comparison-cell">
-                {{ getCategoryTitle(item.type) }}
-              </td>
-            </tr>
+          <!-- Type Row -->
+          <tr>
+            <td class="row-label">{{ t('comparisonType') }}</td>
+            <td v-for="item in items" :key="`type-${item.id}`" class="comparison-cell">
+              {{ getCategoryTitle(item.type) }}
+            </td>
+          </tr>
 
-            <!-- Duration Row (for subscriptions) -->
-            <tr v-if="items.some(item => item.duration_months)">
-              <td class="row-label">{{ t('comparisonDuration') }}</td>
-              <td v-for="item in items" :key="`duration-${item.id}`" class="comparison-cell">
+          <!-- Duration Row (for subscriptions) -->
+          <tr v-if="items.some(item => item.duration_months)">
+            <td class="row-label">{{ t('comparisonDuration') }}</td>
+            <td v-for="item in items" :key="`duration-${item.id}`" class="comparison-cell">
                 <span v-if="item.duration_months">
                   {{ item.duration_months }} {{ item.duration_months === 1 ? 'month' : 'months' }}
                 </span>
-                <span v-else class="muted-text">-</span>
-              </td>
-            </tr>
+              <span v-else class="muted-text">-</span>
+            </td>
+          </tr>
 
-            <!-- Discount Row -->
-            <tr v-if="items.some(hasDiscount)">
-              <td class="row-label">{{ t('comparisonDiscount') }}</td>
-              <td v-for="item in items" :key="`discount-${item.id}`" class="comparison-cell">
-                <div v-if="hasDiscount(item)" class="discount-value">
-                  -{{ getDiscountPercent(item) }}%
-                </div>
-                <span v-else class="muted-text">-</span>
-              </td>
-            </tr>
+          <!-- Discount Row -->
+          <tr v-if="items.some(hasDiscount)">
+            <td class="row-label">{{ t('comparisonDiscount') }}</td>
+            <td v-for="item in items" :key="`discount-${item.id}`" class="comparison-cell">
+              <div v-if="hasDiscount(item)" class="discount-value">
+                -{{ getDiscountPercent(item) }}%
+              </div>
+              <span v-else class="muted-text">-</span>
+            </td>
+          </tr>
 
-            <!-- Features Row -->
-            <tr>
-              <td class="row-label">{{ t('comparisonFeatures') }}</td>
-              <td v-for="item in items" :key="`features-${item.id}`" :class="['comparison-cell', { highlight: hasMostFeatures(item) }]">
-                <ul v-if="item.points && item.points.length > 0" class="features-list">
-                  <li v-for="(point, index) in item.points" :key="index" class="feature-item">
-                    <i class="fa-solid fa-check feature-check"></i>
-                    {{ point.text }}
-                  </li>
-                </ul>
-                <span v-else class="muted-text">No features listed</span>
-                <i v-if="hasMostFeatures(item)" class="fa-solid fa-star best-value-icon" title="Most features"></i>
-              </td>
-            </tr>
+          <!-- Features Row -->
+          <tr>
+            <td class="row-label">{{ t('comparisonFeatures') }}</td>
+            <td v-for="item in items" :key="`features-${item.id}`"
+                :class="['comparison-cell', { highlight: hasMostFeatures(item) }]">
+              <ul v-if="item.points && item.points.length > 0" class="features-list">
+                <li v-for="(point, index) in item.points" :key="index" class="feature-item">
+                  <i class="fa-solid fa-check feature-check"></i>
+                  {{ point.text }}
+                </li>
+              </ul>
+              <span v-else class="muted-text">No features listed</span>
+              <i v-if="hasMostFeatures(item)" class="fa-solid fa-star best-value-icon" title="Most features"></i>
+            </td>
+          </tr>
 
-            <!-- Description Row -->
-            <tr>
-              <td class="row-label">{{ t('description') || 'Description' }}</td>
-              <td v-for="item in items" :key="`desc-${item.id}`" class="comparison-cell">
-                <p v-if="item.description" class="description-text">{{ item.description }}</p>
-                <span v-else class="muted-text">-</span>
-              </td>
-            </tr>
+          <!-- Description Row -->
+          <tr>
+            <td class="row-label">{{ t('description') || 'Description' }}</td>
+            <td v-for="item in items" :key="`desc-${item.id}`" class="comparison-cell">
+              <p v-if="item.description" class="description-text">{{ item.description }}</p>
+              <span v-else class="muted-text">-</span>
+            </td>
+          </tr>
           </tbody>
 
           <!-- Action Row -->
           <tfoot>
-            <tr>
-              <td class="row-label">{{ t('actions') || 'Actions' }}</td>
-              <td v-for="item in items" :key="`actions-${item.id}`" class="comparison-cell actions-cell">
-                <button @click="$emit('purchase', item.id)" class="purchase-btn">
-                  <i class="fa-solid fa-shopping-cart"></i>
-                  {{ t('purchase') }}
-                </button>
-                <button @click="$emit('remove', item.id)" class="remove-btn">
-                  <i class="fa-solid fa-xmark"></i>
-                  {{ t('removeFromComparison') }}
-                </button>
-              </td>
-            </tr>
+          <tr>
+            <td class="row-label">{{ t('actions') || 'Actions' }}</td>
+            <td v-for="item in items" :key="`actions-${item.id}`" class="comparison-cell actions-cell">
+              <button @click="$emit('purchase', item.id)" class="purchase-btn">
+                <i class="fa-solid fa-shopping-cart"></i>
+                {{ t('purchase') }}
+              </button>
+              <button @click="$emit('remove', item.id)" class="remove-btn">
+                <i class="fa-solid fa-xmark"></i>
+                {{ t('removeFromComparison') }}
+              </button>
+            </td>
+          </tr>
           </tfoot>
         </table>
       </div>
@@ -135,12 +137,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "@/composables/useI18n";
-import { useCurrency } from "@/composables/useCurrency";
-import type { ServiceResponse } from "@/types/services";
-import { ServiceType } from "@/types/services";
-import { Decimal } from "decimal.js";
+import {useI18n} from "@/composables/useI18n";
+import {useCurrency} from "@/composables/useCurrency";
+import type {ServiceResponse} from "@/types/services";
+import {ServiceType} from "@/types/services";
+import {Decimal} from "decimal.js";
 
 const props = defineProps<{
   items: ServiceResponse[];
@@ -152,8 +153,8 @@ defineEmits<{
   remove: [itemId: string];
 }>();
 
-const { t, currentLanguage } = useI18n();
-const { currentCurrency, formatCurrency } = useCurrency();
+const {t, currentLanguage} = useI18n();
+const {currentCurrency, formatCurrency} = useCurrency();
 
 // Helper functions
 const getImagePath = (path: string | undefined) => {
@@ -243,7 +244,7 @@ const getFinalPrice = (item: ServiceResponse): Decimal => {
 const formatPrice = (price: number | Decimal): string => {
   const priceDecimal = price instanceof Decimal ? price : new Decimal(price);
   if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
-    return formatCurrency(priceDecimal, { showSymbol: true, decimals: 2 });
+    return formatCurrency(priceDecimal, {showSymbol: true, decimals: 2});
   }
   return priceDecimal.toString();
 };

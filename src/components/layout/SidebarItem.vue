@@ -1,14 +1,14 @@
 <template>
   <!-- Mobile overlay -->
   <div
-    class="mobile-overlay"
-    v-if="isMobileOpen"
-    @click="closeMobileSidebar"
+      class="mobile-overlay"
+      v-if="isMobileOpen"
+      @click="closeMobileSidebar"
   ></div>
 
   <div
-    class="sidenav"
-    :class="{ collapsed: isCollapsed, 'mobile-open': isMobileOpen }"
+      class="sidenav"
+      :class="{ collapsed: isCollapsed, 'mobile-open': isMobileOpen }"
   >
     <div class="sidebar-glow"></div>
     <div class="sidebar-content">
@@ -17,7 +17,7 @@
           <div class="containerLogo">
             <div class="logo-orbit">
               <div class="orbit-ring"></div>
-              <IconLogo />
+              <IconLogo/>
             </div>
             <div class="logo-text-container" v-show="!isCollapsed">
               <span class="logo-text">Mysterria</span>
@@ -31,21 +31,21 @@
         <div class="sidenavContainer">
           <div class="nav-section-title" v-show="!isCollapsed">Navigation</div>
           <RouterLink
-            :to="profileLink"
-            :class="{
+              :to="profileLink"
+              :class="{
               activeLink: $route.path.startsWith('/profile'),
             }"
-            :title="isCollapsed ? t('myProfile') : ''"
-            class="nav-item"
+              :title="isCollapsed ? t('myProfile') : ''"
+              class="nav-item"
           >
             <div class="nav-item-background"></div>
             <div class="nav-item-content">
               <div class="nav-icon-container">
-                <IconUser />
+                <IconUser/>
               </div>
               <span v-show="!isCollapsed" class="link-text">{{
-                t("myProfile")
-              }}</span>
+                  t("myProfile")
+                }}</span>
             </div>
             <div class="nav-item-indicator"></div>
           </RouterLink>
@@ -54,12 +54,12 @@
         <div class="sidenavContainer" v-if="authStore.isPrivilegedUser">
           <div class="nav-section-title" v-show="!isCollapsed">Admin</div>
           <RouterLink
-            to="/edit/news"
-            :class="{
+              to="/edit/news"
+              :class="{
               activeLink: $route.path.startsWith('/edit/news'),
             }"
-            :title="isCollapsed ? 'Edit News' : ''"
-            class="nav-item"
+              :title="isCollapsed ? 'Edit News' : ''"
+              class="nav-item"
           >
             <div class="nav-item-background"></div>
             <div class="nav-item-content">
@@ -75,40 +75,40 @@
         <div class="sidenavContainer bottom-container">
           <div class="nav-section-title" v-show="!isCollapsed">System</div>
           <a
-            href="#"
-            @click.prevent="handleLogout"
-            :title="isCollapsed ? t('logout') : ''"
-            class="logout-link nav-item"
+              href="#"
+              @click.prevent="handleLogout"
+              :title="isCollapsed ? t('logout') : ''"
+              class="logout-link nav-item"
           >
             <div class="nav-item-background logout-bg"></div>
             <div class="nav-item-content">
               <div class="nav-icon-container">
-                <IconSignOut />
+                <IconSignOut/>
               </div>
               <span v-show="!isCollapsed" class="link-text">{{
-                t("logout")
-              }}</span>
+                  t("logout")
+                }}</span>
             </div>
             <div class="nav-item-indicator logout-indicator"></div>
           </a>
 
           <button
-            @click="toggleSidebar"
-            class="toggle-btn"
-            :title="isCollapsed ? 'Expand' : 'Collapse'"
+              @click="toggleSidebar"
+              class="toggle-btn"
+              :title="isCollapsed ? 'Expand' : 'Collapse'"
           >
             <div class="toggle-btn-bg"></div>
             <div class="toggle-icon">
               <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
               >
-                <path d="M15 18l-6-6 6-6" v-if="!isCollapsed" />
-                <path d="M9 18l6-6-6-6" v-else />
+                <path d="M15 18l-6-6 6-6" v-if="!isCollapsed"/>
+                <path d="M9 18l6-6-6-6" v-else/>
               </svg>
             </div>
           </button>
@@ -119,19 +119,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
-import { useNotification } from "@/services/useNotification";
-import { useAuthStore } from "@/stores/auth";
-import { useI18n } from "@/composables/useI18n";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
+import {useNotification} from "@/services/useNotification";
+import {useAuthStore} from "@/stores/auth";
+import {useI18n} from "@/composables/useI18n";
 import IconLogo from "@/assets/icons/IconLogo.vue";
 import IconUser from "@/assets/icons/IconUser.vue";
 import IconSignOut from "@/assets/icons/IconSignOut.vue";
 
 const router = useRouter();
-const { show } = useNotification();
+const {show} = useNotification();
 const authStore = useAuthStore();
-const { t } = useI18n();
+const {t} = useI18n();
 
 const isCollapsed = ref(false);
 const isMobileOpen = ref(false);
@@ -151,7 +151,7 @@ const toggleSidebar = () => {
   localStorage.setItem("sidebarCollapsed", isCollapsed.value.toString());
 
   window.dispatchEvent(
-    new CustomEvent("sidebar-toggle", { detail: isCollapsed.value }),
+      new CustomEvent("sidebar-toggle", {detail: isCollapsed.value}),
   );
 };
 
@@ -176,7 +176,7 @@ const handleLogout = async () => {
     await authStore.logout();
     router.push("/");
   } catch {
-    show("Помилка при виході з системи", { type: "error" });
+    show("Помилка при виході з системи", {type: "error"});
   }
 };
 
@@ -217,14 +217,14 @@ onMounted(() => {
   }
 
   window.addEventListener("mobile-sidebar-toggle", handleMobileSidebarToggle);
-  document.addEventListener("touchstart", handleTouchStart, { passive: true });
-  document.addEventListener("touchend", handleTouchEnd, { passive: true });
+  document.addEventListener("touchstart", handleTouchStart, {passive: true});
+  document.addEventListener("touchend", handleTouchEnd, {passive: true});
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener(
-    "mobile-sidebar-toggle",
-    handleMobileSidebarToggle,
+      "mobile-sidebar-toggle",
+      handleMobileSidebarToggle,
   );
   document.removeEventListener("touchstart", handleTouchStart);
   document.removeEventListener("touchend", handleTouchEnd);
@@ -245,44 +245,39 @@ export default {};
   position: fixed;
   top: 80px;
   left: 0;
-  background:
-    linear-gradient(
+  background: linear-gradient(
       180deg,
       rgba(2, 6, 23, 0.98) 0%,
       rgba(15, 23, 42, 0.95) 100%
-    ),
-    /* Subtle vertical lines pattern */
-      linear-gradient(
-        90deg,
-        transparent 49%,
-        rgba(16, 185, 129, 0.02) 50%,
-        transparent 51%
-      ),
-    linear-gradient(
+  ),
+    /* Subtle vertical lines pattern */ linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(16, 185, 129, 0.02) 50%,
+      transparent 51%
+  ),
+  linear-gradient(
       0deg,
       transparent 49%,
       rgba(34, 197, 94, 0.015) 50%,
       transparent 51%
-    );
-  background-size:
-    100% 100%,
-    80px 80px,
-    120px 120px;
+  );
+  background-size: 100% 100%,
+  80px 80px,
+  120px 120px;
   border-right: 2px solid transparent;
   border-image: linear-gradient(
       180deg,
       rgba(16, 185, 129, 0.2),
       rgba(34, 197, 94, 0.2),
       transparent
-    )
-    1;
+  ) 1;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   overflow: hidden;
   backdrop-filter: blur(20px);
   z-index: 50;
-  box-shadow:
-    4px 0 30px rgba(0, 0, 0, 0.3),
-    inset -1px 0 0 rgba(148, 163, 184, 0.1);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3),
+  inset -1px 0 0 rgba(148, 163, 184, 0.1);
 }
 
 .sidebar-glow {
@@ -317,18 +312,18 @@ export default {};
 
 .sidebar-content::-webkit-scrollbar-thumb {
   background: linear-gradient(
-    180deg,
-    rgba(16, 185, 129, 0.4),
-    rgba(34, 197, 94, 0.4)
+      180deg,
+      rgba(16, 185, 129, 0.4),
+      rgba(34, 197, 94, 0.4)
   );
   border-radius: 2px;
 }
 
 .sidebar-content::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(
-    180deg,
-    rgba(16, 185, 129, 0.6),
-    rgba(34, 197, 94, 0.6)
+      180deg,
+      rgba(16, 185, 129, 0.6),
+      rgba(34, 197, 94, 0.6)
   );
 }
 
@@ -370,9 +365,9 @@ export default {};
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    135deg,
-    rgba(15, 23, 42, 0.8),
-    rgba(30, 41, 59, 0.6)
+      135deg,
+      rgba(15, 23, 42, 0.8),
+      rgba(30, 41, 59, 0.6)
   );
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
@@ -422,16 +417,15 @@ export default {};
 .nav-item:hover {
   border-color: rgba(16, 185, 129, 0.4);
   transform: translateX(6px);
-  box-shadow:
-    0 4px 20px rgba(16, 185, 129, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1),
+  inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .nav-item:hover .nav-item-background {
   background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.15),
-    rgba(34, 197, 94, 0.1)
+      135deg,
+      rgba(16, 185, 129, 0.15),
+      rgba(34, 197, 94, 0.1)
   );
 }
 
@@ -531,9 +525,8 @@ export default {};
   transform: translateY(-2px);
   background: rgba(15, 23, 42, 0.8);
   border-color: rgba(16, 185, 129, 0.3);
-  box-shadow:
-    0 6px 25px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2),
+  inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .logo-link:hover .logo-text {
@@ -565,9 +558,9 @@ export default {};
 
 .logout-bg {
   background: linear-gradient(
-    135deg,
-    rgba(239, 68, 68, 0.1),
-    rgba(220, 38, 38, 0.1)
+      135deg,
+      rgba(239, 68, 68, 0.1),
+      rgba(220, 38, 38, 0.1)
   ) !important;
 }
 
@@ -577,9 +570,9 @@ export default {};
 
 .logout-link:hover .logout-bg {
   background: linear-gradient(
-    135deg,
-    rgba(239, 68, 68, 0.2),
-    rgba(220, 38, 38, 0.15)
+      135deg,
+      rgba(239, 68, 68, 0.2),
+      rgba(220, 38, 38, 0.15)
   ) !important;
 }
 
@@ -608,9 +601,9 @@ export default {};
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.1),
-    rgba(34, 197, 94, 0.1)
+      135deg,
+      rgba(16, 185, 129, 0.1),
+      rgba(34, 197, 94, 0.1)
   );
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: 16px;
@@ -629,14 +622,13 @@ export default {};
 
 .toggle-btn:hover .toggle-btn-bg {
   background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.2),
-    rgba(34, 197, 94, 0.2)
+      135deg,
+      rgba(16, 185, 129, 0.2),
+      rgba(34, 197, 94, 0.2)
   );
   border-color: rgba(16, 185, 129, 0.4);
-  box-shadow:
-    0 4px 20px rgba(16, 185, 129, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15),
+  inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .toggle-btn:hover .toggle-icon {
@@ -652,16 +644,15 @@ export default {};
 
 .activeLink {
   border-color: rgba(16, 185, 129, 0.6) !important;
-  box-shadow:
-    0 4px 20px rgba(16, 185, 129, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2),
+  inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .activeLink .nav-item-background {
   background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.2),
-    rgba(34, 197, 94, 0.15)
+      135deg,
+      rgba(16, 185, 129, 0.2),
+      rgba(34, 197, 94, 0.15)
   ) !important;
 }
 
@@ -702,9 +693,9 @@ export default {};
   padding: 0;
   border: 1px solid rgba(16, 185, 129, 0.4);
   background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.15),
-    rgba(34, 197, 94, 0.1)
+      135deg,
+      rgba(16, 185, 129, 0.15),
+      rgba(34, 197, 94, 0.1)
   );
   border-radius: 16px;
   margin: 8px 0 16px 0;
@@ -713,9 +704,8 @@ export default {};
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   backdrop-filter: blur(10px);
-  box-shadow:
-    0 2px 12px rgba(16, 185, 129, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 12px rgba(16, 185, 129, 0.1),
+  inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .collapsed .viewed-profile-link .nav-item-content {
@@ -725,15 +715,14 @@ export default {};
 
 .viewed-profile-link:hover {
   background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.25),
-    rgba(34, 197, 94, 0.2)
+      135deg,
+      rgba(16, 185, 129, 0.25),
+      rgba(34, 197, 94, 0.2)
   );
   border-color: rgba(16, 185, 129, 0.6);
   transform: translateX(6px);
-  box-shadow:
-    0 4px 20px rgba(16, 185, 129, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15),
+  inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .profile-avatar {

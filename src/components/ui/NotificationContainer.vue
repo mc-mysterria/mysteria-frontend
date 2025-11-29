@@ -2,16 +2,16 @@
   <div class="notifications-container">
     <TransitionGroup name="slide-fade">
       <WarnItem
-        v-for="(notification, index) in notifications"
-        :key="notification.id"
-        :message="notification.message"
-        :type="notification.type"
-        :duration="notification.duration"
-        :clickable="notification.clickable"
-        :copyable="notification.copyable"
-        :style="{ bottom: `${20 + index * 80}px` }"
-        @close="() => remove(notification.id)"
-        @click="() => handleNotificationClick(notification)"
+          v-for="(notification, index) in notifications"
+          :key="notification.id"
+          :message="notification.message"
+          :type="notification.type"
+          :duration="notification.duration"
+          :clickable="notification.clickable"
+          :copyable="notification.copyable"
+          :style="{ bottom: `${20 + index * 80}px` }"
+          @close="() => remove(notification.id)"
+          @click="() => handleNotificationClick(notification)"
       />
     </TransitionGroup>
   </div>
@@ -19,10 +19,10 @@
 
 <script setup lang="ts">
 import WarnItem from "./WarnItem.vue";
-import { useNotification } from "@/services/useNotification";
-import type { Notification } from "@/services/useNotification";
+import type {Notification} from "@/services/useNotification";
+import {useNotification} from "@/services/useNotification";
 
-const { notifications, remove, copyErrorDetails } = useNotification();
+const {notifications, remove, copyErrorDetails} = useNotification();
 
 const handleNotificationClick = (notification: Notification) => {
   if (notification.copyable) {

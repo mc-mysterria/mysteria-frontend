@@ -1,70 +1,70 @@
 <template>
   <Transition name="slide-fade">
     <div
-      v-if="isVisible"
-      :class="['notification-card', type, { clickable: clickable }]"
-      role="alert"
-      @click="handleClick"
+        v-if="isVisible"
+        :class="['notification-card', type, { clickable: clickable }]"
+        role="alert"
+        @click="handleClick"
     >
       <div class="content">
         <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 25"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          :class="['info-icon', type]"
+            width="24"
+            height="24"
+            viewBox="0 0 24 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            :class="['info-icon', type]"
         >
           <path
-            d="M12 21.5C16.9706 21.5 21 17.4706 21 12.5C21 7.52944 16.9706 3.5 12 3.5C7.02944 3.5 3 7.52944 3 12.5C3 17.4706 7.02944 21.5 12 21.5Z"
-            stroke-width="1.5"
-            stroke-miterlimit="10"
+              d="M12 21.5C16.9706 21.5 21 17.4706 21 12.5C21 7.52944 16.9706 3.5 12 3.5C7.02944 3.5 3 7.52944 3 12.5C3 17.4706 7.02944 21.5 12 21.5Z"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
           />
           <path
-            d="M12 8V13.25"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+              d="M12 8V13.25"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
           />
           <path
-            d="M12.375 16.625C12.375 16.8321 12.2071 17 12 17C11.7929 17 11.625 16.8321 11.625 16.625C11.625 16.4179 11.7929 16.25 12 16.25C12.2071 16.25 12.375 16.4179 12.375 16.625Z"
-            stroke-width="1.5"
+              d="M12.375 16.625C12.375 16.8321 12.2071 17 12 17C11.7929 17 11.625 16.8321 11.625 16.625C11.625 16.4179 11.7929 16.25 12 16.25C12.2071 16.25 12.375 16.4179 12.375 16.625Z"
+              stroke-width="1.5"
           />
         </svg>
         {{ message }}
         <!-- Copy icon for copyable notifications -->
         <svg
-          v-if="copyable"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="copy-icon"
+            v-if="copyable"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="copy-icon"
         >
           <path
-            d="M20 9H11C9.89543 9 9 9.89543 9 11V20C9 21.1046 9.89543 22 11 22H20C21.1046 22 22 21.1046 22 20V11C22 9.89543 21.1046 9 20 9Z"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+              d="M20 9H11C9.89543 9 9 9.89543 9 11V20C9 21.1046 9.89543 22 11 22H20C21.1046 22 22 21.1046 22 20V11C22 9.89543 21.1046 9 20 9Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
           />
           <path
-            d="M5 15H4C3.46957 15 2.96086 14.7893 2.58579 14.4142C2.21071 14.0391 2 13.5304 2 13V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H13C13.5304 2 14.0391 2.21071 14.4142 2.58579C14.7893 2.96086 15 3.46957 15 4V5"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+              d="M5 15H4C3.46957 15 2.96086 14.7893 2.58579 14.4142C2.21071 14.0391 2 13.5304 2 13V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H13C13.5304 2 14.0391 2.21071 14.4142 2.58579C14.7893 2.96086 15 3.46957 15 4V5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
           />
         </svg>
       </div>
-      <IconClose v-if="!copyable" @click.stop="close" class="icon-close" />
+      <IconClose v-if="!copyable" @click.stop="close" class="icon-close"/>
     </div>
   </Transition>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import {onMounted, ref} from "vue";
 import IconClose from "@/assets/icons/IconClose.vue";
 
 const props = defineProps<{
@@ -176,9 +176,8 @@ img {
 
 .clickable {
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease,
+  box-shadow 0.2s ease;
 }
 
 .clickable:hover {

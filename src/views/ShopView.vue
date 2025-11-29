@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen relative">
-    <HeaderItem />
+    <HeaderItem/>
 
     <main class="shop-main">
       <div class="shop-container">
@@ -28,31 +28,30 @@
 
         <!-- Shop content -->
         <div v-else class="shop-content">
-          <ShopItems />
+          <ShopItems/>
         </div>
 
-        <ModalItem ref="confirmModal" />
+        <ModalItem ref="confirmModal"/>
       </div>
     </main>
 
-    <FooterItem />
+    <FooterItem/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import {onMounted, ref, watch} from "vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
-import { useBalanceStore } from "@/stores/balance";
-import { useAuthStore } from "@/stores/auth";
-import { useI18n } from "@/composables/useI18n";
+import {useBalanceStore} from "@/stores/balance";
+import {useAuthStore} from "@/stores/auth";
+import {useI18n} from "@/composables/useI18n";
 import ShopItems from "@/components/shop/ShopItems.vue";
 import ModalItem from "@/components/ui/ModalItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
-import SectionTitle from "@/components/ui/SectionTitle.vue";
 
 const authStore = useAuthStore();
 const shopStore = useBalanceStore();
-const { t, currentLanguage } = useI18n();
+const {t, currentLanguage} = useI18n();
 const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
 const isShopLoading = ref(true);
 const shopError = ref<string | null>(null);
@@ -61,19 +60,19 @@ const shopError = ref<string | null>(null);
 onMounted(async () => {
   try {
     console.log('ShopView mounted, auth state:', authStore.isAuthenticated);
-    
+
     // Always fetch services (public access)
     if (shopStore.items.length === 0) {
       console.log('No items in store, fetching services');
       await shopStore.fetchServices(false); // false = no auth required
     }
-    
+
     // Fetch balance only if authenticated
     if (authStore.isAuthenticated && !shopStore.balance) {
       console.log('User authenticated, fetching balance');
       await shopStore.fetchBalance();
     }
-    
+
     console.log('Shop data loaded:', {
       itemsCount: shopStore.items.length,
       hasBalance: !!shopStore.balance,
@@ -90,35 +89,35 @@ onMounted(async () => {
 // Watch for auth state changes and reload data if needed
 watch(() => authStore.isAuthenticated, async (isAuthenticated) => {
   console.log('Auth state changed in ShopView:', isAuthenticated);
-  
+
   if (isAuthenticated) {
     console.log('User authenticated, fetching balance');
-    
+
     try {
       // Always fetch balance when user authenticates
       await shopStore.fetchBalance();
-      
+
       // Re-fetch services with auth to get user-specific data if needed
       await shopStore.fetchServices(true);
     } catch (error) {
       console.error('Error reloading shop data after auth change:', error);
     }
   }
-}, { immediate: false });
+}, {immediate: false});
 
 // Watch for language changes and reload services
 watch(currentLanguage, async (newLanguage, oldLanguage) => {
   if (oldLanguage && newLanguage !== oldLanguage) {
     console.log('Language changed, reloading services:', oldLanguage, '->', newLanguage);
-    
+
     isShopLoading.value = true;
     shopError.value = null;
-    
+
     try {
       // Re-fetch services with new language
       const requireAuth = authStore.isAuthenticated;
       await shopStore.fetchServices(requireAuth);
-      
+
       console.log('Services reloaded for language:', newLanguage);
     } catch (error) {
       console.error('Error reloading services after language change:', error);
@@ -127,20 +126,20 @@ watch(currentLanguage, async (newLanguage, oldLanguage) => {
       isShopLoading.value = false;
     }
   }
-}, { immediate: false });
+}, {immediate: false});
 
 // Retry loading function
 const retryLoading = async () => {
   console.log('Retrying shop data loading');
   shopError.value = null;
   isShopLoading.value = true;
-  
+
   try {
     await Promise.all([
       shopStore.fetchServices(),
       shopStore.fetchBalance()
     ]);
-    
+
     console.log('Retry successful, items:', shopStore.items.length);
   } catch (error) {
     console.error('Retry failed:', error);
@@ -151,43 +150,43 @@ const retryLoading = async () => {
 };
 
 watch(
-  () => shopStore.currentPurchase,
-  async (newPurchase) => {
-    if (newPurchase && confirmModal.value) {
-      await shopStore.fetchBalance();
+    () => shopStore.currentPurchase,
+    async (newPurchase) => {
+      if (newPurchase && confirmModal.value) {
+        await shopStore.fetchBalance();
 
-      if (newPurchase.requiresServerSelection) {
-        confirmModal.value.showModal(
-          t("selectServerForItem"),
-          t("purchase"),
-          t("cancel"),
-        );
-        return;
-      }
+        if (newPurchase.requiresServerSelection) {
+          confirmModal.value.showModal(
+              t("selectServerForItem"),
+              t("purchase"),
+              t("cancel"),
+          );
+          return;
+        }
 
-      if (
-        !shopStore.balance ||
-        shopStore.balance.amount.lessThan(newPurchase.price)
-      ) {
-        const amount = Math.ceil(
-          Number(newPurchase.price.minus(shopStore.balance?.amount || 0)),
-        );
-        const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
-        confirmModal.value.showModal(
-          `${t("insufficientFundsMessage")} ${amount} ${currencyName}?`,
-          t("topUp"),
-          t("cancel"),
-        );
-      } else {
-        confirmModal.value.showModal(
-          t("confirmPurchaseMessage"),
-          t("purchase"),
-          t("cancel"),
-        );
+        if (
+            !shopStore.balance ||
+            shopStore.balance.amount.lessThan(newPurchase.price)
+        ) {
+          const amount = Math.ceil(
+              Number(newPurchase.price.minus(shopStore.balance?.amount || 0)),
+          );
+          const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
+          confirmModal.value.showModal(
+              `${t("insufficientFundsMessage")} ${amount} ${currencyName}?`,
+              t("topUp"),
+              t("cancel"),
+          );
+        } else {
+          confirmModal.value.showModal(
+              t("confirmPurchaseMessage"),
+              t("purchase"),
+              t("cancel"),
+          );
+        }
       }
-    }
-  },
-  { deep: true },
+    },
+    {deep: true},
 );
 </script>
 

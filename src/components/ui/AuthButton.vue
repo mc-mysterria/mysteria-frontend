@@ -2,20 +2,20 @@
   <div class="auth-container">
     <div v-if="authStore.isAuthenticated" class="user-menu">
       <DropdownSelect
-        v-model="selectedAction"
-        :options="userMenuOptions"
-        @change="handleMenuAction"
-        :placeholder="userDisplayText"
-        :disabled="authStore.isLoading"
-        class="user-dropdown"
+          v-model="selectedAction"
+          :options="userMenuOptions"
+          @change="handleMenuAction"
+          :placeholder="userDisplayText"
+          :disabled="authStore.isLoading"
+          class="user-dropdown"
       >
         <template #selected="{ placeholder }">
           <div class="user-button-content">
             <UserAvatar
-              v-if="userStore.currentUser"
-              :user="userStore.currentUser"
-              size="small"
-              class="header-avatar"
+                v-if="userStore.currentUser"
+                :user="userStore.currentUser"
+                size="small"
+                class="header-avatar"
             />
             <i v-else class="fa-brands fa-discord discord-icon"></i>
             <span class="username">{{ placeholder }}</span>
@@ -32,10 +32,10 @@
     </div>
 
     <button
-      v-else
-      :class="buttonClasses"
-      @click="handleLogin"
-      :disabled="authStore.isLoading"
+        v-else
+        :class="buttonClasses"
+        @click="handleLogin"
+        :disabled="authStore.isLoading"
     >
       <div class="button-content">
         <i class="fa-brands fa-discord discord-icon"></i>
@@ -53,12 +53,12 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth";
-import { useUserStore } from "@/stores/user";
-import { useNotification } from "@/services/useNotification";
-import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "@/composables/useI18n";
+import {useAuthStore} from "@/stores/auth";
+import {useUserStore} from "@/stores/user";
+import {useNotification} from "@/services/useNotification";
+import {computed, ref} from "vue";
+import {useRouter} from "vue-router";
+import {useI18n} from "@/composables/useI18n";
 import DropdownSelect from "@/components/ui/DropdownSelect.vue";
 import UserAvatar from "@/components/ui/UserAvatar.vue";
 
@@ -76,9 +76,9 @@ const emit = defineEmits<{
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
-const { show } = useNotification();
+const {show} = useNotification();
 const router = useRouter();
-const { t } = useI18n();
+const {t} = useI18n();
 
 const selectedAction = ref("");
 
@@ -88,8 +88,8 @@ const userDisplayText = computed(() => {
 
 const profileUrl = computed(() => {
   return authStore.isAuthenticated && userStore.currentUser
-    ? `/profile` // /${userStore.currentUser.nickname || userStore.currentUser.id}
-    : "";
+      ? `/profile` // /${userStore.currentUser.nickname || userStore.currentUser.id}
+      : "";
 });
 
 const userMenuOptions = computed(() => {
@@ -104,16 +104,16 @@ const userMenuOptions = computed(() => {
   // Add content editing options for privileged users
   if (authStore.isPrivilegedUser) {
     options.push(
-      {
-        label: "Edit News",
-        value: "edit-news",
-        icon: "fa-solid fa-newspaper",
-      },
-      {
-        label: "Edit Services",
-        value: "edit-services",
-        icon: "fa-solid fa-shopping-cart",
-      }
+        {
+          label: "Edit News",
+          value: "edit-news",
+          icon: "fa-solid fa-newspaper",
+        },
+        {
+          label: "Edit Services",
+          value: "edit-services",
+          icon: "fa-solid fa-shopping-cart",
+        }
     );
   }
 
@@ -178,7 +178,7 @@ const handleLogout = async () => {
     }
     await authStore.logout();
   } catch {
-    show(t("error"), { type: "error" });
+    show(t("error"), {type: "error"});
   }
 };
 </script>

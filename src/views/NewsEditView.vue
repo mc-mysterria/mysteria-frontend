@@ -9,7 +9,7 @@
       </button>
       <h1 class="page-title">News Editor</h1>
     </div>
-    
+
     <div class="controls">
       <select v-model="selectedArticleId" @change="loadArticle">
         <option value="">Select an article to edit</option>
@@ -29,22 +29,22 @@
     <div v-if="selectedArticle" class="editor-form">
       <div class="form-group">
         <label>Title *</label>
-        <input 
-          v-model="selectedArticle.title" 
-          placeholder="Enter article title" 
-          required 
-          :class="{ 'error': validationErrors.title }"
+        <input
+            v-model="selectedArticle.title"
+            placeholder="Enter article title"
+            required
+            :class="{ 'error': validationErrors.title }"
         />
         <div v-if="validationErrors.title" class="field-error">{{ validationErrors.title }}</div>
       </div>
 
       <div class="form-group">
         <label>Slug *</label>
-        <input 
-          v-model="selectedArticle.slug" 
-          placeholder="article-slug" 
-          required 
-          :class="{ 'error': validationErrors.slug }"
+        <input
+            v-model="selectedArticle.slug"
+            placeholder="article-slug"
+            required
+            :class="{ 'error': validationErrors.slug }"
         />
         <small>URL-friendly slug (lowercase, hyphens only, no spaces)</small>
         <div v-if="validationErrors.slug" class="field-error">{{ validationErrors.slug }}</div>
@@ -60,10 +60,10 @@
 
       <div class="form-group">
         <label>Short Description</label>
-        <input 
-          v-model="selectedArticle.shortDescription" 
-          placeholder="Brief description for preview (optional)" 
-          :class="{ 'error': validationErrors.shortDescription }"
+        <input
+            v-model="selectedArticle.shortDescription"
+            placeholder="Brief description for preview (optional)"
+            :class="{ 'error': validationErrors.shortDescription }"
         />
         <small>{{ selectedArticle.shortDescription?.length || 0 }}/500 characters</small>
         <div v-if="validationErrors.shortDescription" class="field-error">{{ validationErrors.shortDescription }}</div>
@@ -71,36 +71,36 @@
 
       <div class="form-group">
         <label>Preview Image URL</label>
-        <input 
-          v-model="selectedArticle.preview" 
-          placeholder="https://example.com/image.jpg (optional)" 
-          type="url"
-          :class="{ 'error': validationErrors.preview }"
+        <input
+            v-model="selectedArticle.preview"
+            placeholder="https://example.com/image.jpg (optional)"
+            type="url"
+            :class="{ 'error': validationErrors.preview }"
         />
         <div v-if="validationErrors.preview" class="field-error">{{ validationErrors.preview }}</div>
       </div>
 
       <div class="form-group">
         <label>Content (Markdown) *</label>
-        <textarea 
-          v-model="selectedArticle.content" 
-          placeholder="Write your article content in Markdown..." 
-          required
-          :class="{ 'error': validationErrors.content }"
+        <textarea
+            v-model="selectedArticle.content"
+            placeholder="Write your article content in Markdown..."
+            required
+            :class="{ 'error': validationErrors.content }"
         ></textarea>
         <div v-if="validationErrors.content" class="field-error">{{ validationErrors.content }}</div>
       </div>
 
       <div class="form-group">
         <label>
-          <input type="checkbox" v-model="selectedArticle.isPublished" />
+          <input type="checkbox" v-model="selectedArticle.isPublished"/>
           Published
         </label>
       </div>
 
       <div class="form-group">
         <label>
-          <input type="checkbox" v-model="selectedArticle.isPinned" />
+          <input type="checkbox" v-model="selectedArticle.isPinned"/>
           Pinned (will appear at the top of the news list)
         </label>
       </div>
@@ -157,7 +157,7 @@
             </div>
 
             <div v-if="selectedArticle?.preview" class="preview-image-wrapper">
-              <img :src="selectedArticle.preview" :alt="selectedArticle.title" class="preview-image" />
+              <img :src="selectedArticle.preview" :alt="selectedArticle.title" class="preview-image"/>
             </div>
 
             <div class="preview-article-content" v-dompurify-html="renderedContent"></div>
@@ -169,10 +169,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { newsAPI } from '@/utils/api/news';
-import type { NewsArticle, CreateNewsData, UpdateNewsData } from '@/types/news';
+import {computed, onMounted, ref, watch} from 'vue';
+import {useRouter} from 'vue-router';
+import {newsAPI} from '@/utils/api/news';
+import type {CreateNewsData, NewsArticle, UpdateNewsData} from '@/types/news';
 import MarkdownIt from 'markdown-it';
 
 const router = useRouter();
@@ -194,10 +194,10 @@ const md = new MarkdownIt({
 
 const canSave = computed(() => {
   return selectedArticle.value &&
-         selectedArticle.value.title.trim() &&
-         selectedArticle.value.slug.trim() &&
-         selectedArticle.value.content.trim() &&
-         Object.keys(validationErrors.value).length === 0;
+      selectedArticle.value.title.trim() &&
+      selectedArticle.value.slug.trim() &&
+      selectedArticle.value.content.trim() &&
+      Object.keys(validationErrors.value).length === 0;
 });
 
 const renderedContent = computed(() => {
@@ -224,16 +224,16 @@ const validateSlug = (slug: string): boolean => {
 
 const validateForm = () => {
   const errors: Record<string, string> = {};
-  
+
   if (!selectedArticle.value) return;
-  
+
   // Title validation
   if (!selectedArticle.value.title.trim()) {
     errors.title = 'Title is required';
   } else if (selectedArticle.value.title.length > 200) {
     errors.title = 'Title must be less than 200 characters';
   }
-  
+
   // Slug validation
   if (!selectedArticle.value.slug.trim()) {
     errors.slug = 'Slug is required';
@@ -242,17 +242,17 @@ const validateForm = () => {
   } else if (selectedArticle.value.slug.length > 100) {
     errors.slug = 'Slug must be less than 100 characters';
   }
-  
+
   // Content validation
   if (!selectedArticle.value.content.trim()) {
     errors.content = 'Content is required';
   }
-  
+
   // Short description validation
   if (selectedArticle.value.shortDescription && selectedArticle.value.shortDescription.length > 500) {
     errors.shortDescription = 'Short description must be less than 500 characters';
   }
-  
+
   // Preview URL validation
   if (selectedArticle.value.preview && selectedArticle.value.preview.trim()) {
     try {
@@ -261,7 +261,7 @@ const validateForm = () => {
       errors.preview = 'Please enter a valid URL';
     }
   }
-  
+
   validationErrors.value = errors;
 };
 
@@ -281,7 +281,7 @@ watch(() => selectedArticle.value, () => {
   if (selectedArticle.value) {
     validateForm();
   }
-}, { deep: true });
+}, {deep: true});
 
 const goBack = () => {
   router.push('/profile');
@@ -340,7 +340,7 @@ const createNewArticle = () => {
 
 const saveArticle = async () => {
   if (!selectedArticle.value) return;
-  
+
   validateForm();
   if (!canSave.value) {
     error.value = 'Please fix validation errors before saving';
@@ -350,7 +350,7 @@ const saveArticle = async () => {
   try {
     loading.value = true;
     error.value = '';
-    
+
     if (selectedArticle.value.id) {
       // Update existing article
       const updateData: UpdateNewsData = {
@@ -377,12 +377,12 @@ const saveArticle = async () => {
       };
       await newsAPI.create(createData);
     }
-    
+
     // Refresh the list and clear selection
     await loadArticles();
     selectedArticle.value = null;
     selectedArticleId.value = '';
-    
+
     showSuccess('Article saved successfully!');
   } catch (err) {
     error.value = 'Failed to save article';
@@ -401,12 +401,12 @@ const deleteArticle = async () => {
     loading.value = true;
     error.value = '';
     await newsAPI.delete(String(selectedArticle.value.id));
-    
+
     // Refresh the list and clear selection
     await loadArticles();
     selectedArticle.value = null;
     selectedArticleId.value = '';
-    
+
     showSuccess('Article deleted successfully!');
   } catch (err) {
     error.value = 'Failed to delete article';
@@ -755,8 +755,12 @@ const cancelEdit = () => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .success {
@@ -966,10 +970,21 @@ const cancelEdit = () => {
   line-height: 1.3;
 }
 
-.preview-article-content h1 { font-size: 28px; }
-.preview-article-content h2 { font-size: 24px; }
-.preview-article-content h3 { font-size: 20px; }
-.preview-article-content h4 { font-size: 18px; }
+.preview-article-content h1 {
+  font-size: 28px;
+}
+
+.preview-article-content h2 {
+  font-size: 24px;
+}
+
+.preview-article-content h3 {
+  font-size: 20px;
+}
+
+.preview-article-content h4 {
+  font-size: 18px;
+}
 
 .preview-article-content p {
   margin-bottom: 16px;

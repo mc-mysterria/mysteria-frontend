@@ -1,6 +1,6 @@
 <template>
   <div class="personalInfoContainer personal-info-card">
-    <UserAvatar :user="displayedUser" size="large" class="profile-avatar" />
+    <UserAvatar :user="displayedUser" size="large" class="profile-avatar"/>
     <div class="personalInfo">
       <p class="white">{{ t("personalInfo") }}:</p>
       <div class="NameRole">
@@ -28,8 +28,8 @@
       <div class="verification-section" :title="t('verification')">
         <p>{{ t("verification") }}</p>
         <div
-          class="verification-status"
-          :class="{
+            class="verification-status"
+            :class="{
             verified: displayedUser?.verified,
             unverified: !displayedUser?.verified,
           }"
@@ -42,10 +42,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import type { UserResponse } from "@/types/users";
-import { useRoleStore } from "@/stores/roles";
-import { useI18n } from "@/composables/useI18n";
+import {computed} from "vue";
+import type {UserResponse} from "@/types/users";
+import {useRoleStore} from "@/stores/roles";
+import {useI18n} from "@/composables/useI18n";
 import UserAvatar from "@/components/ui/UserAvatar.vue";
 
 const props = defineProps<{
@@ -53,7 +53,7 @@ const props = defineProps<{
   subscription: string;
 }>();
 
-const { t } = useI18n();
+const {t} = useI18n();
 const roleStore = useRoleStore();
 
 const displayRole = computed(() => {
@@ -99,12 +99,12 @@ const getRoleClass = () => {
 
   // Community roles (orange)
   if (
-    [
-      "nitro_booster",
-      "wealth_sponsor",
-      "message_leader",
-      "voice_leader",
-    ].includes(roleName)
+      [
+        "nitro_booster",
+        "wealth_sponsor",
+        "message_leader",
+        "voice_leader",
+      ].includes(roleName)
   ) {
     return "role-community";
   }
@@ -223,9 +223,9 @@ const getRoleClass = () => {
   color: #22c55e;
   border-color: rgba(34, 197, 94, 0.6);
   background: linear-gradient(
-    135deg,
-    rgba(34, 197, 94, 0.15),
-    rgba(255, 255, 255, 0.1)
+      135deg,
+      rgba(34, 197, 94, 0.15),
+      rgba(255, 255, 255, 0.1)
   );
 }
 
@@ -233,9 +233,9 @@ const getRoleClass = () => {
   color: #f59e0b;
   border-color: rgba(245, 158, 11, 0.6);
   background: linear-gradient(
-    135deg,
-    rgba(245, 158, 11, 0.15),
-    rgba(255, 255, 255, 0.1)
+      135deg,
+      rgba(245, 158, 11, 0.15),
+      rgba(255, 255, 255, 0.1)
   );
 }
 
@@ -243,9 +243,9 @@ const getRoleClass = () => {
 .role-admin {
   border-color: rgba(255, 107, 107, 0.6) !important;
   background: linear-gradient(
-    135deg,
-    rgba(255, 107, 107, 0.15),
-    rgba(255, 255, 255, 0.1)
+      135deg,
+      rgba(255, 107, 107, 0.15),
+      rgba(255, 255, 255, 0.1)
   ) !important;
   color: #ff6b6b !important;
 }
@@ -253,9 +253,9 @@ const getRoleClass = () => {
 .role-high {
   border-color: rgba(34, 197, 94, 0.6) !important;
   background: linear-gradient(
-    135deg,
-    rgba(34, 197, 94, 0.15),
-    rgba(255, 255, 255, 0.1)
+      135deg,
+      rgba(34, 197, 94, 0.15),
+      rgba(255, 255, 255, 0.1)
   ) !important;
   color: #22c55e !important;
 }
@@ -263,9 +263,9 @@ const getRoleClass = () => {
 .role-medium {
   border-color: rgba(34, 197, 94, 0.6) !important;
   background: linear-gradient(
-    135deg,
-    rgba(34, 197, 94, 0.15),
-    rgba(255, 255, 255, 0.1)
+      135deg,
+      rgba(34, 197, 94, 0.15),
+      rgba(255, 255, 255, 0.1)
   ) !important;
   color: #22c55e !important;
 }
@@ -273,9 +273,9 @@ const getRoleClass = () => {
 .role-creator {
   border-color: rgba(14, 165, 233, 0.6) !important;
   background: linear-gradient(
-    135deg,
-    rgba(14, 165, 233, 0.15),
-    rgba(255, 255, 255, 0.1)
+      135deg,
+      rgba(14, 165, 233, 0.15),
+      rgba(255, 255, 255, 0.1)
   ) !important;
   color: #0ea5e9 !important;
 }
@@ -283,9 +283,9 @@ const getRoleClass = () => {
 .role-community {
   border-color: rgba(249, 115, 22, 0.6) !important;
   background: linear-gradient(
-    135deg,
-    rgba(249, 115, 22, 0.15),
-    rgba(255, 255, 255, 0.1)
+      135deg,
+      rgba(249, 115, 22, 0.15),
+      rgba(255, 255, 255, 0.1)
   ) !important;
   color: #f97316 !important;
 }

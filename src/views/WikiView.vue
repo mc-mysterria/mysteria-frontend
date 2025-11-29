@@ -1,22 +1,22 @@
 <template>
   <div class="wiki-view">
     <iframe
-      :src="wikiUrl"
-      class="wiki-frame"
-      title="Mysterria Wiki"
-      allow="fullscreen"
-      sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
+        :src="wikiUrl"
+        class="wiki-frame"
+        title="Mysterria Wiki"
+        allow="fullscreen"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from '@/composables/useI18n'
+import {computed, onMounted, onUnmounted} from 'vue'
+import {useRouter} from 'vue-router'
+import {useI18n} from '@/composables/useI18n'
 
 const router = useRouter()
-const { currentLanguage } = useI18n()
+const {currentLanguage} = useI18n()
 
 const handleSpaMessage = (event: MessageEvent) => {
   if (event.data && event.data.type === 'spa-navigate') {
@@ -37,9 +37,9 @@ onUnmounted(() => {
 })
 
 const wikiUrl = computed(() => {
-  return currentLanguage.value === 'uk' 
-    ? 'https://wiki.mysterria.net' 
-    : 'https://wiki.mysterria.net/en'
+  return currentLanguage.value === 'uk'
+      ? 'https://wiki.mysterria.net'
+      : 'https://wiki.mysterria.net/en'
 })
 </script>
 

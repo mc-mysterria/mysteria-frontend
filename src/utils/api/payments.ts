@@ -1,25 +1,20 @@
-import { BaseCRUD } from "./base";
-import type {
-  ServiceResponse,
-  ServiceFilterParams,
-  ServiceUpdate,
-  ServiceCreate,
-} from "@/types/services";
-import type { APIResponse } from "./base";
+import type {APIResponse} from "./base";
+import {BaseCRUD} from "./base";
+import type {ServiceCreate, ServiceFilterParams, ServiceResponse, ServiceUpdate,} from "@/types/services";
 
 class ServiceAPI extends BaseCRUD<
-  ServiceResponse,
-  ServiceCreate,
-  ServiceUpdate,
-  ServiceFilterParams
+    ServiceResponse,
+    ServiceCreate,
+    ServiceUpdate,
+    ServiceFilterParams
 > {
-  constructor() {
-    super("shop/services");
-  }
+    constructor() {
+        super("shop/services");
+    }
 
-  async getAffordable(): Promise<APIResponse<ServiceResponse[]>> {
-    return this.request<ServiceResponse[]>("GET", "/affordable");
-  }
+    async getAffordable(): Promise<APIResponse<ServiceResponse[]>> {
+        return this.request<ServiceResponse[]>("GET", "/affordable");
+    }
 }
 
 export const serviceAPI = new ServiceAPI();

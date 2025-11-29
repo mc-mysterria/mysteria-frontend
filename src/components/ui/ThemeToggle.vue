@@ -1,8 +1,8 @@
 <template>
   <button
-    @click="toggleTheme"
-    class="theme-toggle"
-    :aria-label="
+      @click="toggleTheme"
+      class="theme-toggle"
+      :aria-label="
       currentTheme === 'dark'
         ? 'Switch to parchment theme'
         : 'Switch to dark theme'
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import {onMounted, ref} from "vue";
 
 const currentTheme = ref<"dark" | "parchment">("dark");
 

@@ -1,6 +1,6 @@
 <template>
   <div class="service-page">
-    <HeaderItem />
+    <HeaderItem/>
     <main class="service-detail-container">
       <div v-if="service">
         <!-- Back Button -->
@@ -10,13 +10,13 @@
             {{ t('back') }}
           </button>
         </div>
-        
+
         <div class="service-header">
           <div class="service-image-wrapper" v-if="service.imageUrl">
-            <img 
-              :src="service.imageUrl" 
-              :alt="service.name"
-              class="service-image"
+            <img
+                :src="service.imageUrl"
+                :alt="service.name"
+                class="service-image"
             />
           </div>
           <div class="service-title-section">
@@ -28,41 +28,43 @@
             </div>
           </div>
         </div>
-        
+
         <div class="service-content" v-dompurify-html="renderedContent"></div>
-        
+
         <div class="service-actions">
-          <button 
-            @click="handlePurchase" 
-            class="purchase-btn"
-            :disabled="!authStore.isAuthenticated || purchasing"
-            :class="{ 'purchasing': purchasing }"
+          <button
+              @click="handlePurchase"
+              class="purchase-btn"
+              :disabled="!authStore.isAuthenticated || purchasing"
+              :class="{ 'purchasing': purchasing }"
           >
             <i v-if="purchasing" class="fa-solid fa-spinner fa-spin"></i>
             <i v-else class="fa-solid fa-shopping-cart"></i>
             {{ purchasing ? t('processing') : t('purchase') }}
           </button>
-          
+
           <p v-if="!authStore.isAuthenticated" class="auth-notice">
             {{ t('loginToPurchase') }}
           </p>
         </div>
       </div>
-      
+
       <div v-else-if="loading" class="service-loading">
         <div class="loading-spinner">
           <div class="spinner-ring"></div>
         </div>
         <p class="loading-text">{{ t('loadingService') }}</p>
       </div>
-      
+
       <div v-else class="service-error">
         <div class="error-content">
           <i class="fa-solid fa-triangle-exclamation error-icon"></i>
           <h3>{{ t('serviceNotFound') || 'Service Not Found' }}</h3>
           <p>{{ t('serviceNotFoundMessage') || 'This service content is not available yet or has been moved.' }}</p>
           <p class="error-details">
-            {{ t('serviceContentNotCreated') || 'The detailed description for this service has not been created yet. You can still purchase it from the shop page.' }}
+            {{
+              t('serviceContentNotCreated') || 'The detailed description for this service has not been created yet. You can still purchase it from the shop page.'
+            }}
           </p>
           <div class="error-actions">
             <router-link to="/store" class="back-to-shop-btn">
@@ -73,26 +75,26 @@
         </div>
       </div>
     </main>
-    <FooterItem />
-    
+    <FooterItem/>
+
     <!-- Confirmation Modal -->
-    <ModalItem ref="confirmModal" @confirm="confirmPurchase" @cancel="cancelPurchase" />
+    <ModalItem ref="confirmModal" @confirm="confirmPurchase" @cancel="cancelPurchase"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { shopAPI } from '@/utils/api/shop';
-import type { ServiceMarkdownDto } from '@/types/services';
-import { ServiceType } from '@/types/services';
+import {computed, nextTick, onMounted, ref, watch} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import {shopAPI} from '@/utils/api/shop';
+import type {ServiceMarkdownDto} from '@/types/services';
+import {ServiceType} from '@/types/services';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
-import { useI18n } from '@/composables/useI18n';
-import { useAuthStore } from '@/stores/auth';
-import { useBalanceStore } from '@/stores/balance';
-import { useUserStore } from '@/stores/user';
-import { useNotification } from '@/services/useNotification';
+import {useI18n} from '@/composables/useI18n';
+import {useAuthStore} from '@/stores/auth';
+import {useBalanceStore} from '@/stores/balance';
+import {useUserStore} from '@/stores/user';
+import {useNotification} from '@/services/useNotification';
 import ModalItem from '@/components/ui/ModalItem.vue';
 import MarkdownIt from 'markdown-it';
 import Decimal from 'decimal.js';
@@ -102,14 +104,14 @@ const router = useRouter();
 const service = ref<ServiceMarkdownDto | null>(null);
 const loading = ref(true);
 const purchasing = ref(false);
-const { t, currentLanguage } = useI18n();
+const {t, currentLanguage} = useI18n();
 const authStore = useAuthStore();
 const shopStore = useBalanceStore();
 const userStore = useUserStore();
-const { show } = useNotification();
+const {show} = useNotification();
 const profile = computed(() => userStore.currentUser);
 const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
-const pendingPurchase = ref<{serviceId: number, price: number} | null>(null);
+const pendingPurchase = ref<{ serviceId: number, price: number } | null>(null);
 
 const md = new MarkdownIt({
   html: true,
@@ -144,86 +146,86 @@ const goBack = () => {
 const handlePurchase = async () => {
   if (!service.value || !authStore.isAuthenticated) {
     show(
-      t('shopLoginRequired') || 'Log in to your account to access the Shop!',
-      { type: 'warn', duration: 5000 }
+        t('shopLoginRequired') || 'Log in to your account to access the Shop!',
+        {type: 'warn', duration: 5000}
     );
     return;
   }
-  
+
   // Check if account is verified (has nickname) before allowing purchase
   if (!profile.value?.verified || !profile.value?.nickname) {
     show(
-      t('profileSetupRequired') || 'Please verify your account and set up your profile to make purchases',
-      {
-        type: 'warn',
-        duration: 5000,
-      }
+        t('profileSetupRequired') || 'Please verify your account and set up your profile to make purchases',
+        {
+          type: 'warn',
+          duration: 5000,
+        }
     );
     return;
   }
-  
+
   try {
     // Fetch latest balance
     await shopStore.fetchBalance();
-    
+
     const servicePrice = new Decimal(service.value.price);
-    
+
     // Store pending purchase info
     pendingPurchase.value = {
       serviceId: service.value.id,
       price: service.value.price
     };
-    
+
     if (!shopStore.balance || shopStore.balance.amount.lessThan(servicePrice)) {
       const missingAmount = Math.ceil(
-        Number(servicePrice.minus(shopStore.balance?.amount || 0))
+          Number(servicePrice.minus(shopStore.balance?.amount || 0))
       );
       const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
       confirmModal.value?.showModal(
-        `${t('insufficientFundsMessage')} ${missingAmount} ${currencyName}?`,
-        t('topUp'),
-        t('cancel')
+          `${t('insufficientFundsMessage')} ${missingAmount} ${currencyName}?`,
+          t('topUp'),
+          t('cancel')
       );
     } else {
       confirmModal.value?.showModal(
-        t('confirmPurchaseMessage'),
-        t('purchase'),
-        t('cancel')
+          t('confirmPurchaseMessage'),
+          t('purchase'),
+          t('cancel')
       );
     }
-    
+
   } catch (error) {
-    show(t('purchaseError') || 'Failed to prepare purchase', { type: 'error' });
+    show(t('purchaseError') || 'Failed to prepare purchase', {type: 'error'});
   }
 };
 
 const confirmPurchase = async () => {
   if (!pendingPurchase.value) return;
-  
+
   purchasing.value = true;
-  
+
   try {
     const servicePrice = new Decimal(pendingPurchase.value.price);
-    
+
     // Check if it's insufficient funds case (topUp button)
     if (!shopStore.balance || shopStore.balance.amount.lessThan(servicePrice)) {
       // Redirect to top-up or show appropriate message
-      show(t('insufficientFundsMessage') || 'Insufficient funds. Please top up your balance to continue.', { type: 'info' });
+      show(t('insufficientFundsMessage') || 'Insufficient funds. Please top up your balance to continue.', {type: 'info'});
       return;
     }
-    
+
     // Make the actual purchase API call
     await shopAPI.purchaseService({
       serviceId: pendingPurchase.value.serviceId
     });
-    
+
     // Purchase was successful if we get here without an error
-    show(t('purchaseSuccess') || 'Purchase successful!', { type: 'success' });
+    show(t('purchaseSuccess') || 'Purchase successful!', {type: 'success'});
     // Refresh balance after successful purchase
     await shopStore.fetchBalance();
-    
+
   } catch (error) {
-    show(t('purchaseError') || 'Failed to complete purchase', { type: 'error' });
+    show(t('purchaseError') || 'Failed to complete purchase', {type: 'error'});
   } finally {
     purchasing.value = false;
     pendingPurchase.value = null;
@@ -272,7 +274,7 @@ watch(() => route.params.slug, async (newSlug, oldSlug) => {
     document.body.scrollTop = 0;
     window.scrollTo(0, 0);
   }
-}, { immediate: false });
+}, {immediate: false});
 
 onMounted(async () => {
   // Ensure scroll to top happens immediately
@@ -646,8 +648,12 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive design */
@@ -655,35 +661,35 @@ export default {
   .service-detail-container {
     padding: 100px 16px 20px 16px;
   }
-  
+
   .service-header {
     flex-direction: column;
     gap: 20px;
     text-align: center;
   }
-  
+
   .service-image-wrapper {
     align-self: center;
     width: 150px;
     height: 150px;
   }
-  
+
   .service-title {
     font-size: 2rem;
   }
-  
+
   .service-meta {
     justify-content: center;
   }
-  
+
   .service-content :deep(h1) {
     font-size: 1.875rem;
   }
-  
+
   .service-content :deep(h2) {
     font-size: 1.5rem;
   }
-  
+
   .purchase-btn {
     font-size: 16px;
     padding: 14px 28px;
@@ -695,25 +701,25 @@ export default {
   .service-header {
     gap: 16px;
   }
-  
+
   .service-image-wrapper {
     width: 120px;
     height: 120px;
   }
-  
+
   .service-title {
     font-size: 1.75rem;
   }
-  
+
   .service-meta {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .service-actions {
     padding: 20px;
   }
-  
+
   .purchase-btn {
     width: 100%;
     font-size: 16px;

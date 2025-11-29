@@ -38,7 +38,7 @@ class AdminAPI extends BaseCRUD<never, never, never, never> {
             params.sort = sort;
         }
 
-        return this.request<Page<UserProfileDto>>("GET", "/users", { params });
+        return this.request<Page<UserProfileDto>>("GET", "/users", {params});
     }
 
     /**

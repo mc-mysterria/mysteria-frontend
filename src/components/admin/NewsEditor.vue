@@ -9,7 +9,7 @@
     </select>
     <button @click="createNewArticle">New Article</button>
     <div v-if="selectedArticle">
-      <input v-model="selectedArticle.title" placeholder="Title" />
+      <input v-model="selectedArticle.title" placeholder="Title"/>
       <textarea v-model="selectedArticle.content" placeholder="Content (Markdown)"></textarea>
       <button @click="saveArticle">Save</button>
     </div>
@@ -17,9 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { newsAPI } from '@/utils/api/news';
-import type { NewsArticle } from '@/types/news';
+import {onMounted, ref} from 'vue';
+import {newsAPI} from '@/utils/api/news';
+import type {NewsArticle} from '@/types/news';
 
 const articles = ref<NewsArticle[]>([]);
 const selectedArticleId = ref<number | string>('');

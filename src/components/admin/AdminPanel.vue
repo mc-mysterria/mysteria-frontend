@@ -17,10 +17,10 @@
       <div class="controls">
         <div class="search-box">
           <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Search by nickname, email, or Discord ID..."
-            class="search-input"
+              v-model="searchQuery"
+              type="text"
+              placeholder="Search by nickname, email, or Discord ID..."
+              class="search-input"
           />
         </div>
         <button @click="() => loadUsers()" class="refresh-btn" :disabled="loading">
@@ -33,11 +33,11 @@
 
       <div class="user-list">
         <div
-          v-for="user in users"
-          :key="user.id"
-          class="user-item"
-          :class="{ 'selected': selectedUser?.id === user.id }"
-          @click="selectUser(user)"
+            v-for="user in users"
+            :key="user.id"
+            class="user-item"
+            :class="{ 'selected': selectedUser?.id === user.id }"
+            @click="selectUser(user)"
         >
           <div class="user-info">
             <div class="user-name">
@@ -62,9 +62,9 @@
       <!-- Pagination Controls -->
       <div v-if="totalPages > 1" class="pagination">
         <button
-          @click="() => goToPage(currentPage - 1)"
-          :disabled="currentPage === 0 || loading"
-          class="pagination-btn"
+            @click="() => goToPage(currentPage - 1)"
+            :disabled="currentPage === 0 || loading"
+            class="pagination-btn"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="m15 18-6-6 6-6"/>
@@ -78,9 +78,9 @@
         </div>
 
         <button
-          @click="() => goToPage(currentPage + 1)"
-          :disabled="currentPage >= totalPages - 1 || loading"
-          class="pagination-btn"
+            @click="() => goToPage(currentPage + 1)"
+            :disabled="currentPage >= totalPages - 1 || loading"
+            class="pagination-btn"
         >
           Next
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -99,7 +99,8 @@
           <label>Selected User</label>
           <div class="selected-user-info">
             <strong>{{ selectedUser.nickname || `User#${selectedUser.discordId}` }}</strong>
-            <span>Current Role: <span class="role-badge" :class="`role-${selectedUser.role.toLowerCase()}`">{{ selectedUser.role }}</span></span>
+            <span>Current Role: <span class="role-badge"
+                                      :class="`role-${selectedUser.role.toLowerCase()}`">{{ selectedUser.role }}</span></span>
           </div>
         </div>
 
@@ -108,9 +109,9 @@
           <select v-model="selectedRole" required>
             <option value="">Select a role</option>
             <option
-              v-for="role in availableRoles"
-              :key="role.value"
-              :value="role.value"
+                v-for="role in availableRoles"
+                :key="role.value"
+                :value="role.value"
             >
               {{ role.label }} - {{ role.description }}
             </option>
@@ -119,9 +120,9 @@
 
         <div class="form-actions">
           <button
-            @click="changeRole"
-            :disabled="!selectedRole || selectedRole === selectedUser.role || loading"
-            class="action-btn primary"
+              @click="changeRole"
+              :disabled="!selectedRole || selectedRole === selectedUser.role || loading"
+              class="action-btn primary"
           >
             <span v-if="loading" class="button-spinner"></span>
             {{ loading ? 'Changing Role...' : 'Change Role' }}
@@ -146,12 +147,12 @@
         <div class="form-group">
           <label>Amount *</label>
           <input
-            v-model.number="balanceAmount"
-            type="number"
-            step="0.01"
-            placeholder="Enter amount (positive to add, negative to subtract)"
-            required
-            :class="{ 'error': validationErrors.balanceAmount }"
+              v-model.number="balanceAmount"
+              type="number"
+              step="0.01"
+              placeholder="Enter amount (positive to add, negative to subtract)"
+              required
+              :class="{ 'error': validationErrors.balanceAmount }"
           />
           <small>
             Use positive values to add balance, negative to subtract.
@@ -165,11 +166,11 @@
         <div class="form-group">
           <label>Reason *</label>
           <textarea
-            v-model="balanceReason"
-            placeholder="Enter the reason for this balance adjustment..."
-            required
-            rows="3"
-            :class="{ 'error': validationErrors.balanceReason }"
+              v-model="balanceReason"
+              placeholder="Enter the reason for this balance adjustment..."
+              required
+              rows="3"
+              :class="{ 'error': validationErrors.balanceReason }"
           ></textarea>
           <div v-if="validationErrors.balanceReason" class="field-error">
             {{ validationErrors.balanceReason }}
@@ -178,17 +179,17 @@
 
         <div class="form-actions">
           <button
-            @click="adjustBalance"
-            :disabled="!canAdjustBalance || loading"
-            class="action-btn primary"
+              @click="adjustBalance"
+              :disabled="!canAdjustBalance || loading"
+              class="action-btn primary"
           >
             <span v-if="loading" class="button-spinner"></span>
             {{ loading ? 'Adjusting Balance...' : 'Adjust Balance' }}
           </button>
           <button
-            @click="clearBalanceForm"
-            class="action-btn secondary"
-            :disabled="loading"
+              @click="clearBalanceForm"
+              class="action-btn secondary"
+              :disabled="loading"
           >
             Clear
           </button>
@@ -207,11 +208,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { adminAPI } from '@/utils/api/admin.ts';
-import { USER_ROLES } from '@/types/admin.ts';
-import type { UserProfileDto } from '@/types/auth.ts';
+import {computed, onMounted, ref, watch} from 'vue';
+import {useRouter} from 'vue-router';
+import {adminAPI} from '@/utils/api/admin.ts';
+import {USER_ROLES} from '@/types/admin.ts';
+import type {UserProfileDto} from '@/types/auth.ts';
 
 const router = useRouter();
 
@@ -241,9 +242,9 @@ const availableRoles = computed(() => USER_ROLES);
 
 const canAdjustBalance = computed(() => {
   return selectedUser.value &&
-         balanceAmount.value !== 0 &&
-         balanceReason.value.trim() !== '' &&
-         Object.keys(validationErrors.value).length === 0;
+      balanceAmount.value !== 0 &&
+      balanceReason.value.trim() !== '' &&
+      Object.keys(validationErrors.value).length === 0;
 });
 
 // Methods
@@ -269,10 +270,10 @@ const loadUsers = async (page: number = currentPage.value) => {
     loading.value = true;
     error.value = '';
     const response = await adminAPI.getUsers(
-      page,
-      pageSize.value,
-      searchQuery.value || undefined,
-      'createdAt,desc'
+        page,
+        pageSize.value,
+        searchQuery.value || undefined,
+        'createdAt,desc'
     );
 
     users.value = response.data.content;
@@ -376,9 +377,9 @@ const adjustBalance = async () => {
     error.value = '';
 
     const response = await adminAPI.adjustUserBalance(
-      selectedUser.value.id,
-      balanceAmount.value,
-      balanceReason.value
+        selectedUser.value.id,
+        balanceAmount.value,
+        balanceReason.value
     );
 
     // Update local user data with new balance from transaction
@@ -788,8 +789,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .success-message {

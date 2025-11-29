@@ -2,65 +2,68 @@
   <header class="main-header">
     <div class="header-content">
       <RouterLink to="/" @click="closeMobileNav" class="header-logo-link">
-        <IconLogo />
+        <IconLogo/>
         <span class="logo-text">Mysterria</span>
       </RouterLink>
 
       <nav class="navigation" ref="navigationRef">
         <component
-          v-for="link in navigationLinks"
-          :key="link.path"
-          :is="link.external ? 'a' : 'RouterLink'"
-          v-bind="getNavLinkProps(link)"
-          :class="[
+            v-for="link in navigationLinks"
+            :key="link.path"
+            :is="link.external ? 'a' : 'RouterLink'"
+            v-bind="getNavLinkProps(link)"
+            :class="[
             'nav-link',
             { active: !link.external && route.path === link.path },
           ]"
-          :data-path="link.path"
+            :data-path="link.path"
         >
           {{ link.title }}
         </component>
 
         <!-- Services Dropdown -->
-        <div class="services-dropdown" @mouseenter="clearCloseServicesTimeout" @mouseleave="scheduleCloseServicesDropdown">
+        <div class="services-dropdown" @mouseenter="clearCloseServicesTimeout"
+             @mouseleave="scheduleCloseServicesDropdown">
           <button
-            @click="toggleServicesDropdown"
-            @mouseenter="openServicesDropdown"
-            :class="['nav-link', 'services-trigger', { 'active': isServicesOpen }]"
+              @click="toggleServicesDropdown"
+              @mouseenter="openServicesDropdown"
+              :class="['nav-link', 'services-trigger', { 'active': isServicesOpen }]"
           >
             {{ t('navServices') }}
             <span v-if="showServicesDot" class="attention-dot" aria-hidden="true"></span>
             <svg
-              class="dropdown-arrow"
-              :class="{ 'rotate': isServicesOpen }"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
+                class="dropdown-arrow"
+                :class="{ 'rotate': isServicesOpen }"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
             >
               <polyline points="6,9 12,15 18,9"></polyline>
             </svg>
           </button>
 
           <Transition name="dropdown">
-            <div v-if="isServicesOpen" class="services-dropdown-menu" @mouseenter="clearCloseServicesTimeout" @mouseleave="scheduleCloseServicesDropdown">
+            <div v-if="isServicesOpen" class="services-dropdown-menu" @mouseenter="clearCloseServicesTimeout"
+                 @mouseleave="scheduleCloseServicesDropdown">
               <a
-                v-for="service in servicesLinks"
-                :key="service.url"
-                :href="service.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="service-link"
-                @click="closeServicesDropdown"
+                  v-for="service in servicesLinks"
+                  :key="service.url"
+                  :href="service.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="service-link"
+                  @click="closeServicesDropdown"
               >
-                <component :is="service.icon" class="service-icon" />
+                <component :is="service.icon" class="service-icon"/>
                 <div class="service-info">
                   <span class="service-name">{{ service.name }}</span>
                   <span class="service-description">{{ service.description }}</span>
                 </div>
-                <svg class="external-link-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="external-link-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                   <polyline points="15,3 21,3 21,9"></polyline>
                   <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -72,17 +75,17 @@
       </nav>
 
       <div class="header-actions">
-        <ThemeToggle />
-        <LanguageSelector class="language-desktop" />
-        <BalanceButton class="balance-desktop" />
-        <AuthButton class="auth-desktop" />
+        <ThemeToggle/>
+        <LanguageSelector class="language-desktop"/>
+        <BalanceButton class="balance-desktop"/>
+        <AuthButton class="auth-desktop"/>
         <button
-          @click="toggleMobileNav"
-          class="mobile-nav-toggle"
-          :aria-expanded="isMobileNavOpen"
-          aria-label="Toggle navigation"
+            @click="toggleMobileNav"
+            class="mobile-nav-toggle"
+            :aria-expanded="isMobileNavOpen"
+            aria-label="Toggle navigation"
         >
-          <IconNavbar />
+          <IconNavbar/>
         </button>
       </div>
     </div>
@@ -95,9 +98,9 @@
         <nav class="mobile-nav">
           <div class="mobile-nav-header">
             <button
-              @click="closeMobileNav"
-              class="mobile-nav-close"
-              aria-label="Close navigation"
+                @click="closeMobileNav"
+                class="mobile-nav-close"
+                aria-label="Close navigation"
             >
               <i class="fa-solid fa-xmark"></i>
             </button>
@@ -105,15 +108,15 @@
 
           <div class="mobile-nav-content">
             <component
-              v-for="link in navigationLinks"
-              :key="link.path"
-              :is="link.external ? 'a' : 'RouterLink'"
-              v-bind="getNavLinkProps(link)"
-              :class="[
+                v-for="link in navigationLinks"
+                :key="link.path"
+                :is="link.external ? 'a' : 'RouterLink'"
+                v-bind="getNavLinkProps(link)"
+                :class="[
                 'mobile-nav-link',
                 { active: !link.external && route.path === link.path },
               ]"
-              @click="closeMobileNav"
+                @click="closeMobileNav"
             >
               {{ link.title }}
             </component>
@@ -121,18 +124,18 @@
             <!-- Mobile Services Links -->
             <div class="mobile-services-section">
               <div class="mobile-services-header">{{ t('navServices') }}
-                              <span v-if="showServicesDot" class="attention-dot mobile" aria-hidden="true"></span>
-                            </div>
+                <span v-if="showServicesDot" class="attention-dot mobile" aria-hidden="true"></span>
+              </div>
               <a
-                v-for="service in servicesLinks"
-                :key="service.url"
-                :href="service.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mobile-service-link"
-                @click="closeMobileNav"
+                  v-for="service in servicesLinks"
+                  :key="service.url"
+                  :href="service.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mobile-service-link"
+                  @click="closeMobileNav"
               >
-                <component :is="service.icon" class="mobile-service-icon" />
+                <component :is="service.icon" class="mobile-service-icon"/>
                 <div class="mobile-service-info">
                   <span class="mobile-service-name">{{ service.name }}</span>
                   <span class="mobile-service-description">{{ service.description }}</span>
@@ -142,12 +145,12 @@
 
             <div class="mobile-nav-auth">
               <div class="mobile-language-selector">
-                <LanguageSelector />
+                <LanguageSelector/>
               </div>
               <div class="mobile-balance-wrapper">
-                <BalanceButton />
+                <BalanceButton/>
               </div>
-              <AuthButton mobile-mode @mobile-action="closeMobileNav" />
+              <AuthButton mobile-mode @mobile-action="closeMobileNav"/>
             </div>
           </div>
         </nav>
@@ -157,8 +160,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import {computed, onUnmounted, ref, watch} from "vue";
+import {useRoute} from "vue-router";
 import AuthButton from "@/components/ui/AuthButton.vue";
 import BalanceButton from "@/components/ui/BalanceButton.vue";
 import LanguageSelector from "@/components/ui/LanguageSelector.vue";
@@ -169,7 +172,7 @@ import IconArchive from "@/assets/icons/IconArchive.vue";
 import IconMap from "@/assets/icons/IconMap.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import IconDiscord from "@/assets/icons/IconDiscord.vue";
-import { useI18n } from "@/composables/useI18n";
+import {useI18n} from "@/composables/useI18n";
 
 interface NavLink {
   path: string;
@@ -180,7 +183,7 @@ interface NavLink {
 }
 
 const route = useRoute();
-const { t } = useI18n();
+const {t} = useI18n();
 const isMobileNavOpen = ref(false);
 const isServicesOpen = ref(false);
 let closeDropdownTimeout: NodeJS.Timeout | null = null;
@@ -206,10 +209,10 @@ const markServicesSeen = () => {
 };
 
 const navigationLinks = computed<NavLink[]>(() => [
-  { path: "/", title: t("navHome") || "Home" },
-  { path: "/guide", title: t("navGame") || "Guide" },
-  { path: "/rules", title: t("navRules") || "Rules" },
-  { path: "/store", title: t("navShop") || "Shop" },
+  {path: "/", title: t("navHome") || "Home"},
+  {path: "/guide", title: t("navGame") || "Guide"},
+  {path: "/rules", title: t("navRules") || "Rules"},
+  {path: "/store", title: t("navShop") || "Shop"},
 ]);
 
 const iconComponents = {
@@ -534,9 +537,9 @@ onUnmounted(() => {
 .mobile-nav-link.active {
   color: #ffffff;
   background: linear-gradient(
-    90deg,
-    rgba(16, 185, 129, 0.2),
-    rgba(34, 197, 94, 0.1)
+      90deg,
+      rgba(16, 185, 129, 0.2),
+      rgba(34, 197, 94, 0.1)
   );
   border-left-color: #22c55e;
   box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.1) inset;
@@ -792,6 +795,7 @@ onUnmounted(() => {
 .mobile-services-header {
   position: relative;
 }
+
 .attention-dot.mobile {
   position: absolute;
   top: 8px;

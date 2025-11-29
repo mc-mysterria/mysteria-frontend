@@ -9,7 +9,7 @@
       </button>
       <h1 class="page-title">Service Content Editor</h1>
     </div>
-    
+
     <div class="controls">
       <select v-model="selectedServiceId" @change="loadServiceContent">
         <option value="">Select a service to edit content</option>
@@ -36,11 +36,11 @@
 
       <div class="form-group">
         <label>Slug *</label>
-        <input 
-          v-model="selectedContent.slug" 
-          placeholder="service-slug" 
-          required 
-          :class="{ 'error': validationErrors.slug }"
+        <input
+            v-model="selectedContent.slug"
+            placeholder="service-slug"
+            required
+            :class="{ 'error': validationErrors.slug }"
         />
         <small>URL-friendly slug (lowercase, hyphens only, no spaces)</small>
         <div v-if="validationErrors.slug" class="field-error">{{ validationErrors.slug }}</div>
@@ -48,27 +48,33 @@
 
       <div class="form-group">
         <label>English Content (Markdown)</label>
-        <textarea 
-          v-model="selectedContent.markdownContentEn" 
-          placeholder="Write service content in Markdown (English)..."
-          :class="{ 'error': validationErrors.markdownContentEn }"
+        <textarea
+            v-model="selectedContent.markdownContentEn"
+            placeholder="Write service content in Markdown (English)..."
+            :class="{ 'error': validationErrors.markdownContentEn }"
         ></textarea>
-        <div v-if="validationErrors.markdownContentEn" class="field-error">{{ validationErrors.markdownContentEn }}</div>
+        <div v-if="validationErrors.markdownContentEn" class="field-error">{{
+            validationErrors.markdownContentEn
+          }}
+        </div>
       </div>
 
       <div class="form-group">
         <label>Ukrainian Content (Markdown)</label>
-        <textarea 
-          v-model="selectedContent.markdownContentUk" 
-          placeholder="Write service content in Markdown (Ukrainian)..."
-          :class="{ 'error': validationErrors.markdownContentUk }"
+        <textarea
+            v-model="selectedContent.markdownContentUk"
+            placeholder="Write service content in Markdown (Ukrainian)..."
+            :class="{ 'error': validationErrors.markdownContentUk }"
         ></textarea>
-        <div v-if="validationErrors.markdownContentUk" class="field-error">{{ validationErrors.markdownContentUk }}</div>
+        <div v-if="validationErrors.markdownContentUk" class="field-error">{{
+            validationErrors.markdownContentUk
+          }}
+        </div>
       </div>
 
       <div class="form-group">
         <label>
-          <input type="checkbox" v-model="selectedContent.isPublished" />
+          <input type="checkbox" v-model="selectedContent.isPublished"/>
           Published
         </label>
       </div>
@@ -92,12 +98,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { shopAPI } from '@/utils/api/shop';
-import type { ServiceDto, ServiceMarkdownDto, CreateServiceMarkdownDto, UpdateServiceMarkdownDto } from '@/types/services';
-import { ServiceType } from '@/types/services';
-import { useBalanceStore } from '@/stores/balance';
+import {computed, onMounted, ref, watch} from 'vue';
+import {useRouter} from 'vue-router';
+import {shopAPI} from '@/utils/api/shop';
+import type {
+  CreateServiceMarkdownDto,
+  ServiceDto,
+  ServiceMarkdownDto,
+  UpdateServiceMarkdownDto
+} from '@/types/services';
+import {ServiceType} from '@/types/services';
+import {useBalanceStore} from '@/stores/balance';
 
 const router = useRouter();
 const shopStore = useBalanceStore();
@@ -113,12 +124,12 @@ const successMessage = ref<string>('');
 
 // Computed
 const canSave = computed(() => {
-  return selectedContent.value && 
-         selectedServiceId.value &&
-         selectedContent.value.slug &&
-         selectedContent.value.slug.trim() &&
-         (selectedContent.value.markdownContentEn || selectedContent.value.markdownContentUk) &&
-         Object.keys(validationErrors.value).length === 0;
+  return selectedContent.value &&
+      selectedServiceId.value &&
+      selectedContent.value.slug &&
+      selectedContent.value.slug.trim() &&
+      (selectedContent.value.markdownContentEn || selectedContent.value.markdownContentUk) &&
+      Object.keys(validationErrors.value).length === 0;
 });
 
 // Validation
@@ -129,9 +140,9 @@ const validateSlug = (slug: string): boolean => {
 
 const validateForm = () => {
   const errors: Record<string, string> = {};
-  
+
   if (!selectedContent.value) return;
-  
+
   // Slug validation
   if (!selectedContent.value.slug || !selectedContent.value.slug.trim()) {
     errors.slug = 'Slug is required';
@@ -140,13 +151,13 @@ const validateForm = () => {
   } else if (selectedContent.value.slug.length > 100) {
     errors.slug = 'Slug must be less than 100 characters';
   }
-  
+
   // Content validation - at least one language required
   if (!selectedContent.value.markdownContentEn?.trim() && !selectedContent.value.markdownContentUk?.trim()) {
     errors.markdownContentEn = 'At least one language content is required';
     errors.markdownContentUk = 'At least one language content is required';
   }
-  
+
   validationErrors.value = errors;
 };
 
@@ -168,7 +179,7 @@ watch(() => selectedContent.value, () => {
   if (selectedContent.value) {
     validateForm();
   }
-}, { deep: true });
+}, {deep: true});
 
 const goBack = () => {
   router.push('/profile');
@@ -178,7 +189,7 @@ const loadServices = async () => {
   try {
     loading.value = true;
     error.value = '';
-    
+
     // Get all services from the shop store or fetch them
     if (shopStore.services.length === 0) {
       await shopStore.fetchServices(true); // Require auth for admin
@@ -197,23 +208,23 @@ const loadServiceContent = async () => {
     try {
       loading.value = true;
       error.value = '';
-      
+
       // Load both English and Ukrainian content to prevent data loss
       const [enResponse, ukResponse] = await Promise.allSettled([
         shopAPI.getServiceContentAdmin(Number(selectedServiceId.value), 'en'),
         shopAPI.getServiceContentAdmin(Number(selectedServiceId.value), 'uk')
       ]);
-      
+
       let enData = null;
       let ukData = null;
-      
+
       if (enResponse.status === 'fulfilled') {
         enData = enResponse.value.data;
       }
       if (ukResponse.status === 'fulfilled') {
         ukData = ukResponse.value.data;
       }
-      
+
       // If no content exists for either language, create new content template
       if (!enData && !ukData) {
         createNewContentForService();
@@ -250,7 +261,7 @@ const createNewContent = () => {
 
 const createNewContentForService = () => {
   const selectedService = services.value.find(s => s.id === Number(selectedServiceId.value));
-  
+
   selectedContent.value = {
     id: selectedService?.id || 0,
     name: selectedService?.name || '',
@@ -274,7 +285,7 @@ const createNewContentForService = () => {
 
 const saveContent = async () => {
   if (!selectedContent.value || !selectedServiceId.value) return;
-  
+
   validateForm();
   if (!canSave.value) {
     error.value = 'Please fix validation errors before saving';
@@ -284,7 +295,7 @@ const saveContent = async () => {
   try {
     loading.value = true;
     error.value = '';
-    
+
     if (selectedContent.value.id) {
       // Update existing content
       const updateData: UpdateServiceMarkdownDto = {
@@ -304,11 +315,11 @@ const saveContent = async () => {
       };
       await shopAPI.createServiceContent(Number(selectedServiceId.value), createData);
     }
-    
+
     // Clear selection
     selectedContent.value = null;
     selectedServiceId.value = '';
-    
+
     showSuccess('Service content saved successfully!');
   } catch (err) {
     console.error('Failed to save service content:', err);
@@ -326,11 +337,11 @@ const deleteContent = async () => {
   try {
     loading.value = true;
     error.value = '';
-    
+
     // Note: The API doesn't seem to have a delete endpoint for service content
     // This would need to be implemented on the backend
     error.value = 'Delete functionality not yet implemented';
-    
+
     // When implemented, it would be:
     // await shopAPI.deleteServiceContent(selectedContent.value.id);
     // selectedContent.value = null;
@@ -621,8 +632,12 @@ const cancelEdit = () => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .success {

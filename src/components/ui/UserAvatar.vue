@@ -1,19 +1,19 @@
 <template>
   <div
-    :class="[
+      :class="[
       'user-avatar',
       `user-avatar--${size}`,
       { 'user-avatar--loading': isLoading }
     ]"
-    :title="user?.nickname || 'User'"
+      :title="user?.nickname || 'User'"
   >
     <img
-      v-if="user?.avatarUrl && !imageError && !isLoading"
-      :src="user.avatarUrl"
-      :alt="`${user.nickname || 'User'}'s avatar`"
-      class="avatar-image"
-      @error="handleImageError"
-      @load="handleImageLoad"
+        v-if="user?.avatarUrl && !imageError && !isLoading"
+        :src="user.avatarUrl"
+        :alt="`${user.nickname || 'User'}'s avatar`"
+        class="avatar-image"
+        @error="handleImageError"
+        @load="handleImageLoad"
     />
     <div v-else class="avatar-fallback">
       <span class="avatar-initials">
@@ -27,9 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import type { UserProfileDto } from '@/types/auth';
-import type { UserResponse } from '@/types/users';
+import {computed, ref} from 'vue';
+import type {UserProfileDto} from '@/types/auth';
+import type {UserResponse} from '@/types/users';
 
 interface Props {
   user?: UserProfileDto | UserResponse | null;
@@ -149,8 +149,12 @@ const avatarUrl = computed(() => props.user?.avatarUrl);
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {

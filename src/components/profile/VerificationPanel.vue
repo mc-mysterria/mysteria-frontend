@@ -1,7 +1,7 @@
 <template>
   <div
-    class="verification-panel"
-    v-if="props.isOwnProfile && !props.displayedUser?.verified"
+      class="verification-panel"
+      v-if="props.isOwnProfile && !props.displayedUser?.verified"
   >
     <!-- Header Section -->
     <div class="panel-header">
@@ -23,10 +23,10 @@
     <!-- Actions Section -->
     <div class="panel-actions">
       <button
-        @click="generateCode"
-        :disabled="isGenerating || !!verificationCode"
-        class="generate-button"
-        :class="{ 'loading': isGenerating }"
+          @click="generateCode"
+          :disabled="isGenerating || !!verificationCode"
+          class="generate-button"
+          :class="{ 'loading': isGenerating }"
       >
         <div v-if="isGenerating" class="button-loading">
           <div class="loading-spinner"></div>
@@ -60,7 +60,8 @@
               <code class="verification-code">{{ verificationCode.code }}</code>
             </div>
             <button @click="copyCode" class="copy-button" :class="{ 'copied': copied }">
-              <svg v-if="!copied" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg v-if="!copied" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                 <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
               </svg>
@@ -94,10 +95,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useNotification } from "@/services/useNotification";
-import { useI18n } from "@/composables/useI18n";
-import type { UserResponse } from "@/types/users";
+import {ref} from "vue";
+import {useNotification} from "@/services/useNotification";
+import {useI18n} from "@/composables/useI18n";
+import type {UserResponse} from "@/types/users";
 
 const props = defineProps<{
   displayedUser: UserResponse | null;
@@ -109,8 +110,8 @@ interface VerificationCode {
   expiresAt: string;
 }
 
-const { show } = useNotification();
-const { t } = useI18n();
+const {show} = useNotification();
+const {t} = useI18n();
 const isGenerating = ref(false);
 const verificationCode = ref<VerificationCode | null>(null);
 const copied = ref(false);
@@ -133,10 +134,10 @@ const generateCode = async () => {
     }
 
     verificationCode.value = await response.json();
-    show(t("verificationCodeGenerated"), { type: "success" });
+    show(t("verificationCodeGenerated"), {type: "success"});
   } catch (error) {
     console.error("Failed to generate verification code:", error);
-    show(t("verificationCodeError"), { type: "error" });
+    show(t("verificationCodeError"), {type: "error"});
   } finally {
     isGenerating.value = false;
   }
@@ -148,18 +149,18 @@ const copyCode = async () => {
   try {
     await navigator.clipboard.writeText(verificationCode.value.code);
     copied.value = true;
-    show(t("copySuccess"), { type: "info" });
+    show(t("copySuccess"), {type: "info"});
     setTimeout(() => {
       copied.value = false;
     }, 2000);
   } catch (error) {
     console.error("Failed to copy code:", error);
-    show(t("copyError"), { type: "error" });
+    show(t("copyError"), {type: "error"});
   }
 };
 
 const formatExpiry = (expiresAt: string) => {
-  const { currentLanguage } = useI18n();
+  const {currentLanguage} = useI18n();
   const locale = currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US';
   return new Date(expiresAt).toLocaleString(locale);
 };
@@ -300,8 +301,12 @@ const formatExpiry = (expiresAt: string) => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Code Card */

@@ -28,13 +28,13 @@
 
 <script setup lang="ts">
 import AuthButton from "@/components/ui/AuthButton.vue";
-import { useUserStore } from "@/stores/user";
-import { useI18n } from "@/composables/useI18n";
-import { computed } from "vue";
+import {useUserStore} from "@/stores/user";
+import {useI18n} from "@/composables/useI18n";
+import {computed} from "vue";
 
 const userStore = useUserStore();
 const profile = computed(() => userStore.currentUser);
-const { t } = useI18n();
+const {t} = useI18n();
 
 interface Props {
   message?: string;

@@ -4,10 +4,10 @@
     <div class="shop-tabs">
       <div class="tabs-wrapper">
         <button
-          v-for="tab in availableTabs"
-          :key="tab.id"
-          :class="['tab-button', { active: activeTab === tab.id }]"
-          @click="activeTab = tab.id"
+            v-for="tab in availableTabs"
+            :key="tab.id"
+            :class="['tab-button', { active: activeTab === tab.id }]"
+            @click="activeTab = tab.id"
         >
           {{ tab.label }}
           <span class="tab-count">{{ tab.count }}</span>
@@ -25,9 +25,9 @@
         {{ t('selectItemsToCompare') }} ({{ comparisonItems.size }}/{{ MAX_COMPARISON_ITEMS }})
       </div>
       <button
-        v-if="comparisonMode && comparisonItems.size >= 2"
-        @click="showComparisonTable = true"
-        class="compare-now-btn"
+          v-if="comparisonMode && comparisonItems.size >= 2"
+          @click="showComparisonTable = true"
+          class="compare-now-btn"
       >
         {{ t('compareNow') }}
       </button>
@@ -35,47 +35,46 @@
 
     <!-- Comparison Table (Modal/Overlay) -->
     <ComparisonTable
-      v-if="showComparisonTable"
-      :items="getComparisonItems()"
-      @close="showComparisonTable = false"
-      @purchase="handlePurchase"
-      @remove="removeFromComparison"
+        v-if="showComparisonTable"
+        :items="getComparisonItems()"
+        @close="showComparisonTable = false"
+        @purchase="handlePurchase"
+        @remove="removeFromComparison"
     />
 
     <!-- Items Grid -->
     <div v-if="!showComparisonTable" class="items-grid">
       <ShopItemCard
-        v-for="item in filteredItems"
-        :key="item.id"
-        :item="item"
-        :comparison-mode="comparisonMode"
-        :in-comparison="comparisonItems.has(item.id)"
-        :comparison-disabled="!comparisonItems.has(item.id) && comparisonItems.size >= MAX_COMPARISON_ITEMS"
-        class="shop-item-card"
-        @purchase="handlePurchase"
-        @toggle-comparison="toggleItemComparison(item.id)"
+          v-for="item in filteredItems"
+          :key="item.id"
+          :item="item"
+          :comparison-mode="comparisonMode"
+          :in-comparison="comparisonItems.has(item.id)"
+          :comparison-disabled="!comparisonItems.has(item.id) && comparisonItems.size >= MAX_COMPARISON_ITEMS"
+          class="shop-item-card"
+          @purchase="handlePurchase"
+          @toggle-comparison="toggleItemComparison(item.id)"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useBalanceStore } from "@/stores/balance";
-import { useUserStore } from "@/stores/user";
-import { useAuthStore } from "@/stores/auth";
-import { useNotification } from "@/services/useNotification";
-import { useI18n } from "@/composables/useI18n";
+import {computed, ref} from "vue";
+import {useBalanceStore} from "@/stores/balance";
+import {useUserStore} from "@/stores/user";
+import {useAuthStore} from "@/stores/auth";
+import {useNotification} from "@/services/useNotification";
+import {useI18n} from "@/composables/useI18n";
 import ShopItemCard from "./ShopItemCard.vue";
 import ComparisonTable from "./ComparisonTable.vue";
 import Decimal from "decimal.js";
-import type { ServiceResponse } from "@/types/services";
-import { ServiceType } from "@/types/services";
+import type {ServiceResponse} from "@/types/services";
 
 const shopStore = useBalanceStore();
 const userStore = useUserStore();
 const authStore = useAuthStore();
-const { t } = useI18n();
+const {t} = useI18n();
 const items = computed(() => shopStore.items);
 const profile = computed(() => userStore.currentUser);
 
@@ -86,92 +85,21 @@ const comparisonItems = ref<Set<string>>(new Set());
 const showComparisonTable = ref(false);
 const MAX_COMPARISON_ITEMS = 3;
 
-// Helper functions for smart categorization
-const isNewItem = (item: ServiceResponse): boolean => {
-  if (!item.created_at) return false;
-  const createdDate = new Date(item.created_at);
-  const now = new Date();
-  const daysDiff = (now.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24);
-  return daysDiff < 30;
-};
-
-const hasActiveDiscount = (item: ServiceResponse): boolean => {
-  if (!item.discounts?.length) return false;
-  const now = new Date();
-  return item.discounts.some((discount) => {
-    const startDate = new Date(discount.start_date);
-    const endDate = discount.end_date ? new Date(discount.end_date) : null;
-    return now >= startDate && (!endDate || now <= endDate);
-  });
-};
-
-const isPopular = (item: ServiceResponse): boolean => {
-  // Check if popular flag exists in service_metadata.data
-  if (item.service_metadata?.data) {
-    return item.service_metadata.data.popular === true;
-  }
-  return false;
-};
-
-// Category title and description helpers
-const getCategoryTitle = (type: ServiceType): string => {
-  switch (type) {
-    case ServiceType.ITEM:
-      return t('shopCategoryItems') || 'Items';
-    case ServiceType.COSMETIC:
-      return t('shopCategoryCosmetics') || 'Cosmetics';
-    case ServiceType.PERMISSION:
-      return t('shopCategoryPermissions') || 'Permissions';
-    case ServiceType.SUBSCRIPTION:
-      return t('shopCategorySubscriptions') || 'Subscriptions';
-    case ServiceType.DISCORD_ROLE:
-      return t('shopCategoryDiscordRoles') || 'Discord Roles';
-    case ServiceType.APPEAL:
-      return t('shopCategoryAppeals') || 'Appeals';
-    default:
-      return t('shopCategoryOther') || 'Other';
-  }
-};
-
 // Available tabs computed property
 const availableTabs = computed(() => {
   const tabs = [
-    { id: 'all', label: t('shopCategoryAll'), count: items.value.length }
+    {id: 'all', label: t('shopCategoryAll'), count: items.value.length}
   ];
-
-  // Smart filters
-  const newItems = items.value.filter(isNewItem);
-  if (newItems.length > 0) {
-    tabs.push({ id: 'new', label: t('shopCategoryNew'), count: newItems.length });
-  }
-
-  const discountedItems = items.value.filter(hasActiveDiscount);
-  if (discountedItems.length > 0) {
-    tabs.push({ id: 'discounted', label: t('shopCategoryDiscounted'), count: discountedItems.length });
-  }
-
-  const popularItems = items.value.filter(isPopular);
-  if (popularItems.length > 0) {
-    tabs.push({ id: 'popular', label: t('shopCategoryPopular'), count: popularItems.length });
-  }
 
   // Category tabs (dynamic from actual items)
-  const categoriesWithItems = new Set(items.value.map(item => item.type));
-  const categoryOrder = [
-    ServiceType.ITEM,
-    ServiceType.COSMETIC,
-    ServiceType.PERMISSION,
-    ServiceType.SUBSCRIPTION,
-    ServiceType.DISCORD_ROLE,
-    ServiceType.APPEAL
-  ];
-
-  categoryOrder.forEach(type => {
-    if (categoriesWithItems.has(type)) {
-      const count = items.value.filter(item => item.type === type).length;
+  const categories = [...new Set(items.value.map(item => item.category).filter(Boolean))] as string[];
+  
+  categories.forEach(category => {
+    const count = items.value.filter(item => item.category === category).length;
+    if (count > 0) {
       tabs.push({
-        id: type,
-        label: getCategoryTitle(type),
+        id: category,
+        label: category,
         count
       });
     }
@@ -184,23 +112,11 @@ const availableTabs = computed(() => {
 const filteredItems = computed(() => {
   let filtered: ServiceResponse[];
 
-  switch (activeTab.value) {
-    case 'all':
-      filtered = items.value;
-      break;
-    case 'new':
-      filtered = items.value.filter(isNewItem);
-      break;
-    case 'discounted':
-      filtered = items.value.filter(hasActiveDiscount);
-      break;
-    case 'popular':
-      filtered = items.value.filter(isPopular);
-      break;
-    default:
-      // Category filter
-      filtered = items.value.filter(item => item.type === activeTab.value);
-      break;
+  if (activeTab.value === 'all') {
+    filtered = items.value;
+  } else {
+    // Category filter
+    filtered = items.value.filter(item => item.category === activeTab.value);
   }
 
   // Sort alphabetically
@@ -237,16 +153,16 @@ const getComparisonItems = (): ServiceResponse[] => {
 
 // Purchase handler
 const handlePurchase = (itemId: string) => {
-  const { show } = useNotification();
+  const {show} = useNotification();
 
   // Check if user is authenticated
   if (!authStore.isAuthenticated) {
     show(
-      t('shopLoginRequired') || "Please log in to make purchases",
-      {
-        type: "warn",
-        duration: 5000,
-      },
+        t('shopLoginRequired') || "Please log in to make purchases",
+        {
+          type: "warn",
+          duration: 5000,
+        },
     );
     return;
   }
@@ -254,11 +170,11 @@ const handlePurchase = (itemId: string) => {
   // Check if account is verified (has nickname) before allowing purchase
   if (!profile.value?.verified || !profile.value?.nickname) {
     show(
-      t('profileSetupRequired') || "Please verify your account and set up your profile to make purchases",
-      {
-        type: "warn",
-        duration: 5000,
-      },
+        t('profileSetupRequired') || "Please verify your account and set up your profile to make purchases",
+        {
+          type: "warn",
+          duration: 5000,
+        },
     );
     return;
   }
@@ -270,7 +186,7 @@ const handlePurchase = (itemId: string) => {
 
   if (!item) {
     console.log("Item not found, showing error notification");
-    show(t('itemNotFound') || "Item not found", { type: "error", duration: 3000 });
+    show(t('itemNotFound') || "Item not found", {type: "error", duration: 3000});
     return;
   }
 
@@ -286,12 +202,12 @@ const handlePurchase = (itemId: string) => {
   console.log("Showing purchase preparation notification");
 
   const requiresServerSelection =
-    item.server_availability?.mode === "selectable";
+      item.server_availability?.mode === "selectable";
 
   const existingServer =
-    shopStore.currentPurchase?.id === item.id
-      ? shopStore.currentPurchase.selectedServer
-      : undefined;
+      shopStore.currentPurchase?.id === item.id
+          ? shopStore.currentPurchase.selectedServer
+          : undefined;
 
   shopStore.currentPurchase = {
     id: item.id,

@@ -1,18 +1,18 @@
 <template>
   <div
-    v-if="show"
-    class="modal-overlay"
-    @click.self="$emit('close')"
+      v-if="show"
+      class="modal-overlay"
+      @click.self="$emit('close')"
   >
     <div class="modal-content">
       <div class="modal-header">
         <h2 class="modal-title">{{ t('home.joinServerTitle') }}</h2>
         <button
-          @click="$emit('close')"
-          class="modal-close"
-          aria-label="Close modal"
+            @click="$emit('close')"
+            class="modal-close"
+            aria-label="Close modal"
         >
-          <IconX class="w-6 h-6" />
+          <IconX class="w-6 h-6"/>
         </button>
       </div>
 
@@ -31,7 +31,7 @@
             <h3>{{ t('home.step2Title') }}</h3>
             <p>{{ t('home.step2Description') }}</p>
             <div class="server-ip">
-              <CopyIPButton ip="mc.mysterria.net" />
+              <CopyIPButton ip="mc.mysterria.net"/>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
 
       <div class="modal-footer">
         <RouterLink to="/guide" class="guide-link" @click="$emit('close')">
-          <IconWiki class="w-4 h-4" />
+          <IconWiki class="w-4 h-4"/>
           {{ t('home.fullGuide') }}
         </RouterLink>
       </div>
@@ -56,11 +56,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue';
+import {defineEmits, defineProps} from 'vue';
 import CopyIPButton from './CopyIPButton.vue';
 import IconWiki from '@/assets/icons/IconWiki.vue';
 import IconX from '@/assets/icons/IconX.vue';
-import { useI18n } from '@/composables/useI18n';
+import {useI18n} from '@/composables/useI18n';
 
 defineProps<{
   show: boolean;
@@ -70,7 +70,7 @@ defineEmits<{
   close: [];
 }>();
 
-const { t } = useI18n();
+const {t} = useI18n();
 </script>
 
 <style scoped>

@@ -5,9 +5,9 @@
       <h3 class="section-title">{{ t('transactionHistoryTitle') }}</h3>
       <div class="filter-container">
         <select
-          v-model="selectedType"
-          @change="() => fetchTransactions()"
-          class="transaction-filter"
+            v-model="selectedType"
+            @change="() => fetchTransactions()"
+            class="transaction-filter"
         >
           <option value="">{{ t('transactionHistory.allTypes') }}</option>
           <option value="PURCHASE">{{ t('transactionTypes.PURCHASE') }}</option>
@@ -54,10 +54,10 @@
     <div v-else class="transactions-container">
       <div class="transactions-grid">
         <div
-          v-for="transaction in transactions"
-          :key="transaction.id"
-          class="transaction-card"
-          :class="getTransactionClass(transaction.type)"
+            v-for="transaction in transactions"
+            :key="transaction.id"
+            class="transaction-card"
+            :class="getTransactionClass(transaction.type)"
         >
           <!-- Transaction Status Indicator -->
           <div class="transaction-indicator" :class="getIndicatorClass(transaction.type)"></div>
@@ -84,12 +84,13 @@
             <!-- Expandable Metadata -->
             <div v-if="transaction.metadata" class="transaction-details">
               <button
-                @click="toggleDetails(transaction.id)"
-                class="details-toggle"
-                :class="{ 'expanded': expandedTransactions.has(transaction.id) }"
+                  @click="toggleDetails(transaction.id)"
+                  class="details-toggle"
+                  :class="{ 'expanded': expandedTransactions.has(transaction.id) }"
               >
                 <span>{{ t('transactionHistory.details') }}</span>
-                <svg class="details-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="details-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2">
                   <polyline points="6,9 12,15 18,9"></polyline>
                 </svg>
               </button>
@@ -107,9 +108,9 @@
       <!-- Load More -->
       <div v-if="hasMorePages" class="load-more-container">
         <button
-          @click="loadMoreTransactions"
-          :disabled="loadingMore"
-          class="load-more-button"
+            @click="loadMoreTransactions"
+            :disabled="loadingMore"
+            class="load-more-button"
         >
           <span v-if="loadingMore" class="button-loading">
             <div class="button-spinner"></div>
@@ -123,10 +124,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useNotification } from "@/services/useNotification";
-import { useI18n } from "@/composables/useI18n";
-import type { UserResponse } from "@/types/users";
+import {onMounted, ref} from "vue";
+import {useNotification} from "@/services/useNotification";
+import {useI18n} from "@/composables/useI18n";
+import type {UserResponse} from "@/types/users";
 
 const props = defineProps<{
   displayedUser: UserResponse | null;
@@ -138,14 +139,14 @@ interface TransactionDto {
   userId: string;
   amount: number;
   type:
-    | "PURCHASE"
-    | "DONATION"
-    | "VOTE_REWARD"
-    | "ADMIN_ADJUST"
-    | "REFUND"
-    | "SUBSCRIPTION"
-    | "PENALTY"
-    | "REWARD";
+      | "PURCHASE"
+      | "DONATION"
+      | "VOTE_REWARD"
+      | "ADMIN_ADJUST"
+      | "REFUND"
+      | "SUBSCRIPTION"
+      | "PENALTY"
+      | "REWARD";
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any>;
@@ -162,8 +163,8 @@ interface TransactionPage {
   numberOfElements: number;
 }
 
-const { show } = useNotification();
-const { t } = useI18n();
+const {show} = useNotification();
+const {t} = useI18n();
 const loading = ref(false);
 const loadingMore = ref(false);
 const transactions = ref<TransactionDto[]>([]);
@@ -215,7 +216,7 @@ const fetchTransactions = async (reset = true) => {
     currentPage.value++;
   } catch (error) {
     console.error("Failed to fetch transactions:", error);
-    show(t("errorLoadingTransactionHistory"), { type: "error" });
+    show(t("errorLoadingTransactionHistory"), {type: "error"});
   } finally {
     loading.value = false;
     loadingMore.value = false;
@@ -254,7 +255,7 @@ const formatAmount = (amount: number): string => {
 };
 
 const formatDate = (dateString: string): string => {
-  const { currentLanguage } = useI18n();
+  const {currentLanguage} = useI18n();
   const locale = currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US';
   return new Date(dateString).toLocaleString(locale);
 };
@@ -388,8 +389,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -463,14 +468,37 @@ onMounted(() => {
   height: 100%;
 }
 
-.indicator-purchase { background: var(--myst-gold); }
-.indicator-donation { background: #22c55e; }
-.indicator-reward { background: #f59e0b; }
-.indicator-admin { background: #8b5cf6; }
-.indicator-refund { background: #0ea5e9; }
-.indicator-subscription { background: #ec4899; }
-.indicator-penalty { background: #ef4444; }
-.indicator-default { background: #6b7280; }
+.indicator-purchase {
+  background: var(--myst-gold);
+}
+
+.indicator-donation {
+  background: #22c55e;
+}
+
+.indicator-reward {
+  background: #f59e0b;
+}
+
+.indicator-admin {
+  background: #8b5cf6;
+}
+
+.indicator-refund {
+  background: #0ea5e9;
+}
+
+.indicator-subscription {
+  background: #ec4899;
+}
+
+.indicator-penalty {
+  background: #ef4444;
+}
+
+.indicator-default {
+  background: #6b7280;
+}
 
 /* Transaction Content */
 .transaction-content {
@@ -499,14 +527,45 @@ onMounted(() => {
   flex-shrink: 0;
 }
 
-.badge-purchase { background: color-mix(in srgb, var(--myst-gold) 15%, transparent); color: var(--myst-gold); }
-.badge-donation { background: color-mix(in srgb, #22c55e 15%, transparent); color: #22c55e; }
-.badge-reward { background: color-mix(in srgb, #f59e0b 15%, transparent); color: #f59e0b; }
-.badge-admin { background: color-mix(in srgb, #8b5cf6 15%, transparent); color: #8b5cf6; }
-.badge-refund { background: color-mix(in srgb, #0ea5e9 15%, transparent); color: #0ea5e9; }
-.badge-subscription { background: color-mix(in srgb, #ec4899 15%, transparent); color: #ec4899; }
-.badge-penalty { background: color-mix(in srgb, #ef4444 15%, transparent); color: #ef4444; }
-.badge-default { background: color-mix(in srgb, #6b7280 15%, transparent); color: #6b7280; }
+.badge-purchase {
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  color: var(--myst-gold);
+}
+
+.badge-donation {
+  background: color-mix(in srgb, #22c55e 15%, transparent);
+  color: #22c55e;
+}
+
+.badge-reward {
+  background: color-mix(in srgb, #f59e0b 15%, transparent);
+  color: #f59e0b;
+}
+
+.badge-admin {
+  background: color-mix(in srgb, #8b5cf6 15%, transparent);
+  color: #8b5cf6;
+}
+
+.badge-refund {
+  background: color-mix(in srgb, #0ea5e9 15%, transparent);
+  color: #0ea5e9;
+}
+
+.badge-subscription {
+  background: color-mix(in srgb, #ec4899 15%, transparent);
+  color: #ec4899;
+}
+
+.badge-penalty {
+  background: color-mix(in srgb, #ef4444 15%, transparent);
+  color: #ef4444;
+}
+
+.badge-default {
+  background: color-mix(in srgb, #6b7280 15%, transparent);
+  color: #6b7280;
+}
 
 /* Transaction Amount */
 .transaction-amount {

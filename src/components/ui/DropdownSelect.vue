@@ -1,18 +1,18 @@
 <template>
   <div
-    class="dropdown-wrapper"
-    ref="dropdownRef"
-    :class="{ 'form-field-style': formFieldStyle }"
+      class="dropdown-wrapper"
+      ref="dropdownRef"
+      :class="{ 'form-field-style': formFieldStyle }"
   >
     <i
-      v-if="showIcon && icon"
-      :class="['dropdown-icon', icon]"
-      aria-hidden="true"
+        v-if="showIcon && icon"
+        :class="['dropdown-icon', icon]"
+        aria-hidden="true"
     ></i>
     <div
-      class="dropdown-trigger"
-      @click="toggleDropdown"
-      :class="{
+        class="dropdown-trigger"
+        @click="toggleDropdown"
+        :class="{
         'is-open': isOpen,
         'is-disabled': disabled,
         'with-icon': showIcon,
@@ -20,68 +20,68 @@
     >
       <div class="dropdown-value">
         <slot
-          name="selected"
-          :selectedOption="selectedOption"
-          :placeholder="placeholderText"
+            name="selected"
+            :selectedOption="selectedOption"
+            :placeholder="placeholderText"
         >
           {{ selectedOption ? selectedOption[displayKey] : placeholderText }}
         </slot>
       </div>
       <div class="dropdown-arrow" :class="{ 'is-open': isOpen }">
         <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
         >
-          <path d="m6 9 6 6 6-6" />
+          <path d="m6 9 6 6 6-6"/>
         </svg>
       </div>
     </div>
 
     <Teleport to="body">
-      <div v-if="isOpen" class="dropdown-overlay" @click="closeDropdown" />
+      <div v-if="isOpen" class="dropdown-overlay" @click="closeDropdown"/>
     </Teleport>
 
     <Teleport to="body">
       <div
-        v-if="isOpen || isClosing"
-        class="dropdown-menu"
-        :class="{ closing: isClosing }"
-        ref="menuRef"
-        :style="menuStyles"
+          v-if="isOpen || isClosing"
+          class="dropdown-menu"
+          :class="{ closing: isClosing }"
+          ref="menuRef"
+          :style="menuStyles"
       >
         <div v-if="searchable" class="dropdown-search">
           <input
-            ref="searchInput"
-            v-model="searchQuery"
-            type="text"
-            :placeholder="searchPlaceholderText"
-            class="dropdown-search-input"
-            @click.stop
+              ref="searchInput"
+              v-model="searchQuery"
+              type="text"
+              :placeholder="searchPlaceholderText"
+              class="dropdown-search-input"
+              @click.stop
           />
         </div>
 
         <div class="dropdown-options" :style="{ maxHeight: `${maxHeight}px` }">
           <div
-            v-for="(option, idx) in displayOptions"
-            :key="getOptionKey(option)"
-            class="dropdown-option"
-            :class="{
+              v-for="(option, idx) in displayOptions"
+              :key="getOptionKey(option)"
+              class="dropdown-option"
+              :class="{
               'is-selected': isSelected(option),
               'is-highlighted':
                 highlightedIndex === displayOptions.indexOf(option),
             }"
-            :style="{ animationDelay: `${idx * 30}ms` }"
-            @click="selectOption(option)"
-            @mouseenter="highlightedIndex = displayOptions.indexOf(option)"
+              :style="{ animationDelay: `${idx * 30}ms` }"
+              @click="selectOption(option)"
+              @mouseenter="highlightedIndex = displayOptions.indexOf(option)"
           >
             <slot
-              name="option"
-              :option="option"
-              :isSelected="isSelected(option)"
+                name="option"
+                :option="option"
+                :isSelected="isSelected(option)"
             >
               <div class="option-content">
                 <span class="option-text">{{ option[displayKey] }}</span>
@@ -95,16 +95,16 @@
           <div v-if="displayOptions.length === 0" class="dropdown-no-results">
             <slot name="no-results">
               <div
-                v-if="props.allowCustomInput && searchQuery"
-                class="custom-input-option"
+                  v-if="props.allowCustomInput && searchQuery"
+                  class="custom-input-option"
               >
                 <button
-                  @click="selectCustomInput"
-                  :class="[
+                    @click="selectCustomInput"
+                    :class="[
                     'custom-input-btn',
                     { 'is-highlighted': isCustomInputHighlighted },
                   ]"
-                  type="button"
+                    type="button"
                 >
                   Використати: "{{ searchQuery }}"
                 </button>
@@ -116,20 +116,20 @@
           </div>
 
           <div
-            v-if="shouldShowCustomInputOption"
-            class="custom-input-option"
-            style="
+              v-if="shouldShowCustomInputOption"
+              class="custom-input-option"
+              style="
               padding: 8px 12px;
               border-top: 1px solid rgba(255, 255, 255, 0.1);
             "
           >
             <button
-              @click="selectCustomInput"
-              :class="[
+                @click="selectCustomInput"
+                :class="[
                 'custom-input-btn',
                 { 'is-highlighted': isCustomInputHighlighted },
               ]"
-              type="button"
+                type="button"
             >
               Використати: "{{ searchQuery }}"
             </button>
@@ -137,7 +137,7 @@
         </div>
 
         <div v-if="$slots.footer" class="dropdown-footer">
-          <slot name="footer" />
+          <slot name="footer"/>
         </div>
       </div>
     </Teleport>
@@ -145,19 +145,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  computed,
-  nextTick,
-  onMounted,
-  onBeforeUnmount,
-  watch,
-} from "vue";
-import { useI18n } from "@/composables/useI18n";
+import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch,} from "vue";
+import {useI18n} from "@/composables/useI18n";
 
 interface DropdownOption {
   label: string;
   value: string | number;
+
   [key: string]: string | number | undefined;
 }
 
@@ -203,15 +197,15 @@ const props = withDefaults(defineProps<ComponentProps>(), {
   icon: "",
 });
 
-const { t } = useI18n();
+const {t} = useI18n();
 
 // Computed properties for internationalized text
 const placeholderText = computed(() => props.placeholder || t("selectOption"));
 const searchPlaceholderText = computed(
-  () => props.searchPlaceholder || t("search"),
+    () => props.searchPlaceholder || t("search"),
 );
 const noResultsText = computed(
-  () => props.noResultsText || t("noResultsFound"),
+    () => props.noResultsText || t("noResultsFound"),
 );
 
 const emit = defineEmits<{
@@ -235,7 +229,7 @@ const menuStyles = ref({});
 const selectedOption = computed(() => {
   if (!props.modelValue) return null;
   const foundOption = props.options.find(
-    (option) => option[props.valueKey] === props.modelValue,
+      (option) => option[props.valueKey] === props.modelValue,
   );
 
   if (foundOption) {
@@ -288,10 +282,10 @@ const shouldShowCustomInputOption = computed(() => {
 const totalNavigableItems = computed(() => {
   let count = displayOptions.value.length;
   if (
-    shouldShowCustomInputOption.value ||
-    (props.allowCustomInput &&
-      searchQuery.value.trim() &&
-      displayOptions.value.length === 0)
+      shouldShowCustomInputOption.value ||
+      (props.allowCustomInput &&
+          searchQuery.value.trim() &&
+          displayOptions.value.length === 0)
   ) {
     count += 1;
   }
@@ -305,17 +299,17 @@ const isCustomInputHighlighted = computed(() => {
 
 const getOptionKey = (option: DropdownOption): string => {
   return (
-    option[props.valueKey]?.toString() ||
-    option[props.displayKey]?.toString() ||
-    ""
+      option[props.valueKey]?.toString() ||
+      option[props.displayKey]?.toString() ||
+      ""
   );
 };
 
 const isSelected = (option: DropdownOption): boolean => {
   if (props.multiple) {
     return (
-      Array.isArray(props.modelValue) &&
-      props.modelValue.includes(String(option[props.valueKey]))
+        Array.isArray(props.modelValue) &&
+        props.modelValue.includes(String(option[props.valueKey]))
     );
   }
   return option[props.valueKey] === props.modelValue;
@@ -337,9 +331,9 @@ const openDropdown = async () => {
   isOpen.value = true;
 
   if (
-    props.allowCustomInput &&
-    props.modelValue &&
-    typeof props.modelValue === "string"
+      props.allowCustomInput &&
+      props.modelValue &&
+      typeof props.modelValue === "string"
   ) {
     searchQuery.value = props.modelValue;
   }
@@ -351,17 +345,17 @@ const openDropdown = async () => {
   calculateMenuPosition();
 
   if (props.searchable && searchInput.value) {
-    searchInput.value.focus({ preventScroll: true });
+    searchInput.value.focus({preventScroll: true});
     if (props.allowCustomInput && searchQuery.value) {
       searchInput.value.select();
     }
   }
 
   highlightedIndex.value = selectedOption.value
-    ? displayOptions.value.indexOf(selectedOption.value)
-    : displayOptions.value.length > 0
-      ? 0
-      : -1;
+      ? displayOptions.value.indexOf(selectedOption.value)
+      : displayOptions.value.length > 0
+          ? 0
+          : -1;
 };
 
 const closeDropdown = () => {
@@ -383,16 +377,16 @@ const closeDropdown = () => {
 const selectOption = (option: DropdownOption) => {
   if (props.multiple) {
     const currentValues = Array.isArray(props.modelValue)
-      ? [...props.modelValue]
-      : [];
+        ? [...props.modelValue]
+        : [];
     const optionValue = option[props.valueKey];
 
     if (
-      optionValue !== undefined &&
-      currentValues.includes(String(optionValue))
+        optionValue !== undefined &&
+        currentValues.includes(String(optionValue))
     ) {
       const newValues = currentValues.filter(
-        (val) => val !== String(optionValue),
+          (val) => val !== String(optionValue),
       );
       emit("update:modelValue", newValues);
       emit("change", newValues, null);
@@ -424,8 +418,8 @@ const calculateMenuPosition = () => {
   if (!dropdownRef.value || !menuRef.value) return;
 
   const trigger = props.formFieldStyle
-    ? dropdownRef.value
-    : (dropdownRef.value.querySelector(".dropdown-trigger") as HTMLElement);
+      ? dropdownRef.value
+      : (dropdownRef.value.querySelector(".dropdown-trigger") as HTMLElement);
   if (!trigger) return;
 
   const triggerRect = trigger.getBoundingClientRect();
@@ -490,14 +484,14 @@ const handleKeydown = (event: KeyboardEvent) => {
       if (isCustomInputHighlighted.value) {
         selectCustomInput();
       } else if (
-        highlightedIndex.value >= 0 &&
-        displayOptions.value[highlightedIndex.value]
+          highlightedIndex.value >= 0 &&
+          displayOptions.value[highlightedIndex.value]
       ) {
         selectOption(displayOptions.value[highlightedIndex.value]);
       } else if (
-        props.allowCustomInput &&
-        searchQuery.value.trim() &&
-        displayOptions.value.length === 0
+          props.allowCustomInput &&
+          searchQuery.value.trim() &&
+          displayOptions.value.length === 0
       ) {
         selectCustomInput();
       }
@@ -520,14 +514,14 @@ watch(searchQuery, (newQuery) => {
 });
 
 watch(
-  () => props.options,
-  () => {
-    if (isOpen.value) {
-      nextTick(() => {
-        calculateMenuPosition();
-      });
-    }
-  },
+    () => props.options,
+    () => {
+      if (isOpen.value) {
+        nextTick(() => {
+          calculateMenuPosition();
+        });
+      }
+    },
 );
 
 onMounted(() => {
@@ -555,9 +549,8 @@ onBeforeUnmount(() => {
   background-color: #1e2126;
   border: 1px solid #3a3d45;
   border-radius: 8px;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease,
+  box-shadow 0.2s ease;
 }
 
 .dropdown-wrapper.form-field-style:hover {

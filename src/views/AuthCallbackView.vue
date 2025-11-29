@@ -20,14 +20,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import { useI18n } from "@/composables/useI18n";
+import {onMounted, ref} from "vue";
+import {useRoute} from "vue-router";
+import {useAuthStore} from "@/stores/auth";
+import {useI18n} from "@/composables/useI18n";
 
 const route = useRoute();
 const authStore = useAuthStore();
-const { t } = useI18n();
+const {t} = useI18n();
 const isProcessing = ref(true);
 const error = ref("");
 
@@ -90,8 +90,8 @@ onMounted(async () => {
       console.log("Sending message to opener...");
       if (window.opener) {
         window.opener.postMessage(
-          { type: "AUTH_SUCCESS" },
-          window.location.origin,
+            {type: "AUTH_SUCCESS"},
+            window.location.origin,
         );
         console.log("Message sent to opener");
       } else {
