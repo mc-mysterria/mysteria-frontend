@@ -330,6 +330,25 @@ const translations = {
         shopCategoryAppealsDesc: "Ban appeals and account recovery services",
         shopCategoryOther: "Other",
         shopCategoryOtherDesc: "Miscellaneous services",
+        shopCategoryAll: "All Items",
+        shopCategoryNew: "New",
+        shopCategoryDiscounted: "Discounted",
+        shopCategoryPopular: "Popular",
+
+        // Comparison
+        compareItems: "Compare Items",
+        comparisonMode: "Comparison Mode",
+        exitComparisonMode: "Exit Comparison",
+        selectItemsToCompare: "Select items to compare",
+        compareNow: "Compare Now",
+        addToComparison: "Add to comparison",
+        removeFromComparison: "Remove from comparison",
+        itemComparison: "Item Comparison",
+        closeComparison: "Close",
+        comparisonFeatures: "Features",
+        comparisonDuration: "Duration",
+        comparisonType: "Type",
+        comparisonDiscount: "Discount",
 
         // Shop UI
         shopEyebrow: "Shop",
@@ -1082,6 +1101,25 @@ const translations = {
         shopCategoryAppealsDesc: "Апеляції щодо банів та відновлення акаунтів",
         shopCategoryOther: "Інше",
         shopCategoryOtherDesc: "Різноманітні послуги",
+        shopCategoryAll: "Всі товари",
+        shopCategoryNew: "Нові",
+        shopCategoryDiscounted: "Знижки",
+        shopCategoryPopular: "Популярні",
+
+        // Comparison
+        compareItems: "Порівняти товари",
+        comparisonMode: "Режим порівняння",
+        exitComparisonMode: "Вийти з порівняння",
+        selectItemsToCompare: "Виберіть товари для порівняння",
+        compareNow: "Порівняти зараз",
+        addToComparison: "Додати до порівняння",
+        removeFromComparison: "Видалити з порівняння",
+        itemComparison: "Порівняння товарів",
+        closeComparison: "Закрити",
+        comparisonFeatures: "Функції",
+        comparisonDuration: "Тривалість",
+        comparisonType: "Тип",
+        comparisonDiscount: "Знижка",
 
         // Shop UI
         shopEyebrow: "Крамниця",

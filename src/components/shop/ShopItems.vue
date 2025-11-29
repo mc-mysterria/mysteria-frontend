@@ -1,20 +1,60 @@
 <template>
   <div class="shop-items">
-    <div v-for="category in categories" :key="category.type" class="category-section">
-      <div v-if="category.items.length > 0" class="category-header">
-        <h3 class="category-title">{{ getCategoryTitle(category.type) }}</h3>
-        <p class="category-description">{{ getCategoryDescription(category.type) }}</p>
+    <!-- Tab Navigation -->
+    <div class="shop-tabs">
+      <div class="tabs-wrapper">
+        <button
+          v-for="tab in availableTabs"
+          :key="tab.id"
+          :class="['tab-button', { active: activeTab === tab.id }]"
+          @click="activeTab = tab.id"
+        >
+          {{ tab.label }}
+          <span class="tab-count">{{ tab.count }}</span>
+        </button>
       </div>
-      
-      <div v-if="category.items.length > 0" class="items-grid">
-        <ShopItemCard
-          v-for="item in category.items"
-          :key="item.id"
-          :item="item"
-          class="shop-item-card"
-          @purchase="handlePurchase"
-        />
+    </div>
+
+    <!-- Comparison Mode Toggle -->
+    <div v-if="filteredItems.length > 0" class="comparison-toolbar">
+      <button @click="toggleComparisonMode" class="comparison-toggle-btn">
+        <i class="fa-solid fa-code-compare"></i>
+        {{ comparisonMode ? t('exitComparisonMode') : t('compareItems') }}
+      </button>
+      <div v-if="comparisonMode" class="comparison-info">
+        {{ t('selectItemsToCompare') }} ({{ comparisonItems.size }}/{{ MAX_COMPARISON_ITEMS }})
       </div>
+      <button
+        v-if="comparisonMode && comparisonItems.size >= 2"
+        @click="showComparisonTable = true"
+        class="compare-now-btn"
+      >
+        {{ t('compareNow') }}
+      </button>
+    </div>
+
+    <!-- Comparison Table (Modal/Overlay) -->
+    <ComparisonTable
+      v-if="showComparisonTable"
+      :items="getComparisonItems()"
+      @close="showComparisonTable = false"
+      @purchase="handlePurchase"
+      @remove="removeFromComparison"
+    />
+
+    <!-- Items Grid -->
+    <div v-if="!showComparisonTable" class="items-grid">
+      <ShopItemCard
+        v-for="item in filteredItems"
+        :key="item.id"
+        :item="item"
+        :comparison-mode="comparisonMode"
+        :in-comparison="comparisonItems.has(item.id)"
+        :comparison-disabled="!comparisonItems.has(item.id) && comparisonItems.size >= MAX_COMPARISON_ITEMS"
+        class="shop-item-card"
+        @purchase="handlePurchase"
+        @toggle-comparison="toggleItemComparison(item.id)"
+      />
     </div>
   </div>
 </template>
@@ -27,6 +67,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useNotification } from "@/services/useNotification";
 import { useI18n } from "@/composables/useI18n";
 import ShopItemCard from "./ShopItemCard.vue";
+import ComparisonTable from "./ComparisonTable.vue";
 import Decimal from "decimal.js";
 import type { ServiceResponse } from "@/types/services";
 import { ServiceType } from "@/types/services";
@@ -38,48 +79,41 @@ const { t } = useI18n();
 const items = computed(() => shopStore.items);
 const profile = computed(() => userStore.currentUser);
 
-interface CategoryItem extends ServiceResponse {
-  originalIndex: number;
-}
+// State management
+const activeTab = ref<string>('all');
+const comparisonMode = ref(false);
+const comparisonItems = ref<Set<string>>(new Set());
+const showComparisonTable = ref(false);
+const MAX_COMPARISON_ITEMS = 3;
 
-const categories = computed(() => {
-  const categoryMap = new Map<ServiceType, CategoryItem[]>();
-  
-  // Initialize categories in desired order
-  const categoryOrder: ServiceType[] = [
-    ServiceType.ITEM,
-    ServiceType.COSMETIC,
-    ServiceType.PERMISSION,
-    ServiceType.SUBSCRIPTION,
-    ServiceType.DISCORD_ROLE,
-    ServiceType.APPEAL
-  ];
-  
-  categoryOrder.forEach(type => {
-    categoryMap.set(type, []);
-  });
-  
-  // Distribute items into categories
-  items.value.forEach((item, index) => {
-    const categoryItems = categoryMap.get(item.type);
-    if (categoryItems) {
-      categoryItems.push({ ...item, originalIndex: index });
-    } else {
-      // Handle unknown types by adding them to a default category
-      if (!categoryMap.has(item.type)) {
-        categoryMap.set(item.type, []);
-      }
-      categoryMap.get(item.type)!.push({ ...item, originalIndex: index });
-    }
-  });
-  
-  // Convert to array format for template
-  return Array.from(categoryMap.entries()).map(([type, items]) => ({
-    type,
-    items: items.sort((a, b) => a.name.localeCompare(b.name))
-  }));
-});
+// Helper functions for smart categorization
+const isNewItem = (item: ServiceResponse): boolean => {
+  if (!item.created_at) return false;
+  const createdDate = new Date(item.created_at);
+  const now = new Date();
+  const daysDiff = (now.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24);
+  return daysDiff < 30;
+};
 
+const hasActiveDiscount = (item: ServiceResponse): boolean => {
+  if (!item.discounts?.length) return false;
+  const now = new Date();
+  return item.discounts.some((discount) => {
+    const startDate = new Date(discount.start_date);
+    const endDate = discount.end_date ? new Date(discount.end_date) : null;
+    return now >= startDate && (!endDate || now <= endDate);
+  });
+};
+
+const isPopular = (item: ServiceResponse): boolean => {
+  // Check if popular flag exists in service_metadata.data
+  if (item.service_metadata?.data) {
+    return item.service_metadata.data.popular === true;
+  }
+  return false;
+};
+
+// Category title and description helpers
 const getCategoryTitle = (type: ServiceType): string => {
   switch (type) {
     case ServiceType.ITEM:
@@ -99,25 +133,109 @@ const getCategoryTitle = (type: ServiceType): string => {
   }
 };
 
-const getCategoryDescription = (type: ServiceType): string => {
-  switch (type) {
-    case ServiceType.ITEM:
-      return t('shopCategoryItemsDesc') || 'In-game items and equipment';
-    case ServiceType.COSMETIC:
-      return t('shopCategoryCosmeticsDesc') || 'Cosmetic items and appearance customizations';
-    case ServiceType.PERMISSION:
-      return t('shopCategoryPermissionsDesc') || 'Special permissions and abilities';
-    case ServiceType.SUBSCRIPTION:
-      return t('shopCategorySubscriptionsDesc') || 'Recurring premium services';
-    case ServiceType.DISCORD_ROLE:
-      return t('shopCategoryDiscordRolesDesc') || 'Discord server roles and benefits';
-    case ServiceType.APPEAL:
-      return t('shopCategoryAppealsDesc') || 'Ban appeals and account recovery services';
+// Available tabs computed property
+const availableTabs = computed(() => {
+  const tabs = [
+    { id: 'all', label: t('shopCategoryAll'), count: items.value.length }
+  ];
+
+  // Smart filters
+  const newItems = items.value.filter(isNewItem);
+  if (newItems.length > 0) {
+    tabs.push({ id: 'new', label: t('shopCategoryNew'), count: newItems.length });
+  }
+
+  const discountedItems = items.value.filter(hasActiveDiscount);
+  if (discountedItems.length > 0) {
+    tabs.push({ id: 'discounted', label: t('shopCategoryDiscounted'), count: discountedItems.length });
+  }
+
+  const popularItems = items.value.filter(isPopular);
+  if (popularItems.length > 0) {
+    tabs.push({ id: 'popular', label: t('shopCategoryPopular'), count: popularItems.length });
+  }
+
+  // Category tabs (dynamic from actual items)
+  const categoriesWithItems = new Set(items.value.map(item => item.type));
+  const categoryOrder = [
+    ServiceType.ITEM,
+    ServiceType.COSMETIC,
+    ServiceType.PERMISSION,
+    ServiceType.SUBSCRIPTION,
+    ServiceType.DISCORD_ROLE,
+    ServiceType.APPEAL
+  ];
+
+  categoryOrder.forEach(type => {
+    if (categoriesWithItems.has(type)) {
+      const count = items.value.filter(item => item.type === type).length;
+      tabs.push({
+        id: type,
+        label: getCategoryTitle(type),
+        count
+      });
+    }
+  });
+
+  return tabs;
+});
+
+// Filtered items based on active tab
+const filteredItems = computed(() => {
+  let filtered: ServiceResponse[];
+
+  switch (activeTab.value) {
+    case 'all':
+      filtered = items.value;
+      break;
+    case 'new':
+      filtered = items.value.filter(isNewItem);
+      break;
+    case 'discounted':
+      filtered = items.value.filter(hasActiveDiscount);
+      break;
+    case 'popular':
+      filtered = items.value.filter(isPopular);
+      break;
     default:
-      return t('shopCategoryOtherDesc') || 'Miscellaneous services';
+      // Category filter
+      filtered = items.value.filter(item => item.type === activeTab.value);
+      break;
+  }
+
+  // Sort alphabetically
+  return filtered.sort((a, b) => a.name.localeCompare(b.name));
+});
+
+// Comparison functions
+const toggleComparisonMode = () => {
+  comparisonMode.value = !comparisonMode.value;
+  if (!comparisonMode.value) {
+    comparisonItems.value.clear();
+    showComparisonTable.value = false;
   }
 };
 
+const toggleItemComparison = (itemId: string) => {
+  if (comparisonItems.value.has(itemId)) {
+    comparisonItems.value.delete(itemId);
+  } else if (comparisonItems.value.size < MAX_COMPARISON_ITEMS) {
+    comparisonItems.value.add(itemId);
+  }
+};
+
+const removeFromComparison = (itemId: string) => {
+  comparisonItems.value.delete(itemId);
+  if (comparisonItems.value.size < 2) {
+    showComparisonTable.value = false;
+  }
+};
+
+const getComparisonItems = (): ServiceResponse[] => {
+  return items.value.filter(item => comparisonItems.value.has(item.id));
+};
+
+// Purchase handler
 const handlePurchase = (itemId: string) => {
   const { show } = useNotification();
 
@@ -145,12 +263,8 @@ const handlePurchase = (itemId: string) => {
     return;
   }
 
-  // Find item across all categories
-  let item: ServiceResponse | undefined;
-  for (const category of categories.value) {
-    item = category.items.find((item) => item.id === itemId);
-    if (item) break;
-  }
+  // Find item
+  const item = items.value.find(i => i.id === itemId);
 
   console.log("Purchase button clicked for item:", itemId, item);
 
@@ -192,43 +306,152 @@ const handlePurchase = (itemId: string) => {
 <style scoped>
 .shop-items {
   padding: 20px 0;
+  overflow: visible;
 }
 
-.category-section {
-  margin-bottom: 48px;
-}
-
-.category-section:last-child {
-  margin-bottom: 0;
-}
-
-.category-header {
+/* Tab Navigation */
+.shop-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--myst-bg) 95%, transparent);
+  backdrop-filter: blur(10px);
+  padding: 16px 0;
   margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid color-mix(in srgb, var(--myst-gold, #4ade80) 20%, transparent);
+  margin-top: -4px;
+  border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 10%, transparent);
+  overflow: visible;
 }
 
-.category-title {
+.tabs-wrapper {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--myst-gold) transparent;
+}
+
+.tabs-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tabs-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabs-wrapper::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  border-radius: 3px;
+}
+
+.tabs-wrapper::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--myst-gold) 50%, transparent);
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: color-mix(in srgb, var(--myst-bg-2) 50%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
+  border-radius: 8px;
+  color: var(--myst-ink);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tab-button:hover {
+  background: color-mix(in srgb, var(--myst-bg-2) 70%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--myst-gold) 20%, transparent);
+}
+
+.tab-button.active {
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  border-color: var(--myst-gold);
   color: var(--myst-ink-strong);
-  font-size: 28px;
-  font-family: "Inter", system-ui, sans-serif;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+.tab-count {
+  background: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
   font-weight: 600;
-  margin: 0 0 8px 0;
-  background: linear-gradient(135deg, var(--myst-gold, #4ade80), var(--myst-ink-strong));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.category-description {
-  color: var(--myst-ink-muted);
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 0;
-  opacity: 0.8;
+.tab-button.active .tab-count {
+  background: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  color: var(--myst-ink-strong);
 }
 
+/* Comparison Toolbar */
+.comparison-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.comparison-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  border-radius: 8px;
+  color: var(--myst-ink-strong);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.comparison-toggle-btn:hover {
+  background: color-mix(in srgb, var(--myst-gold) 25%, transparent);
+  border-color: var(--myst-gold);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--myst-gold) 20%, transparent);
+}
+
+.comparison-info {
+  color: var(--myst-ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.compare-now-btn {
+  margin-left: auto;
+  padding: 10px 20px;
+  background: var(--myst-gold);
+  border: none;
+  border-radius: 8px;
+  color: var(--myst-bg);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.compare-now-btn:hover {
+  background: color-mix(in srgb, var(--myst-gold) 120%, #fff);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--myst-gold) 40%, transparent);
+}
+
+/* Items Grid */
 .items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -253,19 +476,43 @@ const handlePurchase = (itemId: string) => {
   }
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
-  .category-section {
-    margin-bottom: 36px;
+  .shop-tabs {
+    padding: 12px 0;
+    margin-bottom: 20px;
   }
-  
-  .category-title {
-    font-size: 24px;
+
+  .tabs-wrapper {
+    gap: 8px;
   }
-  
-  .category-description {
-    font-size: 14px;
+
+  .tab-button {
+    padding: 8px 16px;
+    font-size: 13px;
   }
-  
+
+  .tab-count {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+
+  .comparison-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .comparison-info {
+    text-align: center;
+  }
+
+  .compare-now-btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
   .items-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
@@ -273,28 +520,23 @@ const handlePurchase = (itemId: string) => {
 }
 
 @media (max-width: 576px) {
-  .category-section {
-    margin-bottom: 32px;
+  .shop-items {
+    padding: 16px 0;
   }
-  
-  .category-header {
-    margin-bottom: 20px;
-    padding-bottom: 12px;
+
+  .shop-tabs {
+    padding: 10px 0;
+    margin-bottom: 16px;
   }
-  
-  .category-title {
-    font-size: 22px;
-    margin-bottom: 6px;
+
+  .tab-button {
+    padding: 6px 12px;
+    font-size: 12px;
   }
-  
-  .category-description {
-    font-size: 13px;
-  }
-  
+
   .items-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-    margin-top: 0;
   }
 }
 </style>

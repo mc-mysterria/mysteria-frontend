@@ -30,6 +30,18 @@
       </div>
     </router-link>
 
+    <!-- Comparison toggle (only in comparison mode) - outside image container -->
+    <div v-if="comparisonMode" class="comparison-toggle">
+      <button
+        @click.stop.prevent="$emit('toggle-comparison', item.id)"
+        :disabled="comparisonDisabled"
+        :class="['comparison-checkbox', { selected: inComparison, disabled: comparisonDisabled }]"
+        :title="inComparison ? t('removeFromComparison') : t('addToComparison')"
+      >
+        <i :class="inComparison ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"></i>
+      </button>
+    </div>
+
     <!-- Card header -->
     <div class="myst-card-header">
       <h3 class="myst-card-title">{{ item.display_name || item.name }}</h3>
@@ -110,10 +122,14 @@ import { getServiceDetailPath } from "@/utils/slug";
 const props = defineProps<{
   item: ServiceResponse;
   isProcessing?: boolean;
+  comparisonMode?: boolean;
+  inComparison?: boolean;
+  comparisonDisabled?: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: "purchase", itemId: string): void;
+  (e: "toggle-comparison", itemId: string): void;
 }>();
 
 const { t, currentLanguage } = useI18n();
@@ -240,6 +256,7 @@ const handlePurchase = () => {
 .image-container {
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
 /* Image Styles */
@@ -282,6 +299,54 @@ const handlePurchase = () => {
   font-size: 12px;
   font-weight: 600;
   box-shadow: 0 2px 4px color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+/* Comparison Toggle */
+.comparison-toggle {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 15;
+}
+
+.comparison-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: color-mix(in srgb, var(--myst-bg-2) 90%, transparent);
+  border: 2px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  border-radius: 8px;
+  color: var(--myst-ink);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.comparison-checkbox:hover:not(.disabled) {
+  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  border-color: var(--myst-gold);
+  color: var(--myst-gold);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--myst-gold) 40%, transparent);
+}
+
+.comparison-checkbox.selected {
+  background: var(--myst-gold);
+  border-color: var(--myst-gold);
+  color: var(--myst-bg);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--myst-gold) 50%, transparent);
+}
+
+.comparison-checkbox.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.myst-product-card:has(.comparison-checkbox.selected) {
+  border-color: var(--myst-gold);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 /* Card Header */

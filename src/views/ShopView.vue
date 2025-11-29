@@ -4,11 +4,6 @@
 
     <main class="shop-main">
       <div class="shop-container">
-        <SectionTitle
-          :eyebrow="t('shopEyebrow')"
-          :title="t('shopTitle')"
-          :subtitle="t('shopSubtitle')"
-        />
 
         <!-- Loading state -->
         <div v-if="isShopLoading" class="shop-loading">
