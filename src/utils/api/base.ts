@@ -77,11 +77,15 @@ export class BaseCRUD<
             suppressAuthRequired = false,
         } = options;
 
-        const baseUrl = import.meta.env.VITE_API_URL || "";
-        const url = `${baseUrl}${prefix || this.prefix}${endpoint}`.replace(
-            /\/+/g,
-            "/",
-        );
+        const apiUrlFromEnv = import.meta.env.VITE_API_URL;
+        const relativeUrl = `${prefix || this.prefix}${endpoint}`.replace(/\/+/g, "/");
+
+        // If the environment variable is set, use it as the base.
+        // It's assumed to include the /api prefix, so we strip the default prefix
+        // from the relative URL to avoid duplication.
+        const url = apiUrlFromEnv
+            ? `${apiUrlFromEnv}${relativeUrl.replace(this.defaultPrefix, "")}`
+            : relativeUrl;
 
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
