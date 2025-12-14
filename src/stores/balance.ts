@@ -5,6 +5,7 @@ import {useAuthStore} from "@/stores/auth";
 import {watch} from "vue";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";
+import {useCurrency} from "@/composables/useCurrency";
 import {Decimal} from "decimal.js";
 import {APIError, RequestError} from "@/utils/api/errors";
 import {debounce} from "lodash-es";
@@ -418,7 +419,7 @@ export const useBalanceStore = defineStore("balance", {
         async initiatePurchase(itemId: string, amount: number = 1, recipientId?: string) {
             console.log("initiatePurchase called with itemId:", itemId, "amount:", amount, "recipientId:", recipientId);
             const {t} = useI18n();
-            const {formatCurrency, getCurrencySymbol, currentCurrency} = await import('@/composables/useCurrency').then(m => m.useCurrency());
+            const {formatCurrency, getCurrencySymbol, currentCurrency} = useCurrency();
 
             if (!useAuthStore().isAuthenticated) {
                 console.log("User not authenticated");
