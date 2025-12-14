@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch} from "vue";
+import {computed, ref, watch, nextTick} from "vue";
 import {useBalanceStore} from "@/stores/balance";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";
@@ -264,11 +264,18 @@ async function onConfirm() {
   } else if (confirmText.value === t("purchase")) {
     const itemId = balanceStore.currentPurchase?.id;
     if (itemId) {
-      await balanceStore.initiatePurchase(
-          itemId,
-          quantity.value,
-          selectedRecipient.value || undefined,
-      );
+      try {
+        await balanceStore.initiatePurchase(
+            itemId,
+            quantity.value,
+            selectedRecipient.value || undefined,
+        );
+      } finally {
+        // By awaiting nextTick, we allow Vue's reactivity to process
+        // any state changes from `initiatePurchase` before we cancel.
+        await nextTick();
+        balanceStore.cancelCurrentPurchase();
+      }
     }
   }
   isVisible.value = false;
