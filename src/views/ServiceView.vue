@@ -25,6 +25,14 @@
               <span class="service-type">{{ getTypeLabel(service.type) }}</span>
               <span class="service-price">{{ service.price }} {{ currentLanguage === 'uk' ? 'Марок' : 'Marks' }}</span>
               <span v-if="service.isSubscription" class="service-subscription">{{ t('subscription') }}</span>
+              <span v-if="service.isGiftable" class="service-feature giftable">
+                <i class="fa-solid fa-gift"></i>
+                {{ t('giftable') || 'Giftable' }}
+              </span>
+              <span v-if="service.isBulkable" class="service-feature bulkable">
+                <i class="fa-solid fa-layer-group"></i>
+                {{ t('bulkPurchase') || 'Bulk' }}
+              </span>
             </div>
           </div>
         </div>
@@ -205,22 +213,30 @@ const confirmPurchase = async () => {
   purchasing.value = true;
 
   try {
-    const servicePrice = new Decimal(pendingPurchase.value.price);
+    // Get quantity and recipient from modal if available
+    const quantity = confirmModal.value?.quantity || 1;
+    const recipientId = confirmModal.value?.selectedRecipient || undefined;
+    const totalPrice = new Decimal(pendingPurchase.value.price).mul(quantity);
 
     // Check if it's insufficient funds case (topUp button)
-    if (!shopStore.balance || shopStore.balance.amount.lessThan(servicePrice)) {
+    if (!shopStore.balance || shopStore.balance.amount.lessThan(totalPrice)) {
       // Redirect to top-up or show appropriate message
       show(t('insufficientFundsMessage') || 'Insufficient funds. Please top up your balance to continue.', {type: 'info'});
       return;
     }
 
-    // Make the actual purchase API call
+    // Make the actual purchase API call with new parameters
     await shopAPI.purchaseService({
-      serviceId: pendingPurchase.value.serviceId
+      serviceId: pendingPurchase.value.serviceId,
+      amount: quantity,
+      ...(recipientId && {recipientId}),
     });
 
     // Purchase was successful if we get here without an error
-    show(t('purchaseSuccess') || 'Purchase successful!', {type: 'success'});
+    const successMsg = recipientId
+        ? (t('giftSuccess') || 'Gift sent successfully!')
+        : (t('purchaseSuccess') || 'Purchase successful!');
+    show(successMsg, {type: 'success'});
     // Refresh balance after successful purchase
     await shopStore.fetchBalance();
 
@@ -412,6 +428,32 @@ export default {
 .service-subscription {
   background: #10b981;
   color: white;
+}
+
+.service-feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.service-feature.giftable {
+  background: color-mix(in srgb, #10b981 20%, transparent);
+  color: #10b981;
+  border: 1px solid #10b981;
+}
+
+.service-feature.bulkable {
+  background: color-mix(in srgb, #3b82f6 20%, transparent);
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+
+.service-feature i {
+  font-size: 0.75rem;
 }
 
 /* Service content */

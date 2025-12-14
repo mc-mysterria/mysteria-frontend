@@ -3,7 +3,7 @@
     <!-- Image container -->
     <router-link :to="getServiceDetailPath(item)" class="image-link">
       <div
-          class="image-container relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
+          class="image-container relative h-48 rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
         <img
             v-if="item.image"
             :src="getImagePath(item.image)"
@@ -27,6 +27,16 @@
         <!-- Discount ribbon -->
         <div v-if="hasDiscount" class="absolute right-3 top-3">
           <div class="myst-discount-badge">-{{ discountPercent }}%</div>
+        </div>
+
+        <!-- Feature badges -->
+        <div class="feature-badges">
+          <div v-if="item.is_giftable" class="feature-badge giftable" :title="t('giftable')">
+            <i class="fa-solid fa-gift"></i>
+          </div>
+          <div v-if="item.is_bulkable" class="feature-badge bulkable" :title="t('bulkAvailable')">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
         </div>
       </div>
     </router-link>
@@ -235,7 +245,7 @@ const handlePurchase = () => {
   background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
   border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -246,7 +256,7 @@ const handlePurchase = () => {
 .image-container {
   position: relative;
   z-index: 1;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Image Styles */
@@ -258,6 +268,7 @@ const handlePurchase = () => {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  border-radius: 12px 12px 0 0;
 }
 
 .myst-product-card:hover {
@@ -289,6 +300,45 @@ const handlePurchase = () => {
   font-size: 12px;
   font-weight: 600;
   box-shadow: 0 2px 4px color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+/* Feature Badges */
+.feature-badges {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  z-index: 5;
+}
+
+.feature-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.feature-badge.giftable {
+  background: color-mix(in srgb, #10b981 80%, transparent);
+  color: white;
+  border: 2px solid #10b981;
+}
+
+.feature-badge.bulkable {
+  background: color-mix(in srgb, #3b82f6 80%, transparent);
+  color: white;
+  border: 2px solid #3b82f6;
+}
+
+.feature-badge:hover {
+  transform: scale(1.1);
 }
 
 /* Comparison Toggle */

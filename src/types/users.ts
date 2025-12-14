@@ -24,3 +24,12 @@ export interface UserResponse {
 
     roles?: RoleResponse[];
 }
+
+export interface UserSearchDto {
+    id: string;
+    nickname?: string;
+    discordId?: string;
+    email?: string;
+    verified: boolean;
+    avatarUrl?: string;
+}

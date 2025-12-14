@@ -1,64 +1,44 @@
 <template>
-  <Transition name="slide-fade">
+  <Transition name="slide-bounce">
     <div
         v-if="isVisible"
         :class="['notification-card', type, { clickable: clickable }]"
         role="alert"
         @click="handleClick"
     >
-      <div class="content">
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 25"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            :class="['info-icon', type]"
-        >
-          <path
-              d="M12 21.5C16.9706 21.5 21 17.4706 21 12.5C21 7.52944 16.9706 3.5 12 3.5C7.02944 3.5 3 7.52944 3 12.5C3 17.4706 7.02944 21.5 12 21.5Z"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-          />
-          <path
-              d="M12 8V13.25"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-          />
-          <path
-              d="M12.375 16.625C12.375 16.8321 12.2071 17 12 17C11.7929 17 11.625 16.8321 11.625 16.625C11.625 16.4179 11.7929 16.25 12 16.25C12.2071 16.25 12.375 16.4179 12.375 16.625Z"
-              stroke-width="1.5"
-          />
+      <div class="notification-icon-wrapper" :class="type">
+        <!-- Success Icon -->
+        <svg v-if="type === 'success'" class="notification-icon" viewBox="0 0 24 24" fill="none">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        {{ message }}
-        <!-- Copy icon for copyable notifications -->
-        <svg
-            v-if="copyable"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="copy-icon"
-        >
-          <path
-              d="M20 9H11C9.89543 9 9 9.89543 9 11V20C9 21.1046 9.89543 22 11 22H20C21.1046 22 22 21.1046 22 20V11C22 9.89543 21.1046 9 20 9Z"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-          />
-          <path
-              d="M5 15H4C3.46957 15 2.96086 14.7893 2.58579 14.4142C2.21071 14.0391 2 13.5304 2 13V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H13C13.5304 2 14.0391 2.21071 14.4142 2.58579C14.7893 2.96086 15 3.46957 15 4V5"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-          />
+
+        <!-- Error/Fatal Icon -->
+        <svg v-else-if="type === 'error' || type === 'fatal'" class="notification-icon" viewBox="0 0 24 24" fill="none">
+          <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <!-- Warning Icon -->
+        <svg v-else-if="type === 'warn'" class="notification-icon" viewBox="0 0 24 24" fill="none">
+          <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <!-- Info/Debug Icon -->
+        <svg v-else class="notification-icon" viewBox="0 0 24 24" fill="none">
+          <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <IconClose v-if="!copyable" @click.stop="close" class="icon-close"/>
+
+      <div class="notification-content">
+        <div class="notification-message">{{ message }}</div>
+        <i v-if="copyable" class="fa-solid fa-copy copy-hint"></i>
+      </div>
+
+      <button v-if="!copyable" @click.stop="close" class="close-button" aria-label="Close notification">
+        <IconClose class="icon-close"/>
+      </button>
+
+      <!-- Progress bar for duration -->
+      <div v-if="duration && duration > 0" class="progress-bar" :style="{ animationDuration: `${duration}ms` }"></div>
     </div>
   </Transition>
 </template>
@@ -100,114 +80,262 @@ onMounted(() => {
 
 <style scoped>
 .notification-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 320px;
-  padding: 10px 15px 10px 10px;
-  background-color: #23252c;
-  border-left: 7px solid;
-  border-radius: 7px;
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.24);
-  margin-bottom: 16px;
-}
-
-.content {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
+  width: 380px;
+  padding: 16px 18px;
+  background: color-mix(in srgb, var(--myst-bg) 95%, transparent);
+  border: 1px solid color-mix(in srgb, var(--notification-color) 30%, transparent);
+  border-radius: 12px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--notification-color) 10%, transparent),
+    0 0 20px color-mix(in srgb, var(--notification-color) 15%, transparent);
+  margin-bottom: 12px;
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-img {
-  margin-left: 5px;
+.notification-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--notification-color);
+  box-shadow: 0 0 12px var(--notification-color);
 }
 
-.info-icon {
-  width: 24px !important;
-  height: 24px !important;
+/* Icon Wrapper */
+.notification-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--notification-color) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--notification-color) 30%, transparent);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.notification-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--notification-color);
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--notification-color) 40%, transparent));
+}
+
+/* Content */
+.notification-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.notification-message {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--myst-ink-strong);
+  word-wrap: break-word;
+}
+
+.copy-hint {
+  font-size: 14px;
+  color: var(--myst-ink-muted);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+/* Close Button */
+.close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
+.close-button:hover {
+  background: color-mix(in srgb, var(--myst-ink-muted) 10%, transparent);
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 40%, transparent);
+}
+
 .icon-close {
-  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
 }
 
-.error,
-.warn,
-.info,
-.fatal,
-.debug,
+.close-button:hover .icon-close {
+  opacity: 1;
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--notification-color);
+  transform-origin: left;
+  animation: shrink linear forwards;
+  box-shadow: 0 0 8px var(--notification-color);
+}
+
+@keyframes shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* Type-specific colors */
 .success {
-  border-left-color: var(--border-color);
-}
-
-.error .info-icon,
-.warn .info-icon,
-.info .info-icon,
-.fatal .info-icon,
-.debug .info-icon,
-.success .info-icon {
-  stroke: var(--border-color);
+  --notification-color: #10b981;
 }
 
 .error {
-  --border-color: #e54545;
-}
-
-.warn {
-  --border-color: #ee7828;
-}
-
-.info {
-  --border-color: #0f9918;
+  --notification-color: #ef4444;
 }
 
 .fatal {
-  --border-color: #c0392b;
+  --notification-color: #dc2626;
+}
+
+.warn {
+  --notification-color: #f59e0b;
+}
+
+.info {
+  --notification-color: #3b82f6;
 }
 
 .debug {
-  --border-color: #16a34a;
+  --notification-color: #8b5cf6;
 }
 
-.success {
-  --border-color: #0f9918;
-}
-
+/* Clickable state */
 .clickable {
   cursor: pointer;
-  transition: transform 0.2s ease,
-  box-shadow 0.2s ease;
 }
 
 .clickable:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 24px rgba(0, 0, 0, 0.32);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px color-mix(in srgb, var(--notification-color) 20%, transparent),
+    0 0 24px color-mix(in srgb, var(--notification-color) 25%, transparent);
 }
 
-.copy-icon {
-  margin-left: auto;
-  color: #bbb;
-  transition: color 0.2s ease;
-  flex-shrink: 0;
+.clickable:hover .notification-icon-wrapper {
+  background: color-mix(in srgb, var(--notification-color) 25%, transparent);
+  border-color: color-mix(in srgb, var(--notification-color) 50%, transparent);
+  transform: scale(1.05);
 }
 
-.clickable:hover .copy-icon {
-  color: #fff;
+.clickable:hover .copy-hint {
+  color: var(--notification-color);
 }
 
-/* Animation */
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+.clickable:active {
+  transform: translateY(0);
 }
 
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+/* Animations */
+.slide-bounce-enter-active {
+  animation: slideInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
+.slide-bounce-leave-active {
+  animation: slideOut 0.3s cubic-bezier(0.4, 0, 1, 1);
+}
+
+@keyframes slideInBounce {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-10px) scale(1.02);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9);
+  }
+}
+
+/* Theme Support - Parchment */
+:root[data-theme="parchment"] .notification-card {
+  background: color-mix(in srgb, var(--myst-bg) 98%, transparent);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px color-mix(in srgb, var(--notification-color) 15%, transparent),
+    0 0 20px color-mix(in srgb, var(--notification-color) 10%, transparent);
+}
+
+:root[data-theme="parchment"] .notification-icon-wrapper {
+  background: color-mix(in srgb, var(--notification-color) 10%, transparent);
+}
+
+:root[data-theme="parchment"] .close-button {
+  border-color: color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+}
+
+:root[data-theme="parchment"] .close-button:hover {
+  background: color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .notification-card {
+    width: calc(100vw - 40px);
+    max-width: 380px;
+    padding: 14px 16px;
+  }
+
+  .notification-icon-wrapper {
+    width: 36px;
+    height: 36px;
+  }
+
+  .notification-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .notification-message {
+    font-size: 13px;
+  }
 }
 </style>

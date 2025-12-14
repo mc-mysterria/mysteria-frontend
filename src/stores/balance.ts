@@ -120,6 +120,8 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
             ? Math.round(service.durationDays / 30)
             : undefined,
         service_metadata: service.metadata ? {data: service.metadata} : undefined,
+        is_giftable: service.isGiftable,  // NEW: Map gifting support
+        is_bulkable: service.isBulkable,  // NEW: Map bulk purchase support
         created_at: service.createdAt ? new Date(service.createdAt) : undefined,
         // Add consistent slug field for URLs (always use English name or fallback to original name)
         slug_name: service.nameEn || service.name,
@@ -413,13 +415,15 @@ export const useBalanceStore = defineStore("balance", {
             }
         },
 
-        async initiatePurchase(itemId: string) {
-            console.log("initiatePurchase called with itemId:", itemId);
+        async initiatePurchase(itemId: string, amount: number = 1, recipientId?: string) {
+            console.log("initiatePurchase called with itemId:", itemId, "amount:", amount, "recipientId:", recipientId);
+            const {t} = useI18n();
+            const {formatCurrency, getCurrencySymbol, currentCurrency} = await import('@/composables/useCurrency').then(m => m.useCurrency());
 
             if (!useAuthStore().isAuthenticated) {
                 console.log("User not authenticated");
                 const {show} = useNotification();
-                show("Для покупки необхідно увійти в систему", {
+                show(t('loginRequired') || "Authentication required for purchase", {
                     type: "error",
                     duration: 4000,
                 });
@@ -433,7 +437,7 @@ export const useBalanceStore = defineStore("balance", {
             if (!service) {
                 console.log("Service not found");
                 const {show} = useNotification();
-                show("Послуга не знайдена", {type: "error", duration: 4000});
+                show(t('serviceNotFound') || "Service not found", {type: "error", duration: 4000});
                 this.isProcessing = false;
                 return false;
             }
@@ -448,6 +452,8 @@ export const useBalanceStore = defineStore("balance", {
                     },
                     body: JSON.stringify({
                         serviceId: service.id,
+                        amount,
+                        ...(recipientId && {recipientId}),
                     }),
                 });
 
@@ -458,9 +464,26 @@ export const useBalanceStore = defineStore("balance", {
 
                 await this.fetchBalance();
 
-                // Show success notification
+                // Show success notification with proper localization and currency
                 const {show: showSuccess} = useNotification();
-                showSuccess(`Успішно придбано "${service.name}" за ${service.price}₴`, {
+                const totalPrice = new Decimal(service.price).mul(amount);
+                let priceDisplay: string;
+
+                if (currentCurrency.value === 'POINTS') {
+                    priceDisplay = `${totalPrice.toString()} ${t('marks') || 'Marks'}`;
+                } else {
+                    const symbol = getCurrencySymbol();
+                    priceDisplay = `${symbol}${formatCurrency(totalPrice, {showSymbol: false, decimals: 2})}`;
+                }
+
+                const {currentLanguage} = useI18n();
+                const serviceName = (currentLanguage.value === 'en' && service.nameEn) ? service.nameEn : service.name;
+
+                const message = recipientId
+                    ? `${t('giftSuccess')} "${serviceName}" ${t('giftSentFor') || 'for'} ${priceDisplay}`
+                    : `${t('purchaseSuccessPrefix') || 'Successfully purchased'} "${serviceName}" ${t('purchaseSuccessFor') || 'for'} ${priceDisplay}`;
+
+                showSuccess(message, {
                     type: "success",
                     duration: 5000,
                 });

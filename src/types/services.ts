@@ -88,6 +88,8 @@ export interface ServiceResponse {
     service_metadata?: ServiceMetadata;
     discounts?: ServiceDiscount[];
     server_availability?: ServerAvailability;
+    is_giftable?: boolean;   // NEW: Service can be gifted
+    is_bulkable?: boolean;   // NEW: Service supports bulk purchases
     created_at?: Date;
     updated_at?: Date;
     slug_name?: string; // For consistent URL generation regardless of language
@@ -124,12 +126,16 @@ export interface ServiceDto {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     metadata?: Record<string, any>;
     isActive: boolean;
+    isGiftable?: boolean;   // NEW: Service can be gifted
+    isBulkable?: boolean;   // NEW: Service supports bulk purchases
     createdAt: string;
 }
 
 // Purchase related DTOs
 export interface PurchaseRequest {
     serviceId: number;
+    amount: number;        // Required, min 1
+    recipientId?: string;  // Optional UUID for gifts
 }
 
 export interface PurchaseDto {
@@ -141,6 +147,8 @@ export interface PurchaseDto {
     expiresAt?: string;
     delivered: boolean;
     notes?: string;
+    amount: number;        // NEW: Quantity purchased
+    purchaserId: string;   // NEW: Who paid (for gifts)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     metadata?: Record<string, any>;
 }
@@ -170,6 +178,8 @@ export interface ServiceMarkdownDto {
     price: number;
     type: ServiceType;
     isSubscription: boolean;
+    isGiftable?: boolean;   // NEW: Service can be gifted
+    isBulkable?: boolean;   // NEW: Service supports bulk purchases
     createdAt: string;
     updatedAt: string | null;
     publishedAt?: string | null;

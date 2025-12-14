@@ -74,7 +74,16 @@
             </div>
 
             <div class="transaction-body">
-              <h4 class="transaction-title">{{ transaction.description }}</h4>
+              <h4 class="transaction-title">
+                {{ transaction.description }}
+                <span v-if="getTransactionQuantity(transaction) > 1" class="quantity-badge">
+                  ×{{ getTransactionQuantity(transaction) }}
+                </span>
+              </h4>
+              <div v-if="isGiftTransaction(transaction)" class="gift-indicator">
+                <i class="fa-solid fa-gift"></i>
+                {{ t('giftFrom') || 'Gift from' }} {{ getGiftSenderName(transaction) }}
+              </div>
               <div class="transaction-meta">
                 <span class="transaction-date">{{ formatDate(transaction.createdAt) }}</span>
                 <span v-if="transaction.serverId" class="transaction-server">{{ transaction.serverId }}</span>
@@ -127,6 +136,7 @@
 import {onMounted, ref} from "vue";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";
+import {useUserStore} from "@/stores/user";
 import type {UserResponse} from "@/types/users";
 
 const props = defineProps<{
@@ -270,6 +280,23 @@ const toggleDetails = (transactionId: string) => {
 
 const formatMetadata = (metadata: Record<string, any>): string => {
   return JSON.stringify(metadata, null, 2);
+};
+
+// Get transaction quantity
+const getTransactionQuantity = (transaction: any): number => {
+  return transaction.metadata?.amount || 1;
+};
+
+// Check if transaction is a gift
+const isGiftTransaction = (transaction: any): boolean => {
+  const userStore = useUserStore();
+  return transaction.metadata?.purchaserId &&
+      transaction.metadata?.purchaserId !== userStore.currentUser?.id;
+};
+
+// Get gift sender name
+const getGiftSenderName = (transaction: any): string => {
+  return transaction.metadata?.purchaserName || t('unknown') || 'Unknown';
 };
 
 const getIndicatorClass = (type: string): string => {
@@ -599,6 +626,40 @@ onMounted(() => {
   font-weight: 600;
   color: var(--myst-ink-strong);
   line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quantity-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  color: var(--myst-gold);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 40%, transparent);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gift-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: color-mix(in srgb, #10b981 15%, transparent);
+  color: #10b981;
+  border: 1px solid color-mix(in srgb, #10b981 30%, transparent);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.gift-indicator i {
+  font-size: 12px;
 }
 
 .transaction-meta {

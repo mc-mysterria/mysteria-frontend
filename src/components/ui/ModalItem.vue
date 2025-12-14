@@ -16,6 +16,57 @@
         />
       </div>
 
+      <!-- Quantity Input (for bulk purchases) - only show during purchase, not top-up -->
+      <div v-if="showQuantityInput && confirmText === t('purchase')" class="quantity-section">
+        <label class="input-label">{{ t('quantity') || 'Quantity' }}</label>
+        <input
+            v-model.number="quantity"
+            type="number"
+            min="1"
+            class="quantity-input"
+            :disabled="!currentService?.is_bulkable"
+        />
+      </div>
+
+      <!-- Price Breakdown - only show during purchase -->
+      <div v-if="confirmText === t('purchase')" class="price-breakdown">
+        <div class="price-row">
+          <span class="price-label">{{ t('unitPrice') || 'Unit Price' }}:</span>
+          <span class="price-value">{{ formattedUnitPrice }}</span>
+        </div>
+        <div v-if="quantity > 1" class="price-row">
+          <span class="price-label">{{ t('quantity') || 'Quantity' }}:</span>
+          <span class="price-value">× {{ quantity }}</span>
+        </div>
+        <div class="price-row total">
+          <span class="price-label">{{ t('totalPrice') || 'Total' }}:</span>
+          <span class="price-value">{{ formattedTotalPrice }}</span>
+        </div>
+      </div>
+
+      <!-- Gift Mode Toggle - only show during purchase, not top-up -->
+      <div v-if="showGiftOption && confirmText === t('purchase')" class="gift-section">
+        <label class="gift-toggle">
+          <input
+              v-model="isGiftMode"
+              type="checkbox"
+              :disabled="!currentService?.is_giftable"
+          />
+          <span class="toggle-label">
+            <i class="fa-solid fa-gift"></i>
+            {{ t('giftToUser') || 'Gift to another user' }}
+          </span>
+        </label>
+      </div>
+
+      <!-- User Selector (for gifts) - only show during purchase -->
+      <div v-if="isGiftMode && confirmText === t('purchase')" class="recipient-section">
+        <UserSelector
+            v-model="selectedRecipient"
+            :placeholder="t('selectRecipient') || 'Search for user...'"
+        />
+      </div>
+
       <div
           class="buttonYes"
           :class="{ disabled: isConfirmDisabled }"
@@ -33,15 +84,26 @@ import {computed, ref, watch} from "vue";
 import {useBalanceStore} from "@/stores/balance";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";
+import {useCurrency} from "@/composables/useCurrency";
 import {Decimal} from "decimal.js";
 import DropdownSelect from "@/components/ui/DropdownSelect.vue";
+import UserSelector from "@/components/shop/UserSelector.vue";
+
+const emit = defineEmits<{
+  confirm: [];
+  cancel: [];
+}>();
 
 const {t} = useI18n();
+const {formatCurrency, getCurrencySymbol, currentCurrency} = useCurrency();
 const isVisible = ref(false);
 const modalText = ref("");
 const confirmText = ref("");
 const cancelText = ref("");
 const selectedServer = ref<string>("");
+const quantity = ref<number>(1);
+const isGiftMode = ref<boolean>(false);
+const selectedRecipient = ref<string>("");
 const balanceStore = useBalanceStore();
 const {show} = useNotification();
 
@@ -66,20 +128,72 @@ const serverOptions = computed(() => {
   }));
 });
 
+// Bulk purchase support
+const showQuantityInput = computed(() => {
+  return currentService.value?.is_bulkable === true;
+});
+
+// Gift support
+const showGiftOption = computed(() => {
+  return currentService.value?.is_giftable === true;
+});
+
+// Price calculations
+const unitPrice = computed(() => {
+  return balanceStore.currentPurchase?.price || new Decimal(0);
+});
+
+const totalPrice = computed(() => {
+  return unitPrice.value.mul(quantity.value);
+});
+
+// Formatted prices based on selected currency
+const formattedUnitPrice = computed(() => {
+  const price = unitPrice.value;
+  if (currentCurrency.value === 'POINTS') {
+    return `${price.toString()} ${t('marks') || 'Marks'}`;
+  }
+  const symbol = getCurrencySymbol();
+  return `${symbol}${formatCurrency(price, {showSymbol: false, decimals: 2})}`;
+});
+
+const formattedTotalPrice = computed(() => {
+  const total = totalPrice.value;
+  if (currentCurrency.value === 'POINTS') {
+    return `${total.toString()} ${t('marks') || 'Marks'}`;
+  }
+  const symbol = getCurrencySymbol();
+  return `${symbol}${formatCurrency(total, {showSymbol: false, decimals: 2})}`;
+});
+
 const isConfirmDisabled = computed(() => {
   const needsServer = showServerSelection.value;
   const hasServer =
       selectedServer.value || balanceStore.currentPurchase?.selectedServer;
 
+  // Check if gift mode requires recipient
+  const needsRecipient = isGiftMode.value;
+  const hasRecipient = selectedRecipient.value;
+
+  // Check if balance is sufficient for total price
+  const balance = balanceStore.currentBalance?.amount || new Decimal(0);
+  const hasSufficientBalance = balance.greaterThanOrEqualTo(totalPrice.value);
+
   console.log("Button disabled check:", {
     needsServer,
     hasServer,
-    selectedValue: selectedServer.value,
+    needsRecipient,
+    hasRecipient,
+    hasSufficientBalance,
+    balance: balance.toString(),
+    totalPrice: totalPrice.value.toString(),
   });
 
-  if (needsServer && !hasServer) {
-    return true;
-  }
+  // Disable if any required field is missing or insufficient balance
+  if (needsServer && !hasServer) return true;
+  if (needsRecipient && !hasRecipient) return true;
+  if (!hasSufficientBalance && confirmText.value === t("purchase")) return true;
+
   return false;
 });
 
@@ -100,9 +214,16 @@ function showModal(text: string, confirmLabel?: string, cancelLabel?: string) {
   confirmText.value = confirmLabel || t("yes");
   cancelText.value = cancelLabel || t("no");
 
-  // Sync with store state instead of resetting
   selectedServer.value = balanceStore.currentPurchase?.selectedServer || "";
-  console.log("Modal opened, initial server value:", selectedServer.value);
+  quantity.value = 1;  // Reset to default quantity
+  isGiftMode.value = false;  // Reset gift mode
+  selectedRecipient.value = "";  // Reset recipient
+
+  console.log("Modal opened, initial values:", {
+    server: selectedServer.value,
+    quantity: quantity.value,
+    giftMode: isGiftMode.value,
+  });
 
   isVisible.value = true;
 }
@@ -144,13 +265,19 @@ async function onConfirm() {
     const itemId = balanceStore.currentPurchase?.id;
     if (itemId) {
       try {
-        await balanceStore.initiatePurchase(itemId);
+        await balanceStore.initiatePurchase(
+            itemId,
+            quantity.value,
+            selectedRecipient.value || undefined
+        );
       } finally {
         balanceStore.cancelCurrentPurchase();
       }
     }
   }
   isVisible.value = false;
+
+  emit('confirm');
 }
 
 function onCancel() {
@@ -162,6 +289,8 @@ function onCancel() {
   }
   balanceStore.cancelCurrentPurchase();
   isVisible.value = false;
+
+  emit('cancel');
 }
 
 defineExpose({
@@ -169,6 +298,9 @@ defineExpose({
   onConfirm,
   onCancel,
   isVisible,
+  quantity,
+  selectedRecipient,
+  isGiftMode,
 });
 </script>
 
@@ -222,14 +354,17 @@ defineExpose({
 }
 
 p {
-  margin-bottom: 24px;
+  margin: 0 0 28px 0;
   font-size: clamp(16px, 2.5vw, 18px);
   word-wrap: break-word;
   color: var(--myst-ink-strong);
   line-height: 1.6;
+  font-weight: 500;
 }
 
-.card div {
+/* Base button styles */
+.card .buttonYes,
+.card .buttonNo {
   text-align: center;
   border-radius: 10px;
   padding: clamp(12px, 2vw, 16px) clamp(20px, 3vw, 24px);
@@ -247,6 +382,7 @@ p {
 .buttonYes {
   background: var(--myst-gold);
   color: var(--myst-bg);
+  margin-top: 8px;
   margin-bottom: 16px;
   border: 1px solid var(--myst-gold);
   box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3);
@@ -278,8 +414,161 @@ p {
 
 .server-selection {
   width: 100%;
-  margin: 24px 0;
+  margin: 0 0 24px 0;
   text-align: left;
+  padding: 0;
+  cursor: default;
+}
+
+/* Quantity Section */
+.quantity-section {
+  width: 100%;
+  margin: 0 0 24px 0;
+  text-align: left;
+  padding: 0;
+  cursor: default;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--myst-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quantity-input {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--myst-bg);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  border-radius: 10px;
+  color: var(--myst-ink-strong);
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.quantity-input:focus {
+  outline: none;
+  border-color: var(--myst-gold);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--myst-gold) 20%, transparent);
+}
+
+.quantity-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Price Breakdown */
+.price-breakdown {
+  width: 100%;
+  margin: 0 0 24px 0;
+  padding: 18px;
+  background: color-mix(in srgb, var(--myst-bg) 50%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 25%, transparent);
+  border-radius: 10px;
+  text-align: left;
+  cursor: default;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.price-row:last-child {
+  margin-bottom: 0;
+}
+
+.price-row.total {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.price-label {
+  color: var(--myst-ink);
+}
+
+.price-value {
+  color: var(--myst-gold);
+  font-weight: 600;
+}
+
+/* Gift Section */
+.gift-section {
+  width: 100%;
+  margin: 0 0 24px 0;
+  text-align: left;
+  padding: 0;
+  cursor: default;
+}
+
+.gift-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--myst-bg) 50%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.gift-toggle:hover {
+  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+.gift-toggle:has(input[type="checkbox"]:checked) {
+  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
+}
+
+.gift-toggle input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--myst-gold);
+}
+
+.gift-toggle input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--myst-ink-strong);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toggle-label i {
+  color: var(--myst-gold);
+}
+
+/* Recipient Section */
+.recipient-section {
+  width: 100%;
+  margin: 0 0 24px 0;
+  text-align: left;
+  padding: 0;
+  cursor: default;
 }
 
 .buttonNo {
@@ -315,7 +604,8 @@ p {
     margin-bottom: 20px;
   }
 
-  .card div {
+  .card .buttonYes,
+  .card .buttonNo {
     padding: clamp(12px, 3vw, 14px) clamp(16px, 4vw, 20px);
     font-size: 15px;
   }
@@ -337,7 +627,8 @@ p {
     margin-bottom: 18px;
   }
 
-  .card div {
+  .card .buttonYes,
+  .card .buttonNo {
     padding: 12px 16px;
     font-size: 14px;
     min-height: 44px;
