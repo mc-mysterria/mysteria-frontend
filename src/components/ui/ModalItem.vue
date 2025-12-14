@@ -277,7 +277,8 @@ async function onConfirm() {
         balanceStore.cancelCurrentPurchase();
       } catch (error) {
         console.error("Purchase initiation failed:", error);
-        show(t('purchaseFailed'), { type: 'error', duration: 5000 });
+        const errMsg = error instanceof Error ? error.message : String(error);
+        show(errMsg, { type: 'error', duration: 10000 });
         // Close the modal on failure to allow the user to try again.
         isVisible.value = false;
       }

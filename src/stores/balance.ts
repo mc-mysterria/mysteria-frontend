@@ -451,7 +451,7 @@ export const useBalanceStore = defineStore("balance", {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        serviceId: service.id,
+                        serviceId: service.id.toString(),
                         amount,
                         ...(recipientId && {recipientId}),
                     }),
