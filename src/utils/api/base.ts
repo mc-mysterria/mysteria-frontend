@@ -77,7 +77,7 @@ export class BaseCRUD<
             suppressAuthRequired = false,
         } = options;
 
-        const baseUrl = import.meta.env.VITE_API_BASE_URL || "";
+        const baseUrl = import.meta.env.VITE_API_URL || "";
         const url = `${baseUrl}${prefix || this.prefix}${endpoint}`.replace(
             /\/+/g,
             "/",
