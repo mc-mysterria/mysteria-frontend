@@ -264,16 +264,11 @@ async function onConfirm() {
   } else if (confirmText.value === t("purchase")) {
     const itemId = balanceStore.currentPurchase?.id;
     if (itemId) {
-      try {
-        await balanceStore.initiatePurchase(
-            itemId,
-            quantity.value,
-            selectedRecipient.value || undefined,
-        );
-      } finally {
-        // Ensure the purchase state is cleared immediately after the attempt
-        balanceStore.cancelCurrentPurchase();
-      }
+      await balanceStore.initiatePurchase(
+          itemId,
+          quantity.value,
+          selectedRecipient.value || undefined,
+      );
     }
   }
   isVisible.value = false;
