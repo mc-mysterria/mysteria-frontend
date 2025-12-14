@@ -184,6 +184,10 @@ watch(
               t("cancel"),
           );
         }
+      } else if (confirmModal.value && confirmModal.value.isVisible) {
+        // Call the modal's own cancellation/closing logic, which is now safe to use
+        // after a successful purchase.
+        confirmModal.value.onCancel();
       }
     },
     {deep: true},

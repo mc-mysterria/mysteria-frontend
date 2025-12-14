@@ -261,6 +261,8 @@ async function onConfirm() {
       window.open(urlWithAmount, "_blank");
       balanceStore.startBalanceCheck(price);
     }
+    isVisible.value = false;
+    emit('confirm');
   } else if (confirmText.value === t("purchase")) {
     const itemId = balanceStore.currentPurchase?.id;
     if (itemId) {
@@ -270,27 +272,33 @@ async function onConfirm() {
             quantity.value,
             selectedRecipient.value || undefined,
         );
-      } finally {
-        // By awaiting nextTick, we allow Vue's reactivity to process
-        // any state changes from `initiatePurchase` before we cancel.
-        await nextTick();
+        // After a successful purchase, the store updates the balance but not the
+        // currentPurchase state. We manually cancel it here to reset the UI.
         balanceStore.cancelCurrentPurchase();
+      } catch (error) {
+        console.error("Purchase initiation failed:", error);
+        show(t('purchaseFailed'), { type: 'error', duration: 5000 });
+        // Close the modal on failure to allow the user to try again.
+        isVisible.value = false;
       }
+    } else {
+      // This handles the "zero-value" modal case; clicking Purchase should just close it.
+      isVisible.value = false;
+      emit('confirm');
     }
   }
-  isVisible.value = false;
-
-  emit('confirm');
 }
 
 function onCancel() {
+  // If there's an active purchase in the store, show cancellation message and clear it.
   if (balanceStore.currentPurchase) {
     show(t("purchaseCancelled"), {
       type: "info",
       duration: 2000,
     });
+    balanceStore.cancelCurrentPurchase();
   }
-  balanceStore.cancelCurrentPurchase();
+  // Always hide the modal when onCancel is called.
   isVisible.value = false;
 
   emit('cancel');
