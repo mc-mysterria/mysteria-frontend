@@ -39,14 +39,9 @@ export class BaseCRUD<
     protected defaultPrefix: string = "/api";
 
     constructor(prefix: string = "", withDefaultPrefix: boolean = true) {
-        this.defaultPrefix = withDefaultPrefix ? "/api" : "";
-        // If the provided prefix already starts with our default prefix, don't add it again.
-        if (this.defaultPrefix && prefix.startsWith(this.defaultPrefix)) {
-            this.prefix = prefix;
-        } else {
-            this.prefix =
-                this.defaultPrefix + (prefix.startsWith("/") ? prefix : `/${prefix}`);
-        }
+        this.defaultPrefix = withDefaultPrefix ? this.defaultPrefix : "";
+        this.prefix =
+            this.defaultPrefix + (prefix.startsWith("/") ? prefix : `/${prefix}`);
     }
 
     private preprocessJsonForLargeNumbers(jsonText: string): string {
@@ -82,17 +77,7 @@ export class BaseCRUD<
             suppressAuthRequired = false,
         } = options;
 
-        const apiUrlFromEnv = import.meta.env.VITE_API_URL;
-        const relativeUrl = `${prefix || this.prefix}${endpoint}`.replace(
-            /\/+/g,
-            "/",
-        );
-
-        // If VITE_API_URL is set, use it as the base and append the path *after* /api.
-        // Otherwise, for local dev, use the full relative path to hit the proxy.
-        const url = apiUrlFromEnv
-            ? `${apiUrlFromEnv}${relativeUrl.substring(this.defaultPrefix.length)}`
-            : relativeUrl;
+        const url = `${prefix || this.prefix}${endpoint}`.replace(/\/+/g, "/");
 
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
