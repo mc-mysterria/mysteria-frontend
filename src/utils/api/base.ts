@@ -36,12 +36,17 @@ export class BaseCRUD<
     TFilter extends object,
 > {
     protected prefix: string;
-    protected defaultPrefix: string = "";
+    protected defaultPrefix: string = "/api";
 
     constructor(prefix: string = "", withDefaultPrefix: boolean = true) {
-        this.defaultPrefix = withDefaultPrefix ? this.defaultPrefix : "";
-        this.prefix =
-            this.defaultPrefix + (prefix.startsWith("/") ? prefix : `/${prefix}`);
+        this.defaultPrefix = withDefaultPrefix ? "/api" : "";
+        // If the provided prefix already starts with our default prefix, don't add it again.
+        if (this.defaultPrefix && prefix.startsWith(this.defaultPrefix)) {
+            this.prefix = prefix;
+        } else {
+            this.prefix =
+                this.defaultPrefix + (prefix.startsWith("/") ? prefix : `/${prefix}`);
+        }
     }
 
     private preprocessJsonForLargeNumbers(jsonText: string): string {
@@ -83,10 +88,8 @@ export class BaseCRUD<
             "/",
         );
 
-        // If the VITE_API_URL (e.g., https://api.mysite.com/api) is provided,
-        // construct the full production URL by taking the part of the relative path
-        // that comes after `/api`.
-        // Otherwise, use the relativeUrl as-is for local development proxy.
+        // If VITE_API_URL is set, use it as the base and append the path *after* /api.
+        // Otherwise, for local dev, use the full relative path to hit the proxy.
         const url = apiUrlFromEnv
             ? `${apiUrlFromEnv}${relativeUrl.substring(this.defaultPrefix.length)}`
             : relativeUrl;
