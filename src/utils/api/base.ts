@@ -36,7 +36,7 @@ export class BaseCRUD<
     TFilter extends object,
 > {
     protected prefix: string;
-    protected defaultPrefix: string = "/api";
+    protected defaultPrefix: string = "";
 
     constructor(prefix: string = "", withDefaultPrefix: boolean = true) {
         this.defaultPrefix = withDefaultPrefix ? this.defaultPrefix : "";
@@ -78,13 +78,17 @@ export class BaseCRUD<
         } = options;
 
         const apiUrlFromEnv = import.meta.env.VITE_API_URL;
-        const relativeUrl = `${prefix || this.prefix}${endpoint}`.replace(/\/+/g, "/");
+        const relativeUrl = `${prefix || this.prefix}${endpoint}`.replace(
+            /\/+/g,
+            "/",
+        );
 
-        // If the environment variable is set, use it as the base.
-        // It's assumed to include the /api prefix, so we strip the default prefix
-        // from the relative URL to avoid duplication.
+        // If the VITE_API_URL (e.g., https://api.mysite.com/api) is provided,
+        // construct the full production URL by taking the part of the relative path
+        // that comes after `/api`.
+        // Otherwise, use the relativeUrl as-is for local development proxy.
         const url = apiUrlFromEnv
-            ? `${apiUrlFromEnv}${relativeUrl.replace(this.defaultPrefix, "")}`
+            ? `${apiUrlFromEnv}${relativeUrl.substring(this.defaultPrefix.length)}`
             : relativeUrl;
 
         const headers: Record<string, string> = {
