@@ -173,12 +173,11 @@ const handlePurchase = async () => {
 
   try {
     // Set the current purchase in the store
-    shopStore.setCurrentPurchase({
-      id: service.value.id,
-      name: service.value.name,
+    shopStore.currentPurchase = {
+      id: service.value.id.toString(),
       price: new Decimal(service.value.price),
-      requiresServerSelection: service.value.requires_server_selection,
-    });
+      requiresServerSelection: service.value.isBulkable, // Use isBulkable as a proxy for server selection requirement
+    };
 
     // Fetch latest balance
     await shopStore.fetchBalance();
