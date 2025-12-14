@@ -321,6 +321,7 @@ const translations = {
         yes: "Yes",
         no: "No",
         topUp: "Top Up",
+        topUpping: "Opening top up page...",
         purchaseCancelled: "Purchase cancelled",
         nicknameCannotBeEmpty: "Nickname cannot be empty",
         nicknameSavedSuccessfully: "Nickname saved successfully!",
@@ -1098,6 +1099,7 @@ const translations = {
         experienceLevel: "Рівень досвіду",
         criminalRecords: "Судимостей",
         warnings: "Попереджень",
+        topUpping: "Відкриваю сторінку поповнення рахунку...",
 
         // Moderation Panel
         warn: "Видати попередження",

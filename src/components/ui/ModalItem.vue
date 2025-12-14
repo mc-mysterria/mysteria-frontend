@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible" class="background" @click.self="onCancel">
+  <div v-if="isVisible" class="background" @click.self="onCancel" @keydown="handleKeydown">
     <div class="card">
       <p>{{ modalText }}</p>
 
@@ -253,7 +253,7 @@ async function onConfirm() {
       const amount = new Decimal(Math.ceil(Number(price.minus(balance))));
       const urlWithAmount = `${balanceStore.donatelloUrl}&a=${amount}`;
 
-      show("Відкриваємо сторінку платежу...", {
+      show(t("topUpping"), {
         type: "info",
         duration: 3000,
       });
@@ -268,9 +268,10 @@ async function onConfirm() {
         await balanceStore.initiatePurchase(
             itemId,
             quantity.value,
-            selectedRecipient.value || undefined
+            selectedRecipient.value || undefined,
         );
       } finally {
+        // Ensure the purchase state is cleared immediately after the attempt
         balanceStore.cancelCurrentPurchase();
       }
     }
@@ -291,6 +292,29 @@ function onCancel() {
   isVisible.value = false;
 
   emit('cancel');
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  // Close on Escape
+  if (event.key === 'Escape') {
+    onCancel();
+    return;
+  }
+
+  // Prevent closing when Backspace is pressed in an input
+  if (event.key === 'Backspace') {
+    const target = event.target as HTMLElement;
+    if (target.tagName.toLowerCase() === 'input' || target.tagName.toLowerCase() === 'textarea') {
+      // If the input is empty and backspace is pressed, the browser might navigate back.
+      // We prevent this default behavior to avoid closing the modal unexpectedly.
+      if ((target as HTMLInputElement).value === '') {
+        event.preventDefault();
+      }
+      return; // Do not close the modal
+    }
+    // If not in an input, allow default behavior (which might be nothing, or could be cancel)
+    onCancel();
+  }
 }
 
 defineExpose({
@@ -644,7 +668,7 @@ p {
   background: color-mix(in srgb, var(--myst-bg) 95%, transparent);
   border-color: color-mix(in srgb, var(--myst-gold) 25%, transparent);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15),
-  0 0 30px rgba(217, 119, 6, 0.1);
+  0 0 30px rgba(217, 119, 6, 0.15);
 }
 
 :root[data-theme="parchment"] .card:hover {
