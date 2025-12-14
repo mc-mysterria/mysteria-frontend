@@ -76,7 +76,12 @@ export class BaseCRUD<
             raise = true,
             suppressAuthRequired = false,
         } = options;
-        const url = `${prefix || this.prefix}${endpoint}`.replace(/\/+/g, "/");
+
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || "";
+        const url = `${baseUrl}${prefix || this.prefix}${endpoint}`.replace(
+            /\/+/g,
+            "/",
+        );
 
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
