@@ -86,7 +86,7 @@
     <FooterItem/>
 
     <!-- Confirmation Modal -->
-    <ModalItem ref="confirmModal" @confirm="confirmPurchase" @cancel="cancelPurchase"/>
+    <ModalItem ref="confirmModal"/>
   </div>
 </template>
 
@@ -119,7 +119,6 @@ const userStore = useUserStore();
 const {show} = useNotification();
 const profile = computed(() => userStore.currentUser);
 const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
-const pendingPurchase = ref<{ serviceId: number, price: number } | null>(null);
 
 const md = new MarkdownIt({
   html: true,
@@ -173,20 +172,22 @@ const handlePurchase = async () => {
   }
 
   try {
+    // Set the current purchase in the store
+    shopStore.setCurrentPurchase({
+      id: service.value.id,
+      name: service.value.name,
+      price: new Decimal(service.value.price),
+      requiresServerSelection: service.value.requires_server_selection,
+    });
+
     // Fetch latest balance
     await shopStore.fetchBalance();
 
     const servicePrice = new Decimal(service.value.price);
 
-    // Store pending purchase info
-    pendingPurchase.value = {
-      serviceId: service.value.id,
-      price: service.value.price
-    };
-
-    if (!shopStore.balance || shopStore.balance.amount.lessThan(servicePrice)) {
+    if (!shopStore.currentBalance || shopStore.currentBalance.amount.lessThan(servicePrice)) {
       const missingAmount = Math.ceil(
-          Number(servicePrice.minus(shopStore.balance?.amount || 0))
+          Number(servicePrice.minus(shopStore.currentBalance?.amount || 0))
       );
       const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
       confirmModal.value?.showModal(
@@ -205,51 +206,6 @@ const handlePurchase = async () => {
   } catch (error) {
     show(t('purchaseError') || 'Failed to prepare purchase', {type: 'error'});
   }
-};
-
-const confirmPurchase = async () => {
-  if (!pendingPurchase.value) return;
-
-  purchasing.value = true;
-
-  try {
-    // Get quantity and recipient from modal if available
-    const quantity = confirmModal.value?.quantity || 1;
-    const recipientId = confirmModal.value?.selectedRecipient || undefined;
-    const totalPrice = new Decimal(pendingPurchase.value.price).mul(quantity);
-
-    // Check if it's insufficient funds case (topUp button)
-    if (!shopStore.balance || shopStore.balance.amount.lessThan(totalPrice)) {
-      // Redirect to top-up or show appropriate message
-      show(t('insufficientFundsMessage') || 'Insufficient funds. Please top up your balance to continue.', {type: 'info'});
-      return;
-    }
-
-    // Make the actual purchase API call with new parameters
-    await shopAPI.purchaseService({
-      serviceId: pendingPurchase.value.serviceId,
-      amount: quantity,
-      ...(recipientId && {recipientId}),
-    });
-
-    // Purchase was successful if we get here without an error
-    const successMsg = recipientId
-        ? (t('giftSuccess') || 'Gift sent successfully!')
-        : (t('purchaseSuccess') || 'Purchase successful!');
-    show(successMsg, {type: 'success'});
-    // Refresh balance after successful purchase
-    await shopStore.fetchBalance();
-
-  } catch (error) {
-    show(t('purchaseError') || 'Failed to complete purchase', {type: 'error'});
-  } finally {
-    purchasing.value = false;
-    pendingPurchase.value = null;
-  }
-};
-
-const cancelPurchase = () => {
-  pendingPurchase.value = null;
 };
 
 const loadService = async () => {
