@@ -1,19 +1,20 @@
 <template>
-  <div v-if="profile" class="dollar">
-    <button
-        v-if="currentLanguage === 'en'"
-        @click="showCurrencyModal = true"
-        class="addMoney currency-info-btn"
-        type="button"
-        title="Currency settings and top up"
-    >
-      i
-    </button>
-    <a v-else :href="donatelloUrl" target="_blank" class="addMoney">+</a>
-    <span v-if="displayCurrencySymbol" class="currency-symbol">{{ displayCurrencySymbol }}</span>
-    <IconBalance v-if="currentLanguage !== 'en' || currentCurrency === 'POINTS'"/>
-    {{ displayBalance }}
-  </div>
+  <button
+      v-if="profile"
+      @click="handleTopUpClick"
+      class="balance-button"
+      type="button"
+      :title="currentLanguage === 'en' ? 'View currency settings and top up' : 'Top up your balance'"
+  >
+    <div class="balance-info">
+      <span v-if="displayCurrencySymbol" class="currency-symbol">{{ displayCurrencySymbol }}</span>
+      <IconBalance v-if="currentLanguage !== 'en' || currentCurrency === 'POINTS'" class="balance-icon"/>
+      <span class="balance-amount">{{ displayBalance }}</span>
+    </div>
+    <svg class="plus-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </button>
 
   <!-- Currency Conversion Modal -->
   <Teleport to="body">
@@ -103,7 +104,7 @@ import IconBalance from "@/assets/icons/IconBalance.vue";
 const balanceStore = useBalanceStore();
 const userStore = useUserStore();
 const {currentLanguage} = useI18n();
-const {currentCurrency, setCurrency, formatCurrency, getCurrencySymbol, showCurrencyToggle} = useCurrency();
+const {currentCurrency, setCurrency, formatCurrency, getCurrencySymbol} = useCurrency();
 
 const profile = computed(() => userStore.currentUser);
 const donatelloUrl = computed(() => balanceStore.donatelloUrl);
@@ -136,134 +137,154 @@ const closeCurrencyModal = () => {
 const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
   setCurrency(currency);
 };
+
+const handleTopUpClick = () => {
+  if (currentLanguage.value === 'en') {
+    showCurrencyModal.value = true;
+  } else {
+    window.open(donatelloUrl.value, '_blank');
+  }
+};
 </script>
 
 <style scoped>
-.dollar {
+.balance-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px 8px 16px;
   height: 40px;
   background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
   border: 1px solid color-mix(in srgb, white 15%, transparent);
   border-radius: 6px;
-  position: relative;
-  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--myst-ink);
   font-weight: 500;
   font-size: 14px;
-  color: var(--myst-ink);
-  backdrop-filter: blur(8px);
 }
 
-.dollar:hover {
-  background: color-mix(in srgb, white 5%, transparent);
-  border-color: color-mix(in srgb, white 30%, transparent);
+.balance-button:hover {
+  background: color-mix(in srgb, var(--myst-bg) 80%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 50%, transparent);
 }
 
-:root[data-theme="parchment"] .dollar {
-  background: var(--myst-bg-2);
-  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
-  color: var(--myst-ink);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+.balance-button:active {
+  transform: scale(0.98);
 }
 
-:root[data-theme="parchment"] .dollar:hover {
-  background: var(--myst-bg);
-  border-color: var(--myst-ink-muted);
-}
-
-.addMoney {
-  position: absolute;
-  top: 0;
-  right: -8px;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  font-size: 12px;
-  font-weight: 600;
+.balance-info {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: var(--myst-gold);
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--myst-bg);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4),
-  0 0 20px rgba(16, 185, 129, 0.3);
-  border: 2px solid rgba(23, 26, 33, 1);
-  backdrop-filter: blur(5px);
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
 }
 
-.addMoney:hover {
-  background: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #a0dc8e 100%);
-  transform: translateY(-50%) scale(1.15) rotate(5deg);
-  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6),
-  0 0 30px rgba(16, 185, 129, 0.4);
-}
-
-.addMoney:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-.currency-info-btn {
-  font-style: italic;
-  font-weight: 700;
+.currency-symbol {
+  font-weight: 600;
   font-size: 14px;
-}
-
-.dollar svg {
-  width: 20px;
-  height: 20px;
+  color: var(--myst-ink);
   flex-shrink: 0;
 }
 
+.balance-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--myst-ink);
+}
+
+.balance-amount {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--myst-ink);
+  white-space: nowrap;
+}
+
+.plus-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--myst-gold);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.balance-button:hover .plus-icon {
+  color: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
+}
+
+/* Parchment theme adjustments */
+:root[data-theme="parchment"] .balance-button {
+  background: var(--myst-bg-2);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="parchment"] .balance-button:hover {
+  background: var(--myst-bg);
+  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
+}
+
 @media (max-width: 768px) {
-  .dollar {
-    padding: 10px 16px;
-    font-size: 0.9rem;
+  .balance-button {
+    height: 38px;
+    padding: 6px 10px 6px 12px;
+    gap: 10px;
   }
 
-  .addMoney {
-    width: 28px;
-    height: 28px;
-    font-size: 16px;
-    right: -6px;
+  .balance-info {
+    gap: 5px;
   }
 
-  .dollar svg {
-    width: 18px;
-    height: 18px;
+  .balance-amount,
+  .currency-symbol {
+    font-size: 13px;
+  }
+
+  .balance-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .plus-icon {
+    width: 16px;
+    height: 16px;
   }
 }
 
 @media (max-width: 480px) {
-  .dollar {
-    padding: 8px 14px;
-    font-size: 0.85rem;
+  .balance-button {
+    height: 36px;
+    padding: 6px 8px 6px 10px;
+    gap: 8px;
   }
 
-  .addMoney {
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    right: -4px;
+  .balance-info {
+    gap: 4px;
+  }
+
+  .balance-amount,
+  .currency-symbol {
+    font-size: 12px;
+  }
+
+  .balance-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .plus-icon {
+    width: 15px;
+    height: 15px;
   }
 }
 </style>
 
 <!-- Global modal styles -->
 <style>
-/* Balance currency symbol */
-.currency-symbol {
-  font-weight: 600;
-  font-size: 14px;
-  margin-right: 2px;
-  color: var(--myst-ink);
-}
-
 /* Currency Modal Styles */
 .modal-overlay {
   position: fixed;
