@@ -25,6 +25,10 @@
                 :displayed-user="displayedUser"
                 :subscription="subscription"
             />
+            <BeyonderStatus
+                v-if="beyonderData && !beyonderLoading"
+                :beyonder-data="beyonderData"
+            />
             <VerificationPanel
                 :displayed-user="displayedUser"
                 :is-own-profile="isOwnProfile"
@@ -54,6 +58,8 @@ import PersonalInfo from "@/components/profile/PersonalInfo.vue";
 import VerificationPanel from "@/components/profile/VerificationPanel.vue";
 import TransactionHistory from "@/components/profile/TransactionHistory.vue";
 import type {UserProfileDto} from "@/types/auth";
+import type {BeyonderData, BeyonderResponse} from "@/types/users";
+import BeyonderStatus from "@/components/profile/BeyonderStatus.vue";
 
 const {t} = useI18n();
 const authStore = useAuthStore();
@@ -71,6 +77,8 @@ const serverProfile = ref<{
 } | null>(null);
 const subscription = ref("");
 const loading = ref(true);
+const beyonderData = ref<BeyonderData | null>(null);
+const beyonderLoading = ref(false);
 
 const isOwnProfile = computed(() => {
   const currentUser = authStore.currentUser;
@@ -98,6 +106,25 @@ const fetchUserProfile = async () => {
   }
 };
 
+const fetchBeyonderData = async (nickname: string) => {
+  beyonderLoading.value = true;
+  try {
+    const response = await fetch(`/catwalk/pathway/single/${nickname}`);
+    const result: BeyonderResponse = await response.json();
+
+    if (result.success && result.data.beyonder) {
+      beyonderData.value = result.data;
+    } else {
+      beyonderData.value = null;
+    }
+  } catch (error) {
+    console.error('Failed to fetch beyonder data:', error);
+    beyonderData.value = null;
+  } finally {
+    beyonderLoading.value = false;
+  }
+};
+
 const loadProfile = async () => {
   loading.value = true;
 
@@ -113,6 +140,11 @@ const loadProfile = async () => {
   await fetchUserProfile();
 
   if (displayedUser.value) {
+    // Fetch beyonder data if user is verified
+    if (displayedUser.value.verified && displayedUser.value.nickname) {
+      await fetchBeyonderData(displayedUser.value.nickname);
+    }
+
     subscription.value = t('unavailable');
 
     serverProfile.value = {
@@ -216,6 +248,7 @@ onMounted(async () => {
 /* Profile sections should span full width for some components */
 .profile-grid :deep(.personal-info-card),
 .profile-grid :deep(.server-info-card),
+.profile-grid :deep(.beyonder-status-container),
 .profile-grid :deep(.verification-panel),
 .profile-grid :deep(.transaction-history),
 .profile-grid :deep(.moderation-panel) {

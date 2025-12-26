@@ -99,6 +99,9 @@
       </div>
     </section>
 
+    <!-- Beyonder Statistics Section -->
+    <BeyonderStatistics />
+
     <!-- Pinned News Section -->
     <section v-if="pinnedNews.length > 0" class="pinned-news-section relative" id="pinned-news">
       <div class="news-container">
@@ -200,6 +203,7 @@ import FooterItem from "@/components/layout/FooterItem.vue";
 import FadeInSection from "@/components/ui/FadeInSection.vue";
 import SectionTitle from "@/components/ui/SectionTitle.vue";
 import JoinServerModal from "@/components/ui/JoinServerModal.vue";
+import BeyonderStatistics from "@/components/home/BeyonderStatistics.vue";
 import IconArrowRight from "@/assets/icons/IconArrowRight.vue";
 import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
 import IconStars from "@/assets/icons/IconStars.vue";
@@ -280,11 +284,14 @@ function startAutoRotation() {
 }
 
 function scrollToFeatures() {
-  // Priority: pinned news > regular news > features
+  // Priority: community > pinned news > regular news > features
   let targetEl = null;
 
-  // Check for pinned news first
-  if (pinnedNews.value.length > 0) {
+  // Check for community section first
+  targetEl = document.querySelector('#community');
+
+  // If no community, check for pinned news
+  if (!targetEl && pinnedNews.value.length > 0) {
     targetEl = document.querySelector('#pinned-news');
   }
 

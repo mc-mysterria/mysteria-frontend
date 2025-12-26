@@ -207,11 +207,28 @@ const translations = {
         role: "Role",
         verified: "Verified",
         notVerified: "Not Verified",
+        beyonderStatus: "Beyonder Status",
+        pathway: "Pathway",
+        sequence: "Sequence",
+        actingProgress: "Acting Progress",
 
         // Home Stats
         stableOnline: "Stable\nOnline",
         uniqueContent: "Unique\nContent",
         serverAge: "Years\nOnline",
+
+        // Beyonder Statistics
+        communityEyebrow: "Community",
+        loadingStatistics: "Loading Statistics...",
+        activeBeyonders: "Active Beyonders",
+        joinPlayersCommunity: "Join hundreds of players on their mystical journey",
+        totalBeyonders: "Total Beyonders",
+        activePathways: "Active Pathways",
+        advancedBeyonders: "Advanced (Seq 0-3)",
+        averageSequence: "Average Sequence",
+        mostPopularPathways: "Most Popular Pathways",
+        sequenceDistribution: "Sequence Distribution",
+        sequenceBeyonders: "beyonders",
 
         // 404 Page
         pageNotFoundTitle: "Oops! Looks like you're lost...",
@@ -999,11 +1016,28 @@ const translations = {
         role: "Роль",
         verified: "Підтверджено",
         notVerified: "Не підтверджено",
+        beyonderStatus: "Статус Потойбічного",
+        pathway: "Шлях",
+        sequence: "Послідовність",
+        actingProgress: "Прогрес Акторства",
 
         // Home Stats
         stableOnline: "Стабільного\nонлайну",
         uniqueContent: "Унікального\nконтенту",
         serverAge: "Існування\nсервера",
+
+        // Beyonder Statistics
+        communityEyebrow: "Спільнота",
+        loadingStatistics: "Завантаження статистики...",
+        activeBeyonders: "Активних Потойбічних",
+        joinPlayersCommunity: "Приєднуйтесь до сотень гравців у їхній містичній подорожі",
+        totalBeyonders: "Всього Потойбічних",
+        activePathways: "Активних Шляхів",
+        advancedBeyonders: "Просунутих (Посл 0-3)",
+        averageSequence: "Середня Послідовність",
+        mostPopularPathways: "Найпопулярніші Шляхи",
+        sequenceDistribution: "Розподіл Послідовностей",
+        sequenceBeyonders: "потойбічних",
 
         // 404 Page
         pageNotFoundTitle: "Ой! Схоже, ви заблукали...",

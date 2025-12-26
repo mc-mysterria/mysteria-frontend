@@ -33,3 +33,17 @@ export interface UserSearchDto {
     verified: boolean;
     avatarUrl?: string;
 }
+
+export interface BeyonderData {
+    playerName: string;
+    beyonder: boolean;
+    pathway: string;
+    sequence: string;
+    acting: number;
+}
+
+export interface BeyonderResponse {
+    success: boolean;
+    message: string;
+    data: BeyonderData;
+}
