@@ -1,5 +1,13 @@
 <template>
   <div class="shop-items">
+    <!-- Back to Categories Button -->
+    <div v-if="selectedCategory" class="back-to-categories">
+      <button @click="emit('back-to-categories')" class="back-button">
+        <i class="fa-solid fa-arrow-left"></i>
+        {{ t('backToCategories') }}
+      </button>
+    </div>
+
     <!-- Tab Navigation -->
     <div class="shop-tabs">
       <div class="tabs-wrapper">
@@ -60,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useBalanceStore} from "@/stores/balance";
 import {useUserStore} from "@/stores/user";
 import {useAuthStore} from "@/stores/auth";
@@ -71,6 +79,14 @@ import ComparisonTable from "./ComparisonTable.vue";
 import Decimal from "decimal.js";
 import type {ServiceResponse} from "@/types/services";
 
+const props = defineProps<{
+  selectedCategory?: string | null;
+}>();
+
+const emit = defineEmits<{
+  (e: 'back-to-categories'): void;
+}>();
+
 const shopStore = useBalanceStore();
 const userStore = useUserStore();
 const authStore = useAuthStore();
@@ -79,7 +95,14 @@ const items = computed(() => shopStore.items);
 const profile = computed(() => userStore.currentUser);
 
 // State management
-const activeTab = ref<string>('all');
+const activeTab = ref<string>(props.selectedCategory || 'all');
+
+// Watch for prop changes
+watch(() => props.selectedCategory, (newCategory) => {
+  if (newCategory) {
+    activeTab.value = newCategory;
+  }
+}, { immediate: true });
 const comparisonMode = ref(false);
 const comparisonItems = ref<Set<string>>(new Set());
 const showComparisonTable = ref(false);
@@ -223,6 +246,47 @@ const handlePurchase = (itemId: string) => {
 .shop-items {
   padding: 20px 0;
   overflow: visible;
+}
+
+/* Back to Categories Button */
+.back-to-categories {
+  margin-top: 8px;
+  margin-bottom: 24px;
+  padding-left: 8px;
+  overflow: visible;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  border-radius: 8px;
+  color: var(--myst-ink-strong);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  will-change: transform;
+}
+
+.back-button:hover {
+  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
+  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--myst-bg) 40%, transparent);
+}
+
+.back-button i {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover i {
+  transform: translateX(-2px);
 }
 
 /* Tab Navigation */
@@ -453,6 +517,27 @@ const handlePurchase = (itemId: string) => {
   .items-grid {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .back-to-categories {
+    margin-top: 4px;
+    margin-bottom: 16px;
+    padding-left: 0;
+  }
+
+  .back-button {
+    padding: 10px 16px;
+    font-size: 13px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .back-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .back-button:hover i {
+    transform: translateX(0);
   }
 }
 </style>

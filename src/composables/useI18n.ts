@@ -374,6 +374,10 @@ const translations = {
         shopCategoryNew: "New",
         shopCategoryDiscounted: "Discounted",
         shopCategoryPopular: "Popular",
+        selectCategory: "Select Category",
+        selectCategoryDescription: "Choose a category to browse available items",
+        itemsCount: "items",
+        backToCategories: "Back to Categories",
 
         // Comparison
         compareItems: "Compare Items",
@@ -1185,6 +1189,10 @@ const translations = {
         shopCategoryNew: "Нові",
         shopCategoryDiscounted: "Знижки",
         shopCategoryPopular: "Популярні",
+        selectCategory: "Оберіть категорію",
+        selectCategoryDescription: "Виберіть категорію для перегляду доступних товарів",
+        itemsCount: "товарів",
+        backToCategories: "Назад до категорій",
 
         // Comparison
         compareItems: "Порівняти товари",

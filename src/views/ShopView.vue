@@ -28,7 +28,15 @@
 
         <!-- Shop content -->
         <div v-else class="shop-content">
-          <ShopItems/>
+          <CategorySelector
+            v-if="!selectedCategory"
+            @select-category="handleCategorySelect"
+          />
+          <ShopItems
+            v-else
+            :selected-category="selectedCategory"
+            @back-to-categories="handleBackToCategories"
+          />
         </div>
 
         <ModalItem ref="confirmModal"/>
@@ -46,6 +54,7 @@ import {useBalanceStore} from "@/stores/balance";
 import {useAuthStore} from "@/stores/auth";
 import {useI18n} from "@/composables/useI18n";
 import ShopItems from "@/components/shop/ShopItems.vue";
+import CategorySelector from "@/components/shop/CategorySelector.vue";
 import ModalItem from "@/components/ui/ModalItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 
@@ -55,6 +64,15 @@ const {t, currentLanguage} = useI18n();
 const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
 const isShopLoading = ref(true);
 const shopError = ref<string | null>(null);
+const selectedCategory = ref<string | null>(null);
+
+const handleCategorySelect = (categoryId: string) => {
+  selectedCategory.value = categoryId;
+};
+
+const handleBackToCategories = () => {
+  selectedCategory.value = null;
+};
 
 // Initialize shop data when component mounts
 onMounted(async () => {
@@ -216,6 +234,7 @@ export default {
   margin-top: 30px;
   width: 100%;
   overflow-x: hidden;
+  overflow-y: visible;
 }
 
 .unauthorized-message p {

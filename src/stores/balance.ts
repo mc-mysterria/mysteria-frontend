@@ -115,7 +115,8 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
         points,
         price: new Decimal(service.price),
         is_active: service.isActive,
-        category: (service as any).category || "other", // Use category from DTO, fallback to "other"
+        category: service.category || "other", // Use category from DTO, fallback to "other"
+        categoryThumbnail: service.categoryThumbnail, // Map category thumbnail from DTO
         type: service.type,
         duration_months: service.durationDays
             ? Math.round(service.durationDays / 30)

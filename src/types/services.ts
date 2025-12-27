@@ -80,6 +80,7 @@ export interface ServiceResponse {
     price: Decimal;
     is_active: boolean;
     category?: string;
+    categoryThumbnail?: string; // Category thumbnail image URL
     type: ServiceType;
     duration_months?: number;
     is_upgradable?: boolean;
@@ -121,6 +122,8 @@ export interface ServiceDto {
     imageUrl?: string;
     price: number;
     durationDays?: number;
+    category?: string;
+    categoryThumbnail?: string; // Category thumbnail image URL
     type: ServiceType;
     isSubscription: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -197,4 +200,13 @@ export interface UpdateServiceMarkdownDto {
     markdownContentEn?: string;
     markdownContentUk?: string;
     isPublished?: boolean;
+}
+
+// Category info for shop UI
+export interface CategoryInfo {
+    id: string;
+    name: string;
+    description: string;
+    thumbnailUrl: string;
+    itemCount: number;
 }
