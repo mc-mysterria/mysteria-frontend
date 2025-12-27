@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen relative">
+  <div class="shop-view-wrapper">
     <HeaderItem/>
 
     <main class="shop-main">
@@ -219,6 +219,18 @@ export default {
 </script>
 
 <style scoped>
+/* Layout wrapper to ensure footer stays at bottom */
+.shop-view-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.shop-main {
+  flex: 1 0 auto;
+}
+
 /* Basic info wrapper removed - shop simplified */
 
 .shop-container {

@@ -373,7 +373,7 @@ const translations = {
         shopCategoryDungeonKeys: "Dungeon Keys",
         shopCategoryDungeonKeysDesc: "Keys to unlock dungeons and special areas",
         shopCategoryBeyonderish: "Beyonderish",
-        shopCategoryBeyonderishDesc: "Services realated to the Lord of The Mysteries",
+        shopCategoryBeyonderishDesc: "Services related to the Lord of The Mysteries",
         shopCategoryOther: "Other",
         shopCategoryOtherDesc: "Miscellaneous services",
         shopCategoryAll: "All Items",
