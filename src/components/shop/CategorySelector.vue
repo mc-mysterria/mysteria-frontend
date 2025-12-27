@@ -79,14 +79,32 @@ const categories = computed<CategoryInfo[]>(() => {
 });
 
 const getCategoryName = (categoryId: string): string => {
-  // Map category IDs to localized names
-  const key = `shopCategory${categoryId.charAt(0).toUpperCase()}${categoryId.slice(1)}`;
-  return t(key) || categoryId;
+  // Normalize category ID: remove spaces, capitalize properly
+  // "Dungeon Keys" -> "DungeonKeys", "battlepass" -> "Battlepass"
+  const normalizedId = categoryId
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+
+  const key = `shopCategory${normalizedId}`;
+  const translated = t(key);
+
+  // If translation key not found, return the original category ID
+  return translated === key ? categoryId : translated;
 };
 
 const getCategoryDescription = (categoryId: string): string => {
-  const key = `shopCategory${categoryId.charAt(0).toUpperCase()}${categoryId.slice(1)}Desc`;
-  return t(key) || '';
+  // Normalize category ID: remove spaces, capitalize properly
+  const normalizedId = categoryId
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+
+  const key = `shopCategory${normalizedId}Desc`;
+  const translated = t(key);
+
+  // If translation key not found, return empty string
+  return translated === key ? '' : translated;
 };
 
 const handleCategoryClick = (categoryId: string) => {
