@@ -8,40 +8,7 @@
       </button>
     </div>
 
-    <!-- Tab Navigation -->
-    <div class="shop-tabs">
-      <div class="tabs-wrapper">
-        <button
-            v-for="tab in availableTabs"
-            :key="tab.id"
-            :class="['tab-button', { active: activeTab === tab.id }]"
-            @click="activeTab = tab.id"
-        >
-          {{ tab.label }}
-          <span class="tab-count">{{ tab.count }}</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Comparison Mode Toggle -->
-    <div v-if="filteredItems.length > 0" class="comparison-toolbar">
-      <button @click="toggleComparisonMode" class="comparison-toggle-btn">
-        <i class="fa-solid fa-code-compare"></i>
-        {{ comparisonMode ? t('exitComparisonMode') : t('compareItems') }}
-      </button>
-      <div v-if="comparisonMode" class="comparison-info">
-        {{ t('selectItemsToCompare') }} ({{ comparisonItems.size }}/{{ MAX_COMPARISON_ITEMS }})
-      </div>
-      <button
-          v-if="comparisonMode && comparisonItems.size >= 2"
-          @click="showComparisonTable = true"
-          class="compare-now-btn"
-      >
-        {{ t('compareNow') }}
-      </button>
-    </div>
-
-    <!-- Comparison Table (Modal/Overlay) -->
+    <!-- Comparison Table (Modal/Overlay) - Hidden by default, kept for potential future use -->
     <ComparisonTable
         v-if="showComparisonTable"
         :items="getComparisonItems()"
@@ -51,17 +18,13 @@
     />
 
     <!-- Items Grid -->
-    <div v-if="!showComparisonTable" class="items-grid">
+    <div class="items-grid">
       <ShopItemCard
           v-for="item in filteredItems"
           :key="item.id"
           :item="item"
-          :comparison-mode="comparisonMode"
-          :in-comparison="comparisonItems.has(item.id)"
-          :comparison-disabled="!comparisonItems.has(item.id) && comparisonItems.size >= MAX_COMPARISON_ITEMS"
           class="shop-item-card"
           @purchase="handlePurchase"
-          @toggle-comparison="toggleItemComparison(item.id)"
       />
     </div>
   </div>
