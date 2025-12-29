@@ -1,6 +1,13 @@
 import {createRouter, createWebHistory} from "vue-router";
 import {useAuthStore} from "@/stores/auth";
 import {nextTick} from "vue";
+import {
+    PERM_NEWS_MANAGE,
+    PERM_COUNSEL_MANAGE,
+    PERM_SHOP_MANAGE,
+    PERM_ADMIN,
+    PERM_USERS_VIEW,
+} from "@/constants/permissions";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -98,6 +105,11 @@ const router = createRouter({
             component: () => import("@/views/NewsView.vue"),
         },
         {
+            path: "/counsel/:slug",
+            name: "counsel-detail",
+            component: () => import("@/views/CounselDetailView.vue"),
+        },
+        {
             path: "/services/:slug",
             name: "service-detail",
             component: () => import("@/views/ServiceView.vue"),
@@ -106,17 +118,25 @@ const router = createRouter({
             path: "/edit",
             name: "edit",
             component: () => import("@/views/EditView.vue"),
-            meta: {requiresAuth: true, requiresPrivileged: true},
+            meta: {requiresAuth: true},
             children: [
                 {
                     path: "news",
                     name: "edit-news",
                     component: () => import("@/views/NewsEditView.vue"),
+                    meta: {requiresAuth: true, requiresPermission: PERM_NEWS_MANAGE},
                 },
                 {
                     path: "services",
                     name: "edit-services",
                     component: () => import("@/views/ServiceEditView.vue"),
+                    meta: {requiresAuth: true, requiresPermission: PERM_SHOP_MANAGE},
+                },
+                {
+                    path: "counsel",
+                    name: "edit-counsel",
+                    component: () => import("@/views/CounselEditView.vue"),
+                    meta: {requiresAuth: true, requiresPermission: PERM_COUNSEL_MANAGE},
                 }
             ],
         },
@@ -124,7 +144,7 @@ const router = createRouter({
             path: "/admin",
             name: "admin",
             component: () => import("@components/admin/AdminPanel.vue"),
-            meta: {requiresAuth: true, requiresAdmin: true},
+            meta: {requiresAuth: true, requiresAnyPermission: [PERM_ADMIN, PERM_USERS_VIEW]},
         },
         {
             path: "/:pathMatch(.*)*",
@@ -138,7 +158,7 @@ router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
 
     // Wait for auth to finish loading before checking permissions
-    if (to.meta.requiresAuth || to.meta.requiresPrivileged || to.meta.requiresAdmin) {
+    if (to.meta.requiresAuth || to.meta.requiresPermission || to.meta.requiresAnyPermission) {
         if (authStore.isLoading) {
             // Wait for auth to finish loading
             const maxWait = 50; // Max 5 seconds
@@ -150,16 +170,31 @@ router.beforeEach(async (to, from, next) => {
         }
     }
 
-    // Check permissions after auth has loaded
+    // Check authentication first
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         next({name: "home"});
-    } else if (to.meta.requiresPrivileged && !authStore.isPrivilegedUser) {
-        next({name: "home"});
-    } else if (to.meta.requiresAdmin && !authStore.isAdmin) {
-        next({name: "home"});
-    } else {
-        next();
+        return;
     }
+
+    // Check specific permission
+    if (to.meta.requiresPermission) {
+        const permission = to.meta.requiresPermission as string;
+        if (!authStore.hasPermission(permission)) {
+            next({name: "home"});
+            return;
+        }
+    }
+
+    // Check if user has any of the required permissions
+    if (to.meta.requiresAnyPermission) {
+        const permissions = to.meta.requiresAnyPermission as string[];
+        if (!authStore.hasAnyPermission(permissions)) {
+            next({name: "home"});
+            return;
+        }
+    }
+
+    next();
 });
 
 export default router;

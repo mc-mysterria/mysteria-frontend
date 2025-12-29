@@ -59,6 +59,7 @@ import {useNotification} from "@/services/useNotification";
 import {computed, ref} from "vue";
 import {useRouter} from "vue-router";
 import {useI18n} from "@/composables/useI18n";
+import {usePermissions} from "@/composables/usePermissions";
 import DropdownSelect from "@/components/ui/DropdownSelect.vue";
 import UserAvatar from "@/components/ui/UserAvatar.vue";
 
@@ -79,6 +80,7 @@ const userStore = useUserStore();
 const {show} = useNotification();
 const router = useRouter();
 const {t} = useI18n();
+const {canManageNews, canManageCounsel, canManageShop, canAccessAdmin} = usePermissions();
 
 const selectedAction = ref("");
 
@@ -101,24 +103,33 @@ const userMenuOptions = computed(() => {
     },
   ];
 
-  // Add content editing options for privileged users
-  if (authStore.isPrivilegedUser) {
-    options.push(
-        {
-          label: "Edit News",
-          value: "edit-news",
-          icon: "fa-solid fa-newspaper",
-        },
-        {
-          label: "Edit Services",
-          value: "edit-services",
-          icon: "fa-solid fa-shopping-cart",
-        }
-    );
+  // Add content editing options based on permissions
+  if (canManageNews.value) {
+    options.push({
+      label: "Edit News",
+      value: "edit-news",
+      icon: "fa-solid fa-newspaper",
+    });
   }
 
-  // Add admin panel for admins only (OWNER role)
-  if (authStore.isAdmin) {
+  if (canManageShop.value) {
+    options.push({
+      label: "Edit Services",
+      value: "edit-services",
+      icon: "fa-solid fa-shopping-cart",
+    });
+  }
+
+  if (canManageCounsel.value) {
+    options.push({
+      label: "Edit Counsel",
+      value: "edit-counsel",
+      icon: "fa-solid fa-scale-balanced",
+    });
+  }
+
+  // Add admin panel for users with admin access
+  if (canAccessAdmin.value) {
     options.push({
       label: "Admin Panel",
       value: "admin",
@@ -150,6 +161,8 @@ const handleMenuAction = (value: string | number | string[]) => {
     router.push("/edit/news");
   } else if (value === "edit-services") {
     router.push("/edit/services");
+  } else if (value === "edit-counsel") {
+    router.push("/edit/counsel");
   } else if (value === "admin") {
     router.push("/admin");
   } else if (value === "logout") {

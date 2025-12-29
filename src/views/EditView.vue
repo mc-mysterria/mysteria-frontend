@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isPrivileged">
+  <div v-if="canEditContent">
     <router-view/>
   </div>
   <div v-else>
@@ -8,10 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from 'vue';
-import {useAuthStore} from '@/stores/auth';
+import {usePermissions} from '@/composables/usePermissions';
 import UnauthorizedMessage from '@/components/ui/UnauthorizedMessage.vue';
 
-const authStore = useAuthStore();
-const isPrivileged = computed(() => authStore.isPrivilegedUser);
+const {canEditAnyContent} = usePermissions();
+const canEditContent = canEditAnyContent;
 </script>

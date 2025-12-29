@@ -51,9 +51,10 @@
           </RouterLink>
         </div>
 
-        <div class="sidenavContainer" v-if="authStore.isPrivilegedUser">
+        <div class="sidenavContainer" v-if="canEditAnyContent">
           <div class="nav-section-title" v-show="!isCollapsed">Admin</div>
           <RouterLink
+              v-if="canManageNews"
               to="/edit/news"
               :class="{
               activeLink: $route.path.startsWith('/edit/news'),
@@ -67,6 +68,24 @@
                 <!-- Add an icon for news editing -->
               </div>
               <span v-show="!isCollapsed" class="link-text">Edit News</span>
+            </div>
+            <div class="nav-item-indicator"></div>
+          </RouterLink>
+          <RouterLink
+              v-if="canManageCounsel"
+              to="/edit/counsel"
+              :class="{
+              activeLink: $route.path.startsWith('/edit/counsel'),
+            }"
+              :title="isCollapsed ? 'Edit UN-Meeting Counsel' : ''"
+              class="nav-item"
+          >
+            <div class="nav-item-background"></div>
+            <div class="nav-item-content">
+              <div class="nav-icon-container">
+                <!-- Add an icon for counsel editing -->
+              </div>
+              <span v-show="!isCollapsed" class="link-text">Edit Counsel</span>
             </div>
             <div class="nav-item-indicator"></div>
           </RouterLink>
@@ -124,6 +143,7 @@ import {useRouter} from "vue-router";
 import {useNotification} from "@/services/useNotification";
 import {useAuthStore} from "@/stores/auth";
 import {useI18n} from "@/composables/useI18n";
+import {usePermissions} from "@/composables/usePermissions";
 import IconLogo from "@/assets/icons/IconLogo.vue";
 import IconUser from "@/assets/icons/IconUser.vue";
 import IconSignOut from "@/assets/icons/IconSignOut.vue";
@@ -132,6 +152,7 @@ const router = useRouter();
 const {show} = useNotification();
 const authStore = useAuthStore();
 const {t} = useI18n();
+const {canManageNews, canManageCounsel, canEditAnyContent} = usePermissions();
 
 const isCollapsed = ref(false);
 const isMobileOpen = ref(false);

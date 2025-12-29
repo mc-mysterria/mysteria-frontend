@@ -7,8 +7,8 @@
         <h1 class="rules-title">{{ t("rulesTitle") }}</h1>
         <p class="rules-subtitle">{{ t("rulesSubtitle") }}</p>
 
-        <!-- Tabs for privileged users -->
-        <div v-if="isPrivilegedUser" class="rules-tabs">
+        <!-- Tabs for privileged users and counsel -->
+        <div v-if="isPrivilegedUser || true" class="rules-tabs">
           <button
               class="tab-button"
               :class="{ active: activeTab === 'player' }"
@@ -17,19 +17,27 @@
             {{ t('playerRules') }}
           </button>
           <button
+              v-if="isPrivilegedUser"
               class="tab-button"
               :class="{ active: activeTab === 'staff' }"
               @click="setActiveTab('staff')"
           >
             {{ t('staffRules') }}
           </button>
+          <button
+              class="tab-button counsel-tab"
+              :class="{ active: activeTab === 'counsel' }"
+              @click="setActiveTab('counsel')"
+          >
+            {{ t('counselTab') }}
+          </button>
         </div>
       </div>
 
       <!-- Two Column Layout -->
-      <div class="rules-content">
-        <!-- Table of Contents Sidebar -->
-        <div class="rules-sidebar">
+      <div class="rules-content" :class="{ 'counsel-active': activeTab === 'counsel' }">
+        <!-- Table of Contents Sidebar (hidden for counsel tab) -->
+        <div v-if="activeTab !== 'counsel'" class="rules-sidebar">
           <h2 class="sidebar-title">{{ t('tableOfContents') }}</h2>
           <nav class="rules-nav">
             <!-- Player Rules Navigation -->
@@ -112,6 +120,11 @@
               </div>
             </div>
           </div>
+
+          <!-- UN-Meeting Counsel -->
+          <div v-else-if="activeTab === 'counsel'" class="counsel-main">
+            <CounselListSection />
+          </div>
         </div>
       </div>
     </div>
@@ -121,13 +134,16 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
+import {useRoute} from 'vue-router'
 import {useI18n} from "@/composables/useI18n";
 import {useAuthStore} from "@/stores/auth";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
+import CounselListSection from "@/components/counsel/CounselListSection.vue";
 
 const {t, currentLanguage} = useI18n();
 const authStore = useAuthStore();
+const route = useRoute();
 
 interface Rule {
   id: string
@@ -149,7 +165,7 @@ const isPrivilegedUser = computed(() => {
   return role && role !== 'MEMBER' && role !== 'PLAYER' && role !== 'USER'
 })
 
-const activeTab = ref<'player' | 'staff'>('player')
+const activeTab = ref<'player' | 'staff' | 'counsel'>('player')
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const currentRules = computed(() => {
@@ -165,7 +181,7 @@ const currentRules = computed(() => {
   return rules.value
 })
 
-const setActiveTab = (tab: 'player' | 'staff') => {
+const setActiveTab = (tab: 'player' | 'staff' | 'counsel') => {
   activeTab.value = tab
 }
 
@@ -215,6 +231,12 @@ const loadStaffRulesForLanguage = async (lang: string) => {
 }
 
 onMounted(() => {
+  // Check if there's a tab query parameter and set the active tab
+  const tabQuery = route.query.tab as string | undefined
+  if (tabQuery === 'counsel' || tabQuery === 'staff' || tabQuery === 'player') {
+    activeTab.value = tabQuery
+  }
+
   loadRulesForLanguage(currentLanguage.value)
   loadStaffRulesForLanguage(currentLanguage.value)
 })
@@ -306,6 +328,55 @@ watch(isPrivilegedUser, () => {
   color: var(--myst-bg);
   font-weight: 600;
   box-shadow: 0 2px 8px color-mix(in srgb, var(--myst-gold) 30%, transparent);
+}
+
+/* Counsel Tab Special Styling */
+.tab-button.counsel-tab {
+  position: relative;
+  background: color-mix(in srgb, #4dd0e1 8%, transparent);
+  color: color-mix(in srgb, var(--myst-ink) 90%, #4dd0e1);
+}
+
+.tab-button.counsel-tab:hover {
+  background: color-mix(in srgb, #4a90e2 10%, transparent);
+}
+
+.tab-button.counsel-tab.active {
+  background: linear-gradient(135deg, #4a90e2, #6ba4ec);
+  color: white;
+  box-shadow: 0 2px 12px color-mix(in srgb, #4a90e2 40%, transparent);
+}
+
+.tab-button.counsel-tab.active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #4a90e2, #6ba4ec);
+  border-radius: 10px;
+  opacity: 0.3;
+  filter: blur(8px);
+  z-index: -1;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-button.counsel-tab.active::before {
+    animation: none;
+  }
 }
 
 /* Two Column Layout */
@@ -639,6 +710,25 @@ watch(isPrivilegedUser, () => {
   color: var(--myst-ink-strong);
   font-weight: 600;
   font-style: normal;
+}
+
+/* Counsel Main Section */
+.counsel-main {
+  width: 100%;
+}
+
+/* Make container full width when counsel tab is active */
+.rules-container:has(.rules-content.counsel-active) {
+  max-width: 100%;
+  padding: 0;
+}
+
+.rules-content.counsel-active {
+  display: block;
+}
+
+.rules-content.counsel-active .rules-main {
+  max-width: 100%;
 }
 
 /* Responsive Design for Staff Rules */

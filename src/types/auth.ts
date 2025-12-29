@@ -11,6 +11,7 @@ export interface UserProfileDto {
     createdAt: string;
     verified: boolean;
     avatarUrl?: string;
+    permissions?: string[]; // User permissions from backend (e.g., ['NEWS:MANAGE', 'COUNSEL:MANAGE'])
 }
 
 export interface AuthResponse {

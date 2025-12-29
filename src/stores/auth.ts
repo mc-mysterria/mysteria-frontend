@@ -11,7 +11,6 @@ interface AuthState {
     error: string | null;
     isAuthenticated: boolean;
     token: string | null;
-    userPermissions: Record<string, boolean>[];
     lastUserFetch: number;
     userCacheTimeout: number;
 }
@@ -25,7 +24,6 @@ export const useAuthStore = defineStore("auth", {
         error: null,
         isAuthenticated: false,
         token: null,
-        userPermissions: [],
         lastUserFetch: 0,
         userCacheTimeout: 5 * 60 * 1000, // 5 minutes cache
     }),
@@ -34,6 +32,7 @@ export const useAuthStore = defineStore("auth", {
         currentToken: (state) => state.accessToken || state.token, // Support both new and legacy
         currentUser: (state) => state.user,
         userRole: (state) => state.user?.role || "",
+        userPermissions: (state) => state.user?.permissions || [],
         isAdmin: (state) => state.user?.role === "OWNER",
         isPrivilegedUser: (state) => {
             const role = state.user?.role?.toUpperCase();
@@ -50,7 +49,7 @@ export const useAuthStore = defineStore("auth", {
                         name: state.user.role,
                         display_name: state.user.role,
                         weight: 1,
-                        permissions: [],
+                        permissions: state.user.permissions || [],
                         created_at: state.user.createdAt,
                         updated_at: state.user.createdAt,
                     },
@@ -238,14 +237,10 @@ export const useAuthStore = defineStore("auth", {
                 this.user = user;
                 this.isAuthenticated = !!user;
                 this.lastUserFetch = now;
-
-                // Note: User permissions are now part of the role system in the new API
-                // Will be handled in the admin/user management system update
             } catch (error) {
                 console.error("Error refreshing user:", error);
                 this.user = null;
                 this.isAuthenticated = false;
-                this.userPermissions = [];
                 this.lastUserFetch = 0; // Reset cache on error
             }
         },
@@ -254,26 +249,18 @@ export const useAuthStore = defineStore("auth", {
             this.user = null;
             this.isAuthenticated = false;
             this.error = null;
-            this.userPermissions = [];
             this.lastUserFetch = 0; // Reset cache timestamp
         },
 
         hasPermission(permission: string): boolean {
-            // Admin has all permissions in the new system
-            if (this.user?.role === "ADMIN") return true;
+            if (!this.user) return false;
 
-            // For now, we'll implement basic role-based permissions
-            // This can be expanded based on the specific role system you implement
-            const rolePermissions: Record<string, string[]> = {
-                ADMIN: ["*"], // All permissions
-                MODERATOR: ["user.ban", "user.mute", "user.kick", "user.warn"],
-                USER: ["profile.edit", "shop.purchase"],
-            };
+            // Normalize both the permission being checked and user's permissions
+            // Backend may return with or without PERM_ prefix
+            const normalizedPermission = permission.replace(/^PERM_/, '');
+            const userPermissions = (this.user.permissions || []).map(p => p.replace(/^PERM_/, ''));
 
-            const userPermissions = rolePermissions[this.user?.role || "USER"] || [];
-            return (
-                userPermissions.includes("*") || userPermissions.includes(permission)
-            );
+            return userPermissions.includes(normalizedPermission);
         },
 
         hasAnyPermission(permissions: string[]): boolean {

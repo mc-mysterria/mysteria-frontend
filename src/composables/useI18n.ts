@@ -693,6 +693,26 @@ const translations = {
         staffRules: "Staff Rules",
         examples: "Examples",
         playerRules: "Player Rules",
+
+        // UN-Meeting Counsel
+        counselTab: "Counsel",
+        counselTitle: "Community Suggestions",
+        counselSubtitle: "Proposals from UN democratic assemblies",
+        counselFilterActive: "Active",
+        counselFilterAll: "All",
+        counselStatusProposed: "Proposed",
+        counselStatusAccepted: "Accepted",
+        counselStatusRejected: "Rejected",
+        counselVotesFor: "For",
+        counselVotesAgainst: "Against",
+        counselSuggester: "Suggested by",
+        counselSuggestionDate: "Proposed on",
+        counselLoadingError: "Failed to load suggestions",
+        counselNoSuggestions: "No suggestions found",
+        counselBackToRules: "Back to Rules",
+        counselEmptyState: "No active proposals at the moment",
+        counselVotingResults: "Voting Results",
+
         mainRule: "The Main Rule",
         mainRuleDescription:
             "Participation in the server means automatic agreement to the following. Ignorance does not exempt from responsibility. And punishment will always find you...!",
@@ -1513,6 +1533,26 @@ const translations = {
         staffRules: "Правила Персоналу",
         examples: "Приклади",
         playerRules: "Правила Гравців",
+
+        // UN-Meeting Counsel
+        counselTab: "Рада ООН",
+        counselTitle: "Пропозиції Спільноти",
+        counselSubtitle: "Пропозиції з демократичних зборів Ради ООН",
+        counselFilterActive: "Активні",
+        counselFilterAll: "Всі",
+        counselStatusProposed: "Запропоновано",
+        counselStatusAccepted: "Прийнято",
+        counselStatusRejected: "Відхилено",
+        counselVotesFor: "За",
+        counselVotesAgainst: "Проти",
+        counselSuggester: "Запропонував",
+        counselSuggestionDate: "Запропоновано",
+        counselLoadingError: "Не вдалося завантажити пропозиції",
+        counselNoSuggestions: "Пропозиції не знайдено",
+        counselBackToRules: "Назад до Правил",
+        counselEmptyState: "Наразі немає активних пропозицій",
+        counselVotingResults: "Результати Голосування",
+
         mainRule: "Основне правило",
         mainRuleDescription:
             "Участь у сервері означає автоматичну згоду з нижченаведеним. Незнання не звільняє від відповідальності. А покарання вас завжди знайде.",
