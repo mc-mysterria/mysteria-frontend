@@ -3,8 +3,8 @@
     <DropdownSelect
         :model-value="currentLanguage"
         :options="languageOptions"
-        @change="handleLanguageChange"
         class="language-dropdown"
+        @change="handleLanguageChange"
     >
       <template #selected="{ selectedOption }">
         {{ selectedOption?.label || "🇬🇧 EN" }}
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted} from "vue";
 import {type Language, useI18n} from "@/composables/useI18n";
 import DropdownSelect from "./DropdownSelect.vue";

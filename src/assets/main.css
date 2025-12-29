@@ -41,30 +41,6 @@ body {
 }
 
 /* Global theme adjustments */
-:root[data-theme="parchment"] .bg-\[\#0c0e1a\] {
-    background-color: var(--myst-bg) !important;
-}
-
-:root[data-theme="parchment"] .bg-\[\#0c0e1a\]\/60 {
-    background-color: color-mix(
-            in srgb,
-            var(--myst-bg) 60%,
-            transparent
-    ) !important;
-    backdrop-filter: blur(8px);
-}
-
-:root[data-theme="parchment"] .text-zinc-100 {
-    color: var(--myst-ink) !important;
-}
-
-:root[data-theme="parchment"] .text-zinc-400 {
-    color: var(--myst-ink-muted) !important;
-}
-
-:root[data-theme="parchment"] .text-zinc-300 {
-    color: color-mix(in srgb, var(--myst-ink) 75%, var(--myst-ink-muted)) !important;
-}
 
 /* Card/Panel backgrounds */
 .bg-panel {
@@ -97,28 +73,8 @@ a:hover {
     color: var(--myst-gold);
 }
 
-.ghostText {
-    color: var(--myst-gold);
-}
-
-.mistText {
-    color: var(--myst-ink-muted);
-}
-
 .mystical-text {
     color: var(--myst-gold);
-}
-
-.corruption-text {
-    color: var(--myst-gold-soft);
-}
-
-.spectral-text {
-    color: var(--myst-ink-strong);
-}
-
-.mist-text {
-    color: var(--myst-ink-muted);
 }
 
 ::-webkit-scrollbar {
@@ -195,20 +151,12 @@ body {
     padding: 0 clamp(1rem, 2vw, 2rem);
 }
 
-.container-sm {
-    max-width: 768px;
-}
-
 .container-md {
     max-width: 1024px;
 }
 
 .container-lg {
     max-width: 1200px;
-}
-
-.container-xl {
-    max-width: 1400px;
 }
 
 .p-responsive {
@@ -220,31 +168,12 @@ body {
     padding-right: clamp(1rem, 3vw, 2rem);
 }
 
-.py-responsive {
-    padding-top: clamp(1rem, 3vw, 2rem);
-    padding-bottom: clamp(1rem, 3vw, 2rem);
-}
-
 .m-responsive {
     margin: clamp(1rem, 3vw, 2rem);
 }
 
-.mx-responsive {
-    margin-left: clamp(1rem, 3vw, 2rem);
-    margin-right: clamp(1rem, 3vw, 2rem);
-}
-
-.my-responsive {
-    margin-top: clamp(1rem, 3vw, 2rem);
-    margin-bottom: clamp(1rem, 3vw, 2rem);
-}
-
 .text-xs {
     font-size: clamp(0.75rem, 1.5vw, 0.875rem);
-}
-
-.text-sm {
-    font-size: clamp(0.875rem, 2vw, 1rem);
 }
 
 .text-base {
@@ -259,20 +188,8 @@ body {
     font-size: clamp(1.25rem, 3.5vw, 1.5rem);
 }
 
-.text-2xl {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-}
-
-.text-3xl {
-    font-size: clamp(2rem, 5vw, 2.5rem);
-}
-
 .text-4xl {
     font-size: clamp(2.5rem, 6vw, 3.5rem);
-}
-
-.text-5xl {
-    font-size: clamp(3rem, 7vw, 4.5rem);
 }
 
 h1,
@@ -345,12 +262,6 @@ h6,
     min-height: 48px;
 }
 
-.btn-sm {
-    padding: clamp(0.375rem, 1vw, 0.5rem) clamp(0.75rem, 1.5vw, 1rem);
-    font-size: clamp(0.75rem, 1.5vw, 0.875rem);
-    min-height: 36px;
-}
-
 /* Simple Button Styles */
 .btn-primary {
     background: var(--myst-gold);
@@ -361,29 +272,6 @@ h6,
 .btn-primary:hover {
     background: var(--myst-gold-soft);
     border-color: var(--myst-gold-soft);
-}
-
-.btn-secondary {
-    background: transparent;
-    color: var(--myst-gold);
-    border: 1px solid var(--myst-gold);
-}
-
-.btn-secondary:hover {
-    background: var(--myst-gold);
-    color: var(--myst-bg);
-}
-
-.btn-ghost {
-    background: transparent;
-    color: var(--myst-ink-muted);
-    border: 1px solid var(--myst-ink-muted);
-}
-
-.btn-ghost:hover {
-    background: transparent;
-    color: var(--myst-ink);
-    border-color: var(--myst-ink);
 }
 
 /* Removed complex glow and pulse effects */
@@ -405,28 +293,8 @@ h6,
     gap: clamp(1rem, 2vw, 2rem);
 }
 
-.grid-cols-1 {
-    grid-template-columns: 1fr;
-}
-
-.grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.grid-cols-4 {
-    grid-template-columns: repeat(4, 1fr);
-}
-
 .flex {
     display: flex;
-}
-
-.flex-col {
-    flex-direction: column;
 }
 
 .flex-wrap {
@@ -470,13 +338,6 @@ h6,
         font-size: clamp(14px, 2vw, 16px);
     }
 
-    .grid-cols-4 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .grid-cols-3 {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 @media (max-width: 768px) {
@@ -490,12 +351,6 @@ h6,
 
     .show-mobile {
         display: block;
-    }
-
-    .grid-cols-4,
-    .grid-cols-3,
-    .grid-cols-2 {
-        grid-template-columns: 1fr;
     }
 
     .container {

@@ -25,16 +25,6 @@ export interface ChangeUserRoleResponse {
 }
 
 // User management types
-export interface UserListItem {
-    id: string;
-    discordId: number;
-    nickname?: string;
-    email?: string;
-    role: string;
-    balance: number;
-    verified: boolean;
-    createdAt: string;
-}
 
 export type UserRole = 'USER' | 'PLAYER' | 'MODERATOR' | 'LEADER' | 'ADMIN' | 'OWNER';
 

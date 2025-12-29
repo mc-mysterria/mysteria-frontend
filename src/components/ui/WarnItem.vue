@@ -6,25 +6,30 @@
         role="alert"
         @click="handleClick"
     >
-      <div class="notification-icon-wrapper" :class="type">
+      <div :class="type" class="notification-icon-wrapper">
         <!-- Success Icon -->
-        <svg v-if="type === 'success'" class="notification-icon" viewBox="0 0 24 24" fill="none">
-          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg v-if="type === 'success'" class="notification-icon" fill="none" viewBox="0 0 24 24">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2"/>
         </svg>
 
         <!-- Error/Fatal Icon -->
-        <svg v-else-if="type === 'error' || type === 'fatal'" class="notification-icon" viewBox="0 0 24 24" fill="none">
-          <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg v-else-if="type === 'error' || type === 'fatal'" class="notification-icon" fill="none" viewBox="0 0 24 24">
+          <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2"/>
         </svg>
 
         <!-- Warning Icon -->
-        <svg v-else-if="type === 'warn'" class="notification-icon" viewBox="0 0 24 24" fill="none">
-          <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg v-else-if="type === 'warn'" class="notification-icon" fill="none" viewBox="0 0 24 24">
+          <path
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         </svg>
 
         <!-- Info/Debug Icon -->
-        <svg v-else class="notification-icon" viewBox="0 0 24 24" fill="none">
-          <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg v-else class="notification-icon" fill="none" viewBox="0 0 24 24">
+          <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2"/>
         </svg>
       </div>
 
@@ -33,17 +38,17 @@
         <i v-if="copyable" class="fa-solid fa-copy copy-hint"></i>
       </div>
 
-      <button v-if="!copyable" @click.stop="close" class="close-button" aria-label="Close notification">
+      <button v-if="!copyable" aria-label="Close notification" class="close-button" @click.stop="close">
         <IconClose class="icon-close"/>
       </button>
 
       <!-- Progress bar for duration -->
-      <div v-if="duration && duration > 0" class="progress-bar" :style="{ animationDuration: `${duration}ms` }"></div>
+      <div v-if="duration && duration > 0" :style="{ animationDuration: `${duration}ms` }" class="progress-bar"></div>
     </div>
   </Transition>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, ref} from "vue";
 import IconClose from "@/assets/icons/IconClose.vue";
 
@@ -89,10 +94,9 @@ onMounted(() => {
   background: color-mix(in srgb, var(--myst-bg) 95%, transparent);
   border: 1px solid color-mix(in srgb, var(--notification-color) 30%, transparent);
   border-radius: 12px;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    0 0 0 1px color-mix(in srgb, var(--notification-color) 10%, transparent),
-    0 0 20px color-mix(in srgb, var(--notification-color) 15%, transparent);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+  0 0 0 1px color-mix(in srgb, var(--notification-color) 10%, transparent),
+  0 0 20px color-mix(in srgb, var(--notification-color) 15%, transparent);
   margin-bottom: 12px;
   backdrop-filter: blur(16px);
   overflow: hidden;
@@ -235,17 +239,6 @@ onMounted(() => {
 }
 
 /* Clickable state */
-.clickable {
-  cursor: pointer;
-}
-
-.clickable:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.5),
-    0 0 0 1px color-mix(in srgb, var(--notification-color) 20%, transparent),
-    0 0 24px color-mix(in srgb, var(--notification-color) 25%, transparent);
-}
 
 .clickable:hover .notification-icon-wrapper {
   background: color-mix(in srgb, var(--notification-color) 25%, transparent);
@@ -257,18 +250,7 @@ onMounted(() => {
   color: var(--notification-color);
 }
 
-.clickable:active {
-  transform: translateY(0);
-}
-
 /* Animations */
-.slide-bounce-enter-active {
-  animation: slideInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.slide-bounce-leave-active {
-  animation: slideOut 0.3s cubic-bezier(0.4, 0, 1, 1);
-}
 
 @keyframes slideInBounce {
   0% {
@@ -298,10 +280,9 @@ onMounted(() => {
 /* Theme Support - Parchment */
 :root[data-theme="parchment"] .notification-card {
   background: color-mix(in srgb, var(--myst-bg) 98%, transparent);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.15),
-    0 0 0 1px color-mix(in srgb, var(--notification-color) 15%, transparent),
-    0 0 20px color-mix(in srgb, var(--notification-color) 10%, transparent);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+  0 0 0 1px color-mix(in srgb, var(--notification-color) 15%, transparent),
+  0 0 20px color-mix(in srgb, var(--notification-color) 10%, transparent);
 }
 
 :root[data-theme="parchment"] .notification-icon-wrapper {

@@ -44,23 +44,42 @@ export class BaseCRUD<
             this.defaultPrefix + (prefix.startsWith("/") ? prefix : `/${prefix}`);
     }
 
-    private preprocessJsonForLargeNumbers(jsonText: string): string {
-        return jsonText.replace(/"([^"]+)":\s*(\d{15,})/g, '"$1":"$2"');
+    async create(data: TCreate): Promise<APIResponse<TModel>> {
+        return this.request<TModel>("POST", "", {body: data});
     }
 
-    private getAuthToken(): string | null {
-        const token = localStorage.getItem("access_token");
-        if (token) {
-            return token;
+    async update(id: string, data: TUpdate): Promise<APIResponse<TModel>> {
+        return this.request<TModel>("PUT", `/${id}`, {body: data});
+    }
+
+    async delete(id: string): Promise<APIResponse<TModel>> {
+        return this.request<TModel>("DELETE", `/${id}`);
+    }
+
+    async get(id: string): Promise<APIResponse<TModel>> {
+        return this.request<TModel>("GET", `/admin/${id}`);
+    }
+
+    async getList(
+        endpoint: string = "",
+        options: {
+            filters?: TFilter;
+            params?: Record<string, string | number | boolean>;
+            raise?: boolean;
+        } = {},
+    ): Promise<APIResponse<TModel[]>> {
+        const {filters, params = {}, raise = true} = options;
+        const queryParams = {...params};
+
+        if (filters) {
+            Object.assign(queryParams, filters);
         }
 
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; access_token=`);
-        if (parts.length === 2) {
-            return parts.pop()?.split(";").shift() || null;
-        }
-
-        return null;
+        return this.request<TModel[]>("GET", endpoint, {
+            params: queryParams,
+            isList: true,
+            raise,
+        });
     }
 
     protected async request<T>(
@@ -116,23 +135,27 @@ export class BaseCRUD<
             const responseText = await response.text();
 
             let data;
-            try {
-                const processedText = this.preprocessJsonForLargeNumbers(responseText);
-                data = JSON.parse(processedText);
-            } catch (e) {
-                console.error("JSON parse error:", {
-                    responseText,
-                    url,
-                    params,
-                    type: "JSON_PARSE_ERROR",
-                });
-                throw new APIError(
-                    `Invalid JSON response: ${responseText}`,
-                    url,
-                    params,
-                    e as Error,
-                    body,
-                );
+            // Handle empty responses (common for DELETE operations)
+            if (!responseText || responseText.trim() === '') {
+                data = null;
+            } else {
+                try {
+                    const processedText = this.preprocessJsonForLargeNumbers(responseText);
+                    data = JSON.parse(processedText);
+                } catch (e) {
+                    console.error("JSON parse error:", {
+                        responseText,
+                        url,
+                        params,
+                        type: "JSON_PARSE_ERROR",
+                    });
+                    throw new APIError(
+                        `Invalid JSON response: ${responseText}`,
+                        url,
+                        params,
+                        body,
+                    );
+                }
             }
 
             if (response.status === 404) {
@@ -167,8 +190,10 @@ export class BaseCRUD<
                 if (data.error && typeof data.error === "object" && data.error.code) {
                     // New structured error format
                     const apiErrorResponse = data as ApiErrorResponse;
+                    const {useI18n} = await import("@/composables/useI18n");
+                    const {t} = useI18n();
                     error = new RequestError(
-                        apiErrorResponse.error.message || "Сталася невідома помилка!",
+                        apiErrorResponse.error.message || t("errorUnknown"),
                         url,
                         params,
                         apiErrorResponse.error,
@@ -225,9 +250,10 @@ export class BaseCRUD<
                 throw error;
             }
 
-            if (raise && !data) {
+            // Only raise error for empty data if it's not a successful DELETE/void response
+            if (raise && !data && (response.status < 200 || response.status >= 300)) {
                 const error = new RequestError(
-                    `Empty or None response received\n${data.detail || ""}`,
+                    `Empty or None response received\n${data?.detail || ""}`,
                     url,
                     params,
                     undefined,
@@ -268,7 +294,6 @@ export class BaseCRUD<
                 error instanceof Error ? error.message : "Unknown error",
                 url,
                 params,
-                error as Error,
                 body,
             );
 
@@ -284,41 +309,22 @@ export class BaseCRUD<
         }
     }
 
-    async create(data: TCreate): Promise<APIResponse<TModel>> {
-        return this.request<TModel>("POST", "", {body: data});
+    private preprocessJsonForLargeNumbers(jsonText: string): string {
+        return jsonText.replace(/"([^"]+)":\s*(\d{15,})/g, '"$1":"$2"');
     }
 
-    async update(id: string, data: TUpdate): Promise<APIResponse<TModel>> {
-        return this.request<TModel>("PUT", `/${id}`, {body: data});
-    }
-
-    async delete(id: string): Promise<APIResponse<TModel>> {
-        return this.request<TModel>("DELETE", `/${id}`);
-    }
-
-    async get(id: string): Promise<APIResponse<TModel>> {
-        return this.request<TModel>("GET", `/admin/${id}`);
-    }
-
-    async getList(
-        endpoint: string = "",
-        options: {
-            filters?: TFilter;
-            params?: Record<string, string | number | boolean>;
-            raise?: boolean;
-        } = {},
-    ): Promise<APIResponse<TModel[]>> {
-        const {filters, params = {}, raise = true} = options;
-        const queryParams = {...params};
-
-        if (filters) {
-            Object.assign(queryParams, filters);
+    private getAuthToken(): string | null {
+        const token = localStorage.getItem("access_token");
+        if (token) {
+            return token;
         }
 
-        return this.request<TModel[]>("GET", endpoint, {
-            params: queryParams,
-            isList: true,
-            raise,
-        });
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; access_token=`);
+        if (parts.length === 2) {
+            return parts.pop()?.split(";").shift() || null;
+        }
+
+        return null;
     }
 }

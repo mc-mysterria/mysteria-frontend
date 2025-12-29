@@ -42,18 +42,6 @@ class AdminAPI extends BaseCRUD<never, never, never, never> {
     }
 
     /**
-     * Get a specific user by ID (admin only)
-     *
-     * Endpoint: GET /api/admin/users/{userId}
-     *
-     * @param userId - The ID of the user to retrieve
-     * @returns User profile information
-     */
-    async getUser(userId: string): Promise<APIResponse<UserProfileDto>> {
-        return this.request<UserProfileDto>("GET", `/users/${userId}`);
-    }
-
-    /**
      * Change a user's role
      *
      * Endpoint: PUT /api/admin/users/{userId}/role

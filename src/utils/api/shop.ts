@@ -14,20 +14,7 @@ class ShopAPI extends BaseCRUD<ServiceDto, CreateServiceDto, Partial<CreateServi
         super("/shop");
     }
 
-    async getServices(type?: string, lang: string = 'en'): Promise<APIResponse<ServiceDto[]>> {
-        const params: Record<string, string> = {lang};
-        if (type) {
-            params.type = type;
-        }
-        return this.request<ServiceDto[]>("GET", "/services", {params});
-    }
-
     // Get affordable services for authenticated user
-    async getAffordableServices(lang: string = 'en'): Promise<APIResponse<ServiceDto[]>> {
-        return this.request<ServiceDto[]>("GET", "/services/affordable", {
-            params: {lang}
-        });
-    }
 
     // Get service markdown content by slug (public access)
     async getServiceContent(slug: string, lang: string = 'en'): Promise<APIResponse<ServiceMarkdownDto>> {
@@ -40,19 +27,10 @@ class ShopAPI extends BaseCRUD<ServiceDto, CreateServiceDto, Partial<CreateServi
     }
 
     // Purchase a service
-    async purchaseService(request: PurchaseRequest): Promise<APIResponse<PurchaseDto>> {
-        return this.request<PurchaseDto>("POST", "/purchase", {body: request});
-    }
 
     // Get purchase history
-    async getPurchases(params?: { page?: number; size?: number }): Promise<APIResponse<{ content: PurchaseDto[] }>> {
-        return this.request<{ content: PurchaseDto[] }>("GET", "/purchases", {params});
-    }
 
     // Get active purchases
-    async getActivePurchases(): Promise<APIResponse<PurchaseDto[]>> {
-        return this.request<PurchaseDto[]>("GET", "/purchases/active");
-    }
 
     // Admin methods for service content management
     async getServiceContentAdmin(serviceId: number, lang: string = 'en'): Promise<APIResponse<ServiceMarkdownDto>> {
@@ -70,9 +48,6 @@ class ShopAPI extends BaseCRUD<ServiceDto, CreateServiceDto, Partial<CreateServi
     }
 
     // Admin service management
-    async createService(data: CreateServiceDto): Promise<APIResponse<ServiceDto>> {
-        return this.request<ServiceDto>("POST", "/admin/services", {body: data});
-    }
 }
 
 export const shopAPI = new ShopAPI();

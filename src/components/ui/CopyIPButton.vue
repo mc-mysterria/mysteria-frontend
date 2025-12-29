@@ -1,16 +1,16 @@
 <template>
   <button
-      @click="copyIP"
-      class="copy-ip-btn"
-      :class="{ copied: showCopied }"
       :aria-label="`Copy server IP: ${ip}`"
+      :class="{ copied: showCopied }"
+      class="copy-ip-btn"
+      @click="copyIP"
   >
     <span class="ip-text">{{ ip }}</span>
-    <span class="copy-feedback" v-if="showCopied">Copied!</span>
+    <span v-if="showCopied" class="copy-feedback">Copied!</span>
   </button>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {ref} from "vue";
 
 interface Props {

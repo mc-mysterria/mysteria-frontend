@@ -5,17 +5,17 @@
       <div v-if="service">
         <!-- Back Button -->
         <div class="back-button-container">
-          <button @click="goBack" class="back-button">
+          <button class="back-button" @click="goBack">
             <i class="fa-solid fa-arrow-left"></i>
             {{ t('back') }}
           </button>
         </div>
 
         <div class="service-header">
-          <div class="service-image-wrapper" v-if="service.imageUrl">
+          <div v-if="service.imageUrl" class="service-image-wrapper">
             <img
-                :src="service.imageUrl"
                 :alt="service.name"
+                :src="service.imageUrl"
                 class="service-image"
             />
           </div>
@@ -37,14 +37,14 @@
           </div>
         </div>
 
-        <div class="service-content" v-dompurify-html="renderedContent"></div>
+        <div v-dompurify-html="renderedContent" class="service-content"></div>
 
         <div class="service-actions">
           <button
-              @click="handlePurchase"
-              class="purchase-btn"
-              :disabled="!authStore.isAuthenticated || purchasing"
               :class="{ 'purchasing': purchasing }"
+              :disabled="!authStore.isAuthenticated || purchasing"
+              class="purchase-btn"
+              @click="handlePurchase"
           >
             <i v-if="purchasing" class="fa-solid fa-spinner fa-spin"></i>
             <i v-else class="fa-solid fa-shopping-cart"></i>
@@ -75,7 +75,7 @@
             }}
           </p>
           <div class="error-actions">
-            <router-link to="/store" class="back-to-shop-btn">
+            <router-link class="back-to-shop-btn" to="/store">
               <i class="fa-solid fa-arrow-left"></i>
               {{ t('backToShop') || 'Back to Shop' }}
             </router-link>
@@ -90,7 +90,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, nextTick, onMounted, ref, watch} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {shopAPI} from '@/utils/api/shop';

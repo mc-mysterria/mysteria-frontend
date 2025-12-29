@@ -9,29 +9,29 @@
     >
       <!-- Layered backgrounds for cross-fade -->
       <div
-          class="hero-background hero-bg-base"
           :style="{
           backgroundImage: `url('${heroImages[activeImageIndex]}')`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
+          class="hero-background hero-bg-base"
       />
       <div
           v-if="isTransitioning"
-          class="hero-background hero-bg-overlay"
           :style="{
           backgroundImage: `url('${heroImages[transitionTarget]}')`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
+          class="hero-background hero-bg-overlay"
       />
 
       <!-- Overlay for readability -->
       <div
-          class="hero-overlay"
           aria-hidden="true"
+          class="hero-overlay"
       />
 
       <!-- Content -->
@@ -39,16 +39,16 @@
         <FadeInSection>
           <div class="hero-buttons">
             <button
-                @click="showJoinModal = true"
                 class="play-button"
+                @click="showJoinModal = true"
             >
               {{ t('home.letsPlay') }}
             </button>
             <a
-                href="https://wiki.mysterria.net/en"
                 class="wiki-button"
-                target="_blank"
+                href="https://wiki.mysterria.net/en"
                 rel="noopener noreferrer"
+                target="_blank"
             >
               <IconWiki class="w-5 h-5"/>
               {{ t('home.wiki') }}
@@ -60,16 +60,16 @@
 
       <!-- Down Arrow -->
       <button
-          @click="scrollToFeatures"
-          class="scroll-arrow"
           aria-label="Scroll to features"
+          class="scroll-arrow"
+          @click="scrollToFeatures"
       >
         <IconArrowDown class="w-6 h-6"/>
       </button>
 
       <!-- Wavy Divider -->
-      <div class="wavy-divider" aria-hidden="true">
-        <svg class="w-full block" viewBox="0 0 1440 90" preserveAspectRatio="none">
+      <div aria-hidden="true" class="wavy-divider">
+        <svg class="w-full block" preserveAspectRatio="none" viewBox="0 0 1440 90">
           <path
               d="M0,64 C120,80 240,48 360,48 C480,48 600,80 720,74 C840,68 960,32 1080,37 C1200,43 1320,74 1440,80 L1440,160 L0,160 Z"
               fill="var(--myst-bg)"
@@ -79,14 +79,14 @@
     </section>
 
     <!-- Features Section (previously embedded in hero) -->
-    <section class="features-section relative" id="features">
+    <section id="features" class="features-section relative">
       <div class="features-container">
         <FadeInSection delay="100">
           <div class="features-grid">
             <div
-                class="feature-card"
                 v-for="(feature, index) in features"
                 :key="index"
+                class="feature-card"
             >
               <div class="feature-header">
                 <component :is="feature.icon" class="feature-icon"/>
@@ -100,25 +100,25 @@
     </section>
 
     <!-- Beyonder Statistics Section -->
-    <BeyonderStatistics />
+    <BeyonderStatistics/>
 
     <!-- Pinned News Section -->
-    <section v-if="pinnedNews.length > 0" class="pinned-news-section relative" id="pinned-news">
+    <section v-if="pinnedNews.length > 0" id="pinned-news" class="pinned-news-section relative">
       <div class="news-container">
         <SectionTitle
             :eyebrow="t('home.pinnedNewsEyebrow')"
-            :title="t('home.pinnedNewsTitle')"
             :subtitle="t('home.pinnedNewsSubtitle')"
+            :title="t('home.pinnedNewsTitle')"
         />
         <FadeInSection>
-          <div class="pinned-news-grid" :class="{ 'pinned-news-grid--single': displayedPinnedNews.length === 1 }">
-            <RouterLink :to="`/news/${n.slug}`" class="pinned-news-card" v-for="n in displayedPinnedNews" :key="n.id">
+          <div :class="{ 'pinned-news-grid--single': displayedPinnedNews.length === 1 }" class="pinned-news-grid">
+            <RouterLink v-for="n in displayedPinnedNews" :key="n.id" :to="`/news/${n.slug}`" class="pinned-news-card">
               <!-- Card content with new layout -->
               <div class="pinned-card-content">
                 <div class="pinned-news-image">
                   <img
-                      :src="n.preview || 'https://via.placeholder.com/300x160/1a1e3a/c8b273?text=News+Image'"
                       :alt="`Image for ${n.title}`"
+                      :src="n.preview || 'https://via.placeholder.com/300x160/1a1e3a/c8b273?text=News+Image'"
                       class="pinned-news-img"
                   />
                 </div>
@@ -142,7 +142,7 @@
 
         <!-- Load More Pinned Button -->
         <div v-if="!showAllPinned && pinnedNews.length > 2" class="load-more-container">
-          <button @click="showAllPinned = true" class="load-more-button load-more-button--pinned">
+          <button class="load-more-button load-more-button--pinned" @click="showAllPinned = true">
             {{ t('home.loadMorePinned') }}
           </button>
         </div>
@@ -150,20 +150,20 @@
     </section>
 
     <!-- Latest News Section -->
-    <section class="news-section relative" id="news">
+    <section id="news" class="news-section relative">
       <div class="news-container">
         <SectionTitle
             :eyebrow="t('home.newsEyebrow')"
-            :title="t('home.newsTitle')"
             :subtitle="t('home.newsSubtitle')"
+            :title="t('home.newsTitle')"
         />
         <FadeInSection>
           <div class="news-grid">
-            <RouterLink :to="`/news/${n.slug}`" class="news-card" v-for="n in displayedNews" :key="n.id">
+            <RouterLink v-for="n in displayedNews" :key="n.id" :to="`/news/${n.slug}`" class="news-card">
               <div class="news-image">
                 <img
-                    :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
                     :alt="`Image for ${n.title}`"
+                    :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
                     class="news-img"
                 />
               </div>
@@ -183,7 +183,7 @@
 
         <!-- Load More Button -->
         <div v-if="!showAllNews && news.length > 3" class="load-more-container">
-          <button @click="showAllNews = true" class="load-more-button">
+          <button class="load-more-button" @click="showAllNews = true">
             {{ t('home.loadAdditional') }}
           </button>
         </div>
@@ -197,7 +197,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import FadeInSection from "@/components/ui/FadeInSection.vue";
@@ -628,7 +628,6 @@ export default {
 }
 
 .pinned-news-grid {
-  margin-top: 32px;
   display: flex;
   gap: 20px;
   overflow-x: auto;
@@ -718,7 +717,6 @@ export default {
 }
 
 .news-grid {
-  margin-top: 24px;
   display: flex;
   gap: 16px;
   overflow-x: auto;

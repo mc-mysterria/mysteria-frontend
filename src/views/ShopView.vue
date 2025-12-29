@@ -19,7 +19,7 @@
             <i class="fa-solid fa-triangle-exclamation error-icon"></i>
             <h3>{{ t('shopLoadFailed') }}</h3>
             <p>{{ shopError }}</p>
-            <button @click="retryLoading" class="retry-btn">
+            <button class="retry-btn" @click="retryLoading">
               <i class="fa-solid fa-rotate-right"></i>
               {{ t('tryAgain') }}
             </button>
@@ -29,13 +29,13 @@
         <!-- Shop content -->
         <div v-else class="shop-content">
           <CategorySelector
-            v-if="!selectedCategory"
-            @select-category="handleCategorySelect"
+              v-if="!selectedCategory"
+              @select-category="handleCategorySelect"
           />
           <ShopItems
-            v-else
-            :selected-category="selectedCategory"
-            @back-to-categories="handleBackToCategories"
+              v-else
+              :selected-category="selectedCategory"
+              @back-to-categories="handleBackToCategories"
           />
         </div>
 
@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, ref, watch} from "vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import {useBalanceStore} from "@/stores/balance";

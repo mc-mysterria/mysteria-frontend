@@ -3,7 +3,6 @@ export class APIError extends Error {
         message: string,
         public endpoint?: string,
         public params?: Record<string, string | number | boolean>,
-        public originalError?: Error,
         public requestBody?: unknown,
     ) {
         super(message);
@@ -21,7 +20,7 @@ export class RequestError extends APIError {
         public structuredError?: ApiError,
         requestBody?: unknown,
     ) {
-        super(message, endpoint, params, undefined, requestBody);
+        super(message, endpoint, params, requestBody);
         this.name = "RequestError";
     }
 }

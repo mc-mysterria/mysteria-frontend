@@ -1,8 +1,8 @@
 <template>
   <div class="editor-view">
     <div class="page-header">
-      <button @click="goBack" class="back-button">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <button class="back-button" @click="goBack">
+        <svg fill="none" height="20" stroke="currentColor" viewBox="0 0 24 24" width="20">
           <path d="m15 18-6-6 6-6"/>
         </svg>
         Back
@@ -18,7 +18,7 @@
         </option>
       </select>
       <button @click="createNewContent">New Content</button>
-      <button v-if="selectedContent && selectedContent.id" @click="deleteContent" class="delete-btn">
+      <button v-if="selectedContent && selectedContent.id" class="delete-btn" @click="deleteContent">
         Delete Content
       </button>
     </div>
@@ -26,7 +26,7 @@
     <div v-if="selectedContent" class="editor-form">
       <div class="form-group">
         <label>Service</label>
-        <select v-model="selectedServiceId" @change="loadServiceContent" required>
+        <select v-model="selectedServiceId" required @change="loadServiceContent">
           <option value="">Select a service</option>
           <option v-for="service in services" :key="service.id" :value="service.id">
             {{ service.name || service.nameEn || service.nameUk }}
@@ -38,9 +38,9 @@
         <label>Slug *</label>
         <input
             v-model="selectedContent.slug"
+            :class="{ 'error': validationErrors.slug }"
             placeholder="service-slug"
             required
-            :class="{ 'error': validationErrors.slug }"
         />
         <small>URL-friendly slug (lowercase, hyphens only, no spaces)</small>
         <div v-if="validationErrors.slug" class="field-error">{{ validationErrors.slug }}</div>
@@ -50,8 +50,8 @@
         <label>English Content (Markdown)</label>
         <textarea
             v-model="selectedContent.markdownContentEn"
-            placeholder="Write service content in Markdown (English)..."
             :class="{ 'error': validationErrors.markdownContentEn }"
+            placeholder="Write service content in Markdown (English)..."
         ></textarea>
         <div v-if="validationErrors.markdownContentEn" class="field-error">{{
             validationErrors.markdownContentEn
@@ -63,8 +63,8 @@
         <label>Ukrainian Content (Markdown)</label>
         <textarea
             v-model="selectedContent.markdownContentUk"
-            placeholder="Write service content in Markdown (Ukrainian)..."
             :class="{ 'error': validationErrors.markdownContentUk }"
+            placeholder="Write service content in Markdown (Ukrainian)..."
         ></textarea>
         <div v-if="validationErrors.markdownContentUk" class="field-error">{{
             validationErrors.markdownContentUk
@@ -74,17 +74,17 @@
 
       <div class="form-group">
         <label>
-          <input type="checkbox" v-model="selectedContent.isPublished"/>
+          <input v-model="selectedContent.isPublished" type="checkbox"/>
           Published
         </label>
       </div>
 
       <div class="form-actions">
-        <button @click="saveContent" :disabled="!canSave || loading" class="save-btn">
+        <button :disabled="!canSave || loading" class="save-btn" @click="saveContent">
           <span v-if="loading" class="button-spinner"></span>
           {{ loading ? 'Saving...' : (selectedContent.id ? 'Update' : 'Create') + ' Content' }}
         </button>
-        <button @click="cancelEdit" class="cancel-btn" :disabled="loading">Cancel</button>
+        <button :disabled="loading" class="cancel-btn" @click="cancelEdit">Cancel</button>
       </div>
     </div>
 
@@ -97,7 +97,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {shopAPI} from '@/utils/api/shop';

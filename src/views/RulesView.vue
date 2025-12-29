@@ -10,23 +10,23 @@
         <!-- Tabs for privileged users and counsel -->
         <div v-if="isPrivilegedUser || true" class="rules-tabs">
           <button
-              class="tab-button"
               :class="{ active: activeTab === 'player' }"
+              class="tab-button"
               @click="setActiveTab('player')"
           >
             {{ t('playerRules') }}
           </button>
           <button
               v-if="isPrivilegedUser"
-              class="tab-button"
               :class="{ active: activeTab === 'staff' }"
+              class="tab-button"
               @click="setActiveTab('staff')"
           >
             {{ t('staffRules') }}
           </button>
           <button
-              class="tab-button counsel-tab"
               :class="{ active: activeTab === 'counsel' }"
+              class="tab-button counsel-tab"
               @click="setActiveTab('counsel')"
           >
             {{ t('counselTab') }}
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Two Column Layout -->
-      <div class="rules-content" :class="{ 'counsel-active': activeTab === 'counsel' }">
+      <div :class="{ 'counsel-active': activeTab === 'counsel' }" class="rules-content">
         <!-- Table of Contents Sidebar (hidden for counsel tab) -->
         <div v-if="activeTab !== 'counsel'" class="rules-sidebar">
           <h2 class="sidebar-title">{{ t('tableOfContents') }}</h2>
@@ -81,9 +81,9 @@
           <div v-if="activeTab === 'player'" class="all-rules">
             <div
                 v-for="rule in rules"
+                :id="`rule-${rule.id}`"
                 :key="rule.id"
                 class="rule-card"
-                :id="`rule-${rule.id}`"
             >
               <div class="rule-number">{{ rule.id }}</div>
               <div class="rule-content">
@@ -104,9 +104,9 @@
               <div class="group-rules">
                 <div
                     v-for="rule in group.rules"
+                    :id="`staff-rule-${rule.id}`"
                     :key="rule.id"
                     class="rule-card staff-rule-card"
-                    :id="`staff-rule-${rule.id}`"
                 >
                   <div class="rule-number staff-rule-number">{{ rule.id }}</div>
                   <div class="rule-content">
@@ -123,7 +123,7 @@
 
           <!-- UN-Meeting Counsel -->
           <div v-else-if="activeTab === 'counsel'" class="counsel-main">
-            <CounselListSection />
+            <CounselListSection/>
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@
   <FooterItem/>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
 import {useI18n} from "@/composables/useI18n";

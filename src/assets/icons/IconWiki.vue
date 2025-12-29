@@ -1,14 +1,14 @@
 <template>
   <svg
-      class="icon-wiki"
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      role="img"
       aria-label="Іконка Wikipedia"
+      class="icon-wiki"
+      fill="currentColor"
+      height="20"
+      role="img"
       tabindex="0"
+      viewBox="0 0 20 20"
+      width="20"
+      xmlns="http://www.w3.org/2000/svg"
   >
     <path
         d="M3 2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3zm1 2h12v12H4V4z"

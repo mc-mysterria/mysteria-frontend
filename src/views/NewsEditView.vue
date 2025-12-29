@@ -1,8 +1,8 @@
 <template>
   <div class="editor-view">
     <div class="page-header">
-      <button @click="goBack" class="back-button">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <button class="back-button" @click="goBack">
+        <svg fill="none" height="20" stroke="currentColor" viewBox="0 0 24 24" width="20">
           <path d="m15 18-6-6 6-6"/>
         </svg>
         Back
@@ -18,10 +18,10 @@
         </option>
       </select>
       <button @click="createNewArticle">New Article</button>
-      <button v-if="selectedArticle && selectedArticle.id" @click="togglePin" class="pin-btn">
+      <button v-if="selectedArticle && selectedArticle.id" class="pin-btn" @click="togglePin">
         {{ selectedArticle.isPinned ? 'Unpin' : 'Pin' }} Article
       </button>
-      <button v-if="selectedArticle && selectedArticle.id" @click="deleteArticle" class="delete-btn">
+      <button v-if="selectedArticle && selectedArticle.id" class="delete-btn" @click="deleteArticle">
         Delete Article
       </button>
     </div>
@@ -31,9 +31,9 @@
         <label>Title *</label>
         <input
             v-model="selectedArticle.title"
+            :class="{ 'error': validationErrors.title }"
             placeholder="Enter article title"
             required
-            :class="{ 'error': validationErrors.title }"
         />
         <div v-if="validationErrors.title" class="field-error">{{ validationErrors.title }}</div>
       </div>
@@ -42,9 +42,9 @@
         <label>Slug *</label>
         <input
             v-model="selectedArticle.slug"
+            :class="{ 'error': validationErrors.slug }"
             placeholder="article-slug"
             required
-            :class="{ 'error': validationErrors.slug }"
         />
         <small>URL-friendly slug (lowercase, hyphens only, no spaces)</small>
         <div v-if="validationErrors.slug" class="field-error">{{ validationErrors.slug }}</div>
@@ -62,8 +62,8 @@
         <label>Short Description</label>
         <input
             v-model="selectedArticle.shortDescription"
-            placeholder="Brief description for preview (optional)"
             :class="{ 'error': validationErrors.shortDescription }"
+            placeholder="Brief description for preview (optional)"
         />
         <small>{{ selectedArticle.shortDescription?.length || 0 }}/500 characters</small>
         <div v-if="validationErrors.shortDescription" class="field-error">{{ validationErrors.shortDescription }}</div>
@@ -73,9 +73,9 @@
         <label>Preview Image URL</label>
         <input
             v-model="selectedArticle.preview"
+            :class="{ 'error': validationErrors.preview }"
             placeholder="https://example.com/image.jpg (optional)"
             type="url"
-            :class="{ 'error': validationErrors.preview }"
         />
         <div v-if="validationErrors.preview" class="field-error">{{ validationErrors.preview }}</div>
       </div>
@@ -84,40 +84,40 @@
         <label>Content (Markdown) *</label>
         <textarea
             v-model="selectedArticle.content"
+            :class="{ 'error': validationErrors.content }"
             placeholder="Write your article content in Markdown..."
             required
-            :class="{ 'error': validationErrors.content }"
         ></textarea>
         <div v-if="validationErrors.content" class="field-error">{{ validationErrors.content }}</div>
       </div>
 
       <div class="form-group">
         <label>
-          <input type="checkbox" v-model="selectedArticle.isPublished"/>
+          <input v-model="selectedArticle.isPublished" type="checkbox"/>
           Published
         </label>
       </div>
 
       <div class="form-group">
         <label>
-          <input type="checkbox" v-model="selectedArticle.isPinned"/>
+          <input v-model="selectedArticle.isPinned" type="checkbox"/>
           Pinned (will appear at the top of the news list)
         </label>
       </div>
 
       <div class="form-actions">
-        <button @click="saveArticle" :disabled="!canSave || loading" class="save-btn">
+        <button :disabled="!canSave || loading" class="save-btn" @click="saveArticle">
           <span v-if="loading" class="button-spinner"></span>
           {{ loading ? 'Saving...' : (selectedArticle.id ? 'Update' : 'Create') + ' Article' }}
         </button>
-        <button @click="openPreview" class="preview-btn" :disabled="!selectedArticle.content.trim() || loading">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <button :disabled="!selectedArticle.content.trim() || loading" class="preview-btn" @click="openPreview">
+          <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
           </svg>
           Preview
         </button>
-        <button @click="cancelEdit" class="cancel-btn" :disabled="loading">Cancel</button>
+        <button :disabled="loading" class="cancel-btn" @click="cancelEdit">Cancel</button>
       </div>
     </div>
 
@@ -133,8 +133,8 @@
       <div class="preview-modal-content" @click.stop>
         <div class="preview-header">
           <h2>Article Preview</h2>
-          <button @click="closePreview" class="close-preview-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <button class="close-preview-btn" @click="closePreview">
+            <svg fill="none" height="24" stroke="currentColor" viewBox="0 0 24 24" width="24">
               <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
           </button>
@@ -157,10 +157,10 @@
             </div>
 
             <div v-if="selectedArticle?.preview" class="preview-image-wrapper">
-              <img :src="selectedArticle.preview" :alt="selectedArticle.title" class="preview-image"/>
+              <img :alt="selectedArticle.title" :src="selectedArticle.preview" class="preview-image"/>
             </div>
 
-            <div class="preview-article-content" v-dompurify-html="renderedContent"></div>
+            <div v-dompurify-html="renderedContent" class="preview-article-content"></div>
           </div>
         </div>
       </div>
@@ -168,7 +168,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {newsAPI} from '@/utils/api/news';

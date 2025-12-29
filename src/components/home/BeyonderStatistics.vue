@@ -1,10 +1,10 @@
 <template>
-  <section class="beyonder-stats-section" id="community">
+  <section id="community" class="beyonder-stats-section">
     <div class="stats-container">
       <SectionTitle
           :eyebrow="t('communityEyebrow')"
-          :title="loading ? t('loadingStatistics') : `${totalBeyonders} ${t('activeBeyonders')}`"
           :subtitle="t('joinPlayersCommunity')"
+          :title="loading ? t('loadingStatistics') : `${totalBeyonders} ${t('activeBeyonders')}`"
       />
 
       <div v-if="loading" class="loading-state">
@@ -52,8 +52,8 @@
                 <div class="pathway-bar-header">
                   <div class="pathway-name-container">
                     <img
-                        :src="getPathwayImage(pathway.name)"
                         :alt="pathway.name"
+                        :src="getPathwayImage(pathway.name)"
                         class="pathway-symbol-small"
                     />
                     <span class="pathway-name">{{ formatPathwayName(pathway.name) }}</span>
@@ -62,8 +62,8 @@
                 </div>
                 <div class="pathway-bar-track">
                   <div
-                      class="pathway-bar-fill"
                       :style="{ width: `${(pathway.count / totalBeyonders) * 100}%` }"
+                      class="pathway-bar-fill"
                   ></div>
                 </div>
               </div>
@@ -81,12 +81,12 @@
               >
                 <div class="sequence-bar-container">
                   <div
-                      class="sequence-bar-fill"
                       :style="{
                         height: `${(seq.count / maxSequenceCount) * 100}%`,
                         background: getSequenceColor(parseInt(seq.sequence))
                       }"
                       :title="`${t('sequence')} ${seq.sequence}: ${seq.count} ${t('sequenceBeyonders')}`"
+                      class="sequence-bar-fill"
                   >
                     <span class="bar-count">{{ seq.count }}</span>
                   </div>
@@ -101,13 +101,13 @@
   </section>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+<script lang="ts" setup>
+import {computed, onMounted, ref} from 'vue';
 import SectionTitle from '@/components/ui/SectionTitle.vue';
-import type { BeyonderData } from '@/types/users';
-import { useI18n } from '@/composables/useI18n';
+import type {BeyonderData} from '@/types/users';
+import {useI18n} from '@/composables/useI18n';
 
-const { t } = useI18n();
+const {t} = useI18n();
 
 interface BeyonderStatsResponse {
   success: boolean;
@@ -159,9 +159,9 @@ const topPathways = computed(() => {
   });
 
   return Array.from(pathwayCounts.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 8); // Top 8 pathways
+      .map(([name, count]) => ({name, count}))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8); // Top 8 pathways
 });
 
 const sequenceDistribution = computed(() => {
@@ -177,9 +177,9 @@ const sequenceDistribution = computed(() => {
   });
 
   return Array.from(seqCounts.entries())
-    .map(([sequence, count]) => ({ sequence, count }))
-    .filter(item => item.count > 0) // Only show sequences with beyonders
-    .sort((a, b) => parseInt(a.sequence) - parseInt(b.sequence));
+      .map(([sequence, count]) => ({sequence, count}))
+      .filter(item => item.count > 0) // Only show sequences with beyonders
+      .sort((a, b) => parseInt(a.sequence) - parseInt(b.sequence));
 });
 
 const maxSequenceCount = computed(() => {
@@ -312,8 +312,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .stats-content {

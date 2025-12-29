@@ -2,6 +2,6 @@
   <AdminPanel/>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import AdminPanel from '@/components/admin/AdminPanel.vue';
 </script>

@@ -5,10 +5,10 @@
     <div class="search-input-wrapper">
       <input
           v-model="searchQuery"
-          type="text"
-          :placeholder="placeholder || t('selectRecipient')"
-          :disabled="disabled"
           :class="['search-input', { 'is-selected': isUserSelected }]"
+          :disabled="disabled"
+          :placeholder="placeholder || t('selectRecipient')"
+          type="text"
           @input="handleSearchInput"
       />
       <i v-if="isLoading" class="fa-solid fa-spinner fa-spin search-icon"></i>
@@ -20,14 +20,14 @@
       <div
           v-for="user in userOptions"
           :key="user.value"
-          class="user-option"
           :class="{ selected: modelValue === user.value }"
+          class="user-option"
           @click="handleUserSelect(user.value)"
       >
         <div class="user-info">
           <div class="user-name">
             {{ user.label }}
-            <i v-if="user.verified" class="fa-solid fa-certificate verified-badge" :title="t('verified')"></i>
+            <i v-if="user.verified" :title="t('verified')" class="fa-solid fa-certificate verified-badge"></i>
           </div>
           <div v-if="user.description" class="user-description">{{ user.description }}</div>
         </div>
@@ -45,7 +45,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, ref} from 'vue';
 import {useI18n} from '@/composables/useI18n';
 import {usersAPI} from '@/utils/api/users';

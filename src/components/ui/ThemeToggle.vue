@@ -1,19 +1,19 @@
 <template>
   <button
-      @click="toggleTheme"
-      class="theme-toggle"
       :aria-label="
       currentTheme === 'dark'
         ? 'Switch to parchment theme'
         : 'Switch to dark theme'
     "
+      class="theme-toggle"
+      @click="toggleTheme"
   >
     <span v-if="currentTheme === 'dark'" class="theme-icon">☀️</span>
     <span v-else class="theme-icon">🌙</span>
   </button>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, ref} from "vue";
 
 const currentTheme = ref<"dark" | "parchment">("dark");

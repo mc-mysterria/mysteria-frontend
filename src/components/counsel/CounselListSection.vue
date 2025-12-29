@@ -11,15 +11,15 @@
       <!-- Filter Toggle -->
       <div class="filter-toggle">
         <button
-            class="filter-button"
             :class="{ active: activeFilter === 'active' }"
+            class="filter-button"
             @click="activeFilter = 'active'"
         >
           {{ t('counselFilterActive') }}
         </button>
         <button
-            class="filter-button"
             :class="{ active: activeFilter === 'all' }"
+            class="filter-button"
             @click="activeFilter = 'all'"
         >
           {{ t('counselFilterAll') }}
@@ -54,8 +54,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {ref, computed, onMounted, watch} from 'vue'
+<script lang="ts" setup>
+import {computed, onMounted, ref, watch} from 'vue'
 import {useI18n} from '@/composables/useI18n'
 import {counselAPI} from '@/utils/api/counsel'
 import type {CounselSuggestionPreview} from '@/types/counsel'

@@ -3,19 +3,19 @@
     <div v-if="authStore.isAuthenticated" class="user-menu">
       <DropdownSelect
           v-model="selectedAction"
-          :options="userMenuOptions"
-          @change="handleMenuAction"
-          :placeholder="userDisplayText"
           :disabled="authStore.isLoading"
+          :options="userMenuOptions"
+          :placeholder="userDisplayText"
           class="user-dropdown"
+          @change="handleMenuAction"
       >
         <template #selected="{ placeholder }">
           <div class="user-button-content">
             <UserAvatar
                 v-if="userStore.currentUser"
                 :user="userStore.currentUser"
-                size="small"
                 class="header-avatar"
+                size="small"
             />
             <i v-else class="fa-brands fa-discord discord-icon"></i>
             <span class="username">{{ placeholder }}</span>
@@ -34,8 +34,8 @@
     <button
         v-else
         :class="buttonClasses"
-        @click="handleLogin"
         :disabled="authStore.isLoading"
+        @click="handleLogin"
     >
       <div class="button-content">
         <i class="fa-brands fa-discord discord-icon"></i>
@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useAuthStore} from "@/stores/auth";
 import {useUserStore} from "@/stores/user";
 import {useNotification} from "@/services/useNotification";
@@ -394,6 +394,11 @@ const handleLogout = async () => {
     min-width: 150px;
   }
 
+  .auth-login-button {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+
   .header-avatar {
     width: 32px !important;
     height: 32px !important;
@@ -403,16 +408,16 @@ const handleLogout = async () => {
     max-width: 110px;
     font-size: 0.85rem;
   }
-
-  .auth-login-button {
-    padding: 8px 14px;
-    font-size: 0.8rem;
-  }
 }
 
 @media (max-width: 480px) {
   .user-dropdown {
     min-width: 140px;
+  }
+
+  .auth-login-button {
+    padding: 7px 12px;
+    font-size: 0.75rem;
   }
 
   .header-avatar {
@@ -423,11 +428,6 @@ const handleLogout = async () => {
   .username {
     max-width: 100px;
     font-size: 0.8rem;
-  }
-
-  .auth-login-button {
-    padding: 7px 12px;
-    font-size: 0.75rem;
   }
 
   .user-button-content {

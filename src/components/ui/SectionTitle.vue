@@ -1,12 +1,12 @@
 <template>
   <div class="section-title">
-    <div class="section-eyebrow" v-if="eyebrow">{{ eyebrow }}</div>
+    <div v-if="eyebrow" class="section-eyebrow">{{ eyebrow }}</div>
     <h2 class="section-main-title">{{ title }}</h2>
-    <p class="section-subtitle" v-if="subtitle">{{ subtitle }}</p>
+    <p v-if="subtitle" class="section-subtitle">{{ subtitle }}</p>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 interface Props {
   eyebrow?: string;
   title: string;

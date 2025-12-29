@@ -1,12 +1,12 @@
 <template>
   <img
-      class="icon-logo"
-      src="@/assets/icons/sources/IconLogo.webp"
       alt="Логотип Mysterria"
-      role="img"
       aria-label="Логотип Mysterria"
-      tabindex="0"
+      class="icon-logo"
       fetchpriority="high"
+      role="img"
+      src="@/assets/icons/sources/IconLogo.webp"
+      tabindex="0"
   />
 </template>
 

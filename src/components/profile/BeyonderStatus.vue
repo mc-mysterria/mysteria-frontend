@@ -2,7 +2,7 @@
   <div class="beyonder-status-container">
     <div class="beyonder-header">
       <div class="pathway-symbol-container">
-        <img :src="pathwayImage" :alt="pathwayDisplay" class="pathway-symbol" />
+        <img :alt="pathwayDisplay" :src="pathwayImage" class="pathway-symbol"/>
       </div>
       <h3 class="beyonder-title">{{ t('beyonderStatus') }}</h3>
     </div>
@@ -24,18 +24,18 @@
       </div>
 
       <div class="progress-bar-container">
-        <div class="progress-bar" :style="{ width: actingPercentage + '%' }"></div>
+        <div :style="{ width: actingPercentage + '%' }" class="progress-bar"></div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from '@/composables/useI18n';
-import type { BeyonderData } from '@/types/users';
+<script lang="ts" setup>
+import {computed} from 'vue';
+import {useI18n} from '@/composables/useI18n';
+import type {BeyonderData} from '@/types/users';
 
-const { t } = useI18n();
+const {t} = useI18n();
 
 const props = defineProps<{
   beyonderData: BeyonderData;
@@ -43,7 +43,7 @@ const props = defineProps<{
 
 const pathwayDisplay = computed(() => {
   return props.beyonderData.pathway.charAt(0).toUpperCase() +
-         props.beyonderData.pathway.slice(1);
+      props.beyonderData.pathway.slice(1);
 });
 
 const pathwayImage = computed(() => {

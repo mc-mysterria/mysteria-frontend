@@ -1,12 +1,12 @@
 <template>
   <div class="logout-container">
-    <button @click="handleLogout" class="logout-button">
+    <button class="logout-button" @click="handleLogout">
       {{ t("logout") }}
     </button>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useAuthStore} from "@/stores/auth";
 import {useRouter} from "vue-router";
 import {useI18n} from "@/composables/useI18n";
@@ -20,7 +20,7 @@ const handleLogout = async () => {
     await authStore.logout();
     router.push("/");
   } catch (error) {
-    console.error("Помилка при виході:", error);
+    console.error(t("errorLogoutConsole"), error);
   }
 };
 </script>

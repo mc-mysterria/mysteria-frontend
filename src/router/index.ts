@@ -2,10 +2,10 @@ import {createRouter, createWebHistory} from "vue-router";
 import {useAuthStore} from "@/stores/auth";
 import {nextTick} from "vue";
 import {
-    PERM_NEWS_MANAGE,
-    PERM_COUNSEL_MANAGE,
-    PERM_SHOP_MANAGE,
     PERM_ADMIN,
+    PERM_COUNSEL_MANAGE,
+    PERM_NEWS_MANAGE,
+    PERM_SHOP_MANAGE,
     PERM_USERS_VIEW,
 } from "@/constants/permissions";
 

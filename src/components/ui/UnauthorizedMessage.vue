@@ -10,11 +10,11 @@
         </h2>
         <p class="unauthorized-text">{{ message }}</p>
         <div class="unauthorized-features">
-          <div class="feature-item" v-if="showFeatures">
+          <div v-if="showFeatures" class="feature-item">
             <i class="fa-solid fa-shopping-cart"></i>
             <span>{{ t("accessExclusiveItems") }}</span>
           </div>
-          <div class="feature-item" v-if="showFeatures">
+          <div v-if="showFeatures" class="feature-item">
             <i class="fa-solid fa-coins"></i>
             <span>{{ t("manageYourBalance") }}</span>
           </div>
@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import AuthButton from "@/components/ui/AuthButton.vue";
 import {useUserStore} from "@/stores/user";
 import {useI18n} from "@/composables/useI18n";

@@ -3,7 +3,7 @@
     <HeaderItem/>
     <main class="news-article-container">
       <div v-if="article">
-        <button @click="goBack" class="back-button">
+        <button class="back-button" @click="goBack">
           <IconArrowLeft class="w-5 h-5"/>
           <span>Back</span>
         </button>
@@ -13,7 +13,7 @@
         <div class="article-meta">
           <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
         </div>
-        <div class="article-content" v-dompurify-html="article.renderedContent || renderedContent"></div>
+        <div v-dompurify-html="article.renderedContent || renderedContent" class="article-content"></div>
       </div>
       <div v-else-if="loading">
         <p>Loading article...</p>
@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, nextTick, onMounted, ref, watch} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {newsAPI} from '@/utils/api/news';

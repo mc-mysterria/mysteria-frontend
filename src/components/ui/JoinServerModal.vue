@@ -8,9 +8,9 @@
       <div class="modal-header">
         <h2 class="modal-title">{{ t('home.joinServerTitle') }}</h2>
         <button
-            @click="$emit('close')"
-            class="modal-close"
             aria-label="Close modal"
+            class="modal-close"
+            @click="$emit('close')"
         >
           <IconX class="w-6 h-6"/>
         </button>
@@ -46,7 +46,7 @@
       </div>
 
       <div class="modal-footer">
-        <RouterLink to="/guide" class="guide-link" @click="$emit('close')">
+        <RouterLink class="guide-link" to="/guide" @click="$emit('close')">
           <IconWiki class="w-4 h-4"/>
           {{ t('home.fullGuide') }}
         </RouterLink>
@@ -55,7 +55,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {defineEmits, defineProps} from 'vue';
 import CopyIPButton from './CopyIPButton.vue';
 import IconWiki from '@/assets/icons/IconWiki.vue';
@@ -105,10 +105,9 @@ const {t} = useI18n();
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 24px 0;
   border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
   margin-bottom: 24px;
-  padding-bottom: 16px;
+  padding: 24px 24px 16px;
 }
 
 .modal-title {

@@ -195,55 +195,8 @@ export const useBalanceStore = defineStore("balance", {
 
     actions: {
         // Clear service transformation cache (useful when services are updated)
-        clearServiceCache() {
-            serviceTransformCache.clear();
-            serviceMarkdownCache.clear();
-        },
-
         // Fetch service markdown content by slug
-        async fetchServiceMarkdownContent(slug: string, lang: string = 'en'): Promise<ServiceMarkdownDto | null> {
-            const cacheKey = `${slug}-${lang}`;
-
-            // Check cache first
-            if (serviceMarkdownCache.has(cacheKey)) {
-                const cached = serviceMarkdownCache.get(cacheKey)!;
-                this.serviceMarkdownContent.set(cacheKey, cached);
-                return cached;
-            }
-
-            this.isLoadingServiceContent = true;
-
-            try {
-                const response = await shopAPI.getServiceContent(slug, lang);
-                const content = response.data;
-
-                // Store in both caches
-                serviceMarkdownCache.set(cacheKey, content);
-                this.serviceMarkdownContent.set(cacheKey, content);
-
-                // Limit cache size
-                if (serviceMarkdownCache.size > 50) {
-                    const firstKey = serviceMarkdownCache.keys().next().value;
-                    if (firstKey) {
-                        serviceMarkdownCache.delete(firstKey);
-                    }
-                }
-
-                return content;
-            } catch (error) {
-                console.error('Failed to fetch service markdown content:', error);
-                return null;
-            } finally {
-                this.isLoadingServiceContent = false;
-            }
-        },
-
         // Get cached service markdown content
-        getServiceMarkdownContent(slug: string, lang: string = 'en'): ServiceMarkdownDto | null {
-            const cacheKey = `${slug}-${lang}`;
-            return this.serviceMarkdownContent.get(cacheKey) || null;
-        },
-
         async fetchBalance() {
             this.isLoading = true;
             this.error = null;
@@ -302,13 +255,14 @@ export const useBalanceStore = defineStore("balance", {
                     updated_at: new Date(balanceData.lastUpdated),
                 };
             } catch (error) {
+                const {t} = useI18n();
                 this.error =
                     error instanceof Error
                         ? error.message
-                        : "Помилка при отриманні балансу";
+                        : t("errorFetchingBalance");
 
                 const {show} = useNotification();
-                show("Не вдалося завантажити баланс", {
+                show(t("errorLoadingBalance"), {
                     type: "error",
                     duration: 4000,
                 });
@@ -396,9 +350,10 @@ export const useBalanceStore = defineStore("balance", {
                     this.legacyServices = this.services.map(s => convertServiceDtoToLegacy(s, lang));
                 }
             } catch (error) {
-                console.error("Помилка при отриманні послуг:", error);
+                const {t} = useI18n();
+                console.error(t("errorFetchingServices"), error);
                 const {show} = useNotification();
-                show("Помилка при отриманні списку послуг", {type: "error"});
+                show(t("errorLoadingServicesList"), {type: "error"});
             }
         },
 
@@ -492,7 +447,8 @@ export const useBalanceStore = defineStore("balance", {
 
                 return true;
             } catch (error: unknown) {
-                console.error("Помилка при здійсненні покупки:", error);
+                const {t} = useI18n();
+                console.error(t("errorPurchasing"), error);
                 console.log(
                     "Error type:",
                     typeof error,
@@ -506,30 +462,28 @@ export const useBalanceStore = defineStore("balance", {
                     let isServerError = false;
 
                     if (errorMessage.includes("Insufficient balance")) {
-                        errorMessage = "Недостатньо коштів на балансі";
+                        errorMessage = t("errorInsufficientBalance");
                     } else if (errorMessage.includes("Service not found")) {
-                        errorMessage = "Товар не знайдено або більше не доступний";
+                        errorMessage = t("errorServiceNotFoundOrUnavailable");
                     } else if (errorMessage.includes("permission")) {
-                        errorMessage = "Недостатньо прав для здійснення покупки";
+                        errorMessage = t("errorInsufficientPermissions");
                     } else if (errorMessage.includes("amount must be positive")) {
-                        errorMessage = "Некоректна сума транзакції";
+                        errorMessage = t("errorInvalidAmount");
                     } else if (errorMessage.includes("already purchased")) {
-                        errorMessage = "Цей товар вже придбано";
+                        errorMessage = t("errorAlreadyPurchased");
                     } else if (errorMessage.includes("limit exceeded")) {
-                        errorMessage = "Перевищено ліміт покупок для цього товару";
+                        errorMessage = t("errorLimitExceeded");
                     } else if (
                         errorMessage.includes("requires server selection") ||
                         errorMessage.includes("target_servers not provided")
                     ) {
-                        errorMessage =
-                            "Цей товар потребує вибору сервера. Функція буде додана незабаром.";
+                        errorMessage = t("errorServerSelectionRequired");
                         isServerError = true;
                     } else if (
                         errorMessage.includes("Internal Server Error") ||
                         error.message.includes("500")
                     ) {
-                        errorMessage =
-                            "Внутрішня помилка сервера. Зверніться до адміністрації.";
+                        errorMessage = t("errorInternalServer");
                         isServerError = true;
 
                         // Log detailed error for support
@@ -549,13 +503,10 @@ export const useBalanceStore = defineStore("balance", {
                     // Show additional support message for server errors
                     if (isServerError) {
                         setTimeout(() => {
-                            show(
-                                "Якщо проблема повторюється, зверніться до адміністрації через Discord або тікет-систему",
-                                {
-                                    type: "info",
-                                    duration: 6000,
-                                },
-                            );
+                            show(t("errorContactSupport"), {
+                                type: "info",
+                                duration: 6000,
+                            });
                         }, 1000);
                     }
                 } else {
@@ -568,22 +519,16 @@ export const useBalanceStore = defineStore("balance", {
                         timestamp: new Date().toISOString(),
                     });
 
-                    show(
-                        "Невідома помилка при здійсненні покупки. Зверніться до адміністрації.",
-                        {
-                            type: "error",
-                            duration: 6000,
-                        },
-                    );
+                    show(t("errorUnknownPurchase"), {
+                        type: "error",
+                        duration: 6000,
+                    });
 
                     setTimeout(() => {
-                        show(
-                            "Деталі помилки збережено в консолі браузера для діагностики",
-                            {
-                                type: "info",
-                                duration: 4000,
-                            },
-                        );
+                        show(t("errorDetailsInConsole"), {
+                            type: "info",
+                            duration: 4000,
+                        });
                     }, 1000);
                 }
 
@@ -598,8 +543,9 @@ export const useBalanceStore = defineStore("balance", {
                 clearInterval(this.balanceCheckInterval);
             }
 
+            const {t} = useI18n();
             const {show} = useNotification();
-            show("Очікуємо поповнення балансу...", {
+            show(t("balanceWaitingTopUp"), {
                 type: "info",
                 duration: 5000,
             });
@@ -607,7 +553,7 @@ export const useBalanceStore = defineStore("balance", {
             this.balanceCheckInterval = window.setInterval(async () => {
                 await this.fetchBalance();
                 if (this.balance && this.balance.amount >= amount) {
-                    show("Баланс успішно поповнено!", {
+                    show(t("balanceTopUpSuccess"), {
                         type: "success",
                         duration: 4000,
                     });
@@ -621,7 +567,7 @@ export const useBalanceStore = defineStore("balance", {
                     if (this.balanceCheckInterval) {
                         clearInterval(this.balanceCheckInterval);
                         this.balanceCheckInterval = null;
-                        show("Час очікування поповнення балансу вийшов", {
+                        show(t("balanceTopUpTimeout"), {
                             type: "warn",
                             duration: 4000,
                         });

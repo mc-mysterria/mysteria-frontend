@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {usePermissions} from '@/composables/usePermissions';
 import UnauthorizedMessage from '@/components/ui/UnauthorizedMessage.vue';
 

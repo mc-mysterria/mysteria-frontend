@@ -1,22 +1,22 @@
 <template>
   <header class="main-header">
     <div class="header-content">
-      <RouterLink to="/" @click="closeMobileNav" class="header-logo-link">
+      <RouterLink class="header-logo-link" to="/" @click="closeMobileNav">
         <IconLogo/>
         <span class="logo-text">Mysterria</span>
       </RouterLink>
 
-      <nav class="navigation" ref="navigationRef">
+      <nav ref="navigationRef" class="navigation">
         <component
+            :is="link.external ? 'a' : 'RouterLink'"
             v-for="link in navigationLinks"
             :key="link.path"
-            :is="link.external ? 'a' : 'RouterLink'"
-            v-bind="getNavLinkProps(link)"
             :class="[
             'nav-link',
             { active: !link.external && route.path === link.path },
           ]"
             :data-path="link.path"
+            v-bind="getNavLinkProps(link)"
         >
           {{ link.title }}
         </component>
@@ -25,21 +25,21 @@
         <div class="services-dropdown" @mouseenter="clearCloseServicesTimeout"
              @mouseleave="scheduleCloseServicesDropdown">
           <button
+              :class="['nav-link', 'services-trigger', { 'active': isServicesOpen }]"
               @click="toggleServicesDropdown"
               @mouseenter="openServicesDropdown"
-              :class="['nav-link', 'services-trigger', { 'active': isServicesOpen }]"
           >
             {{ t('navServices') }}
-            <span v-if="showServicesDot" class="attention-dot" aria-hidden="true"></span>
+            <span v-if="showServicesDot" aria-hidden="true" class="attention-dot"></span>
             <svg
-                class="dropdown-arrow"
                 :class="{ 'rotate': isServicesOpen }"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
+                class="dropdown-arrow"
                 fill="none"
+                height="16"
                 stroke="currentColor"
                 stroke-width="2"
+                viewBox="0 0 24 24"
+                width="16"
             >
               <polyline points="6,9 12,15 18,9"></polyline>
             </svg>
@@ -52,9 +52,9 @@
                   v-for="service in servicesLinks"
                   :key="service.url"
                   :href="service.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   class="service-link"
+                  rel="noopener noreferrer"
+                  target="_blank"
                   @click="closeServicesDropdown"
               >
                 <component :is="service.icon" class="service-icon"/>
@@ -62,11 +62,11 @@
                   <span class="service-name">{{ service.name }}</span>
                   <span class="service-description">{{ service.description }}</span>
                 </div>
-                <svg class="external-link-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2">
+                <svg class="external-link-icon" fill="none" height="14" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24" width="14">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                   <polyline points="15,3 21,3 21,9"></polyline>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                  <line x1="10" x2="21" y1="14" y2="3"></line>
                 </svg>
               </a>
             </div>
@@ -80,10 +80,10 @@
         <BalanceButton class="balance-desktop"/>
         <AuthButton class="auth-desktop"/>
         <button
-            @click="toggleMobileNav"
-            class="mobile-nav-toggle"
             :aria-expanded="isMobileNavOpen"
             aria-label="Toggle navigation"
+            class="mobile-nav-toggle"
+            @click="toggleMobileNav"
         >
           <IconNavbar/>
         </button>
@@ -98,9 +98,9 @@
         <nav class="mobile-nav">
           <div class="mobile-nav-header">
             <button
-                @click="closeMobileNav"
-                class="mobile-nav-close"
                 aria-label="Close navigation"
+                class="mobile-nav-close"
+                @click="closeMobileNav"
             >
               <i class="fa-solid fa-xmark"></i>
             </button>
@@ -108,14 +108,14 @@
 
           <div class="mobile-nav-content">
             <component
+                :is="link.external ? 'a' : 'RouterLink'"
                 v-for="link in navigationLinks"
                 :key="link.path"
-                :is="link.external ? 'a' : 'RouterLink'"
-                v-bind="getNavLinkProps(link)"
                 :class="[
                 'mobile-nav-link',
                 { active: !link.external && route.path === link.path },
               ]"
+                v-bind="getNavLinkProps(link)"
                 @click="closeMobileNav"
             >
               {{ link.title }}
@@ -124,15 +124,15 @@
             <!-- Mobile Services Links -->
             <div class="mobile-services-section">
               <div class="mobile-services-header">{{ t('navServices') }}
-                <span v-if="showServicesDot" class="attention-dot mobile" aria-hidden="true"></span>
+                <span v-if="showServicesDot" aria-hidden="true" class="attention-dot mobile"></span>
               </div>
               <a
                   v-for="service in servicesLinks"
                   :key="service.url"
                   :href="service.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   class="mobile-service-link"
+                  rel="noopener noreferrer"
+                  target="_blank"
                   @click="closeMobileNav"
               >
                 <component :is="service.icon" class="mobile-service-icon"/>
@@ -159,7 +159,7 @@
   </Teleport>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onUnmounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import AuthButton from "@/components/ui/AuthButton.vue";

@@ -1,12 +1,12 @@
 <template>
   <RouterLink
+      :class="`status-${suggestion.status.toLowerCase()}`"
       :to="`/counsel/${suggestion.slug}`"
       class="counsel-card"
-      :class="`status-${suggestion.status.toLowerCase()}`"
   >
     <div class="card-header">
       <h3 class="card-title">{{ suggestion.title }}</h3>
-      <span class="status-badge" :class="`status-${suggestion.status.toLowerCase()}`">
+      <span :class="`status-${suggestion.status.toLowerCase()}`" class="status-badge">
         {{ t(`counselStatus${suggestion.status.charAt(0) + suggestion.status.slice(1).toLowerCase()}`) }}
       </span>
     </div>
@@ -24,8 +24,8 @@
       <div class="voting-bar-container">
         <div class="voting-bar">
           <div
-              class="voting-bar-fill for"
               :style="{ width: `${votingPercentage}%` }"
+              class="voting-bar-fill for"
           ></div>
         </div>
         <div class="voting-stats">
@@ -41,7 +41,7 @@
   </RouterLink>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed} from 'vue'
 import {useI18n} from '@/composables/useI18n'
 import type {CounselSuggestionPreview} from '@/types/counsel'

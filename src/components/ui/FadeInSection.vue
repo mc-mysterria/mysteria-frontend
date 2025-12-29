@@ -1,14 +1,14 @@
 <template>
   <div
       ref="sectionRef"
-      class="fade-section"
       :style="{ animationDelay: delay + 'ms' }"
+      class="fade-section"
   >
     <slot/>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, onUnmounted, ref} from "vue";
 
 interface Props {

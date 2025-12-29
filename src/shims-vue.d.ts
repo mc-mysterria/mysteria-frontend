@@ -5,7 +5,7 @@ declare module "*.vue" {
         Record<string, never>,
         unknown
     >;
-    export default component;
+
 }
 
 import {VueCookies} from "vue-cookies";

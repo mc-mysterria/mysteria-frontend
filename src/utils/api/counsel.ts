@@ -1,4 +1,4 @@
-import {BaseCRUD, type APIResponse} from './base'
+import {type APIResponse, BaseCRUD} from './base'
 import type {CounselSuggestion, CounselSuggestionPreview, Page} from '@/types/counsel'
 
 // Type for creating a new counsel suggestion

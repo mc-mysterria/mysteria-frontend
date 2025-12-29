@@ -7,7 +7,7 @@
       <p>
         {{ t("pageNotFoundMessage") }}
       </p>
-      <button @click="goBack" class="pnf-button">
+      <button class="pnf-button" @click="goBack">
         {{ t("goBack") }}
         <IconArrowRight :aria-label="t('goBack')"/>
       </button>
@@ -17,7 +17,7 @@
 
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useRouter} from "vue-router";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import IconArrowRight from "@/assets/icons/IconArrowRight.vue";

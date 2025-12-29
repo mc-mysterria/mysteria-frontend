@@ -1,10 +1,10 @@
 <template>
   <div class="personalInfoContainer personal-info-card">
-    <UserAvatar :user="displayedUser" size="large" class="profile-avatar"/>
+    <UserAvatar :user="displayedUser" class="profile-avatar" size="large"/>
     <div class="personalInfo">
       <p class="white">{{ t("personalInfo") }}:</p>
       <div class="NameRole">
-        <div class="NameRoleBlock" :title="t('nickname')">
+        <div :title="t('nickname')" class="NameRoleBlock">
           <p>{{ t("nickname") }}</p>
           <div>
             {{
@@ -14,25 +14,25 @@
             }}
           </div>
         </div>
-        <div class="NameRoleBlock" :title="t('role')">
+        <div :title="t('role')" class="NameRoleBlock">
           <p>{{ t("role") }}</p>
           <div :class="getRoleClass()">
             {{ displayRole }}
           </div>
         </div>
       </div>
-      <div class="subscription-section" :title="t('subscription')">
+      <div :title="t('subscription')" class="subscription-section">
         <p>{{ t("subscription") }}</p>
         <div class="email">{{ subscription }}</div>
       </div>
-      <div class="verification-section" :title="t('verification')">
+      <div :title="t('verification')" class="verification-section">
         <p>{{ t("verification") }}</p>
         <div
-            class="verification-status"
             :class="{
             verified: displayedUser?.verified,
             unverified: !displayedUser?.verified,
           }"
+            class="verification-status"
         >
           {{ displayedUser?.verified ? t("verified") : t("notVerified") }}
         </div>
@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed} from "vue";
 import type {UserResponse} from "@/types/users";
 import {useRoleStore} from "@/stores/roles";

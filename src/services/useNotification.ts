@@ -117,20 +117,20 @@ export function useNotification() {
         }
 
         const errorMessages: Record<string, string> = {
-            AUTH_REQUIRED: "Необхідна авторизація",
-            AUTH_PERMISSION_DENIED: "Відмовлено в доступі",
-            VALIDATION_ERROR: "Помилка валідації даних",
-            NOT_FOUND: "Ресурс не знайдено",
-            INTERNAL_ERROR: "Внутрішня помилка сервера",
-            RATE_LIMIT_EXCEEDED: "Перевищено ліміт запитів",
-            MAINTENANCE_MODE: "Технічні роботи",
+            AUTH_REQUIRED: t("errorAuthRequired"),
+            AUTH_PERMISSION_DENIED: t("errorAuthPermissionDenied"),
+            VALIDATION_ERROR: t("errorValidationError"),
+            NOT_FOUND: t("errorNotFound"),
+            INTERNAL_ERROR: t("errorInternalError"),
+            RATE_LIMIT_EXCEEDED: t("errorRateLimitExceeded"),
+            MAINTENANCE_MODE: t("errorMaintenanceMode"),
         };
 
         if (errorMessages[error.code]) {
             return errorMessages[error.code];
         }
 
-        return "Невідома помилка!";
+        return t("errorUnknown");
     };
 
     const copyErrorDetails = (notification: Notification) => {

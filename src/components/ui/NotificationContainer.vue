@@ -4,20 +4,20 @@
       <WarnItem
           v-for="(notification, index) in notifications"
           :key="notification.id"
-          :message="notification.message"
-          :type="notification.type"
-          :duration="notification.duration"
           :clickable="notification.clickable"
           :copyable="notification.copyable"
+          :duration="notification.duration"
+          :message="notification.message"
           :style="{ bottom: `${20 + index * 80}px` }"
-          @close="() => remove(notification.id)"
+          :type="notification.type"
           @click="() => handleNotificationClick(notification)"
+          @close="() => remove(notification.id)"
       />
     </TransitionGroup>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import WarnItem from "./WarnItem.vue";
 import type {Notification} from "@/services/useNotification";
 import {useNotification} from "@/services/useNotification";
@@ -39,7 +39,4 @@ const handleNotificationClick = (notification: Notification) => {
   z-index: 9999;
 }
 
-.slide-fade-move {
-  transition: transform 0.3s ease;
-}
 </style>

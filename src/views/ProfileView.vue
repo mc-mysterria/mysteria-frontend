@@ -6,8 +6,8 @@
       <div class="profile-container">
         <SectionTitle
             :eyebrow="t('myProfile')"
-            :title="displayedUser?.nickname || t('profileTitle')"
             :subtitle="t('personalInfo')"
+            :title="displayedUser?.nickname || t('profileTitle')"
         />
 
         <!-- Loading state -->
@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, ref} from "vue";
 import {useAuthStore} from "@/stores/auth";
 import {useUserStore} from "@/stores/user";

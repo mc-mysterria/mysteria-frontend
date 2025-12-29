@@ -29,10 +29,3 @@ export interface RefreshTokenRequest {
     refreshToken: string;
 }
 
-export interface AuthUser {
-    id: string;
-    nickname?: string;
-    discordId: number;
-    role: string;
-    verified: boolean;
-}

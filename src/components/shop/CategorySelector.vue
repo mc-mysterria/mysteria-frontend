@@ -9,14 +9,14 @@
     <!-- Category Grid -->
     <div class="category-grid">
       <div
-        v-for="category in categories"
-        :key="category.id"
-        class="category-card"
-        @click="handleCategoryClick(category.id)"
+          v-for="category in categories"
+          :key="category.id"
+          class="category-card"
+          @click="handleCategoryClick(category.id)"
       >
         <!-- Thumbnail Image -->
         <div class="category-thumbnail">
-          <img :src="category.thumbnailUrl" :alt="category.name" />
+          <img :alt="category.name" :src="category.thumbnailUrl"/>
           <div class="category-overlay">
             <i class="fa-solid fa-arrow-right"></i>
           </div>
@@ -36,17 +36,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from '@/composables/useI18n';
-import { useBalanceStore } from '@/stores/balance';
-import type { CategoryInfo } from '@/types/services';
+<script lang="ts" setup>
+import {computed} from 'vue';
+import {useI18n} from '@/composables/useI18n';
+import {useBalanceStore} from '@/stores/balance';
+import type {CategoryInfo} from '@/types/services';
 
 const emit = defineEmits<{
   (e: 'select-category', categoryId: string): void;
 }>();
 
-const { t } = useI18n();
+const {t} = useI18n();
 const shopStore = useBalanceStore();
 const items = computed(() => shopStore.items);
 
@@ -74,17 +74,17 @@ const categories = computed<CategoryInfo[]>(() => {
   });
 
   return Array.from(categoryMap.values())
-    .filter(cat => cat.itemCount > 0)
-    .sort((a, b) => a.name.localeCompare(b.name));
+      .filter(cat => cat.itemCount > 0)
+      .sort((a, b) => a.name.localeCompare(b.name));
 });
 
 const getCategoryName = (categoryId: string): string => {
   // Normalize category ID: remove spaces, capitalize properly
   // "Dungeon Keys" -> "DungeonKeys", "battlepass" -> "Battlepass"
   const normalizedId = categoryId
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join('');
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join('');
 
   const key = `shopCategory${normalizedId}`;
   const translated = t(key);
@@ -96,9 +96,9 @@ const getCategoryName = (categoryId: string): string => {
 const getCategoryDescription = (categoryId: string): string => {
   // Normalize category ID: remove spaces, capitalize properly
   const normalizedId = categoryId
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join('');
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join('');
 
   const key = `shopCategory${normalizedId}Desc`;
   const translated = t(key);
@@ -164,9 +164,8 @@ const handleCategoryClick = (categoryId: string) => {
 .category-card:hover {
   transform: translateY(-8px) scale(1.02);
   border-color: color-mix(in srgb, var(--myst-gold) 50%, transparent);
-  box-shadow:
-    0 12px 32px color-mix(in srgb, var(--myst-bg) 60%, transparent),
-    0 0 24px color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--myst-bg) 60%, transparent),
+  0 0 24px color-mix(in srgb, var(--myst-gold) 20%, transparent);
 }
 
 /* Thumbnail Container */
@@ -176,9 +175,9 @@ const handleCategoryClick = (categoryId: string) => {
   height: 200px;
   overflow: hidden;
   background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--myst-bg) 90%, transparent),
-    color-mix(in srgb, var(--myst-bg-2) 70%, transparent)
+      135deg,
+      color-mix(in srgb, var(--myst-bg) 90%, transparent),
+      color-mix(in srgb, var(--myst-bg-2) 70%, transparent)
   );
 }
 

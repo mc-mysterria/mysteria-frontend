@@ -7,9 +7,9 @@
           with original IPs
         </div>
         <nav class="footer-nav">
-          <RouterLink to="/wiki" class="footer-link">Wiki</RouterLink>
-          <RouterLink to="/guide" class="footer-link">Guide</RouterLink>
-          <RouterLink to="/store" class="footer-link">Shop</RouterLink>
+          <RouterLink class="footer-link" to="/wiki">Wiki</RouterLink>
+          <RouterLink class="footer-link" to="/guide">Guide</RouterLink>
+          <RouterLink class="footer-link" to="/store">Shop</RouterLink>
         </nav>
       </div>
     </div>

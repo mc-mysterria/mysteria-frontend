@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, ref} from 'vue';
 import {newsAPI} from '@/utils/api/news';
 import type {NewsArticle} from '@/types/news';

@@ -6,8 +6,8 @@
           class="image-container relative h-48 rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
         <img
             v-if="item.image"
-            :src="getImagePath(item.image)"
             :alt="item.display_name || item.name"
+            :src="getImagePath(item.image)"
             class="shop-item-image opacity-90 group-hover:opacity-100 transition-opacity"
         />
         <div
@@ -31,10 +31,10 @@
 
         <!-- Feature badges -->
         <div class="feature-badges">
-          <div v-if="item.is_giftable" class="feature-badge giftable" :title="t('giftable')">
+          <div v-if="item.is_giftable" :title="t('giftable')" class="feature-badge giftable">
             <i class="fa-solid fa-gift"></i>
           </div>
-          <div v-if="item.is_bulkable" class="feature-badge bulkable" :title="t('bulkAvailable')">
+          <div v-if="item.is_bulkable" :title="t('bulkAvailable')" class="feature-badge bulkable">
             <i class="fa-solid fa-layer-group"></i>
           </div>
         </div>
@@ -44,10 +44,10 @@
     <!-- Comparison toggle (only in comparison mode) - outside image container -->
     <div v-if="comparisonMode" class="comparison-toggle">
       <button
-          @click.stop.prevent="$emit('toggle-comparison', item.id)"
-          :disabled="comparisonDisabled"
           :class="['comparison-checkbox', { selected: inComparison, disabled: comparisonDisabled }]"
+          :disabled="comparisonDisabled"
           :title="inComparison ? t('removeFromComparison') : t('addToComparison')"
+          @click.stop.prevent="$emit('toggle-comparison', item.id)"
       >
         <i :class="inComparison ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"></i>
       </button>
@@ -103,9 +103,9 @@
         </router-link>
 
         <button
-            @click="handlePurchase"
             :disabled="!item.is_active || isProcessing"
             class="myst-purchase-btn"
+            @click="handlePurchase"
         >
           <i class="fa-solid fa-shopping-cart mr-2"></i>
           {{
@@ -121,7 +121,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed} from "vue";
 import {useI18n} from "@/composables/useI18n";
 import {useCurrency} from "@/composables/useCurrency";

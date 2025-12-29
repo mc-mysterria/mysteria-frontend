@@ -1,13 +1,13 @@
 <template>
-  <div class="transaction-history" v-if="isOwnProfile">
+  <div v-if="isOwnProfile" class="transaction-history">
     <!-- Header Section -->
     <div class="section-header">
       <h3 class="section-title">{{ t('transactionHistoryTitle') }}</h3>
       <div class="filter-container">
         <select
             v-model="selectedType"
-            @change="() => fetchTransactions()"
             class="transaction-filter"
+            @change="() => fetchTransactions()"
         >
           <option value="">{{ t('transactionHistory.allTypes') }}</option>
           <option value="PURCHASE">{{ t('transactionTypes.PURCHASE') }}</option>
@@ -33,10 +33,10 @@
     <!-- Empty State -->
     <div v-else-if="transactions.length === 0" class="empty-state">
       <div class="empty-icon">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-          <line x1="8" y1="21" x2="16" y2="21"/>
-          <line x1="12" y1="17" x2="12" y2="21"/>
+        <svg fill="none" height="64" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="64">
+          <rect height="14" rx="2" ry="2" width="20" x="2" y="3"/>
+          <line x1="8" x2="16" y1="21" y2="21"/>
+          <line x1="12" x2="12" y1="17" y2="21"/>
         </svg>
       </div>
       <h4 class="empty-title">{{ t('transactionHistory.noTransactions') }}</h4>
@@ -56,19 +56,19 @@
         <div
             v-for="transaction in transactions"
             :key="transaction.id"
-            class="transaction-card"
             :class="getTransactionClass(transaction.type)"
+            class="transaction-card"
         >
           <!-- Transaction Status Indicator -->
-          <div class="transaction-indicator" :class="getIndicatorClass(transaction.type)"></div>
+          <div :class="getIndicatorClass(transaction.type)" class="transaction-indicator"></div>
 
           <!-- Transaction Content -->
           <div class="transaction-content">
             <div class="transaction-header-row">
-              <div class="transaction-type-badge" :class="getTypeBadgeClass(transaction.type)">
+              <div :class="getTypeBadgeClass(transaction.type)" class="transaction-type-badge">
                 {{ getTransactionTypeLabel(transaction.type) }}
               </div>
-              <div class="transaction-amount" :class="getAmountClass(transaction.amount)">
+              <div :class="getAmountClass(transaction.amount)" class="transaction-amount">
                 {{ formatAmount(transaction.amount) }}₴
               </div>
             </div>
@@ -93,13 +93,13 @@
             <!-- Expandable Metadata -->
             <div v-if="transaction.metadata" class="transaction-details">
               <button
-                  @click="toggleDetails(transaction.id)"
-                  class="details-toggle"
                   :class="{ 'expanded': expandedTransactions.has(transaction.id) }"
+                  class="details-toggle"
+                  @click="toggleDetails(transaction.id)"
               >
                 <span>{{ t('transactionHistory.details') }}</span>
-                <svg class="details-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2">
+                <svg class="details-icon" fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                     width="16">
                   <polyline points="6,9 12,15 18,9"></polyline>
                 </svg>
               </button>
@@ -117,9 +117,9 @@
       <!-- Load More -->
       <div v-if="hasMorePages" class="load-more-container">
         <button
-            @click="loadMoreTransactions"
             :disabled="loadingMore"
             class="load-more-button"
+            @click="loadMoreTransactions"
         >
           <span v-if="loadingMore" class="button-loading">
             <div class="button-spinner"></div>
@@ -132,7 +132,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, ref} from "vue";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";

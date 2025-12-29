@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {useNotification} from "@/services/useNotification";
 import {authAPI} from "@/utils/api/auth";
 import type {AuthResponse, UserProfileDto} from "@/types/auth";
+import {useI18n} from "@/composables/useI18n";
 
 interface AuthState {
     user: UserProfileDto | null;
@@ -87,7 +88,7 @@ export const useAuthStore = defineStore("auth", {
                     this.user = null;
                 }
 
-                this.checkAuthCode();
+                await this.checkAuthCode();
             } catch (error) {
                 console.error("Auth init error:", error);
                 this.isAuthenticated = false;
@@ -116,14 +117,6 @@ export const useAuthStore = defineStore("auth", {
         },
 
         // Legacy method for compatibility
-        setToken(token: string) {
-            this.accessToken = token;
-            this.token = token;
-            localStorage.setItem("access_token", token);
-            // Also keep cookie for backward compatibility during migration
-            document.cookie = `access_token=${token}; path=/; max-age=${30 * 24 * 60 * 60}`;
-        },
-
         clearTokens() {
             this.accessToken = null;
             this.refreshToken = null;
@@ -140,10 +133,6 @@ export const useAuthStore = defineStore("auth", {
         },
 
         // Legacy method for compatibility
-        clearToken() {
-            this.clearTokens();
-        },
-
         async tryRefreshToken(): Promise<boolean> {
             if (!this.refreshToken) {
                 return false;
@@ -171,6 +160,7 @@ export const useAuthStore = defineStore("auth", {
 
         async processDiscordCallback(code: string): Promise<void> {
             const {show} = useNotification();
+            const {t} = useI18n();
 
             try {
                 // Use new JWT-based Discord callback
@@ -185,14 +175,14 @@ export const useAuthStore = defineStore("auth", {
                     this.user = user;
                     this.isAuthenticated = true;
 
-                    show("Successful authentication!", {
+                    show(t("authCallback.authSuccess"), {
                         type: "info",
                         duration: 3000,
                     });
                 }
             } catch (error) {
                 console.error("Discord callback error:", error);
-                show("Authentication error. Please try again.", {
+                show(t("authCallback.authenticationFailed"), {
                     type: "error",
                     duration: 5000,
                 });
@@ -293,28 +283,10 @@ export const useAuthStore = defineStore("auth", {
         },
 
         // Get user information formatted for JWT token cross-domain sharing
-        getJWTUserInfo() {
-            if (!this.user) return null;
-
-            return {
-                sub: this.user.id,
-                username: this.user.nickname || `User${this.user.discordId}`,
-                email: this.user.email,
-                permissions: this.getArchivePermissions(),
-                role: this.user.role,
-                verified: this.user.verified,
-                iat: Math.floor(Date.now() / 1000),
-                exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 hours
-            };
-        },
-
         // Force refresh user data bypassing cache
-        async forceUserRefresh() {
-            return this.refreshUser(true);
-        },
-
         async openDiscordAuth(redirectUrl?: string) {
             const {show} = useNotification();
+            const {t} = useI18n();
             this.isLoading = true;
             this.error = null;
 
@@ -339,7 +311,7 @@ export const useAuthStore = defineStore("auth", {
 
                 if (!authWindow) {
                     show(
-                        "Спливаюче вікно заблоковано. Будь ласка, дозвольте спливаючі вікна для цього сайту.",
+                        t("popupBlocked"),
                         {
                             type: "error",
                             duration: 7000,
@@ -371,7 +343,7 @@ export const useAuthStore = defineStore("auth", {
                         console.log("User refreshed, authenticated:", this.isAuthenticated);
 
                         if (this.isAuthenticated) {
-                            show("Успішна авторизація!", {
+                            show(t("authCallback.authSuccess"), {
                                 type: "info",
                                 duration: 3000,
                             });
@@ -391,12 +363,12 @@ export const useAuthStore = defineStore("auth", {
                                 await this.refreshUser();
 
                                 if (this.isAuthenticated) {
-                                    show("Успішна авторизація!", {
+                                    show(t("authCallback.authSuccess"), {
                                         type: "info",
                                         duration: 3000,
                                     });
                                 } else {
-                                    show("Авторизація була скасована", {
+                                    show(t("authCallback.authCancelled"), {
                                         type: "warn",
                                         duration: 3000,
                                     });
@@ -414,7 +386,7 @@ export const useAuthStore = defineStore("auth", {
                     clearInterval(checkInterval);
                     if (!authWindow.closed) {
                         authWindow.close();
-                        show("Час очікування авторизації вийшов. Спробуйте ще раз.", {
+                        show(t("authCallback.authTimeout"), {
                             type: "warn",
                             duration: 5000,
                         });
@@ -422,7 +394,7 @@ export const useAuthStore = defineStore("auth", {
                 }, 300000);
             } catch (error) {
                 const errorMessage =
-                    error instanceof Error ? error.message : "Невідома помилка";
+                    error instanceof Error ? error.message : t("unknownError");
                 show(errorMessage, {
                     type: "error",
                     duration: 5000,
@@ -435,6 +407,7 @@ export const useAuthStore = defineStore("auth", {
 
         async logout() {
             const {show} = useNotification();
+            const {t} = useI18n();
             this.isLoading = true;
             this.error = null;
 
@@ -447,7 +420,7 @@ export const useAuthStore = defineStore("auth", {
                 this.clearAuth();
                 this.clearTokens();
 
-                show("Successfully logged out", {
+                show(t("authCallback.logoutSuccess"), {
                     type: "info",
                     duration: 3000,
                 });
@@ -458,7 +431,7 @@ export const useAuthStore = defineStore("auth", {
                 this.clearTokens();
 
                 const errorMessage =
-                    error instanceof Error ? error.message : "Unknown error";
+                    error instanceof Error ? error.message : t("unknownError");
                 show(errorMessage, {
                     type: "error",
                     duration: 5000,

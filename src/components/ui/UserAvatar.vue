@@ -9,8 +9,8 @@
   >
     <img
         v-if="user?.avatarUrl && !imageError && !isLoading"
-        :src="user.avatarUrl"
         :alt="`${user.nickname || 'User'}'s avatar`"
+        :src="user.avatarUrl"
         class="avatar-image"
         @error="handleImageError"
         @load="handleImageLoad"
@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, ref} from 'vue';
 import type {UserProfileDto} from '@/types/auth';
 import type {UserResponse} from '@/types/users';
@@ -58,7 +58,7 @@ const handleImageLoad = () => {
 };
 
 // Set loading state when avatar URL changes
-const avatarUrl = computed(() => props.user?.avatarUrl);
+computed(() => props.user?.avatarUrl);
 </script>
 
 <style scoped>

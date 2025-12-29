@@ -4,20 +4,20 @@
 
     <main class="guide-main">
       <!-- Dynamic Background -->
-      <div class="step-background" :class="`step-bg-${currentStep}`"></div>
+      <div :class="`step-bg-${currentStep}`" class="step-background"></div>
 
       <div class="guide-container">
         <!-- Navigation and Step Slider -->
         <div class="slider-wrapper">
           <!-- Left Navigation -->
           <button
-              @click="previousStep"
               :disabled="currentStep === 0"
               class="nav-arrow nav-arrow-left"
+              @click="previousStep"
           >
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polyline points="15,18 9,12 15,6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round"/>
+            <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <polyline points="15,18 9,12 15,6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"/>
             </svg>
           </button>
 
@@ -27,8 +27,8 @@
             <div class="progress-container">
               <div class="progress-bar">
                 <div
-                    class="progress-fill"
                     :style="{ width: `${((currentStep + 1) / totalSteps) * 100}%` }"
+                    class="progress-fill"
                 ></div>
               </div>
               <div class="step-counter">
@@ -39,18 +39,18 @@
 
             <!-- Step Content -->
             <div class="step-content">
-              <transition name="slide" mode="out-in">
+              <transition mode="out-in" name="slide">
                 <div :key="currentStep" class="step-slide">
 
                   <!-- Step 1: Copy Server IP -->
                   <div v-if="currentStep === 0" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"
-                                fill="none"/>
-                          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1" stroke="currentColor"
-                                stroke-width="2" fill="none"/>
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <rect fill="none" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" width="13" x="9"
+                                y="9"/>
+                          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1" fill="none"
+                                stroke="currentColor" stroke-width="2"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('guideStep1FullTitle') }}</h2>
@@ -75,16 +75,16 @@
                             <span class="ip-label">{{ t("serverIP") }}:</span>
                             <code class="ip-address">{{ serverIP }}</code>
                           </div>
-                          <button @click="copyToClipboard" class="copy-button">
-                            <svg v-if="!isCopied" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor"
-                                    stroke-width="2" fill="none"/>
-                              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1" stroke="currentColor"
-                                    stroke-width="2" fill="none"/>
+                          <button class="copy-button" @click="copyToClipboard">
+                            <svg v-if="!isCopied" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <rect fill="none" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" width="13"
+                                    x="9" y="9"/>
+                              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1" fill="none"
+                                    stroke="currentColor" stroke-width="2"/>
                             </svg>
-                            <svg v-else viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"/>
+                            <svg v-else fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2"/>
                             </svg>
                             {{ isCopied ? t('copySuccess') : t('copyIP') }}
                           </button>
@@ -98,11 +98,11 @@
                   <div v-if="currentStep === 1" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round"/>
-                          <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round"/>
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="12" x2="12" y1="5"
+                                y2="19"/>
+                          <line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="5" x2="19" y1="12"
+                                y2="12"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('guideStep2FullTitle') }}</h2>
@@ -132,7 +132,7 @@
                       </div>
 
                       <div class="step-image">
-                        <img src="@/assets/images/guide/ip.webp" alt="Server IP Guide" class="guide-image"/>
+                        <img alt="Server IP Guide" class="guide-image" src="@/assets/images/guide/ip.webp"/>
                       </div>
                     </div>
                   </div>
@@ -141,13 +141,13 @@
                   <div v-if="currentStep === 2" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round"/>
-                          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round"/>
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2"/>
+                          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"/>
+                          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('guideStep3FullTitle') }}</h2>
@@ -183,11 +183,11 @@
                   <div v-if="currentStep === 3" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"/>
-                          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                  stroke-linejoin="round"/>
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2"/>
+                          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('guideStep4FullTitle') }}</h2>
@@ -211,19 +211,19 @@
                           </div>
                         </div>
 
-                        <router-link to="/profile" class="profile-link">
+                        <router-link class="profile-link" to="/profile">
                           {{ t('goToProfile') }}
-                          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"
-                                  stroke-linecap="round" stroke-linejoin="round"/>
-                            <polyline points="12,5 19,12 12,19" stroke="currentColor" stroke-width="2"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
+                          <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <line stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="5" x2="19"
+                                  y1="12" y2="12"/>
+                            <polyline points="12,5 19,12 12,19" stroke="currentColor" stroke-linecap="round"
+                                      stroke-linejoin="round" stroke-width="2"/>
                           </svg>
                         </router-link>
                       </div>
 
                       <div class="step-image">
-                        <img src="@/assets/images/guide/verify.webp" alt="Verify Account Guide" class="guide-image"/>
+                        <img alt="Verify Account Guide" class="guide-image" src="@/assets/images/guide/verify.webp"/>
                       </div>
                     </div>
                   </div>
@@ -232,13 +232,13 @@
                   <div v-if="currentStep === 4" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"/>
-                          <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"/>
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                          <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"/>
+                          <line stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="10" x2="21"
+                                y1="14" y2="3"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('guideStep5FullTitle') }}</h2>
@@ -274,11 +274,11 @@
                   <div v-if="currentStep === 5" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2"/>
                           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('guideStep6FullTitle') }}</h2>
@@ -300,28 +300,28 @@
 
                         <div class="lore-links">
                           <div class="lore-links-grid">
-                            <a href="https://www.webnovel.com/book/lord-of-mysteries_11022733006234505"
-                               class="external-link" target="_blank" rel="noopener noreferrer">
+                            <a class="external-link"
+                               href="https://www.webnovel.com/book/lord-of-mysteries_11022733006234505" rel="noopener noreferrer" target="_blank">
                               {{ t('readWebNovel') }}
-                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="currentColor"
-                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="2"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-linecap="round"
+                                          stroke-linejoin="round" stroke-width="2"/>
+                                <line stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="10" x2="21"
+                                      y1="14" y2="3"/>
                               </svg>
                             </a>
-                            <a href="https://www.crunchyroll.com/series/GEXH3W2EZ/lord-of-mysteries"
-                               class="external-link" target="_blank" rel="noopener noreferrer">
+                            <a class="external-link"
+                               href="https://www.crunchyroll.com/series/GEXH3W2EZ/lord-of-mysteries" rel="noopener noreferrer" target="_blank">
                               {{ t('watchAnime') }}
-                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="currentColor"
-                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="2"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-linecap="round"
+                                          stroke-linejoin="round" stroke-width="2"/>
+                                <line stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="10" x2="21"
+                                      y1="14" y2="3"/>
                               </svg>
                             </a>
                           </div>
@@ -335,9 +335,9 @@
                   <div v-if="currentStep === 6" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <polygon points="5,3 19,12 5,21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                   stroke-linejoin="round"/>
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <polygon points="5,3 19,12 5,21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                   stroke-width="2"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('guideStep7FullTitle') }}</h2>
@@ -367,16 +367,16 @@
                         </div>
 
                         <div class="final-actions">
-                          <a href="https://discord.com/invite/jc7GSxBWgb" class="action-button discord" target="_blank"
-                             rel="noopener noreferrer">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <a class="action-button discord" href="https://discord.com/invite/jc7GSxBWgb" rel="noopener noreferrer"
+                             target="_blank">
+                            <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path
                                   d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.188.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
                                   fill="currentColor"/>
                             </svg>
                             {{ t('joinDiscord') }}
                           </a>
-                          <router-link to="/rules" class="action-button rules">
+                          <router-link class="action-button rules" to="/rules">
                             {{ t('readRules') }}
                           </router-link>
                         </div>
@@ -389,20 +389,20 @@
                   <div v-if="currentStep === 7" class="step">
                     <div class="step-header">
                       <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path
                               d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          <polyline points="7.5,4.21 12,6.81 16.5,4.21" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"/>
-                          <polyline points="7.5,19.79 7.5,14.6 3,12" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"/>
-                          <polyline points="21,12 16.5,14.6 16.5,19.79" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"/>
-                          <polyline points="12,22.81 12,17" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"/>
-                          <line x1="12" y1="6.81" x2="12" y2="17" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"/>
+                              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                          <polyline points="7.5,4.21 12,6.81 16.5,4.21" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"/>
+                          <polyline points="7.5,19.79 7.5,14.6 3,12" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"/>
+                          <polyline points="21,12 16.5,14.6 16.5,19.79" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"/>
+                          <polyline points="12,22.81 12,17" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"/>
+                          <line stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12"
+                                y1="6.81" y2="17"/>
                         </svg>
                       </div>
                       <h2 class="step-title">{{ t('launcherTitle') }} ({{ t('optional') }})</h2>
@@ -433,15 +433,15 @@
                           </div>
 
                           <div class="launcher-actions">
-                            <a href="https://launcher.harmoniya.net/windows" class="launcher-download-button"
-                               target="_blank" rel="noopener noreferrer">
-                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" stroke-width="2"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            <a class="launcher-download-button" href="https://launcher.harmoniya.net/windows"
+                               rel="noopener noreferrer" target="_blank">
+                              <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" stroke-linecap="round"
+                                      stroke-linejoin="round" stroke-width="2"/>
+                                <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-linecap="round"
+                                          stroke-linejoin="round" stroke-width="2"/>
+                                <line stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12"
+                                      y1="15" y2="3"/>
                               </svg>
                               {{ t('downloadLauncher') }}
                             </a>
@@ -461,13 +461,13 @@
 
           <!-- Right Navigation -->
           <button
-              @click="nextStep"
               :disabled="currentStep === totalSteps - 1"
               class="nav-arrow nav-arrow-right"
+              @click="nextStep"
           >
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polyline points="9,18 15,12 9,6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round"/>
+            <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <polyline points="9,18 15,12 9,6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"/>
             </svg>
           </button>
 
@@ -481,12 +481,12 @@
         <div
             v-for="(step, index) in steps"
             :key="index"
-            @click="goToStep(index)"
-            class="step-indicator"
             :class="{
             active: index === currentStep,
             completed: index < currentStep
           }"
+            class="step-indicator"
+            @click="goToStep(index)"
         >
           <div class="indicator-dot"></div>
           <span class="indicator-label">{{ step.title }}</span>
@@ -496,7 +496,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, ref} from "vue";
 import {useI18n} from "@/composables/useI18n";
 import HeaderItem from "@/components/layout/HeaderItem.vue";

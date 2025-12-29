@@ -1,18 +1,18 @@
 <template>
   <button
       v-if="profile"
-      @click="handleTopUpClick"
+      :title="currentLanguage === 'en' ? 'View currency settings and top up' : 'Top up your balance'"
       class="balance-button"
       type="button"
-      :title="currentLanguage === 'en' ? 'View currency settings and top up' : 'Top up your balance'"
+      @click="handleTopUpClick"
   >
     <div class="balance-info">
       <span v-if="displayCurrencySymbol" class="currency-symbol">{{ displayCurrencySymbol }}</span>
       <IconBalance v-if="currentLanguage !== 'en' || currentCurrency === 'POINTS'" class="balance-icon"/>
       <span class="balance-amount">{{ displayBalance }}</span>
     </div>
-    <svg class="plus-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    <svg class="plus-icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"/>
     </svg>
   </button>
 
@@ -22,7 +22,7 @@
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h3>Currency Settings</h3>
-          <button @click="closeCurrencyModal" class="modal-close">×</button>
+          <button class="modal-close" @click="closeCurrencyModal">×</button>
         </div>
         <div class="modal-body">
           <div class="currency-selector">
@@ -30,24 +30,24 @@
             <p class="section-description">Display balance &amp; prices in:</p>
             <div class="currency-options">
               <button
-                  @click="selectCurrency('USD')"
                   :class="['currency-option', { active: currentCurrency === 'USD' }]"
+                  @click="selectCurrency('USD')"
               >
                 <span class="currency-symbol-large">$</span>
                 <span class="currency-name">USD</span>
                 <span class="currency-info">1 USD = 40 Marks</span>
               </button>
               <button
-                  @click="selectCurrency('EUR')"
                   :class="['currency-option', { active: currentCurrency === 'EUR' }]"
+                  @click="selectCurrency('EUR')"
               >
                 <span class="currency-symbol-large">€</span>
                 <span class="currency-name">EUR</span>
                 <span class="currency-info">1 EUR = 44 Marks</span>
               </button>
               <button
-                  @click="selectCurrency('POINTS')"
                   :class="['currency-option', { active: currentCurrency === 'POINTS' }]"
+                  @click="selectCurrency('POINTS')"
               >
                 <IconBalance class="currency-icon-large"/>
                 <span class="currency-name">Marks</span>
@@ -83,7 +83,7 @@
           </div>
 
           <div class="modal-actions">
-            <a :href="topUpUrl" target="_blank" class="top-up-button">
+            <a :href="topUpUrl" class="top-up-button" target="_blank">
               Top Up Balance
             </a>
           </div>
@@ -93,7 +93,7 @@
   </Teleport>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useBalanceStore} from "@/stores/balance";
 import {useUserStore} from "@/stores/user";
 import {useI18n} from "@/composables/useI18n";

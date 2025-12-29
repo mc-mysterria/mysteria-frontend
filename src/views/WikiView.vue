@@ -2,15 +2,15 @@
   <div class="wiki-view">
     <iframe
         :src="wikiUrl"
-        class="wiki-frame"
-        title="Mysterria Wiki"
         allow="fullscreen"
+        class="wiki-frame"
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
+        title="Mysterria Wiki"
     />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, onUnmounted} from 'vue'
 import {useRouter} from 'vue-router'
 import {useI18n} from '@/composables/useI18n'

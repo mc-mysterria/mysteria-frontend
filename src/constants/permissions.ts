@@ -21,60 +21,57 @@ export const PERM_SHOP_MANAGE = 'SHOP:MANAGE';
 export const PERM_NEWS_MANAGE = 'NEWS:MANAGE';
 export const PERM_COUNSEL_MANAGE = 'COUNSEL:MANAGE';
 
-// Internal API Permissions
-export const PERM_INTERNAL = 'INTERNAL';
-
 /**
  * Permission groups for easier checking
  */
 export const PERMISSION_GROUPS = {
-  // Admin-related permissions
-  ADMIN: [PERM_ADMIN],
+    // Admin-related permissions
+    ADMIN: [PERM_ADMIN],
 
-  // User management permissions
-  USER_MANAGEMENT: [
-    PERM_USERS_VIEW,
-    PERM_USERS_BAN,
-    PERM_USERS_ROLE,
-    PERM_USERS_BALANCE,
-    PERM_USERS_WARN,
-  ],
+    // User management permissions
+    USER_MANAGEMENT: [
+        PERM_USERS_VIEW,
+        PERM_USERS_BAN,
+        PERM_USERS_ROLE,
+        PERM_USERS_BALANCE,
+        PERM_USERS_WARN,
+    ],
 
-  // Content management permissions
-  CONTENT_MANAGEMENT: [
-    PERM_NEWS_MANAGE,
-    PERM_COUNSEL_MANAGE,
-  ],
+    // Content management permissions
+    CONTENT_MANAGEMENT: [
+        PERM_NEWS_MANAGE,
+        PERM_COUNSEL_MANAGE,
+    ],
 
-  // Shop permissions
-  SHOP: [
-    PERM_SHOP_PURCHASE,
-    PERM_SHOP_MANAGE,
-  ],
+    // Shop permissions
+    SHOP: [
+        PERM_SHOP_PURCHASE,
+        PERM_SHOP_MANAGE,
+    ],
 };
 
 /**
  * Helper to check if a user has access to admin panel
  */
 export const canAccessAdminPanel = (permissions: string[]): boolean => {
-  // Normalize permissions by removing PERM_ prefix if present
-  const normalizedPermissions = permissions.map(p => p.replace(/^PERM_/, ''));
+    // Normalize permissions by removing PERM_ prefix if present
+    const normalizedPermissions = permissions.map(p => p.replace(/^PERM_/, ''));
 
-  return normalizedPermissions.some(p =>
-    PERMISSION_GROUPS.ADMIN.includes(p) ||
-    PERMISSION_GROUPS.USER_MANAGEMENT.includes(p)
-  );
+    return normalizedPermissions.some(p =>
+        PERMISSION_GROUPS.ADMIN.includes(p) ||
+        PERMISSION_GROUPS.USER_MANAGEMENT.includes(p)
+    );
 };
 
 /**
  * Helper to check if a user can manage content (news, counsel, services)
  */
 export const canManageContent = (permissions: string[]): boolean => {
-  // Normalize permissions by removing PERM_ prefix if present
-  const normalizedPermissions = permissions.map(p => p.replace(/^PERM_/, ''));
+    // Normalize permissions by removing PERM_ prefix if present
+    const normalizedPermissions = permissions.map(p => p.replace(/^PERM_/, ''));
 
-  return normalizedPermissions.some(p =>
-    PERMISSION_GROUPS.CONTENT_MANAGEMENT.includes(p) ||
-    p === PERM_SHOP_MANAGE
-  );
+    return normalizedPermissions.some(p =>
+        PERMISSION_GROUPS.CONTENT_MANAGEMENT.includes(p) ||
+        p === PERM_SHOP_MANAGE
+    );
 };

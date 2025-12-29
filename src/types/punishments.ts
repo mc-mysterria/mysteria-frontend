@@ -23,28 +23,3 @@ export interface PunishmentBase {
     metadata?: PunishmentMetadata;
 }
 
-export type PunishmentCreate = PunishmentBase;
-
-export interface PunishmentUpdate {
-    status?: PunishmentStatus;
-    reason?: string;
-    expires_at?: Date;
-    metadata?: PunishmentMetadata;
-}
-
-export interface PunishmentResponse extends PunishmentBase {
-    created_at: Date;
-    updated_at: Date;
-}
-
-export interface PunishmentFilterParams {
-    user_id?: string;
-    admin_id?: string;
-    type?: PunishmentType;
-    status?: PunishmentStatus;
-    min_created_at?: Date;
-    max_created_at?: Date;
-    min_expires_at?: Date;
-    max_expires_at?: Date;
-    config_id?: string;
-}

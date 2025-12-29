@@ -7,7 +7,7 @@
       </div>
 
       <div v-if="suggestion" class="counsel-content">
-        <button @click="goBack" class="back-button">
+        <button class="back-button" @click="goBack">
           <IconArrowLeft class="w-5 h-5"/>
           <span>{{ t('counselBackToRules') }}</span>
         </button>
@@ -15,7 +15,7 @@
         <div class="suggestion-header">
           <div class="header-top">
             <h1 class="suggestion-title">{{ suggestion.title }}</h1>
-            <span class="status-badge" :class="`status-${suggestion.status.toLowerCase()}`">
+            <span :class="`status-${suggestion.status.toLowerCase()}`" class="status-badge">
               {{ t(`counselStatus${suggestion.status.charAt(0) + suggestion.status.slice(1).toLowerCase()}`) }}
             </span>
           </div>
@@ -31,7 +31,7 @@
         </div>
 
         <div v-if="suggestion.imageUrl" class="suggestion-image">
-          <img :src="suggestion.imageUrl" :alt="suggestion.title"/>
+          <img :alt="suggestion.title" :src="suggestion.imageUrl"/>
         </div>
 
         <div class="voting-results-section">
@@ -39,17 +39,21 @@
           <div class="voting-visualization">
             <div class="voting-bars">
               <div class="vote-bar for-bar">
-                <div class="bar-fill" :style="{ width: `${votingPercentageFor}%` }"></div>
+                <div :style="{ width: `${votingPercentageFor}%` }" class="bar-fill"></div>
                 <div class="bar-label">
                   <span class="label-text">{{ t('counselVotesFor') }}</span>
-                  <span class="label-value">{{ suggestion.votesFor || 0 }} ({{ votingPercentageFor.toFixed(1) }}%)</span>
+                  <span class="label-value">{{ suggestion.votesFor || 0 }} ({{
+                      votingPercentageFor.toFixed(1)
+                    }}%)</span>
                 </div>
               </div>
               <div class="vote-bar against-bar">
-                <div class="bar-fill" :style="{ width: `${votingPercentageAgainst}%` }"></div>
+                <div :style="{ width: `${votingPercentageAgainst}%` }" class="bar-fill"></div>
                 <div class="bar-label">
                   <span class="label-text">{{ t('counselVotesAgainst') }}</span>
-                  <span class="label-value">{{ suggestion.votesAgainst || 0 }} ({{ votingPercentageAgainst.toFixed(1) }}%)</span>
+                  <span class="label-value">{{ suggestion.votesAgainst || 0 }} ({{
+                      votingPercentageAgainst.toFixed(1)
+                    }}%)</span>
                 </div>
               </div>
             </div>
@@ -59,7 +63,8 @@
           </div>
         </div>
 
-        <div class="suggestion-description" v-dompurify-html="suggestion.renderedDescription || renderedDescription"></div>
+        <div v-dompurify-html="suggestion.renderedDescription || renderedDescription"
+             class="suggestion-description"></div>
       </div>
 
       <div v-else-if="loading" class="loading-state">
@@ -75,7 +80,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {counselAPI} from '@/utils/api/counsel'

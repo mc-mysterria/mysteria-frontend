@@ -32,6 +32,8 @@ export const useServicesStore = defineStore("services", {
             this.isLoading = true;
             this.error = null;
             const {show} = useNotification();
+            const {useI18n} = await import("@/composables/useI18n");
+            const {t} = useI18n();
 
             try {
                 const response = await serviceAPI.getList("", {
@@ -43,48 +45,8 @@ export const useServicesStore = defineStore("services", {
                 this.error =
                     error instanceof Error
                         ? error.message
-                        : "Помилка при отриманні сервісів";
+                        : t("errorFetchingServices");
                 show(this.error, {type: "error"});
-            } finally {
-                this.isLoading = false;
-            }
-        },
-
-        async fetchAffordableServices() {
-            this.isLoading = true;
-            this.error = null;
-            const {show} = useNotification();
-
-            try {
-                const response = await serviceAPI.getAffordable();
-                this.services = response.data;
-            } catch (error) {
-                this.error =
-                    error instanceof Error
-                        ? error.message
-                        : "Помилка при отриманні доступних сервісів";
-                show(this.error, {type: "error"});
-            } finally {
-                this.isLoading = false;
-            }
-        },
-
-        async createService(data: ServiceCreate) {
-            this.isLoading = true;
-            this.error = null;
-            const {show} = useNotification();
-
-            try {
-                const response = await serviceAPI.create(data);
-                this.services.push(response.data);
-                return response.data;
-            } catch (error) {
-                this.error =
-                    error instanceof Error
-                        ? error.message
-                        : "Помилка при створенні сервісу";
-                show(this.error, {type: "error"});
-                throw error;
             } finally {
                 this.isLoading = false;
             }

@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, ref} from 'vue';
 import {counselAPI} from '@/utils/api/counsel';
 import type {CounselSuggestionPreview} from '@/types/counsel';

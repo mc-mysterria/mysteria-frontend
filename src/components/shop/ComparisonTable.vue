@@ -7,7 +7,7 @@
           <i class="fa-solid fa-code-compare"></i>
           {{ t('itemComparison') }}
         </h2>
-        <button @click="$emit('close')" class="close-btn">
+        <button class="close-btn" @click="$emit('close')">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -24,8 +24,8 @@
                 <div class="item-image-wrapper">
                   <img
                       v-if="item.image"
-                      :src="getImagePath(item.image)"
                       :alt="item.display_name || item.name"
+                      :src="getImagePath(item.image)"
                       class="item-image"
                   />
                   <div v-else class="item-image-placeholder">
@@ -119,11 +119,11 @@
           <tr>
             <td class="row-label">{{ t('actions') || 'Actions' }}</td>
             <td v-for="item in items" :key="`actions-${item.id}`" class="comparison-cell actions-cell">
-              <button @click="$emit('purchase', item.id)" class="purchase-btn">
+              <button class="purchase-btn" @click="$emit('purchase', item.id)">
                 <i class="fa-solid fa-shopping-cart"></i>
                 {{ t('purchase') }}
               </button>
-              <button @click="$emit('remove', item.id)" class="remove-btn">
+              <button class="remove-btn" @click="$emit('remove', item.id)">
                 <i class="fa-solid fa-xmark"></i>
                 {{ t('removeFromComparison') }}
               </button>
@@ -136,7 +136,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useI18n} from "@/composables/useI18n";
 import {useCurrency} from "@/composables/useCurrency";
 import type {ServiceResponse} from "@/types/services";

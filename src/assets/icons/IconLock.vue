@@ -1,14 +1,14 @@
 <template>
   <svg
-      class="icon-lock"
-      width="403"
-      height="404"
-      viewBox="0 0 403 404"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
       aria-label="Іконка замочку"
+      class="icon-lock"
+      fill="none"
+      height="404"
+      role="img"
       tabindex="0"
+      viewBox="0 0 403 404"
+      width="403"
+      xmlns="http://www.w3.org/2000/svg"
   >
     <g clip-path="url(#clip0_151_980)">
       <path
@@ -19,10 +19,10 @@
     <defs>
       <clipPath id="clip0_151_980">
         <rect
-            width="441"
-            height="403"
             fill="white"
+            height="403"
             transform="translate(-19 0.5)"
+            width="441"
         />
       </clipPath>
     </defs>

@@ -1,8 +1,8 @@
 <template>
   <div class="admin-panel">
     <div class="page-header">
-      <button @click="goBack" class="back-button">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <button class="back-button" @click="goBack">
+        <svg fill="none" height="20" stroke="currentColor" viewBox="0 0 24 24" width="20">
           <path d="m15 18-6-6 6-6"/>
         </svg>
         Back
@@ -18,13 +18,13 @@
         <div class="search-box">
           <input
               v-model="searchQuery"
-              type="text"
-              placeholder="Search by nickname, email, or Discord ID..."
               class="search-input"
+              placeholder="Search by nickname, email, or Discord ID..."
+              type="text"
           />
         </div>
-        <button @click="() => loadUsers()" class="refresh-btn" :disabled="loading">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <button :disabled="loading" class="refresh-btn" @click="() => loadUsers()">
+          <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
             <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
           </svg>
           Refresh
@@ -35,14 +35,14 @@
         <div
             v-for="user in users"
             :key="user.id"
-            class="user-item"
             :class="{ 'selected': selectedUser?.id === user.id }"
+            class="user-item"
             @click="selectUser(user)"
         >
           <div class="user-info">
             <div class="user-name">
               {{ user.nickname || `User#${user.discordId}` }}
-              <span class="user-badge" :class="`role-${user.role.toLowerCase()}`">
+              <span :class="`role-${user.role.toLowerCase()}`" class="user-badge">
                 {{ user.role }}
               </span>
             </div>
@@ -62,11 +62,11 @@
       <!-- Pagination Controls -->
       <div v-if="totalPages > 1" class="pagination">
         <button
-            @click="() => goToPage(currentPage - 1)"
             :disabled="currentPage === 0 || loading"
             class="pagination-btn"
+            @click="() => goToPage(currentPage - 1)"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
             <path d="m15 18-6-6 6-6"/>
           </svg>
           Previous
@@ -78,12 +78,12 @@
         </div>
 
         <button
-            @click="() => goToPage(currentPage + 1)"
             :disabled="currentPage >= totalPages - 1 || loading"
             class="pagination-btn"
+            @click="() => goToPage(currentPage + 1)"
         >
           Next
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
             <path d="m9 18 6-6-6-6"/>
           </svg>
         </button>
@@ -99,8 +99,8 @@
           <label>Selected User</label>
           <div class="selected-user-info">
             <strong>{{ selectedUser.nickname || `User#${selectedUser.discordId}` }}</strong>
-            <span>Current Role: <span class="role-badge"
-                                      :class="`role-${selectedUser.role.toLowerCase()}`">{{ selectedUser.role }}</span></span>
+            <span>Current Role: <span :class="`role-${selectedUser.role.toLowerCase()}`"
+                                      class="role-badge">{{ selectedUser.role }}</span></span>
           </div>
         </div>
 
@@ -120,9 +120,9 @@
 
         <div class="form-actions">
           <button
-              @click="changeRole"
               :disabled="!selectedRole || selectedRole === selectedUser.role || loading"
               class="action-btn primary"
+              @click="changeRole"
           >
             <span v-if="loading" class="button-spinner"></span>
             {{ loading ? 'Changing Role...' : 'Change Role' }}
@@ -148,11 +148,11 @@
           <label>Amount *</label>
           <input
               v-model.number="balanceAmount"
-              type="number"
-              step="0.01"
+              :class="{ 'error': validationErrors.balanceAmount }"
               placeholder="Enter amount (positive to add, negative to subtract)"
               required
-              :class="{ 'error': validationErrors.balanceAmount }"
+              step="0.01"
+              type="number"
           />
           <small>
             Use positive values to add balance, negative to subtract.
@@ -167,10 +167,10 @@
           <label>Reason *</label>
           <textarea
               v-model="balanceReason"
+              :class="{ 'error': validationErrors.balanceReason }"
               placeholder="Enter the reason for this balance adjustment..."
               required
               rows="3"
-              :class="{ 'error': validationErrors.balanceReason }"
           ></textarea>
           <div v-if="validationErrors.balanceReason" class="field-error">
             {{ validationErrors.balanceReason }}
@@ -179,17 +179,17 @@
 
         <div class="form-actions">
           <button
-              @click="adjustBalance"
               :disabled="!canAdjustBalance || loading"
               class="action-btn primary"
+              @click="adjustBalance"
           >
             <span v-if="loading" class="button-spinner"></span>
             {{ loading ? 'Adjusting Balance...' : 'Adjust Balance' }}
           </button>
           <button
-              @click="clearBalanceForm"
-              class="action-btn secondary"
               :disabled="loading"
+              class="action-btn secondary"
+              @click="clearBalanceForm"
           >
             Clear
           </button>
@@ -207,7 +207,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {adminAPI} from '@/utils/api/admin.ts';

@@ -1,12 +1,12 @@
 <template>
   <div
-      class="verification-panel"
       v-if="props.isOwnProfile && !props.displayedUser?.verified"
+      class="verification-panel"
   >
     <!-- Header Section -->
     <div class="panel-header">
       <div class="header-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="32">
           <path d="M9 12l2 2 4-4"/>
           <path d="M21 12c-1.1-1.1-2.3-2-3.6-2.7"/>
           <path d="M3 12c1.1-1.1 2.3-2 3.6-2.7"/>
@@ -23,17 +23,17 @@
     <!-- Actions Section -->
     <div class="panel-actions">
       <button
-          @click="generateCode"
+          :class="{ 'loading': isGenerating }"
           :disabled="isGenerating || !!verificationCode"
           class="generate-button"
-          :class="{ 'loading': isGenerating }"
+          @click="generateCode"
       >
         <div v-if="isGenerating" class="button-loading">
           <div class="loading-spinner"></div>
           <span>{{ t("generating") }}</span>
         </div>
         <div v-else class="button-content">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20">
             <path d="M12 2L2 7l10 5 10-5-10-5z"/>
             <path d="M2 17l10 5 10-5"/>
             <path d="M2 12l10 5 10-5"/>
@@ -46,7 +46,7 @@
       <div v-if="verificationCode" class="code-card">
         <div class="code-card-header">
           <div class="success-indicator">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20">
               <path d="M9 11l3 3L22 4"/>
               <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
             </svg>
@@ -59,13 +59,13 @@
             <div class="verification-code-wrapper">
               <code class="verification-code">{{ verificationCode.code }}</code>
             </div>
-            <button @click="copyCode" class="copy-button" :class="{ 'copied': copied }">
-              <svg v-if="!copied" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <button :class="{ 'copied': copied }" class="copy-button" @click="copyCode">
+              <svg v-if="!copied" fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                   width="18">
+                <rect height="13" rx="2" ry="2" width="13" x="9" y="9"/>
                 <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
               </svg>
-              <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg v-else fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
                 <polyline points="20,6 9,17 4,12"/>
               </svg>
             </button>
@@ -74,7 +74,7 @@
 
         <div class="code-info">
           <div class="expiry-info">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16">
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12,6 12,12 16,14"/>
             </svg>
@@ -94,7 +94,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {ref} from "vue";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";

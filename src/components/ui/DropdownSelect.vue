@@ -1,8 +1,8 @@
 <template>
   <div
-      class="dropdown-wrapper"
       ref="dropdownRef"
       :class="{ 'form-field-style': formFieldStyle }"
+      class="dropdown-wrapper"
   >
     <i
         v-if="showIcon && icon"
@@ -10,31 +10,31 @@
         aria-hidden="true"
     ></i>
     <div
-        class="dropdown-trigger"
-        @click="toggleDropdown"
         :class="{
         'is-open': isOpen,
         'is-disabled': disabled,
         'with-icon': showIcon,
       }"
+        class="dropdown-trigger"
+        @click="toggleDropdown"
     >
       <div class="dropdown-value">
         <slot
-            name="selected"
-            :selectedOption="selectedOption"
             :placeholder="placeholderText"
+            :selectedOption="selectedOption"
+            name="selected"
         >
           {{ selectedOption ? selectedOption[displayKey] : placeholderText }}
         </slot>
       </div>
-      <div class="dropdown-arrow" :class="{ 'is-open': isOpen }">
+      <div :class="{ 'is-open': isOpen }" class="dropdown-arrow">
         <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
             fill="none"
+            height="16"
             stroke="currentColor"
             stroke-width="2"
+            viewBox="0 0 24 24"
+            width="16"
         >
           <path d="m6 9 6 6 6-6"/>
         </svg>
@@ -48,40 +48,40 @@
     <Teleport to="body">
       <div
           v-if="isOpen || isClosing"
-          class="dropdown-menu"
-          :class="{ closing: isClosing }"
           ref="menuRef"
+          :class="{ closing: isClosing }"
           :style="menuStyles"
+          class="dropdown-menu"
       >
         <div v-if="searchable" class="dropdown-search">
           <input
               ref="searchInput"
               v-model="searchQuery"
-              type="text"
               :placeholder="searchPlaceholderText"
               class="dropdown-search-input"
+              type="text"
               @click.stop
           />
         </div>
 
-        <div class="dropdown-options" :style="{ maxHeight: `${maxHeight}px` }">
+        <div :style="{ maxHeight: `${maxHeight}px` }" class="dropdown-options">
           <div
               v-for="(option, idx) in displayOptions"
               :key="getOptionKey(option)"
-              class="dropdown-option"
               :class="{
               'is-selected': isSelected(option),
               'is-highlighted':
                 highlightedIndex === displayOptions.indexOf(option),
             }"
               :style="{ animationDelay: `${idx * 30}ms` }"
+              class="dropdown-option"
               @click="selectOption(option)"
               @mouseenter="highlightedIndex = displayOptions.indexOf(option)"
           >
             <slot
-                name="option"
-                :option="option"
                 :isSelected="isSelected(option)"
+                :option="option"
+                name="option"
             >
               <div class="option-content">
                 <span class="option-text">{{ option[displayKey] }}</span>
@@ -99,12 +99,12 @@
                   class="custom-input-option"
               >
                 <button
-                    @click="selectCustomInput"
                     :class="[
                     'custom-input-btn',
                     { 'is-highlighted': isCustomInputHighlighted },
                   ]"
                     type="button"
+                    @click="selectCustomInput"
                 >
                   Використати: "{{ searchQuery }}"
                 </button>
@@ -124,12 +124,12 @@
             "
           >
             <button
-                @click="selectCustomInput"
                 :class="[
                 'custom-input-btn',
                 { 'is-highlighted': isCustomInputHighlighted },
               ]"
                 type="button"
+                @click="selectCustomInput"
             >
               Використати: "{{ searchQuery }}"
             </button>
@@ -144,7 +144,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch,} from "vue";
 import {useI18n} from "@/composables/useI18n";
 

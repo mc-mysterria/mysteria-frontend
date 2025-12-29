@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible" class="background" @click.self="onCancel" @keydown="handleKeydown">
+  <div v-if="isVisible" class="background" @keydown="handleKeydown" @click.self="onCancel">
     <div class="card">
       <p>{{ modalText }}</p>
 
@@ -7,11 +7,11 @@
       <div v-if="showServerSelection" class="server-selection">
         <DropdownSelect
             v-model="selectedServer"
-            :options="serverOptions"
-            placeholder="Оберіть сервер..."
-            display-key="label"
-            value-key="value"
             :form-field-style="true"
+            :options="serverOptions"
+            display-key="label"
+            placeholder="Оберіть сервер..."
+            value-key="value"
             @change="handleServerChange"
         />
       </div>
@@ -21,10 +21,10 @@
         <label class="input-label">{{ t('quantity') || 'Quantity' }}</label>
         <input
             v-model.number="quantity"
-            type="number"
-            min="1"
-            class="quantity-input"
             :disabled="!currentService?.is_bulkable"
+            class="quantity-input"
+            min="1"
+            type="number"
         />
       </div>
 
@@ -49,8 +49,8 @@
         <label class="gift-toggle">
           <input
               v-model="isGiftMode"
-              type="checkbox"
               :disabled="!currentService?.is_giftable"
+              type="checkbox"
           />
           <span class="toggle-label">
             <i class="fa-solid fa-gift"></i>
@@ -68,8 +68,8 @@
       </div>
 
       <div
-          class="buttonYes"
           :class="{ disabled: isConfirmDisabled }"
+          class="buttonYes"
           @click="onConfirm"
       >
         {{ confirmText }}
@@ -79,8 +79,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {computed, ref, watch, nextTick} from "vue";
+<script lang="ts" setup>
+import {computed, ref, watch} from "vue";
 import {useBalanceStore} from "@/stores/balance";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";
@@ -192,9 +192,9 @@ const isConfirmDisabled = computed(() => {
   // Disable if any required field is missing or insufficient balance
   if (needsServer && !hasServer) return true;
   if (needsRecipient && !hasRecipient) return true;
-  if (!hasSufficientBalance && confirmText.value === t("purchase")) return true;
+  return !hasSufficientBalance && confirmText.value === t("purchase");
 
-  return false;
+
 });
 
 const handleServerChange = (value: string | number | string[]) => {
@@ -259,7 +259,7 @@ async function onConfirm() {
       });
 
       window.open(urlWithAmount, "_blank");
-      balanceStore.startBalanceCheck(price);
+      await balanceStore.startBalanceCheck(price);
     }
     isVisible.value = false;
     emit('confirm');
@@ -278,7 +278,7 @@ async function onConfirm() {
       } catch (error) {
         console.error("Purchase initiation failed:", error);
         const errMsg = error instanceof Error ? error.message : String(error);
-        show(errMsg, { type: 'error', duration: 10000 });
+        show(errMsg, {type: 'error', duration: 10000});
         // Close the modal on failure to allow the user to try again.
         isVisible.value = false;
       }

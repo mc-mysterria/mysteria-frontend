@@ -268,7 +268,49 @@ const translations = {
             authorizationCodeNotReceived: "Authorization code not received",
             authenticationFailed: "Authentication failed",
             failedToGetToken: "Failed to get authentication token",
+            authCancelled: "Authentication was cancelled",
+            authTimeout: "Authorization timeout. Please try again.",
+            logoutSuccess: "Successfully logged out",
         },
+        popupBlocked: "Popup window blocked. Please allow popups for this site.",
+
+        // Error Messages
+        errorAuthRequired: "Authentication required",
+        errorAuthPermissionDenied: "Access denied",
+        errorValidationError: "Data validation error",
+        errorNotFound: "Resource not found",
+        errorInternalError: "Internal server error",
+        errorRateLimitExceeded: "Rate limit exceeded",
+        errorMaintenanceMode: "Maintenance mode",
+        errorUnknown: "Unknown error!",
+
+        // Store Error Messages
+        errorFetchingBalance: "Error fetching balance",
+        errorLoadingBalance: "Failed to load balance",
+        errorFetchingServices: "Error fetching services",
+        errorLoadingServicesList: "Error loading services list",
+        errorFetchingUserData: "Error fetching user data",
+        errorPurchasing: "Error making purchase",
+        errorInsufficientBalance: "Insufficient balance",
+        errorServiceNotFoundOrUnavailable: "Service not found or no longer available",
+        errorInsufficientPermissions: "Insufficient permissions to make purchase",
+        errorInvalidAmount: "Invalid transaction amount",
+        errorAlreadyPurchased: "This item has already been purchased",
+        errorLimitExceeded: "Purchase limit exceeded for this item",
+        errorServerSelectionRequired: "This item requires server selection. Feature will be added soon.",
+        errorInternalServer: "Internal server error. Please contact administration.",
+        errorContactSupport: "If the problem persists, contact administration via Discord or ticket system",
+        errorUnknownPurchase: "Unknown error making purchase. Please contact administration.",
+        errorDetailsInConsole: "Error details saved in browser console for diagnostics",
+
+        // Balance Messages
+        balanceWaitingTopUp: "Waiting for balance top-up...",
+        balanceTopUpSuccess: "Balance successfully topped up!",
+        balanceTopUpTimeout: "Balance top-up waiting time expired",
+
+        // Logout Messages
+        errorLogout: "Error logging out",
+        errorLogoutConsole: "Logout error",
 
         // Player Stats Dashboard
         networkStatistics: "Network Statistics",
@@ -1107,7 +1149,49 @@ const translations = {
             authorizationCodeNotReceived: "Код авторизації не отримано",
             authenticationFailed: "Автентифікація не вдалася",
             failedToGetToken: "Не вдалося отримати токен автентифікації",
+            authCancelled: "Авторизація була скасована",
+            authTimeout: "Час очікування авторизації вийшов. Спробуйте ще раз.",
+            logoutSuccess: "Успішний вихід з системи",
         },
+        popupBlocked: "Спливаюче вікно заблоковано. Будь ласка, дозвольте спливаючі вікна для цього сайту.",
+
+        // Error Messages
+        errorAuthRequired: "Необхідна авторизація",
+        errorAuthPermissionDenied: "Відмовлено в доступі",
+        errorValidationError: "Помилка валідації даних",
+        errorNotFound: "Ресурс не знайдено",
+        errorInternalError: "Внутрішня помилка сервера",
+        errorRateLimitExceeded: "Перевищено ліміт запитів",
+        errorMaintenanceMode: "Технічні роботи",
+        errorUnknown: "Невідома помилка!",
+
+        // Store Error Messages
+        errorFetchingBalance: "Помилка при отриманні балансу",
+        errorLoadingBalance: "Не вдалося завантажити баланс",
+        errorFetchingServices: "Помилка при отриманні послуг",
+        errorLoadingServicesList: "Помилка при отриманні списку послуг",
+        errorFetchingUserData: "Помилка при отриманні даних користувача",
+        errorPurchasing: "Помилка при здійсненні покупки",
+        errorInsufficientBalance: "Недостатньо коштів на балансі",
+        errorServiceNotFoundOrUnavailable: "Товар не знайдено або більше не доступний",
+        errorInsufficientPermissions: "Недостатньо прав для здійснення покупки",
+        errorInvalidAmount: "Некоректна сума транзакції",
+        errorAlreadyPurchased: "Цей товар вже придбано",
+        errorLimitExceeded: "Перевищено ліміт покупок для цього товару",
+        errorServerSelectionRequired: "Цей товар потребує вибору сервера. Функція буде додана незабаром.",
+        errorInternalServer: "Внутрішня помилка сервера. Зверніться до адміністрації.",
+        errorContactSupport: "Якщо проблема повторюється, зверніться до адміністрації через Discord або тікет-систему",
+        errorUnknownPurchase: "Невідома помилка при здійсненні покупки. Зверніться до адміністрації.",
+        errorDetailsInConsole: "Деталі помилки збережено в консолі браузера для діагностики",
+
+        // Balance Messages
+        balanceWaitingTopUp: "Очікуємо поповнення балансу...",
+        balanceTopUpSuccess: "Баланс успішно поповнено!",
+        balanceTopUpTimeout: "Час очікування поповнення балансу війшов",
+
+        // Logout Messages
+        errorLogout: "Помилка при виході з системи",
+        errorLogoutConsole: "Помилка при виході",
 
         // Player Stats Dashboard
         networkStatistics: "Статистика Мережі",

@@ -1,8 +1,8 @@
 <template>
   <div class="editor-view">
     <div class="page-header">
-      <button @click="goBack" class="back-button">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <button class="back-button" @click="goBack">
+        <svg fill="none" height="20" stroke="currentColor" viewBox="0 0 24 24" width="20">
           <path d="m15 18-6-6 6-6"/>
         </svg>
         Back
@@ -18,7 +18,7 @@
         </option>
       </select>
       <button @click="createNewSuggestion">New Suggestion</button>
-      <button v-if="selectedSuggestion && selectedSuggestion.id" @click="deleteSuggestion" class="delete-btn">
+      <button v-if="selectedSuggestion && selectedSuggestion.id" class="delete-btn" @click="deleteSuggestion">
         Delete Suggestion
       </button>
     </div>
@@ -28,9 +28,9 @@
         <label>Title *</label>
         <input
             v-model="selectedSuggestion.title"
+            :class="{ 'error': validationErrors.title }"
             placeholder="Enter suggestion title"
             required
-            :class="{ 'error': validationErrors.title }"
         />
         <div v-if="validationErrors.title" class="field-error">{{ validationErrors.title }}</div>
       </div>
@@ -39,9 +39,9 @@
         <label>Slug *</label>
         <input
             v-model="selectedSuggestion.slug"
+            :class="{ 'error': validationErrors.slug }"
             placeholder="suggestion-slug"
             required
-            :class="{ 'error': validationErrors.slug }"
         />
         <small>URL-friendly slug (lowercase, hyphens only, no spaces)</small>
         <div v-if="validationErrors.slug" class="field-error">{{ validationErrors.slug }}</div>
@@ -59,9 +59,9 @@
         <label>Suggester Name *</label>
         <input
             v-model="selectedSuggestion.suggesterName"
+            :class="{ 'error': validationErrors.suggesterName }"
             placeholder="Player or character name"
             required
-            :class="{ 'error': validationErrors.suggesterName }"
         />
         <div v-if="validationErrors.suggesterName" class="field-error">{{ validationErrors.suggesterName }}</div>
       </div>
@@ -70,9 +70,9 @@
         <label>Suggestion Date *</label>
         <input
             v-model="selectedSuggestion.suggestionDate"
-            type="datetime-local"
-            required
             :class="{ 'error': validationErrors.suggestionDate }"
+            required
+            type="datetime-local"
         />
         <div v-if="validationErrors.suggestionDate" class="field-error">{{ validationErrors.suggestionDate }}</div>
       </div>
@@ -81,9 +81,9 @@
         <label>Image URL</label>
         <input
             v-model="selectedSuggestion.imageUrl"
+            :class="{ 'error': validationErrors.imageUrl }"
             placeholder="https://example.com/image.jpg (optional)"
             type="url"
-            :class="{ 'error': validationErrors.imageUrl }"
         />
         <div v-if="validationErrors.imageUrl" class="field-error">{{ validationErrors.imageUrl }}</div>
       </div>
@@ -101,9 +101,9 @@
         <label>Votes For</label>
         <input
             v-model.number="selectedSuggestion.votesFor"
-            type="number"
             min="0"
             placeholder="0"
+            type="number"
         />
       </div>
 
@@ -111,9 +111,9 @@
         <label>Votes Against</label>
         <input
             v-model.number="selectedSuggestion.votesAgainst"
-            type="number"
             min="0"
             placeholder="0"
+            type="number"
         />
       </div>
 
@@ -121,33 +121,33 @@
         <label>Description (Markdown) *</label>
         <textarea
             v-model="selectedSuggestion.description"
+            :class="{ 'error': validationErrors.description }"
             placeholder="Write the suggestion description in Markdown..."
             required
-            :class="{ 'error': validationErrors.description }"
         ></textarea>
         <div v-if="validationErrors.description" class="field-error">{{ validationErrors.description }}</div>
       </div>
 
       <div class="form-group">
         <label>
-          <input type="checkbox" v-model="selectedSuggestion.isPublished"/>
+          <input v-model="selectedSuggestion.isPublished" type="checkbox"/>
           Published
         </label>
       </div>
 
       <div class="form-actions">
-        <button @click="saveSuggestion" :disabled="!canSave || loading" class="save-btn">
+        <button :disabled="!canSave || loading" class="save-btn" @click="saveSuggestion">
           <span v-if="loading" class="button-spinner"></span>
           {{ loading ? 'Saving...' : (selectedSuggestion.id ? 'Update' : 'Create') + ' Suggestion' }}
         </button>
-        <button @click="openPreview" class="preview-btn" :disabled="!selectedSuggestion.description.trim() || loading">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <button :disabled="!selectedSuggestion.description.trim() || loading" class="preview-btn" @click="openPreview">
+          <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
           </svg>
           Preview
         </button>
-        <button @click="cancelEdit" class="cancel-btn" :disabled="loading">Cancel</button>
+        <button :disabled="loading" class="cancel-btn" @click="cancelEdit">Cancel</button>
       </div>
     </div>
 
@@ -163,8 +163,8 @@
       <div class="preview-modal-content" @click.stop>
         <div class="preview-header">
           <h2>Suggestion Preview</h2>
-          <button @click="closePreview" class="close-preview-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <button class="close-preview-btn" @click="closePreview">
+            <svg fill="none" height="24" stroke="currentColor" viewBox="0 0 24 24" width="24">
               <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
           </button>
@@ -175,8 +175,10 @@
             <div class="preview-suggestion-header">
               <h1 class="preview-suggestion-title">{{ selectedSuggestion?.title || 'Untitled Suggestion' }}</h1>
               <div class="preview-suggestion-meta">
-                <span class="preview-language">{{ selectedSuggestion?.language === 'EN' ? 'English' : 'Ukrainian' }}</span>
-                <span class="preview-status" :class="selectedSuggestion?.status.toLowerCase()">
+                <span class="preview-language">{{
+                    selectedSuggestion?.language === 'EN' ? 'English' : 'Ukrainian'
+                  }}</span>
+                <span :class="selectedSuggestion?.status.toLowerCase()" class="preview-status">
                   {{ selectedSuggestion?.status }}
                 </span>
                 <span v-if="selectedSuggestion?.isPublished" class="preview-published">Published</span>
@@ -195,10 +197,10 @@
             </div>
 
             <div v-if="selectedSuggestion?.imageUrl" class="preview-image-wrapper">
-              <img :src="selectedSuggestion.imageUrl" :alt="selectedSuggestion.title" class="preview-image"/>
+              <img :alt="selectedSuggestion.title" :src="selectedSuggestion.imageUrl" class="preview-image"/>
             </div>
 
-            <div class="preview-suggestion-content" v-dompurify-html="renderedContent"></div>
+            <div v-dompurify-html="renderedContent" class="preview-suggestion-content"></div>
           </div>
         </div>
       </div>
@@ -206,7 +208,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, onMounted, ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {counselAPI} from '@/utils/api/counsel';
