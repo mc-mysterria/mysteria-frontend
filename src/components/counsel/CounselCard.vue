@@ -124,8 +124,8 @@ const formatDate = (dateString: string) => {
 }
 
 .status-badge.status-proposed {
-  background: color-mix(in srgb, var(--counsel-primary, #4a90e2) 20%, transparent);
-  color: var(--counsel-primary, #4a90e2);
+  background: color-mix(in srgb, #ff9800 20%, transparent);
+  color: #ff9800;
 }
 
 .status-badge.status-accepted {

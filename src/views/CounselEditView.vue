@@ -357,19 +357,18 @@ const loadSuggestions = async () => {
 
 const loadSuggestion = async () => {
   if (selectedSuggestionId.value) {
-    const preview = suggestions.value.find(s => s.id === selectedSuggestionId.value);
-    if (preview) {
-      // Cast preview to full CounselSuggestion with missing fields
-      selectedSuggestion.value = {
-        ...preview,
-        description: '',
-        renderedDescription: '',
-        isPublished: false,
-        createdAt: '',
-        updatedAt: ''
-      } as CounselSuggestion;
-    } else {
+    try {
+      loading.value = true;
+      error.value = '';
+      // Fetch full suggestion data from admin API
+      const response = await counselAPI.getByIdAdmin(Number(selectedSuggestionId.value));
+      selectedSuggestion.value = response.data;
+    } catch (err) {
+      error.value = 'Failed to load suggestion details';
+      console.error('Failed to load suggestion:', err);
       selectedSuggestion.value = null;
+    } finally {
+      loading.value = false;
     }
   } else {
     selectedSuggestion.value = null;
@@ -959,8 +958,8 @@ const cancelEdit = () => {
 }
 
 .preview-status.proposed {
-  background: color-mix(in srgb, #4a90e2 20%, transparent);
-  color: #4a90e2;
+  background: color-mix(in srgb, #ff9800 20%, transparent);
+  color: #ff9800;
 }
 
 .preview-status.accepted {
