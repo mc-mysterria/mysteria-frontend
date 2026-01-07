@@ -38,8 +38,8 @@ onUnmounted(() => {
 
 const wikiUrl = computed(() => {
   return currentLanguage.value === 'uk'
-      ? 'https://wiki.mysterria.net'
-      : 'https://wiki.mysterria.net/en'
+      ? 'https://wiki.mysterria.net/uk'
+      : 'https://wiki.mysterria.net'
 })
 </script>
 
