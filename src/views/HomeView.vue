@@ -46,7 +46,7 @@
             </button>
             <a
                 class="wiki-button"
-                href="https://wiki.mysterria.net/en"
+                href="https://wiki.mysterria.net"
                 rel="noopener noreferrer"
                 target="_blank"
             >
