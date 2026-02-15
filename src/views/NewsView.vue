@@ -82,18 +82,19 @@ const loadArticle = async () => {
 };
 
 // Update meta tags when article changes
-watch(article, (newArticle) => {
-  if (newArticle) {
-    const url = `https://mysterria.net/news/${newArticle.slug}`;
-    useMeta({
-      title: `${newArticle.title} - Mysterria`,
-      description: newArticle.shortDescription || newArticle.title,
-      image: newArticle.preview,
-      url,
-      type: 'article',
-    });
-  }
-}, { immediate: true });
+// Temporarily disabled until unhead is properly configured
+// watch(article, (newArticle) => {
+//   if (newArticle) {
+//     const url = `https://mysterria.net/news/${newArticle.slug}`;
+//     useMeta({
+//       title: `${newArticle.title} - Mysterria`,
+//       description: newArticle.shortDescription || newArticle.title,
+//       image: newArticle.preview,
+//       url,
+//       type: 'article',
+//     });
+//   }
+// }, { immediate: true });
 
 const scrollToTop = () => {
   // Use requestAnimationFrame for better timing with browser rendering

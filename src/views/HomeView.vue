@@ -222,13 +222,14 @@ import kleinWebp from "@/assets/images/optimized/Klein.webp";
 const {t, currentLanguage} = useI18n();
 
 // Set default meta tags for home page
-useMeta({
-  title: 'Mysterria - Lord of The Mysteries Minecraft Server',
-  description: 'Mysterria — A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches. English and Ukrainian support.',
-  image: '/banner.webp',
-  url: 'https://mysterria.net/',
-  type: 'website',
-});
+// Temporarily disabled until unhead is properly configured
+// useMeta({
+//   title: 'Mysterria - Lord of The Mysteries Minecraft Server',
+//   description: 'Mysterria — A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches. English and Ukrainian support.',
+//   image: '/banner.webp',
+//   url: 'https://mysterria.net/',
+//   type: 'website',
+// });
 
 const news = ref<NewsArticle[]>([]);
 const pinnedNews = ref<NewsPreview[]>([]);
