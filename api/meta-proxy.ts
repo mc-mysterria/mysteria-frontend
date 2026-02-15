@@ -1,24 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const CRAWLER_USER_AGENTS = [
-  'facebookexternalhit',
-  'Facebot',
-  'Twitterbot',
-  'LinkedInBot',
-  'Slackbot',
-  'Discordbot',
-  'WhatsApp',
-  'TelegramBot',
-  'SkypeUriPreview',
-  'pinterest',
-  'reddit',
-];
-
-function isCrawler(userAgent: string): boolean {
-  const lowerUA = userAgent.toLowerCase();
-  return CRAWLER_USER_AGENTS.some(bot => lowerUA.includes(bot.toLowerCase()));
-}
-
 function escapeHtml(text: string): string {
   if (!text) return '';
   const map: Record<string, string> = {
@@ -29,6 +10,80 @@ function escapeHtml(text: string): string {
     "'": '&#039;',
   };
   return text.replace(/[&<>"']/g, (m) => map[m]);
+}
+
+interface PageMeta {
+  title: string;
+  description: string;
+  image: string;
+}
+
+const STATIC_PAGES: Record<string, PageMeta> = {
+  rules: {
+    title: 'Server Rules - Mysterria',
+    description: 'Read the rules and guidelines for playing on Mysterria, the Lord of the Mysteries inspired Minecraft server. Learn about our community standards and gameplay policies.',
+    image: '/banner.webp',
+  },
+  store: {
+    title: 'Store - Mysterria',
+    description: 'Support Mysterria and unlock exclusive perks! Browse our store for ranks, items, and special features for the Lord of the Mysteries Minecraft server.',
+    image: '/banner.webp',
+  },
+  guide: {
+    title: 'Getting Started Guide - Mysterria',
+    description: 'New to Mysterria? Learn how to get started on our Lord of the Mysteries inspired server. Discover Pathways, Sequences, and mystical adventures.',
+    image: '/klein.webp',
+  },
+  profile: {
+    title: 'Your Profile - Mysterria',
+    description: 'View and manage your Mysterria profile. Track your progress through Sequences and Pathways on our Lord of the Mysteries Minecraft server.',
+    image: '/klein.webp',
+  },
+};
+
+function generateStaticPageHTML(pageName: string, baseUrl: string): string {
+  const meta = STATIC_PAGES[pageName] || {
+    title: 'Mysterria - Lord of The Mysteries Minecraft Server',
+    description: 'Mysterria — A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches.',
+    image: '/banner.webp',
+  };
+
+  const pageUrl = `${baseUrl}/${pageName}`;
+  const imageUrl = meta.image.startsWith('http') ? meta.image : `${baseUrl}${meta.image}`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>${escapeHtml(meta.title)}</title>
+    <meta name="title" content="${escapeHtml(meta.title)}" />
+    <meta name="description" content="${escapeHtml(meta.description)}" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${pageUrl}" />
+    <meta property="og:title" content="${escapeHtml(meta.title)}" />
+    <meta property="og:description" content="${escapeHtml(meta.description)}" />
+    <meta property="og:image" content="${imageUrl}" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="${pageUrl}" />
+    <meta property="twitter:title" content="${escapeHtml(meta.title)}" />
+    <meta property="twitter:description" content="${escapeHtml(meta.description)}" />
+    <meta property="twitter:image" content="${imageUrl}" />
+
+    <!-- Redirect to actual page for real users -->
+    <meta http-equiv="refresh" content="0;url=${pageUrl}" />
+    <script>window.location.href = '${pageUrl}';</script>
+</head>
+<body>
+    <p>Redirecting to <a href="${pageUrl}">${escapeHtml(meta.title)}</a>...</p>
+</body>
+</html>`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -42,18 +97,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     console.log('Processing meta-proxy request for path:', path);
+    const baseUrl = 'https://mysterria.net';
+
+    // Handle static pages (single path segment like "rules", "store", etc.)
+    if (!path.includes('/')) {
+      console.log('Generating meta tags for static page:', path);
+      const html = generateStaticPageHTML(path, baseUrl);
+      return res
+        .status(200)
+        .setHeader('Content-Type', 'text/html; charset=utf-8')
+        .setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600')
+        .send(html);
+    }
 
     // Parse path to determine content type and slug
     const pathParts = path.split('/').filter(Boolean);
 
     if (pathParts.length < 2) {
       console.error('Invalid path format:', path);
-      return res.status(400).json({ error: 'Invalid path', details: 'Expected format: type/slug' });
+      return res.status(400).json({ error: 'Invalid path', details: 'Expected format: type/slug or pagename' });
     }
 
     const [type, slug] = pathParts;
     console.log('Type:', type, 'Slug:', slug);
-    const baseUrl = 'https://mysterria.net';
 
     if (type === 'news') {
       // Use the Vercel proxy (same as frontend) instead of calling API directly
