@@ -65,6 +65,17 @@
       "destination": "/index.html"
     },
     {
+      "source": "/news/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=news/:slug"
+    },
+    {
       "source": "/news/:path*",
       "destination": "/index.html"
     },

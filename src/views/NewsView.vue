@@ -34,6 +34,7 @@ import type {NewsArticle} from '@/types/news';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
+import {useMeta} from '@/composables/useMeta';
 import MarkdownIt from 'markdown-it';
 import IconArrowLeft from '@/assets/icons/IconArrowLeft.vue';
 
@@ -79,6 +80,20 @@ const loadArticle = async () => {
     loading.value = false;
   }
 };
+
+// Update meta tags when article changes
+watch(article, (newArticle) => {
+  if (newArticle) {
+    const url = `https://mysterria.net/news/${newArticle.slug}`;
+    useMeta({
+      title: `${newArticle.title} - Mysterria`,
+      description: newArticle.shortDescription || newArticle.title,
+      image: newArticle.preview,
+      url,
+      type: 'article',
+    });
+  }
+}, { immediate: true });
 
 const scrollToTop = () => {
   // Use requestAnimationFrame for better timing with browser rendering
