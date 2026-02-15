@@ -56,8 +56,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const baseUrl = 'https://mysterria.net';
 
     if (type === 'news') {
-      // Fetch news article
-      const apiUrl = `https://api.mysterria.net/api/news/EN/${slug}`;
+      // Use the Vercel proxy (same as frontend) instead of calling API directly
+      // This avoids CORS/403 issues since the API might only accept requests from mysterria.net
+      const apiUrl = `${baseUrl}/api/news/en/article/${slug}`;
       console.log('Fetching article from:', apiUrl);
 
       const articleResponse = await fetch(apiUrl, {
