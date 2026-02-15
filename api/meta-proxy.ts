@@ -32,91 +32,107 @@ function escapeHtml(text: string): string {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const userAgent = req.headers['user-agent'] || '';
   const { path } = req.query;
 
-  // Only process crawler requests
-  if (!isCrawler(userAgent) || typeof path !== 'string') {
-    return res.status(400).json({ error: 'Invalid request' });
+  // Validate path parameter
+  if (typeof path !== 'string') {
+    console.error('Invalid path parameter:', path);
+    return res.status(400).json({ error: 'Invalid request', details: 'Path parameter missing or invalid' });
   }
 
   try {
+    console.log('Processing meta-proxy request for path:', path);
+
     // Parse path to determine content type and slug
     const pathParts = path.split('/').filter(Boolean);
 
     if (pathParts.length < 2) {
-      return res.status(400).json({ error: 'Invalid path' });
+      console.error('Invalid path format:', path);
+      return res.status(400).json({ error: 'Invalid path', details: 'Expected format: type/slug' });
     }
 
     const [type, slug] = pathParts;
-    let apiUrl = '';
-    let metaTags = '';
+    console.log('Type:', type, 'Slug:', slug);
     const baseUrl = 'https://mysterria.net';
 
     if (type === 'news') {
       // Fetch news article
-      apiUrl = `https://api.mysterria.net/api/news/EN/${slug}`;
+      const apiUrl = `https://api.mysterria.net/api/news/EN/${slug}`;
+      console.log('Fetching article from:', apiUrl);
 
       const articleResponse = await fetch(apiUrl, {
         headers: { 'Accept': 'application/json' },
       });
 
       if (!articleResponse.ok) {
-        throw new Error('Article not found');
+        console.error('Article fetch failed:', articleResponse.status, articleResponse.statusText);
+        throw new Error(`Article not found: ${articleResponse.status}`);
       }
 
       const article = await articleResponse.json();
+      console.log('Article fetched:', article.title);
       const imageUrl = article.preview?.startsWith('http')
         ? article.preview
         : `${baseUrl}${article.preview || '/banner.webp'}`;
       const articleUrl = `${baseUrl}/news/${article.slug}`;
+      const title = `${escapeHtml(article.title)} - Mysterria`;
+      const description = escapeHtml(article.shortDescription || article.title);
 
-      metaTags = `
-    <meta name="title" content="${escapeHtml(article.title)} - Mysterria" />
-    <meta name="description" content="${escapeHtml(article.shortDescription || article.title)}" />
+      // Generate complete HTML with meta tags and redirect
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>${title}</title>
+    <meta name="title" content="${title}" />
+    <meta name="description" content="${description}" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
     <meta property="og:url" content="${articleUrl}" />
-    <meta property="og:title" content="${escapeHtml(article.title)} - Mysterria" />
-    <meta property="og:description" content="${escapeHtml(article.shortDescription || article.title)}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
     <meta property="og:image" content="${imageUrl}" />
+
+    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="${articleUrl}" />
-    <meta property="twitter:title" content="${escapeHtml(article.title)} - Mysterria" />
-    <meta property="twitter:description" content="${escapeHtml(article.shortDescription || article.title)}" />
+    <meta property="twitter:title" content="${title}" />
+    <meta property="twitter:description" content="${description}" />
     <meta property="twitter:image" content="${imageUrl}" />
+
+    <!-- Article Metadata -->
     <meta property="article:published_time" content="${article.publishedAt || article.createdAt}" />
     ${article.updatedAt ? `<meta property="article:modified_time" content="${article.updatedAt}" />` : ''}
-    <title>${escapeHtml(article.title)} - Mysterria</title>`;
+
+    <!-- Redirect to actual page for real users -->
+    <meta http-equiv="refresh" content="0;url=${articleUrl}" />
+    <script>window.location.href = '${articleUrl}';</script>
+</head>
+<body>
+    <p>Redirecting to <a href="${articleUrl}">${escapeHtml(article.title)}</a>...</p>
+</body>
+</html>`;
+
+      console.log('Successfully generated HTML with meta tags');
+      return res
+        .status(200)
+        .setHeader('Content-Type', 'text/html; charset=utf-8')
+        .setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600')
+        .send(html);
     } else {
       return res.status(400).json({ error: 'Unsupported content type' });
     }
-
-    // Fetch base HTML
-    const htmlResponse = await fetch(`${baseUrl}/`);
-    let html = await htmlResponse.text();
-
-    // Replace or inject meta tags
-    const headCloseIndex = html.indexOf('</head>');
-    if (headCloseIndex !== -1) {
-      // Remove existing meta tags that we're replacing
-      html = html.replace(/<meta\s+name="title"[^>]*>/gi, '');
-      html = html.replace(/<meta\s+name="description"[^>]*>/gi, '');
-      html = html.replace(/<meta\s+property="og:[^"]*"[^>]*>/gi, '');
-      html = html.replace(/<meta\s+property="twitter:[^"]*"[^>]*>/gi, '');
-      html = html.replace(/<meta\s+property="article:[^"]*"[^>]*>/gi, '');
-      html = html.replace(/<title>[^<]*<\/title>/i, '');
-
-      // Inject new meta tags
-      html = html.slice(0, headCloseIndex) + metaTags + html.slice(headCloseIndex);
-    }
-
-    return res
-      .status(200)
-      .setHeader('Content-Type', 'text/html; charset=utf-8')
-      .setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600')
-      .send(html);
   } catch (error) {
     console.error('Error in meta-proxy:', error);
-    return res.status(500).json({ error: 'Failed to generate meta tags' });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({
+      error: 'Failed to generate meta tags',
+      details: errorMessage,
+      path: req.query.path
+    });
   }
 }
