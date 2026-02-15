@@ -10,8 +10,12 @@ import fs from 'fs'
 function copyRobotsPlugin() {
   return {
     name: 'copy-robots',
-    writeBundle() {
+    buildEnd() {
       try {
+        // Ensure dist directory exists
+        if (!fs.existsSync('dist')) {
+          fs.mkdirSync('dist', { recursive: true })
+        }
         const robotsTxt = fs.readFileSync('public/robots.txt', 'utf-8')
         fs.writeFileSync('dist/robots.txt', robotsTxt)
       } catch (error) {
@@ -30,9 +34,15 @@ export default defineConfig(({ mode }) => {
       vueJsx(),
       vueDevTools(),
       vercel(),
-      copyRobotsPlugin(),
+      copyRobotsPlugin(), // Must run before sitemap plugin
       generateSitemap({
         hostname: 'https://mysterria.net',
+        robots: [
+          {
+            userAgent: '*',
+            allow: '/',
+          }
+        ]
       }),
     ],
     vercel: {},
