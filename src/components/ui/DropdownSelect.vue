@@ -151,6 +151,7 @@ import {useI18n} from "@/composables/useI18n";
 interface DropdownOption {
   label: string;
   value: string | number;
+  icon?: string;
 
   [key: string]: string | number | undefined;
 }
