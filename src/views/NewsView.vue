@@ -5,13 +5,14 @@
       <div v-if="article">
         <button class="back-button" @click="goBack">
           <IconArrowLeft class="w-5 h-5"/>
-          <span>Back</span>
+          <span>{{ t('goBack') }}</span>
         </button>
         <div class="article-header">
+          <div class="article-meta">
+            <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
+          </div>
           <h1 class="article-title">{{ article.title }}</h1>
-        </div>
-        <div class="article-meta">
-          <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
+          <div class="article-divider"></div>
         </div>
         <div v-dompurify-html="article.renderedContent || renderedContent" class="article-content"></div>
       </div>
@@ -41,7 +42,7 @@ const route = useRoute();
 const router = useRouter();
 const article = ref<NewsArticle | null>(null);
 const loading = ref(true);
-const {currentLanguage} = useI18n();
+const {currentLanguage, t} = useI18n();
 
 const md = new MarkdownIt({
   html: true,
@@ -140,9 +141,9 @@ onMounted(async () => {
 
 .news-article-container {
   flex: 1;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 104px 32px 40px;
+  padding: 104px 32px 64px;
   width: 100%;
 }
 
@@ -169,32 +170,41 @@ onMounted(async () => {
 }
 
 .article-header {
-  margin-bottom: 1rem;
-}
-
-.article-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0;
-  color: var(--myst-ink-strong);
-  line-height: 1.2;
+  margin-bottom: 2rem;
 }
 
 .article-meta {
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--myst-ink-muted);
-  opacity: 0.6;
+  margin-bottom: 12px;
 }
 
 .publish-date {
-  color: var(--myst-ink-muted);
-  font-size: 0.875rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--myst-gold);
+}
+
+.article-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  margin: 0 0 24px;
+  color: var(--myst-ink-strong);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.article-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--myst-gold), color-mix(in srgb, var(--myst-gold) 20%, transparent));
+  max-width: 120px;
 }
 
 .article-content {
-  line-height: 1.75;
+  line-height: 1.8;
   color: var(--myst-ink);
+  font-size: 1.0625rem;
+  margin-top: 2rem;
 }
 
 /* Headings */
@@ -357,16 +367,12 @@ onMounted(async () => {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .news-article-container {
-    padding: 84px 16px 20px;
+    padding: 84px 20px 40px;
   }
 
   .back-button {
     padding: 8px 14px;
     font-size: 13px;
-  }
-
-  .article-title {
-    font-size: 2rem;
   }
 
   .article-content :deep(h1) {

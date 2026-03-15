@@ -80,9 +80,9 @@ h1 {
   font-size: clamp(60px, 15vw, 90px);
   background: linear-gradient(
       160deg,
-      rgba(34, 197, 94, 1) 0%,
-      rgba(34, 197, 94, 1) 50%,
-      rgba(16, 185, 129, 1) 100%
+      var(--myst-gold) 0%,
+      var(--myst-offwhite) 50%,
+      var(--myst-gold-soft) 100%
   );
   color: transparent;
   background-clip: text;
@@ -114,12 +114,14 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: clamp(12px, 2vh, 14px) clamp(24px, 4.5vw, 32px);
   font-family: "Inter", sans-serif;
   font-size: clamp(14px, 3.2vw, 16px);
-  border: none;
-  color: #ffffff;
-  background-color: #10b981;
+  font-weight: 600;
+  border: 1px solid var(--myst-gold);
+  color: var(--myst-bg);
+  background-color: var(--myst-gold);
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out,
@@ -128,20 +130,21 @@ p {
   text-decoration: none;
   width: fit-content;
   margin: 0 auto;
-  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 .pnf-button:hover,
 .pnf-button:focus {
-  background-color: #22c55e;
+  background-color: var(--myst-gold-soft);
+  border-color: var(--myst-gold-soft);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 5px 15px color-mix(in srgb, var(--myst-gold) 40%, transparent);
   outline: none;
 }
 
 .pnf-button:active {
   transform: translateY(0px);
-  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--myst-gold) 30%, transparent);
 }
 
 .pnf-button img {

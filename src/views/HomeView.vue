@@ -168,6 +168,7 @@
                 />
               </div>
               <div class="news-content">
+                <p class="news-date">{{ formatDate(n.publishedAt || n.createdAt) }}</p>
                 <h3 class="news-title">{{ n.title }}</h3>
                 <p class="news-text">{{ n.shortDescription || n.preview }}</p>
                 <div class="news-link-container">
@@ -219,6 +220,14 @@ import serverWebp from "@/assets/images/optimized/Server.webp";
 import kleinWebp from "@/assets/images/optimized/Klein.webp";
 
 const {t, currentLanguage} = useI18n();
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+};
 
 const news = ref<NewsArticle[]>([]);
 const pinnedNews = ref<NewsPreview[]>([]);
@@ -432,13 +441,14 @@ export default {
   .hero-background {
     background-attachment: scroll;
   }
+
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.45));
   pointer-events: none;
 }
 
@@ -456,6 +466,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
 }
 
@@ -569,7 +580,6 @@ export default {
 
 /* Features Grid */
 .features-grid {
-  margin-top: 48px;
   display: grid;
   gap: 16px;
 }
@@ -587,33 +597,63 @@ export default {
   border-radius: 8px;
   padding: 24px;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--myst-gold), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .feature-card:hover {
   border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card:hover::after {
+  opacity: 1;
 }
 
 .feature-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .feature-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   color: var(--myst-gold);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.2);
 }
 
 .feature-title {
   color: var(--myst-ink-strong);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.1px;
 }
 
 .feature-description {
-  color: #a1a1aa;
+  color: var(--myst-ink-muted);
   font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* Pinned News Section */
@@ -769,6 +809,8 @@ export default {
 
 .news-card:hover {
   border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
 }
 
 .news-image {
@@ -780,15 +822,26 @@ export default {
   height: 176px;
   object-fit: cover;
   opacity: 0.9;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.4s ease;
 }
 
 .news-card:hover .news-img {
   opacity: 1;
+  transform: scale(1.05);
 }
 
 .news-content {
   padding: 24px;
+}
+
+.news-date {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--myst-gold);
+  margin: 0 0 8px;
+  opacity: 0.8;
 }
 
 .news-title {
