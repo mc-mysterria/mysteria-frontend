@@ -14,7 +14,7 @@
           <h1 class="article-title">{{ article.title }}</h1>
           <div class="article-divider"></div>
         </div>
-        <div v-dompurify-html="article.renderedContent || renderedContent" class="article-content"></div>
+        <div v-dompurify-html="renderedContent" class="article-content"></div>
       </div>
       <div v-else-if="loading">
         <p>Loading article...</p>
@@ -53,7 +53,7 @@ const md = new MarkdownIt({
 md.use(pathwayEmojiPlugin);
 
 const renderedContent = computed(() => {
-  if (!article.value?.content) return '';
+  if (!article.value?.content) return article.value?.renderedContent ?? '';
   return md.render(article.value.content);
 });
 
