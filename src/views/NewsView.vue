@@ -37,6 +37,7 @@ import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
 import MarkdownIt from 'markdown-it';
 import IconArrowLeft from '@/assets/icons/IconArrowLeft.vue';
+import {pathwayEmojiPlugin} from '@/utils/pathwayPlugin';
 
 const route = useRoute();
 const router = useRouter();
@@ -49,6 +50,7 @@ const md = new MarkdownIt({
   linkify: true,
   typographer: true
 });
+md.use(pathwayEmojiPlugin);
 
 const renderedContent = computed(() => {
   if (!article.value?.content) return '';
@@ -305,8 +307,28 @@ onMounted(async () => {
   color: var(--myst-gold-soft);
 }
 
+/* Pathway emoji inline images */
+.article-content :deep(img.pathway-emoji) {
+  display: inline;
+  width: auto;
+  height: 1.5em;
+  vertical-align: -0.35em;
+  margin: 0 0.1em;
+  border-radius: 2px;
+  box-shadow: none;
+  border: none;
+  transform: none;
+  transition: none;
+}
+
+.article-content :deep(img.pathway-emoji:hover) {
+  transform: scale(1.15);
+  box-shadow: none;
+  transition: transform 0.15s ease;
+}
+
 /* Images */
-.article-content :deep(img) {
+.article-content :deep(img:not(.pathway-emoji)) {
   max-width: 100%;
   height: auto;
   margin: 2rem auto;
@@ -317,7 +339,7 @@ onMounted(async () => {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.article-content :deep(img:hover) {
+.article-content :deep(img:not(.pathway-emoji):hover) {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
