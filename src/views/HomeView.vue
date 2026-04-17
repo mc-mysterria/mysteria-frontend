@@ -26,7 +26,7 @@
             <p class="hero-ritual-subtitle">{{ t('home.heroSubtitleHome') }}</p>
             
             <div class="hero-buttons">
-              <button class="btn-ritual-primary" @click="showJoinModal = true">
+              <button class="btn-ritual-primary" @click="router.push('/guide')">
                 {{ t('home.letsPlay') }}
               </button>
               <a class="btn-ritual-secondary" href="https://wiki.mysterria.net" target="_blank">
@@ -128,6 +128,7 @@ import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
 import IconStars from "@/assets/icons/IconStars.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import {computed, onMounted, onUnmounted, ref} from "vue";
+import {useRouter} from "vue-router";
 import {newsAPI} from "@/utils/api/news";
 import type {NewsArticle, NewsPreview} from "@/types/news";
 import {useI18n} from "@/composables/useI18n";
@@ -136,6 +137,7 @@ import serverWebp from "@/assets/images/optimized/Server.webp";
 import kleinWebp from "@/assets/images/optimized/Klein.webp";
 
 const {t, currentLanguage} = useI18n();
+const router = useRouter();
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {

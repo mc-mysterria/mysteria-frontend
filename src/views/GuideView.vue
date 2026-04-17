@@ -1,186 +1,320 @@
 <template>
-  <div class="ritual-page page-container">
-    <HeaderItem/>
+  <div class="guide-page">
+    <HeaderItem />
 
-    <main class="ritual-main">
-      <!-- Atmospheric Background -->
-      <div class="ritual-bg-overlay" :class="`phase-${currentStep}`">
-        <div class="mist-layer one"></div>
-      </div>
+    <main class="guide-main">
+      <div class="guide-layout">
 
-      <div class="ritual-container">
-        <!-- Unified Header - Compacted -->
-        <div class="myst-page-header compact">
-          <div class="myst-header-decoration" aria-hidden="true"></div>
-          <h1 class="myst-header-label">{{ t("ritualOfInitiation") }}</h1>
-          <div class="myst-header-decoration" aria-hidden="true"></div>
-        </div>
-
-        <!-- Initiation Progress - Enlarged -->
-        <div class="ritual-progress-area">
-          <div class="ritual-steps-sigils">
-            <div
-                v-for="(step, index) in steps"
-                :key="index"
-                :class="{
-                'is-active': index === currentStep,
-                'is-done': index < currentStep
-              }"
-                class="sigil-step"
-                @click="goToStep(index)"
+        <!-- ─── Sticky Rail ─── -->
+        <aside class="guide-rail">
+          <div class="rail-label">{{ t('guide.riteLabel') }} · {{ completedChapters.length }}/0{{ chapIds.length - 1 }}</div>
+          <ol class="rail-list">
+            <li
+              v-for="(ch, idx) in chapDefs"
+              :key="idx"
+              :class="{ 'is-on': activeChapter === idx, done: completedChapters.includes(idx) }"
+              @click="scrollToId(chapIds[idx])"
             >
-              <div class="sigil-icon">
-                <span v-if="index < currentStep" class="done-mark">†</span>
-                <span v-else class="step-idx">{{ index + 1 }}</span>
+              <span class="sigil-dot">
+                <span v-if="completedChapters.includes(idx)">†</span>
+                <span v-else>{{ ch.roman }}</span>
+              </span>
+              <span>{{ t(ch.labelKey) }}</span>
+            </li>
+          </ol>
+          <div class="rail-hand">{{ t('guide.tapToJump') }}</div>
+          <div class="rail-rule"></div>
+          <div class="rail-label">{{ t('guide.savedLocally') }}</div>
+          <p class="rail-sub">{{ t('guide.savedNote') }}</p>
+        </aside>
+
+        <!-- ─── Scroll Story ─── -->
+        <div class="guide-story">
+
+          <!-- I. Awakening -->
+          <section class="story-section" :id="chapIds[0]" data-chapter="0">
+            <div class="chap-no">{{ t('guide.chap1No') }}</div>
+            <div class="welcome-block">
+              <div class="sigil-ring" aria-hidden="true">✦ RITUAL OF INITIATION ✦</div>
+              <h2 class="welcome-big" v-html="t('guide.chap1Title').replace('?', '?<br>')"></h2>
+              <p class="welcome-lede">{{ t('guide.chap1Lede') }}</p>
+              <div class="cta-row">
+                <button class="btn-primary-ritual" @click="scrollToId(chapIds[1])">{{ t('guide.beginRite') }}</button>
+                <button class="btn-ghost-ritual" @click="scrollToId(chapIds[6])">{{ t('guide.skipToEnd') }}</button>
               </div>
-              <span class="sigil-label">{{ step.title.split(' ')[0] }}</span>
+              <span class="handwriting">{{ t('guide.welcomeBack') }}</span>
             </div>
-          </div>
-          <div class="ritual-line-container">
-            <div class="ritual-line-base"></div>
-            <div class="ritual-line-fill" :style="{ width: `${(currentStep / (totalSteps - 1)) * 100}%` }"></div>
-          </div>
-        </div>
+          </section>
 
-        <!-- Ritual Slider -->
-        <div class="ritual-slider-wrapper">
-          <button
-              :disabled="currentStep === 0"
-              class="ritual-nav left"
-              @click="previousStep"
-              :aria-label="t('previous')"
-          >
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
+          <!-- II. Pathway -->
+          <section class="story-section" :id="chapIds[1]" data-chapter="1">
+            <div class="chap-no">{{ t('guide.chap2No') }}</div>
+            <h3 class="chap-title">{{ t('guide.chap2Title') }}</h3>
+            <p class="chap-lede">{{ t('guide.chap2Lede') }}</p>
 
-          <div class="ritual-card-portal">
-            <transition mode="out-in" name="ritual-fade">
-              <div :key="currentStep" class="ritual-slide">
-                
-                <!-- Step Header - Compacted -->
-                <div class="slide-header">
-                  <h2 class="slide-title">{{ steps[currentStep].title }}</h2>
-                  <p class="slide-subtitle">{{ steps[currentStep].description }}</p>
+            <div class="quiz-block">
+              <transition name="quiz-fade" mode="out-in">
+                <div :key="quizStep">
+                  <div class="quiz-meta">
+                    {{ t('guide.quizQuestion') }} {{ quizStep + 1 }} {{ t('guide.quizOf') }} {{ quizQuestions.length }} ·
+                    <span class="gold-text">{{ t('guide.quizChooseOne') }}</span>
+                  </div>
+                  <h4 class="quiz-question">{{ quizQuestions[quizStep].questionKey }}</h4>
+                  <div class="quiz-options">
+                    <button
+                      v-for="(opt, oi) in quizQuestions[quizStep].options"
+                      :key="oi"
+                      class="quiz-opt"
+                      :class="{ sel: quizAnswers[quizStep] === oi }"
+                      @click="answerQuiz(quizStep, oi)"
+                    >{{ t(opt.labelKey) }}</button>
+                  </div>
                 </div>
+              </transition>
 
-                <!-- Step Body -->
-                <div class="slide-body no-scrollbar">
-                  <!-- Step 1: Gateway (IP) -->
-                  <div v-if="currentStep === 0" class="content-ritual centered-content">
-                    <div class="essence-grid">
-                      <div class="essence-item">
-                        <span class="essence-label">{{ t("serverVersion") }}</span>
-                        <span class="essence-val">{{ t("minecraftVersion") }}</span>
-                      </div>
-                      <div class="essence-item">
-                        <span class="essence-label">{{ t("serverEdition") }}</span>
-                        <span class="essence-val">{{ t("serverEdition") }}</span>
-                      </div>
-                    </div>
-                    <div class="ritual-ip-box">
-                      <div class="ip-label">{{ t("gatewayAddress") }}</div>
-                      <div class="ip-display">
-                        <code class="ip-sigil">{{ serverIP }}</code>
-                        <button class="btn-ritual" @click="copyToClipboard">
-                          <i :class="isCopied ? 'fa-solid fa-check' : 'fa-solid fa-copy'"></i>
-                          <span>{{ isCopied ? t('copySuccess') : t('copyIP') }}</span>
-                        </button>
-                      </div>
-                    </div>
+              <div class="quiz-result" v-if="quizAnswers.some(a => a !== -1)">
+                <div class="result-seal">
+                  <img :src="pathwayImageUrl(tentativePathway)" :alt="tentativePathway" class="result-pathway-img" />
+                </div>
+                <div class="result-info">
+                  <div class="result-meta">
+                    {{ t('guide.tentativeLabel') }} · <span class="gold-text">the {{ capitalize(tentativePathway) }}</span>
                   </div>
-
-                  <!-- Step 2 & 4: Instructions with Images (Join & Verify) -->
-                  <div v-else-if="[1, 3].includes(currentStep)" class="content-ritual has-image">
-                    <div class="instruction-list">
-                      <div
-                          v-for="i in (currentStep === 1 ? 4 : 3)"
-                          :key="i"
-                          class="ritual-instruction-item"
-                      >
-                        <div class="item-number">{{ i }}</div>
-                        <p class="item-text">{{ t(`guideStep${currentStep + 1}Instruction${i}`) }}</p>
-                      </div>
-                      <div v-if="currentStep === 3" class="action-row">
-                        <router-link class="btn-ritual" to="/profile">
-                          {{ t('goToProfile') }} <i class="fa-solid fa-arrow-right"></i>
-                        </router-link>
-                      </div>
-                    </div>
-                    <div class="image-frame">
-                      <img :src="getStepImage()" class="ritual-img" alt="Ritual Guide"/>
-                      <div class="frame-edge"></div>
-                    </div>
-                  </div>
-
-                  <!-- Step 3 & 5: Grid Instructions (Portal & Rules) -->
-                  <div v-else-if="[2, 4].includes(currentStep)" class="content-ritual centered-content">
-                    <div class="ritual-instruction-grid">
-                      <div
-                          v-for="i in 4"
-                          :key="i"
-                          class="ritual-instruction-card"
-                      >
-                        <div class="card-idx">{{ i }}</div>
-                        <p class="item-text">{{ t(`guideStep${currentStep + 1}Instruction${i}`) }}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Step 6: Lore -->
-                  <div v-else-if="currentStep === 5" class="content-ritual centered-content">
-                    <div class="lore-ritual-grid">
-                      <div class="lore-entry">
-                        <h3 class="lore-title">{{ t('guideStep6LoreTitle1') }}</h3>
-                        <p class="item-text">{{ t('guideStep6LoreDesc1') }}</p>
-                      </div>
-                      <div class="lore-entry">
-                        <h3 class="lore-title">{{ t('guideStep6LoreTitle2') }}</h3>
-                        <p class="item-text">{{ t('guideStep6LoreDesc2') }}</p>
-                      </div>
-                    </div>
-                    <div class="action-row centered">
-                      <a class="btn-ritual" href="https://www.webnovel.com/book/lord-of-mysteries_11022733006234505" target="_blank">{{ t('readWebNovel') }}</a>
-                      <a class="btn-ritual" href="https://www.crunchyroll.com/series/GEXH3W2EZ/lord-of-mysteries" target="_blank">{{ t('watchAnime') }}</a>
-                    </div>
-                  </div>
-
-                  <!-- Step 7: COI Client -->
-                  <div v-else-if="currentStep === 6" class="content-ritual centered-content">
-                    <div class="launcher-benefit-ritual">
-                      <div class="benefit-item-ritual">
-                        <i class="fa-solid fa-star-of-life"></i>
-                        <span class="item-text">{{ t('coiClientBenefit1') }}</span>
-                      </div>
-                      <div class="benefit-item-ritual">
-                        <i class="fa-solid fa-star-of-life"></i>
-                        <span class="item-text">{{ t('coiClientBenefit2') }}</span>
-                      </div>
-                      <div class="benefit-item-ritual">
-                        <i class="fa-solid fa-star-of-life"></i>
-                        <span class="item-text">{{ t('coiClientBenefit3') }}</span>
-                      </div>
-                    </div>
-                    <div class="launcher-ritual-footer">
-                      <div class="action-row centered">
-                        <a class="btn-ritual" href="https://github.com/ikeepcalm/coi-client" target="_blank">{{ t('coiClientAcquire') }}</a>
-                      </div>
-                      <p class="optional-ritual">{{ t('coiClientOptional') }}</p>
-                    </div>
-                  </div>
-
+                  <div class="result-sub">{{ t(pathwayHintKeys[tentativePathway]) }}</div>
+                </div>
+                <div class="result-actions">
+                  <button
+                    v-if="quizStep < quizQuestions.length - 1 && quizAnswers[quizStep] !== -1"
+                    class="btn-primary-ritual"
+                    @click="quizStep++"
+                  >{{ t('guide.nextQuestion') }}</button>
+                  <button
+                    v-if="quizStep === quizQuestions.length - 1 && quizAnswers[quizStep] !== -1"
+                    class="btn-primary-ritual"
+                    @click="confirmPathway"
+                  >{{ t('guide.confirmPathway') }}</button>
                 </div>
               </div>
-            </transition>
-          </div>
+            </div>
+          </section>
 
-          <button
-              :disabled="currentStep === totalSteps - 1"
-              class="ritual-nav right"
-              @click="nextStep"
-              :aria-label="t('next')"
-          >
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
+          <!-- III. Gateway & Join -->
+          <section class="story-section" :id="chapIds[2]" data-chapter="2">
+            <div class="chap-no">{{ t('guide.chap3No') }}</div>
+            <h3 class="chap-title">{{ t('guide.chap3Title') }}</h3>
+            <p class="chap-lede">{{ t('guide.chap3Lede') }}</p>
+
+            <div class="hero-grid">
+              <div>
+                <div class="ip-block">
+                  <div class="mono-label" style="margin-bottom: 10px">{{ t('guide.gatewayAddressLabel') }} · {{ t('serverEdition') }}</div>
+                  <code class="ip-code">{{ t('serverAddress') }}</code>
+                  <div class="ip-row">
+                    <button class="btn-primary-ritual" @click="copyIP">
+                      <i :class="isCopied ? 'fa-solid fa-check' : 'fa-solid fa-copy'"></i>
+                      {{ isCopied ? t('copySuccess') : t('copyIP') }}
+                    </button>
+                    <span v-if="isCopied" class="mono-label gold-text">✓ {{ t('copySuccess').toLowerCase() }}</span>
+                  </div>
+                </div>
+
+                <div class="step-list" style="margin-top: 20px">
+                  <div class="step-row">
+                    <span class="step-n">01</span>
+                    <div class="step-t">
+                      <b>{{ t('guide.step3_1Title') }}</b>
+                      <small>{{ t('guide.step3_1Desc') }} ({{ t('minecraftVersion') }})</small>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <span class="step-n">02</span>
+                    <div class="step-t">
+                      <b>{{ t('guide.step3_2Title') }}</b>
+                      <small>{{ t('guide.step3_2Desc') }}</small>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <span class="step-n">03</span>
+                    <div class="step-t">
+                      <b>{{ t('guide.step3_3Title') }}</b>
+                      <small>{{ t('guide.step3_3Desc') }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="img-frame">
+                <img :src="joinImg" alt="Add server screenshot" class="guide-img" />
+                <div class="frame-inset"></div>
+              </div>
+            </div>
+
+            <div class="section-check" @click="toggleComplete(2)">
+              <span class="checkbox-box" :class="{ done: completedChapters.includes(2) }"></span>
+              <span class="check-text">{{ t('guide.chap3Check') }}</span>
+            </div>
+          </section>
+
+          <!-- IV. Verify -->
+          <section class="story-section" :id="chapIds[3]" data-chapter="3">
+            <div class="chap-no">{{ t('guide.chap4No') }}</div>
+            <h3 class="chap-title">{{ t('guide.chap4Title') }}</h3>
+            <p class="chap-lede">{{ t('guide.chap4Lede') }}</p>
+
+            <div class="pair-grid">
+              <div class="step-card">
+                <div class="mono-label" style="margin-bottom: 14px">{{ t('guide.verifyRiteTitle') }}</div>
+                <div class="step-list">
+                  <div class="step-row">
+                    <span class="step-n">01</span>
+                    <div class="step-t">{{ t('guide.verify1') }}</div>
+                  </div>
+                  <div class="step-row">
+                    <span class="step-n">02</span>
+                    <div class="step-t">{{ t('guide.verify2') }}</div>
+                  </div>
+                  <div class="step-row">
+                    <span class="step-n">03</span>
+                    <div class="step-t">
+                      <b>{{ t('guide.verify3Title') }}</b>
+                      <small>{{ t('guide.verify3Desc') }}</small>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <span class="step-n">04</span>
+                    <div class="step-t">{{ t('guide.verify4') }}</div>
+                  </div>
+                </div>
+                <div style="margin-top: 16px">
+                  <router-link class="btn-primary-ritual" to="/profile">{{ t('guide.openProfile') }}</router-link>
+                </div>
+              </div>
+
+              <div class="img-frame">
+                <img :src="verifyImg" alt="Verify screenshot" class="guide-img" />
+                <div class="frame-inset"></div>
+              </div>
+            </div>
+
+            <div class="section-check" @click="toggleComplete(3)">
+              <span class="checkbox-box" :class="{ done: completedChapters.includes(3) }"></span>
+              <span class="check-text">{{ t('guide.chap4Check') }}</span>
+            </div>
+          </section>
+
+          <!-- V. Covenant & World -->
+          <section class="story-section" :id="chapIds[4]" data-chapter="4">
+            <div class="chap-no">{{ t('guide.chap5No') }}</div>
+            <h3 class="chap-title">{{ t('guide.chap5Title') }}</h3>
+            <p class="chap-lede">{{ t('guide.chap5Lede') }}</p>
+
+            <div class="pair-grid">
+              <div class="step-card">
+                <div class="mono-label" style="margin-bottom: 14px">{{ t('guide.covenantTitle') }}</div>
+                <div class="step-list">
+                  <div class="step-row"><span class="step-n">I</span><div class="step-t"><b>{{ t('guide.rule1') }}</b><small>{{ t('guide.rule1Sub') }}</small></div></div>
+                  <div class="step-row"><span class="step-n">II</span><div class="step-t"><b>{{ t('guide.rule2') }}</b><small>{{ t('guide.rule2Sub') }}</small></div></div>
+                  <div class="step-row"><span class="step-n">III</span><div class="step-t"><b>{{ t('guide.rule3') }}</b><small>{{ t('guide.rule3Sub') }}</small></div></div>
+                  <div class="step-row"><span class="step-n">IV</span><div class="step-t"><b>{{ t('guide.rule4') }}</b><small>{{ t('guide.rule4Sub') }}</small></div></div>
+                </div>
+              </div>
+
+              <div class="step-card">
+                <div class="mono-label" style="margin-bottom: 14px">{{ t('guide.worldTitle') }}</div>
+                <p class="card-body">{{ t('guide.worldBody') }}</p>
+                <div class="lore-links">
+                  <a class="btn-ghost-ritual" href="https://www.webnovel.com/book/lord-of-mysteries_11022733006234505" target="_blank">{{ t('readWebNovel') }}</a>
+                  <a class="btn-ghost-ritual" href="https://www.crunchyroll.com/series/GEXH3W2EZ/lord-of-mysteries" target="_blank">{{ t('watchAnime') }}</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-check" @click="toggleComplete(4)">
+              <span class="checkbox-box" :class="{ done: completedChapters.includes(4) }"></span>
+              <span class="check-text">{{ t('guide.chap5Check') }}</span>
+            </div>
+          </section>
+
+          <!-- VI. COI Mod -->
+          <section class="story-section" :id="chapIds[5]" data-chapter="5">
+            <div class="chap-no">{{ t('guide.chap6No') }}</div>
+            <h3 class="chap-title">{{ t('guide.chap6Title') }}</h3>
+            <p class="chap-lede">{{ t('guide.chap6Lede') }}</p>
+
+            <div class="pair-grid">
+              <div class="step-card">
+                <div class="mono-label" style="margin-bottom: 14px">{{ t('guide.coiWhatTitle') }}</div>
+                <div class="step-list">
+                  <div class="step-row"><span class="step-n">✦</span><div class="step-t">{{ t('guide.coiFeature1') }}</div></div>
+                  <div class="step-row"><span class="step-n">✦</span><div class="step-t">{{ t('guide.coiFeature2') }}</div></div>
+                  <div class="step-row"><span class="step-n">✦</span><div class="step-t">{{ t('guide.coiFeature3') }}</div></div>
+                </div>
+                <div class="coi-footer">
+                  <a class="btn-primary-ritual" href="https://github.com/ikeepcalm/coi-client" target="_blank">{{ t('coiClientAcquire') }} →</a>
+                  <span class="muted-small">{{ t('coiClientOptional') }}</span>
+                </div>
+              </div>
+
+              <div class="coi-visual">
+                <div class="coi-icon-grid">
+                  <div class="coi-feature">
+                    <i class="fa-solid fa-bolt coi-icon"></i>
+                    <span>{{ t('guide.coiFeatureSpellHotkeys') }}</span>
+                  </div>
+                  <div class="coi-feature">
+                    <i class="fa-solid fa-eye coi-icon"></i>
+                    <span>{{ t('guide.coiFeatureVisualEffects') }}</span>
+                  </div>
+                  <div class="coi-feature">
+                    <i class="fa-solid fa-star-of-life coi-icon"></i>
+                    <span>{{ t('guide.coiFeatureRichPresence') }}</span>
+                  </div>
+                  <div class="coi-feature">
+                    <i class="fa-solid fa-music coi-icon"></i>
+                    <span>{{ t('guide.coiFeatureSounds') }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-check" @click="toggleComplete(5)">
+              <span class="checkbox-box" :class="{ done: completedChapters.includes(5) }"></span>
+              <span class="check-text">{{ t('guide.chap6Check') }}</span>
+            </div>
+          </section>
+
+          <!-- Completion + FAQ -->
+          <section class="story-section" :id="chapIds[6]" data-chapter="6">
+            <div class="chap-no">{{ t('guide.sealNo') }}</div>
+            <h3 class="chap-title">{{ t('guide.sealTitle') }}</h3>
+            <p class="chap-lede">{{ t('guide.sealLede') }}</p>
+
+            <div class="final-grid">
+              <div class="sigil-complete">
+                <div class="seal-big">
+                  <img :src="pathwayImageUrl(selectedPathway)" :alt="selectedPathway" class="seal-pathway-img" />
+                </div>
+                <div class="mono-label gold-text" style="margin: 16px 0 6px">
+                  {{ t('guide.believerLabel') }} · {{ selectedPathway.toUpperCase() }} {{ t('guide.pathwayLabel') }}
+                </div>
+                <div class="muted-small">{{ t('guide.initiatedLabel') }} · {{ initiationDate }}</div>
+                <div class="cta-row" style="justify-content: center; margin-top: 20px; gap: 10px">
+                  <router-link class="btn-primary-ritual" to="/">{{ t('guide.returnGateway') }}</router-link>
+                  <button class="btn-ghost-ritual" @click="resetProgress">{{ t('guide.resetProgress') }}</button>
+                </div>
+              </div>
+
+              <div class="faq-block">
+                <div class="mono-label" style="margin-bottom: 14px">{{ t('guide.faqTitle') }}</div>
+                <details class="faq-item"><summary>{{ t('guide.faq1Q') }}</summary><p>{{ t('guide.faq1A') }}</p></details>
+                <details class="faq-item"><summary>{{ t('guide.faq2Q') }}</summary><p>{{ t('guide.faq2A') }}</p></details>
+                <details class="faq-item"><summary>{{ t('guide.faq3Q') }}</summary><p>{{ t('guide.faq3A') }}</p></details>
+                <details class="faq-item"><summary>{{ t('guide.faq4Q') }}</summary><p>{{ t('guide.faq4A') }}</p></details>
+                <details class="faq-item"><summary>{{ t('guide.faq5Q') }}</summary><p>{{ t('guide.faq5A') }}</p></details>
+              </div>
+            </div>
+          </section>
+
         </div>
       </div>
     </main>
@@ -188,488 +322,500 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref} from "vue";
-import {useI18n} from "@/composables/useI18n";
-import HeaderItem from "@/components/layout/HeaderItem.vue";
-import ipImg from "@/assets/images/guide/ip.webp";
-import verifyImg from "@/assets/images/guide/verify.webp";
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
+import { useRoute } from 'vue-router';
+import { useI18n } from '@/composables/useI18n';
+import HeaderItem from '@/components/layout/HeaderItem.vue';
+import { getPathwayImageUrl } from '@/utils/pathwayPlugin';
+import joinImg from '@/assets/images/guide/join.webp';
+import verifyImg from '@/assets/images/guide/verify.webp';
 
-const {t} = useI18n();
+const { t } = useI18n();
+const route = useRoute();
 
-const serverIP = computed(() => t("serverAddress"));
-const isCopied = ref(false);
+function pathwayImageUrl(name: string) { return getPathwayImageUrl(name); }
+function capitalize(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-const currentStep = ref(0);
-const totalSteps = 7;
+// ── Chapter definitions ────────────────────────────────────────────────────
+const chapIds = ['awakening', 'pathway', 'gateway', 'verify', 'covenant', 'companion', 'completion'];
 
-const steps = computed(() => [
-  {title: t('guideStep1FullTitle'), description: t('guideStep1FullDescription')},
-  {title: t('guideStep2FullTitle'), description: t('guideStep2FullDescription')},
-  {title: t('guideStep3FullTitle'), description: t('guideStep3FullDescription')},
-  {title: t('guideStep4FullTitle'), description: t('guideStep4FullDescription')},
-  {title: t('guideStep5FullTitle'), description: t('guideStep5FullDescription')},
-  {title: t('guideStep6FullTitle'), description: t('guideStep6FullDescription')},
-  {title: t('coiClientTitle'), description: t('coiClientDescription')}
-]);
+const chapDefs = [
+  { roman: 'I',   labelKey: 'guide.chap1Label' },
+  { roman: 'II',  labelKey: 'guide.chap2Label' },
+  { roman: 'III', labelKey: 'guide.chap3Label' },
+  { roman: 'IV',  labelKey: 'guide.chap4Label' },
+  { roman: 'V',   labelKey: 'guide.chap5Label' },
+  { roman: 'VI',  labelKey: 'guide.chap6Label' },
+  { roman: '✦',   labelKey: 'guide.chap7Label' },
+];
 
-const nextStep = () => { if (currentStep.value < totalSteps - 1) currentStep.value++; };
-const previousStep = () => { if (currentStep.value > 0) currentStep.value--; };
-const goToStep = (index: number) => { currentStep.value = index; };
+// ── Pathway quiz ──────────────────────────────────────────────────────────
+type PathwayKey = 'fool' | 'hermit' | 'emperor' | 'moon' | 'death' | 'sun' | 'darkness' | 'fortune';
 
-const getStepImage = () => {
-  if (currentStep.value === 1) return ipImg;
-  if (currentStep.value === 3) return verifyImg;
-  return "";
+const pathwayHintKeys: Record<string, string> = {
+  fool:     'guide.hintFool',
+  hermit:   'guide.hintHermit',
+  emperor:  'guide.hintEmperor',
+  moon:     'guide.hintMoon',
+  death:    'guide.hintDeath',
+  sun:      'guide.hintSun',
+  darkness: 'guide.hintDarkness',
+  fortune:  'guide.hintFortune',
 };
 
-const copyToClipboard = async () => {
+interface QuizOption { labelKey: string; weights: Partial<Record<PathwayKey, number>> }
+
+const quizQuestions: { questionKey: string; options: QuizOption[] }[] = [
+  {
+    questionKey: computed(() => t('guide.quiz1Question')).value,
+    options: [
+      { labelKey: 'guide.quiz1Option1', weights: { hermit: 2, fool: 1, fortune: 1 } },
+      { labelKey: 'guide.quiz1Option2', weights: { emperor: 2, sun: 1 } },
+      { labelKey: 'guide.quiz1Option3', weights: { darkness: 2, moon: 1, death: 1 } },
+    ],
+  },
+  {
+    questionKey: computed(() => t('guide.quiz2Question')).value,
+    options: [
+      { labelKey: 'guide.quiz2Option1', weights: { hermit: 2, fortune: 1 } },
+      { labelKey: 'guide.quiz2Option2', weights: { emperor: 2, sun: 1 } },
+      { labelKey: 'guide.quiz2Option3', weights: { darkness: 2, moon: 1, death: 1, fool: 1 } },
+    ],
+  },
+  {
+    questionKey: computed(() => t('guide.quiz3Question')).value,
+    options: [
+      { labelKey: 'guide.quiz3Option1', weights: { hermit: 2, fool: 2, fortune: 1 } },
+      { labelKey: 'guide.quiz3Option2', weights: { emperor: 2, sun: 2 } },
+      { labelKey: 'guide.quiz3Option3', weights: { death: 2, darkness: 1, moon: 1 } },
+    ],
+  },
+];
+
+// ── Persistence ───────────────────────────────────────────────────────────
+const STORAGE_KEY = 'myst.guide.v2';
+function loadState() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
+const saved = loadState();
+
+const quizStep          = ref<number>(saved.quizStep ?? 0);
+const quizAnswers       = ref<number[]>(saved.quizAnswers ?? [-1, -1, -1]);
+const selectedPathway   = ref<string>(saved.pathway ?? 'fool');
+const completedChapters = ref<number[]>(saved.completed ?? []);
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    quizStep:    quizStep.value,
+    quizAnswers: quizAnswers.value,
+    pathway:     selectedPathway.value,
+    completed:   completedChapters.value,
+  }));
+}
+watch([quizStep, quizAnswers, selectedPathway, completedChapters], saveState, { deep: true });
+
+const tentativePathway = computed<string>(() => {
+  const scores: Record<string, number> = {};
+  quizAnswers.value.forEach((a, qi) => {
+    if (a < 0) return;
+    Object.entries(quizQuestions[qi].options[a].weights).forEach(([p, v]) => {
+      scores[p] = (scores[p] ?? 0) + v;
+    });
+  });
+  if (!Object.keys(scores).length) return selectedPathway.value;
+  return Object.entries(scores).sort((x, y) => y[1] - x[1])[0][0];
+});
+
+function answerQuiz(qi: number, oi: number) {
+  const arr = [...quizAnswers.value];
+  arr[qi] = oi;
+  quizAnswers.value = arr;
+}
+
+function confirmPathway() {
+  selectedPathway.value = tentativePathway.value;
+  toggleComplete(1);
+  scrollToId(chapIds[2]);
+}
+
+function toggleComplete(idx: number) {
+  const arr = [...completedChapters.value];
+  const pos = arr.indexOf(idx);
+  if (pos >= 0) arr.splice(pos, 1); else arr.push(idx);
+  completedChapters.value = arr;
+}
+
+function resetProgress() {
+  quizStep.value = 0;
+  quizAnswers.value = [-1, -1, -1];
+  selectedPathway.value = 'fool';
+  completedChapters.value = [];
+  scrollToId(chapIds[0]);
+}
+
+// ── IP copy ───────────────────────────────────────────────────────────────
+const isCopied = ref(false);
+async function copyIP() {
   try {
-    await navigator.clipboard.writeText(serverIP.value);
+    await navigator.clipboard.writeText(t('serverAddress'));
     isCopied.value = true;
     setTimeout(() => { isCopied.value = false; }, 1500);
-  } catch (err) {
-    console.error("Failed to copy: ", err);
+  } catch { /* ignore */ }
+}
+
+// ── Initiation date ───────────────────────────────────────────────────────
+const initiationDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// ── Scroll helpers ────────────────────────────────────────────────────────
+function scrollToId(id: string) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Scroll-spy via IntersectionObserver ──────────────────────────────────
+const activeChapter = ref(0);
+let observer: IntersectionObserver | null = null;
+
+onMounted(async () => {
+  await nextTick();
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          activeChapter.value = Number((e.target as HTMLElement).dataset.chapter);
+        }
+      });
+    },
+    { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
+  );
+  document.querySelectorAll('[data-chapter]').forEach(s => observer!.observe(s));
+
+  // Handle hash on load (e.g. /guide#verify)
+  if (route.hash) {
+    const id = route.hash.slice(1);
+    setTimeout(() => scrollToId(id), 100);
   }
-};
+});
+
+onUnmounted(() => { observer?.disconnect(); });
 </script>
 
 <style scoped>
-/* RITUAL OF INITIATION - OPTIMIZED FOR 1080P NO SCROLL */
-
-.ritual-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #05070a;
-  overflow: hidden;
+/* ── Page shell — matches RulesView background exactly ── */
+.guide-page {
+  min-height: 100vh;
+  background-color: #111218;
+  color: var(--myst-ink);
 }
 
-.ritual-main {
-  flex: 1;
-  position: relative;
-  margin-top: 80px; /* Header height */
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+.guide-main {
+  margin-top: 80px;
+  padding: 0 32px 80px;
 }
 
-.ritual-bg-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  transition: background-color 1.5s ease;
-}
-
-.phase-0 { background-color: rgba(200, 178, 115, 0.03); }
-
-.mist-layer {
-  position: absolute;
-  inset: -100%;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.01) 0%, transparent 40%);
-  animation: mistMove 40s linear infinite;
-}
-
-@keyframes mistMove {
-  from { transform: translate(0, 0) rotate(0deg); }
-  to { transform: translate(5%, 5%) rotate(360deg); }
-}
-
-.ritual-container {
-  max-width: 1400px;
-  width: 100%;
+.guide-layout {
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 0 40px 30px; /* Reduced vertical padding */
-  position: relative;
-  z-index: 2;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* Compact Header Override */
-.myst-page-header.compact {
-  margin: 15px 0 25px; /* Significantly reduced margins */
-}
-
-/* Progress Area - Enlarged and More Visible */
-.ritual-progress-area {
-  margin-bottom: 30px;
-  flex-shrink: 0;
-}
-
-.ritual-steps-sigils {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
-
-.sigil-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  z-index: 5;
-}
-
-.sigil-icon {
-  width: 36px; height: 36px; /* Increased size from 28px */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Increased visibility */
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px; /* Increased size */
-  background: #05070a;
-  transition: all 0.4s ease;
-  color: #666;
-}
-
-.sigil-step.is-active .sigil-icon {
-  border-color: var(--myst-gold);
-  color: var(--myst-gold);
-  box-shadow: 0 0 20px rgba(200, 178, 115, 0.4);
-  transform: scale(1.15);
-}
-
-.sigil-step.is-done .sigil-icon {
-  border-color: rgba(200, 178, 115, 0.6);
-  color: var(--myst-gold);
-}
-
-.sigil-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; /* Slightly larger */
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #555;
-  font-weight: 500;
-}
-
-.sigil-step.is-active .sigil-label { color: var(--myst-gold); font-weight: 700; }
-.sigil-step.is-done .sigil-label { color: #888; }
-
-.ritual-line-container {
-  position: relative;
-  height: 1px;
-  width: 100%;
-  top: -42px; /* Adjusted for larger icons */
-}
-
-.ritual-line-base {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.ritual-line-fill {
-  position: absolute;
-  top: 0; left: 0; bottom: 0;
-  background: var(--myst-gold);
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 10px var(--myst-gold);
-}
-
-/* Slider & Navigation Arrows */
-.ritual-slider-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  min-height: 0;
-}
-
-.ritual-nav {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 50px; height: 50px;
-  border-radius: 50%;
-  color: #888;
-  font-size: 20px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  flex-shrink: 0;
-}
-
-.ritual-nav:hover:not(:disabled) { 
-  color: var(--myst-gold); 
-  border-color: var(--myst-gold);
-  background: rgba(200, 178, 115, 0.05);
-  transform: scale(1.1);
-}
-.ritual-nav:disabled { opacity: 0.1; cursor: not-allowed; }
-
-.ritual-card-portal {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.ritual-slide {
-  padding: 30px 50px; /* Reduced vertical padding */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.slide-header {
-  text-align: center;
-  margin-bottom: 25px; /* Reduced margin */
-  flex-shrink: 0;
-}
-
-.slide-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px; /* Slightly smaller */
-  color: var(--myst-offwhite);
-  margin-bottom: 8px;
-}
-
-.slide-subtitle {
-  font-size: 14px;
-  color: #888;
-  max-width: 650px;
-  margin: 0 auto;
-}
-
-.slide-body {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Center content vertically when possible */
-}
-
-/* Content Layouts */
-.centered-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.has-image {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 40px;
-  align-items: center;
+  grid-template-columns: 230px 1fr;
+  gap: 52px;
+  align-items: start;
 }
 
-/* Common Elements */
-.item-text {
-  font-size: 14px; /* Reduced for better fit */
-  line-height: 1.6;
-  color: #aaa;
-  margin: 0;
+/* ── Rail ── */
+.guide-rail {
+  position: sticky;
+  top: 96px;
+  border-left: 2px solid color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  padding: 4px 0 4px 20px;
 }
 
-.action-row {
-  display: flex;
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.action-row.centered { justify-content: center; }
-
-.btn-ritual {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 24px;
-  background: transparent;
-  border: 1px solid var(--myst-gold);
-  color: var(--myst-gold);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  text-decoration: none;
-}
-
-.btn-ritual:hover {
-  background: rgba(200, 178, 115, 0.1);
-  box-shadow: 0 0 15px rgba(200, 178, 115, 0.2);
-}
-
-/* Numbered List Alignment */
-.ritual-instruction-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 15px; /* Reduced spacing */
-  text-align: left;
-}
-
-.item-number {
-  flex-shrink: 0;
-  width: 24px; height: 24px;
-  display: flex; align-items: center; justify-content: center;
-  border: 1px solid var(--myst-gold);
-  color: var(--myst-gold);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-/* Image Frame */
-.image-frame {
-  position: relative;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  max-height: 300px;
-  overflow: hidden;
-}
-
-.ritual-img {
-  width: 100%; height: 100%;
-  object-fit: contain;
-  opacity: 0.8;
-}
-
-.frame-edge {
-  position: absolute; inset: 10px;
-  border: 1px solid rgba(200, 178, 115, 0.15);
-  pointer-events: none;
-}
-
-/* Grid Instructions */
-.ritual-instruction-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  width: 100%;
-  max-width: 850px;
-}
-
-.ritual-instruction-card {
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.card-idx {
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--myst-gold);
-  font-size: 12px;
-  letter-spacing: 4px;
-  opacity: 0.6;
-}
-
-/* Essence (Step 1) */
-.essence-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-bottom: 30px;
-  width: 100%;
-  max-width: 550px;
-}
-
-.essence-item {
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.essence-label {
-  display: block;
+.rail-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #555;
+  letter-spacing: .3em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  color: var(--myst-ink-muted);
+  margin-bottom: 14px;
+  display: block;
 }
 
-.essence-val {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  color: var(--myst-gold);
+.rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.ip-display {
+.rail-list li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--myst-ink-muted);
+  cursor: pointer;
+  transition: color .2s;
+  user-select: none;
+}
+
+.rail-list li:hover { color: var(--myst-ink); }
+
+.sigil-dot {
+  width: 22px;
+  height: 22px;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 40%, transparent);
+  border-radius: 50%;
   display: inline-flex;
   align-items: center;
-  gap: 20px;
-  padding: 14px 28px;
-  background: #080a14;
-  border: 1px solid rgba(200, 178, 115, 0.2);
-}
-
-.ip-sigil {
+  justify-content: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 20px;
+  font-size: 10px;
+  color: var(--myst-ink-muted);
+  flex-shrink: 0;
+  transition: all .25s;
+}
+
+.rail-list li.is-on { color: var(--myst-gold); }
+.rail-list li.is-on .sigil-dot {
+  border-color: var(--myst-gold);
+  color: var(--myst-gold);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--myst-gold) 10%, transparent);
+}
+.rail-list li.done .sigil-dot {
+  background: color-mix(in srgb, var(--myst-gold) 12%, transparent);
+  border-color: var(--myst-gold);
   color: var(--myst-gold);
 }
 
-/* Lore & Tips Grids */
-.lore-ritual-grid, .tips-ritual-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.rail-hand {
+  font-family: 'Caveat', cursive;
+  color: var(--myst-gold);
+  font-size: 15px;
+  margin-top: 14px;
+  transform: rotate(-2deg);
+  display: inline-block;
+  opacity: .6;
+}
+
+.rail-rule { height: 1px; background: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent); margin: 14px 0; }
+
+.rail-sub { font-size: 12px; color: var(--myst-ink-muted); margin: 6px 0 0; max-width: 160px; line-height: 1.5; }
+
+/* ── Story ── */
+.guide-story { padding-top: 16px; }
+
+.story-section {
+  min-height: 80vh;
+  padding: 52px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
+  display: flex;
+  flex-direction: column;
   gap: 20px;
-  margin-bottom: 25px;
-  width: 100%;
-  max-width: 950px;
+  /* offset so sticky header doesn't overlap the anchor target */
+  scroll-margin-top: 90px;
 }
 
-.lore-entry, .tip-ritual-card {
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  text-align: left;
-}
+.story-section:last-child { border-bottom: none; min-height: auto; }
 
-.lore-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
+.chap-no {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .45em;
   color: var(--myst-gold);
-  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
-.tip-ritual-icon { font-size: 20px; margin-bottom: 12px; }
-
-/* Launcher Benefits */
-.launcher-benefit-ritual {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-bottom: 30px;
-  width: 100%;
-  max-width: 450px;
-  text-align: left;
+.chap-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 600;
+  margin: 0;
+  color: var(--myst-ink);
+  line-height: 1.2;
 }
 
-.benefit-item-ritual { display: flex; align-items: center; gap: 12px; }
-.benefit-item-ritual i { color: var(--myst-gold); font-size: 10px; }
+.chap-lede { color: var(--myst-ink-muted); max-width: 62ch; font-size: 16px; margin: 0; line-height: 1.65; }
 
-.optional-ritual {
-  font-size: 11px;
-  color: #555;
-  margin-top: 20px;
+/* ── Welcome block ── */
+.welcome-block {
+  background: radial-gradient(ellipse at 25% 30%, color-mix(in srgb, var(--myst-gold) 6%, transparent), transparent 60%);
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 25%, transparent);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Transitions */
-.ritual-fade-enter-active, .ritual-fade-leave-active { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-.ritual-fade-enter-from { opacity: 0; transform: translateX(20px); }
-.ritual-fade-leave-to { opacity: 0; transform: translateX(-20px); }
+.sigil-ring {
+  position: absolute; right: -50px; top: 50%; transform: translateY(-50%);
+  width: 260px; height: 260px;
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 18%, transparent); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: color-mix(in srgb, var(--myst-gold) 25%, transparent);
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .4em;
+  pointer-events: none;
+}
+.sigil-ring::before {
+  content: ''; position: absolute; inset: 22px;
+  border: 1px dashed color-mix(in srgb, var(--myst-gold) 15%, transparent); border-radius: 50%;
+}
 
-/* Scrollbar Removal */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.welcome-big {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600; line-height: 1.1; max-width: 16ch;
+  margin: 0 0 14px; color: var(--myst-ink);
+}
 
+.welcome-lede { color: var(--myst-ink-muted); max-width: 52ch; font-size: 16px; margin: 0 0 22px; line-height: 1.65; }
+
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+.handwriting {
+  font-family: 'Caveat', cursive;
+  font-size: 20px; color: var(--myst-gold);
+  transform: rotate(-1.5deg); display: inline-block; margin-top: 14px; opacity: .75;
+}
+
+/* ── Buttons ── */
+.btn-primary-ritual {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  background: var(--myst-gold); color: var(--myst-bg);
+  border: 1px solid var(--myst-gold);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .15em; text-transform: uppercase;
+  cursor: pointer; text-decoration: none; transition: all .2s;
+}
+.btn-primary-ritual:hover { background: var(--myst-gold-soft); border-color: var(--myst-gold-soft); }
+
+.btn-ghost-ritual {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  background: transparent; color: var(--myst-ink-muted);
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 35%, transparent);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .15em; text-transform: uppercase;
+  cursor: pointer; text-decoration: none; transition: all .2s;
+}
+.btn-ghost-ritual:hover { border-color: var(--myst-ink-muted); color: var(--myst-ink); }
+
+/* ── Quiz ── */
+.quiz-block {
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
+  background: var(--myst-bg-2);
+  padding: 28px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+.quiz-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--myst-ink-muted); margin-bottom: 8px;
+}
+
+.quiz-question { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; margin: 0 0 18px; color: var(--myst-ink); }
+
+.quiz-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+.quiz-opt {
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
+  padding: 16px 14px; font-size: 14px; color: var(--myst-ink-muted);
+  cursor: pointer; text-align: left; font-family: inherit; line-height: 1.45; transition: all .2s;
+}
+.quiz-opt:hover { border-color: color-mix(in srgb, var(--myst-gold) 50%, transparent); color: var(--myst-ink); }
+.quiz-opt.sel { border-color: var(--myst-gold); color: var(--myst-ink); background: color-mix(in srgb, var(--myst-gold) 8%, transparent); }
+
+.quiz-result {
+  display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+  border-top: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent); padding-top: 20px;
+}
+
+.result-seal {
+  width: 72px; height: 72px;
+  border: 1px solid color-mix(in srgb, var(--myst-gold) 40%, transparent); border-radius: 50%;
+  overflow: hidden; flex-shrink: 0; background: var(--myst-bg);
+}
+.result-pathway-img { width: 100%; height: 100%; object-fit: cover; }
+
+.result-info { flex: 1; min-width: 0; }
+.result-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--myst-ink-muted); margin-bottom: 4px; }
+.result-sub { font-size: 13px; color: var(--myst-ink-muted); max-width: 44ch; line-height: 1.5; }
+.result-actions { display: flex; gap: 8px; }
+.gold-text { color: var(--myst-gold); }
+
+/* ── Grids ── */
+.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: start; margin-top: 8px; }
+.pair-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+
+/* ── IP block ── */
+.ip-block { border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent); padding: 24px; background: var(--myst-bg-2); }
+.mono-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--myst-ink-muted); display: block; }
+.ip-code { font-family: 'JetBrains Mono', monospace; font-size: 26px; color: var(--myst-gold); display: block; padding: 14px 0; border-top: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent); margin: 10px 0 16px; }
+.ip-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+/* ── Step cards ── */
+.step-card { border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent); background: var(--myst-bg-2); padding: 22px; }
+.step-list { display: flex; flex-direction: column; gap: 10px; }
+.step-row { display: flex; gap: 14px; align-items: flex-start; padding: 12px 14px; border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 15%, transparent); background: color-mix(in srgb, var(--myst-bg) 50%, transparent); }
+.step-n { font-family: 'JetBrains Mono', monospace; color: var(--myst-gold); font-size: 12px; min-width: 26px; flex-shrink: 0; padding-top: 1px; }
+.step-t { flex: 1; color: var(--myst-ink); font-size: 14px; line-height: 1.5; }
+.step-t b { font-weight: 500; display: block; }
+.step-t small { display: block; color: var(--myst-ink-muted); font-size: 12px; margin-top: 3px; font-family: 'JetBrains Mono', monospace; letter-spacing: .05em; }
+
+/* ── Images ── */
+.img-frame { border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent); background: var(--myst-bg-2); position: relative; overflow: hidden; min-height: 220px; display: flex; align-items: center; justify-content: center; }
+.guide-img { width: 100%; height: 100%; object-fit: cover; opacity: .88; display: block; }
+.frame-inset { position: absolute; inset: 8px; border: 1px solid color-mix(in srgb, var(--myst-gold) 12%, transparent); pointer-events: none; }
+
+/* ── Card body ── */
+.card-body { color: var(--myst-ink-muted); font-size: 14px; margin: 0; line-height: 1.7; }
+.lore-links { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+
+/* ── COI visual ── */
+.coi-visual { border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent); background: var(--myst-bg-2); display: flex; align-items: center; justify-content: center; padding: 28px; }
+.coi-icon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.coi-feature { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.coi-icon { color: var(--myst-gold); font-size: 28px; }
+.coi-feature span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--myst-ink-muted); }
+.coi-footer { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+
+/* ── Checkboxes ── */
+.section-check { display: flex; align-items: center; gap: 10px; margin-top: 18px; cursor: pointer; width: fit-content; }
+.check-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--myst-ink-muted); }
+.checkbox-box { width: 18px; height: 18px; border: 1px solid color-mix(in srgb, var(--myst-gold) 40%, transparent); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: transparent; }
+.checkbox-box:hover { border-color: var(--myst-gold); }
+.checkbox-box.done { background: color-mix(in srgb, var(--myst-gold) 12%, transparent); border-color: var(--myst-gold); color: var(--myst-gold); }
+.checkbox-box.done::after { content: '†'; }
+
+/* ── Final / Sigil ── */
+.final-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 8px; }
+.sigil-complete { border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent); padding: 36px; text-align: center; background: var(--myst-bg-2); display: flex; flex-direction: column; align-items: center; }
+.seal-big { width: 140px; height: 140px; border: 1px solid color-mix(in srgb, var(--myst-gold) 45%, transparent); border-radius: 50%; overflow: hidden; position: relative; box-shadow: 0 0 0 8px color-mix(in srgb, var(--myst-gold) 6%, transparent); }
+.seal-big::before { content: ''; position: absolute; inset: 10px; border: 1px dashed color-mix(in srgb, var(--myst-gold) 20%, transparent); border-radius: 50%; z-index: 1; pointer-events: none; }
+.seal-pathway-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.muted-small { font-size: 12px; color: var(--myst-ink-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: .05em; }
+
+/* ── FAQ ── */
+.faq-block { padding: 4px 0; }
+.faq-item { border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 18%, transparent); padding: 12px 0; }
+.faq-item summary { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--myst-ink); outline: none; list-style: none; cursor: pointer; transition: color .2s; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item[open] summary { color: var(--myst-gold); }
+.faq-item p { color: var(--myst-ink-muted); font-size: 14px; margin: 8px 0 0; max-width: 56ch; line-height: 1.6; }
+
+/* ── Quiz transition ── */
+.quiz-fade-enter-active, .quiz-fade-leave-active { transition: all .3s ease; }
+.quiz-fade-enter-from { opacity: 0; transform: translateX(16px); }
+.quiz-fade-leave-to   { opacity: 0; transform: translateX(-16px); }
+
+/* ── Responsive ── */
 @media (max-width: 1024px) {
-  .has-image { grid-template-columns: 1fr; }
-  .image-frame { display: none; }
+  .guide-layout { grid-template-columns: 1fr; padding: 0; }
+  .guide-rail { display: none; }
+  .hero-grid, .pair-grid, .final-grid { grid-template-columns: 1fr; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .sigil-ring { display: none; }
+  .welcome-block { padding: 32px 24px; }
 }
 </style>

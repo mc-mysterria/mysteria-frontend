@@ -224,6 +224,7 @@ export default {
 
 .shop-main {
   flex: 1 0 auto;
+  background-color: #111218;
 }
 
 /* Basic info wrapper removed - shop simplified */

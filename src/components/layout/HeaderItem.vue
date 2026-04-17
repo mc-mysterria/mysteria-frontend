@@ -73,6 +73,8 @@
         </div>
       </nav>
 
+      <ServerStatusChip class="server-chip-desktop"/>
+
       <div class="header-actions">
         <LanguageSelector class="language-desktop"/>
         <BalanceButton class="balance-desktop"/>
@@ -170,6 +172,7 @@ import IconMap from "@/assets/icons/IconMap.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import IconDiscord from "@/assets/icons/IconDiscord.vue";
 import {useI18n} from "@/composables/useI18n";
+import ServerStatusChip from "@/components/ui/ServerStatusChip.vue";
 
 interface NavLink {
   path: string;
@@ -448,7 +451,8 @@ onUnmounted(() => {
 
   .auth-desktop,
   .balance-desktop,
-  .language-desktop {
+  .language-desktop,
+  .server-chip-desktop {
     display: none;
   }
 }
