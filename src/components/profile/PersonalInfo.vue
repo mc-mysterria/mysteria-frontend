@@ -6,7 +6,7 @@
       <!-- Profile Header / Avatar Section -->
       <div class="profile-header">
         <div class="avatar-seal">
-          <UserAvatar :nickname="displayedUser?.nickname" :src="displayedUser?.avatarUrl" class="profile-avatar" size="lg"/>
+          <UserAvatar :nickname="displayedUser?.nickname" :src="displayedUser?.avatarUrl" class="profile-avatar" size="full"/>
           <div class="seal-glow" :class="getRoleClass()"></div>
           <div class="seal-rings"></div>
         </div>
@@ -134,15 +134,15 @@ const getRoleClass = () => {
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 48px;
-  margin-bottom: 48px;
+  gap: 32px;
+  margin-bottom: 32px;
 }
 
 /* Avatar Seal */
 .avatar-seal {
   position: relative;
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
   flex-shrink: 0;
 }
 
@@ -150,7 +150,7 @@ const getRoleClass = () => {
   width: 100% !important;
   height: 100% !important;
   border-radius: 50% !important;
-  border: 4px solid rgba(13, 16, 30, 1);
+  border: 4px solid #080a14;
   position: relative;
   z-index: 5;
   filter: grayscale(0.2) contrast(1.1);

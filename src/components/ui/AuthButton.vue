@@ -15,6 +15,17 @@
             <span class="profile-marks">{{ balance }} {{ t('marks') }}</span>
           </div>
         </RouterLink>
+
+        <!-- Admin Link -->
+        <RouterLink 
+            v-if="canEditAnyContent" 
+            class="admin-ritual-link" 
+            to="/admin" 
+            :title="t('adminPanel') || 'Registry'"
+        >
+          <i class="fa-solid fa-eye-evil fa-eye"></i>
+        </RouterLink>
+
         <button class="logout-ritual-btn" @click="handleLogout" :title="t('logout')">
           <i class="fa-solid fa-sign-out-alt"></i>
         </button>
@@ -36,12 +47,14 @@ import {useUserStore} from "@/stores/user";
 import {useAuthStore} from "@/stores/auth";
 import {useBalanceStore} from "@/stores/balance";
 import {useI18n} from "@/composables/useI18n";
+import {usePermissions} from "@/composables/usePermissions";
 import UserAvatar from "@/components/ui/UserAvatar.vue";
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const balanceStore = useBalanceStore();
 const {t} = useI18n();
+const {canEditAnyContent} = usePermissions();
 
 const user = computed(() => userStore.currentUser);
 const isLoading = computed(() => userStore.isLoading || authStore.isLoading);
@@ -81,7 +94,7 @@ const handleLogout = () => authStore.logout();
 .user-ritual-group {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   background: rgba(255, 255, 255, 0.02);
   padding: 4px 4px 4px 12px;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -114,6 +127,25 @@ const handleLogout = () => authStore.logout();
   color: var(--myst-gold);
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.admin-ritual-link {
+  color: var(--myst-gold);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(200, 178, 115, 0.1);
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.admin-ritual-link:hover {
+  background: var(--myst-gold);
+  color: #05070a;
+  transform: scale(1.1);
 }
 
 .logout-ritual-btn {

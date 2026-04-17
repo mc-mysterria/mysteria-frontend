@@ -175,6 +175,18 @@ onMounted(async () => {
 }
 .article-ritual-content :deep(strong) { color: var(--myst-gold); font-weight: 700; }
 
+.article-ritual-content :deep(img.pathway-emoji) {
+  display: inline;
+  width: auto;
+  height: 1.2em;
+  vertical-align: -0.2em;
+  margin: 0 0.1em;
+  border: none;
+  transform: none;
+  box-shadow: none;
+  opacity: 1;
+}
+
 .article-ritual-content :deep(blockquote) {
   margin: 40px 0; padding: 24px 32px;
   background: rgba(255, 255, 255, 0.02);

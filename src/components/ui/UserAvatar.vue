@@ -19,7 +19,7 @@ import {computed, ref} from 'vue';
 const props = withDefaults(defineProps<{
   src?: string;
   nickname?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showNickname?: boolean;
   glow?: boolean;
 }>(), {
@@ -48,17 +48,21 @@ const handleError = () => {
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  position: relative;
 }
 
 .avatar-ritual-frame {
   position: relative;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  padding: 3px;
+  padding: 0;
   background: linear-gradient(135deg, var(--myst-gold), transparent, var(--myst-gold));
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  box-shadow: inset 0 0 0 2px #05070a;
 }
 
 .avatar-img {
@@ -67,6 +71,7 @@ const handleError = () => {
   object-fit: cover;
   border-radius: 50%;
   background: #05070a;
+  display: block;
 }
 
 .frame-overlay {
@@ -85,12 +90,13 @@ const handleError = () => {
   letter-spacing: 1px;
 }
 
-/* Sizes */
-.xs .avatar-ritual-frame { width: 24px; height: 24px; padding: 1px; }
-.sm .avatar-ritual-frame { width: 36px; height: 36px; padding: 2px; }
-.md .avatar-ritual-frame { width: 48px; height: 48px; }
-.lg .avatar-ritual-frame { width: 64px; height: 64px; }
-.xl .avatar-ritual-frame { width: 96px; height: 96px; }
+/* Base Sizing on the wrapper */
+.xs { width: 24px; height: 24px; }
+.sm { width: 36px; height: 36px; }
+.md { width: 48px; height: 48px; }
+.lg { width: 64px; height: 64px; }
+.xl { width: 96px; height: 96px; }
+.full { width: 100%; height: 100%; }
 
 .has-glow .avatar-ritual-frame {
   box-shadow: 0 0 20px rgba(200, 178, 115, 0.3);
