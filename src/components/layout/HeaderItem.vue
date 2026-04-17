@@ -3,7 +3,6 @@
     <div class="header-content">
       <RouterLink class="header-logo-link" to="/" @click="closeMobileNav">
         <IconLogo/>
-        <span class="logo-text">Mysterria</span>
       </RouterLink>
 
       <nav ref="navigationRef" class="navigation">
@@ -75,7 +74,6 @@
       </nav>
 
       <div class="header-actions">
-        <ThemeToggle/>
         <LanguageSelector class="language-desktop"/>
         <BalanceButton class="balance-desktop"/>
         <AuthButton class="auth-desktop"/>
@@ -165,7 +163,6 @@ import {useRoute} from "vue-router";
 import AuthButton from "@/components/ui/AuthButton.vue";
 import BalanceButton from "@/components/ui/BalanceButton.vue";
 import LanguageSelector from "@/components/ui/LanguageSelector.vue";
-import ThemeToggle from "@/components/ui/ThemeToggle.vue";
 import IconLogo from "@/assets/icons/IconLogo.vue";
 import IconNavbar from "@/assets/icons/IconNavbar.vue";
 import IconArchive from "@/assets/icons/IconArchive.vue";
@@ -361,15 +358,17 @@ onUnmounted(() => {
 }
 
 .logo-text {
-  font-family: "Inter", serif;
-  font-size: 18px;
-  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--myst-gold);
 }
 
 .navigation {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 @media (max-width: 768px) {
@@ -379,15 +378,15 @@ onUnmounted(() => {
 }
 
 .nav-link {
-  padding: 10px 16px;
-  border-radius: 6px;
-  color: #a1a1aa;
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: #888;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   transition: all 0.3s ease;
-  min-width: 60px;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -395,13 +394,13 @@ onUnmounted(() => {
 }
 
 .nav-link:hover {
-  color: var(--myst-ink-strong);
+  color: var(--myst-gold);
 }
 
 .nav-link.active {
-  color: var(--myst-ink-strong);
-  background: color-mix(in srgb, white 5%, transparent);
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  color: var(--myst-gold);
+  background: rgba(200, 178, 115, 0.05);
+  box-shadow: inset 0 0 10px rgba(200, 178, 115, 0.05);
 }
 
 .header-actions {
@@ -632,35 +631,31 @@ onUnmounted(() => {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 8px;
-  min-width: 280px;
-  background: color-mix(in srgb, var(--myst-bg) 95%, transparent);
-  backdrop-filter: blur(20px);
-  border: 1px solid color-mix(in srgb, white 15%, transparent);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-top: 12px;
+  min-width: 320px;
+  background: #080a14;
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
   z-index: 100;
   overflow: hidden;
+  padding: 8px;
 }
 
 .service-link {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 16px;
+  padding: 14px 16px;
   text-decoration: none;
-  color: var(--myst-ink);
-  transition: all 0.2s ease;
-  border-bottom: 1px solid color-mix(in srgb, white 8%, transparent);
-}
-
-.service-link:last-child {
-  border-bottom: none;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+  border: 1px solid transparent;
 }
 
 .service-link:hover {
-  background: color-mix(in srgb, var(--myst-gold) 8%, transparent);
-  color: var(--myst-ink-strong);
+  background: rgba(200, 178, 115, 0.05);
+  border-color: rgba(200, 178, 115, 0.1);
 }
 
 .service-icon {
@@ -668,34 +663,41 @@ onUnmounted(() => {
   width: 20px;
   height: 20px;
   color: var(--myst-gold);
+  opacity: 0.8;
 }
 
 .service-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .service-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
 }
 
 .service-description {
-  font-size: 12px;
-  color: #a1a1aa;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .external-link-icon {
   flex-shrink: 0;
-  opacity: 0.5;
-  transition: opacity 0.2s ease;
+  color: #444;
+  width: 12px;
+  transition: all 0.3s;
 }
 
 .service-link:hover .external-link-icon {
-  opacity: 1;
+  color: var(--myst-gold);
+  transform: translate(2px, -2px);
 }
 
 /* Dropdown animations */

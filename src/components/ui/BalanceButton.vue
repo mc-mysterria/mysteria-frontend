@@ -1,95 +1,73 @@
 <template>
   <button
       v-if="profile"
-      :title="currentLanguage === 'en' ? 'View currency settings and top up' : 'Top up your balance'"
-      class="balance-button"
+      :class="['topup-ritual-btn', { 'is-icon-only': iconMode }]"
+      :title="t('topUpBalance')"
       type="button"
       @click="handleTopUpClick"
   >
-    <div class="balance-info">
-      <span v-if="displayCurrencySymbol" class="currency-symbol">{{ displayCurrencySymbol }}</span>
-      <IconBalance v-if="currentLanguage !== 'en' || currentCurrency === 'POINTS'" class="balance-icon"/>
-      <span class="balance-amount">{{ displayBalance }}</span>
-    </div>
-    <svg class="plus-icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"/>
-    </svg>
+    <i class="fa-solid fa-plus-ritual fa-plus"></i>
+    <span v-if="!iconMode" class="btn-text">{{ t('topUpBalance') }}</span>
   </button>
 
   <!-- Currency Conversion Modal -->
   <Teleport to="body">
-    <div v-if="showCurrencyModal" class="modal-overlay" @click="closeCurrencyModal">
-      <div class="modal-content" @click.stop>
-        <div class="modal-header">
-          <h3>Currency Settings</h3>
-          <button class="modal-close" @click="closeCurrencyModal">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="currency-selector">
-            <h4 class="section-title">Display Currency</h4>
-            <p class="section-description">Display balance &amp; prices in:</p>
-            <div class="currency-options">
-              <button
-                  :class="['currency-option', { active: currentCurrency === 'USD' }]"
-                  @click="selectCurrency('USD')"
-              >
-                <span class="currency-symbol-large">$</span>
-                <span class="currency-name">USD</span>
-                <span class="currency-info">1 USD = 40 Marks</span>
-              </button>
-              <button
-                  :class="['currency-option', { active: currentCurrency === 'EUR' }]"
-                  @click="selectCurrency('EUR')"
-              >
-                <span class="currency-symbol-large">€</span>
-                <span class="currency-name">EUR</span>
-                <span class="currency-info">1 EUR = 44 Marks</span>
-              </button>
-              <button
-                  :class="['currency-option', { active: currentCurrency === 'POINTS' }]"
-                  @click="selectCurrency('POINTS')"
-              >
-                <IconBalance class="currency-icon-large"/>
-                <span class="currency-name">Marks</span>
-                <span class="currency-info">Show actual points</span>
-              </button>
-            </div>
+    <Transition name="ritual-fade">
+      <div v-if="showCurrencyModal" class="modal-ritual-overlay" @click="closeCurrencyModal">
+        <div class="modal-ritual-content compact" @click.stop>
+          <div class="modal-ritual-header">
+            <h3 class="ritual-title">{{ t('currencySettings') }}</h3>
+            <button class="modal-ritual-close" @click="closeCurrencyModal">†</button>
           </div>
-
-          <div class="conversion-info">
-            <h4 class="section-title">Payment Conversion Rates</h4>
-            <p class="section-description">Top-up conversion rates:</p>
-            <div class="conversion-table">
-              <!--              <div class="conversion-row">-->
-              <!--                <span class="currency">UAH</span>-->
-              <!--                <span class="rate">1:1</span>-->
-              <!--              </div>-->
-              <div class="conversion-row">
-                <span class="currency">USD</span>
-                <span class="rate">1:40</span>
-              </div>
-              <div class="conversion-row">
-                <span class="currency">EUR</span>
-                <span class="rate">1:44</span>
+          
+          <div class="modal-ritual-body no-scrollbar">
+            <div class="ritual-section">
+              <h4 class="ritual-section-title">{{ t('displayCurrency') }}</h4>
+              <p class="ritual-section-desc">{{ t('displayCurrencyDesc') }}</p>
+              <div class="currency-ritual-grid">
+                <button
+                    v-for="curr in currencies"
+                    :key="curr.code"
+                    :class="['currency-ritual-option', { active: currentCurrency === curr.code }]"
+                    @click="selectCurrency(curr.code)"
+                >
+                  <span v-if="curr.symbol" class="curr-symbol">{{ curr.symbol }}</span>
+                  <IconBalance v-else class="curr-icon"/>
+                  <span class="curr-name">{{ curr.code === 'POINTS' ? t('marks') : curr.code }}</span>
+                  <span class="curr-rate">{{ getRateText(curr.code) }}</span>
+                </button>
               </div>
             </div>
-          </div>
 
-          <div v-if="currentLanguage === 'en'" class="donation-warning">
-            <p class="warning-text">
-              ⚠️ Important: When making a donation, please set your name to your in-game nickname so we can credit your
-              account.
-            </p>
-          </div>
+            <div class="ritual-section">
+              <h4 class="ritual-section-title">{{ t('paymentConversionRates') }}</h4>
+              <div class="conversion-ledger">
+                <div class="ledger-row">
+                  <span class="ledger-label">USD</span>
+                  <span class="ledger-val">1:40</span>
+                </div>
+                <div class="ledger-row">
+                  <span class="ledger-label">EUR</span>
+                  <span class="ledger-val">1:44</span>
+                </div>
+              </div>
+            </div>
 
-          <div class="modal-actions">
-            <a :href="topUpUrl" class="top-up-button" target="_blank">
-              Top Up Balance
-            </a>
+            <div v-if="currentLanguage === 'en'" class="ritual-warning-box">
+              <p class="warning-ritual-text">
+                † {{ t('donationWarning') }}
+              </p>
+            </div>
+
+            <div class="modal-ritual-actions">
+              <a :href="topUpUrl" class="btn-ritual-primary" target="_blank">
+                {{ t('topUpBalance') }}
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -101,10 +79,14 @@ import {useCurrency} from "@/composables/useCurrency";
 import {computed, ref} from "vue";
 import IconBalance from "@/assets/icons/IconBalance.vue";
 
+const props = defineProps<{
+  iconMode?: boolean;
+}>();
+
 const balanceStore = useBalanceStore();
 const userStore = useUserStore();
-const {currentLanguage} = useI18n();
-const {currentCurrency, setCurrency, formatCurrency, getCurrencySymbol} = useCurrency();
+const {t, currentLanguage} = useI18n();
+const {currentCurrency, setCurrency} = useCurrency();
 
 const profile = computed(() => userStore.currentUser);
 const donatelloUrl = computed(() => balanceStore.donatelloUrl);
@@ -115,20 +97,17 @@ const topUpUrl = computed(() =>
 );
 const showCurrencyModal = ref(false);
 
-const displayBalance = computed(() => {
-  const balance = balanceStore.currentBalance?.amount ?? 0;
-  if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
-    return formatCurrency(balance, {showSymbol: false, decimals: 2});
-  }
-  return balance.toString();
-});
+const currencies = [
+  { code: 'USD', symbol: '$' },
+  { code: 'EUR', symbol: '€' },
+  { code: 'POINTS', symbol: null }
+] as const;
 
-const displayCurrencySymbol = computed(() => {
-  if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
-    return getCurrencySymbol();
-  }
-  return '';
-});
+const getRateText = (code: string) => {
+  if (code === 'POINTS') return t('showActualPoints');
+  const rate = code === 'USD' ? '40' : '44';
+  return t('oneCurrencyRate').replace('{currency}', code).replace('{rate}', rate);
+};
 
 const closeCurrencyModal = () => {
   showCurrencyModal.value = false;
@@ -148,374 +127,139 @@ const handleTopUpClick = () => {
 </script>
 
 <style scoped>
-.balance-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 12px 8px 16px;
-  height: 40px;
-  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
-  border: 1px solid color-mix(in srgb, white 15%, transparent);
-  border-radius: 6px;
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--myst-ink);
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.balance-button:hover {
-  background: color-mix(in srgb, var(--myst-bg) 80%, transparent);
-  border-color: color-mix(in srgb, var(--myst-gold) 50%, transparent);
-}
-
-.balance-button:active {
-  transform: scale(0.98);
-}
-
-.balance-info {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex: 1;
-  min-width: 0;
-}
-
-.currency-symbol {
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--myst-ink);
-  flex-shrink: 0;
-}
-
-.balance-icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  color: var(--myst-ink);
-}
-
-.balance-amount {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--myst-ink);
-  white-space: nowrap;
-}
-
-.plus-icon {
-  width: 18px;
-  height: 18px;
-  color: var(--myst-gold);
-  flex-shrink: 0;
-  transition: color 0.2s ease;
-}
-
-.balance-button:hover .plus-icon {
-  color: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
-}
-
-/* Parchment theme adjustments */
-:root[data-theme="parchment"] .balance-button {
-  background: var(--myst-bg-2);
-  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-:root[data-theme="parchment"] .balance-button:hover {
-  background: var(--myst-bg);
-  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
-}
-
-@media (max-width: 768px) {
-  .balance-button {
-    height: 38px;
-    padding: 6px 10px 6px 12px;
-    gap: 10px;
-  }
-
-  .balance-info {
-    gap: 5px;
-  }
-
-  .balance-amount,
-  .currency-symbol {
-    font-size: 13px;
-  }
-
-  .balance-icon {
-    width: 16px;
-    height: 16px;
-  }
-
-  .plus-icon {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .balance-button {
-    height: 36px;
-    padding: 6px 8px 6px 10px;
-    gap: 8px;
-  }
-
-  .balance-info {
-    gap: 4px;
-  }
-
-  .balance-amount,
-  .currency-symbol {
-    font-size: 12px;
-  }
-
-  .balance-icon {
-    width: 14px;
-    height: 14px;
-  }
-
-  .plus-icon {
-    width: 15px;
-    height: 15px;
-  }
-}
-</style>
-
-<!-- Global modal styles -->
-<style>
-/* Currency Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 16px;
-}
-
-.modal-content {
-  background: var(--myst-bg);
-  border: 1px solid color-mix(in srgb, white 20%, transparent);
-  border-radius: 12px;
-  max-width: 400px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: var(--myst-ink-muted);
-  cursor: pointer;
-  padding: 4px;
-  line-height: 1;
-  transition: color 0.2s ease;
-}
-
-.modal-close:hover {
-  color: var(--myst-ink-strong);
-}
-
-.modal-body {
-  padding: 20px 24px 24px;
-}
-
-.modal-description {
-  margin: 0 0 20px;
-  color: var(--myst-ink);
-  line-height: 1.5;
-}
-
-/* Currency Selector Section */
-.currency-selector {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
-}
-
-.section-title {
-  margin: 0 0 8px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
-}
-
-.section-description {
-  margin: 0 0 16px;
-  color: var(--myst-ink-muted);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.currency-options {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.currency-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 8px;
-  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
-  border: 2px solid color-mix(in srgb, white 10%, transparent);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  gap: 4px;
-}
-
-.currency-option:hover {
-  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-}
-
-.currency-option.active {
-  border-color: var(--myst-gold);
-  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--myst-gold) 20%, transparent);
-}
-
-.currency-symbol-large {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
-}
-
-.currency-icon-large {
-  width: 22px;
-  height: 22px;
-  color: var(--myst-gold);
-}
-
-.currency-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
-}
-
-.currency-info {
-  font-size: 10px;
-  color: var(--myst-ink-muted);
-  text-align: center;
-  line-height: 1.3;
-}
-
-.conversion-info {
-  margin-bottom: 16px;
-}
-
-.conversion-table {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 24px;
-}
-
-.conversion-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid color-mix(in srgb, white 8%, transparent);
-}
-
-.conversion-row:last-child {
-  border-bottom: none;
-}
-
-.currency {
-  font-weight: 600;
-  color: var(--myst-ink-strong);
-}
-
-.rate {
-  font-family: monospace;
-  color: var(--myst-gold);
-  font-weight: 500;
-}
-
-.donation-warning {
-  margin-bottom: 20px;
-  padding: 12px 16px;
-  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
-  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  border-radius: 8px;
-}
-
-.warning-text {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--myst-ink-strong);
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: center;
-}
-
-.top-up-button {
+.topup-ritual-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 12px 32px;
-  background: var(--myst-gold);
-  color: var(--myst-bg);
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 600;
+  gap: 12px;
+  padding: 0 20px;
+  height: 40px;
+  background: rgba(200, 178, 115, 0.1);
+  border: 1px solid rgba(200, 178, 115, 0.3);
+  border-radius: 4px;
+  color: var(--myst-gold);
+  cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.top-up-button:hover {
-  background: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(200, 178, 115, 0.4);
+.topup-ritual-btn:hover {
+  background: var(--myst-gold);
+  color: #05070a;
 }
 
-/* Responsive styles */
-@media (max-width: 480px) {
-  .currency-options {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .currency-option {
-    padding: 14px 12px;
-  }
-
-  .modal-content {
-    max-width: 95vw;
-  }
+.topup-ritual-btn.is-icon-only {
+  width: 40px;
+  padding: 0;
+  justify-content: center;
 }
+
+/* Modal Ritual Styles - Compact */
+.modal-ritual-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000; padding: 20px;
+}
+
+.modal-ritual-content.compact {
+  background: #080a14;
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  width: 100%; max-width: 440px;
+  display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.modal-ritual-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.ritual-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; color: var(--myst-gold); margin: 0;
+}
+
+.modal-ritual-close {
+  background: none; border: none;
+  color: #444; font-size: 20px;
+  cursor: pointer; transition: color 0.3s;
+}
+.modal-ritual-close:hover { color: var(--myst-gold); }
+
+.modal-ritual-body { padding: 24px; }
+
+.ritual-section { margin-bottom: 24px; }
+
+.ritual-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; color: #fff; margin-bottom: 6px;
+}
+
+.ritual-section-desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #666; margin-bottom: 12px;
+}
+
+.currency-ritual-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+
+.currency-ritual-option {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; transition: all 0.3s;
+}
+
+.currency-ritual-option:hover { border-color: rgba(200, 178, 115, 0.3); }
+.currency-ritual-option.active {
+  border-color: var(--myst-gold);
+  background: rgba(200, 178, 115, 0.05);
+}
+
+.curr-symbol { font-size: 18px; color: #fff; }
+.curr-icon { width: 18px; height: 18px; color: var(--myst-gold); }
+.curr-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #aaa; }
+.curr-rate { font-size: 8px; color: #555; text-align: center; }
+
+.conversion-ledger {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.ledger-row {
+  display: flex; justify-content: space-between;
+  padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.ledger-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #888; }
+.ledger-val { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--myst-gold); }
+
+.ritual-warning-box {
+  background: rgba(200, 178, 115, 0.03);
+  border-left: 2px solid var(--myst-gold);
+  padding: 12px; margin-bottom: 24px;
+}
+
+.warning-ritual-text { font-size: 11px; color: #666; line-height: 1.4; margin: 0; }
+
+.btn-ritual-primary {
+  width: 100%; display: flex; align-items: center; justify-content: center;
+  padding: 12px; background: var(--myst-gold); color: #05070a;
+  text-decoration: none; font-family: 'Playfair Display', serif;
+  font-size: 16px; font-weight: 700; transition: all 0.3s;
+}
+
+.btn-ritual-primary:hover { background: #fff; }
+
+.ritual-fade-enter-active, .ritual-fade-leave-active { transition: all 0.4s ease; }
+.ritual-fade-enter-from, .ritual-fade-leave-to { opacity: 0; transform: scale(0.95); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
 </style>

@@ -1,89 +1,61 @@
 <template>
-  <div class="language-selector">
-    <DropdownSelect
-        :model-value="currentLanguage"
-        :options="languageOptions"
-        class="language-dropdown"
-        @change="handleLanguageChange"
+  <div class="lang-ritual-selector">
+    <button
+        v-for="lang in ['en', 'uk']"
+        :key="lang"
+        :class="{ active: currentLanguage === lang }"
+        class="lang-ritual-btn"
+        @click="setLanguage(lang as Language)"
     >
-      <template #selected="{ selectedOption }">
-        {{ selectedOption?.label || "🇬🇧 EN" }}
-      </template>
-      <template #option="{ option }">
-        {{ option.label }}
-      </template>
-    </DropdownSelect>
+      <span class="lang-label">{{ lang }}</span>
+    </button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {computed, onMounted} from "vue";
-import {type Language, useI18n} from "@/composables/useI18n";
-import DropdownSelect from "./DropdownSelect.vue";
-import {authAPI} from "@/utils/api/auth";
+import type {Language} from "@/composables/useI18n";
+import {useI18n} from "@/composables/useI18n";
 
 const {currentLanguage, setLanguage} = useI18n();
-
-const languageOptions = computed(() => [
-  {label: "🇬🇧 EN", value: "en"},
-  {label: "🇺🇦 UK", value: "uk"},
-]);
-
-const handleLanguageChange = async (value: string | number | string[]) => {
-  const language = value as Language;
-  setLanguage(language);
-
-  try {
-    await authAPI.updateUserProfile({lang: language});
-  } catch (error) {
-    console.error("Failed to update language preference:", error);
-  }
-};
-
-onMounted(async () => {
-  try {
-    const user = await authAPI.getCurrentUser();
-    if (user?.lang && user.lang !== currentLanguage.value) {
-      setLanguage(user.lang as Language);
-    }
-  } catch (error) {
-    console.error("Failed to fetch user language preference:", error);
-  }
-});
 </script>
 
 <style scoped>
-.language-selector {
-  position: relative;
-}
-
-.language-dropdown :deep(.dropdown-trigger) {
-  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
-  border: 1px solid color-mix(in srgb, white 15%, transparent);
-  border-radius: 6px;
-  color: var(--myst-ink);
-  padding: 8px 12px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
-  min-height: 40px;
-  height: 40px;
-  box-shadow: none;
+.lang-ritual-selector {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
 }
 
-.language-dropdown :deep(.dropdown-trigger:hover:not(.is-disabled)) {
-  background: color-mix(in srgb, white 5%, transparent);
-  border-color: color-mix(in srgb, white 30%, transparent);
+.lang-ritual-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 2px;
 }
 
-.language-dropdown :deep(.dropdown-trigger.is-open) {
-  border-color: var(--myst-gold);
-  box-shadow: 0 0 0 2px #10b981;
+.lang-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #444;
+  letter-spacing: 1px;
+}
+
+.lang-ritual-btn.active {
+  background: rgba(200, 178, 115, 0.1);
+}
+
+.lang-ritual-btn.active .lang-label {
+  color: var(--myst-gold);
+  font-weight: 700;
+}
+
+.lang-ritual-btn:hover:not(.active) .lang-label {
+  color: #888;
 }
 </style>

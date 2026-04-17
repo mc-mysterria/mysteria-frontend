@@ -189,17 +189,16 @@ const handlePurchase = async () => {
           Number(servicePrice.minus(shopStore.currentBalance?.amount || 0))
       );
       const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
-      confirmModal.value?.showModal(
-          `${t('insufficientFundsMessage')} ${missingAmount} ${currencyName}?`,
-          t('topUp'),
-          t('cancel')
-      );
+      confirmModal.value?.showModal({
+        title: `${t('insufficientFundsMessage')} ${missingAmount} ${currencyName}?`,
+        onConfirm: () => { /* optional confirm logic */ },
+        onCancel: () => { /* optional cancel logic */ }
+      });
     } else {
-      confirmModal.value?.showModal(
-          t('confirmPurchaseMessage'),
-          t('purchase'),
-          t('cancel')
-      );
+      confirmModal.value?.showModal({
+        title: t('confirmPurchaseMessage'),
+        onConfirm: () => { /* optional confirm logic */ }
+      });
     }
 
   } catch (error) {

@@ -32,7 +32,7 @@ const translations = {
             wiki: "Wiki",
             joinServerTitle: "How to Join Mysterria",
             step1Title: "Launch Minecraft",
-            step1Description: "Start Minecraft Java (1.21.11) or Bedrock Edition",
+            step1Description: "Start Minecraft Java (26.1.X) or Bedrock Edition",
             step2Title: "Connect to Server",
             step2Description: "Java (25565) & Bedrock (19132). Use the IP below:",
             step3Title: "Begin Your Journey",
@@ -62,7 +62,7 @@ const translations = {
             "Step into the mystical world of\nthe Lord of Mysteries universe\nwhere pathways and ancient secrets await",
         joinServer: "Join Server",
         lorePathways: "Lore & Pathways",
-        versionInfo: "1.21.11 · Minecraft · No License Required",
+        versionInfo: "26.1.X · Minecraft · No License Required",
 
         // Main Description
         welcomeTitle: "WELCOME TO MYSTERRIA",
@@ -481,10 +481,36 @@ const translations = {
         accessExclusiveItems: "Access exclusive items",
         manageYourBalance: "Manage your balance",
 
+        // Currency Modal
+        currencySettings: "Currency Settings",
+        displayCurrency: "Display Currency",
+        displayCurrencyDesc: "Display balance & prices in:",
+        paymentConversionRates: "Payment Conversion Rates",
+        topUpConversionRates: "Top-up conversion rates:",
+        donationWarning: "Important: When making a donation, please set your name to your in-game nickname so we can credit your account.",
+        topUpBalance: "Top Up Balance",
+        showActualPoints: "Show actual points",
+        oneCurrencyRate: "1 {currency} = {rate} Marks",
+
+        // Dropdown
+        useCustomInput: "Use: \"{query}\"",
+
         // Game Guide Page
         gameGuideTitle: "Getting Started Guide",
         gameGuideSubtitle:
             "Everything you need to know to begin your journey in Mysterria",
+        ritualOfInitiation: "Ritual of Initiation",
+        gatewayAddress: "GATEWAY ADDRESS",
+
+        // COI Client
+        coiClientTitle: "COI Client",
+        coiClientDescription: "Enhance your connection with the custom supporting mod",
+        coiClientBenefit1: "Enables rich presence and deeper immersion",
+        coiClientBenefit2: "Synchronizes mystical effects with your client",
+        coiClientBenefit3: "Enables casting magic spells via hotkeys",
+        coiClientAcquire: "ACQUIRE COI CLIENT",
+        coiClientOptional: "This supporting mod is entirely optional but recommended for the full experience.",
+
 
         // Server Connection
         serverConnectionTitle: "Connect to Server",
@@ -496,7 +522,7 @@ const translations = {
         copyIP: "Copy IP",
         copySuccess: "Copied!",
         serverVersion: "Version",
-        minecraftVersion: "1.21.11",
+        minecraftVersion: "26.1.X",
         serverEdition: "Java & Bedrock",
         modsRequired: "Mods Required",
         noModsRequired: "None (Optional)",
@@ -588,6 +614,12 @@ const translations = {
             "Set up your profile and review the rules to get started on your path as a Beyonder.",
         setupProfile: "Setup Profile",
         reviewRules: "Review Rules",
+
+        termsViewTitle: "TOS",
+        privacyViewTitle: "Privacy",
+        slaViewTitle: "SLA",
+        uniquePowers: "Variety of Pathways",
+        highSequences: "High Sequences",
 
         // Guide Steps
         guideStep1Title: "Copy IP",
@@ -728,7 +760,8 @@ const translations = {
 
         // Rules Page
         navRules: "Rules",
-        rulesTitle: "Laws of Mysterria",
+        lawsOfMysterria: "Laws of Mysterria",
+
         rulesSubtitle:
             '"He who enters the City of Fog is bound to obey the Laws of Mysterria. Violators will be cursed by the Entity itself..."',
         tableOfContents: "Table of Contents",
@@ -913,7 +946,7 @@ const translations = {
             wiki: "Вікі",
             joinServerTitle: "Як приєднатися до Містеррії",
             step1Title: "Запустіть Minecraft",
-            step1Description: "Запустіть Minecraft Java (1.21.11) або Bedrock",
+            step1Description: "Запустіть Minecraft Java (26.1.X) або Bedrock",
             step2Title: "Підключіться до сервера",
             step2Description: "Java (25565) та Bedrock (19132). Використайте IP:",
             step3Title: "Почніть свою подорож",
@@ -943,7 +976,7 @@ const translations = {
             "Зануртесь у містичний світ\nвсесвіту Lord of the Mysteries\nде шляхи та давні таємниці чекають",
         joinServer: "Приєднатися",
         lorePathways: "Лор і Шляхи",
-        versionInfo: "1.21.11 · Minecraft · Ліцензія не обов'язкова",
+        versionInfo: "26.1.X · Minecraft · Ліцензія не обов'язкова",
 
         // Main Description
         welcomeTitle: "ВІТАЄМО У МІСТЕРРІЇ",
@@ -1363,10 +1396,39 @@ const translations = {
         accessExclusiveItems: "Доступ до ексклюзивних товарів",
         manageYourBalance: "Керування вашим балансом",
 
+        // Currency Modal
+        currencySettings: "Налаштування Валюти",
+        displayCurrency: "Валюта Відображення",
+        displayCurrencyDesc: "Відображати баланс та ціни в:",
+        paymentConversionRates: "Курси Конвертації Платежів",
+        topUpConversionRates: "Курси конвертації поповнення:",
+        donationWarning: "Важливо: При здійсненні донату, будь ласка, вкажіть ваш ігровий нікнейм, щоб ми могли зарахувати кошти на ваш акаунт.",
+        topUpBalance: "Поповнити Баланс",
+        showActualPoints: "Показувати фактичні марки",
+        oneCurrencyRate: "1 {currency} = {rate} Марок",
+
+        // Dropdown
+        useCustomInput: "Використати: \"{query}\"",
+
         // Game Guide Page
         gameGuideTitle: "Посібник з Початку Гри",
         gameGuideSubtitle:
             "Все, що потрібно знати, щоб розпочати свою подорож у Містеррії",
+        ritualOfInitiation: "Ритуал Ініціації",
+        gatewayAddress: "АДРЕСА ШЛЮЗУ",
+
+        // COI Client
+        coiClientTitle: "COI Клієнт",
+        coiClientDescription: "Покращіть свій зв'язок за допомогою спеціального допоміжного моду",
+        coiClientBenefit1: "Забезпечує rich presence та глибше занурення",
+        coiClientBenefit2: "Синхронізує містичні ефекти з вашим клієнтом",
+        coiClientBenefit3: "Дозволяє кастувати здібності за допомогою швидких клавіш",
+        coiClientAcquire: "ОТРИМАТИ COI КЛІЄНТ",
+        coiClientOptional: "Цей допоміжний мод є цілком необов'язковим, але рекомендованим для повного досвіду.",
+
+        uniquePowers: "Варіативність",
+        highSequences: "Низьких Послідовностей",
+
 
         // Server Connection
         serverConnectionTitle: "Підключення до Сервера",
@@ -1378,7 +1440,7 @@ const translations = {
         copyIP: "Скопіювати IP",
         copySuccess: "Скопійовано!",
         serverVersion: "Версія",
-        minecraftVersion: "1.21.11",
+        minecraftVersion: "26.1.X",
         serverEdition: "Java & Bedrock",
         modsRequired: "Моди Потрібні",
         noModsRequired: "Не потрібні (Опціонально)",
@@ -1610,7 +1672,11 @@ const translations = {
 
         // Rules Page
         navRules: "Правила",
-        rulesTitle: "Закони Містеррії",
+        termsViewTitle: "TOS",
+        privacyViewTitle: "Приватність",
+        slaViewTitle: "SLA",
+
+        lawsOfMysterria: "Закони Містеррії",
         rulesSubtitle:
             '"Той, хто входить у Місто Туману, зобов\'язаний коритись Законам Містеррії. Порушники будуть прокляті самою Сутністю..."',
         tableOfContents: "Зміст",

@@ -453,13 +453,46 @@ html {
     display: none;
 }
 
-@media screen and (max-width: 768px) {
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="search"],
-    textarea,
-    select {
-        font-size: 16px !important;
+/* UNIFIED PAGE HEADERS */
+.myst-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 24px 0 40px;
+    width: 100%;
+}
+
+.myst-header-decoration {
+    height: 1px;
+    flex: 1;
+    max-width: 80px;
+    background: linear-gradient(90deg, transparent, var(--myst-gold), transparent);
+}
+
+.myst-header-label {
+    font-family: 'JetBrains Mono', monospace; /* Using JetBrains for the "Laws/Catalogue" labels as per user's small-text preference */
+    font-size: 13px;
+    color: var(--myst-gold);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .myst-page-header {
+        margin: 16px 0 32px;
+        gap: 16px;
+    }
+    .myst-header-decoration {
+        max-width: 40px;
+    }
+    .myst-header-label {
+        font-size: 11px;
+        letter-spacing: 3px;
     }
 }

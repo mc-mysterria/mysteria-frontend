@@ -2,134 +2,90 @@
   <!-- Mobile overlay -->
   <div
       v-if="isMobileOpen"
-      class="mobile-overlay"
+      class="mobile-ritual-overlay"
       @click="closeMobileSidebar"
   ></div>
 
   <div
       :class="{ collapsed: isCollapsed, 'mobile-open': isMobileOpen }"
-      class="sidenav"
+      class="ritual-sidenav"
   >
-    <div class="sidebar-glow"></div>
-    <div class="sidebar-content">
-      <div class="containerMargin">
-        <RouterLink class="logo-link" to="/">
-          <div class="containerLogo">
-            <div class="logo-orbit">
-              <div class="orbit-ring"></div>
-              <IconLogo/>
-            </div>
-            <div v-show="!isCollapsed" class="logo-text-container">
-              <span class="logo-text">Mysterria</span>
-              <span class="logo-subtitle">Portal</span>
+    <div class="sidebar-ritual-content">
+      <!-- Logo Section -->
+      <div class="sidebar-header">
+        <RouterLink class="logo-ritual-link" to="/" @click="closeMobileSidebar">
+          <div class="logo-ritual-container">
+            <IconLogo class="ritual-logo-icon"/>
+            <div v-show="!isCollapsed" class="logo-ritual-text">
+              <span class="logo-main">Mysterria</span>
+              <span class="logo-sub">Ledger</span>
             </div>
           </div>
         </RouterLink>
       </div>
 
-      <div class="containerpoints">
-        <div class="sidenavContainer">
-          <div v-show="!isCollapsed" class="nav-section-title">Navigation</div>
+      <!-- Navigation Points -->
+      <div class="ritual-nav-area">
+        <div class="nav-ritual-section">
+          <div v-show="!isCollapsed" class="nav-ritual-label">{{ t('navigation') || 'Covenants' }}</div>
+          
           <RouterLink
-              :class="{
-              activeLink: $route.path.startsWith('/profile'),
-            }"
-              :title="isCollapsed ? t('myProfile') : ''"
-              :to="profileLink"
-              class="nav-item"
+              :class="{ active: $route.path.startsWith('/profile') }"
+              class="nav-ritual-item"
+              to="/profile"
+              @click="closeMobileSidebar"
           >
-            <div class="nav-item-background"></div>
-            <div class="nav-item-content">
-              <div class="nav-icon-container">
-                <IconUser/>
-              </div>
-              <span v-show="!isCollapsed" class="link-text">{{
-                  t("myProfile")
-                }}</span>
-            </div>
-            <div class="nav-item-indicator"></div>
+            <div class="nav-ritual-icon"><i class="fa-solid fa-user-scroll"></i></div>
+            <span v-show="!isCollapsed" class="nav-ritual-text">{{ t("myProfile") }}</span>
+          </RouterLink>
+
+          <RouterLink
+              :class="{ active: $route.path === '/' }"
+              class="nav-ritual-item"
+              to="/"
+              @click="closeMobileSidebar"
+          >
+            <div class="nav-ritual-icon"><i class="fa-solid fa-house-chimney-window"></i></div>
+            <span v-show="!isCollapsed" class="nav-ritual-text">{{ t("navHome") }}</span>
           </RouterLink>
         </div>
 
-        <div v-if="canEditAnyContent" class="sidenavContainer">
-          <div v-show="!isCollapsed" class="nav-section-title">Admin</div>
+        <!-- Admin Section -->
+        <div v-if="canEditAnyContent" class="nav-ritual-section">
+          <div v-show="!isCollapsed" class="nav-ritual-label">Registry</div>
+          
           <RouterLink
               v-if="canManageNews"
-              :class="{
-              activeLink: $route.path.startsWith('/edit/news'),
-            }"
-              :title="isCollapsed ? 'Edit News' : ''"
-              class="nav-item"
+              :class="{ active: $route.path.startsWith('/edit/news') }"
+              class="nav-ritual-item admin"
               to="/edit/news"
+              @click="closeMobileSidebar"
           >
-            <div class="nav-item-background"></div>
-            <div class="nav-item-content">
-              <div class="nav-icon-container">
-                <!-- Add an icon for news editing -->
-              </div>
-              <span v-show="!isCollapsed" class="link-text">Edit News</span>
-            </div>
-            <div class="nav-item-indicator"></div>
+            <div class="nav-ritual-icon"><i class="fa-solid fa-pen-nib"></i></div>
+            <span v-show="!isCollapsed" class="nav-ritual-text">Edit News</span>
           </RouterLink>
+
           <RouterLink
               v-if="canManageCounsel"
-              :class="{
-              activeLink: $route.path.startsWith('/edit/counsel'),
-            }"
-              :title="isCollapsed ? 'Edit UN-Meeting Counsel' : ''"
-              class="nav-item"
+              :class="{ active: $route.path.startsWith('/edit/counsel') }"
+              class="nav-ritual-item admin"
               to="/edit/counsel"
+              @click="closeMobileSidebar"
           >
-            <div class="nav-item-background"></div>
-            <div class="nav-item-content">
-              <div class="nav-icon-container">
-                <!-- Add an icon for counsel editing -->
-              </div>
-              <span v-show="!isCollapsed" class="link-text">Edit Counsel</span>
-            </div>
-            <div class="nav-item-indicator"></div>
+            <div class="nav-ritual-icon"><i class="fa-solid fa-gavel"></i></div>
+            <span v-show="!isCollapsed" class="nav-ritual-text">Edit Counsel</span>
           </RouterLink>
         </div>
 
-        <div class="sidenavContainer bottom-container">
-          <div v-show="!isCollapsed" class="nav-section-title">System</div>
-          <a
-              :title="isCollapsed ? t('logout') : ''"
-              class="logout-link nav-item"
-              href="#"
-              @click.prevent="handleLogout"
-          >
-            <div class="nav-item-background logout-bg"></div>
-            <div class="nav-item-content">
-              <div class="nav-icon-container">
-                <IconSignOut/>
-              </div>
-              <span v-show="!isCollapsed" class="link-text">{{
-                  t("logout")
-                }}</span>
-            </div>
-            <div class="nav-item-indicator logout-indicator"></div>
+        <!-- Bottom System Area -->
+        <div class="nav-ritual-section bottom">
+          <a class="nav-ritual-item logout" href="#" @click.prevent="handleLogout">
+            <div class="nav-ritual-icon"><i class="fa-solid fa-door-open"></i></div>
+            <span v-show="!isCollapsed" class="nav-ritual-text">{{ t("logout") }}</span>
           </a>
 
-          <button
-              :title="isCollapsed ? 'Expand' : 'Collapse'"
-              class="toggle-btn"
-              @click="toggleSidebar"
-          >
-            <div class="toggle-btn-bg"></div>
-            <div class="toggle-icon">
-              <svg
-                  fill="none"
-                  height="20"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                  viewBox="0 0 24 24"
-                  width="20"
-              >
-                <path v-if="!isCollapsed" d="M15 18l-6-6 6-6"/>
-                <path v-else d="M9 18l6-6-6-6"/>
-              </svg>
-            </div>
+          <button class="ritual-toggle-btn" @click="toggleSidebar">
+            <i :class="isCollapsed ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i>
           </button>
         </div>
       </div>
@@ -145,8 +101,6 @@ import {useAuthStore} from "@/stores/auth";
 import {useI18n} from "@/composables/useI18n";
 import {usePermissions} from "@/composables/usePermissions";
 import IconLogo from "@/assets/icons/IconLogo.vue";
-import IconUser from "@/assets/icons/IconUser.vue";
-import IconSignOut from "@/assets/icons/IconSignOut.vue";
 
 const router = useRouter();
 const {show} = useNotification();
@@ -158,22 +112,14 @@ const isCollapsed = ref(false);
 const isMobileOpen = ref(false);
 
 const toggleSidebar = () => {
-  if (window.innerWidth <= 576) {
+  if (window.innerWidth <= 768) {
     isMobileOpen.value = !isMobileOpen.value;
-    if (isMobileOpen.value) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = isMobileOpen.value ? "hidden" : "";
     return;
   }
-
   isCollapsed.value = !isCollapsed.value;
   localStorage.setItem("sidebarCollapsed", isCollapsed.value.toString());
-
-  window.dispatchEvent(
-      new CustomEvent("sidebar-toggle", {detail: isCollapsed.value}),
-  );
+  window.dispatchEvent(new CustomEvent("sidebar-toggle", {detail: isCollapsed.value}));
 };
 
 const closeMobileSidebar = () => {
@@ -181,625 +127,156 @@ const closeMobileSidebar = () => {
   document.body.style.overflow = "";
 };
 
-const handleMobileSidebarToggle = () => {
-  console.log("handleMobileSidebarToggle called");
-  toggleSidebar();
-};
-
-// Removed permission computeds for deleted features
-
-const profileLink = computed(() => {
-  return "/profile";
-});
+const handleMobileSidebarToggle = () => toggleSidebar();
 
 const handleLogout = async () => {
   try {
     await authStore.logout();
     router.push("/");
+    closeMobileSidebar();
   } catch {
     show(t("errorLogout"), {type: "error"});
   }
 };
 
-let touchStartX = 0;
-let touchStartY = 0;
-let touchStartTime = 0;
-
-const handleTouchStart = (e: TouchEvent) => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-  touchStartTime = Date.now();
-};
-
-const handleTouchEnd = (e: TouchEvent) => {
-  if (!e.changedTouches.length) return;
-
-  const touchEndX = e.changedTouches[0].clientX;
-  const touchEndY = e.changedTouches[0].clientY;
-  const touchEndTime = Date.now();
-  const deltaX = touchEndX - touchStartX;
-  const deltaY = touchEndY - touchStartY;
-  const deltaTime = touchEndTime - touchStartTime;
-
-  if (deltaTime < 500 && Math.abs(deltaX) > 80 && Math.abs(deltaY) < 120) {
-    if (deltaX > 80 && !isMobileOpen.value) {
-      isMobileOpen.value = true;
-      document.body.style.overflow = "hidden";
-    } else if (deltaX < -80 && isMobileOpen.value) {
-      closeMobileSidebar();
-    }
-  }
-};
-
 onMounted(() => {
   const collapsed = localStorage.getItem("sidebarCollapsed");
-  if (collapsed) {
-    isCollapsed.value = collapsed === "true";
-  }
-
+  if (collapsed) isCollapsed.value = collapsed === "true";
   window.addEventListener("mobile-sidebar-toggle", handleMobileSidebarToggle);
-  document.addEventListener("touchstart", handleTouchStart, {passive: true});
-  document.addEventListener("touchend", handleTouchEnd, {passive: true});
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener(
-      "mobile-sidebar-toggle",
-      handleMobileSidebarToggle,
-  );
-  document.removeEventListener("touchstart", handleTouchStart);
-  document.removeEventListener("touchend", handleTouchEnd);
+  window.removeEventListener("mobile-sidebar-toggle", handleMobileSidebarToggle);
   document.body.style.overflow = "";
 });
 </script>
 
-<script lang="ts">
-export default {};
-</script>
-
 <style scoped>
-
-.sidenav {
+.ritual-sidenav {
   height: calc(100vh - 80px);
   width: 280px;
-  padding: 0;
   position: fixed;
   top: 80px;
   left: 0;
-  background: linear-gradient(
-      180deg,
-      rgba(2, 6, 23, 0.98) 0%,
-      rgba(15, 23, 42, 0.95) 100%
-  ),
-    /* Subtle vertical lines pattern */ linear-gradient(
-      90deg,
-      transparent 49%,
-      rgba(16, 185, 129, 0.02) 50%,
-      transparent 51%
-  ),
-  linear-gradient(
-      0deg,
-      transparent 49%,
-      rgba(34, 197, 94, 0.015) 50%,
-      transparent 51%
-  );
-  background-size: 100% 100%,
-  80px 80px,
-  120px 120px;
-  border-right: 2px solid transparent;
-  border-image: linear-gradient(
-      180deg,
-      rgba(16, 185, 129, 0.2),
-      rgba(34, 197, 94, 0.2),
-      transparent
-  ) 1;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  overflow: hidden;
-  backdrop-filter: blur(20px);
+  background: #080a14;
+  border-right: 1px solid rgba(200, 178, 115, 0.1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 50;
-  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3),
-  inset -1px 0 0 rgba(148, 163, 184, 0.1);
-}
-
-.sidebar-glow {
-  display: none;
-}
-
-.sidebar-content {
-  position: relative;
-  height: 100%;
-  padding: 24px;
-  overflow-y: auto;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
 
-.sidenav.collapsed {
-  width: 90px;
-}
+.ritual-sidenav.collapsed { width: 80px; }
 
-.sidenav.collapsed .sidebar-content {
-  padding: 24px 20px;
-}
-
-.sidebar-content::-webkit-scrollbar {
-  width: 4px;
-}
-
-.sidebar-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar-content::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-      180deg,
-      rgba(16, 185, 129, 0.4),
-      rgba(34, 197, 94, 0.4)
-  );
-  border-radius: 2px;
-}
-
-.sidebar-content::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-      180deg,
-      rgba(16, 185, 129, 0.6),
-      rgba(34, 197, 94, 0.6)
-  );
-}
-
-.containerpoints {
+.sidebar-ritual-content {
   flex: 1;
+  padding: 32px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 32px;
-  min-height: 0;
+  overflow-y: auto;
 }
 
-.nav-section-title {
-  color: #64748b;
-  font-size: 0.75rem;
-  font-weight: 600;
+.sidebar-ritual-content::-webkit-scrollbar { display: none; }
+
+.sidebar-header { margin-bottom: 48px; }
+
+.logo-ritual-link { text-decoration: none; }
+
+.logo-ritual-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.ritual-logo-icon { width: 32px; height: 32px; color: var(--myst-gold); }
+
+.logo-ritual-text { display: flex; flex-direction: column; }
+.logo-main { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #fff; }
+.logo-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--myst-gold); text-transform: uppercase; letter-spacing: 2px; }
+
+.ritual-nav-area { flex: 1; display: flex; flex-direction: column; gap: 40px; }
+
+.nav-ritual-section { display: flex; flex-direction: column; gap: 8px; }
+.nav-ritual-section.bottom { margin-top: auto; padding-top: 32px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+
+.nav-ritual-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+  color: var(--myst-gold);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin: 16px 0 12px 16px;
-  opacity: 0.8;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+  opacity: 0.6;
 }
 
-.nav-item {
-  position: relative;
+.nav-ritual-item {
   display: flex;
   align-items: center;
-  padding: 0;
-  border-radius: 16px;
-  margin: 8px 0;
-  color: #e2e8f0;
+  gap: 16px;
+  padding: 12px 16px;
+  color: #888;
   text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  backdrop-filter: blur(10px);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
 }
 
-.nav-item-background {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-      135deg,
-      rgba(15, 23, 42, 0.8),
-      rgba(30, 41, 59, 0.6)
-  );
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1;
-}
+.nav-ritual-icon { width: 20px; font-size: 16px; display: flex; justify-content: center; }
 
-.nav-item-content {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 14px 20px;
-  gap: 16px;
-  width: 100%;
-  z-index: 2;
-}
-
-.nav-icon-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  position: relative;
-}
-
-.nav-item-indicator {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 0;
-  background: linear-gradient(180deg, #10b981, #22c55e);
-  border-radius: 0 2px 2px 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 3;
-}
-
-.collapsed .nav-item .nav-item-content {
-  justify-content: center;
-  padding: 14px 12px;
-}
-
-.collapsed .nav-section-title {
-  display: none;
-}
-
-.nav-item:hover {
-  border-color: rgba(16, 185, 129, 0.4);
-  transform: translateX(6px);
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1),
-  inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.nav-item:hover .nav-item-background {
-  background: linear-gradient(
-      135deg,
-      rgba(16, 185, 129, 0.15),
-      rgba(34, 197, 94, 0.1)
-  );
-}
-
-.nav-item:hover .nav-item-indicator {
-  height: 60%;
-}
-
-.collapsed .nav-item:hover {
-  transform: scale(1.05);
-}
-
-.collapsed .nav-item:hover .nav-item-indicator {
-  height: 40%;
-  width: 3px;
-}
-
-.containerMargin {
-  margin-bottom: 32px;
-  position: relative;
-}
-
-.containerLogo {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-  padding: 16px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 20px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(10px);
-}
-
-.logo-orbit {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.orbit-ring {
-  position: absolute;
-  inset: 0;
-  border: 2px solid transparent;
-  border-top-color: #10b981;
-  border-right-color: #22c55e;
-  border-radius: 50%;
-  animation: orbit 3s linear infinite;
-}
-
-@keyframes orbit {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.logo-text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.logo-text {
-  font-size: 20px;
-  font-family: "Inter";
-  font-weight: 700;
-  background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: all 0.4s ease;
-  letter-spacing: -0.025em;
-}
-
-.logo-subtitle {
-  font-size: 0.75rem;
-  color: #64748b;
-  font-weight: 500;
+.nav-ritual-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: all 0.4s ease;
+  letter-spacing: 1px;
 }
 
-.logo-link {
-  text-decoration: none;
-  display: block;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.nav-ritual-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.05);
 }
 
-.logo-link:hover .containerLogo {
-  transform: translateY(-2px);
-  background: rgba(15, 23, 42, 0.8);
-  border-color: rgba(16, 185, 129, 0.3);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2),
-  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.nav-ritual-item.active {
+  background: rgba(200, 178, 115, 0.05);
+  color: var(--myst-gold);
+  border-color: rgba(200, 178, 115, 0.2);
 }
 
-.logo-link:hover .logo-text {
-  background: linear-gradient(135deg, #10b981, #22c55e);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+.nav-ritual-item.logout:hover { color: #ff5252; background: rgba(255, 82, 82, 0.05); }
 
-.logo-link:hover .logo-subtitle {
-  color: #94a3b8;
-}
-
-.bottom-container {
-  display: flex !important;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(148, 163, 184, 0.1);
-}
-
-.collapsed .bottom-container {
-  align-items: center;
-  gap: 12px;
-}
-
-.logout-link {
-  width: 100%;
-}
-
-.logout-bg {
-  background: linear-gradient(
-      135deg,
-      rgba(239, 68, 68, 0.1),
-      rgba(220, 38, 38, 0.1)
-  ) !important;
-}
-
-.logout-link:hover {
-  border-color: rgba(239, 68, 68, 0.4) !important;
-}
-
-.logout-link:hover .logout-bg {
-  background: linear-gradient(
-      135deg,
-      rgba(239, 68, 68, 0.2),
-      rgba(220, 38, 38, 0.15)
-  ) !important;
-}
-
-.logout-indicator {
-  background: linear-gradient(180deg, #ef4444, #dc2626) !important;
-}
-
-.toggle-btn {
-  position: relative;
+.ritual-toggle-btn {
   background: transparent;
-  border: none;
-  border-radius: 16px;
-  color: #e2e8f0;
-  width: 48px;
-  height: 48px;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  align-self: center;
-}
-
-.toggle-btn-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-      135deg,
-      rgba(16, 185, 129, 0.1),
-      rgba(34, 197, 94, 0.1)
-  );
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.toggle-icon {
-  position: relative;
-  z-index: 1;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.toggle-btn:hover {
-  transform: scale(1.1);
-}
-
-.toggle-btn:hover .toggle-btn-bg {
-  background: linear-gradient(
-      135deg,
-      rgba(16, 185, 129, 0.2),
-      rgba(34, 197, 94, 0.2)
-  );
-  border-color: rgba(16, 185, 129, 0.4);
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15),
-  inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.toggle-btn:hover .toggle-icon {
-  color: #ffffff;
-}
-
-.link-text {
-  transition: all 0.4s ease;
-  white-space: nowrap;
-  font-weight: 500;
-  letter-spacing: 0.025em;
-}
-
-.activeLink {
-  border-color: rgba(16, 185, 129, 0.6) !important;
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2),
-  inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.activeLink .nav-item-background {
-  background: linear-gradient(
-      135deg,
-      rgba(16, 185, 129, 0.2),
-      rgba(34, 197, 94, 0.15)
-  ) !important;
-}
-
-.activeLink .nav-item-indicator {
-  height: 70% !important;
-}
-
-.activeLink .link-text {
-  color: #ffffff;
-}
-
-.nav-icon-container svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-item:hover .nav-icon-container svg {
-  transform: scale(1.05);
-}
-
-.activeLink .nav-icon-container svg {
-  transform: scale(1.05);
-}
-
-.collapsed .viewed-profile-link .nav-item-content {
-  justify-content: center;
-  padding: 14px 12px;
-}
-
-.profile-avatar img {
-  width: 24px;
-  height: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #444;
+  width: 40px; height: 40px;
   border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
+  cursor: pointer;
+  align-self: center;
+  margin-top: 16px;
+  transition: all 0.3s;
 }
 
-@media (max-width: 1024px) {
-  .toggle-btn {
-    top: 20px;
-    right: 10px;
-  }
+.ritual-toggle-btn:hover { color: var(--myst-gold); border-color: var(--myst-gold); }
+
+.mobile-ritual-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 45;
 }
 
 @media (max-width: 768px) {
-  .sidenav {
-    width: 240px;
-  }
-
-  .sidenav.collapsed {
-    width: 70px;
-  }
-
-  .containerLogo {
-    font-size: 20px;
-  }
-
-  .sidenavContainer a {
-    padding: 8px 12px;
-    margin: 0 0;
-  }
-
-  .collapsed .sidenavContainer a {
-    padding: 8px;
-  }
-}
-
-.mobile-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  display: none;
-}
-
-@media (max-width: 576px) {
-  .mobile-overlay {
-    display: block;
-  }
-
-  .sidenav {
+  .ritual-sidenav {
     transform: translateX(-100%);
-    z-index: 1000;
-    position: fixed;
-    transition: transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
-    padding: 20px 30px 0 30px;
-    box-sizing: border-box;
+    top: 0; height: 100vh;
   }
-
-  .sidenav.mobile-open {
-    transform: translateX(0);
-  }
-
-  .containerMargin {
-    flex-shrink: 0;
-  }
-
-  .containerpoints {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 0;
-  }
-
-  .sidenavContainer:first-child {
-    flex: 1;
-    overflow-y: auto;
-    min-height: 0;
-  }
-
-  .sidenavContainer.bottom-container {
-    flex-shrink: 0;
-    padding-bottom: env(safe-area-inset-bottom, 20px);
-  }
+  .ritual-sidenav.mobile-open { transform: translateX(0); }
+  .nav-ritual-section.bottom { padding-bottom: 40px; }
 }
+
+.collapsed .nav-ritual-item { justify-content: center; padding: 12px 0; }
 </style>

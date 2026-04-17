@@ -1,25 +1,29 @@
 <template>
-  <div class="counsel-section">
-    <div class="counsel-background">
-      <!-- Animated particles -->
-    </div>
+  <div class="counsel-ritual-section">
+    <div class="ritual-mist-overlay"></div>
 
-    <div class="counsel-header">
-      <h2 class="counsel-title">{{ t('counselTitle') }}</h2>
-      <p class="counsel-subtitle">{{ t('counselSubtitle') }}</p>
+    <div class="counsel-ritual-header">
+      <!-- Unified Header -->
+      <div class="myst-page-header">
+        <div class="myst-header-decoration" aria-hidden="true"></div>
+        <h2 class="myst-header-label">{{ t('counselTitle') || 'Meeting of the Counsel' }}</h2>
+        <div class="myst-header-decoration" aria-hidden="true"></div>
+      </div>
+      
+      <p class="counsel-ritual-subtitle">{{ t('counselSubtitle') }}</p>
 
       <!-- Filter Toggle -->
-      <div class="filter-toggle">
+      <div class="ritual-filter-group">
         <button
             :class="{ active: activeFilter === 'active' }"
-            class="filter-button"
+            class="btn-ritual-filter"
             @click="activeFilter = 'active'"
         >
           {{ t('counselFilterActive') }}
         </button>
         <button
             :class="{ active: activeFilter === 'all' }"
-            class="filter-button"
+            class="btn-ritual-filter"
             @click="activeFilter = 'all'"
         >
           {{ t('counselFilterAll') }}
@@ -28,23 +32,23 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="loading-state">
-      <div class="spinner"></div>
-      <p>{{ t('loading') }}</p>
+    <div v-if="loading" class="ritual-loading-counsel">
+      <div class="ritual-spinner"></div>
+      <p class="ledger-text">{{ t('loading') }}</p>
     </div>
 
     <!-- Error State -->
-    <div v-else-if="error" class="error-state">
+    <div v-else-if="error" class="ritual-error-counsel">
       <p>{{ t('counselLoadingError') }}</p>
     </div>
 
     <!-- Empty State -->
-    <div v-else-if="filteredSuggestions.length === 0" class="empty-state">
-      <p>{{ activeFilter === 'active' ? t('counselEmptyState') : t('counselNoSuggestions') }}</p>
+    <div v-else-if="filteredSuggestions.length === 0" class="ritual-empty-counsel">
+      <p class="ledger-text">{{ activeFilter === 'active' ? t('counselEmptyState') : t('counselNoSuggestions') }}</p>
     </div>
 
     <!-- Suggestions List -->
-    <div v-else class="suggestions-list">
+    <div v-else class="ritual-suggestions-grid">
       <CounselCard
           v-for="suggestion in filteredSuggestions"
           :key="suggestion.id"
@@ -101,209 +105,100 @@ watch(currentLanguage, (newLang) => {
 </script>
 
 <style scoped>
-.counsel-section {
+.counsel-ritual-section {
   position: relative;
-  padding: 24px 0;
+  padding: 40px 0;
+  min-height: 400px;
 }
 
-.counsel-background {
+.ritual-mist-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(200, 178, 115, 0.03) 0%, transparent 70%);
   pointer-events: none;
-  z-index: 0;
 }
 
-.counsel-background::before,
-.counsel-background::after {
-  content: '';
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, var(--counsel-primary, #4a90e2) 0%, transparent 70%);
-  opacity: 0.15;
-  border-radius: 50%;
-  filter: blur(60px);
-  animation: float-particle 20s ease-in-out infinite;
-}
-
-.counsel-background::before {
-  top: -100px;
-  left: -100px;
-  animation-delay: 0s;
-}
-
-.counsel-background::after {
-  bottom: -100px;
-  right: -100px;
-  animation-delay: 10s;
-}
-
-@keyframes float-particle {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(100px, -100px) scale(1.2);
-  }
-  50% {
-    transform: translate(50px, 100px) scale(0.9);
-  }
-  75% {
-    transform: translate(-100px, 50px) scale(1.1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .counsel-background::before,
-  .counsel-background::after {
-    animation: none;
-    opacity: 0.1;
-  }
-}
-
-.counsel-header {
+.counsel-ritual-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-.counsel-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--counsel-primary, #4a90e2);
-  margin-bottom: 8px;
-  font-family: "Inter", system-ui, sans-serif;
+.counsel-ritual-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 32px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.counsel-subtitle {
-  font-size: 16px;
-  color: var(--myst-ink-muted);
-  margin-bottom: 24px;
-  line-height: 1.6;
-}
-
-.filter-toggle {
+.ritual-filter-group {
   display: inline-flex;
-  gap: 8px;
-  padding: 4px;
-  background: color-mix(in srgb, var(--myst-bg-2) 50%, transparent);
-  border-radius: 8px;
-  border: 1px solid color-mix(in srgb, var(--counsel-primary, #4a90e2) 20%, transparent);
+  gap: 12px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
 }
 
-.filter-button {
-  padding: 8px 20px;
+.btn-ritual-filter {
+  padding: 8px 24px;
   background: transparent;
   border: none;
-  border-radius: 6px;
-  color: var(--myst-ink-muted);
-  font-size: 14px;
-  font-weight: 500;
-  font-family: "Inter", system-ui, sans-serif;
+  color: #444;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s;
 }
 
-.filter-button:hover {
-  background: color-mix(in srgb, var(--counsel-primary, #4a90e2) 10%, transparent);
-  color: var(--myst-ink);
+.btn-ritual-filter:hover { color: #888; }
+.btn-ritual-filter.active {
+  background: rgba(200, 178, 115, 0.1);
+  color: var(--myst-gold);
 }
 
-.filter-button.active {
-  background: var(--counsel-primary, #4a90e2);
-  color: white;
-  font-weight: 600;
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--counsel-primary, #4a90e2) 30%, transparent);
-}
-
-.suggestions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 900px;
+.ritual-suggestions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  max-width: 1000px;
   margin: 0 auto;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-.loading-state,
-.error-state,
-.empty-state {
+.ritual-loading-counsel, .ritual-error-counsel, .ritual-empty-counsel {
   text-align: center;
-  padding: 60px 20px;
-  position: relative;
-  z-index: 1;
+  padding: 80px 20px;
+  color: #444;
 }
 
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+.ledger-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid color-mix(in srgb, var(--counsel-primary, #4a90e2) 20%, transparent);
-  border-top-color: var(--counsel-primary, #4a90e2);
+.ritual-spinner {
+  width: 32px; height: 32px;
+  border: 2px solid rgba(200, 178, 115, 0.1);
+  border-top-color: var(--myst-gold);
   border-radius: 50%;
+  margin: 0 auto 20px;
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.error-state p,
-.empty-state p {
-  color: var(--myst-ink-muted);
-  font-size: 16px;
-}
-
-.error-state p {
-  color: #f44336;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-  .counsel-title {
-    font-size: 1.75rem;
-  }
-
-  .counsel-subtitle {
-    font-size: 14px;
-  }
-
-  .filter-toggle {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .filter-button {
-    flex: 1;
-    padding: 10px 16px;
-  }
-}
-
-@media (max-width: 640px) {
-  .counsel-section {
-    padding: 16px 0;
-  }
-
-  .counsel-header {
-    margin-bottom: 24px;
-  }
-
-  .counsel-title {
-    font-size: 1.5rem;
-  }
+  .ritual-filter-group { width: 100%; display: flex; }
+  .btn-ritual-filter { flex: 1; }
 }
 </style>

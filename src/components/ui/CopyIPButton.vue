@@ -1,129 +1,104 @@
 <template>
   <button
-      :aria-label="`Copy server IP: ${ip}`"
-      :class="{ copied: showCopied }"
-      class="copy-ip-btn"
-      @click="copyIP"
+      class="btn-copy-ritual"
+      type="button"
+      @click="copyToClipboard"
   >
-    <span class="ip-text">{{ ip }}</span>
-    <span v-if="showCopied" class="copy-feedback">Copied!</span>
+    <span class="btn-label">{{ t('serverAddress') }}</span>
+    <div class="btn-icon">
+      <i :class="isCopied ? 'fa-solid fa-check' : 'fa-solid fa-copy'"></i>
+    </div>
+    
+    <Transition name="fade">
+      <span v-if="isCopied" class="copy-success-tooltip">{{ t('copySuccess') }}</span>
+    </Transition>
   </button>
 </template>
 
 <script lang="ts" setup>
 import {ref} from "vue";
+import {useI18n} from "@/composables/useI18n";
 
-interface Props {
-  ip: string;
-  size?: "sm" | "md" | "lg";
-}
+const {t} = useI18n();
+const isCopied = ref(false);
 
-const props = withDefaults(defineProps<Props>(), {
-  size: "md",
-});
-
-const showCopied = ref(false);
-
-const copyIP = async () => {
+const copyToClipboard = async () => {
   try {
-    await navigator.clipboard.writeText(props.ip);
-    showCopied.value = true;
+    await navigator.clipboard.writeText(t('serverAddress'));
+    isCopied.value = true;
     setTimeout(() => {
-      showCopied.value = false;
+      isCopied.value = false;
     }, 2000);
-  } catch {
-    // Fallback for older browsers
-    const textArea = document.createElement("textarea");
-    textArea.value = props.ip;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-
-    showCopied.value = true;
-    setTimeout(() => {
-      showCopied.value = false;
-    }, 2000);
+  } catch (err) {
+    console.error('Failed to copy: ', err);
   }
 };
 </script>
 
 <style scoped>
-.copy-ip-btn {
-  position: relative;
-  display: flex;
+.btn-copy-ritual {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 16px 24px;
-  background: linear-gradient(135deg, var(--myst-gold), #d4b86a);
-  color: var(--myst-bg);
-  border: 2px solid var(--myst-gold);
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 700;
+  gap: 0;
+  background: #05070a;
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  padding: 0;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  white-space: nowrap;
-  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-.copy-ip-btn:hover {
-  background: linear-gradient(135deg, #e6cc85, var(--myst-gold));
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(200, 178, 115, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  border-color: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
+.btn-label {
+  padding: 10px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--myst-gold);
+  letter-spacing: 1px;
 }
 
-.copy-ip-btn.copied {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  border-color: #22c55e;
-  transform: scale(0.98);
+.btn-icon {
+  padding: 10px 14px;
+  background: rgba(200, 178, 115, 0.1);
+  border-left: 1px solid rgba(200, 178, 115, 0.2);
+  color: var(--myst-gold);
+  font-size: 14px;
 }
 
-.ip-text {
-  font-family: "Inter", "Roboto", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+.btn-copy-ritual:hover {
+  border-color: var(--myst-gold);
+  box-shadow: 0 0 20px rgba(200, 178, 115, 0.1);
 }
 
-.copy-feedback {
+.btn-copy-ritual:hover .btn-icon {
+  background: var(--myst-gold);
+  color: #05070a;
+}
+
+.copy-success-tooltip {
   position: absolute;
-  top: -40px;
+  bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
-  background: #22c55e;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  background: var(--myst-gold);
+  color: #05070a;
+  padding: 4px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-  animation: fadeInScale 0.3s ease;
+  pointer-events: none;
 }
 
-@keyframes fadeInScale {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-.copy-feedback::after {
-  content: "";
+.copy-success-tooltip::after {
+  content: '';
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: #22c55e;
+  border: 5px solid transparent;
+  border-top-color: var(--myst-gold);
 }
+
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s, transform 0.3s; }
+.fade-enter-from, .fade-leave-to { opacity: 0; transform: translateX(-50%) translateY(5px); }
 </style>

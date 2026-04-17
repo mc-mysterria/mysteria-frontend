@@ -1,26 +1,42 @@
 <template>
-  <div class="news-page">
+  <div class="news-ritual-page page-container">
     <HeaderItem/>
-    <main class="news-article-container">
-      <div v-if="article">
-        <button class="back-button" @click="goBack">
-          <IconArrowLeft class="w-5 h-5"/>
-          <span>{{ t('goBack') }}</span>
-        </button>
-        <div class="article-header">
-          <div class="article-meta">
-            <span class="publish-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
-          </div>
-          <h1 class="article-title">{{ article.title }}</h1>
-          <div class="article-divider"></div>
+    <main class="news-article-ritual">
+      <div v-if="article" class="article-ritual-box">
+        <!-- Navigation -->
+        <div class="article-ritual-nav">
+          <button class="btn-ritual-back" @click="goBack">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>{{ t('goBack') }}</span>
+          </button>
         </div>
-        <div v-dompurify-html="renderedContent" class="article-content"></div>
+
+        <!-- Header -->
+        <header class="article-ritual-header">
+          <div class="article-ritual-meta">
+            <span class="ritual-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
+            <div class="ritual-header-line"></div>
+          </div>
+          <h1 class="article-ritual-title">{{ article.title }}</h1>
+        </header>
+
+        <!-- Content -->
+        <div v-dompurify-html="renderedContent" class="article-ritual-content"></div>
+
+        <!-- Footer -->
+        <footer class="article-ritual-footer">
+          <div class="ritual-end-mark">† † †</div>
+        </footer>
       </div>
-      <div v-else-if="loading">
-        <p>Loading article...</p>
+
+      <!-- Loading / Error -->
+      <div v-else-if="loading" class="ritual-loading-area">
+        <div class="ritual-spinner"></div>
+        <p>{{ t('loadingService') || 'Invoking the archives...' }}</p>
       </div>
-      <div v-else>
-        <p>Article not found or failed to load.</p>
+      <div v-else class="ritual-error-area">
+        <p>Registry entry not found or restricted.</p>
+        <button class="btn-ritual-back" @click="goBack">RECOVER</button>
       </div>
     </main>
     <FooterItem/>
@@ -36,7 +52,6 @@ import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
 import MarkdownIt from 'markdown-it';
-import IconArrowLeft from '@/assets/icons/IconArrowLeft.vue';
 import {pathwayEmojiPlugin} from '@/utils/pathwayPlugin';
 
 const route = useRoute();
@@ -58,7 +73,7 @@ const renderedContent = computed(() => {
 });
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  return new Date(dateString).toLocaleDateString(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -84,7 +99,6 @@ const loadArticle = async () => {
 };
 
 const scrollToTop = () => {
-  // Use requestAnimationFrame for better timing with browser rendering
   requestAnimationFrame(() => {
     window.scrollTo({top: 0, left: 0, behavior: 'instant'});
     document.documentElement.scrollTop = 0;
@@ -92,317 +106,109 @@ const scrollToTop = () => {
   });
 };
 
-const goBack = () => {
-  router.back();
-};
+const goBack = () => router.back();
 
-// Watch for route changes to handle navigation between articles
 watch(() => route.params.slug, async (newSlug, oldSlug) => {
   if (newSlug && newSlug !== oldSlug) {
-    // Scroll to top immediately
     scrollToTop();
-
     await loadArticle();
-
-    // Ensure scroll after content loads with multiple RAF cycles
     await nextTick();
     scrollToTop();
-
-    // Additional delay to ensure DOM is fully settled
-    setTimeout(() => {
-      scrollToTop();
-    }, 50);
   }
 }, {immediate: false});
 
 onMounted(async () => {
-  // Scroll to top immediately on mount
   scrollToTop();
-
   await loadArticle();
-
-  // Ensure scroll after content loads
   await nextTick();
   scrollToTop();
-
-  // Additional delay to ensure DOM is fully settled
-  setTimeout(() => {
-    scrollToTop();
-  }, 50);
 });
 </script>
 
 <style scoped>
-/* Page layout with sticky footer */
-.news-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--myst-bg);
+.news-ritual-page { background-color: #05070a; min-height: 100vh; display: flex; flex-direction: column; }
+
+.news-article-ritual {
+  flex: 1; max-width: 900px; margin: 0 auto;
+  padding: 120px 24px 80px; width: 100%;
 }
 
-.news-article-container {
-  flex: 1;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 104px 32px 64px;
-  width: 100%;
+.article-ritual-box { position: relative; }
+
+.article-ritual-nav { margin-bottom: 48px; }
+
+.btn-ritual-back {
+  background: transparent; border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #666; padding: 10px 24px; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;
 }
 
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
-  color: var(--myst-ink-strong);
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 24px;
+.btn-ritual-back:hover { color: var(--myst-gold); border-color: var(--myst-gold); transform: translateX(-4px); }
+
+.article-ritual-header { margin-bottom: 60px; text-align: center; }
+
+.article-ritual-meta {
+  display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 24px;
 }
 
-.back-button:hover {
-  background: color-mix(in srgb, var(--myst-bg-2) 90%, transparent);
-  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  transform: translateX(-4px);
+.ritual-date {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  color: var(--myst-gold); text-transform: uppercase; letter-spacing: 4px;
 }
 
-.article-header {
-  margin-bottom: 2rem;
+.ritual-header-line { width: 40px; height: 1px; background: var(--myst-gold); opacity: 0.4; }
+
+.article-ritual-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem);
+  color: #fff; line-height: 1.1; font-weight: 800; margin: 0;
 }
 
-.article-meta {
-  margin-bottom: 12px;
+.article-ritual-content {
+  line-height: 1.8; color: #ccc; font-size: 18px;
 }
 
-.publish-date {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--myst-gold);
+/* Content Styles */
+.article-ritual-content :deep(p) { margin-bottom: 24px; }
+.article-ritual-content :deep(h2), .article-ritual-content :deep(h3) {
+  font-family: 'Playfair Display', serif; color: #fff; margin: 48px 0 20px;
+}
+.article-ritual-content :deep(strong) { color: var(--myst-gold); font-weight: 700; }
+
+.article-ritual-content :deep(blockquote) {
+  margin: 40px 0; padding: 24px 32px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid var(--myst-gold);
+  font-style: italic; color: #888;
 }
 
-.article-title {
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
-  font-weight: 800;
-  margin: 0 0 24px;
-  color: var(--myst-ink-strong);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+.article-ritual-content :deep(img) {
+  max-width: 100%; height: auto; margin: 40px auto; display: block;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.article-divider {
-  height: 1px;
-  background: linear-gradient(90deg, var(--myst-gold), color-mix(in srgb, var(--myst-gold) 20%, transparent));
-  max-width: 120px;
+.article-ritual-content :deep(code) {
+  background: rgba(255, 255, 255, 0.05); color: var(--myst-gold);
+  padding: 2px 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em;
 }
 
-.article-content {
-  line-height: 1.8;
-  color: var(--myst-ink);
-  font-size: 1.0625rem;
-  margin-top: 2rem;
+.article-ritual-footer { margin-top: 80px; text-align: center; }
+.ritual-end-mark { font-family: 'Playfair Display', serif; color: var(--myst-gold); font-size: 24px; letter-spacing: 8px; opacity: 0.3; }
+
+.ritual-loading-area, .ritual-error-area {
+  min-height: 400px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 24px; color: #444; font-family: 'JetBrains Mono', monospace;
 }
 
-/* Headings */
-.article-content :deep(h1),
-.article-content :deep(h2),
-.article-content :deep(h3),
-.article-content :deep(h4),
-.article-content :deep(h5),
-.article-content :deep(h6) {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
+.ritual-spinner {
+  width: 40px; height: 40px; border: 2px solid rgba(200, 178, 115, 0.1);
+  border-top-color: var(--myst-gold); border-radius: 50%; animation: spin 1s linear infinite;
 }
 
-.article-content :deep(h1) {
-  font-size: 2.25rem;
-  color: var(--myst-gold);
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.article-content :deep(h2) {
-  font-size: 1.875rem;
-}
-
-.article-content :deep(h3) {
-  font-size: 1.5rem;
-}
-
-/* Text elements */
-.article-content :deep(p) {
-  margin-bottom: 1.5rem;
-  color: var(--myst-ink);
-}
-
-.article-content :deep(strong) {
-  color: var(--myst-ink-strong);
-  font-weight: 600;
-}
-
-.article-content :deep(ul),
-.article-content :deep(ol) {
-  margin-bottom: 1.5rem;
-  padding-left: 1.5rem;
-  color: var(--myst-ink);
-}
-
-.article-content :deep(li) {
-  margin-bottom: 0.5rem;
-}
-
-/* Blockquotes */
-.article-content :deep(blockquote) {
-  margin: 2rem 0;
-  padding: 1rem 1.5rem;
-  border-left: 4px solid var(--myst-gold);
-  background-color: var(--myst-bg-2);
-  font-style: italic;
-  color: var(--myst-ink-muted);
-}
-
-/* Code elements */
-.article-content :deep(code) {
-  background-color: var(--myst-bg-2);
-  color: var(--myst-gold);
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-  border: 1px solid var(--myst-ink-muted);
-  opacity: 0.8;
-}
-
-.article-content :deep(pre) {
-  background-color: var(--myst-bg-2);
-  color: var(--myst-ink);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-  border: 1px solid var(--myst-ink-muted);
-  opacity: 0.9;
-}
-
-.article-content :deep(pre code) {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  color: var(--myst-ink);
-}
-
-/* Links */
-.article-content :deep(a) {
-  color: var(--myst-gold);
-  text-decoration: underline;
-  transition: color 0.2s ease;
-}
-
-.article-content :deep(a:hover) {
-  color: var(--myst-gold-soft);
-}
-
-/* Pathway emoji inline images */
-.article-content :deep(img.pathway-emoji) {
-  display: inline;
-  width: auto;
-  height: 1.5em;
-  vertical-align: -0.35em;
-  margin: 0 0.1em;
-  border-radius: 2px;
-  box-shadow: none;
-  border: none;
-  transform: none;
-  transition: none;
-}
-
-.article-content :deep(img.pathway-emoji:hover) {
-  transform: scale(1.15);
-  box-shadow: none;
-  transition: transform 0.15s ease;
-}
-
-/* Images */
-.article-content :deep(img:not(.pathway-emoji)) {
-  max-width: 100%;
-  height: auto;
-  margin: 2rem auto;
-  display: block;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  border: 1px solid color-mix(in srgb, white 5%, transparent);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.article-content :deep(img:not(.pathway-emoji):hover) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-/* Image with caption (paragraph containing only an image + em) */
-.article-content :deep(p:has(img)) {
-  text-align: center;
-}
-
-.article-content :deep(img + em) {
-  display: block;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--myst-ink-muted);
-  margin-top: 0.5rem;
-  font-style: italic;
-}
-
-/* Tables */
-.article-content :deep(table) {
-  width: 100%;
-  margin: 1.5rem 0;
-  border-collapse: collapse;
-  background-color: var(--myst-bg-2);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.article-content :deep(th),
-.article-content :deep(td) {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid var(--myst-ink-muted);
-  opacity: 0.8;
-}
-
-.article-content :deep(th) {
-  font-weight: 600;
-  background-color: var(--myst-bg);
-  color: var(--myst-gold);
-}
-
-.article-content :deep(td) {
-  color: var(--myst-ink);
-}
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  .news-article-container {
-    padding: 84px 20px 40px;
-  }
-
-  .back-button {
-    padding: 8px 14px;
-    font-size: 13px;
-  }
-
-  .article-content :deep(h1) {
-    font-size: 1.875rem;
-  }
-
-  .article-content :deep(h2) {
-    font-size: 1.5rem;
-  }
+  .news-article-ritual { padding-top: 100px; }
+  .article-ritual-title { font-size: 2rem; }
 }
 </style>

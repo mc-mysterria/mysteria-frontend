@@ -174,11 +174,10 @@ watch(
         await shopStore.fetchBalance();
 
         if (newPurchase.requiresServerSelection) {
-          confirmModal.value.showModal(
-              t("selectServerForItem"),
-              t("purchase"),
-              t("cancel"),
-          );
+          confirmModal.value.showModal({
+            title: t("selectServerForItem"),
+            onConfirm: () => { /* Logic is handled by the Modal slots/emits */ }
+          });
           return;
         }
 
@@ -190,17 +189,13 @@ watch(
               Number(newPurchase.price.minus(shopStore.balance?.amount || 0)),
           );
           const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
-          confirmModal.value.showModal(
-              `${t("insufficientFundsMessage")} ${amount} ${currencyName}?`,
-              t("topUp"),
-              t("cancel"),
-          );
+          confirmModal.value.showModal({
+            title: `${t("insufficientFundsMessage")} ${amount} ${currencyName}?`
+          });
         } else {
-          confirmModal.value.showModal(
-              t("confirmPurchaseMessage"),
-              t("purchase"),
-              t("cancel"),
-          );
+          confirmModal.value.showModal({
+            title: t("confirmPurchaseMessage")
+          });
         }
       } else if (confirmModal.value && confirmModal.value.isVisible) {
         // Call the modal's own cancellation/closing logic, which is now safe to use

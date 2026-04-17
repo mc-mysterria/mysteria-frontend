@@ -1,183 +1,127 @@
 <template>
-  <HeaderItem/>
-  <div class="pnf-container">
-    <div class="pnf-card">
-      <h1>404</h1>
-      <h3>{{ t("pageNotFoundTitle") }}</h3>
-      <p>
-        {{ t("pageNotFoundMessage") }}
-      </p>
-      <button class="pnf-button" @click="goBack">
-        {{ t("goBack") }}
-        <IconArrowRight :aria-label="t('goBack')"/>
-      </button>
-    </div>
+  <div class="ritual-page page-container">
+    <HeaderItem/>
+    <main class="pnf-main">
+      <div class="mist-overlay"></div>
+      
+      <div class="pnf-content">
+        <FadeInSection>
+          <div class="ritual-box-404">
+            <h1 class="glitch-text">404</h1>
+            <div class="ritual-divider"></div>
+            <h2 class="pnf-title">{{ t("pageNotFoundTitle") }}</h2>
+            <p class="pnf-message">
+              {{ t("pageNotFoundMessage") }}
+            </p>
+            <div class="pnf-actions">
+              <button class="btn-ritual" @click="router.push('/')">
+                <i class="fa-solid fa-arrow-left"></i>
+                {{ t("goBack") }}
+              </button>
+            </div>
+          </div>
+        </FadeInSection>
+      </div>
+    </main>
   </div>
-  <FooterItem/>
-
 </template>
 
 <script lang="ts" setup>
+import {useI18n} from "@/composables/useI18n";
 import {useRouter} from "vue-router";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
-import IconArrowRight from "@/assets/icons/IconArrowRight.vue";
-import {useI18n} from "@/composables/useI18n";
-import FooterItem from '@/components/layout/FooterItem.vue';
+import FadeInSection from "@/components/ui/FadeInSection.vue";
 
 const {t} = useI18n();
-
 const router = useRouter();
-
-const goBack = () => {
-  if (window.history.length > 1) {
-    router.go(-1);
-  } else {
-    router.push("/");
-  }
-};
-</script>
-
-<script lang="ts">
-export default {
-  name: "PageNotFoundView",
-};
 </script>
 
 <style scoped>
-
-
-.pnf-container,
-.pnf-card,
-.pnf-button {
-  box-sizing: border-box;
+.ritual-page {
+  height: 100vh;
+  background-color: #05070a;
+  overflow: hidden;
 }
 
-.pnf-container {
-  min-height: calc(100vh - 100px);
-  width: 100%;
-  padding: 20px;
+.pnf-main {
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.mist-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(200, 178, 115, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ritual-box-404 {
   text-align: center;
-  overflow-y: auto;
-}
-
-.pnf-card {
-  background-color: #171a214d;
+  padding: 60px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(200, 178, 115, 0.1);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: clamp(30px, 6vw, 50px);
-  border-radius: 16px;
-  width: 100%;
-  max-width: 560px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 600px;
 }
 
-h1 {
-  font-family: "Inter", sans-serif;
-  font-size: clamp(60px, 15vw, 90px);
-  background: linear-gradient(
-      160deg,
-      var(--myst-gold) 0%,
-      var(--myst-offwhite) 50%,
-      var(--myst-gold-soft) 100%
-  );
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-  margin-block-start: 0;
-  margin-block-end: clamp(25px, 4vh, 35px);
-  line-height: 1.1;
+.glitch-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  color: var(--myst-gold);
+  margin: 0;
+  line-height: 1;
+  font-weight: 900;
+  text-shadow: 0 0 30px rgba(200, 178, 115, 0.3);
 }
 
-h3 {
-  font-family: "Inter", sans-serif;
-  font-size: clamp(20px, 5vw, 24px);
-  color: #f3f4f6;
-  margin-block-start: 0;
-  margin-block-end: clamp(15px, 3vh, 20px);
-  line-height: 1.4;
+.ritual-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--myst-gold);
+  margin: 30px auto;
 }
 
-p {
-  font-family: "Inter", sans-serif;
-  font-size: clamp(14px, 3.5vw, 16px);
-  color: #d1d5db;
-  margin-block-start: 0;
-  margin-block-end: clamp(35px, 6vh, 50px);
+.pnf-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.pnf-message {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #666;
   line-height: 1.6;
+  margin-bottom: 40px;
 }
 
-.pnf-button {
+.btn-ritual {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: clamp(12px, 2vh, 14px) clamp(24px, 4.5vw, 32px);
-  font-family: "Inter", sans-serif;
-  font-size: clamp(14px, 3.2vw, 16px);
-  font-weight: 600;
+  gap: 12px;
+  padding: 14px 32px;
+  background: transparent;
   border: 1px solid var(--myst-gold);
-  color: var(--myst-bg);
-  background-color: var(--myst-gold);
-  border-radius: 10px;
+  color: var(--myst-gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out,
-  transform 0.1s ease-in-out,
-  box-shadow 0.2s ease-in-out;
-  text-decoration: none;
-  width: fit-content;
-  margin: 0 auto;
-  box-shadow: 0 3px 10px color-mix(in srgb, var(--myst-gold) 30%, transparent);
+  transition: all 0.3s ease;
 }
 
-.pnf-button:hover,
-.pnf-button:focus {
-  background-color: var(--myst-gold-soft);
-  border-color: var(--myst-gold-soft);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px color-mix(in srgb, var(--myst-gold) 40%, transparent);
-  outline: none;
+.btn-ritual:hover {
+  background: rgba(200, 178, 115, 0.1);
+  box-shadow: 0 0 20px rgba(200, 178, 115, 0.2);
 }
 
-.pnf-button:active {
-  transform: translateY(0px);
-  box-shadow: 0 3px 10px color-mix(in srgb, var(--myst-gold) 30%, transparent);
-}
-
-.pnf-button img {
-  margin-left: 10px;
-  height: clamp(0.9em, 2vh, 1em);
-  width: auto;
-  filter: brightness(0) invert(1);
-}
-
-@media (max-width: 480px) {
-  .pnf-card {
-    padding: clamp(20px, 5vw, 30px);
-    margin-left: 10px;
-    margin-right: 10px;
-    border-radius: 12px;
-  }
-
-  h1 {
-    font-size: clamp(48px, 12vw, 70px);
-  }
-
-  h3 {
-    font-size: clamp(18px, 4.5vw, 22px);
-  }
-
-  p {
-    font-size: clamp(13px, 3vw, 15px);
-  }
-
-  .pnf-button {
-    width: 100%;
-    max-width: 280px;
-    padding: clamp(11px, 2.3vh, 13px) clamp(15px, 3vw, 20px);
-  }
+@media (max-width: 768px) {
+  .glitch-text { font-size: 80px; }
+  .ritual-box-404 { padding: 40px 20px; margin: 20px; }
 }
 </style>

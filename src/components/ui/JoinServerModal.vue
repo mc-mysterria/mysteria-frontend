@@ -1,205 +1,195 @@
 <template>
-  <div
-      v-if="show"
-      class="modal-overlay"
-      @click.self="$emit('close')"
-  >
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">{{ t('home.joinServerTitle') }}</h2>
-        <button
-            aria-label="Close modal"
-            class="modal-close"
-            @click="$emit('close')"
-        >
-          <IconX class="w-6 h-6"/>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="join-step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>{{ t('home.step1Title') }}</h3>
-            <p>{{ t('home.step1Description') }}</p>
+  <Teleport to="body">
+    <Transition name="ritual-fade">
+      <div v-if="show" class="modal-ritual-overlay" @click="$emit('close')">
+        <div class="modal-ritual-content" @click.stop>
+          <div class="modal-ritual-header">
+            <h2 class="ritual-title">{{ t('home.joinServerTitle') }}</h2>
+            <button class="modal-ritual-close" @click="$emit('close')">†</button>
           </div>
-        </div>
 
-        <div class="join-step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>{{ t('home.step2Title') }}</h3>
-            <p>{{ t('home.step2Description') }}</p>
-            <div class="server-ip">
-              <CopyIPButton ip="mc.mysterria.net"/>
+          <div class="modal-ritual-body">
+            <div class="join-ritual-steps">
+              <!-- Step 1 -->
+              <div class="join-ritual-step">
+                <div class="step-num">1</div>
+                <div class="step-info">
+                  <h4 class="step-title">{{ t('home.step1Title') }}</h4>
+                  <p class="step-desc">{{ t('home.step1Description') }}</p>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="join-ritual-step">
+                <div class="step-num">2</div>
+                <div class="step-info">
+                  <h4 class="step-title">{{ t('home.step2Title') }}</h4>
+                  <p class="step-desc">{{ t('home.step2Description') }}</p>
+                  <div class="ip-ritual-box">
+                    <code class="ip-sigil">{{ t('serverAddress') }}</code>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="join-ritual-step">
+                <div class="step-num">3</div>
+                <div class="step-info">
+                  <h4 class="step-title">{{ t('home.step3Title') }}</h4>
+                  <p class="step-desc">{{ t('home.step3Description') }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-ritual-actions">
+              <router-link class="btn-ritual-primary" to="/guide" @click="$emit('close')">
+                {{ t('home.fullGuide') }}
+              </router-link>
             </div>
           </div>
         </div>
-
-        <div class="join-step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>{{ t('home.step3Title') }}</h3>
-            <p>{{ t('home.step3Description') }}</p>
-          </div>
-        </div>
       </div>
-
-      <div class="modal-footer">
-        <RouterLink class="guide-link" to="/guide" @click="$emit('close')">
-          <IconWiki class="w-4 h-4"/>
-          {{ t('home.fullGuide') }}
-        </RouterLink>
-      </div>
-    </div>
-  </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
-import {defineEmits, defineProps} from 'vue';
-import CopyIPButton from './CopyIPButton.vue';
-import IconWiki from '@/assets/icons/IconWiki.vue';
-import IconX from '@/assets/icons/IconX.vue';
-import {useI18n} from '@/composables/useI18n';
+import {useI18n} from "@/composables/useI18n";
 
 defineProps<{
   show: boolean;
 }>();
 
-defineEmits<{
-  close: [];
-}>();
+defineEmits(['close']);
 
 const {t} = useI18n();
 </script>
 
 <style scoped>
-.modal-overlay {
+.modal-ritual-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3000;
   padding: 20px;
 }
 
-.modal-content {
-  background: var(--myst-bg);
-  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  border-radius: 12px;
-  max-width: 500px;
+.modal-ritual-content {
+  background: #080a14;
+  border: 1px solid rgba(200, 178, 115, 0.2);
   width: 100%;
-  max-height: 80vh;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-header {
+.modal-ritual-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
-  margin-bottom: 24px;
-  padding: 24px 24px 16px;
 }
 
-.modal-title {
-  font-family: "Inter", serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--myst-ink-strong);
+.ritual-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--myst-gold);
   margin: 0;
 }
 
-.modal-close {
-  background: none;
-  border: none;
-  color: #a1a1aa;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+.modal-ritual-close {
+  background: none; border: none;
+  color: #444; font-size: 24px;
+  cursor: pointer; transition: color 0.3s;
+}
+.modal-ritual-close:hover { color: var(--myst-gold); }
+
+.modal-ritual-body {
+  padding: 32px;
 }
 
-.modal-close:hover {
-  color: var(--myst-ink-strong);
-  background: color-mix(in srgb, white 10%, transparent);
-}
-
-.modal-body {
-  padding: 0 24px;
+.join-ritual-steps {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
+  margin-bottom: 40px;
 }
 
-.join-step {
+.join-ritual-step {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: flex-start;
 }
 
-.step-number {
-  background: var(--myst-gold);
-  color: var(--myst-bg);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
+.step-num {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--myst-gold);
+  color: var(--myst-gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
   flex-shrink: 0;
 }
 
-.step-content h3 {
-  color: var(--myst-ink-strong);
-  font-weight: 600;
-  margin: 0 0 8px 0;
-  font-size: 16px;
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 4px;
 }
 
-.step-content p {
-  color: #a1a1aa;
-  margin: 0;
+.step-desc {
+  font-size: 14px;
+  color: #888;
   line-height: 1.5;
 }
 
-.server-ip {
-  margin-top: 16px;
-  width: 100%;
+.ip-ritual-box {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: #05070a;
+  border: 1px solid rgba(200, 178, 115, 0.15);
+  display: inline-block;
 }
 
-.modal-footer {
-  padding: 24px;
-  border-top: 1px solid color-mix(in srgb, white 10%, transparent);
-  margin-top: 24px;
+.ip-sigil {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--myst-gold);
+  font-size: 16px;
+}
+
+.modal-ritual-actions {
   display: flex;
   justify-content: center;
 }
 
-.guide-link {
-  display: inline-flex;
+.btn-ritual-primary {
+  width: 100%;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border: 1px solid var(--myst-gold);
-  border-radius: 6px;
+  justify-content: center;
+  padding: 16px;
+  background: var(--myst-gold);
+  color: #05070a;
   text-decoration: none;
-  color: var(--myst-gold);
-  font-weight: 600;
-  transition: all 0.3s ease;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all 0.3s;
 }
 
-.guide-link:hover {
-  background: var(--myst-gold);
-  color: var(--myst-bg);
+.btn-ritual-primary:hover {
+  background: #fff;
+  transform: translateY(-2px);
 }
+
+/* Transitions */
+.ritual-fade-enter-active, .ritual-fade-leave-active { transition: all 0.4s ease; }
+.ritual-fade-enter-from, .ritual-fade-leave-to { opacity: 0; transform: scale(0.95); }
 </style>

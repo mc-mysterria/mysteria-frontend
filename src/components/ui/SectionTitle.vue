@@ -1,49 +1,25 @@
 <template>
-  <div class="section-title">
-    <div v-if="eyebrow" class="section-eyebrow">{{ eyebrow }}</div>
-    <h2 class="section-main-title">{{ title }}</h2>
-    <p v-if="subtitle" class="section-subtitle">{{ subtitle }}</p>
+  <div class="myst-page-header">
+    <div class="myst-header-decoration" aria-hidden="true"></div>
+    <h1 class="myst-header-label">
+      <slot>{{ title }}</slot>
+    </h1>
+    <div class="myst-header-decoration" aria-hidden="true"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-interface Props {
+defineProps<{
+  title?: string;
   eyebrow?: string;
-  title: string;
   subtitle?: string;
-}
-
-defineProps<Props>();
+}>();
 </script>
 
 <style scoped>
-.section-title {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.section-eyebrow {
-  color: var(--myst-gold);
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 8px;
-  margin-top: 2px;
-}
-
-.section-main-title {
-  font-family: "Inter", serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  color: var(--myst-ink-strong);
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-
-.section-subtitle {
-  color: #a1a1aa;
-  max-width: 600px;
-  margin: 0 auto;
+/* Uses global myst-page-header styles from main.css */
+.myst-page-header {
+  margin-top: 20px;
+  margin-bottom: 60px;
 }
 </style>

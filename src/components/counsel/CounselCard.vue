@@ -1,41 +1,44 @@
 <template>
   <RouterLink
-      :class="`status-${suggestion.status.toLowerCase()}`"
+      :class="[`status-${suggestion.status.toLowerCase()}`, { 'has-high-votes': (suggestion.votesFor || 0) > 10 }]"
       :to="`/counsel/${suggestion.slug}`"
-      class="counsel-card"
+      class="counsel-ritual-card"
   >
-    <div class="card-header">
-      <h3 class="card-title">{{ suggestion.title }}</h3>
-      <span :class="`status-${suggestion.status.toLowerCase()}`" class="status-badge">
+    <div class="card-ritual-glow"></div>
+    
+    <div class="card-ritual-header">
+      <h3 class="card-ritual-title">{{ suggestion.title }}</h3>
+      <div :class="`status-${suggestion.status.toLowerCase()}`" class="status-ritual-badge">
         {{ t(`counselStatus${suggestion.status.charAt(0) + suggestion.status.slice(1).toLowerCase()}`) }}
-      </span>
+      </div>
     </div>
 
-    <div class="card-meta">
-      <span class="suggester">
+    <div class="card-ritual-meta">
+      <span class="suggester-ritual">
+        <i class="fa-solid fa-feather-pointed"></i>
         {{ t('counselSuggester') }} <strong>{{ suggestion.suggesterName }}</strong>
       </span>
-      <span class="suggestion-date">
+      <span class="date-ritual">
         {{ formatDate(suggestion.suggestionDate) }}
       </span>
     </div>
 
-    <div class="voting-section">
-      <div class="voting-bar-container">
-        <div class="voting-bar">
-          <div
-              :style="{ width: `${votingPercentage}%` }"
-              class="voting-bar-fill for"
-          ></div>
-        </div>
-        <div class="voting-stats">
-          <span class="votes-for">
-            {{ t('counselVotesFor') }}: {{ suggestion.votesFor || 0 }} ({{ votingPercentage.toFixed(1) }}%)
-          </span>
-          <span class="votes-against">
-            {{ t('counselVotesAgainst') }}: {{ suggestion.votesAgainst || 0 }}
-          </span>
-        </div>
+    <div class="voting-ritual-area">
+      <div class="voting-ledger-bar">
+        <div
+            :style="{ width: `${votingPercentage}%` }"
+            class="voting-fill-marks"
+        ></div>
+      </div>
+      <div class="voting-ledger-stats">
+        <span class="stats-for">
+          <i class="fa-solid fa-circle-check"></i>
+          {{ suggestion.votesFor || 0 }} ({{ votingPercentage.toFixed(0) }}%)
+        </span>
+        <span class="stats-against">
+          {{ suggestion.votesAgainst || 0 }}
+          <i class="fa-solid fa-circle-xmark"></i>
+        </span>
       </div>
     </div>
   </RouterLink>
@@ -52,7 +55,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const {t} = useI18n()
+const {t, currentLanguage} = useI18n()
 
 const votingPercentage = computed(() => {
   const total = (props.suggestion.votesFor || 0) + (props.suggestion.votesAgainst || 0)
@@ -60,169 +63,133 @@ const votingPercentage = computed(() => {
 })
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  return new Date(dateString).toLocaleDateString(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
   })
 }
 </script>
 
 <style scoped>
-.counsel-card {
+.counsel-ritual-card {
   display: block;
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid var(--counsel-border, color-mix(in srgb, #4a90e2 30%, transparent));
-  border-left: 4px solid var(--counsel-primary, #4a90e2);
-  border-radius: 8px;
-  padding: 20px;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
-  color: inherit;
+  overflow: hidden;
 }
 
-.counsel-card:hover {
-  border-color: var(--counsel-primary, #4a90e2);
+.counsel-ritual-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(200, 178, 115, 0.2);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--counsel-primary, #4a90e2) 20%, transparent);
 }
 
-.card-header {
+.card-ritual-glow {
+  position: absolute;
+  bottom: 0; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200, 178, 115, 0.2), transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.counsel-ritual-card:hover .card-ritual-glow { transform: scaleX(1); }
+
+.card-ritual-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: 20px;
+  margin-bottom: 16px;
 }
 
-.card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
+.card-ritual-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #fff;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.3;
+  font-weight: 700;
   flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  font-family: "Inter", system-ui, sans-serif;
 }
 
-.status-badge {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
+.status-ritual-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #666;
+  border-radius: 2px;
 }
 
-.status-badge.status-proposed {
-  background: color-mix(in srgb, #ff9800 20%, transparent);
-  color: #ff9800;
-}
+.status-proposed { border-color: rgba(200, 178, 115, 0.3); color: var(--myst-gold); }
+.status-accepted { border-color: rgba(74, 222, 128, 0.3); color: #4ade80; }
+.status-rejected { border-color: rgba(255, 82, 82, 0.3); color: #ff5252; }
 
-.status-badge.status-accepted {
-  background: color-mix(in srgb, #4caf50 20%, transparent);
-  color: #4caf50;
-}
-
-.status-badge.status-rejected {
-  background: color-mix(in srgb, #f44336 20%, transparent);
-  color: #f44336;
-}
-
-.card-meta {
+.card-ritual-meta {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  color: var(--myst-ink-muted);
-  flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
-.suggester strong {
-  color: var(--myst-ink);
-  font-weight: 600;
-}
-
-.suggestion-date {
-  color: var(--myst-ink-muted);
-  font-size: 13px;
-}
-
-.voting-section {
-  margin-top: 16px;
-}
-
-.voting-bar-container {
+.suggester-ritual {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #666;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
 
-.voting-bar {
-  height: 8px;
-  background: color-mix(in srgb, var(--myst-bg) 50%, transparent);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
+.suggester-ritual strong { color: #888; font-weight: 500; }
+.suggester-ritual i { color: var(--myst-gold); font-size: 10px; opacity: 0.5; }
+
+.date-ritual {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #444;
+  text-transform: uppercase;
 }
 
-.voting-bar-fill {
+.voting-ritual-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.voting-ledger-bar {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  width: 100%;
+}
+
+.voting-fill-marks {
   height: 100%;
-  background: linear-gradient(90deg, var(--counsel-primary, #4a90e2), var(--counsel-primary-soft, #6ba4ec));
-  border-radius: 4px;
-  transition: width 0.3s ease;
+  background: var(--myst-gold);
+  box-shadow: 0 0 10px var(--myst-gold);
+  transition: width 0.8s ease;
 }
 
-.voting-stats {
+.voting-ledger-stats {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  color: var(--myst-ink-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #555;
 }
 
-.votes-for {
-  color: var(--counsel-primary, #4a90e2);
-  font-weight: 500;
-}
+.stats-for { color: var(--myst-gold); display: flex; align-items: center; gap: 6px; }
+.stats-against { display: flex; align-items: center; gap: 6px; }
 
-.votes-against {
-  color: var(--myst-ink-muted);
-}
-
-/* Responsive */
 @media (max-width: 640px) {
-  .counsel-card {
-    padding: 16px;
-  }
-
-  .card-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .card-title {
-    font-size: 16px;
-  }
-
-  .status-badge {
-    align-self: flex-start;
-  }
-
-  .card-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
+  .card-ritual-header { flex-direction: column; gap: 12px; }
+  .card-ritual-meta { flex-direction: column; gap: 8px; }
 }
 </style>

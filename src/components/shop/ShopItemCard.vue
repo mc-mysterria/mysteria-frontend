@@ -1,120 +1,103 @@
 <template>
-  <div v-if="item.is_active" class="myst-product-card group">
-    <!-- Image container -->
-    <router-link :to="getServiceDetailPath(item)" class="image-link">
-      <div
-          class="image-container relative h-48 rounded-t-lg bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_90%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_70%,transparent)]">
+  <div v-if="item.is_active" class="reliquary-card" :class="{ 'has-discount': hasDiscount }">
+    <!-- Card Frame Decoration -->
+    <div class="card-frame-outer"></div>
+    <div class="card-frame-inner"></div>
+
+    <!-- Image / Visual Section -->
+    <router-link :to="getServiceDetailPath(item)" class="visual-area">
+      <div class="image-wrapper">
         <img
             v-if="item.image"
             :alt="item.display_name || item.name"
             :src="getImagePath(item.image)"
-            class="shop-item-image opacity-90 group-hover:opacity-100 transition-opacity"
+            class="item-image"
         />
-        <div
-            v-else
-            class="h-full w-full bg-gradient-to-br from-[color-mix(in_srgb,var(--myst-bg)_80%,transparent)] to-[color-mix(in_srgb,var(--myst-bg-2)_60%,transparent)] flex items-center justify-center opacity-60"
-        >
-          <i class="fa-solid fa-image text-4xl" style="color: var(--myst-ink-muted)"></i>
+        <div v-else class="image-placeholder">
+          <i class="fa-solid fa-scroll placeholder-icon"></i>
         </div>
+        <div class="image-overlay"></div>
+        <div class="image-grain"></div>
+      </div>
 
-        <!-- Badge -->
-        <div v-if="getItemBadge()" class="absolute left-3 top-3">
-          <div class="myst-badge">
-            {{ getItemBadge() }}
-          </div>
+      <!-- Badges and Ribbons -->
+      <div class="badge-container">
+        <div v-if="getItemBadge()" class="category-badge">
+          {{ getItemBadge() }}
         </div>
-
-        <!-- Discount ribbon -->
-        <div v-if="hasDiscount" class="absolute right-3 top-3">
-          <div class="myst-discount-badge">-{{ discountPercent }}%</div>
+        <div v-if="hasDiscount" class="discount-seal">
+          <span class="discount-val">-{{ discountPercent }}%</span>
         </div>
-
-        <!-- Feature badges -->
-        <div class="feature-badges">
-          <div v-if="item.is_giftable" :title="t('giftable')" class="feature-badge giftable">
-            <i class="fa-solid fa-gift"></i>
-          </div>
-          <div v-if="item.is_bulkable" :title="t('bulkAvailable')" class="feature-badge bulkable">
-            <i class="fa-solid fa-layer-group"></i>
-          </div>
+      </div>
+      
+      <!-- Ritual Status Indicators -->
+      <div class="ritual-icons">
+        <div v-if="item.is_giftable" :title="t('giftable')" class="ritual-icon gift">
+          <i class="fa-solid fa-dove"></i>
+        </div>
+        <div v-if="item.is_bulkable" :title="t('bulkAvailable')" class="ritual-icon bulk">
+          <i class="fa-solid fa-layer-group"></i>
         </div>
       </div>
     </router-link>
 
-    <!-- Comparison toggle (only in comparison mode) - outside image container -->
-    <div v-if="comparisonMode" class="comparison-toggle">
-      <button
-          :class="['comparison-checkbox', { selected: inComparison, disabled: comparisonDisabled }]"
-          :disabled="comparisonDisabled"
-          :title="inComparison ? t('removeFromComparison') : t('addToComparison')"
-          @click.stop.prevent="$emit('toggle-comparison', item.id)"
-      >
-        <i :class="inComparison ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"></i>
-      </button>
+    <!-- Content Section -->
+    <div class="card-body">
+      <div class="title-section">
+        <h3 class="item-title">{{ item.display_name || item.name }}</h3>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="description-section">
+        <p v-if="item.description" class="item-desc">
+          {{ item.description }}
+        </p>
+
+        <!-- Manifestation Points -->
+        <ul v-if="item.points" class="points-list">
+          <li
+              v-for="(point, pIndex) in item.points"
+              :key="pIndex"
+              class="point-item"
+          >
+            <div class="point-marker"></div>
+            <span class="point-text">{{ point.text }}</span>
+            <div v-if="point.tooltip" class="point-info">
+              <i class="fa-solid fa-circle-nodes info-trigger"></i>
+              <div class="info-bubble" v-html="point.tooltip"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <!-- Card header -->
-    <div class="myst-card-header">
-      <h3 class="myst-card-title">{{ item.display_name || item.name }}</h3>
-    </div>
-
-    <!-- Card content -->
-    <div class="myst-card-content">
-      <p v-if="item.description" class="myst-card-description">
-        {{ item.description }}
-      </p>
-
-      <!-- Features list -->
-      <ul v-if="item.points" class="myst-features-list">
-        <li
-            v-for="(point, pIndex) in item.points"
-            :key="pIndex"
-            class="myst-feature-item"
-        >
-          <i class="fa-solid fa-check myst-feature-check"></i>
-          <span>{{ point.text }}</span>
-          <span v-if="point.tooltip" class="myst-tooltip-container">
-            <i class="fa-solid fa-circle-info myst-info-icon"></i>
-            <div class="myst-tooltip-content" v-html="point.tooltip"></div>
-          </span>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Card footer -->
-    <div class="myst-card-footer">
-      <div class="myst-price-section">
-        <div v-if="hasDiscount" class="myst-original-price">
-          <span v-if="showCurrencySymbol" class="price-currency-symbol">{{ currencySymbol }}</span>
-          <span>{{ displayOriginalPrice }}</span>
-          <IconBalance v-if="!showCurrencySymbol" class="myst-currency-small"/>
+    <!-- Purchase / Action Section -->
+    <div class="card-footer">
+      <div class="price-display">
+        <div v-if="hasDiscount" class="original-price">
+          <span class="price-val">{{ displayOriginalPrice }}</span>
+          <IconBalance class="currency-sigil-tiny"/>
         </div>
-        <div class="myst-current-price">
-          <span v-if="showCurrencySymbol" class="price-currency-symbol">{{ currencySymbol }}</span>
-          <span>{{ displayPrice }}</span>
-          <IconBalance v-if="!showCurrencySymbol" class="myst-currency"/>
+        <div class="current-price">
+          <span class="price-val">{{ displayPrice }}</span>
+          <IconBalance class="currency-sigil"/>
         </div>
       </div>
 
-      <div class="myst-actions">
-        <router-link :to="getServiceDetailPath(item)" class="myst-details-btn">
-          <i class="fa-solid fa-eye"></i>
-          {{ t("viewDetails") || "Details" }}
+      <div class="action-grid">
+        <router-link :to="getServiceDetailPath(item)" class="btn-inspect">
+          <i class="fa-solid fa-magnifying-glass"></i>
         </router-link>
 
         <button
             :disabled="!item.is_active || isProcessing"
-            class="myst-purchase-btn"
+            class="btn-purchase"
             @click="handlePurchase"
         >
-          <i class="fa-solid fa-shopping-cart mr-2"></i>
-          {{
-            isProcessing
-                ? t("processing")
-                : item.is_active
-                    ? t("purchase")
-                    : t("unavailable")
-          }}
+          <span class="btn-text">
+            {{ isProcessing ? t("processing") : t("purchase") }}
+          </span>
+          <div class="btn-glow"></div>
         </button>
       </div>
     </div>
@@ -146,36 +129,17 @@ const emit = defineEmits<{
 const {t, currentLanguage} = useI18n();
 const {currentCurrency, formatCurrency, getCurrencySymbol} = useCurrency();
 
-const getItemBadge = () => {
-  return props.item.category;
-};
+const getItemBadge = () => props.item.category;
 
 const getImagePath = (path: string | undefined) => {
   if (!path) return "";
-
-  // Handle HTTP/HTTPS URLs (from API)
-  if (path.startsWith("http://") || path.startsWith("https://")) {
-    return path;
-  }
-
-  // Handle relative API paths
-  if (path.startsWith("/")) {
-    // If it's an absolute path from the API, prepend the API base URL or serve as static file
-    return path;
-  }
-
-  // Handle local assets (fallback for legacy compatibility)
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (path.startsWith("/")) return path;
   try {
-    if (path.startsWith("@/assets/")) {
-      return new URL(path.replace("@/assets/", "/src/assets/"), import.meta.url)
-          .href;
-    }
-    if (path.startsWith("src/")) {
-      return new URL("/" + path, import.meta.url).href;
-    }
-    return path; // Return as-is if it doesn't match any pattern
+    if (path.startsWith("@/assets/")) return new URL(path.replace("@/assets/", "/src/assets/"), import.meta.url).href;
+    if (path.startsWith("src/")) return new URL("/" + path, import.meta.url).href;
+    return path;
   } catch (error) {
-    console.error("Image loading error:", error);
     return path;
   }
 };
@@ -204,8 +168,7 @@ const discountPercent = computed(() => {
 const finalPrice = computed(() => {
   const price = new Decimal(props.item.price);
   if (!hasDiscount.value) return price;
-  return price
-      .mul(new Decimal(1).minus(new Decimal(discountPercent.value).div(100)));
+  return price.mul(new Decimal(1).minus(new Decimal(discountPercent.value).div(100)));
 });
 
 const displayPrice = computed(() => {
@@ -223,426 +186,391 @@ const displayOriginalPrice = computed(() => {
   return price.toString();
 });
 
-const showCurrencySymbol = computed(() => {
-  return currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS';
-});
-
-const currencySymbol = computed(() => {
-  if (showCurrencySymbol.value) {
-    return getCurrencySymbol();
-  }
-  return '';
-});
-
 const handlePurchase = () => {
   emit("purchase", props.item.id);
 };
 </script>
 
 <style scoped>
-/* Product Card Styles */
-.myst-product-card {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
-  border-radius: 12px;
-  overflow: visible;
-  transition: all 0.3s ease;
+/* ENCHANTED RELIQUARY CARD */
+
+.reliquary-card {
+  position: relative;
+  background: rgba(12, 14, 26, 0.7);
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(10px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 8px;
+  min-height: 100%;
 }
 
-/* Image Container */
-.image-container {
-  position: relative;
-  z-index: 1;
-  overflow: visible;
+.reliquary-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  background: rgba(18, 22, 42, 0.9);
 }
 
-/* Image Styles */
-.shop-item-image {
+/* Framing */
+.card-frame-outer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 12px 12px 0 0;
-}
-
-.myst-product-card:hover {
-  border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--myst-bg) 60%, transparent);
-}
-
-/* Badge */
-.myst-badge {
-  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
-  color: var(--myst-ink-strong);
-  border: 1px solid color-mix(in srgb, var(--myst-gold) 40%, transparent);
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  backdrop-filter: blur(5px);
-}
-
-/* Discount Badge */
-.myst-discount-badge {
-  background: var(--myst-gold);
-  color: var(--myst-bg);
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  box-shadow: 0 2px 4px color-mix(in srgb, var(--myst-gold) 30%, transparent);
-}
-
-/* Feature Badges */
-.feature-badges {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  display: flex;
-  gap: 6px;
+  inset: 0;
+  border: 1px solid rgba(200, 178, 115, 0.1);
+  pointer-events: none;
   z-index: 5;
 }
 
-.feature-badge {
+.card-frame-inner {
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.reliquary-card:hover .card-frame-outer {
+  border-color: rgba(200, 178, 115, 0.4);
+  box-shadow: inset 0 0 20px rgba(200, 178, 115, 0.05);
+}
+
+/* Visual Area */
+.visual-area {
+  position: relative;
+  height: 200px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  display: block;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #05070a;
+}
+
+.item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: sepia(0.3) contrast(1.1);
+}
+
+.reliquary-card:hover .item-image {
+  opacity: 1;
+  transform: scale(1.1);
+  filter: sepia(0) contrast(1.2);
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 14, 26, 1) 0%, transparent 40%);
+}
+
+.image-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.1;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Badges */
+.badge-container {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 10;
+}
+
+.category-badge {
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--myst-gold);
+  border: 1px solid rgba(200, 178, 115, 0.3);
+  padding: 4px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  backdrop-filter: blur(4px);
+}
+
+.discount-seal {
+  width: 40px;
+  height: 40px;
+  background: var(--myst-gold);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 15px rgba(200, 178, 115, 0.4);
+  transform: rotate(15deg);
+}
+
+.discount-val {
+  color: #000;
+  font-weight: 900;
+  font-size: 11px;
+}
+
+/* Ritual Icons */
+.ritual-icons {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.ritual-icon {
   width: 32px;
   height: 32px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  font-size: 14px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-}
-
-.feature-badge.giftable {
-  background: color-mix(in srgb, #10b981 80%, transparent);
-  color: white;
-  border: 2px solid #10b981;
-}
-
-.feature-badge.bulkable {
-  background: color-mix(in srgb, #3b82f6 80%, transparent);
-  color: white;
-  border: 2px solid #3b82f6;
-}
-
-.feature-badge:hover {
-  transform: scale(1.1);
-}
-
-/* Comparison Toggle */
-.comparison-toggle {
-  position: absolute;
-  left: 12px;
-  top: 12px;
-  z-index: 15;
-}
-
-.comparison-checkbox {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: color-mix(in srgb, var(--myst-bg-2) 90%, transparent);
-  border: 2px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
-  border-radius: 8px;
-  color: var(--myst-ink);
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-/* Card Header */
-.myst-card-header {
-  padding: 20px 20px 0;
-}
-
-.myst-card-title {
-  color: var(--myst-ink-strong);
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-  line-height: 1.3;
-}
-
-/* Card Content */
-.myst-card-content {
-  padding: 8px 20px 0;
-  flex-grow: 1;
-}
-
-.myst-card-description {
-  color: var(--myst-ink-muted);
+  color: #888;
   font-size: 14px;
-  line-height: 1.5;
-  margin: 0 0 16px 0;
+  transition: all 0.3s ease;
 }
 
-/* Features List */
-.myst-features-list {
+.ritual-icon:hover {
+  border-color: var(--myst-gold);
+  color: var(--myst-gold);
+  background: rgba(200, 178, 115, 0.1);
+}
+
+/* Body Content */
+.card-body {
+  padding: 0 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-section {
+  margin-bottom: 16px;
+}
+
+.item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--myst-offwhite);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.title-underline {
+  height: 2px;
+  width: 40px;
+  background: var(--myst-gold);
+  transition: width 0.4s ease;
+}
+
+.reliquary-card:hover .title-underline {
+  width: 100px;
+}
+
+.item-desc {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Points List */
+.points-list {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.myst-feature-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: var(--myst-ink);
-}
-
-.myst-feature-check {
-  color: var(--myst-gold);
-  margin-right: 8px;
-  flex-shrink: 0;
-  font-size: 12px;
-}
-
-/* Tooltip */
-.myst-tooltip-container {
-  position: relative;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-}
-
-.myst-info-icon {
-  color: var(--myst-gold);
-  font-size: 12px;
-  cursor: help;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-
-.myst-info-icon:hover {
-  opacity: 1;
-}
-
-.myst-tooltip-content {
-  position: absolute;
-  visibility: hidden;
-  width: 250px;
-  max-width: calc(100vw - 40px);
-  background: var(--myst-bg-2);
-  color: var(--myst-ink-strong);
-  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
-  border-radius: 8px;
-  padding: 12px;
-  z-index: 1000;
-  opacity: 0;
-  transition: all 0.3s ease;
-  bottom: calc(100% + 8px);
-  right: 0;
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--myst-bg) 40%, transparent);
-  font-size: 13px;
-  line-height: 1.4;
-  pointer-events: none;
-  backdrop-filter: blur(10px);
-}
-
-.myst-tooltip-container:hover .myst-tooltip-content {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Image link */
-.image-link {
-  display: block;
-  text-decoration: none;
-  transition: transform 0.2s ease;
-}
-
-.image-link:hover {
-  transform: scale(1.02);
-}
-
-/* Card Footer */
-.myst-card-footer {
-  padding: 16px 20px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-/* Actions container */
-.myst-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-/* Price Section */
-.myst-price-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 10px;
 }
 
-.myst-original-price {
+.point-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.point-marker {
+  width: 6px;
+  height: 6px;
+  background: rgba(200, 178, 115, 0.4);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.point-text {
+  flex: 1;
+}
+
+.point-info {
+  position: relative;
+}
+
+.info-trigger {
+  color: var(--myst-gold);
+  opacity: 0.5;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.info-trigger:hover {
+  opacity: 1;
+}
+
+.info-bubble {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  width: 220px;
+  background: #0d111a;
+  border: 1px solid var(--myst-gold);
+  padding: 12px;
+  font-size: 12px;
+  color: #eee;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  transform: translateY(-10px);
+  pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.point-info:hover .info-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-5px);
+}
+
+/* Footer Section */
+.card-footer {
+  padding: 24px 16px 16px;
+}
+
+.price-display {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.original-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #555;
+  text-decoration: line-through;
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--myst-ink-muted);
-  text-decoration: line-through;
-  font-size: 14px;
-  margin-bottom: 2px;
-  opacity: 0.7;
 }
 
-.myst-current-price {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.current-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
   color: var(--myst-gold);
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.price-currency-symbol {
-  font-weight: 600;
-  margin-right: 2px;
-}
-
-.myst-currency {
-  width: 20px !important;
-  height: 20px !important;
-  color: var(--myst-gold);
-}
-
-.myst-currency-small {
-  width: 16px !important;
-  height: 16px !important;
-  opacity: 0.7;
-}
-
-/* Details Button */
-.myst-details-btn {
-  background: color-mix(in srgb, var(--myst-ink-muted) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
-  color: var(--myst-ink-strong);
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  white-space: nowrap;
-  backdrop-filter: blur(5px);
-  text-decoration: none;
-}
-
-.myst-details-btn:hover {
-  background: color-mix(in srgb, var(--myst-ink-muted) 15%, transparent);
-  border-color: color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
-  transform: translateY(-1px);
-}
-
-/* Purchase Button */
-.myst-purchase-btn {
-  background: color-mix(in srgb, var(--myst-gold) 15%, transparent);
-  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  color: var(--myst-ink-strong);
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 8px;
-  white-space: nowrap;
-  backdrop-filter: blur(5px);
 }
 
-.myst-purchase-btn:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--myst-gold) 25%, transparent);
-  border-color: color-mix(in srgb, var(--myst-gold) 50%, transparent);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--myst-gold) 20%, transparent);
+.currency-sigil {
+  width: 20px;
+  height: 20px;
+  color: var(--myst-gold);
 }
 
-.myst-purchase-btn:disabled {
+.currency-sigil-tiny {
+  width: 14px;
+  height: 14px;
   opacity: 0.5;
+}
+
+/* Action Grid */
+.action-grid {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 12px;
+}
+
+.btn-inspect {
+  height: 48px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: all 0.3s ease;
+}
+
+.btn-inspect:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--myst-offwhite);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-purchase {
+  position: relative;
+  height: 48px;
+  background: #151a2d;
+  border: 1px solid rgba(200, 178, 115, 0.3);
+  color: var(--myst-gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 13px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(200, 178, 115, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-purchase:hover:not(:disabled) {
+  background: var(--myst-gold);
+  color: #000;
+  border-color: var(--myst-gold);
+}
+
+.btn-purchase:hover:not(:disabled) .btn-glow {
+  transform: translateX(100%);
+}
+
+.btn-purchase:disabled {
+  opacity: 0.3;
   cursor: not-allowed;
-  transform: none;
-  background: color-mix(in srgb, var(--myst-ink-muted) 10%, transparent);
-  border-color: color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
-  color: var(--myst-ink-muted);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .myst-card-footer {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+/* Responsive */
+@media (max-width: 640px) {
+  .action-grid {
+    grid-template-columns: 1fr;
   }
-
-  .myst-price-section {
-    align-items: center;
-  }
-
-  .myst-actions {
-    justify-content: space-between;
-  }
-
-  .myst-details-btn,
-  .myst-purchase-btn {
-    flex: 1;
-    min-width: 0;
-  }
-}
-
-@media (max-width: 576px) {
-  .myst-card-header {
-    padding: 16px 16px 0;
-  }
-
-  .myst-card-content {
-    padding: 8px 16px 0;
-  }
-
-  .myst-card-footer {
-    padding: 12px 16px 16px;
-  }
-
-  .myst-card-title {
-    font-size: 16px;
-  }
-
-  .myst-card-description {
-    font-size: 13px;
-  }
-
-  .myst-tooltip-content {
-    width: 200px;
-    max-width: 85vw;
-    font-size: 12px;
-    padding: 10px;
-    right: -100px;
+  .btn-inspect {
+    display: none;
   }
 }
 </style>

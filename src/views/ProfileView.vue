@@ -4,11 +4,11 @@
 
     <main class="profile-main">
       <div class="profile-container">
-        <SectionTitle
-            :eyebrow="t('myProfile')"
-            :subtitle="t('personalInfo')"
-            :title="displayedUser?.nickname || t('profileTitle')"
-        />
+        <div class="myst-page-header">
+          <div class="myst-header-decoration" aria-hidden="true"></div>
+          <h1 class="myst-header-label">{{ displayedUser?.nickname || t('profileTitle') }}</h1>
+          <div class="myst-header-decoration" aria-hidden="true"></div>
+        </div>
 
         <!-- Loading state -->
         <div v-if="loading" class="profile-loading">

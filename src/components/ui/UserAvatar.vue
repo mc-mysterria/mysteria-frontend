@@ -1,176 +1,104 @@
 <template>
-  <div
-      :class="[
-      'user-avatar',
-      `user-avatar--${size}`,
-      { 'user-avatar--loading': isLoading }
-    ]"
-      :title="user?.nickname || 'User'"
-  >
-    <img
-        v-if="user?.avatarUrl && !imageError && !isLoading"
-        :alt="`${user.nickname || 'User'}'s avatar`"
-        :src="user.avatarUrl"
-        class="avatar-image"
-        @error="handleImageError"
-        @load="handleImageLoad"
-    />
-    <div v-else class="avatar-fallback">
-      <span class="avatar-initials">
-        {{ getInitials(user?.nickname) }}
-      </span>
+  <div :class="[size, { 'has-glow': glow }]" class="myst-avatar-wrapper">
+    <div class="avatar-ritual-frame">
+      <img
+          :alt="nickname || 'User'"
+          :src="avatarUrl"
+          class="avatar-img"
+          @error="handleError"
+      />
+      <div class="frame-overlay"></div>
     </div>
-    <div v-if="isLoading" class="avatar-loading">
-      <div class="loading-spinner"></div>
-    </div>
+    <span v-if="showNickname && nickname" class="avatar-nickname">{{ nickname }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
-import type {UserProfileDto} from '@/types/auth';
-import type {UserResponse} from '@/types/users';
 
-interface Props {
-  user?: UserProfileDto | UserResponse | null;
-  size?: 'small' | 'medium' | 'large';
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  size: 'medium'
+const props = withDefaults(defineProps<{
+  src?: string;
+  nickname?: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  showNickname?: boolean;
+  glow?: boolean;
+}>(), {
+  size: 'md',
+  showNickname: false,
+  glow: false
 });
 
-const imageError = ref(false);
-const isLoading = ref(false);
+const hasError = ref(false);
 
-const getInitials = (nickname?: string) => {
-  if (!nickname) return '?';
-  return nickname.charAt(0).toUpperCase();
+const avatarUrl = computed(() => {
+  if (hasError.value || !props.src) {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(props.nickname || 'M')}&background=c8b273&color=05070a`;
+  }
+  return props.src;
+});
+
+const handleError = () => {
+  hasError.value = true;
 };
-
-const handleImageError = () => {
-  imageError.value = true;
-  isLoading.value = false;
-};
-
-const handleImageLoad = () => {
-  isLoading.value = false;
-};
-
-// Set loading state when avatar URL changes
-computed(() => props.user?.avatarUrl);
 </script>
 
 <style scoped>
-.user-avatar {
+.myst-avatar-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-ritual-frame {
   position: relative;
   border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--myst-gold), transparent, var(--myst-gold));
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  flex-shrink: 0;
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 2px solid color-mix(in srgb, white 15%, transparent);
-  transition: all 0.3s ease;
 }
 
-.user-avatar:hover {
-  border-color: color-mix(in srgb, white 30%, transparent);
-  transform: scale(1.05);
-}
-
-.user-avatar--small {
-  width: 32px;
-  height: 32px;
-}
-
-.user-avatar--medium {
-  width: 40px;
-  height: 40px;
-}
-
-.user-avatar--large {
-  width: 64px;
-  height: 64px;
-}
-
-.avatar-image {
+.avatar-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-}
-
-.avatar-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--myst-gold) 0%, color-mix(in srgb, var(--myst-gold) 80%, orange 20%) 100%);
-}
-
-.avatar-initials {
-  font-weight: 600;
-  color: var(--myst-bg);
-  font-size: 0.8em;
-  text-transform: uppercase;
-}
-
-.user-avatar--small .avatar-initials {
-  font-size: 12px;
-}
-
-.user-avatar--medium .avatar-initials {
-  font-size: 14px;
-}
-
-.user-avatar--large .avatar-initials {
-  font-size: 20px;
-}
-
-.avatar-loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: color-mix(in srgb, var(--myst-bg) 90%, transparent);
-}
-
-.loading-spinner {
-  width: 60%;
-  height: 60%;
-  border: 2px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  border-top: 2px solid var(--myst-gold);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  background: #05070a;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.frame-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
 }
 
-@media (max-width: 768px) {
-  .user-avatar--small {
-    width: 28px;
-    height: 28px;
-  }
+.avatar-nickname {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-  .user-avatar--medium {
-    width: 36px;
-    height: 36px;
-  }
+/* Sizes */
+.xs .avatar-ritual-frame { width: 24px; height: 24px; padding: 1px; }
+.sm .avatar-ritual-frame { width: 36px; height: 36px; padding: 2px; }
+.md .avatar-ritual-frame { width: 48px; height: 48px; }
+.lg .avatar-ritual-frame { width: 64px; height: 64px; }
+.xl .avatar-ritual-frame { width: 96px; height: 96px; }
 
-  .user-avatar--large {
-    width: 56px;
-    height: 56px;
-  }
+.has-glow .avatar-ritual-frame {
+  box-shadow: 0 0 20px rgba(200, 178, 115, 0.3);
+}
+
+.has-glow:hover .avatar-ritual-frame {
+  box-shadow: 0 0 30px rgba(200, 178, 115, 0.5);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
 </style>

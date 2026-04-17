@@ -1,96 +1,62 @@
 <template>
-  <div class="page-container">
+  <div class="page-container home-mystic">
     <HeaderItem/>
 
     <!-- Hero Section -->
-    <section
-        class="hero-section"
-        role="banner"
-    >
-      <!-- Layered backgrounds for cross-fade -->
+    <section class="hero-section" role="banner">
+      <!-- Layered backgrounds -->
       <div
-          :style="{
-          backgroundImage: `url('${heroImages[activeImageIndex]}')`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }"
+          :style="{ backgroundImage: `url('${heroImages[activeImageIndex]}')` }"
           class="hero-background hero-bg-base"
       />
       <div
           v-if="isTransitioning"
-          :style="{
-          backgroundImage: `url('${heroImages[transitionTarget]}')`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }"
+          :style="{ backgroundImage: `url('${heroImages[transitionTarget]}')` }"
           class="hero-background hero-bg-overlay"
       />
 
-      <!-- Overlay for readability -->
-      <div
-          aria-hidden="true"
-          class="hero-overlay"
-      />
+      <div class="mystic-noise" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
 
-      <!-- Content -->
+      <!-- Hero Content -->
       <div class="hero-content">
         <FadeInSection>
-          <div class="hero-buttons">
-            <button
-                class="play-button"
-                @click="showJoinModal = true"
-            >
-              {{ t('home.letsPlay') }}
-            </button>
-            <a
-                class="wiki-button"
-                href="https://wiki.mysterria.net"
-                rel="noopener noreferrer"
-                target="_blank"
-            >
-              <IconWiki class="w-5 h-5"/>
-              {{ t('home.wiki') }}
-            </a>
+          <div class="hero-ritual-box">
+            <h1 class="hero-ritual-title">{{ t('serverName') }}</h1>
+            <p class="hero-ritual-subtitle">{{ t('home.heroSubtitleHome') }}</p>
+            
+            <div class="hero-buttons">
+              <button class="btn-ritual-primary" @click="showJoinModal = true">
+                {{ t('home.letsPlay') }}
+              </button>
+              <a class="btn-ritual-secondary" href="https://wiki.mysterria.net" target="_blank">
+                <IconWiki class="btn-icon"/>
+                {{ t('home.wiki') }}
+              </a>
+            </div>
           </div>
         </FadeInSection>
       </div>
 
-
       <!-- Down Arrow -->
-      <button
-          aria-label="Scroll to features"
-          class="scroll-arrow"
-          @click="scrollToFeatures"
-      >
+      <button aria-label="Scroll to features" class="scroll-ritual" @click="scrollToFeatures">
         <IconArrowDown class="w-6 h-6"/>
       </button>
 
-      <!-- Wavy Divider -->
-      <div aria-hidden="true" class="wavy-divider">
-        <svg class="w-full block" preserveAspectRatio="none" viewBox="0 0 1440 90">
-          <path
-              d="M0,64 C120,80 240,48 360,48 C480,48 600,80 720,74 C840,68 960,32 1080,37 C1200,43 1320,74 1440,80 L1440,160 L0,160 Z"
-              fill="var(--myst-bg)"
-          />
-        </svg>
-      </div>
+      <!-- Ink Transition -->
+      <div class="ink-transition" aria-hidden="true"></div>
     </section>
 
-    <!-- Features Section (previously embedded in hero) -->
-    <section id="features" class="features-section relative">
+    <!-- Features Section -->
+    <section id="features" class="features-section">
       <div class="features-container">
         <FadeInSection delay="100">
           <div class="features-grid">
-            <div
-                v-for="(feature, index) in features"
-                :key="index"
-                class="feature-card"
-            >
+            <div v-for="(feature, index) in features" :key="index" class="feature-stone">
+              <div class="stone-glow"></div>
               <div class="feature-header">
                 <component :is="feature.icon" class="feature-icon"/>
-                <span class="feature-title">{{ feature.title }}</span>
+                <span class="feature-label">{{ feature.title }}</span>
               </div>
               <p class="feature-description">{{ feature.description }}</p>
             </div>
@@ -102,89 +68,63 @@
     <!-- Beyonder Statistics Section -->
     <BeyonderStatistics/>
 
-    <!-- Pinned News Section -->
-    <section v-if="pinnedNews.length > 0" id="pinned-news" class="pinned-news-section relative">
+    <!-- Pinned News -->
+    <section v-if="pinnedNews.length > 0" id="pinned-news" class="pinned-news-section">
       <div class="news-container">
-        <SectionTitle
-            :eyebrow="t('home.pinnedNewsEyebrow')"
-            :subtitle="t('home.pinnedNewsSubtitle')"
-            :title="t('home.pinnedNewsTitle')"
-        />
+        <div class="myst-page-header compact">
+          <div class="myst-header-decoration" aria-hidden="true"></div>
+          <h2 class="myst-header-label">{{ t('home.pinnedNewsTitle') }}</h2>
+          <div class="myst-header-decoration" aria-hidden="true"></div>
+        </div>
+        
         <FadeInSection>
           <div :class="{ 'pinned-news-grid--single': displayedPinnedNews.length === 1 }" class="pinned-news-grid">
-            <RouterLink v-for="n in displayedPinnedNews" :key="n.id" :to="`/news/${n.slug}`" class="pinned-news-card">
-              <!-- Card content with new layout -->
-              <div class="pinned-card-content">
-                <div class="pinned-news-image">
-                  <img
-                      :alt="`Image for ${n.title}`"
-                      :src="n.preview || 'https://via.placeholder.com/300x160/1a1e3a/c8b273?text=News+Image'"
-                      class="pinned-news-img"
-                  />
-                </div>
-                <div class="pinned-news-text-content">
-                  <h3 class="pinned-news-title">
-                    <IconStars class="pinned-icon"/>
-                    {{ n.title }}
-                  </h3>
-                  <p class="pinned-news-description">{{ n.shortDescription || n.preview }}</p>
-                  <div class="pinned-news-link-container">
-                    <span class="pinned-news-link">
-                      {{ t('home.readMore') }}
-                      <IconArrowRight class="h-4 w-4"/>
-                    </span>
-                  </div>
+            <RouterLink v-for="n in displayedPinnedNews" :key="n.id" :to="`/news/${n.slug}`" class="pinned-card-myst">
+              <div class="pinned-image-area">
+                <img :src="n.preview || 'https://via.placeholder.com/300x160/05070a/c8b273'" class="pinned-img"/>
+              </div>
+              <div class="pinned-info-area">
+                <h3 class="pinned-title">
+                  <IconStars class="pinned-star"/>
+                  {{ n.title }}
+                </h3>
+                <p class="pinned-desc">{{ n.shortDescription || n.preview }}</p>
+                <div class="pinned-action">
+                  <span class="link-ritual">{{ t('home.readMore') }} †</span>
                 </div>
               </div>
             </RouterLink>
           </div>
         </FadeInSection>
-
-        <!-- Load More Pinned Button -->
-        <div v-if="!showAllPinned && pinnedNews.length > 2" class="load-more-container">
-          <button class="load-more-button load-more-button--pinned" @click="showAllPinned = true">
-            {{ t('home.loadMorePinned') }}
-          </button>
-        </div>
       </div>
     </section>
 
-    <!-- Latest News Section -->
-    <section id="news" class="news-section relative">
+    <!-- Latest News -->
+    <section id="news" class="news-section">
       <div class="news-container">
-        <SectionTitle
-            :eyebrow="t('home.newsEyebrow')"
-            :subtitle="t('home.newsSubtitle')"
-            :title="t('home.newsTitle')"
-        />
+        <div class="myst-page-header compact">
+          <div class="myst-header-decoration" aria-hidden="true"></div>
+          <h2 class="myst-header-label">{{ t('home.newsTitle') }}</h2>
+          <div class="myst-header-decoration" aria-hidden="true"></div>
+        </div>
+
         <FadeInSection>
-          <div class="news-grid">
-            <RouterLink v-for="n in displayedNews" :key="n.id" :to="`/news/${n.slug}`" class="news-card">
-              <div class="news-image">
-                <img
-                    :alt="`Image for ${n.title}`"
-                    :src="n.preview || 'https://via.placeholder.com/400x220/1a1e3a/c8b273?text=News+Image'"
-                    class="news-img"
-                />
+          <div class="news-ledger">
+            <RouterLink v-for="n in displayedNews" :key="n.id" :to="`/news/${n.slug}`" class="news-entry">
+              <div class="entry-meta">
+                <span class="entry-date">{{ formatDate(n.publishedAt || n.createdAt) }}</span>
               </div>
-              <div class="news-content">
-                <p class="news-date">{{ formatDate(n.publishedAt || n.createdAt) }}</p>
-                <h3 class="news-title">{{ n.title }}</h3>
-                <p class="news-text">{{ n.shortDescription || n.preview }}</p>
-                <div class="news-link-container">
-                  <span class="news-link">
-                    {{ t('home.readMore') }}
-                    <IconArrowRight class="h-4 w-4"/>
-                  </span>
-                </div>
+              <h3 class="entry-title">{{ n.title }}</h3>
+              <p class="entry-text">{{ n.shortDescription || n.preview }}</p>
+              <div class="entry-action">
+                <span class="link-ritual-sm">{{ t('home.readMore') }}</span>
               </div>
             </RouterLink>
           </div>
         </FadeInSection>
 
-        <!-- Load More Button -->
-        <div v-if="!showAllNews && news.length > 3" class="load-more-container">
-          <button class="load-more-button" @click="showAllNews = true">
+        <div v-if="!showAllNews && news.length > 3" class="load-more-ritual">
+          <button class="btn-ritual-outline" @click="showAllNews = true">
             {{ t('home.loadAdditional') }}
           </button>
         </div>
@@ -192,8 +132,6 @@
     </section>
 
     <FooterItem/>
-
-    <!-- Join Server Modal -->
     <JoinServerModal :show="showJoinModal" @close="showJoinModal = false"/>
   </div>
 </template>
@@ -202,10 +140,8 @@
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import FadeInSection from "@/components/ui/FadeInSection.vue";
-import SectionTitle from "@/components/ui/SectionTitle.vue";
 import JoinServerModal from "@/components/ui/JoinServerModal.vue";
 import BeyonderStatistics from "@/components/home/BeyonderStatistics.vue";
-import IconArrowRight from "@/assets/icons/IconArrowRight.vue";
 import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
 import IconStars from "@/assets/icons/IconStars.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
@@ -223,9 +159,9 @@ const {t, currentLanguage} = useI18n();
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
-    year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
+    year: 'numeric'
   });
 };
 
@@ -239,159 +175,68 @@ const transitionTarget = ref(1);
 const isTransitioning = ref(false);
 let rotationInterval: NodeJS.Timeout | null = null;
 
-// Hero background images array
-const heroImages = [
-  kleinWebp,
-  bannerWebp,
-  serverWebp,
-];
-
-
-// Preload next image for smoother transitions
-const preloadImage = (index: number) => {
-  const img = new Image();
-  img.src = heroImages[index];
-};
-
+const heroImages = [kleinWebp, bannerWebp, serverWebp];
 
 function startTransition(targetIndex: number) {
   if (isTransitioning.value) return;
-
-  // Clear any existing rotation during manual transitions
-  if (rotationInterval) {
-    clearInterval(rotationInterval);
-    rotationInterval = null;
-  }
-
-  // Preload the target image
-  preloadImage(targetIndex);
-
-  // Set target and start fade in
+  if (rotationInterval) { clearInterval(rotationInterval); rotationInterval = null; }
   transitionTarget.value = targetIndex;
   isTransitioning.value = true;
-
-  // After fade in completes, swap images and fade out
   setTimeout(() => {
     activeImageIndex.value = targetIndex;
     isTransitioning.value = false;
     startAutoRotation();
-
-    // Preload next image
-    const nextIndex = (targetIndex + 1) % heroImages.length;
-    preloadImage(nextIndex);
-  }, 2000); // Match CSS animation duration
+  }, 2000);
 }
 
 function startAutoRotation() {
   if (rotationInterval) return;
-
   rotationInterval = setInterval(() => {
     if (!isTransitioning.value) {
       const nextIndex = (activeImageIndex.value + 1) % heroImages.length;
       startTransition(nextIndex);
     }
-  }, 6000);
+  }, 8000);
 }
 
 function scrollToFeatures() {
-  // Priority: community > pinned news > regular news > features
-  let targetEl = null;
-
-  // Check for community section first
-  targetEl = document.querySelector('#community');
-
-  // If no community, check for pinned news
-  if (!targetEl && pinnedNews.value.length > 0) {
-    targetEl = document.querySelector('#pinned-news');
-  }
-
-  // If no pinned news, check for regular news
-  if (!targetEl && news.value.length > 0) {
-    targetEl = document.querySelector('#news');
-  }
-
-  // Fallback to features section
-  if (!targetEl) {
-    targetEl = document.querySelector('#features');
-  }
-
-  if (targetEl) {
-    targetEl.scrollIntoView({behavior: 'smooth', block: 'start'});
-  }
+  const targetEl = document.querySelector('#features');
+  if (targetEl) targetEl.scrollIntoView({behavior: 'smooth'});
 }
 
 onMounted(async () => {
   try {
-    // Fetch regular latest news and pinned news separately
-    const [latestResponse, pinnedResponse] = await Promise.all([
+    const [latestRes, pinnedRes] = await Promise.all([
       newsAPI.getLatest(currentLanguage.value),
       newsAPI.getPinned(currentLanguage.value)
     ]);
-
-    news.value = latestResponse.data;
-    pinnedNews.value = pinnedResponse.data;
-  } catch (error) {
-    console.error("Failed to fetch news:", error);
-  }
-
-  // Start automatic image rotation
+    news.value = latestRes.data;
+    pinnedNews.value = pinnedRes.data;
+  } catch (e) { console.error(e); }
   startAutoRotation();
-
-  // Clean up interval on component unmount
-  onUnmounted(() => {
-    if (rotationInterval) {
-      clearInterval(rotationInterval);
-    }
-  });
 });
 
+onUnmounted(() => { if (rotationInterval) clearInterval(rotationInterval); });
+
 const displayedNews = computed(() => {
-  // Sort by publish date (newest first) - no need to sort by pinned since they're separate now
-  const sortedNews = [...news.value].sort((a, b) => {
-    return new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime();
-  });
-  return showAllNews.value ? sortedNews : sortedNews.slice(0, 3);
+  const sorted = [...news.value].sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime());
+  return showAllNews.value ? sorted : sorted.slice(0, 3);
 });
 
 const displayedPinnedNews = computed(() => {
-  // Sort pinned by publish date (newest first)
-  const sortedPinned = [...pinnedNews.value].sort((a, b) => {
-    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
-  });
-  return showAllPinned.value ? sortedPinned : sortedPinned.slice(0, 2);
+  const sorted = [...pinnedNews.value].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  return showAllPinned.value ? sorted : sorted.slice(0, 2);
 });
 
 const features = [
-  {
-    icon: IconStars,
-    title: t("home.featureEldritchLoreTitle"),
-    description: t("home.featureEldritchLoreDescription"),
-  },
-  {
-    icon: IconGamepad,
-    title: t("home.featureVictorianCraftTitle"),
-    description: t("home.featureVictorianCraftDescription"),
-  },
-  {
-    icon: IconUsers,
-    title: t("home.featureSecretSocietiesTitle"),
-    description: t("home.featureSecretSocietiesDescription"),
-  },
+  { icon: IconStars, title: t("home.featureEldritchLoreTitle"), description: t("home.featureEldritchLoreDescription") },
+  { icon: IconGamepad, title: t("home.featureVictorianCraftTitle"), description: t("home.featureVictorianCraftDescription") },
+  { icon: IconUsers, title: t("home.featureSecretSocietiesTitle"), description: t("home.featureSecretSocietiesDescription") },
 ];
 </script>
 
-<script lang="ts">
-export default {
-  name: "HomeView",
-};
-</script>
-
 <style scoped>
-/* Page Container */
-.page-container {
-  min-height: 100vh;
-  position: relative;
-}
+.page-container { min-height: 100vh; background-color: #05070a; }
 
 /* Hero Section */
 .hero-section {
@@ -402,659 +247,239 @@ export default {
   overflow: hidden;
 }
 
-/* Hero Background Layers */
 .hero-background {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-attachment: fixed;
+  inset: 0;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  /* Enable hardware acceleration */
   will-change: opacity;
-  transform: translateZ(0);
 }
 
-.hero-bg-base {
-  z-index: 1;
-}
+.hero-bg-overlay { z-index: 2; animation: fadeIn 2s ease forwards; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.hero-bg-overlay {
-  z-index: 2;
-  animation: fadeInOut 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Disable fixed attachment on mobile for better performance */
-@media (max-width: 768px) {
-  .hero-background {
-    background-attachment: scroll;
-  }
-
+.mystic-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+  opacity: 0.1;
+  pointer-events: none;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: 3;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.45));
-  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(circle at 50% 50%, rgba(5, 7, 10, 0.3) 0%, rgba(5, 7, 10, 0.7) 100%),
+              linear-gradient(to bottom, rgba(5,7,10,0.9) 0%, transparent 40%, rgba(5,7,10,0.4) 70%, rgba(5,7,10,1) 100%);
 }
 
 .hero-content {
   position: relative;
-  z-index: 5;
+  z-index: 10;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 64px 16px 120px;
+  padding: 0 20px;
+}
+
+.hero-ritual-box {
+  text-align: center;
+  max-width: 1000px;
+}
+
+.hero-ritual-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 12vw, 7.5rem);
+  color: var(--myst-gold);
+  margin-bottom: 16px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(200, 178, 115, 0.3);
+}
+
+.hero-ritual-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  margin-bottom: 56px;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 1);
+  opacity: 0.9;
 }
 
 .hero-buttons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 32px;
   justify-content: center;
-  gap: 16px;
 }
 
-@media (min-width: 640px) {
-  .hero-buttons {
-    flex-direction: row;
-    gap: 20px;
-  }
-}
-
-.play-button {
-  background: rgba(255, 255, 255, 0.95);
-  color: #1a1e3a;
-  border: none;
-  padding: 20px 48px;
-  font-size: 24px;
-  font-weight: 700;
-  font-family: "Inter", serif;
-  border-radius: 60px;
+.btn-ritual-primary {
+  background: var(--myst-gold);
+  color: #05070a;
+  border: 1px solid var(--myst-gold);
+  padding: 20px 64px;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  letter-spacing: 0.5px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.play-button:hover {
-  background: white;
-  transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-  scale: 1.05;
+.btn-ritual-primary:hover {
+  transform: translateY(-5px);
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
 }
 
-.wiki-button {
+.btn-ritual-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.3);
-  color: rgba(255, 255, 255, 0.95);
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 18px 48px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
   text-decoration: none;
-  padding: 16px 32px;
-  font-size: 18px;
-  font-weight: 600;
-  font-family: "Inter", serif;
-  border-radius: 50px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(4px);
 }
 
-.wiki-button:hover {
+.btn-ritual-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  scale: 1.02;
+  border-color: #fff;
+  transform: translateY(-3px);
 }
 
-
-.scroll-arrow {
+.scroll-ritual {
   position: absolute;
-  bottom: 120px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-  width: 48px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: none;
   border: none;
-  color: #1a1e3a;
+  color: var(--myst-gold);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
+  animation: bounce 2s infinite;
 }
 
-.scroll-arrow:hover {
-  background: white;
-  transform: translateX(-50%) translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); } 40% { transform: translateX(-50%) translateY(-10px); } 60% { transform: translateX(-50%) translateY(-5px); } }
 
-.wavy-divider {
+.ink-transition {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0; height: 100px;
+  background: linear-gradient(to bottom, transparent, #05070a);
   z-index: 5;
 }
 
-/* Features Section */
-.features-section {
+/* Features */
+.features-section { padding: 80px 0; background: #05070a; }
+.features-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+
+.feature-stone {
   position: relative;
-  background: var(--myst-bg);
-  padding: 40px 0;
-}
-
-.features-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 16px;
-}
-
-/* Features Grid */
-.features-grid {
-  display: grid;
-  gap: 16px;
-}
-
-@media (min-width: 640px) {
-  .features-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-}
-
-.feature-card {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
-  border-radius: 8px;
-  padding: 24px;
-  transition: all 0.3s ease;
-  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px;
   overflow: hidden;
-}
-
-.feature-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--myst-gold), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.feature-card:hover {
-  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-}
-
-.feature-card:hover::after {
-  opacity: 1;
-}
-
-.feature-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.feature-icon {
-  width: 24px;
-  height: 24px;
-  color: var(--myst-gold);
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-
-.feature-card:hover .feature-icon {
-  transform: scale(1.2);
-}
-
-.feature-title {
-  color: var(--myst-ink-strong);
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.1px;
-}
-
-.feature-description {
-  color: var(--myst-ink-muted);
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* Pinned News Section */
-.pinned-news-section {
-  position: relative;
-  background: linear-gradient(135deg,
-  var(--myst-bg),
-  color-mix(in srgb, var(--myst-gold) 3%, var(--myst-bg))
-  );
-  border-top: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--myst-gold) 15%, transparent);
-  padding-top: 40px;
-}
-
-.pinned-news-grid {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 0 16px;
-  margin: 32px -16px 0;
-}
-
-.pinned-news-grid .pinned-news-card {
-  flex-shrink: 0;
-  width: 90%;
-}
-
-.pinned-news-grid::-webkit-scrollbar {
-  display: none;
-}
-
-@media (min-width: 640px) {
-  .pinned-news-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin: 32px 0 0;
-    padding: 0;
-    overflow: visible;
-    gap: 28px;
-  }
-
-  .pinned-news-grid .pinned-news-card {
-    width: auto;
-  }
-
-  /* Center single pinned article - wider than 2-column layout */
-  .pinned-news-grid--single {
-    display: flex;
-    justify-content: center;
-    grid-template-columns: unset;
-  }
-
-  .pinned-news-grid--single .pinned-news-card {
-    width: 75%;
-    max-width: none;
-  }
-}
-
-@media (min-width: 1024px) {
-  .pinned-news-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 36px;
-  }
-
-  /* Center single pinned article on large screens - even wider */
-  .pinned-news-grid--single .pinned-news-card {
-    width: 80%;
-  }
-}
-
-@media (min-width: 1280px) {
-  /* On very large screens, cap it at a reasonable width */
-  .pinned-news-grid--single .pinned-news-card {
-    width: 70%;
-    max-width: 1000px;
-  }
-}
-
-.load-more-button--pinned {
-  background: color-mix(in srgb, var(--myst-gold) 15%, var(--myst-bg-2) 80%);
-  border: 1px solid var(--myst-gold);
-  color: var(--myst-gold);
-}
-
-.load-more-button--pinned:hover {
-  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
-  border-color: var(--myst-gold);
-  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3);
-}
-
-/* News Section */
-.news-section {
-  position: relative;
-  padding-top: 40px;
-}
-
-.news-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 16px 40px;
-}
-
-.news-grid {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 0 16px;
-  margin: 24px -16px 0;
-}
-
-.news-grid::-webkit-scrollbar {
-  display: none;
-}
-
-@media (min-width: 640px) {
-  .news-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin: 24px 0 0;
-    padding: 0;
-    overflow: visible;
-  }
-}
-
-@media (min-width: 1024px) {
-  .news-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-}
-
-.news-card {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  scroll-snap-align: center;
-  flex-shrink: 0;
-  width: 85%;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-@media (min-width: 640px) {
-  .news-card {
-    width: auto;
-  }
-}
-
-.news-card:hover {
-  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-}
-
-.news-image {
-  overflow: hidden;
-}
-
-.news-img {
-  width: 100%;
-  height: 176px;
-  object-fit: cover;
-  opacity: 0.9;
-  transition: opacity 0.3s ease, transform 0.4s ease;
-}
-
-.news-card:hover .news-img {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-.news-content {
-  padding: 24px;
-}
-
-.news-date {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--myst-gold);
-  margin: 0 0 8px;
-  opacity: 0.8;
-}
-
-.news-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--myst-ink-strong);
-  margin-bottom: 8px;
-}
-
-.news-text {
-  color: #a1a1aa;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-
-.news-link-container {
-  margin-top: 16px;
-}
-
-.news-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--myst-gold);
-  text-decoration: none;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-.news-link:hover {
-  text-decoration: underline;
-}
-
-/* Pinned news card styles */
-.pinned-news-card {
-  border: 2px solid var(--myst-gold);
-  background: linear-gradient(135deg,
-  color-mix(in srgb, var(--myst-bg-2) 90%, transparent),
-  color-mix(in srgb, var(--myst-gold) 8%, var(--myst-bg-2) 85%)
-  );
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 8px 32px rgba(200, 178, 115, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
-  scroll-snap-align: center;
-  flex-shrink: 0;
-  width: 85%;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-@media (min-width: 640px) {
-  .pinned-news-card {
-    width: auto;
-  }
-}
-
-.pinned-news-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 16px 48px rgba(200, 178, 115, 0.3), 0 8px 24px rgba(0, 0, 0, 0.15);
-  border-color: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
-}
-
-/* Pinned icon - minimal star next to title */
-.pinned-icon {
-  width: 18px;
-  height: 18px;
-  color: var(--myst-gold);
-  flex-shrink: 0;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-/* Card content layout */
-.pinned-card-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-@media (min-width: 768px) {
-  .pinned-card-content {
-    flex-direction: row;
-    align-items: stretch;
-  }
-}
-
-/* Smaller image for better balance */
-.pinned-news-image {
-  flex-shrink: 0;
-  overflow: hidden;
-  position: relative;
-}
-
-@media (max-width: 767px) {
-  .pinned-news-image {
-    height: 180px;
-  }
-}
-
-@media (min-width: 768px) {
-  .pinned-news-image {
-    width: 140px;
-    min-height: 100%;
-  }
-}
-
-.pinned-news-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   transition: all 0.4s ease;
-  opacity: 0.9;
 }
 
-.pinned-news-card:hover .pinned-news-img {
-  opacity: 1;
-  transform: scale(1.05);
+.stone-glow {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% 100%, rgba(200, 178, 115, 0.05) 0%, transparent 70%);
+  opacity: 0; transition: opacity 0.4s ease;
 }
 
-/* Text content styling */
-.pinned-news-text-content {
-  padding: 24px;
-  flex: 1;
+.feature-stone:hover {
+  transform: translateY(-8px);
+  border-color: rgba(200, 178, 115, 0.2);
+}
+
+.feature-stone:hover .stone-glow { opacity: 1; }
+
+.feature-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.feature-icon { width: 28px; height: 28px; color: var(--myst-gold); }
+.feature-label { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--myst-offwhite); font-weight: 700; }
+.feature-description { font-size: 15px; color: #888; line-height: 1.6; margin: 0; }
+
+/* News Styles */
+.news-container { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+.pinned-news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 32px; margin-top: 40px; }
+
+.pinned-card-myst {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-}
-
-.pinned-news-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--myst-ink-strong);
-  margin-bottom: 12px;
-  line-height: 1.4;
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-}
-
-.pinned-news-description {
-  color: color-mix(in srgb, var(--myst-ink-strong) 75%, transparent);
-  font-size: 15px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  flex: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.pinned-news-link-container {
-  margin-top: auto;
-}
-
-.pinned-news-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--myst-gold);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(200, 178, 115, 0.2);
   text-decoration: none;
-  font-size: 15px;
-  font-weight: 600;
   transition: all 0.3s ease;
-  padding: 8px 0;
 }
 
-.pinned-news-link:hover {
-  color: color-mix(in srgb, var(--myst-gold) 120%, white 20%);
-  text-decoration: underline;
-  transform: translateX(4px);
+.pinned-card-myst:hover {
+  background: rgba(200, 178, 115, 0.03);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* Load More Button */
-.load-more-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 32px;
-}
+.pinned-image-area { width: 140px; flex-shrink: 0; border-right: 1px solid rgba(200, 178, 115, 0.1); }
+.pinned-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: opacity 0.3s; }
+.pinned-card-myst:hover .pinned-img { opacity: 1; }
 
-.load-more-button {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  color: var(--myst-gold);
-  padding: 12px 32px;
-  border-radius: 24px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+.pinned-info-area { padding: 24px; flex: 1; }
+.pinned-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--myst-offwhite); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.pinned-star { width: 18px; color: var(--myst-gold); }
+.pinned-desc { font-size: 14px; color: #888; line-height: 1.5; margin-bottom: 20px; }
+.link-ritual { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--myst-gold); text-transform: uppercase; }
+
+/* Latest News Ledger */
+.news-ledger { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+.news-entry {
+  display: block;
+  padding: 32px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  text-decoration: none;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
 }
 
-.load-more-button:hover {
-  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
-  border-color: var(--myst-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.2);
+.news-entry:hover { padding-left: 20px; background: rgba(255, 255, 255, 0.01); }
+
+.entry-meta { margin-bottom: 12px; }
+.entry-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--myst-gold); text-transform: uppercase; letter-spacing: 2px; }
+.entry-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--myst-offwhite); margin-bottom: 8px; transition: color 0.3s; }
+.news-entry:hover .entry-title { color: var(--myst-gold); }
+.entry-text { font-size: 15px; color: #666; max-width: 800px; margin-bottom: 16px; }
+.link-ritual-sm { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #444; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+.news-entry:hover .link-ritual-sm { color: var(--myst-gold); }
+
+.load-more-ritual { text-align: center; margin-top: 48px; }
+.btn-ritual-outline {
+  background: none; border: 1px solid rgba(200, 178, 115, 0.3);
+  color: var(--myst-gold); padding: 12px 40px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  text-transform: uppercase; cursor: pointer; transition: all 0.3s;
 }
 
-/* Stats Section */
-.stats-section {
-  position: relative;
-}
+.btn-ritual-outline:hover { background: rgba(200, 178, 115, 0.1); border-color: var(--myst-gold); }
 
-.stats-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 16px 40px;
+@media (max-width: 768px) {
+  .hero-ritual-title { font-size: 4rem; }
+  .hero-buttons { flex-direction: column; align-items: stretch; }
+  .pinned-card-myst { flex-direction: column; }
+  .pinned-image-area { width: 100%; height: 160px; border-right: none; border-bottom: 1px solid rgba(200, 178, 115, 0.1); }
 }
 </style>

@@ -63,13 +63,8 @@ const updateCursorPosition = (event: MouseEvent) => {
 };
 
 onMounted(() => {
-  // Initialize theme
-  try {
-    const saved = localStorage.getItem("myst-theme");
-    document.documentElement.dataset.theme = saved === "parchment" ? "parchment" : "dark";
-  } catch {
-    document.documentElement.dataset.theme = "dark";
-  }
+  // Always force dark theme for the mystical aesthetic
+  document.documentElement.dataset.theme = "dark";
 
   document.addEventListener("mousemove", updateCursorPosition);
 });

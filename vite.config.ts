@@ -12,7 +12,6 @@ function copyRobotsPlugin() {
     name: 'copy-robots',
     buildEnd() {
       try {
-        // Ensure dist directory exists
         if (!fs.existsSync('dist')) {
           fs.mkdirSync('dist', { recursive: true })
         }
@@ -66,24 +65,14 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: 'http://localhost:8080',
+          target: env.VITE_API_URL || 'http://localhost:8080',
           changeOrigin: true,
           secure: false,
-        },
-        '/aphrodite': {
-          target: env.VITE_APHRODITE_API_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/aphrodite/, ''),
         },
         '/plan': {
           target: env.VITE_PLAN_API_URL,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/plan/, ''),
-        },
-        '/anaya': {
-          target: env.VITE_ANAYA_API_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/anaya/, ''),
         },
         '/catwalk': {
           target: 'https://catwalk.mysterria.net',
@@ -122,29 +111,6 @@ export default defineConfig(({ mode }) => {
           main: fileURLToPath(new URL('./index.html', import.meta.url)),
         },
         output: {
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              if (id.includes('vue') || id.includes('vue-router') || id.includes('pinia')) {
-                return 'vendor'
-              }
-              if (id.includes('echarts')) {
-                return 'charts'
-              }
-              if (id.includes('marked') || id.includes('@octokit')) {
-                return 'markdown'
-              }
-              return 'deps'
-            }
-            if (id.includes('src/views/')) {
-              return 'views'
-            }
-            if (id.includes('src/components/home/')) {
-              return 'home'
-            }
-            if (id.includes('src/components/ui/')) {
-              return 'home'
-            }
-          },
         },
       },
       chunkSizeWarningLimit: 500,
@@ -169,12 +135,6 @@ export default defineConfig(({ mode }) => {
       postcss: {
         plugins: [],
       },
-    },
-    configureServer(server: { middlewares: { use: (arg0: string, arg1: (req: unknown, res: { statusCode: number; end: (data: string) => void }) => void) => void } }) {
-      server.middlewares.use('/__open-in-editor', (req, res) => {
-        res.statusCode = 403
-        res.end('Editor access is disabled')
-      })
     }
   }
 })
