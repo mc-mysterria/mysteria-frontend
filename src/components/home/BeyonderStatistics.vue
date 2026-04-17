@@ -1,98 +1,100 @@
 <template>
-  <section id="community" class="beyonder-stats-section">
-    <div class="stats-container">
-      <SectionTitle
-          :eyebrow="t('communityEyebrow')"
-          :subtitle="t('joinPlayersCommunity')"
-          :title="loading ? t('loadingStatistics') : `${totalBeyonders} ${t('activeBeyonders')}`"
-      />
+  <section id="community" class="beyonder-ledger">
+    <!-- Grain/Noise Texture Overlay -->
+    <div class="grain-overlay" aria-hidden="true"></div>
 
-      <div v-if="loading" class="loading-state">
-        <div class="loading-spinner">
-          <div class="spinner-ring"></div>
+    <div class="ledger-container">
+      <div class="ledger-header">
+        <div class="header-decoration left" aria-hidden="true"></div>
+        <div class="header-content">
+          <span class="eyebrow-text">{{ t('communityEyebrow') }}</span>
+          <h2 class="main-title">
+            {{ loading ? t('loadingStatistics') : `${totalBeyonders} ${t('activeBeyonders')}` }}
+          </h2>
+          <p class="subtitle-text">{{ t('joinPlayersCommunity') }}</p>
         </div>
+        <div class="header-decoration right" aria-hidden="true"></div>
       </div>
 
-      <div v-else class="stats-content">
-        <!-- Key Metrics -->
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-icon">🌟</div>
-            <div class="metric-value">{{ totalBeyonders }}</div>
-            <div class="metric-label">{{ t('totalBeyonders') }}</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon">🔮</div>
-            <div class="metric-value">{{ uniquePathways }}</div>
-            <div class="metric-label">{{ t('activePathways') }}</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon">⚡</div>
-            <div class="metric-value">{{ advancedBeyonders }}</div>
-            <div class="metric-label">{{ t('advancedBeyonders') }}</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon">📊</div>
-            <div class="metric-value">{{ averageSequence }}</div>
-            <div class="metric-label">{{ t('averageSequence') }}</div>
+      <div v-if="loading" class="mystic-loader">
+        <div class="orb-container">
+          <div class="mystic-orb"></div>
+          <div class="orb-ring"></div>
+          <div class="orb-ring secondary"></div>
+        </div>
+        <p class="loader-text">{{ t('loadingStatistics') }}</p>
+      </div>
+
+      <div v-else class="ledger-content">
+        <!-- The Pillars of Fate (Top Metrics) -->
+        <div class="pillars-grid">
+          <div class="pillar-item" v-for="(metric, index) in topMetrics" :key="index" :style="{ '--delay': `${index * 0.1}s` }">
+            <div class="pillar-bg"></div>
+            <div class="pillar-content">
+              <span class="pillar-label">{{ metric.label }}</span>
+              <div class="pillar-value-container">
+                <span class="pillar-value">{{ metric.value }}</span>
+                <div class="pillar-glow" aria-hidden="true"></div>
+              </div>
+              <p class="pillar-subtext">{{ metric.subtext }}</p>
+            </div>
           </div>
         </div>
 
-        <!-- Charts Section -->
-        <div class="charts-grid">
-          <!-- Top Pathways -->
-          <div class="chart-card">
-            <h3 class="chart-title">{{ t('mostPopularPathways') }}</h3>
-            <div class="pathway-bars">
+        <div class="stats-showcase">
+          <!-- The Sigil Grid (Pathways) -->
+          <div class="tapestry-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">{{ t('mostPopularPathways') }}</h3>
+              <div class="panel-divider"></div>
+            </div>
+            <div class="sigil-grid">
               <div
-                  v-for="pathway in topPathways"
+                  v-for="(pathway, index) in topPathways"
                   :key="pathway.name"
-                  class="pathway-bar-item"
+                  class="sigil-tile"
+                  :style="{ '--delay': `${index * 0.04}s` }"
               >
-                <div class="pathway-bar-header">
-                  <div class="pathway-name-container">
-                    <img
-                        :alt="pathway.name"
-                        :src="getPathwayImage(pathway.name)"
-                        class="pathway-symbol-small"
-                    />
-                    <span class="pathway-name">{{ formatPathwayName(pathway.name) }}</span>
-                  </div>
-                  <span class="pathway-count">{{ pathway.count }}</span>
+                <div class="sigil-frame">
+                  <img
+                      :alt="pathway.name"
+                      :src="getPathwayImage(pathway.name)"
+                      class="pathway-sigil"
+                  />
+                  <div class="sigil-glow"></div>
                 </div>
-                <div class="pathway-bar-track">
-                  <div
-                      :style="{ width: `${(pathway.count / totalBeyonders) * 100}%` }"
-                      class="pathway-bar-fill"
-                  ></div>
+                <div class="sigil-info">
+                  <span class="sigil-name">{{ formatPathwayName(pathway.name) }}</span>
+                  <span class="sigil-count">{{ pathway.count }}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Sequence Distribution -->
-          <div class="chart-card">
-            <h3 class="chart-title">{{ t('sequenceDistribution') }}</h3>
-            <div class="sequence-chart">
+          <!-- The Stairway to Divinity (Sequences) -->
+          <div class="stairway-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">{{ t('sequenceDistribution') }}</h3>
+              <div class="panel-divider"></div>
+            </div>
+            <div class="stairway-visualization">
               <div
                   v-for="seq in sequenceDistribution"
                   :key="seq.sequence"
-                  class="sequence-bar-wrapper"
+                  class="stairway-step"
+                  :style="{ '--height': `${(seq.count / maxSequenceCount) * 100}%`, '--color': getSequenceColorValue(parseInt(seq.sequence)) }"
               >
-                <div class="sequence-bar-container">
-                  <div
-                      :style="{
-                        height: `${(seq.count / maxSequenceCount) * 100}%`,
-                        background: getSequenceColor(parseInt(seq.sequence))
-                      }"
-                      :title="`${t('sequence')} ${seq.sequence}: ${seq.count} ${t('sequenceBeyonders')}`"
-                      class="sequence-bar-fill"
-                  >
-                    <span class="bar-count">{{ seq.count }}</span>
+                <div class="step-bar">
+                  <div class="step-tooltip">
+                    <span class="tooltip-val">{{ seq.count }}</span>
+                    <span class="tooltip-label">Seq {{ seq.sequence }}</span>
                   </div>
                 </div>
-                <div class="sequence-label">Seq {{ seq.sequence }}</div>
+                <div class="step-label">S{{ seq.sequence }}</div>
               </div>
+            </div>
+            <div class="stairway-footer">
+              <p>{{ t('averageSequence') }}: <span class="highlight">{{ averageSequence }}</span></p>
             </div>
           </div>
         </div>
@@ -103,7 +105,6 @@
 
 <script lang="ts" setup>
 import {computed, onMounted, ref} from 'vue';
-import SectionTitle from '@/components/ui/SectionTitle.vue';
 import type {BeyonderData} from '@/types/users';
 import {useI18n} from '@/composables/useI18n';
 
@@ -124,7 +125,7 @@ interface CachedData {
 }
 
 const CACHE_KEY = 'beyonder-stats-cache';
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+const CACHE_DURATION = 60 * 60 * 1000;
 
 const loading = ref(true);
 const beyonderData = ref<BeyonderData[]>([]);
@@ -152,428 +153,542 @@ const averageSequence = computed(() => {
 
 const topPathways = computed(() => {
   const pathwayCounts = new Map<string, number>();
-
   beyonderData.value.forEach(b => {
     const count = pathwayCounts.get(b.pathway) || 0;
     pathwayCounts.set(b.pathway, count + 1);
   });
-
   return Array.from(pathwayCounts.entries())
       .map(([name, count]) => ({name, count}))
       .sort((a, b) => b.count - a.count)
-      .slice(0, 8); // Top 8 pathways
+      .slice(0, 8); // Showing top 8 in grid
 });
 
 const sequenceDistribution = computed(() => {
   const seqCounts = new Map<string, number>();
-
   beyonderData.value.forEach(b => {
     const seq = b.sequence.toString();
     const seqNum = parseInt(seq);
-    // Only count sequences 1-9 (exclude 0)
     if (seqNum >= 1 && seqNum <= 9) {
       seqCounts.set(seq, (seqCounts.get(seq) || 0) + 1);
     }
   });
-
   return Array.from(seqCounts.entries())
       .map(([sequence, count]) => ({sequence, count}))
-      .filter(item => item.count > 0) // Only show sequences with beyonders
+      .filter(item => item.count > 0)
       .sort((a, b) => parseInt(a.sequence) - parseInt(b.sequence));
 });
 
 const maxSequenceCount = computed(() => {
-  return Math.max(...sequenceDistribution.value.map(s => s.count));
+  return Math.max(...sequenceDistribution.value.map(s => s.count), 1);
 });
 
-const formatPathwayName = (pathway: string) => {
-  return pathway.charAt(0).toUpperCase() + pathway.slice(1);
-};
+const topMetrics = computed(() => [
+  { label: t('totalBeyonders'), value: totalBeyonders.value, subtext: t('activeBeyonders') },
+  { label: t('activePathways'), value: uniquePathways.value, subtext: t('uniquePowers') || 'Unique Powers' },
+  { label: t('advancedBeyonders'), value: advancedBeyonders.value, subtext: t('highSequences') || 'High Sequences' }
+]);
 
-const getPathwayImage = (pathwayName: string) => {
-  const name = pathwayName.toLowerCase();
-  return new URL(`../../assets/images/pathways/${name}.webp`, import.meta.url).href;
-};
+const formatPathwayName = (pathway: string) => pathway.charAt(0).toUpperCase() + pathway.slice(1);
+const getPathwayImage = (pathwayName: string) => new URL(`../../assets/images/pathways/${pathwayName.toLowerCase()}.webp`, import.meta.url).href;
 
-const getSequenceColor = (sequence: number) => {
-  const colors = [
-    'linear-gradient(180deg, #ff6b6b 0%, #ee5a6f 100%)', // Seq 0 - Red (Highest)
-    'linear-gradient(180deg, #f59e42 0%, #ff8c42 100%)', // Seq 1 - Orange
-    'linear-gradient(180deg, #ffd93d 0%, #ffc93d 100%)', // Seq 2 - Yellow
-    'linear-gradient(180deg, #6bcf7f 0%, #51cf66 100%)', // Seq 3 - Green
-    'linear-gradient(180deg, #4ecdc4 0%, #45b7d1 100%)', // Seq 4 - Cyan
-    'linear-gradient(180deg, #5dade2 0%, #4a90e2 100%)', // Seq 5 - Blue
-    'linear-gradient(180deg, #a78bfa 0%, #9575fa 100%)', // Seq 6 - Purple
-    'linear-gradient(180deg, #ec6ead 0%, #f06292 100%)', // Seq 7 - Pink
-    'linear-gradient(180deg, #95a5a6 0%, #7f8c8d 100%)', // Seq 8 - Gray
-    'linear-gradient(180deg, #c8b273 0%, #b8a263 100%)', // Seq 9 - Gold (Lowest)
-  ];
-  return colors[sequence] || colors[9];
-};
-
-const loadFromCache = (): BeyonderData[] | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY);
-    if (!cached) return null;
-
-    const cachedData: CachedData = JSON.parse(cached);
-    const now = Date.now();
-
-    // Check if cache is still valid
-    if (now - cachedData.timestamp < CACHE_DURATION) {
-      return cachedData.data;
-    }
-
-    // Cache expired, remove it
-    localStorage.removeItem(CACHE_KEY);
-    return null;
-  } catch (error) {
-    console.error('Error loading cache:', error);
-    return null;
-  }
-};
-
-const saveToCache = (data: BeyonderData[]) => {
-  try {
-    const cacheData: CachedData = {
-      data,
-      timestamp: Date.now()
-    };
-    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-  } catch (error) {
-    console.error('Error saving to cache:', error);
-  }
+const getSequenceColorValue = (sequence: number) => {
+  const colors = ['#ff6b6b', '#f59e42', '#ffd93d', '#6bcf7f', '#4ecdc4', '#5dade2', '#a78bfa', '#ec6ead', '#95a5a6', '#c8b273'];
+  return colors[sequence] || '#c8b273';
 };
 
 const fetchBeyonderStats = async () => {
   loading.value = true;
-
-  // Try to load from cache first
-  const cachedData = loadFromCache();
-  if (cachedData) {
-    beyonderData.value = cachedData;
-    loading.value = false;
-    return;
+  const cached = localStorage.getItem(CACHE_KEY);
+  if (cached) {
+    const parsed: CachedData = JSON.parse(cached);
+    if (Date.now() - parsed.timestamp < CACHE_DURATION) {
+      beyonderData.value = parsed.data;
+      loading.value = false;
+      return;
+    }
   }
 
-  // Fetch fresh data
   try {
     const response = await fetch('/catwalk/pathway/everyone');
     const result: BeyonderStatsResponse = await response.json();
-
     if (result.success && result.data.beyonder) {
       beyonderData.value = result.data.beyonder;
-      saveToCache(result.data.beyonder);
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ data: result.data.beyonder, timestamp: Date.now() }));
     }
   } catch (error) {
-    console.error('Failed to fetch beyonder statistics:', error);
+    console.error('Failed to fetch stats:', error);
   } finally {
     loading.value = false;
   }
 };
 
-onMounted(() => {
-  fetchBeyonderStats();
-});
+onMounted(fetchBeyonderStats);
 </script>
 
 <style scoped>
-.beyonder-stats-section {
-  background: var(--myst-bg);
-  padding: 80px 0;
+/* ALCHEMICAL LEDGER AESTHETIC REFINED */
+
+.beyonder-ledger {
+  position: relative;
+  background-color: #080a14;
+  padding: 120px 0;
+  overflow: hidden;
+  color: #e0e0e0;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-.stats-container {
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.ledger-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
 }
 
-.loading-state {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-}
-
-.loading-spinner {
+/* Header Styling */
+.ledger-header {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.spinner-ring {
-  width: 40px;
-  height: 40px;
-  border: 3px solid transparent;
-  border-radius: 50%;
-  border-top: 3px solid var(--myst-gold);
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.stats-content {
-  margin-top: 48px;
-}
-
-/* Metrics Grid */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
-  margin-bottom: 48px;
-}
-
-.metric-card {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
-  border-radius: 8px;
-  padding: 32px 24px;
+  gap: 32px;
+  margin-bottom: 80px;
   text-align: center;
-  transition: all 0.3s ease;
 }
 
-.metric-card:hover {
-  border-color: color-mix(in srgb, var(--myst-gold) 30%, transparent);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+.header-decoration {
+  height: 1px;
+  flex: 1;
+  max-width: 120px;
+  background: linear-gradient(90deg, transparent, var(--myst-gold), transparent);
+  position: relative;
 }
 
-.metric-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
+.header-decoration::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: var(--myst-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--myst-gold);
 }
 
-.metric-value {
-  font-size: 36px;
+.header-content {
+  flex: 2;
+}
+
+.eyebrow-text {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--myst-gold);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  color: var(--myst-offwhite);
+  margin: 0 0 12px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.subtitle-text {
+  font-size: 15px;
+  color: #888;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Pillars Grid (Top Metrics) */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 64px;
+}
+
+.pillar-item {
+  position: relative;
+  padding: 32px 20px;
+  text-align: center;
+  opacity: 0;
+  animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pillar-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(200, 178, 115, 0.05) 0%, transparent 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.pillar-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pillar-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 42px;
   font-weight: 700;
   color: var(--myst-gold);
+  line-height: 1;
+  display: block;
   margin-bottom: 8px;
 }
 
-.metric-label {
-  font-size: 14px;
-  color: var(--myst-ink-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.pillar-subtext {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
 }
 
-/* Charts Grid */
-.charts-grid {
+/* Stats Showcase Panels */
+.stats-showcase {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  align-items: stretch;
 }
 
-.chart-card {
-  background: color-mix(in srgb, var(--myst-bg-2) 80%, transparent);
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
+.tapestry-panel, .stairway-panel {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 40px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  margin-bottom: 32px;
+}
+
+.panel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--myst-offwhite);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.panel-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--myst-gold) 0%, transparent 100%);
+  width: 50px;
+}
+
+/* Sigil Grid for Pathways */
+.sigil-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  flex: 1;
+}
+
+.sigil-tile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: 8px;
-  padding: 32px;
+  opacity: 0;
+  animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--delay);
   transition: all 0.3s ease;
 }
 
-.chart-card:hover {
-  border-color: color-mix(in srgb, var(--myst-gold) 20%, transparent);
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-.chart-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--myst-gold);
-  margin-bottom: 24px;
-  text-align: center;
+.sigil-tile:hover {
+  background: rgba(200, 178, 115, 0.05);
+  border-color: rgba(200, 178, 115, 0.2);
+  transform: translateY(-2px);
 }
 
-/* Pathway Bars */
-.pathway-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.sigil-frame {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
 }
 
-.pathway-bar-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.pathway-bar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.pathway-name-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.pathway-symbol-small {
-  width: 24px;
-  height: 24px;
+.pathway-sigil {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.pathway-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--myst-ink-strong);
-  text-transform: capitalize;
-}
-
-.pathway-count {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--myst-gold);
-}
-
-.pathway-bar-track {
-  height: 8px;
-  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.pathway-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #c8b273 0%, #4a90e2 60%, #a78bfa 100%);
-  border-radius: 4px;
-  transition: width 0.6s ease;
-}
-
-/* Sequence Chart */
-.sequence-chart {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  height: 300px;
-  gap: 4px;
-  padding: 0 10px;
-}
-
-.sequence-bar-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100%;
-  gap: 8px;
-}
-
-.sequence-bar-container {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: stretch;
+  z-index: 2;
   position: relative;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
-.sequence-bar-fill {
-  width: 100%;
-  border-radius: 4px 4px 0 0;
-  transition: all 0.6s ease;
-  min-height: 8px;
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.sequence-bar-fill:hover {
-  transform: scaleY(1.02);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-.bar-count {
-  font-size: 11px;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+.sigil-glow {
+  position: absolute;
+  inset: -4px;
+  background: radial-gradient(circle, rgba(200, 178, 115, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.sequence-bar-fill:hover .bar-count {
+.sigil-tile:hover .sigil-glow {
   opacity: 1;
 }
 
-.sequence-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--myst-ink-medium);
-  text-align: center;
-  white-space: nowrap;
+.sigil-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-/* Mobile Responsive */
+.sigil-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.sigil-tile:hover .sigil-name {
+  color: var(--myst-offwhite);
+}
+
+.sigil-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--myst-gold);
+}
+
+/* Stairway Visualization */
+.stairway-visualization {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 240px;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.stairway-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.step-bar {
+  width: 100%;
+  height: var(--height);
+  background: var(--color);
+  opacity: 0.5;
+  border-radius: 2px 2px 0 0;
+  transition: all 0.4s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.stairway-step:hover .step-bar {
+  opacity: 1;
+  transform: scaleX(1.1);
+  box-shadow: 0 0 15px var(--color);
+}
+
+.step-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: #0d111a;
+  border: 1px solid var(--color);
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 20;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.stairway-step:hover .step-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.tooltip-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #fff;
+  font-size: 14px;
+}
+
+.tooltip-label {
+  font-size: 10px;
+  color: #888;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.step-label {
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+  text-align: center;
+}
+
+.stairway-footer {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.highlight {
+  color: var(--myst-gold);
+  font-weight: 700;
+}
+
+/* Mystic Loader */
+.mystic-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 0;
+}
+
+.orb-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 24px;
+}
+
+.mystic-orb {
+  position: absolute;
+  inset: 20px;
+  background: var(--myst-gold);
+  border-radius: 50%;
+  filter: blur(8px);
+  animation: orbPulse 2s infinite alternate;
+}
+
+.orb-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(200, 178, 115, 0.3);
+  border-radius: 50%;
+  animation: orbSpin 4s linear infinite;
+}
+
+.orb-ring.secondary {
+  animation-direction: reverse;
+  animation-duration: 6s;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes orbPulse {
+  from { transform: scale(0.8); opacity: 0.5; }
+  to { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes orbSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loader-text {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--myst-gold);
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .stats-showcase {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
 @media (max-width: 768px) {
-  .beyonder-stats-section {
-    padding: 60px 0;
+  .pillars-grid {
+    grid-template-columns: 1fr;
   }
 
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .ledger-header {
+    flex-direction: column;
     gap: 16px;
   }
 
-  .metric-card {
-    padding: 24px 16px;
+  .header-decoration {
+    width: 100%;
+    max-width: 200px;
   }
 
-  .metric-icon {
-    font-size: 36px;
+  .main-title {
+    font-size: 2.25rem;
   }
 
-  .metric-value {
-    font-size: 28px;
-  }
-
-  .charts-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .chart-card {
+  .tapestry-panel, .stairway-panel {
     padding: 24px;
   }
 
-  .sequence-chart {
-    height: 250px;
-    gap: 2px;
-  }
-
-  .sequence-label {
-    font-size: 10px;
-  }
-
-  .bar-count {
-    font-size: 10px;
+  .sigil-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 576px) {
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
