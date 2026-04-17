@@ -17,10 +17,10 @@
         </RouterLink>
 
         <!-- Admin Registry Dropdown -->
-        <div v-if="canEditAnyContent" class="admin-ritual-dropdown" @mouseleave="isDropdownOpen = false">
+        <div v-if="canEditAnyContent" ref="dropdownRef" class="admin-ritual-dropdown">
           <button 
               class="admin-ritual-trigger" 
-              @click="isDropdownOpen = !isDropdownOpen"
+              @click.stop="isDropdownOpen = !isDropdownOpen"
               :class="{ active: isDropdownOpen }"
           >
             <i class="fa-solid fa-eye-evil fa-eye"></i>
@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import {useUserStore} from "@/stores/user";
 import {useAuthStore} from "@/stores/auth";
 import {useBalanceStore} from "@/stores/balance";
@@ -98,6 +98,7 @@ const {t} = useI18n();
 const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop} = usePermissions();
 
 const isDropdownOpen = ref(false);
+const dropdownRef = ref<HTMLElement | null>(null);
 
 const user = computed(() => userStore.currentUser);
 const isLoading = computed(() => userStore.isLoading || authStore.isLoading);
@@ -105,6 +106,20 @@ const balance = computed(() => balanceStore.currentBalance?.amount || 0);
 
 const handleLogin = () => authStore.openDiscordAuth();
 const handleLogout = () => authStore.logout();
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (isDropdownOpen.value && dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+    isDropdownOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <style scoped>
