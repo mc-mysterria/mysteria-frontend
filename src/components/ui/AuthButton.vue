@@ -16,15 +16,56 @@
           </div>
         </RouterLink>
 
-        <!-- Admin Link -->
-        <RouterLink 
-            v-if="canEditAnyContent" 
-            class="admin-ritual-link" 
-            to="/admin" 
-            :title="t('adminPanel') || 'Registry'"
-        >
-          <i class="fa-solid fa-eye-evil fa-eye"></i>
-        </RouterLink>
+        <!-- Admin Registry Dropdown -->
+        <div v-if="canEditAnyContent" class="admin-ritual-dropdown" @mouseleave="isDropdownOpen = false">
+          <button 
+              class="admin-ritual-trigger" 
+              @click="isDropdownOpen = !isDropdownOpen"
+              :class="{ active: isDropdownOpen }"
+          >
+            <i class="fa-solid fa-eye-evil fa-eye"></i>
+          </button>
+          
+          <Transition name="ritual-dropdown">
+            <div v-if="isDropdownOpen" class="admin-ritual-menu">
+              <div class="menu-ritual-header">Registry</div>
+              
+              <RouterLink v-if="canManageNews" class="menu-ritual-item" to="/edit/news" @click="isDropdownOpen = false">
+                <i class="fa-solid fa-pen-nib"></i>
+                <div class="item-meta">
+                  <span class="item-title">Archives</span>
+                  <span class="item-desc">Edit News & Lore</span>
+                </div>
+              </RouterLink>
+
+              <RouterLink v-if="canManageCounsel" class="menu-ritual-item" to="/edit/counsel" @click="isDropdownOpen = false">
+                <i class="fa-solid fa-gavel"></i>
+                <div class="item-meta">
+                  <span class="item-title">Counsel</span>
+                  <span class="item-desc">Moderate Suggestions</span>
+                </div>
+              </RouterLink>
+
+              <RouterLink v-if="canManageShop" class="menu-ritual-item" to="/edit/services" @click="isDropdownOpen = false">
+                <i class="fa-solid fa-gem"></i>
+                <div class="item-meta">
+                  <span class="item-title">Reliquary</span>
+                  <span class="item-desc">Manage Services</span>
+                </div>
+              </RouterLink>
+
+              <div class="menu-ritual-divider"></div>
+
+              <RouterLink class="menu-ritual-item admin-primary" to="/admin" @click="isDropdownOpen = false">
+                <i class="fa-solid fa-scroll"></i>
+                <div class="item-meta">
+                  <span class="item-title">Full Registry</span>
+                  <span class="item-desc">Admin Dashboard</span>
+                </div>
+              </RouterLink>
+            </div>
+          </Transition>
+        </div>
 
         <button class="logout-ritual-btn" @click="handleLogout" :title="t('logout')">
           <i class="fa-solid fa-sign-out-alt"></i>
@@ -42,7 +83,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {useUserStore} from "@/stores/user";
 import {useAuthStore} from "@/stores/auth";
 import {useBalanceStore} from "@/stores/balance";
@@ -54,7 +95,9 @@ const userStore = useUserStore();
 const authStore = useAuthStore();
 const balanceStore = useBalanceStore();
 const {t} = useI18n();
-const {canEditAnyContent} = usePermissions();
+const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop} = usePermissions();
+
+const isDropdownOpen = ref(false);
 
 const user = computed(() => userStore.currentUser);
 const isLoading = computed(() => userStore.isLoading || authStore.isLoading);
@@ -99,6 +142,7 @@ const handleLogout = () => authStore.logout();
   padding: 4px 4px 4px 12px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 4px;
+  position: relative;
 }
 
 .profile-ritual-link {
@@ -129,7 +173,12 @@ const handleLogout = () => authStore.logout();
   letter-spacing: 1px;
 }
 
-.admin-ritual-link {
+/* Admin Dropdown */
+.admin-ritual-dropdown {
+  position: relative;
+}
+
+.admin-ritual-trigger {
   color: var(--myst-gold);
   width: 32px;
   height: 32px;
@@ -139,13 +188,89 @@ const handleLogout = () => authStore.logout();
   background: rgba(200, 178, 115, 0.1);
   border: 1px solid rgba(200, 178, 115, 0.2);
   border-radius: 2px;
+  cursor: pointer;
   transition: all 0.3s;
 }
 
-.admin-ritual-link:hover {
+.admin-ritual-trigger:hover, .admin-ritual-trigger.active {
   background: var(--myst-gold);
   color: #05070a;
-  transform: scale(1.1);
+}
+
+.admin-ritual-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: -40px;
+  width: 260px;
+  background: #080a14;
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  padding: 8px;
+}
+
+.menu-ritual-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #444;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.menu-ritual-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  text-decoration: none;
+  transition: all 0.3s;
+  border-radius: 2px;
+}
+
+.menu-ritual-item i {
+  width: 16px;
+  font-size: 14px;
+  color: var(--myst-gold);
+  opacity: 0.8;
+  text-align: center;
+}
+
+.item-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.item-desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.menu-ritual-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.menu-ritual-item.admin-primary {
+  background: rgba(200, 178, 115, 0.03);
+}
+
+.menu-ritual-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 8px 0;
 }
 
 .logout-ritual-btn {
@@ -165,6 +290,10 @@ const handleLogout = () => authStore.logout();
   color: #ff5252;
   border-color: rgba(255, 82, 82, 0.2);
 }
+
+/* Transitions */
+.ritual-dropdown-enter-active, .ritual-dropdown-leave-active { transition: all 0.3s ease; }
+.ritual-dropdown-enter-from, .ritual-dropdown-leave-to { opacity: 0; transform: translateY(-10px); }
 
 .ritual-spinner {
   width: 20px;

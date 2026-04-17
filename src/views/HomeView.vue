@@ -39,30 +39,12 @@
       </div>
 
       <!-- Down Arrow -->
-      <button aria-label="Scroll to features" class="scroll-ritual" @click="scrollToFeatures">
+      <button aria-label="Scroll to news" class="scroll-ritual" @click="scrollToNews">
         <IconArrowDown class="w-6 h-6"/>
       </button>
 
       <!-- Ink Transition -->
       <div class="ink-transition" aria-hidden="true"></div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features-section">
-      <div class="features-container">
-        <FadeInSection delay="100">
-          <div class="features-grid">
-            <div v-for="(feature, index) in features" :key="index" class="feature-stone">
-              <div class="stone-glow"></div>
-              <div class="feature-header">
-                <component :is="feature.icon" class="feature-icon"/>
-                <span class="feature-label">{{ feature.title }}</span>
-              </div>
-              <p class="feature-description">{{ feature.description }}</p>
-            </div>
-          </div>
-        </FadeInSection>
-      </div>
     </section>
 
     <!-- Beyonder Statistics Section -->
@@ -81,7 +63,7 @@
           <div :class="{ 'pinned-news-grid--single': displayedPinnedNews.length === 1 }" class="pinned-news-grid">
             <RouterLink v-for="n in displayedPinnedNews" :key="n.id" :to="`/news/${n.slug}`" class="pinned-card-myst">
               <div class="pinned-image-area">
-                <img :src="n.preview || 'https://via.placeholder.com/300x160/05070a/c8b273'" class="pinned-img"/>
+                <img :src="n.preview || 'https://via.placeholder.com/300x160/05070a/c8b273'" class="pinned-img" alt="pinned"/>
               </div>
               <div class="pinned-info-area">
                 <h3 class="pinned-title">
@@ -145,8 +127,6 @@ import BeyonderStatistics from "@/components/home/BeyonderStatistics.vue";
 import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
 import IconStars from "@/assets/icons/IconStars.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
-import IconGamepad from "@/assets/icons/IconGamepad.vue";
-import IconUsers from "@/assets/icons/IconUsers.vue";
 import {computed, onMounted, onUnmounted, ref} from "vue";
 import {newsAPI} from "@/utils/api/news";
 import type {NewsArticle, NewsPreview} from "@/types/news";
@@ -199,8 +179,9 @@ function startAutoRotation() {
   }, 8000);
 }
 
-function scrollToFeatures() {
-  const targetEl = document.querySelector('#features');
+function scrollToNews() {
+  const targetId = pinnedNews.value.length > 0 ? '#pinned-news' : '#news';
+  const targetEl = document.querySelector(targetId);
   if (targetEl) targetEl.scrollIntoView({behavior: 'smooth'});
 }
 
@@ -227,12 +208,6 @@ const displayedPinnedNews = computed(() => {
   const sorted = [...pinnedNews.value].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
   return showAllPinned.value ? sorted : sorted.slice(0, 2);
 });
-
-const features = [
-  { icon: IconStars, title: t("home.featureEldritchLoreTitle"), description: t("home.featureEldritchLoreDescription") },
-  { icon: IconGamepad, title: t("home.featureVictorianCraftTitle"), description: t("home.featureVictorianCraftDescription") },
-  { icon: IconUsers, title: t("home.featureSecretSocietiesTitle"), description: t("home.featureSecretSocietiesDescription") },
-];
 </script>
 
 <style scoped>
@@ -384,39 +359,6 @@ const features = [
   background: linear-gradient(to bottom, transparent, #05070a);
   z-index: 5;
 }
-
-/* Features */
-.features-section { padding: 80px 0; background: #05070a; }
-.features-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
-
-.feature-stone {
-  position: relative;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 40px;
-  overflow: hidden;
-  transition: all 0.4s ease;
-}
-
-.stone-glow {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 50% 100%, rgba(200, 178, 115, 0.05) 0%, transparent 70%);
-  opacity: 0; transition: opacity 0.4s ease;
-}
-
-.feature-stone:hover {
-  transform: translateY(-8px);
-  border-color: rgba(200, 178, 115, 0.2);
-}
-
-.feature-stone:hover .stone-glow { opacity: 1; }
-
-.feature-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-.feature-icon { width: 28px; height: 28px; color: var(--myst-gold); }
-.feature-label { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--myst-offwhite); font-weight: 700; }
-.feature-description { font-size: 15px; color: #888; line-height: 1.6; margin: 0; }
 
 /* News Styles */
 .news-container { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
