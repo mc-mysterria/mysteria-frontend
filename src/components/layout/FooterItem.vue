@@ -10,6 +10,10 @@
           <RouterLink class="footer-link" to="/wiki">Wiki</RouterLink>
           <RouterLink class="footer-link" to="/guide">Guide</RouterLink>
           <RouterLink class="footer-link" to="/store">Shop</RouterLink>
+          <div class="footer-separator" aria-hidden="true">|</div>
+          <RouterLink class="footer-link" to="/terms">Terms</RouterLink>
+          <RouterLink class="footer-link" to="/privacy">Privacy</RouterLink>
+          <RouterLink class="footer-link" to="/sla">SLA</RouterLink>
         </nav>
       </div>
     </div>
@@ -33,13 +37,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   font-size: 14px;
   color: #a1a1aa;
   text-align: center;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
   .footer-content {
     flex-direction: row;
     text-align: left;
@@ -53,16 +57,36 @@
 .footer-nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 1024px) {
+  .footer-nav {
+    gap: 16px;
+  }
 }
 
 .footer-link {
   color: var(--myst-ink);
   text-decoration: none;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 
 .footer-link:hover {
   color: var(--myst-gold);
+}
+
+.footer-separator {
+  color: color-mix(in srgb, white 10%, transparent);
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .footer-separator {
+    display: none;
+  }
 }
 </style>
