@@ -268,38 +268,42 @@ const displayedPinnedNews = computed(() => {
 
 .hero-ritual-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3.5rem, 12vw, 7.5rem);
+  font-size: clamp(2.5rem, 10vw, 7.5rem);
   color: var(--myst-gold);
   margin-bottom: 16px;
   font-weight: 800;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(200, 178, 115, 0.3);
+  word-break: break-word;
 }
 
 .hero-ritual-subtitle {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 16px;
+  font-size: clamp(12px, 2vw, 16px);
   color: #fff;
   text-transform: uppercase;
-  letter-spacing: 6px;
-  margin-bottom: 56px;
+  letter-spacing: clamp(2px, 1vw, 6px);
+  margin-bottom: clamp(32px, 5vw, 56px);
   text-shadow: 0 2px 15px rgba(0, 0, 0, 1);
   opacity: 0.9;
+  padding: 0 20px;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 32px;
+  gap: clamp(16px, 3vw, 32px);
   justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 20px;
 }
 
 .btn-ritual-primary {
   background: var(--myst-gold);
   color: #05070a;
   border: 1px solid var(--myst-gold);
-  padding: 20px 64px;
+  padding: clamp(14px, 2vw, 20px) clamp(32px, 5vw, 64px);
   font-family: 'Playfair Display', serif;
-  font-size: 20px;
+  font-size: clamp(16px, 2vw, 20px);
   font-weight: 800;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -318,13 +322,14 @@ const displayedPinnedNews = computed(() => {
 .btn-ritual-secondary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 18px 48px;
+  padding: clamp(14px, 2vw, 18px) clamp(32px, 5vw, 48px);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
+  font-size: clamp(12px, 1.5vw, 14px);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 2px;
