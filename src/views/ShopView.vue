@@ -39,7 +39,30 @@
           />
         </div>
 
-        <ModalItem ref="confirmModal"/>
+        <!-- Purchase Confirmation Modal -->
+        <ModalItem ref="confirmModal" :title="t('confirmPurchase') || 'Confirm Purchase'" size="md">
+          <PurchaseModalContent
+              v-if="selectedItem"
+              v-model:amount="purchaseAmount"
+              v-model:isGift="isGift"
+              v-model:recipientId="recipientId"
+              :item="selectedItem"
+          />
+
+          <template #footer>
+            <button class="btn-ritual-secondary" @click="cancelPurchase">
+              {{ t('cancel') }}
+            </button>
+            <button
+                :disabled="isProcessing || insufficientFunds || (isGift && !recipientId)"
+                class="btn-ritual-primary"
+                @click="confirmPurchase"
+            >
+              <i v-if="isProcessing" class="fa-solid fa-spinner fa-spin"></i>
+              {{ t('confirmPurchase') || 'Confirm Purchase' }}
+            </button>
+          </template>
+        </ModalItem>
       </div>
     </main>
 
@@ -48,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import {useBalanceStore} from "@/stores/balance";
 import {useAuthStore} from "@/stores/auth";
@@ -57,6 +80,8 @@ import ShopItems from "@/components/shop/ShopItems.vue";
 import CategorySelector from "@/components/shop/CategorySelector.vue";
 import ModalItem from "@/components/ui/ModalItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
+import PurchaseModalContent from "@/components/shop/PurchaseModalContent.vue";
+import Decimal from "decimal.js";
 
 const authStore = useAuthStore();
 const shopStore = useBalanceStore();
@@ -66,12 +91,56 @@ const isShopLoading = ref(true);
 const shopError = ref<string | null>(null);
 const selectedCategory = ref<string | null>(null);
 
+// Purchase state
+const purchaseAmount = ref(1);
+const isGift = ref(false);
+const recipientId = ref('');
+const isProcessing = ref(false);
+
+const selectedItem = computed(() => {
+  if (!shopStore.currentPurchase) return null;
+  return shopStore.items.find(item => item.id === shopStore.currentPurchase?.id) || null;
+});
+
+const insufficientFunds = computed(() => {
+  if (!selectedItem.value || !shopStore.balance) return true;
+  const totalPrice = new Decimal(selectedItem.value.price).mul(purchaseAmount.value);
+  return shopStore.balance.amount.lessThan(totalPrice);
+});
+
 const handleCategorySelect = (categoryId: string) => {
   selectedCategory.value = categoryId;
 };
 
 const handleBackToCategories = () => {
   selectedCategory.value = null;
+};
+
+const confirmPurchase = async () => {
+  if (!selectedItem.value) return;
+
+  try {
+    isProcessing.value = true;
+    const success = await shopStore.initiatePurchase(
+        selectedItem.value.id,
+        purchaseAmount.value,
+        isGift.value ? recipientId.value : undefined
+    );
+
+    if (success) {
+      shopStore.currentPurchase = null;
+      confirmModal.value?.closeModal();
+    }
+  } catch (error) {
+    console.error('Purchase failed:', error);
+  } finally {
+    isProcessing.value = false;
+  }
+};
+
+const cancelPurchase = () => {
+  shopStore.currentPurchase = null;
+  confirmModal.value?.closeModal();
 };
 
 // Initialize shop data when component mounts
@@ -171,36 +240,15 @@ watch(
     () => shopStore.currentPurchase,
     async (newPurchase) => {
       if (newPurchase && confirmModal.value) {
+        // Reset local state
+        purchaseAmount.value = 1;
+        isGift.value = false;
+        recipientId.value = '';
+        
         await shopStore.fetchBalance();
-
-        if (newPurchase.requiresServerSelection) {
-          confirmModal.value.showModal({
-            title: t("selectServerForItem"),
-            onConfirm: () => { /* Logic is handled by the Modal slots/emits */ }
-          });
-          return;
-        }
-
-        if (
-            !shopStore.balance ||
-            shopStore.balance.amount.lessThan(newPurchase.price)
-        ) {
-          const amount = Math.ceil(
-              Number(newPurchase.price.minus(shopStore.balance?.amount || 0)),
-          );
-          const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
-          confirmModal.value.showModal({
-            title: `${t("insufficientFundsMessage")} ${amount} ${currencyName}?`
-          });
-        } else {
-          confirmModal.value.showModal({
-            title: t("confirmPurchaseMessage")
-          });
-        }
-      } else if (confirmModal.value && confirmModal.value.isVisible) {
-        // Call the modal's own cancellation/closing logic, which is now safe to use
-        // after a successful purchase.
-        confirmModal.value.onCancel();
+        confirmModal.value.showModal({
+          title: t("confirmPurchase") || "Confirm Purchase"
+        });
       }
     },
     {deep: true},
@@ -227,8 +275,6 @@ export default {
   background-color: #111218;
 }
 
-/* Basic info wrapper removed - shop simplified */
-
 .shop-container {
   max-width: 1320px;
   margin: 0 auto;
@@ -245,33 +291,6 @@ export default {
   overflow-y: visible;
 }
 
-.unauthorized-message p {
-  color: #ffffff;
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-
-.setup-content h2 {
-  color: var(--myst-ink-strong);
-  font-size: 28px;
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.setup-content p {
-  color: var(--myst-ink-muted);
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.setup-btn i {
-  font-size: 14px;
-}
-
-/* Mobile basic info styles removed */
-
 @media (max-width: 576px) {
   .shop-container {
     padding: 10px;
@@ -280,16 +299,6 @@ export default {
 
   .shop-content {
     margin-top: 20px;
-  }
-
-  .setup-content h2 {
-    font-size: 22px;
-    margin-bottom: 15px;
-  }
-
-  .setup-content p {
-    font-size: 14px;
-    margin-bottom: 12px;
   }
 }
 
@@ -395,5 +404,41 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Purchase Ritual Footer Buttons */
+.btn-ritual-primary {
+  padding: 12px 24px;
+  background: var(--myst-gold);
+  color: #05070a;
+  border: none;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-ritual-primary:hover:not(:disabled) {
+  background: #fff;
+}
+
+.btn-ritual-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ritual-secondary {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-ritual-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
 }
 </style>

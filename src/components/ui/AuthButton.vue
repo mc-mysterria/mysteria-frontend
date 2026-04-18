@@ -12,7 +12,7 @@
           <UserAvatar :nickname="user.nickname" :src="user.avatarUrl" size="sm" glow/>
           <div class="profile-info">
             <span class="profile-nickname">{{ user.nickname }}</span>
-            <span class="profile-marks">{{ balance }} {{ t('marks') }}</span>
+            <span class="profile-marks">{{ formattedBalance }}</span>
           </div>
         </RouterLink>
 
@@ -89,12 +89,14 @@ import {useAuthStore} from "@/stores/auth";
 import {useBalanceStore} from "@/stores/balance";
 import {useI18n} from "@/composables/useI18n";
 import {usePermissions} from "@/composables/usePermissions";
+import {useCurrency} from "@/composables/useCurrency";
 import UserAvatar from "@/components/ui/UserAvatar.vue";
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const balanceStore = useBalanceStore();
 const {t} = useI18n();
+const {formatCurrency, currentCurrency} = useCurrency();
 const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop} = usePermissions();
 
 const isDropdownOpen = ref(false);
@@ -103,6 +105,13 @@ const dropdownRef = ref<HTMLElement | null>(null);
 const user = computed(() => userStore.currentUser);
 const isLoading = computed(() => userStore.isLoading || authStore.isLoading);
 const balance = computed(() => balanceStore.currentBalance?.amount || 0);
+
+const formattedBalance = computed(() => {
+  if (currentCurrency.value === 'POINTS') {
+    return `${balance.value} ${t('marks')}`;
+  }
+  return formatCurrency(balance.value);
+});
 
 const handleLogin = () => authStore.openDiscordAuth();
 const handleLogout = () => authStore.logout();

@@ -23,7 +23,7 @@
             <h1 class="service-title">{{ service.name }}</h1>
             <div class="service-meta">
               <span class="service-type">{{ getTypeLabel(service.type) }}</span>
-              <span class="service-price">{{ service.price }} {{ currentLanguage === 'uk' ? 'Марок' : 'Marks' }}</span>
+              <span class="service-price">{{ formattedPrice }}</span>
               <span v-if="service.isSubscription" class="service-subscription">{{ t('subscription') }}</span>
               <span v-if="service.isGiftable" class="service-feature giftable">
                 <i class="fa-solid fa-gift"></i>
@@ -44,7 +44,7 @@
               :class="{ 'purchasing': purchasing }"
               :disabled="!authStore.isAuthenticated || purchasing"
               class="purchase-btn"
-              @click="handlePurchase"
+              @click="openPurchaseModal"
           >
             <i v-if="purchasing" class="fa-solid fa-spinner fa-spin"></i>
             <i v-else class="fa-solid fa-shopping-cart"></i>
@@ -85,8 +85,30 @@
     </main>
     <FooterItem/>
 
-    <!-- Confirmation Modal -->
-    <ModalItem ref="confirmModal"/>
+    <!-- Purchase Confirmation Modal -->
+    <ModalItem ref="confirmModal" :title="t('confirmPurchase') || 'Confirm Purchase'" size="md">
+      <PurchaseModalContent
+          v-if="service"
+          v-model:amount="purchaseAmount"
+          v-model:isGift="isGift"
+          v-model:recipientId="recipientId"
+          :item="service"
+      />
+
+      <template #footer>
+        <button class="btn-ritual-secondary" @click="confirmModal?.closeModal()">
+          {{ t('cancel') }}
+        </button>
+        <button
+          :disabled="purchasing || insufficientFunds || (isGift && !recipientId)"
+          class="btn-ritual-primary"
+          @click="confirmPurchase"
+        >
+          <i v-if="purchasing" class="fa-solid fa-spinner fa-spin"></i>
+          {{ t('confirmPurchase') || 'Confirm Purchase' }}
+        </button>
+      </template>
+    </ModalItem>
   </div>
 </template>
 
@@ -103,7 +125,9 @@ import {useAuthStore} from '@/stores/auth';
 import {useBalanceStore} from '@/stores/balance';
 import {useUserStore} from '@/stores/user';
 import {useNotification} from '@/services/useNotification';
+import {useCurrency} from '@/composables/useCurrency';
 import ModalItem from '@/components/ui/ModalItem.vue';
+import PurchaseModalContent from '@/components/shop/PurchaseModalContent.vue';
 import MarkdownIt from 'markdown-it';
 import Decimal from 'decimal.js';
 
@@ -113,12 +137,18 @@ const service = ref<ServiceMarkdownDto | null>(null);
 const loading = ref(true);
 const purchasing = ref(false);
 const {t, currentLanguage} = useI18n();
+const {formatCurrency, currentCurrency} = useCurrency();
 const authStore = useAuthStore();
-const shopStore = useBalanceStore();
+const balanceStore = useBalanceStore();
 const userStore = useUserStore();
 const {show} = useNotification();
 const profile = computed(() => userStore.currentUser);
 const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
+
+// Purchase state
+const purchaseAmount = ref(1);
+const isGift = ref(false);
+const recipientId = ref('');
 
 const md = new MarkdownIt({
   html: true,
@@ -129,6 +159,24 @@ const md = new MarkdownIt({
 const renderedContent = computed(() => {
   if (!service.value?.markdownContent) return '';
   return md.render(service.value.markdownContent);
+});
+
+const formattedPrice = computed(() => {
+  if (!service.value) return '';
+  if (currentCurrency.value === 'POINTS') {
+    return `${service.value.price} ${t('marks')}`;
+  }
+  return formatCurrency(service.value.price);
+});
+
+const totalPrice = computed(() => {
+  if (!service.value) return new Decimal(0);
+  return new Decimal(service.value.price).mul(purchaseAmount.value);
+});
+
+const insufficientFunds = computed(() => {
+  if (!balanceStore.currentBalance) return true;
+  return balanceStore.currentBalance.amount.lessThan(totalPrice.value);
 });
 
 const getTypeLabel = (type: ServiceType): string => {
@@ -150,7 +198,7 @@ const goBack = () => {
   router.push('/store');
 };
 
-const handlePurchase = async () => {
+const openPurchaseModal = async () => {
   if (!service.value || !authStore.isAuthenticated) {
     show(
         t('shopLoginRequired') || 'Log in to your account to access the Shop!',
@@ -171,38 +219,35 @@ const handlePurchase = async () => {
     return;
   }
 
+  // Reset modal state
+  purchaseAmount.value = 1;
+  isGift.value = false;
+  recipientId.value = '';
+  
+  await balanceStore.fetchBalance();
+  confirmModal.value?.showModal({
+    title: t('confirmPurchase') || 'Confirm Purchase'
+  });
+};
+
+const confirmPurchase = async () => {
+  if (!service.value) return;
+
   try {
-    // Set the current purchase in the store
-    shopStore.currentPurchase = {
-      id: service.value.id.toString(),
-      price: new Decimal(service.value.price),
-      requiresServerSelection: service.value.isBulkable, // Use isBulkable as a proxy for server selection requirement
-    };
+    purchasing.value = true;
+    const success = await balanceStore.initiatePurchase(
+      service.value.id.toString(),
+      purchaseAmount.value,
+      isGift.value ? recipientId.value : undefined
+    );
 
-    // Fetch latest balance
-    await shopStore.fetchBalance();
-
-    const servicePrice = new Decimal(service.value.price);
-
-    if (!shopStore.currentBalance || shopStore.currentBalance.amount.lessThan(servicePrice)) {
-      const missingAmount = Math.ceil(
-          Number(servicePrice.minus(shopStore.currentBalance?.amount || 0))
-      );
-      const currencyName = currentLanguage.value === 'uk' ? 'Марок' : 'Marks';
-      confirmModal.value?.showModal({
-        title: `${t('insufficientFundsMessage')} ${missingAmount} ${currencyName}?`,
-        onConfirm: () => { /* optional confirm logic */ },
-        onCancel: () => { /* optional cancel logic */ }
-      });
-    } else {
-      confirmModal.value?.showModal({
-        title: t('confirmPurchaseMessage'),
-        onConfirm: () => { /* optional confirm logic */ }
-      });
+    if (success) {
+      confirmModal.value?.closeModal();
     }
-
   } catch (error) {
-    show(t('purchaseError') || 'Failed to prepare purchase', {type: 'error'});
+    show(t('purchaseError') || 'Failed to complete purchase', {type: 'error'});
+  } finally {
+    purchasing.value = false;
   }
 };
 
@@ -650,6 +695,196 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Purchase Ritual Modal Styles */
+.purchase-ritual-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.purchase-item-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #fff;
+  margin: 0 0 4px 0;
+}
+
+.item-price-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--myst-gold);
+}
+
+.ritual-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ritual-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: var(--myst-gold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ritual-checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ritual-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(200, 178, 115, 0.3);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--myst-gold);
+  font-size: 12px;
+  transition: all 0.3s;
+}
+
+.ritual-checkbox.active {
+  background: rgba(200, 178, 115, 0.1);
+  border-color: var(--myst-gold);
+}
+
+.ritual-label-inline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.amount-stepper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.step-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.step-btn:hover {
+  background: var(--myst-gold);
+  color: #000;
+}
+
+.amount-input {
+  width: 60px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+}
+
+.amount-input::-webkit-inner-spin-button,
+.amount-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.total-ritual-price {
+  margin-top: 8px;
+  padding: 16px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #888;
+}
+
+.total-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--myst-gold);
+}
+
+.insufficient-funds-warning {
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 3px solid #ef4444;
+  color: #f87171;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-ritual-primary {
+  padding: 12px 24px;
+  background: var(--myst-gold);
+  color: #05070a;
+  border: none;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-ritual-primary:hover:not(:disabled) {
+  background: #fff;
+}
+
+.btn-ritual-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ritual-secondary {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-ritual-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
 }
 
 /* Responsive design */

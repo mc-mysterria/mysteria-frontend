@@ -75,12 +75,14 @@
     <div class="card-footer">
       <div class="price-display">
         <div v-if="hasDiscount" class="original-price">
+          <span v-if="currentCurrency !== 'POINTS'" class="curr-symbol-mini">{{ getCurrencySymbol() }}</span>
           <span class="price-val">{{ displayOriginalPrice }}</span>
-          <IconBalance class="currency-sigil-tiny"/>
+          <IconBalance v-if="currentCurrency === 'POINTS'" class="currency-sigil-tiny"/>
         </div>
         <div class="current-price">
+          <span v-if="currentCurrency !== 'POINTS'" class="curr-symbol">{{ getCurrencySymbol() }}</span>
           <span class="price-val">{{ displayPrice }}</span>
-          <IconBalance class="currency-sigil"/>
+          <IconBalance v-if="currentCurrency === 'POINTS'" class="currency-sigil"/>
         </div>
       </div>
 
@@ -139,7 +141,7 @@ const getImagePath = (path: string | undefined) => {
     if (path.startsWith("@/assets/")) return new URL(path.replace("@/assets/", "/src/assets/"), import.meta.url).href;
     if (path.startsWith("src/")) return new URL("/" + path, import.meta.url).href;
     return path;
-  } catch (error) {
+  } catch {
     return path;
   }
 };
@@ -499,6 +501,18 @@ const handlePurchase = () => {
   width: 14px;
   height: 14px;
   opacity: 0.5;
+}
+
+.curr-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  color: var(--myst-gold);
+}
+
+.curr-symbol-mini {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #555;
 }
 
 /* Action Grid */

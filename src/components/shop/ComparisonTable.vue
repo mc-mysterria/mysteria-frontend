@@ -153,7 +153,7 @@ defineEmits<{
   remove: [itemId: string];
 }>();
 
-const {t, currentLanguage} = useI18n();
+const {t} = useI18n();
 const {currentCurrency, formatCurrency} = useCurrency();
 
 // Helper functions
@@ -243,10 +243,11 @@ const getFinalPrice = (item: ServiceResponse): Decimal => {
 
 const formatPrice = (price: number | Decimal): string => {
   const priceDecimal = price instanceof Decimal ? price : new Decimal(price);
-  if (currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS') {
-    return formatCurrency(priceDecimal, {showSymbol: true, decimals: 2});
+  const formatted = formatCurrency(priceDecimal, {showSymbol: true, decimals: 2});
+  if (currentCurrency.value === 'POINTS') {
+    return `${formatted} ${t('marks')}`;
   }
-  return priceDecimal.toString();
+  return formatted;
 };
 
 // Comparison highlights
