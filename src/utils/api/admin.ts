@@ -1,5 +1,12 @@
 import {type APIResponse, BaseCRUD} from "./base";
-import type {AdjustBalanceRequest, ChangeUserRoleRequest, ChangeUserRoleResponse, TransactionDto,} from "@/types/admin";
+import type {
+    AdjustBalanceRequest,
+    ChangeUserRoleRequest,
+    ChangeUserRoleResponse,
+    RoleDto,
+    TransactionDto,
+    UpdateRolePermissionsRequest,
+} from "@/types/admin";
 import type {UserProfileDto} from "@/types/auth";
 import type {Page} from "@/types/base";
 
@@ -87,6 +94,20 @@ class AdminAPI extends BaseCRUD<never, never, never, never> {
             `/users/${userId}/balance`,
             {body: {amount, reason} as AdjustBalanceRequest}
         );
+    }
+
+    async getRoles(): Promise<APIResponse<RoleDto[]>> {
+        return this.request<RoleDto[]>("GET", "/roles");
+    }
+
+    async getAllPermissions(): Promise<APIResponse<string[]>> {
+        return this.request<string[]>("GET", "/roles/permissions");
+    }
+
+    async updateRolePermissions(roleId: number, permissions: string[]): Promise<APIResponse<RoleDto>> {
+        return this.request<RoleDto>("PUT", `/roles/${roleId}/permissions`, {
+            body: {permissions} as UpdateRolePermissionsRequest,
+        });
     }
 }
 

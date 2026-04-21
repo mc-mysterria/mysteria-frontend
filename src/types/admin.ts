@@ -24,6 +24,22 @@ export interface ChangeUserRoleResponse {
     changedAt: string;
 }
 
+// Role permissions management types
+
+export interface RoleDto {
+    id: number;
+    name: string;
+    displayName: string;
+    description: string;
+    permissions: string[];
+    isPremium: boolean;
+    priority: number;
+}
+
+export interface UpdateRolePermissionsRequest {
+    permissions: string[];
+}
+
 // User management types
 
 export type UserRole = 'USER' | 'PLAYER' | 'MODERATOR' | 'LEADER' | 'ADMIN' | 'OWNER';
