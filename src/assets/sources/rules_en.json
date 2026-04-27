@@ -158,5 +158,25 @@
     "id": "7.3",
     "title": "Final Authority",
     "content": "Staff decisions are final. No appeals, no exceptions."
+  },
+  {
+    "id": "8",
+    "title": "Bounded Realms (Affiliates & External Spaces)",
+    "content": "Our light reaches beyond these walls. Any world tethered to Mysterria must remain a sanctuary for all souls."
+  },
+  {
+    "id": "8.1",
+    "title": "Guardian Presence",
+    "content": "Any server, 'town' (e.g., GHC or PHG), or community published or promoted within Mysterria community must include a Staff member in its ranks. They must be granted audit log access to ensure the safety of our players. Example: Promoting your town’s Discord in our channels requires a moderator to be present in that Discord."
+  },
+  {
+    "id": "8.2",
+    "title": "Extended Accountability",
+    "content": "Members represent the Mysterria community wherever our connections reach. Severe violations - specifically racism, hate speech (slurs), or doxxing—committed on affiliated servers will result in the same punishments as if they occurred here. Example: Using racial slurs in a town's Discord will result in a ban from the main Mysterria server."
+  },
+  {
+    "id": "8.3",
+    "title": "Severing the Tie",
+    "content": "If an affiliated server fails to maintain proper moderation standards or refuses Staff oversight, its 'approved' status will be revoked and all associated links will be removed. Example: A town leader who ignores toxicity in their own chat will lose the right to promote their project within Mysterria."
   }
 ]
