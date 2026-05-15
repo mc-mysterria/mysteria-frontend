@@ -345,12 +345,12 @@ export const useAuthStore = defineStore("auth", {
                                 type: "info",
                                 duration: 3000,
                             });
-                            // If this login page was itself opened as a popup (e.g. by the archive),
-                            // notify the opener and close so the archive popup disappears.
+                            // This login page was opened as a popup by the archive.
+                            // Forward the token to the archive and close this popup.
                             if (redirectUrl && window.opener) {
                                 try {
                                     window.opener.postMessage(
-                                        {type: "AUTH_SUCCESS"},
+                                        {type: "AUTH_SUCCESS", token: this.accessToken},
                                         new URL(redirectUrl).origin,
                                     );
                                 } catch {}
@@ -379,7 +379,7 @@ export const useAuthStore = defineStore("auth", {
                                     if (redirectUrl && window.opener) {
                                         try {
                                             window.opener.postMessage(
-                                                {type: "AUTH_SUCCESS"},
+                                                {type: "AUTH_SUCCESS", token: this.accessToken},
                                                 new URL(redirectUrl).origin,
                                             );
                                         } catch {}

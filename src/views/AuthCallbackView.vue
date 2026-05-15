@@ -77,13 +77,17 @@ onMounted(async () => {
 
         if (token) {
           if (window.opener) {
-            // This window is a popup opened by the archive — post token back and close.
-            // The archive listens for AUTH_SUCCESS and reads the token from the message.
+            // Popup 2 (Discord popup) opened by Popup 1 (mysterria login page).
+            // Post to Popup 1 using mysterria's origin — Popup 1 will forward token to the archive.
             window.opener.postMessage(
-                {type: "AUTH_SUCCESS", token},
-                new URL(redirectUrl).origin,
+                {type: "AUTH_SUCCESS"},
+                window.location.origin,
             );
-            setTimeout(() => window.close(), 200);
+            setTimeout(() => {
+              window.close();
+              // Fallback: if browser blocks close, redirect home instead of sticking on the callback page
+              setTimeout(() => { window.location.href = "/"; }, 500);
+            }, 200);
           } else {
             // Full-page navigation (mobile redirect flow) — embed token in URL.
             window.location.href = `${redirectUrl}&token=${encodeURIComponent(token)}`;
