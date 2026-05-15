@@ -76,8 +76,18 @@ onMounted(async () => {
         const token = authStore.currentToken;
 
         if (token) {
-          const finalRedirectUrl = `${redirectUrl}&token=${encodeURIComponent(token)}`;
-          window.location.href = finalRedirectUrl;
+          if (window.opener) {
+            // This window is a popup opened by the archive — post token back and close.
+            // The archive listens for AUTH_SUCCESS and reads the token from the message.
+            window.opener.postMessage(
+                {type: "AUTH_SUCCESS", token},
+                new URL(redirectUrl).origin,
+            );
+            setTimeout(() => window.close(), 200);
+          } else {
+            // Full-page navigation (mobile redirect flow) — embed token in URL.
+            window.location.href = `${redirectUrl}&token=${encodeURIComponent(token)}`;
+          }
           return;
         } else {
           throw new Error(t('authCallback.failedToGetToken'));

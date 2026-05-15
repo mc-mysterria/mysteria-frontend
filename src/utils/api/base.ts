@@ -19,6 +19,7 @@ export interface RequestOptions {
     isList?: boolean;
     raise?: boolean;
     suppressAuthRequired?: boolean;
+    suppressNotification?: boolean;
 }
 
 export interface APIResponse<T> {
@@ -94,6 +95,7 @@ export class BaseCRUD<
             isList = false,
             raise = true,
             suppressAuthRequired = false,
+            suppressNotification = false,
         } = options;
 
         const url = `${prefix || this.prefix}${endpoint}`.replace(/\/+/g, "/");
@@ -200,12 +202,13 @@ export class BaseCRUD<
                         body,
                     );
 
-                    // Show notification for structured errors, but suppress AUTH_REQUIRED in popup windows or when requested
-                    const {showError} = useNotification();
-                    const isPopupWindow = window.opener !== null;
-                    showError(error, {
-                        suppressAuthRequired: isPopupWindow || suppressAuthRequired,
-                    });
+                    if (!suppressNotification) {
+                        const {showError} = useNotification();
+                        const isPopupWindow = window.opener !== null;
+                        showError(error, {
+                            suppressAuthRequired: isPopupWindow || suppressAuthRequired,
+                        });
+                    }
                 } else {
                     // Legacy error format
                     error = new RequestError(
@@ -216,9 +219,10 @@ export class BaseCRUD<
                         body,
                     );
 
-                    // Show notification for legacy errors
-                    const {showError} = useNotification();
-                    showError(error);
+                    if (!suppressNotification) {
+                        const {showError} = useNotification();
+                        showError(error);
+                    }
                 }
 
                 // Enhanced logging for 500 errors

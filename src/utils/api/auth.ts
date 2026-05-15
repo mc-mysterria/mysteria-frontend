@@ -22,9 +22,7 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
         const response = await this.request<AuthResponse>(
             "POST",
             "/api/auth/refresh",
-            {
-                body: {refreshToken} as RefreshTokenRequest,
-            },
+            {body: {refreshToken} as RefreshTokenRequest, suppressNotification: true},
             "",
         );
         return response.data;
@@ -39,7 +37,7 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
             const response = await this.request<UserProfileDto>(
                 "GET",
                 "/api/user/profile",
-                {suppressAuthRequired: true},
+                {suppressAuthRequired: true, suppressNotification: true},
                 "",
             );
             return response.data;

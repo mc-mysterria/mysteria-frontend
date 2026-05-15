@@ -340,13 +340,22 @@ export const useAuthStore = defineStore("auth", {
 
                         await this.refreshUser();
 
-                        console.log("User refreshed, authenticated:", this.isAuthenticated);
-
                         if (this.isAuthenticated) {
                             show(t("authCallback.authSuccess"), {
                                 type: "info",
                                 duration: 3000,
                             });
+                            // If this login page was itself opened as a popup (e.g. by the archive),
+                            // notify the opener and close so the archive popup disappears.
+                            if (redirectUrl && window.opener) {
+                                try {
+                                    window.opener.postMessage(
+                                        {type: "AUTH_SUCCESS"},
+                                        new URL(redirectUrl).origin,
+                                    );
+                                } catch {}
+                                setTimeout(() => window.close(), 1200);
+                            }
                         }
                     }
                 };
@@ -367,6 +376,15 @@ export const useAuthStore = defineStore("auth", {
                                         type: "info",
                                         duration: 3000,
                                     });
+                                    if (redirectUrl && window.opener) {
+                                        try {
+                                            window.opener.postMessage(
+                                                {type: "AUTH_SUCCESS"},
+                                                new URL(redirectUrl).origin,
+                                            );
+                                        } catch {}
+                                        setTimeout(() => window.close(), 1200);
+                                    }
                                 } else {
                                     show(t("authCallback.authCancelled"), {
                                         type: "warn",

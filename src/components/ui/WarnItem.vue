@@ -75,10 +75,9 @@ onMounted(() => {
   border: 1px solid rgba(200, 178, 115, 0.2);
   border-radius: 4px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-  margin-bottom: 12px;
   backdrop-filter: blur(12px);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
 }
 
 .notification-ritual-icon {

@@ -25,6 +25,7 @@ export interface Notification {
     };
 }
 
+const MAX_NOTIFICATIONS = 5;
 const notifications = ref<Notification[]>([]);
 
 export function useNotification() {
@@ -33,6 +34,14 @@ export function useNotification() {
         message: string,
         options: NotificationOptions = {type: "info", duration: 3000},
     ) => {
+        // Deduplicate: drop if the same message+type is already visible
+        if (notifications.value.some(n => n.message === message && n.type === options.type)) {
+            return "";
+        }
+        // Cap total visible notifications
+        if (notifications.value.length >= MAX_NOTIFICATIONS) {
+            notifications.value.shift();
+        }
         const notification = {
             id: String(Date.now()),
             message,

@@ -2,13 +2,12 @@
   <div class="notifications-container">
     <TransitionGroup name="slide-fade">
       <WarnItem
-          v-for="(notification, index) in notifications"
+          v-for="notification in notifications"
           :key="notification.id"
           :clickable="notification.clickable"
           :copyable="notification.copyable"
           :duration="notification.duration"
           :message="notification.message"
-          :style="{ bottom: `${20 + index * 80}px` }"
           :type="notification.type"
           @click="() => handleNotificationClick(notification)"
           @close="() => remove(notification.id)"
@@ -34,9 +33,18 @@ const handleNotificationClick = (notification: Notification) => {
 <style scoped>
 .notifications-container {
   position: fixed;
-  bottom: 0;
+  bottom: 20px;
   right: 20px;
   z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.notifications-container :deep(.notification-ritual-card) {
+  pointer-events: all;
 }
 
 </style>
