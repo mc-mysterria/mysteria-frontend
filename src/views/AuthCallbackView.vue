@@ -67,47 +67,31 @@ onMounted(async () => {
     if (authStore.isAuthenticated) {
       isProcessing.value = false;
 
-      // Check if this is a cross-domain authentication request
+      // Cross-domain auth: token is in localStorage, just close the popup.
+      // The login page (Popup 1) polls authWindow.closed and will forward the token to the archive.
+      // window.opener is unreliable here — browsers clear it when the popup navigates to Discord.
       if (redirectUrl) {
         if (!isAllowedRedirectUrl(redirectUrl)) {
           throw new Error(t('authCallback.invalidRedirectUrl') || 'Invalid redirect URL');
         }
-
-        const token = authStore.currentToken;
-
-        if (token) {
-          if (window.opener) {
-            // Popup 2 (Discord popup) opened by Popup 1 (mysterria login page).
-            // Post to Popup 1 using mysterria's origin — Popup 1 will forward token to the archive.
-            window.opener.postMessage(
-                {type: "AUTH_SUCCESS"},
-                window.location.origin,
-            );
-            setTimeout(() => {
-              window.close();
-              // Fallback: if browser blocks close, redirect home instead of sticking on the callback page
-              setTimeout(() => { window.location.href = "/"; }, 500);
-            }, 200);
-          } else {
-            // Full-page navigation (mobile redirect flow) — embed token in URL.
-            window.location.href = `${redirectUrl}&token=${encodeURIComponent(token)}`;
-          }
-          return;
-        } else {
-          throw new Error(t('authCallback.failedToGetToken'));
-        }
+        setTimeout(() => {
+          window.close();
+          // Fallback: if window.close() is blocked (non-popup context / mobile), redirect with token in URL
+          setTimeout(() => {
+            window.location.href = `${redirectUrl}&token=${encodeURIComponent(authStore.currentToken || '')}`;
+          }, 500);
+        }, 300);
+        return;
       }
 
-      // Normal authentication flow (popup window)
-      console.log("Sending message to opener...");
+      // Normal same-origin popup flow
       if (window.opener) {
         window.opener.postMessage(
             {type: "AUTH_SUCCESS"},
             window.location.origin,
         );
-        console.log("Message sent to opener");
       } else {
-        console.log("No opener window found - redirecting to home");
+        // Not in a popup — go home
         setTimeout(() => {
           window.location.href = "/";
         }, 2000);
