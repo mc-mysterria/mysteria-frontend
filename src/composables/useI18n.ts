@@ -249,8 +249,9 @@ const translations = {
         unavailable: "Unavailable",
 
         // Verification Panel
-        verificationDescription:
-            "To verify your Minecraft account, generate a code below and enter the command <code>/verify &lt;code&gt;</code> on the server.",
+        verificationDescriptionPre: "To verify your Minecraft account, generate a code below and enter the command",
+        verificationDescriptionCommand: "/verify <code>",
+        verificationDescriptionPost: "on the server.",
         generating: "Generating...",
         generateCode: "Generate Code",
         yourVerificationCode: "Your verification code:",
@@ -1291,8 +1292,9 @@ const translations = {
         unavailable: "Недоступно",
 
         // Verification Panel
-        verificationDescription:
-            "Щоб підтвердити свій Minecraft акаунт, згенеруйте код нижче і введіть команду <code>/verify &lt;код&gt;</code> на сервері.",
+        verificationDescriptionPre: "Щоб підтвердити свій Minecraft акаунт, згенеруйте код нижче і введіть команду",
+        verificationDescriptionCommand: "/verify <код>",
+        verificationDescriptionPost: "на сервері.",
         generating: "Генерую...",
         generateCode: "Згенерувати код",
         yourVerificationCode: "Ваш код верифікації:",

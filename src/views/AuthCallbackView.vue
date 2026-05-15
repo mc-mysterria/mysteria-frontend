@@ -24,6 +24,7 @@ import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import {useAuthStore} from "@/stores/auth";
 import {useI18n} from "@/composables/useI18n";
+import {isAllowedRedirectUrl} from "@/utils/redirectGuard";
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -68,17 +69,14 @@ onMounted(async () => {
 
       // Check if this is a cross-domain authentication request
       if (redirectUrl) {
-        console.log("Cross-domain authentication detected, redirecting with token...");
+        if (!isAllowedRedirectUrl(redirectUrl)) {
+          throw new Error(t('authCallback.invalidRedirectUrl') || 'Invalid redirect URL');
+        }
 
-        // Get the current access token to pass to the archive
         const token = authStore.currentToken;
 
         if (token) {
-          // Construct redirect URL with token
           const finalRedirectUrl = `${redirectUrl}&token=${encodeURIComponent(token)}`;
-          console.log("Redirecting to:", finalRedirectUrl);
-
-          // Redirect to the archive with the token
           window.location.href = finalRedirectUrl;
           return;
         } else {

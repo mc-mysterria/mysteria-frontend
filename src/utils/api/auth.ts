@@ -62,31 +62,18 @@ export class AuthAPI extends BaseCRUD<UserProfileDto, never, never, never> {
         return response.data;
     }
 
-    // Legacy method for compatibility during migration
     async getDiscordLoginUrl(redirectUrl?: string): Promise<string> {
-        // Get Discord Client ID from environment
-        const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
+        const params = new URLSearchParams();
+        if (redirectUrl) params.set("redirect", redirectUrl);
+        const query = params.size ? `?${params}` : "";
 
-        if (!clientId) {
-            throw new Error(
-                "Discord Client ID not configured. Please set VITE_DISCORD_CLIENT_ID in your .env.local file.",
-            );
-        }
-
-        // Use exact registered redirect URI without query parameters
-        const callbackUrl = `${window.location.origin}/auth/callback`;
-        const redirectUri = encodeURIComponent(callbackUrl);
-        const scope = encodeURIComponent("identify email guilds");
-
-        // Use Discord's state parameter to pass redirect URL
-        let authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
-
-        if (redirectUrl) {
-            const state = encodeURIComponent(JSON.stringify({redirect: redirectUrl}));
-            authUrl += `&state=${state}`;
-        }
-
-        return authUrl;
+        const response = await this.request<{ url: string }>(
+            "GET",
+            `/api/auth/discord/login${query}`,
+            {suppressAuthRequired: true},
+            "",
+        );
+        return response.data.url;
     }
 }
 

@@ -18,7 +18,7 @@
       <div class="header-content">
         <span class="ritual-eyebrow">Soul Binding</span>
         <h3 class="ritual-title">{{ t("verifyMinecraftAccount") }}</h3>
-        <p class="ritual-subtitle" v-html="t('verificationDescription')"></p>
+        <p class="ritual-subtitle">{{ t('verificationDescriptionPre') }} <code>{{ t('verificationDescriptionCommand') }}</code> {{ t('verificationDescriptionPost') }}</p>
       </div>
     </div>
 

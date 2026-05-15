@@ -64,7 +64,7 @@
             <span class="point-text">{{ point.text }}</span>
             <div v-if="point.tooltip" class="point-info">
               <i class="fa-solid fa-circle-nodes info-trigger"></i>
-              <div class="info-bubble" v-html="point.tooltip"></div>
+              <div class="info-bubble">{{ point.tooltip }}</div>
             </div>
           </li>
         </ul>

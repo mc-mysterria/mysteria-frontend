@@ -33,6 +33,7 @@ import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import {useAuthStore} from "@/stores/auth";
 import {useI18n} from "@/composables/useI18n";
+import {isAllowedRedirectUrl} from "@/utils/redirectGuard";
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -43,20 +44,20 @@ onMounted(() => {
   const redirect = route.query.redirect as string;
 
   if (redirect) {
-    try {
-      const redirectUrl = new URL(redirect);
-      if (redirectUrl.hostname.includes("mysterria.net") || redirectUrl.hostname.includes("mysterria")) {
+    if (isAllowedRedirectUrl(redirect)) {
+      try {
+        const redirectUrl = new URL(redirect);
         redirectMessage.value = `You will be redirected back to ${redirectUrl.hostname} after login`;
-      } else {
+      } catch {
         redirectMessage.value = "You will be redirected after login";
       }
-    } catch {
+    } else {
       redirectMessage.value = "You will be redirected after login";
     }
   }
 
   // If user is already authenticated, redirect immediately
-  if (authStore.isAuthenticated && redirect) {
+  if (authStore.isAuthenticated && redirect && isAllowedRedirectUrl(redirect)) {
     const token = authStore.currentToken;
     if (token) {
       window.location.href = `${redirect}&token=${encodeURIComponent(token)}`;

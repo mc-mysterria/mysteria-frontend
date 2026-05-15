@@ -36,7 +36,7 @@
             <div class="chap-no">{{ t('guide.chap1No') }}</div>
             <div class="welcome-block">
               <div class="sigil-ring" aria-hidden="true">✦ RITUAL OF INITIATION ✦</div>
-              <h2 class="welcome-big" v-html="t('guide.chap1Title').replace('?', '?<br>')"></h2>
+              <h2 class="welcome-big">{{ chap1TitleParts[0] }}<template v-if="chap1TitleParts.length > 1">?<br>{{ chap1TitleParts.slice(1).join('?') }}</template></h2>
               <p class="welcome-lede">{{ t('guide.chap1Lede') }}</p>
               <div class="cta-row">
                 <button class="btn-primary-ritual" @click="scrollToId(chapIds[1])">{{ t('guide.beginRite') }}</button>
@@ -332,6 +332,8 @@ import verifyImg from '@/assets/images/guide/verify.webp';
 
 const { t } = useI18n();
 const route = useRoute();
+
+const chap1TitleParts = computed(() => t('guide.chap1Title').split('?'));
 
 function pathwayImageUrl(name: string) { return getPathwayImageUrl(name); }
 function capitalize(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
