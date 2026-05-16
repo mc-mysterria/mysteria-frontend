@@ -398,6 +398,7 @@ const translations = {
         // Shop Confirmations
         insufficientFundsMessage:
             "Insufficient funds for purchase. Would you like to top up by",
+        confirmPurchase: "Confirm Purchase",
         confirmPurchaseMessage: "Are you sure you want to purchase this item?",
         shopLoginRequired: "Log in to your account to access the Shop!",
         profileSetupRequired: "Please verify your account and set up your profile to make purchases",
@@ -1442,6 +1443,7 @@ const translations = {
         // Shop Confirmations
         insufficientFundsMessage:
             "Недостатньо коштів для покупки. Чи не бажаєте ви поповнити на",
+        confirmPurchase: "Підтвердити покупку",
         confirmPurchaseMessage: "Ви впевнені, що хочете придбати цей товар?",
         shopLoginRequired:
             "Увійдіть у свій обліковий запис, щоб мати доступ до Крамниці!",
