@@ -36,7 +36,14 @@ const bonusStore = useDailyBonusStore();
 const {show} = useNotification();
 const {t} = useI18n();
 
-const POSITION_PRESETS = [
+interface PositionPreset {
+  bottom?: string;
+  top?: string;
+  left?: string;
+  right?: string;
+}
+
+const POSITION_PRESETS: PositionPreset[] = [
   {bottom: '80px', right: '24px'},
   {bottom: '120px', left: '24px'},
   {top: '140px', right: '20px'},
@@ -49,11 +56,12 @@ const positionStyle = ref<Record<string, string>>({});
 
 onMounted(() => {
   const preset = POSITION_PRESETS[Math.floor(Math.random() * POSITION_PRESETS.length)];
-  positionStyle.value = {
-    position: 'fixed',
-    zIndex: '900',
-    ...preset,
-  };
+  const style: Record<string, string> = {position: 'fixed', zIndex: '900'};
+  if (preset.bottom) style.bottom = preset.bottom;
+  if (preset.top) style.top = preset.top;
+  if (preset.left) style.left = preset.left;
+  if (preset.right) style.right = preset.right;
+  positionStyle.value = style;
 });
 
 const shouldShow = computed(() =>
