@@ -18,11 +18,13 @@ import {RouterView, useRoute} from "vue-router";
 import {useBalanceWatcher} from "@/stores/balance";
 import {useUserWatcher} from "./stores/user";
 import {useServicesWatcher} from "./stores/services";
+import {useDailyBonusWatcher} from "./stores/dailyBonus";
 import {Analytics} from '@vercel/analytics/vue';
 
 useUserWatcher();
 useBalanceWatcher();
 useServicesWatcher();
+useDailyBonusWatcher();
 
 const route = useRoute();
 

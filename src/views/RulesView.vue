@@ -148,6 +148,7 @@
     </div>
   </main>
   <FooterItem/>
+  <DailyBonusCat page="rules"/>
 </template>
 
 <script lang="ts" setup>
@@ -158,6 +159,7 @@ import {useAuthStore} from "@/stores/auth";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import CounselListSection from "@/components/counsel/CounselListSection.vue";
+import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
 
 const {t, currentLanguage} = useI18n();
 const authStore = useAuthStore();

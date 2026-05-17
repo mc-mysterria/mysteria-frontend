@@ -67,6 +67,7 @@
     </main>
 
     <FooterItem/>
+    <DailyBonusCat page="shop"/>
   </div>
 </template>
 
@@ -81,6 +82,7 @@ import CategorySelector from "@/components/shop/CategorySelector.vue";
 import ModalItem from "@/components/ui/ModalItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import PurchaseModalContent from "@/components/shop/PurchaseModalContent.vue";
+import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
 import Decimal from "decimal.js";
 
 const authStore = useAuthStore();

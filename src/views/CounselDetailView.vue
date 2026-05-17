@@ -86,6 +86,7 @@
       </div>
     </main>
     <FooterItem/>
+    <DailyBonusCat page="counsel"/>
   </div>
 </template>
 
@@ -97,6 +98,7 @@ import type {CounselSuggestion} from '@/types/counsel'
 import HeaderItem from '@/components/layout/HeaderItem.vue'
 import FooterItem from '@/components/layout/FooterItem.vue'
 import {useI18n} from '@/composables/useI18n'
+import DailyBonusCat from '@/components/ui/DailyBonusCat.vue'
 import MarkdownIt from 'markdown-it'
 import {pathwayEmojiPlugin} from '@/utils/pathwayPlugin'
 

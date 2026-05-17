@@ -115,6 +115,7 @@
 
     <FooterItem/>
     <JoinServerModal :show="showJoinModal" @close="showJoinModal = false"/>
+    <DailyBonusCat page="home"/>
   </div>
 </template>
 
@@ -123,6 +124,7 @@ import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import FadeInSection from "@/components/ui/FadeInSection.vue";
 import JoinServerModal from "@/components/ui/JoinServerModal.vue";
+import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
 import BeyonderStatistics from "@/components/home/BeyonderStatistics.vue";
 import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
 import IconStars from "@/assets/icons/IconStars.vue";

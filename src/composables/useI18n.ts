@@ -1048,6 +1048,13 @@ const translations = {
                     "Selling items for real money - a contract with the Abyss. And it always takes its due.",
             },
         },
+
+        // Daily Bonus Cat
+        dailyBonusCatTitle: "A strange resonance...",
+        dailyBonusCatAlt: "A mysterious cat",
+        dailyBonusFound: "You found the Emporium Crystal! +20 Brilliant Emporium Points awarded.",
+        dailyBonusAlreadyClaimed: "Come back tomorrow — the crystal has already been claimed today.",
+        dailyBonusLinkMinecraft: "Link your Minecraft account first to collect Emporium Points.",
     },
     uk: {
         // Navigation
@@ -2093,6 +2100,13 @@ const translations = {
                     "Продаж речей за реальні гроші — контракт із Безоднею. А вона завжди бере своє.",
             },
         },
+
+        // Daily Bonus Cat
+        dailyBonusCatTitle: "Дивний резонанс...",
+        dailyBonusCatAlt: "Таємничий кіт",
+        dailyBonusFound: "Ти знайшов Кристал Емпоріуму! +20 Блискучих Очок Емпоріуму нараховано.",
+        dailyBonusAlreadyClaimed: "Повернись завтра — кристал вже було зібрано сьогодні.",
+        dailyBonusLinkMinecraft: "Спочатку прив'яжи акаунт Minecraft, щоб збирати Очки Емпоріуму.",
     },
 };
 

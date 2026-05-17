@@ -43,12 +43,14 @@
     </main>
 
     <FooterItem/>
+    <DailyBonusCat page="profile"/>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {computed, onMounted, ref} from "vue";
 import {useAuthStore} from "@/stores/auth";
+import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
 import {useUserStore} from "@/stores/user";
 import {useI18n} from "@/composables/useI18n";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
