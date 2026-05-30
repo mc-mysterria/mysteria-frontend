@@ -18,14 +18,14 @@ const CURRENCY_SYMBOLS = {
 
 const STORAGE_KEY = 'mysteria-currency-preference';
 
-// Initialize from localStorage or default to USD for English
+// Initialize from localStorage or default based on language
 const getInitialCurrency = (): CurrencyType => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored && (stored === 'USD' || stored === 'EUR' || stored === 'POINTS')) {
         return stored as CurrencyType;
     }
-    // Default to USD for English users
-    return 'USD';
+    const lang = localStorage.getItem('mysterria-language');
+    return lang && lang !== 'en' ? 'POINTS' : 'USD';
 };
 
 const currentCurrency = ref<CurrencyType>(getInitialCurrency());

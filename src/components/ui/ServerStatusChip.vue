@@ -76,6 +76,7 @@ onUnmounted(() => {
   white-space: nowrap;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .server-chip:hover {
