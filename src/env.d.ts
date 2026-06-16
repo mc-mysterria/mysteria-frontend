@@ -9,7 +9,6 @@ interface ImportMetaEnv {
     readonly VITE_SENTRY_TRACES_SAMPLE_RATE: string;
     readonly VITE_SENTRY_REPLAYS_SESSION_SAMPLE_RATE: string;
     readonly VITE_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE: string;
-    readonly VITE_CATWALK_TOKEN: string;
 }
 
 interface ImportMeta {

@@ -82,7 +82,7 @@ export default defineConfig(({ mode }) => {
           configure: (proxy) => {
             proxy.on('proxyReq', (proxyReq, req) => {
               if (req.url && !req.url.includes('/stats/')) {
-                const token = process.env.VITE_CATWALK_TOKEN || loadEnv(mode, process.cwd(), '').VITE_CATWALK_TOKEN;
+                const token = process.env.CATWALK_API_TOKEN || loadEnv(mode, process.cwd(), '').CATWALK_API_TOKEN;
                 if (token) {
                   proxyReq.setHeader('Authorization', `Bearer ${token}`);
                 }

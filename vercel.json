@@ -68,12 +68,8 @@
       "destination": "https://api.mysterria.net/api/:path*"
     },
     {
-      "source": "/plan/:path*",
-      "destination": "https://catwalk.mysterria.net/:path*"
-    },
-    {
       "source": "/catwalk/:path*",
-      "destination": "https://catwalk.mysterria.net/:path*"
+      "destination": "/api/catwalk-proxy?path=:path*"
     },
     {
       "source": "/auth/:path*",
