@@ -236,12 +236,6 @@ const servicesLinks = computed(() => [
     icon: iconComponents.IconDiscord
   },
   {
-    name: t("servicesArchive") || "Archive",
-    description: t("servicesArchiveDesc") || "Browse past content",
-    url: "https://archive.mysterria.net/",
-    icon: iconComponents.IconArchive
-  },
-  {
     name: t("servicesMap") || "Live Map",
     description: t("servicesMapDesc") || "Explore the world",
     url: "https://map.mysterria.net/",

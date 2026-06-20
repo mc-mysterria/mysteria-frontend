@@ -3,7 +3,6 @@ const ALLOWED_REDIRECT_HOSTS = new Set([
   'www.mysterria.net',
   'play.mysterria.net',
   'wiki.mysterria.net',
-  'archive.mysterria.net',
 ])
 
 export function isAllowedRedirectUrl(url: string): boolean {
