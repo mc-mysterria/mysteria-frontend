@@ -1071,7 +1071,7 @@ const translations = {
         servicesDiscordDesc: "Приєднуйтесь до спільноти",
         servicesArchive: "Архів",
         servicesArchiveDesc: "Як бібліотека, але для нових предметів",
-        servicesMap: "Карта",
+        servicesMap: "Мапа",
         servicesMapDesc: "Досліджуйте світ",
 
         // Home Page
