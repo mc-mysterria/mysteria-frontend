@@ -105,78 +105,45 @@
 
 <script lang="ts" setup>
 import {computed, onMounted, ref} from 'vue';
-import type {BeyonderData} from '@/types/users';
 import {useI18n} from '@/composables/useI18n';
 
 const {t} = useI18n();
 
+// This is pre-aggregated server-side (api/beyonder-stats.ts) — only counts are
+// ever sent to the client, never the per-player roster (names, individual
+// sequences, etc).
+interface BeyonderStatsAggregate {
+  totalBeyonders: number;
+  uniquePathways: number;
+  advancedBeyonders: number;
+  averageSequence: string;
+  topPathways: { name: string; count: number }[];
+  sequenceDistribution: { sequence: string; count: number }[];
+}
+
 interface BeyonderStatsResponse {
   success: boolean;
-  message: string;
-  data: {
-    amount: number;
-    beyonder: BeyonderData[];
-  };
+  message?: string;
+  data: BeyonderStatsAggregate;
 }
 
 interface CachedData {
-  data: BeyonderData[];
+  data: BeyonderStatsAggregate;
   timestamp: number;
 }
 
-const CACHE_KEY = 'beyonder-stats-cache';
+const CACHE_KEY = 'beyonder-stats-cache-v2';
 const CACHE_DURATION = 60 * 60 * 1000;
 
 const loading = ref(true);
-const beyonderData = ref<BeyonderData[]>([]);
+const stats = ref<BeyonderStatsAggregate | null>(null);
 
-const totalBeyonders = computed(() => beyonderData.value.length);
-
-const uniquePathways = computed(() => {
-  const pathways = new Set(beyonderData.value.map(b => b.pathway));
-  return pathways.size;
-});
-
-const advancedBeyonders = computed(() => {
-  return beyonderData.value.filter(b => {
-    const seq = parseInt(b.sequence);
-    return seq >= 0 && seq <= 3;
-  }).length;
-});
-
-const averageSequence = computed(() => {
-  if (beyonderData.value.length === 0) return '0';
-  const sum = beyonderData.value.reduce((acc, b) => acc + parseInt(b.sequence), 0);
-  const avg = sum / beyonderData.value.length;
-  return avg.toFixed(1);
-});
-
-const topPathways = computed(() => {
-  const pathwayCounts = new Map<string, number>();
-  beyonderData.value.forEach(b => {
-    const count = pathwayCounts.get(b.pathway) || 0;
-    pathwayCounts.set(b.pathway, count + 1);
-  });
-  return Array.from(pathwayCounts.entries())
-      .map(([name, count]) => ({name, count}))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 8); // Showing top 8 in grid
-});
-
-const sequenceDistribution = computed(() => {
-  const seqCounts = new Map<string, number>();
-  beyonderData.value.forEach(b => {
-    const seq = b.sequence.toString();
-    const seqNum = parseInt(seq);
-    if (seqNum >= 1 && seqNum <= 9) {
-      seqCounts.set(seq, (seqCounts.get(seq) || 0) + 1);
-    }
-  });
-  return Array.from(seqCounts.entries())
-      .map(([sequence, count]) => ({sequence, count}))
-      .filter(item => item.count > 0)
-      .sort((a, b) => parseInt(a.sequence) - parseInt(b.sequence));
-});
+const totalBeyonders = computed(() => stats.value?.totalBeyonders ?? 0);
+const uniquePathways = computed(() => stats.value?.uniquePathways ?? 0);
+const advancedBeyonders = computed(() => stats.value?.advancedBeyonders ?? 0);
+const averageSequence = computed(() => stats.value?.averageSequence ?? '0');
+const topPathways = computed(() => stats.value?.topPathways ?? []);
+const sequenceDistribution = computed(() => stats.value?.sequenceDistribution ?? []);
 
 const maxSequenceCount = computed(() => {
   return Math.max(...sequenceDistribution.value.map(s => s.count), 1);
@@ -202,18 +169,18 @@ const fetchBeyonderStats = async () => {
   if (cached) {
     const parsed: CachedData = JSON.parse(cached);
     if (Date.now() - parsed.timestamp < CACHE_DURATION) {
-      beyonderData.value = parsed.data;
+      stats.value = parsed.data;
       loading.value = false;
       return;
     }
   }
 
   try {
-    const response = await fetch('/catwalk/pathway/everyone');
+    const response = await fetch('/api/beyonder-stats');
     const result: BeyonderStatsResponse = await response.json();
-    if (result.success && result.data.beyonder) {
-      beyonderData.value = result.data.beyonder;
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ data: result.data.beyonder, timestamp: Date.now() }));
+    if (result.success && result.data) {
+      stats.value = result.data;
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ data: result.data, timestamp: Date.now() }));
     }
   } catch (error) {
     console.error('Failed to fetch stats:', error);

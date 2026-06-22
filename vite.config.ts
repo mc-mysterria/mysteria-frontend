@@ -6,6 +6,30 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
 import generateSitemap from 'vite-plugin-sitemap'
 import fs from 'fs'
+import type { IncomingMessage, ServerResponse } from 'node:http'
+import type { Connect, ViteDevServer } from 'vite'
+
+// Mirrors the production guard in api/catwalk-proxy.ts: the dev server proxies
+// /catwalk/* straight to the upstream service (bypassing that Vercel function),
+// so the same per-player/full-roster paths need to be blocked here too.
+function blockSensitiveCatwalkPathsPlugin() {
+  return {
+    name: 'block-sensitive-catwalk-paths',
+    configureServer(server: ViteDevServer) {
+      const middleware: Connect.NextHandleFunction = (req: IncomingMessage, res: ServerResponse, next) => {
+        const url = req.url || '';
+        if (url.startsWith('/catwalk/pathway/everyone') || url.startsWith('/catwalk/pathway/single/')) {
+          res.statusCode = 403;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Forbidden', details: 'Use /api/beyonder-stats or /api/beyonder-self instead.' }));
+          return;
+        }
+        next();
+      };
+      server.middlewares.use(middleware);
+    },
+  };
+}
 
 function copyRobotsPlugin() {
   return {
@@ -29,6 +53,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
+      blockSensitiveCatwalkPathsPlugin(),
       vue(),
       vueJsx(),
       vueDevTools(),

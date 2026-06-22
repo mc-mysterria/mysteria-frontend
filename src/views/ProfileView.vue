@@ -108,10 +108,20 @@ const fetchUserProfile = async () => {
   }
 };
 
-const fetchBeyonderData = async (nickname: string) => {
+const fetchBeyonderData = async () => {
+  const authToken = authStore.currentToken;
+  if (!authToken) {
+    beyonderData.value = null;
+    return;
+  }
+
   beyonderLoading.value = true;
   try {
-    const response = await fetch(`/catwalk/pathway/single/${nickname}`);
+    // The nickname is resolved server-side from this token, never sent by the
+    // client, so this can only ever return the logged-in player's own data.
+    const response = await fetch('/api/beyonder-self', {
+      headers: {Authorization: `Bearer ${authToken}`},
+    });
     const result: BeyonderResponse = await response.json();
 
     if (result.success && result.data.beyonder) {
@@ -144,7 +154,7 @@ const loadProfile = async () => {
   if (displayedUser.value) {
     // Fetch beyonder data if user is verified
     if (displayedUser.value.verified && displayedUser.value.nickname) {
-      await fetchBeyonderData(displayedUser.value.nickname);
+      await fetchBeyonderData();
     }
 
     subscription.value = t('unavailable');

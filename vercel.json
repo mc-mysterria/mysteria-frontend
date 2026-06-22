@@ -60,6 +60,14 @@
       "destination": "/api/meta-proxy"
     },
     {
+      "source": "/api/beyonder-stats",
+      "destination": "/api/beyonder-stats"
+    },
+    {
+      "source": "/api/beyonder-self",
+      "destination": "/api/beyonder-self"
+    },
+    {
       "source": "/api/:path*/",
       "destination": "https://api.mysterria.net/api/:path*"
     },
