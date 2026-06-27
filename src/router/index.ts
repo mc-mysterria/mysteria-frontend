@@ -120,6 +120,11 @@ const router = createRouter({
             component: () => import("@/views/NewsView.vue"),
         },
         {
+            path: "/news/:locale/:slug",
+            name: "news-article-localized",
+            component: () => import("@/views/NewsView.vue"),
+        },
+        {
             path: "/counsel/:slug",
             name: "counsel-detail",
             component: () => import("@/views/CounselDetailView.vue"),

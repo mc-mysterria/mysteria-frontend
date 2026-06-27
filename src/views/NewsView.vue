@@ -58,7 +58,7 @@ const route = useRoute();
 const router = useRouter();
 const article = ref<NewsArticle | null>(null);
 const loading = ref(true);
-const {currentLanguage, t} = useI18n();
+const {currentLanguage, setLanguage, t} = useI18n();
 
 const md = new MarkdownIt({
   html: true,
@@ -80,12 +80,23 @@ const formatDate = (dateString: string) => {
   });
 };
 
+const SUPPORTED_LOCALES = new Set<'en' | 'uk'>(['en', 'uk']);
+
 const loadArticle = async () => {
   const slug = route.params.slug as string;
+  const localeParam = route.params.locale as string | undefined;
+  const lang = localeParam && SUPPORTED_LOCALES.has(localeParam as 'en' | 'uk')
+    ? localeParam as 'en' | 'uk'
+    : currentLanguage.value;
+
+  if (localeParam && lang !== currentLanguage.value) {
+    setLanguage(lang);
+  }
+
   if (slug) {
     try {
       loading.value = true;
-      const response = await newsAPI.getBySlug(currentLanguage.value, slug);
+      const response = await newsAPI.getBySlug(lang, slug);
       article.value = response.data;
     } catch (error) {
       console.error('Failed to fetch news article:', error);

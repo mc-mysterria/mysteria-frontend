@@ -118,13 +118,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Invalid path', details: 'Expected format: type/slug or pagename' });
     }
 
-    const [type, slug] = pathParts;
-    console.log('Type:', type, 'Slug:', slug);
+    const SUPPORTED_LOCALES = new Set(['en', 'uk']);
+    const [type, second, third] = pathParts;
+    const locale = third && SUPPORTED_LOCALES.has(second) ? second : 'en';
+    const slug = third && SUPPORTED_LOCALES.has(second) ? third : second;
+    console.log('Type:', type, 'Locale:', locale, 'Slug:', slug);
 
     if (type === 'news') {
-      // Use the Vercel proxy (same as frontend) instead of calling API directly
-      // This avoids CORS/403 issues since the API might only accept requests from mysterria.net
-      const apiUrl = `${baseUrl}/api/news/en/article/${slug}`;
+      const apiUrl = `${baseUrl}/api/news/${locale}/article/${slug}`;
       console.log('Fetching article from:', apiUrl);
 
       const articleResponse = await fetch(apiUrl, {
@@ -141,13 +142,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const imageUrl = article.preview?.startsWith('http')
         ? article.preview
         : `${baseUrl}${article.preview || '/banner.webp'}`;
-      const articleUrl = `${baseUrl}/news/${article.slug}`;
+      const articleUrl = locale !== 'en'
+        ? `${baseUrl}/news/${locale}/${article.slug}`
+        : `${baseUrl}/news/${article.slug}`;
       const title = `${escapeHtml(article.title)} - Mysterria`;
       const description = escapeHtml(article.shortDescription || article.title);
+      const htmlLang = locale === 'uk' ? 'uk' : 'en';
 
       // Generate complete HTML with meta tags and redirect
       const html = `<!DOCTYPE html>
-<html lang="en">
+<html lang="${htmlLang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
