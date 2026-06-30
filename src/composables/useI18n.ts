@@ -13,6 +13,7 @@ const translations = {
         navGame: "Play!",
         navServices: "Services",
         navForum: "Forum",
+        navStaff: "Staff",
 
         // Services
         servicesWikiDesc: "Knowledge base & guides",
@@ -898,6 +899,30 @@ const translations = {
         staffRules: "Staff Rules",
         examples: "Examples",
         playerRules: "Player Rules",
+        staffPage: {
+            eyebrow: "Staff",
+            kicker: "Guardians of the fog",
+            title: "Mysterria Staff",
+            subtitle: "The people keeping the server, community, stories, art, and testing rituals moving.",
+            listLabel: "Mysterria staff members by rank",
+            members: "members",
+            githubProfile: "GitHub profile",
+            discordProfile: "Discord profile",
+            ranks: {
+                owner: "Owner",
+                developer: "Developer",
+                emissary: "Emissary",
+                designer: "Designer",
+                tester: "Tester",
+            },
+            rankDescriptions: {
+                owner: "Project leadership and final stewardship for the server.",
+                developer: "Builds and maintains gameplay systems, tooling, and website features.",
+                emissary: "Helps guide community operations and player-facing coordination.",
+                designer: "Creates visual, lore, and experience details for Mysterria.",
+                tester: "Tests features, reports issues, and helps keep releases stable.",
+            },
+        },
 
         // UN-Meeting Counsel
         counselTab: "Counsel",
@@ -1064,6 +1089,7 @@ const translations = {
         navGame: "Грати!",
         navServices: "Сервіси",
         navForum: "Форум",
+        navStaff: "Персонал",
 
         // Services
         servicesWikiDesc: "База знань та посібники",
@@ -1950,6 +1976,30 @@ const translations = {
         staffRules: "Правила Персоналу",
         examples: "Приклади",
         playerRules: "Правила Гравців",
+        staffPage: {
+            eyebrow: "Персонал",
+            kicker: "Хранителі туману",
+            title: "Персонал Містеррії",
+            subtitle: "Люди, які підтримують сервер, спільноту, історії, візуал і тестування.",
+            listLabel: "Персонал Містеррії за рангами",
+            members: "учасників",
+            githubProfile: "профіль GitHub",
+            discordProfile: "профіль Discord",
+            ranks: {
+                owner: "Власник",
+                developer: "Розробник",
+                emissary: "Емісар",
+                designer: "Дизайнер",
+                tester: "Тестер",
+            },
+            rankDescriptions: {
+                owner: "Керівництво проєкту та фінальна відповідальність за сервер.",
+                developer: "Створює та підтримує ігрові системи, інструменти й можливості сайту.",
+                emissary: "Допомагає з роботою спільноти та координацією гравців.",
+                designer: "Працює над візуалом, лором і деталями досвіду Містеррії.",
+                tester: "Перевіряє функції, повідомляє про помилки та допомагає стабілізувати релізи.",
+            },
+        },
 
         // UN-Meeting Counsel
         counselTab: "Рада ООН",

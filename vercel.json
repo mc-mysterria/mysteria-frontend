@@ -115,6 +115,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/staff",
+      "destination": "/index.html"
+    },
+    {
       "source": "/edit/news",
       "destination": "/index.html"
     },
