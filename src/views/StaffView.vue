@@ -16,46 +16,50 @@
         <p class="staff-lede">{{ t("staffPage.subtitle") }}</p>
       </section>
 
-      <section class="staff-ledger" :aria-label="t('staffPage.listLabel')">
+      <div v-if="loading" class="staff-status">
+        <div class="staff-spinner" aria-hidden="true"></div>
+        <p>{{ t("loading") }}</p>
+      </div>
+
+      <div v-else-if="error" class="staff-status">
+        <p>{{ t("staffPage.loadError") }}</p>
+      </div>
+
+      <section v-else class="staff-ledger" :aria-label="t('staffPage.listLabel')">
         <article
-          v-for="group in staffGroups"
-          :key="group.rank"
+          v-for="group in memberGroups"
+          :key="group.position"
           class="rank-section"
         >
           <div class="rank-header">
             <div>
               <p class="rank-count">{{ group.members.length }} {{ t("staffPage.members") }}</p>
-              <h3 class="rank-title">{{ t(rankTitleKey(group.rank)) }}</h3>
+              <h3 class="rank-title">{{ group.position }}</h3>
             </div>
-            <p class="rank-description">{{ t(rankDescriptionKey(group.rank)) }}</p>
           </div>
 
           <div class="member-grid">
-            <a
+            <div
               v-for="member in group.members"
-              :key="`${group.rank}-${member.name}`"
+              :key="`${group.position}-${member.nickname}`"
               class="member-card"
-              :href="member.profileUrl"
-              rel="noopener noreferrer"
-              target="_blank"
-              :aria-label="`${member.name} ${member.platform === 'github' ? t('staffPage.githubProfile') : t('staffPage.discordProfile')}`"
             >
               <img
+                v-if="member.avatarUrl"
                 class="member-avatar"
-                :alt="member.name"
+                :alt="member.nickname"
                 :src="member.avatarUrl"
                 loading="lazy"
                 referrerpolicy="no-referrer"
               >
-              <div class="member-info">
-                <h4 class="member-name">{{ member.name }}</h4>
-                <p class="member-handle">@{{ member.username }}</p>
-                <p class="member-role">{{ t(rankTitleKey(group.rank)) }}</p>
+              <div v-else class="member-avatar member-avatar-fallback" aria-hidden="true">
+                <i class="fa-solid fa-user"></i>
               </div>
-              <span class="member-profile-icon" aria-hidden="true">
-                <i :class="member.platform === 'github' ? 'fa-brands fa-github' : 'fa-brands fa-discord'"></i>
-              </span>
-            </a>
+              <div class="member-info">
+                <h4 class="member-name">{{ member.nickname }}</h4>
+                <p class="member-role">{{ group.position }}</p>
+              </div>
+            </div>
           </div>
         </article>
       </section>
@@ -65,15 +69,47 @@
 </template>
 
 <script lang="ts" setup>
+import {computed, onMounted, ref} from "vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import {useI18n} from "@/composables/useI18n";
-import {staffGroups, type StaffRank} from "@/data/staff";
+import {membersAPI} from "@/utils/api/staff";
+import type {StaffMember} from "@/types/staff";
 
 const {t} = useI18n();
 
-const rankTitleKey = (rank: StaffRank) => `staffPage.ranks.${rank}`;
-const rankDescriptionKey = (rank: StaffRank) => `staffPage.rankDescriptions.${rank}`;
+const members = ref<StaffMember[]>([]);
+const loading = ref(true);
+const error = ref(false);
+
+interface MemberGroup {
+  position: string;
+  members: StaffMember[];
+}
+
+const memberGroups = computed<MemberGroup[]>(() => {
+  const groups: MemberGroup[] = [];
+  for (const member of members.value) {
+    const lastGroup = groups[groups.length - 1];
+    if (lastGroup && lastGroup.position === member.position) {
+      lastGroup.members.push(member);
+    } else {
+      groups.push({position: member.position, members: [member]});
+    }
+  }
+  return groups;
+});
+
+onMounted(async () => {
+  try {
+    const response = await membersAPI.getMembers(4);
+    members.value = response.data;
+  } catch {
+    error.value = true;
+  } finally {
+    loading.value = false;
+  }
+});
 </script>
 
 <style scoped>
@@ -139,6 +175,34 @@ const rankDescriptionKey = (rank: StaffRank) => `staffPage.rankDescriptions.${ra
   line-height: 1.75;
 }
 
+.staff-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 64px 0;
+  color: #aaa;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.staff-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(200, 178, 115, 0.2);
+  border-top-color: var(--myst-gold);
+  border-radius: 50%;
+  animation: staff-spin 0.8s linear infinite;
+}
+
+@keyframes staff-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .staff-ledger {
   display: flex;
   flex-direction: column;
@@ -176,14 +240,6 @@ const rankDescriptionKey = (rank: StaffRank) => `staffPage.rankDescriptions.${ra
   line-height: 1.1;
 }
 
-.rank-description {
-  max-width: 62ch;
-  margin: 0;
-  color: #8f8f98;
-  font-size: 14px;
-  line-height: 1.65;
-}
-
 .member-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -201,7 +257,6 @@ const rankDescriptionKey = (rank: StaffRank) => `staffPage.rankDescriptions.${ra
   background: rgba(0, 0, 0, 0.22);
   border-radius: 4px;
   color: inherit;
-  text-decoration: none;
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
@@ -222,6 +277,15 @@ const rankDescriptionKey = (rank: StaffRank) => `staffPage.rankDescriptions.${ra
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
 }
 
+.member-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--myst-gold);
+  font-size: 20px;
+  opacity: 0.7;
+}
+
 .member-info {
   flex: 1;
   min-width: 0;
@@ -236,39 +300,10 @@ const rankDescriptionKey = (rank: StaffRank) => `staffPage.rankDescriptions.${ra
   line-height: 1.25;
 }
 
-.member-handle {
-  margin: 0 0 6px;
-  overflow: hidden;
-  color: #878790;
-  font-size: 13px;
-  line-height: 1.25;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .member-role {
   margin: 0;
   color: #666;
   font-size: 10px;
-}
-
-.member-profile-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 30px;
-  width: 30px;
-  height: 30px;
-  border: 1px solid rgba(200, 178, 115, 0.16);
-  border-radius: 4px;
-  color: var(--myst-gold);
-  background: rgba(200, 178, 115, 0.05);
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.member-card:hover .member-profile-icon {
-  border-color: rgba(200, 178, 115, 0.32);
-  background: rgba(200, 178, 115, 0.1);
 }
 
 @media (max-width: 900px) {
