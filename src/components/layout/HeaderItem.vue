@@ -212,6 +212,7 @@ const navigationLinks = computed<NavLink[]>(() => [
   {path: "/", title: t("navHome") || "Home"},
   {path: "/guide", title: t("navGame") || "Guide"},
   {path: "/rules", title: t("navRules") || "Rules"},
+  {path: "/staff", title: t("navStaff") || "Staff"},
   {path: "/store", title: t("navShop") || "Shop"},
 ]);
 
@@ -799,6 +800,6 @@ onUnmounted(() => {
 .attention-dot.mobile {
   position: absolute;
   top: 8px;
-  left: calc(100% + 6px);
+  right: 28px;
 }
 </style>

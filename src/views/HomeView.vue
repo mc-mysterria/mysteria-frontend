@@ -371,7 +371,7 @@ const displayedPinnedNews = computed(() => {
 
 /* News Styles */
 .news-container { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
-.pinned-news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 32px; margin-top: 40px; }
+.pinned-news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 32px; margin-top: 40px; }
 
 .pinned-card-myst {
   display: flex;

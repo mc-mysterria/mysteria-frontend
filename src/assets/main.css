@@ -37,6 +37,14 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body,
+#app {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .body-no-scroll {
     overflow: hidden;
 }
@@ -487,12 +495,16 @@ html {
     .myst-page-header {
         margin: 16px 0 32px;
         gap: 16px;
+        min-width: 0;
     }
     .myst-header-decoration {
         max-width: 40px;
     }
     .myst-header-label {
+        min-width: 0;
         font-size: 11px;
         letter-spacing: 3px;
+        overflow-wrap: anywhere;
+        white-space: normal;
     }
 }

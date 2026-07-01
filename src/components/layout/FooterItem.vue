@@ -8,6 +8,7 @@
         <nav class="footer-nav">
           <RouterLink class="footer-link" to="/wiki">{{ t('navWiki') }}</RouterLink>
           <RouterLink class="footer-link" to="/guide">{{ t('navGame') }}</RouterLink>
+          <RouterLink class="footer-link" to="/staff">{{ t('navStaff') }}</RouterLink>
           <RouterLink class="footer-link" to="/store">{{ t('navShop') }}</RouterLink>
           <div class="footer-separator" aria-hidden="true">†</div>
           <RouterLink class="footer-link" to="/terms">{{ t('termsViewTitle') || 'Terms' }}</RouterLink>
