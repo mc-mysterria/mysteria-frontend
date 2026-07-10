@@ -341,7 +341,7 @@ const saved = loadState();
 
 const quizStep        = ref<number>(saved.quizStep ?? 0);
 const quizAnswers     = ref<number[]>(saved.quizAnswers ?? [-1, -1, -1]);
-const selectedPathway = ref<string>(saved.pathway ?? 'fool');
+const selectedPathway = ref<PathwayKey>((saved.pathway as PathwayKey) || 'fool');
 const confirmedPathway = ref<boolean>(Boolean(saved.pathway));
 
 function saveState() {
@@ -356,7 +356,7 @@ watch([quizStep, quizAnswers, selectedPathway, confirmedPathway], saveState, { d
 // Cluster scoring picks the dominant cluster from the 3 answers, then a
 // deterministic tie-break spreads the result across all members of that
 // cluster (rather than always landing on the same one or two pathways).
-const tentativePathway = computed<string>(() => {
+const tentativePathway = computed<PathwayKey>(() => {
   const scores: Partial<Record<PathwayKey, number>> = {};
   quizAnswers.value.forEach((a, qi) => {
     if (a < 0) return;
