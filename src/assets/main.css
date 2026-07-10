@@ -30,7 +30,7 @@ body {
     background-color: var(--myst-bg);
     color: var(--myst-ink);
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
     position: relative;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -42,7 +42,12 @@ body,
 #app {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    /* clip, not hidden: overflow-x:hidden forces overflow-y to compute as
+       auto per spec (unless overflow-x is visible/clip), which turns these
+       elements into scroll containers and breaks position: sticky for every
+       descendant on the page. clip is exempt from that forced promotion. */
+    overflow-x: clip;
+    overflow-y: visible;
 }
 
 .body-no-scroll {
