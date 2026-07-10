@@ -12,6 +12,22 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (m) => map[m]);
 }
 
+function stripMarkdown(markdown: string, maxLength: number = 200): string {
+  const plainText = markdown
+    .replace(/!\[[^\]]*]\([^)]*\)/g, '') // images
+    .replace(/\[([^\]]*)]\([^)]*\)/g, '$1') // links -> text
+    .replace(/^#{1,6}\s+/gm, '') // headings
+    .replace(/^[-*+]\s+/gm, '') // list bullets
+    .replace(/^>\s+/gm, '') // blockquotes
+    .replace(/[*_~`]/g, '') // remaining formatting characters
+    .replace(/\r?\n+/g, ' ') // newlines
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (plainText.length <= maxLength) return plainText;
+  return `${plainText.slice(0, maxLength).trim()}...`;
+}
+
 interface PageMeta {
   title: string;
   description: string;
@@ -185,6 +201,70 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 </head>
 <body>
     <p>Redirecting to <a href="${articleUrl}">${escapeHtml(article.title)}</a>...</p>
+</body>
+</html>`;
+
+      console.log('Successfully generated HTML with meta tags');
+      return res
+        .status(200)
+        .setHeader('Content-Type', 'text/html; charset=utf-8')
+        .setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600')
+        .send(html);
+    } else if (type === 'services') {
+      const apiUrl = `${baseUrl}/api/shop/services/${slug}/content?lang=${locale}`;
+      console.log('Fetching service from:', apiUrl);
+
+      const serviceResponse = await fetch(apiUrl, {
+        headers: { 'Accept': 'application/json' },
+      });
+
+      if (!serviceResponse.ok) {
+        console.error('Service fetch failed:', serviceResponse.status, serviceResponse.statusText);
+        throw new Error(`Service not found: ${serviceResponse.status}`);
+      }
+
+      const service = await serviceResponse.json();
+      console.log('Service fetched:', service.name);
+      const imageUrl = service.imageUrl?.startsWith('http')
+        ? service.imageUrl
+        : `${baseUrl}${service.imageUrl || '/banner.webp'}`;
+      const serviceUrl = `${baseUrl}/services/${slug}`;
+      const title = `${escapeHtml(service.name)} - Mysterria`;
+      const rawDescription = service.markdownContent || service.markdownContentEn || service.markdownContentUk || service.name;
+      const description = escapeHtml(stripMarkdown(rawDescription));
+      const htmlLang = locale === 'uk' ? 'uk' : 'en';
+
+      const html = `<!DOCTYPE html>
+<html lang="${htmlLang}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>${title}</title>
+    <meta name="title" content="${title}" />
+    <meta name="description" content="${description}" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="${serviceUrl}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:image" content="${imageUrl}" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="${serviceUrl}" />
+    <meta property="twitter:title" content="${title}" />
+    <meta property="twitter:description" content="${description}" />
+    <meta property="twitter:image" content="${imageUrl}" />
+
+    <!-- Redirect to actual page for real users -->
+    <meta http-equiv="refresh" content="0;url=${serviceUrl}" />
+    <script>window.location.href = '${serviceUrl}';</script>
+</head>
+<body>
+    <p>Redirecting to <a href="${serviceUrl}">${escapeHtml(service.name)}</a>...</p>
 </body>
 </html>`;
 

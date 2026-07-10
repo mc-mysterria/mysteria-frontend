@@ -67,6 +67,17 @@
       "destination": "/api/meta-proxy?path=profile"
     },
     {
+      "source": "/services/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=services/:slug"
+    },
+    {
       "source": "/api/meta-proxy",
       "destination": "/api/meta-proxy"
     },
