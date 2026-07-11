@@ -1,6 +1,16 @@
 {
   "rewrites": [
     {
+      "source": "/pathways/:pathway",
+      "has": [{"type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"}],
+      "destination": "/api/meta-proxy?path=pathways/:pathway"
+    },
+    {
+      "source": "/pathways",
+      "has": [{"type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"}],
+      "destination": "/api/meta-proxy?path=pathways"
+    },
+    {
       "source": "/news/:locale/:slug",
       "has": [
         {

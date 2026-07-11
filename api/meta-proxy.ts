@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import pathwayData from '../src/assets/sources/pathway-abilities.json';
 
 function escapeHtml(text: string): string {
   if (!text) return '';
@@ -32,6 +33,42 @@ interface PageMeta {
   title: string;
   description: string;
   image: string;
+}
+
+const PATHWAY_NAMES: Record<string, string> = {
+  abyss: 'Abyss', chained: 'Chained', darkness: 'Darkness', death: 'Death', demoness: 'Demoness', door: 'Door',
+  emperor: 'Black Emperor', error: 'Error', fool: 'Fool', fortune: 'Wheel of Fortune', giant: 'Twilight Giant',
+  hanged: 'Hanged Man', hermit: 'Hermit', justiciar: 'Justiciar', moon: 'Moon', mother: 'Mother', paragon: 'Paragon',
+  priest: 'Red Priest', sun: 'Sun', tower: 'White Tower', tyrant: 'Tyrant', visionary: 'Visionary', aeon: 'Eternal Aeon',
+  chaos: 'Chaos', chaosmist: 'Chaos Mist', condenser: 'Condenser', devouring: 'Devouring', edict: 'Edict',
+  everlasting: 'Everlasting', patriarch: 'Patriarch', secondlaw: 'Second Law', sublunary: 'Sublunary',
+};
+const PATHWAY_IMAGE_ALIASES: Record<string, string> = { aeon: 'eternalaeon' };
+
+function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string): string | null {
+  const pathway = pathwayId ? pathwayData.pathways.find((item) => item.id === pathwayId) : undefined;
+  if (pathwayId && !pathway) return null;
+
+  const name = pathwayId ? (PATHWAY_NAMES[pathwayId] || pathwayId) : '';
+  const abilityCount = pathway?.sequences.reduce((total, sequence) => total + sequence.abilities.length, 0) || 0;
+  const firstSequence = pathway?.sequences[0]?.name.en;
+  const finalSequence = pathway?.sequences[pathway.sequences.length - 1]?.name.en;
+  const title = pathway
+    ? `${name} Pathway — Sequences & Abilities | Mysterria`
+    : 'Pathways & Sequences — Beyonder Archive | Mysterria';
+  const description = pathway
+    ? `Explore the ${name} Pathway from Sequence ${pathway.sequences[0]?.sequence} ${firstSequence} to Sequence ${pathway.sequences[pathway.sequences.length - 1]?.sequence} ${finalSequence}. Discover ${abilityCount} abilities available on Mysterria.`
+    : `Explore all ${pathwayData.pathways.length} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.`;
+  const pageUrl = `${baseUrl}/pathways${pathwayId ? `/${pathwayId}` : ''}`;
+  const imageName = pathwayId ? (PATHWAY_IMAGE_ALIASES[pathwayId] || pathwayId) : '';
+  const hasImage = imageName && ['abyss','chained','darkness','death','demoness','door','emperor','error','eternalaeon','fool','fortune','giant','hanged','hermit','justiciar','moon','mother','paragon','patriarch','priest','sublunary','sun','tower','tyrant','visionary'].includes(imageName);
+  const imageUrl = hasImage ? `${baseUrl}/pathways/${imageName}.webp` : `${baseUrl}/banner.webp`;
+
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${escapeHtml(title)}</title><meta name="title" content="${escapeHtml(title)}"><meta name="description" content="${escapeHtml(description)}">
+    <link rel="canonical" href="${pageUrl}"><meta property="og:type" content="website"><meta property="og:site_name" content="Mysterria"><meta property="og:url" content="${pageUrl}"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:image" content="${imageUrl}"><meta property="og:image:alt" content="${escapeHtml(pathway ? `${name} Pathway symbol` : 'Mysterria Beyonder Pathways')}">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="${pageUrl}"><meta name="twitter:title" content="${escapeHtml(title)}"><meta name="twitter:description" content="${escapeHtml(description)}"><meta name="twitter:image" content="${imageUrl}">
+    <meta http-equiv="refresh" content="0;url=${pageUrl}"><script>window.location.href=${JSON.stringify(pageUrl)}</script></head><body><a href="${pageUrl}">${escapeHtml(title)}</a></body></html>`;
 }
 
 const STATIC_PAGES: Record<string, PageMeta> = {
@@ -114,6 +151,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     console.log('Processing meta-proxy request for path:', path);
     const baseUrl = 'https://mysterria.net';
+
+    if (path === 'pathways' || path.startsWith('pathways/')) {
+      const pathwayId = path.split('/')[1];
+      const html = generatePathwayHTML(pathwayId, baseUrl);
+      if (!html) return res.status(404).send('Pathway not found');
+      return res.status(200).setHeader('Content-Type', 'text/html; charset=utf-8').setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600').send(html);
+    }
 
     // Handle static pages (single path segment like "rules", "store", etc.)
     if (!path.includes('/')) {

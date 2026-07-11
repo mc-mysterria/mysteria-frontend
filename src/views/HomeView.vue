@@ -47,6 +47,20 @@
       <div class="ink-transition" aria-hidden="true"></div>
     </section>
 
+    <section class="pathways-invitation">
+      <RouterLink class="pathways-invitation-card" to="/pathways">
+        <div class="pathway-sigils" aria-hidden="true">
+          <img src="@/assets/images/pathways/fool.webp" alt=""><img src="@/assets/images/pathways/darkness.webp" alt=""><img src="@/assets/images/pathways/sun.webp" alt="">
+        </div>
+        <div class="pathways-invitation-copy">
+          <span>{{ currentLanguage === 'uk' ? 'АРХІВ ПОТОЙБІЧНОГО' : 'BEYONDER ARCHIVE' }}</span>
+          <h2>{{ currentLanguage === 'uk' ? 'Оберіть свій Шлях' : 'Choose your Pathway' }}</h2>
+          <p>{{ currentLanguage === 'uk' ? 'Дослідіть усі Шляхи, назви Послідовностей та здібності, які відкриваються на кожному рівні.' : 'Explore every Pathway, Sequence name, and ability unlocked along the way.' }}</p>
+        </div>
+        <div class="pathways-invitation-action">{{ currentLanguage === 'uk' ? 'Відкрити архів' : 'Open the archive' }} <IconArrowRight/></div>
+      </RouterLink>
+    </section>
+
     <!-- Beyonder Statistics Section -->
     <BeyonderStatistics/>
 
@@ -127,6 +141,7 @@ import JoinServerModal from "@/components/ui/JoinServerModal.vue";
 import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
 import BeyonderStatistics from "@/components/home/BeyonderStatistics.vue";
 import IconArrowDown from "@/assets/icons/IconArrowDown.vue";
+import IconArrowRight from "@/assets/icons/IconArrowRight.vue";
 import IconStars from "@/assets/icons/IconStars.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import {computed, onMounted, onUnmounted, ref} from "vue";
@@ -216,6 +231,7 @@ const displayedPinnedNews = computed(() => {
 
 <style scoped>
 .page-container { min-height: 100vh; background-color: #05070a; }
+.pathways-invitation{padding:72px 24px 32px;background:#05070a}.pathways-invitation-card{max-width:1120px;min-height:190px;margin:auto;padding:30px 36px;display:grid;grid-template-columns:210px 1fr auto;align-items:center;gap:36px;overflow:hidden;border:1px solid rgba(200,178,115,.22);background:radial-gradient(circle at 12% 50%,rgba(200,178,115,.12),transparent 34%),#0a0c13;transition:.25s}.pathways-invitation-card:hover{border-color:rgba(200,178,115,.6);transform:translateY(-3px);color:inherit}.pathway-sigils{display:flex;align-items:center;justify-content:center}.pathway-sigils img{width:92px;height:92px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(200,178,115,.2))}.pathway-sigils img:nth-child(2){width:118px;height:118px;margin:0 -28px;z-index:1}.pathways-invitation-copy span{color:var(--myst-gold);font:11px 'JetBrains Mono',monospace;letter-spacing:3px}.pathways-invitation-copy h2{margin:7px 0 8px;color:#f7f5ef;font:700 clamp(26px,4vw,42px) 'Playfair Display',serif}.pathways-invitation-copy p{max-width:630px;margin:0;color:#91919b;line-height:1.7}.pathways-invitation-action{display:flex;align-items:center;gap:12px;color:var(--myst-gold);font:12px 'JetBrains Mono',monospace;text-transform:uppercase;white-space:nowrap}.pathways-invitation-action svg{width:18px}@media(max-width:800px){.pathways-invitation-card{grid-template-columns:1fr;text-align:center;padding:28px 22px;gap:16px}.pathway-sigils{height:100px}.pathways-invitation-copy p{margin:auto}.pathways-invitation-action{justify-content:center}}
 
 /* Hero Section */
 .hero-section {
