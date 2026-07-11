@@ -1,31 +1,29 @@
 <template>
   <div class="shop-items">
-    <!-- Back to Categories Button -->
-    <div v-if="selectedCategory" class="back-to-categories">
+    <div v-if="selectedCategory" class="catalog-toolbar">
       <button class="back-button" @click="emit('back-to-categories')">
         <i class="fa-solid fa-arrow-left"></i>
         {{ t('backToCategories') }}
       </button>
+      <div class="category-context">
+        <span>{{ selectedCategory }}</span>
+        <small>{{ filteredItems.length }} {{ t('itemsCount') || 'items' }}</small>
+      </div>
     </div>
 
-    <!-- Comparison Table (Modal/Overlay) - Hidden by default, kept for potential future use -->
-    <ComparisonTable
-        v-if="showComparisonTable"
-        :items="getComparisonItems()"
-        @close="showComparisonTable = false"
-        @purchase="handlePurchase"
-        @remove="removeFromComparison"
-    />
-
-    <!-- Items Grid -->
-    <div class="items-grid">
+    <TransitionGroup v-if="filteredItems.length" name="catalog" tag="div" class="items-grid">
       <ShopItemCard
-          v-for="item in filteredItems"
+          v-for="(item, index) in filteredItems"
           :key="item.id"
           :item="item"
+          :image-priority="index < 4 ? 'high' : 'auto'"
           class="shop-item-card"
           @purchase="handlePurchase"
       />
+    </TransitionGroup>
+    <div v-else class="empty-state">
+      <i class="fa-solid fa-box-open"></i>
+      <p>{{ t('noItemsFound') || 'No items are available in this category yet.' }}</p>
     </div>
   </div>
 </template>
@@ -38,7 +36,6 @@ import {useAuthStore} from "@/stores/auth";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";
 import ShopItemCard from "./ShopItemCard.vue";
-import ComparisonTable from "./ComparisonTable.vue";
 import Decimal from "decimal.js";
 import type {ServiceResponse} from "@/types/services";
 
@@ -81,19 +78,26 @@ const filteredItems = computed(() => {
   }
 
   // Sort alphabetically
-  return filtered.sort((a, b) => a.name.localeCompare(b.name));
+  return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
 });
 
-const removeFromComparison = (itemId: string) => {
-  comparisonItems.value.delete(itemId);
-  if (comparisonItems.value.size < 2) {
-    showComparisonTable.value = false;
-  }
+const resolveImagePath = (path?: string) => {
+  if (!path) return '';
+  if (/^https?:\/\//.test(path) || path.startsWith('/')) return path;
+  if (path.startsWith('@/assets/')) return new URL(path.replace('@/assets/', '/src/assets/'), import.meta.url).href;
+  if (path.startsWith('src/')) return new URL(`/${path}`, import.meta.url).href;
+  return path;
 };
 
-const getComparisonItems = (): ServiceResponse[] => {
-  return items.value.filter(item => comparisonItems.value.has(item.id));
-};
+watch(filteredItems, (visibleItems) => {
+  visibleItems.forEach(item => {
+    const src = resolveImagePath(item.image);
+    if (!src) return;
+    const image = new Image();
+    image.decoding = 'async';
+    image.src = src;
+  });
+}, {immediate: true});
 
 // Purchase handler
 const handlePurchase = (itemId: string) => {
@@ -165,26 +169,55 @@ const handlePurchase = (itemId: string) => {
 
 <style scoped>
 .shop-items {
-  padding: 20px 0;
+  padding: 20px 0 48px;
   overflow: visible;
 }
 
 /* Back to Categories Button */
-.back-to-categories {
-  margin-top: 8px;
-  margin-bottom: 24px;
-  padding-left: 8px;
-  overflow: visible;
+.catalog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 8px 0 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+}
+
+.category-context {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  text-align: right;
+}
+
+.category-context span {
+  max-width: 55vw;
+  overflow: hidden;
+  color: var(--myst-offwhite);
+  font: 700 22px/1.2 'Playfair Display', serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-context small {
+  color: #767c8c;
+  font: 600 10px 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .back-button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 20px;
-  background: color-mix(in srgb, var(--myst-bg-2) 60%, transparent);
-  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 20%, transparent);
-  border-radius: 8px;
+  min-height: 44px;
+  padding: 0 17px;
+  background: rgba(255, 255, 255, .035);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 9px;
   color: var(--myst-ink-strong);
   font-size: 14px;
   font-weight: 500;
@@ -213,15 +246,44 @@ const handlePurchase = (itemId: string) => {
 /* Items Grid */
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns:repeat(3, minmax(0, 1fr));
   gap: 24px;
-  margin-top: 0;
+  align-items: stretch;
 }
 
 .shop-item-card {
-  opacity: 1;
-  transform: translateY(0);
-  animation: fadeInUp 0.4s ease-out backwards;
+  min-width: 0;
+}
+
+.catalog-enter-active, .catalog-leave-active {
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+.catalog-enter-from, .catalog-leave-to {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.empty-state {
+  min-height: 280px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  padding: 30px;
+  border: 1px dashed rgba(200, 178, 115, .2);
+  border-radius: 14px;
+  color: #777d8c;
+  text-align: center;
+}
+
+.empty-state i {
+  color: rgba(200, 178, 115, .5);
+  font-size: 34px;
+}
+
+.empty-state p {
+  margin: 0;
 }
 
 @keyframes fadeInUp {
@@ -238,7 +300,7 @@ const handlePurchase = (itemId: string) => {
 /* Responsive Design */
 @media (max-width: 768px) {
   .items-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 }
@@ -253,17 +315,31 @@ const handlePurchase = (itemId: string) => {
     gap: 16px;
   }
 
-  .back-to-categories {
-    margin-top: 4px;
-    margin-bottom: 16px;
-    padding-left: 0;
+  .catalog-toolbar {
+    margin: 4px 0 20px;
+    gap: 12px;
+    padding-bottom: 14px;
   }
 
   .back-button {
     padding: 10px 16px;
     font-size: 13px;
-    width: 100%;
+    flex: 0 0 44px;
+    width: 44px;
+    padding: 0;
     justify-content: center;
+  }
+
+  .back-button {
+    font-size: 0;
+  }
+
+  .back-button i {
+    font-size: 14px;
+  }
+
+  .category-context span {
+    font-size: 19px;
   }
 
   .back-button:hover {
