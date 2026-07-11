@@ -1,5 +1,17 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import pathwayData from '../src/assets/sources/pathway-abilities.json';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const pathwayData = require('../src/assets/sources/pathway-abilities.json') as {
+  pathways: Array<{
+    id: string;
+    sequences: Array<{
+      sequence: number;
+      name: { en: string; uk: string };
+      abilities: unknown[];
+    }>;
+  }>;
+};
 
 function escapeHtml(text: string): string {
   if (!text) return '';
