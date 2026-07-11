@@ -2,8 +2,7 @@
   <div class="service-page">
     <HeaderItem/>
     <main class="service-detail-container">
-      <div v-if="service">
-        <!-- Back Button -->
+      <div v-if="service" class="service-layout">
         <div class="back-button-container">
           <button class="back-button" @click="goBack">
             <i class="fa-solid fa-arrow-left"></i>
@@ -11,19 +10,27 @@
           </button>
         </div>
 
-        <div class="service-header">
-          <div v-if="service.imageUrl" class="service-image-wrapper">
+        <section class="service-hero">
+          <div class="service-image-wrapper" :class="{ loaded: imageLoaded, failed: imageFailed }">
+            <div class="service-image-placeholder" aria-hidden="true">
+              <i class="fa-solid fa-key"></i>
+            </div>
             <img
+                v-if="service.imageUrl && !imageFailed"
                 :alt="service.name"
                 :src="service.imageUrl"
                 class="service-image"
+                fetchpriority="high"
+                loading="eager"
+                decoding="async"
+                @load="imageLoaded = true"
+                @error="imageFailed = true"
             />
           </div>
           <div class="service-title-section">
+            <span class="service-eyebrow">{{ getTypeLabel(service.type) }}</span>
             <h1 class="service-title">{{ service.name }}</h1>
             <div class="service-meta">
-              <span class="service-type">{{ getTypeLabel(service.type) }}</span>
-              <span class="service-price">{{ formattedPrice }}</span>
               <span v-if="service.isSubscription" class="service-subscription">{{ t('subscription') }}</span>
               <span v-if="service.isGiftable" class="service-feature giftable">
                 <i class="fa-solid fa-gift"></i>
@@ -34,27 +41,34 @@
                 {{ t('bulkPurchase') || 'Bulk' }}
               </span>
             </div>
+
+            <div class="purchase-panel">
+              <div class="purchase-price">
+                <span>{{ t('price') || 'Price' }}</span>
+                <strong>{{ formattedPrice }}</strong>
+              </div>
+              <button
+                  :class="{ purchasing }"
+                  :disabled="!authStore.isAuthenticated || purchasing"
+                  class="purchase-btn"
+                  @click="openPurchaseModal"
+              >
+                <i v-if="purchasing" class="fa-solid fa-spinner fa-spin"></i>
+                <i v-else class="fa-solid fa-bag-shopping"></i>
+                {{ purchasing ? t('processing') : t('purchase') }}
+              </button>
+              <p v-if="!authStore.isAuthenticated" class="auth-notice">
+                <i class="fa-solid fa-lock"></i>{{ t('loginToPurchase') }}
+              </p>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div v-dompurify-html="renderedContent" class="service-content"></div>
-
-        <div class="service-actions">
-          <button
-              :class="{ 'purchasing': purchasing }"
-              :disabled="!authStore.isAuthenticated || purchasing"
-              class="purchase-btn"
-              @click="openPurchaseModal"
-          >
-            <i v-if="purchasing" class="fa-solid fa-spinner fa-spin"></i>
-            <i v-else class="fa-solid fa-shopping-cart"></i>
-            {{ purchasing ? t('processing') : t('purchase') }}
-          </button>
-
-          <p v-if="!authStore.isAuthenticated" class="auth-notice">
-            {{ t('loginToPurchase') }}
-          </p>
-        </div>
+        <article class="service-content-card">
+          <div class="content-label"><span></span>{{ t('details') || 'Details' }}<span></span></div>
+          <div v-if="renderedContent" v-dompurify-html="renderedContent" class="service-content"></div>
+          <p v-else class="content-empty">{{ t('serviceContentNotCreated') }}</p>
+        </article>
       </div>
 
       <div v-else-if="loading" class="service-loading">
@@ -149,6 +163,8 @@ const confirmModal = ref<InstanceType<typeof ModalItem> | null>(null);
 const purchaseAmount = ref(1);
 const isGift = ref(false);
 const recipientId = ref('');
+const imageLoaded = ref(false);
+const imageFailed = ref(false);
 
 const md = new MarkdownIt({
   html: true,
@@ -261,6 +277,13 @@ const loadService = async () => {
 
       const response = await shopAPI.getServiceContent(slug, currentLanguage.value);
       service.value = response.data;
+      imageLoaded.value = false;
+      imageFailed.value = false;
+      if (service.value.imageUrl) {
+        const image = new Image();
+        image.decoding = 'async';
+        image.src = service.value.imageUrl;
+      }
       console.log('Service loaded successfully:', service.value);
     } catch (error) {
       console.error('Failed to load service:', error);
@@ -956,5 +979,116 @@ export default {
     font-size: 16px;
     padding: 12px 20px;
   }
+}
+
+/* Modern product detail composition */
+.service-page {
+  background:
+    radial-gradient(circle at 78% 12%, rgba(200, 178, 115, 0.07), transparent 28rem),
+    linear-gradient(180deg, #111218, #090b13 70%);
+}
+
+.service-detail-container {
+  max-width: 1180px;
+  padding: 110px 24px 72px;
+}
+
+.back-button-container { margin-bottom: 22px; }
+.back-button {
+  min-height: 44px;
+  padding: 0 16px;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.035);
+  color: #b9bdc8;
+  backdrop-filter: blur(10px);
+}
+.back-button:hover { border-color: rgba(200, 178, 115, 0.38); background: rgba(200, 178, 115, 0.08); color: var(--myst-gold); }
+.back-button:focus-visible, .purchase-btn:focus-visible { outline: 2px solid var(--myst-gold); outline-offset: 3px; }
+
+.service-hero {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.08fr) minmax(340px, 0.92fr);
+  min-height: 470px;
+  overflow: hidden;
+  border: 1px solid rgba(200, 178, 115, 0.18);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(24, 28, 47, 0.94), rgba(10, 12, 23, 0.98));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+}
+
+.service-image-wrapper {
+  position: relative;
+  width: auto;
+  height: auto;
+  min-height: 470px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(110deg, #111525 30%, #20263d 45%, #111525 60%);
+  background-size: 250% 100%;
+  animation: serviceShimmer 1.6s linear infinite;
+}
+.service-image-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(200, 178, 115, 0.28); font-size: 58px; }
+.service-image-wrapper.loaded, .service-image-wrapper.failed { animation: none; background: #111525; }
+.service-image { position: absolute; inset: 0; opacity: 0; filter: saturate(0.88) contrast(1.05); transition: opacity 0.5s ease; }
+.service-image-wrapper.loaded .service-image { opacity: 1; }
+.service-image-wrapper::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 58%, rgba(10, 12, 23, 0.3)), linear-gradient(0deg, rgba(5, 7, 14, 0.42), transparent 50%); pointer-events: none; }
+
+.service-title-section { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(30px, 5vw, 58px); }
+.service-eyebrow { margin-bottom: 13px; color: var(--myst-gold); font: 700 11px/1 'JetBrains Mono', monospace; letter-spacing: 2.4px; text-transform: uppercase; }
+.service-title { margin: 0; color: var(--myst-offwhite); font: 700 clamp(36px, 5vw, 58px)/1.04 'Playfair Display', serif; background: none; -webkit-text-fill-color: initial; overflow-wrap: anywhere; }
+.service-meta { gap: 9px; margin: 22px 0 0; }
+.service-feature, .service-subscription { padding: 7px 10px; border-radius: 7px; font: 600 11px 'JetBrains Mono', monospace; }
+.service-feature.giftable, .service-feature.bulkable { border-color: rgba(200, 178, 115, 0.23); background: rgba(200, 178, 115, 0.07); color: #d8cba9; }
+
+.purchase-panel { margin-top: 34px; padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.purchase-price { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+.purchase-price span { color: #777e8e; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: 1.5px; text-transform: uppercase; }
+.purchase-price strong { color: var(--myst-gold); font: 800 clamp(24px, 3vw, 32px)/1 'JetBrains Mono', monospace; text-align: right; }
+.purchase-btn { width: 100%; min-height: 52px; padding: 0 24px; border: 1px solid var(--myst-gold); border-radius: 10px; background: var(--myst-gold); color: #10121a; font: 800 12px 'JetBrains Mono', monospace; letter-spacing: 1.3px; text-transform: uppercase; }
+.purchase-btn:hover:not(:disabled) { background: #eee4c6; box-shadow: 0 10px 30px rgba(200, 178, 115, 0.2); }
+.purchase-btn:disabled { border-color: rgba(255, 255, 255, 0.11); background: rgba(255, 255, 255, 0.06); color: #777d8b; }
+.auth-notice { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px 0 0; color: #767c8b; font-size: 12px; }
+
+.service-content-card { margin-top: 28px; padding: clamp(24px, 5vw, 58px); border: 1px solid rgba(255, 255, 255, 0.075); border-radius: 18px; background: rgba(16, 19, 32, 0.76); box-shadow: 0 20px 55px rgba(0, 0, 0, 0.2); }
+.content-label { display: flex; align-items: center; gap: 16px; margin-bottom: 36px; color: var(--myst-gold); font: 700 10px 'JetBrains Mono', monospace; letter-spacing: 2px; text-transform: uppercase; }
+.content-label span { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, rgba(200, 178, 115, 0.3)); }
+.content-label span:last-child { transform: scaleX(-1); }
+.service-content { max-width: 780px; margin: 0 auto; color: #b9bdc7; font-size: 16px; line-height: 1.82; }
+.service-content :deep(h1), .service-content :deep(h2), .service-content :deep(h3) { font-family: 'Playfair Display', serif; line-height: 1.25; }
+.service-content :deep(h2) { padding-bottom: 10px; border-bottom: 1px solid rgba(200, 178, 115, 0.14); color: var(--myst-offwhite); }
+.service-content :deep(a) { color: var(--myst-gold); text-underline-offset: 3px; }
+.service-content :deep(img) { display: block; max-width: 100%; height: auto; margin: 26px auto; border-radius: 12px; }
+.service-content :deep(table) { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }
+.service-content :deep(th), .service-content :deep(td) { padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.1); }
+.content-empty { margin: 0; color: #777d8b; text-align: center; }
+
+@keyframes serviceShimmer { to { background-position: -250% 0; } }
+
+@media (max-width: 800px) {
+  .service-detail-container { padding: 96px 16px 48px; }
+  .service-hero { grid-template-columns: 1fr; min-height: 0; }
+  .service-image-wrapper { min-height: 0; aspect-ratio: 16 / 10; }
+  .service-image-wrapper::after { background: linear-gradient(0deg, rgba(10, 12, 23, 0.55), transparent 45%); }
+  .service-title-section { padding: 28px; text-align: left; }
+  .service-meta { justify-content: flex-start; flex-direction: row; }
+}
+
+@media (max-width: 520px) {
+  .service-detail-container { padding-inline: 10px; }
+  .back-button { width: 44px; padding: 0; justify-content: center; font-size: 0; }
+  .back-button i { font-size: 14px; }
+  .service-hero, .service-content-card { border-radius: 13px; }
+  .service-image-wrapper { width: auto; height: auto; aspect-ratio: 4 / 3; }
+  .service-title-section { padding: 22px 18px; }
+  .service-title { font-size: 34px; }
+  .purchase-panel { margin-top: 25px; padding-top: 20px; }
+  .service-content-card { margin-top: 16px; padding: 25px 18px; }
+  .content-label { margin-bottom: 24px; }
+  .service-content { font-size: 15px; line-height: 1.72; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-image-wrapper { animation: none; }
+  .service-image, .back-button, .purchase-btn { transition: none; }
 }
 </style>
