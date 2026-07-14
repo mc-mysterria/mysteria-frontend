@@ -17,7 +17,7 @@
         </RouterLink>
 
         <!-- Admin Registry Dropdown -->
-        <div v-if="canEditAnyContent" ref="dropdownRef" class="admin-ritual-dropdown">
+        <div v-if="canEditAnyContent || canTuneBalance" ref="dropdownRef" class="admin-ritual-dropdown">
           <button 
               class="admin-ritual-trigger" 
               @click.stop="isDropdownOpen = !isDropdownOpen"
@@ -54,15 +54,25 @@
                 </div>
               </RouterLink>
 
-              <div class="menu-ritual-divider"></div>
-
-              <RouterLink class="menu-ritual-item admin-primary" to="/admin" @click="isDropdownOpen = false">
-                <i class="fa-solid fa-scroll"></i>
+              <RouterLink v-if="canTuneBalance" class="menu-ritual-item" to="/tools/balance" @click="isDropdownOpen = false">
+                <i class="fa-solid fa-scale-balanced"></i>
                 <div class="item-meta">
-                  <span class="item-title">Full Registry</span>
-                  <span class="item-desc">Admin Dashboard</span>
+                  <span class="item-title">Observatory</span>
+                  <span class="item-desc">Balance Tuning</span>
                 </div>
               </RouterLink>
+
+              <template v-if="canAccessAdmin">
+                <div class="menu-ritual-divider"></div>
+
+                <RouterLink class="menu-ritual-item admin-primary" to="/admin" @click="isDropdownOpen = false">
+                  <i class="fa-solid fa-scroll"></i>
+                  <div class="item-meta">
+                    <span class="item-title">Full Registry</span>
+                    <span class="item-desc">Admin Dashboard</span>
+                  </div>
+                </RouterLink>
+              </template>
             </div>
           </Transition>
         </div>
@@ -97,7 +107,7 @@ const authStore = useAuthStore();
 const balanceStore = useBalanceStore();
 const {t} = useI18n();
 const {formatCurrency, currentCurrency} = useCurrency();
-const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop} = usePermissions();
+const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop, canTuneBalance, canAccessAdmin} = usePermissions();
 
 const isDropdownOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);
