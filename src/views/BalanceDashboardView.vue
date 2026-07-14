@@ -28,6 +28,19 @@
         <p class="page-subtitle">Circle of Imagination · pathway tuning instrument</p>
       </div>
       <div class="header-actions">
+        <button
+            :disabled="fetchingReport"
+            class="ghost-btn"
+            title="GET /balance/report from the live server (catwalk)"
+            @click="fetchFromServer"
+        >
+          <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+            <path d="M12 12v9"/>
+            <path d="m8 17 4 4 4-4"/>
+          </svg>
+          {{ fetchingReport ? 'Fetching…' : 'Fetch from server' }}
+        </button>
         <button class="ghost-btn" @click="filePicker?.click()">
           <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -49,6 +62,10 @@
     <div v-if="!payload" class="empty-state" @click="filePicker?.click()">
       <div class="empty-sigil">✦</div>
       <h2>Feed the Observatory</h2>
+      <button :disabled="fetchingReport" class="fetch-cta" type="button" @click.stop="fetchFromServer">
+        {{ fetchingReport ? 'Consulting the server…' : 'Fetch the latest report from the server' }}
+      </button>
+      <p class="empty-or">— or load it by hand —</p>
       <p class="empty-lead">Drop <code>export-latest.json</code> anywhere on this page, or click to browse.</p>
       <ol class="empty-steps">
         <li>On the server, run <code>/coi balance export 30</code></li>
@@ -67,6 +84,11 @@
         <span :class="['meta-chip', telemetryAvailable ? 'ok' : 'off']">
           telemetry <b>{{ telemetryAvailable ? 'available' : 'unavailable' }}</b>
         </span>
+        <span
+            v-if="profiledKeyCount"
+            :title="payload.meta.damageProfiles"
+            class="meta-chip"
+        ><b>{{ profiledKeyCount }}</b> profiled damage key{{ profiledKeyCount > 1 ? 's' : '' }}</span>
         <span class="meta-chip">fair band <b>±{{ Math.round(threshold * 100) }}%</b></span>
       </div>
 
@@ -235,6 +257,7 @@
             :casts-by-key="castsByKey"
             :dmg-by-key="dmgByKey"
             :flash-id="flashId"
+            :profiles-present="profiledKeyCount > 0"
             :telemetry-available="telemetryAvailable"
         />
       </section>
@@ -316,6 +339,7 @@
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
+import {useAuthStore} from '@/stores/auth';
 import FairnessChart, {type ChartChrome, type ChartSeries} from '@/components/balance/FairnessChart.vue';
 import AbilityStrip, {type StripRow} from '@/components/balance/AbilityStrip.vue';
 import EditorTable from '@/components/balance/EditorTable.vue';
@@ -329,6 +353,7 @@ import type {
 } from '@/types/coi-balance';
 import {
   buildCtx,
+  castDamage,
   effCost,
   enrichPayload,
   fmt,
@@ -388,6 +413,11 @@ const allPathways = computed(() => payload.value ? Object.keys(payload.value.pat
 const threshold = computed(() => (payload.value?.exportMeta?.fairnessDeviationPercent ?? 25) / 100);
 const windowDays = computed(() => payload.value?.exportMeta?.windowDays ?? 30);
 const telemetryAvailable = computed(() => !!payload.value?.telemetry?.available);
+const profiledKeyCount = computed(() => {
+  let n = 0;
+  for (const a of payload.value?.abilities ?? []) n += Object.keys(a.damageProfiles ?? {}).length;
+  return n;
+});
 const metricLabel = computed(() => METRICS.find(m => m.id === metric.value)?.label ?? '');
 
 const dmgByKey = computed(() => {
@@ -518,7 +548,7 @@ const stripRows = computed<StripRow[]>(() => {
       if (a.pathway !== p || a.sequence < s) continue;
       const cost = effCost(a, prof.maxSpirituality);
       if (cost <= 0) continue;
-      all.push({id: a.id, name: a.plainName, pathway: p, dps: a.damageKeys[a._primary!] * dmgMult / cost});
+      all.push({id: a.id, name: a.plainName, pathway: p, dps: castDamage(a, a._primary!, 60).dmg * dmgMult / cost});
     }
   }
   const m = median(all.map(r => r.dps));
@@ -552,7 +582,7 @@ const outlierRows = computed<StripRow[]>(() => {
     if (!prof) continue;
     const cost = effCost(a, prof.maxSpirituality);
     if (cost <= 0) continue;
-    const dps = a.damageKeys[a._primary!] * c.payload.sequenceTables.damageMultiplier[a.sequence] / cost;
+    const dps = castDamage(a, a._primary!, 60).dmg * c.payload.sequenceTables.damageMultiplier[a.sequence] / cost;
     (bySeq[a.sequence] = bySeq[a.sequence] || []).push(dps);
     rows.push({a, dps});
   }
@@ -691,6 +721,55 @@ const onDrop = (e: DragEvent) => {
   if (f) readFile(f);
 };
 
+// ---------- server fetch ----------
+// GET /api/balance-report: a permission-gated proxy (api/balance-report.ts on
+// Vercel, dev middleware locally) that verifies this session holds
+// ADMIN/BALANCE:MANAGE before calling catwalk's /balance/report with the
+// server-held API key. The key never reaches the client, and the open
+// /catwalk/* proxy refuses balance paths. Envelope: { success, message, data }.
+const authStore = useAuthStore();
+const fetchingReport = ref(false);
+
+const fetchFromServer = async () => {
+  if (fetchingReport.value) return;
+  if (payload.value && dmgEditCount.value + tuneEditCount.value > 0
+      && !confirm('Replace the loaded payload? Your unsaved edits will be lost.')) return;
+  const token = authStore.currentToken;
+  if (!token) {
+    loadError.value = 'Your session has expired — sign in again to fetch from the server.';
+    return;
+  }
+  fetchingReport.value = true;
+  loadError.value = '';
+  try {
+    const res = await fetch('/api/balance-report', {
+      headers: {Accept: 'application/json', Authorization: `Bearer ${token}`},
+    });
+    let body: { success?: boolean; message?: string; data?: unknown } | null = null;
+    try {
+      body = await res.json();
+    } catch { /* non-JSON error page — fall through to the status check */
+    }
+    if (!res.ok) {
+      loadError.value = `Server fetch failed (HTTP ${res.status})${body?.message ? ': ' + body.message : ''}.`;
+      return;
+    }
+    if (!body?.success || !body.data || typeof body.data !== 'object') {
+      loadError.value = 'Server fetch failed: ' + (body?.message || 'unexpected response shape.');
+      return;
+    }
+    if (!Object.keys(body.data).length) {
+      loadError.value = 'The server has no balance report yet — run /coi balance export there first.';
+      return;
+    }
+    acceptPayload(body.data); // sets its own loadError if the payload is malformed
+  } catch {
+    loadError.value = 'Could not reach the server report endpoint — check your connection and try again.';
+  } finally {
+    fetchingReport.value = false;
+  }
+};
+
 const clearPayload = () => {
   if (!confirm('Forget the loaded payload and all edits?')) return;
   payload.value = null;
@@ -751,6 +830,7 @@ Damage per spirit = plan damage ÷ spirit spent.
 Fairness index = value ÷ cross-pathway median at the same sequence; flagged when |index − 1| > ${Math.round(threshold.value * 100)}%.
 Empirical columns come from live telemetry (window: ${windowDays.value} days).
 An ability's damage per cast uses its ★ primary key only — variant keys are visible in the drilldown but deliberately never summed.
+Keys with a ◆ damage-key profile replace the once-per-cast assumption: ACTIVE_CAST weights damage by proc chance; DoT/aura keys count sustained DPS × duration per application (re-applying refreshes, never stacks, on the single duelist target); throttled on-hit keys count as a continuous stream (DPS × fight length, one activation); an unthrottled on-hit is attack-speed-bound and keeps the old per-cast number. Unprofiled keys still assume one hit per cast.${payload.value.meta.damageProfiles ? '\n' + payload.value.meta.damageProfiles : ''}
 Cost and cooldown are EFFECTIVE values: tuning-config.yml overrides layered over the hardcoded numbers. The tuning download regenerates that file in full (pre-existing overrides plus your edits), so it is always safe to drop in.`;
 });
 
@@ -944,6 +1024,38 @@ onBeforeUnmount(() => {
   font-size: 24px;
   margin: 0 0 8px;
   color: var(--myst-ink);
+}
+
+.fetch-cta {
+  padding: 11px 26px;
+  background: var(--myst-gold);
+  color: var(--myst-bg);
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-bottom: 6px;
+}
+
+.fetch-cta:hover:not(:disabled) {
+  background: var(--myst-gold-soft);
+  transform: translateY(-1px);
+}
+
+.fetch-cta:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.empty-or {
+  color: color-mix(in srgb, var(--myst-ink-muted) 70%, transparent);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 14px 0 10px;
 }
 
 .empty-lead {

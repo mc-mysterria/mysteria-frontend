@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
-import type {CoiBalancePayload, EnrichedAbility} from '@/types/coi-balance';
-import {buildCtx, enrichPayload, median, metricValue, plan, validatePayload} from '../model';
+import type {CoiBalancePayload, DamageKeyProfile, EnrichedAbility} from '@/types/coi-balance';
+import {buildCtx, castDamage, enrichPayload, median, metricValue, plan, profileMath, validatePayload} from '../model';
 import {patchedDamageYaml, tuningEntries, tuningYaml} from '../yaml';
 
 const ability = (over: Partial<EnrichedAbility>): EnrichedAbility => ({
@@ -94,6 +94,102 @@ describe('plan / metricValue', () => {
     it('returns null for a pathway/sequence with no profile', () => {
         const ctx = buildCtx(enrichPayload(makePayload()));
         expect(plan(ctx, 'sun', 5, 60, true)).toBeNull();
+    });
+});
+
+describe('damage-key profiles', () => {
+    const profile = (over: Partial<DamageKeyProfile>): DamageKeyProfile => ({
+        trigger: 'ACTIVE_CAST', procChance: 1, internalCooldownSeconds: 0,
+        tickIntervalSeconds: 0, maxDurationSeconds: 0, expectedDurationSeconds: 0,
+        aoe: false, ...over,
+    });
+
+    // handoff example: disease-fatal-minor — 3.0 base, 50% roll every second, ~30s infection
+    const diseaseAbility = () => ability({
+        id: 'sun-9-2', kebabName: 'disease', plainName: 'disease',
+        cooldownSeconds: 30, effectiveCooldownSeconds: 30,
+        damageKeys: {'disease-fatal-minor': 3},
+        damageProfiles: {
+            'disease-fatal-minor': profile({
+                trigger: 'DOT_TICK', procChance: 0.5, tickIntervalSeconds: 1,
+                maxDurationSeconds: -1, expectedDurationSeconds: 30, aoe: true,
+                notes: 'Infection ticks every second after a 10s incubation.',
+            }),
+        },
+    });
+
+    it('DoT: ≈1.5 sustained dps, ≈45 per application, "until cured" sentinel never used in math', () => {
+        const m = profileMath(diseaseAbility(), 'disease-fatal-minor')!;
+        expect(m.sustainedDps).toBeCloseTo(1.5);
+        expect(m.expectedTotalPerApplication).toBeCloseTo(45);
+        expect(m.durationSeconds).toBe(30); // expectedDuration, not the -1 sentinel
+        expect(m.indefinite).toBe(true);
+
+        const cd = castDamage(diseaseAbility(), 'disease-fatal-minor', 60);
+        expect(cd.kind).toBe('dot');
+        expect(cd.dmg).toBeCloseTo(45);
+        expect(cd.maxCasts).toBe(2); // re-applying refreshes, never stacks, on the single duelist target
+        // a 10s burst window only fits 10s of ticks
+        expect(castDamage(diseaseAbility(), 'disease-fatal-minor', 10).dmg).toBeCloseTo(15);
+    });
+
+    it('throttled on-hit: ≈7 dps stream with a 1s period despite cooldownSeconds -1', () => {
+        const a = ability({
+            kebabName: 'corrosive-claw', cooldownSeconds: -1, effectiveCooldownSeconds: -1,
+            damageKeys: {'corrosive-claw': 7},
+            damageProfiles: {'corrosive-claw': profile({trigger: 'ON_HIT', internalCooldownSeconds: 1})},
+        });
+        const m = profileMath(a, 'corrosive-claw')!;
+        expect(m.effectivePeriodSeconds).toBe(1);
+        expect(m.sustainedDps).toBeCloseTo(7);
+        const cd = castDamage(a, 'corrosive-claw', 60);
+        expect(cd.kind).toBe('stream');
+        expect(cd.maxCasts).toBe(1);
+        expect(cd.dmg).toBeCloseTo(420);
+    });
+
+    it('unthrottled on-hit: attack-speed-bound (dps unknown), never ranked as zero', () => {
+        const a = ability({
+            damageKeys: {'holy-light': 4},
+            damageProfiles: {'holy-light': profile({trigger: 'ON_HIT'})}, // icd 0 = none
+        });
+        expect(profileMath(a, 'holy-light')!.sustainedDps).toBeNull();
+        const cd = castDamage(a, 'holy-light', 60);
+        expect(cd.kind).toBe('attack-speed');
+        expect(cd.dmg).toBe(4); // falls back to the per-cast baseline, not 0
+    });
+
+    it('ACTIVE_CAST: damage weighted by proc chance, pacing left to the cast plan', () => {
+        const a = ability({damageProfiles: {'holy-light': profile({procChance: 0.5})}});
+        expect(castDamage(a, 'holy-light', 60)).toEqual({dmg: 2, maxCasts: null, kind: 'per-cast'});
+    });
+
+    it('derived values track live edits to the base damage', () => {
+        const a = diseaseAbility();
+        a._orig = {...a.damageKeys};
+        a.damageKeys['disease-fatal-minor'] = 6;
+        expect(profileMath(a, 'disease-fatal-minor')!.sustainedDps).toBeCloseTo(3);
+        expect(profileMath(a, 'disease-fatal-minor', true)!.sustainedDps).toBeCloseTo(1.5); // pristine ghost
+    });
+
+    it('plan uses per-application totals and caps DoT re-applications', () => {
+        const raw = makePayload();
+        raw.abilities.push(diseaseAbility());
+        const ctx = buildCtx(enrichPayload(raw));
+        // sun @ S9, 60s with regen: budget 100 + 60×1.25 = 175.
+        // disease: 45/cast cost 10 ratio 4.5 → first; byCd floor(60/30)+1 = 3 but capped at 2 applications → 90 dmg
+        // holy-light: 13 casts × 4 = 52 (budget 155 → 25 left); flame-wave: floor(25/20) = 1 cast × 6
+        const p = plan(ctx, 'sun', 9, 60, true)!;
+        const disease = p.rows.find(r => r.a.kebabName === 'disease')!;
+        expect(disease.casts).toBe(2);
+        expect(p.total).toBe(148);
+    });
+
+    it('a payload without any profiles plans exactly as before', () => {
+        const ctx = buildCtx(enrichPayload(makePayload()));
+        const p = plan(ctx, 'sun', 9, 10, false)!;
+        expect(p.total).toBe(30); // same as the pre-profile regression numbers
+        expect(p.spent).toBe(90);
     });
 });
 

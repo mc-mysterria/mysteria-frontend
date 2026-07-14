@@ -19,6 +19,36 @@ export interface PathwayRow {
     maxHealth: number;
 }
 
+/** How a damage key actually lands, when the owning ability declares it (§handoff "damage-key profiles"). */
+export type DamageTrigger = 'ACTIVE_CAST' | 'ON_HIT' | 'DOT_TICK' | 'AURA_TICK' | 'SUMMON_HIT' | 'OTHER';
+
+export interface DamageKeyProfile {
+    trigger: DamageTrigger;
+    procChance: number;              // 0–1, always present; 1.0 = guaranteed
+    internalCooldownSeconds: number; // ability-enforced throttle between procs; 0 = none
+    tickIntervalSeconds: number;     // seconds between DoT/aura applications; 0 = not tick-based
+    maxDurationSeconds: number;      // 0 = n/a, -1 = until cured/cleared (sentinel — never use in math)
+    expectedDurationSeconds: number; // author's typical-length estimate; 0 = unset
+    aoe: boolean;                    // display flag, not math
+    notes?: string;                  // conditions the numbers can't express — show verbatim
+}
+
+/** Flat per-key row in the export. Derived fields are Sequence-9 baselines, each independently absent. */
+export interface DamageEntry {
+    pathway: string;
+    key: string;
+    baseDamage: number;
+    abilityId?: string;
+    abilityName?: string;
+    abilitySequence?: number;
+    attribution?: string;
+    profile?: DamageKeyProfile;
+    expectedDamagePerTrigger?: number;    // baseDamage × procChance
+    effectivePeriodSeconds?: number;      // absent = period unknown (e.g. attack-speed-bound)
+    sustainedDps?: number;                // absent on a profiled entry ≠ 0 DPS
+    expectedTotalPerApplication?: number; // DOT/AURA with a known duration only
+}
+
 export interface AbilitySpec {
     id: string;                      // "sun-0-1" = pathway-seqLevel-index
     pathway: string;                 // lowercase
@@ -36,6 +66,7 @@ export interface AbilitySpec {
     effectiveFlatCost: number;
     effectiveCostPercentage: number;
     damageKeys: Record<string, number>; // key → Sequence-9 base damage
+    damageProfiles?: Record<string, DamageKeyProfile>; // absent on pre-profile exports; enrich defaults to {}
 }
 
 /** Pristine copies attached on load so edits can be tracked and reset (§5). */
@@ -76,11 +107,14 @@ export interface Telemetry {
 }
 
 export interface CoiBalancePayload {
-    meta: { pluginVersion: string; generatedAt: string; assumptions: string };
+    schemaVersion?: number;          // still 2 with profiles (additive); plugin bumps to 3 once we render them
+    meta: { pluginVersion: string; generatedAt: string; assumptions: string; damageProfiles?: string };
     exportMeta: { windowDays: number; fairnessDeviationPercent: number };
     sequenceTables: SequenceTables;
     pathways: Record<string, PathwayRow[]>;
     abilities: EnrichedAbility[];
+    damageEntries?: DamageEntry[];
+    unownedDamageKeys?: unknown;
     orphanKeys: Record<string, string[]>;
     damageConfigLines: string[];
     bypassSites: string[];

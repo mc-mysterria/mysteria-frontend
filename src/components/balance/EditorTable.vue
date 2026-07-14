@@ -73,19 +73,31 @@
         <!-- damage keys -->
         <td class="keys-cell">
           <span v-if="!Object.keys(a.damageKeys).length" class="key-pill muted">no damage key</span>
-          <div v-for="k in Object.keys(a.damageKeys)" :key="k" class="tune-wrap key-wrap">
-            <span :class="{ primary: k === a._primary }" class="key-pill">
-              {{ k }}<template v-if="k === a._primary"> ★</template>
-            </span>
-            <input
-                :class="{ changed: isDamageChanged(a, k) }"
-                :value="a.damageKeys[k]"
-                min="0"
-                step="0.1"
-                type="number"
-                @input="onDamageInput(a, k, $event)"
-            />
-            <span v-if="isDamageChanged(a, k)" class="ghost-val">{{ a._orig[k] }}</span>
+          <div v-for="k in Object.keys(a.damageKeys)" :key="k" class="key-block">
+            <div class="tune-wrap key-wrap">
+              <span :class="{ primary: k === a._primary, profiled: !!pmOf(a, k) }" class="key-pill">
+                <template v-if="pmOf(a, k)">◆ </template>{{ k }}<template v-if="k === a._primary"> ★</template>
+              </span>
+              <input
+                  :class="{ changed: isDamageChanged(a, k) }"
+                  :value="a.damageKeys[k]"
+                  min="0"
+                  step="0.1"
+                  type="number"
+                  @input="onDamageInput(a, k, $event)"
+              />
+              <span v-if="isDamageChanged(a, k)" class="ghost-val">{{ a._orig[k] }}</span>
+              <span
+                  v-if="!pmOf(a, k) && profilesPresent"
+                  class="assumed-pill"
+                  title="No damage-key profile yet — numbers assume the key lands once per cast, on the cast cooldown."
+              >assumed once per cast</span>
+            </div>
+            <div v-if="pmOf(a, k)" class="profile-line">
+              <span class="profile-meta">{{ profileTraits(a, k) }}</span>
+              <span :class="['profile-rate', { unknown: pmOf(a, k)!.sustainedDps == null }]">{{ profileRate(a, k) }}</span>
+            </div>
+            <div v-if="pmOf(a, k)?.profile.notes" class="profile-notes">{{ pmOf(a, k)!.profile.notes }}</div>
           </div>
         </td>
 
@@ -102,15 +114,22 @@
     </table>
     <p class="table-footnote">
       ★ = primary key used in fairness math — variant keys are alternative hits, never summed.
+      <template v-if="profilesPresent">
+        ◆ = mechanically profiled key: the shown trigger/proc/period replaces the once-per-cast assumption
+        in all charts; rates are Sequence-9 baselines. Keys without ◆ still assume one hit per cast.
+      </template>
       Casts join on the ability name; hits/damage join on the primary key.
       “Obs ×base” = observed avg final damage ÷ configured base, the live multiplier stack.
+      <template v-if="profilesPresent">
+        For profiled DoT keys, expect many hits with a low avg — that's the mechanic, not bad data.
+      </template>
     </p>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type {CastsByKeyRow, DamageByKeyRow, EnrichedAbility} from '@/types/coi-balance';
-import {fmt} from '@/utils/coiBalance/model';
+import {fmt, profileMath} from '@/utils/coiBalance/model';
 
 const props = defineProps<{
   abilities: EnrichedAbility[];
@@ -118,6 +137,7 @@ const props = defineProps<{
   castsByKey: Record<string, CastsByKeyRow>;
   telemetryAvailable: boolean;
   flashId: string | null;
+  profilesPresent: boolean;
 }>();
 
 const emit = defineEmits<{ edited: [] }>();
@@ -164,6 +184,42 @@ const onDamageInput = (a: EnrichedAbility, k: string, e: Event) => {
   if (v == null) return;
   a.damageKeys[k] = v;
   emit('edited');
+};
+
+// ---------- damage-key profiles ----------
+const pmOf = (a: EnrichedAbility, k: string) => profileMath(a, k);
+
+const secs = (v: number) => (Number.isInteger(v) ? String(v) : v.toFixed(1)) + 's';
+
+const TRIGGER_LABELS: Record<string, string> = {
+  ACTIVE_CAST: 'active cast', ON_HIT: 'on-hit', DOT_TICK: 'DoT tick',
+  AURA_TICK: 'aura tick', SUMMON_HIT: 'summon hit', OTHER: 'other trigger',
+};
+
+/** Compact "trigger · proc · period · duration · AoE" summary. */
+const profileTraits = (a: EnrichedAbility, k: string): string => {
+  const m = pmOf(a, k);
+  if (!m) return '';
+  const p = m.profile;
+  const parts = [TRIGGER_LABELS[p.trigger] ?? p.trigger.toLowerCase()];
+  if (p.procChance < 1) parts.push(Math.round(p.procChance * 100) + '% proc');
+  if (m.effectivePeriodSeconds != null) parts.push('every ' + secs(m.effectivePeriodSeconds));
+  if (m.indefinite) parts.push('until cured/cleared' + (m.durationSeconds != null ? ` (~${secs(m.durationSeconds)} typical)` : ''));
+  else if (m.durationSeconds != null) parts.push('for ~' + secs(m.durationSeconds));
+  if (p.aoe) parts.push('AoE');
+  return parts.join(' · ');
+};
+
+/** Derived S9 rate — or the honest reason there isn't one (absent ≠ zero). */
+const profileRate = (a: EnrichedAbility, k: string): string => {
+  const m = pmOf(a, k);
+  if (!m) return '';
+  if (m.sustainedDps == null)
+    return m.profile.trigger === 'ON_HIT' || m.profile.trigger === 'SUMMON_HIT'
+        ? 'attack-speed-bound' : 'period unknown';
+  let s = '≈' + fmt(m.sustainedDps) + ' dps';
+  if (m.expectedTotalPerApplication != null) s += ' · ≈' + fmt(m.expectedTotalPerApplication) + ' per application';
+  return s;
 };
 
 const castsFor = (a: EnrichedAbility) => props.castsByKey[a.kebabName]?.casts ?? '—';
@@ -315,6 +371,69 @@ const obsMult = (a: EnrichedAbility) => {
 
 .key-pill.muted {
   opacity: 0.6;
+}
+
+/* ---------- damage-key profiles ---------- */
+.key-block {
+  margin: 2px 0 6px;
+}
+
+.key-block:last-child {
+  margin-bottom: 0;
+}
+
+.key-pill.profiled {
+  border-color: color-mix(in srgb, #14b8a6 55%, transparent);
+  color: #14b8a6;
+}
+
+.key-pill.profiled.primary {
+  /* primary ★ still wins the accent — keep the ◆ glyph as the profile marker */
+  border-color: color-mix(in srgb, var(--myst-gold) 55%, transparent);
+  color: var(--myst-gold);
+}
+
+.assumed-pill {
+  font-size: 9px;
+  font-family: 'JetBrains Mono', monospace;
+  border: 1px dashed color-mix(in srgb, var(--myst-ink-muted) 45%, transparent);
+  border-radius: 999px;
+  padding: 0 7px;
+  color: color-mix(in srgb, var(--myst-ink-muted) 80%, transparent);
+  white-space: nowrap;
+  cursor: help;
+}
+
+.profile-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 1px 0 0 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+}
+
+.profile-meta {
+  color: var(--myst-ink-muted);
+}
+
+.profile-rate {
+  color: #14b8a6;
+  font-weight: 600;
+}
+
+.profile-rate.unknown {
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.profile-notes {
+  margin: 2px 0 0 4px;
+  max-width: 420px;
+  color: color-mix(in srgb, var(--myst-ink-muted) 85%, transparent);
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.45;
 }
 
 .ghost-val {

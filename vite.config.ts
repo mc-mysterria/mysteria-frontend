@@ -24,7 +24,65 @@ function blockSensitiveCatwalkPathsPlugin() {
           res.end(JSON.stringify({ error: 'Forbidden', details: 'Use /api/beyonder-stats or /api/beyonder-self instead.' }));
           return;
         }
+        if (url.startsWith('/catwalk/balance/')) {
+          res.statusCode = 403;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Forbidden', details: 'Use /api/balance-report instead.' }));
+          return;
+        }
         next();
+      };
+      server.middlewares.use(middleware);
+    },
+  };
+}
+
+// Dev mirror of api/balance-report.ts: /api/* proxies to the main backend in dev,
+// which has no such endpoint, so the permission-gated catwalk proxy lives here.
+// Registered before the /api proxy (configureServer middlewares run first).
+function balanceReportDevEndpointPlugin(env: Record<string, string>) {
+  return {
+    name: 'dev-balance-report-endpoint',
+    configureServer(server: ViteDevServer) {
+      const middleware: Connect.NextHandleFunction = (req: IncomingMessage, res: ServerResponse, next) => {
+        if (!(req.url || '').startsWith('/api/balance-report')) {
+          next();
+          return;
+        }
+        const send = (status: number, body: unknown) => {
+          res.statusCode = status;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(body));
+        };
+        (async () => {
+          const authHeader = req.headers.authorization;
+          if (!authHeader) return send(401, { success: false, message: 'Authentication required' });
+
+          const mainApi = env.VITE_API_URL || 'http://localhost:8080';
+          const profileResponse = await fetch(`${mainApi}/api/user/profile`, {
+            headers: { Authorization: authHeader, Accept: 'application/json' },
+          });
+          if (!profileResponse.ok) return send(401, { success: false, message: 'Invalid or expired session' });
+
+          const profile = (await profileResponse.json()) as { permissions?: string[] };
+          const permissions = (profile.permissions || []).map((p) => p.replace(/^PERM_/, ''));
+          if (!permissions.includes('ADMIN') && !permissions.includes('BALANCE:MANAGE')) {
+            return send(403, { success: false, message: 'Missing BALANCE:MANAGE permission' });
+          }
+
+          const headers: Record<string, string> = { Accept: 'application/json' };
+          const token = process.env.CATWALK_API_TOKEN || env.CATWALK_API_TOKEN;
+          if (token) headers.Authorization = `Bearer ${token}`;
+
+          const upstream = await fetch('https://catwalk.mysterria.net/balance/report', { headers });
+          const text = await upstream.text();
+          res.statusCode = upstream.status;
+          res.setHeader('Content-Type', upstream.headers.get('content-type') || 'application/json');
+          res.end(text);
+        })().catch((error) => {
+          console.error('Error in dev balance-report endpoint:', error);
+          send(502, { success: false, message: 'Failed to reach upstream service' });
+        });
       };
       server.middlewares.use(middleware);
     },
@@ -54,6 +112,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       blockSensitiveCatwalkPathsPlugin(),
+      balanceReportDevEndpointPlugin(env),
       vue(),
       vueJsx(),
       vueDevTools(),

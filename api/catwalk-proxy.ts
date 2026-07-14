@@ -17,6 +17,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
+  if (path === 'balance/report' || path.startsWith('balance/')) {
+    return res.status(403).json({
+      error: 'Forbidden',
+      details: 'Use /api/balance-report instead.',
+    });
+  }
+
   const queryString = new URLSearchParams(
     Object.entries(restQuery).flatMap(([key, value]) =>
       Array.isArray(value) ? value.map((v) => [key, v]) : value !== undefined ? [[key, value]] : [],
