@@ -363,6 +363,7 @@ import {
   SEQS,
   validatePayload,
 } from '@/utils/coiBalance/model';
+import {decodeBalanceReport} from '@/utils/coiBalance/normalize';
 import {downloadText, patchedDamageYaml, tuningEntries, tuningYaml} from '@/utils/coiBalance/yaml';
 
 const router = useRouter();
@@ -758,11 +759,13 @@ const fetchFromServer = async () => {
       loadError.value = 'Server fetch failed: ' + (body?.message || 'unexpected response shape.');
       return;
     }
-    if (!Object.keys(body.data).length) {
+    // catwalk wraps the export in a reflection tree — rebuild the plain payload
+    const data = decodeBalanceReport(body.data);
+    if (!data || typeof data !== 'object' || !Object.keys(data).length) {
       loadError.value = 'The server has no balance report yet — run /coi balance export there first.';
       return;
     }
-    acceptPayload(body.data); // sets its own loadError if the payload is malformed
+    acceptPayload(data); // sets its own loadError if the payload is malformed
   } catch {
     loadError.value = 'Could not reach the server report endpoint — check your connection and try again.';
   } finally {
