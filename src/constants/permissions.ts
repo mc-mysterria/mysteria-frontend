@@ -21,6 +21,9 @@ export const PERM_SHOP_MANAGE = 'SHOP:MANAGE';
 export const PERM_NEWS_MANAGE = 'NEWS:MANAGE';
 export const PERM_COUNSEL_MANAGE = 'COUNSEL:MANAGE';
 
+// Game Balance Permissions (CoI balance dashboard for testers/balancers)
+export const PERM_BALANCE_MANAGE = 'BALANCE:MANAGE';
+
 /**
  * Permission groups for easier checking
  */

@@ -51,7 +51,7 @@
         </div>
 
         <!-- Admin Section -->
-        <div v-if="canEditAnyContent" class="nav-ritual-section">
+        <div v-if="canEditAnyContent || canTuneBalance" class="nav-ritual-section">
           <div v-show="!isCollapsed" class="nav-ritual-label">Registry</div>
           
           <RouterLink
@@ -75,6 +75,17 @@
             <div class="nav-ritual-icon"><i class="fa-solid fa-gavel"></i></div>
             <span v-show="!isCollapsed" class="nav-ritual-text">Edit Counsel</span>
           </RouterLink>
+
+          <RouterLink
+              v-if="canTuneBalance"
+              :class="{ active: $route.path.startsWith('/tools/balance') }"
+              class="nav-ritual-item admin"
+              to="/tools/balance"
+              @click="closeMobileSidebar"
+          >
+            <div class="nav-ritual-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <span v-show="!isCollapsed" class="nav-ritual-text">Balance</span>
+          </RouterLink>
         </div>
 
         <!-- Bottom System Area -->
@@ -94,7 +105,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
 import {useNotification} from "@/services/useNotification";
 import {useAuthStore} from "@/stores/auth";
@@ -106,7 +117,7 @@ const router = useRouter();
 const {show} = useNotification();
 const authStore = useAuthStore();
 const {t} = useI18n();
-const {canManageNews, canManageCounsel, canEditAnyContent} = usePermissions();
+const {canManageNews, canManageCounsel, canEditAnyContent, canTuneBalance} = usePermissions();
 
 const isCollapsed = ref(false);
 const isMobileOpen = ref(false);

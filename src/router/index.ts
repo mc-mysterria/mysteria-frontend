@@ -3,6 +3,7 @@ import {useAuthStore} from "@/stores/auth";
 import {nextTick} from "vue";
 import {
     PERM_ADMIN,
+    PERM_BALANCE_MANAGE,
     PERM_COUNSEL_MANAGE,
     PERM_NEWS_MANAGE,
     PERM_SHOP_MANAGE,
@@ -169,6 +170,12 @@ const router = createRouter({
                     meta: {requiresAuth: true, requiresPermission: PERM_COUNSEL_MANAGE},
                 }
             ],
+        },
+        {
+            path: "/tools/balance",
+            name: "balance-tool",
+            component: () => import("@/views/BalanceDashboardView.vue"),
+            meta: {requiresAuth: true, requiresAnyPermission: [PERM_ADMIN, PERM_BALANCE_MANAGE]},
         },
         {
             path: "/admin",

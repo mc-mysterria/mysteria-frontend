@@ -3,6 +3,7 @@ import {useAuthStore} from '@/stores/auth';
 import {
   canManageContent,
   PERM_ADMIN,
+  PERM_BALANCE_MANAGE,
   PERM_COUNSEL_MANAGE,
   PERM_NEWS_MANAGE,
   PERM_SHOP_MANAGE,
@@ -44,6 +45,9 @@ export function usePermissions() {
     const canManageNews = computed(() => hasPermission(PERM_NEWS_MANAGE));
     const canManageCounsel = computed(() => hasPermission(PERM_COUNSEL_MANAGE));
     const canManageShop = computed(() => hasPermission(PERM_SHOP_MANAGE));
+    const canTuneBalance = computed(() =>
+        hasPermission(PERM_ADMIN) || hasPermission(PERM_BALANCE_MANAGE)
+    );
 
     // Admin panel access - must match route requirements
     const canAccessAdmin = computed(() =>
@@ -63,6 +67,7 @@ export function usePermissions() {
         canManageNews,
         canManageCounsel,
         canManageShop,
+        canTuneBalance,
         canAccessAdmin,
         canEditAnyContent,
     };
