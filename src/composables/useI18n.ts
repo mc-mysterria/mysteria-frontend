@@ -1089,6 +1089,33 @@ const translations = {
         commissions: {
             pageTitle: "Commission Requests",
             pageSubtitle: "Submit a spell rework request using your available commission slots.",
+            terms: {
+                eyebrow: "Terms & Guidelines",
+                title: "Magic System Commission",
+                price: "$50 per slot",
+                whatIsItLabel: "What is it?",
+                whatIsIt: "A custom development service that lets magic practitioners request focused, lore-accurate tweaks to existing spells, mechanics, or abilities — reviewed and implemented directly by our engineering team.",
+                whatYouCanRequestLabel: "What you can request",
+                requestOptions: [
+                    "One Major Change — a full lore alignment rewrite, a balance rework of one ability, or one new spell/scaling addition.",
+                    "Up to 3 Minor Changes — small numeric tweaks (cooldown, damage, mana cost, scaling constants) or small lore-flavor edits, across one or several spells/abilities.",
+                ],
+                requirementsLabel: "Every request must be",
+                requirements: [
+                    "Justified — explain the gameplay or lore reasoning behind it.",
+                    "Lore-accurate — grounded in established setting/source material, not invented from scratch.",
+                    "Non-fundamental — no core system reworks or architecture changes.",
+                    "Respectful of prior work — no requests to nerf or alter another player's previously commissioned content.",
+                ],
+                howItWorksLabel: "How it works",
+                howItWorksSteps: [
+                    "Fill out the form below.",
+                    "Engineering reviews for feasibility and lore accuracy (Developer Verification).",
+                    "Approved requests are scheduled and implemented.",
+                    "You're notified when it's live.",
+                ],
+                note: "Requests that don't fit these bounds will be scoped into multiple commissions — we'll tell you exactly how many before anything is charged further.",
+            },
             status: {
                 PENDING_REVIEW: "Pending Review",
                 APPROVED: "Approved",
@@ -2248,6 +2275,33 @@ const translations = {
         commissions: {
             pageTitle: "Заявки на замовлення",
             pageSubtitle: "Подайте заявку на доопрацювання заклинання, використовуючи доступні слоти замовлень.",
+            terms: {
+                eyebrow: "Умови та правила",
+                title: "Замовлення на доопрацювання магічної системи",
+                price: "$50 за слот",
+                whatIsItLabel: "Що це таке?",
+                whatIsIt: "Послуга кастомної розробки, яка дозволяє практикам магії замовляти точкові, лорно-обґрунтовані зміни до існуючих заклинань, механік чи здібностей — розглянуті та реалізовані безпосередньо нашою командою розробників.",
+                whatYouCanRequestLabel: "Що можна замовити",
+                requestOptions: [
+                    "Одна велика зміна — повне переписання під лор, балансне доопрацювання однієї здібності, або додавання одного нового заклинання/скейлінгу.",
+                    "До 3 малих змін — невеликі числові коригування (перезарядка, шкода, вартість мани, коефіцієнти масштабування) або невеликі лорні правки, для одного чи кількох заклинань/здібностей.",
+                ],
+                requirementsLabel: "Кожен запит має бути",
+                requirements: [
+                    "Обґрунтований — поясніть ігрову або лорну причину зміни.",
+                    "Лорно точний — базується на усталеному сеттінгу/джерельному матеріалі, а не вигаданий з нуля.",
+                    "Не фундаментальний — без перероблення ключових систем чи архітектури.",
+                    "Поважає попередню роботу — не можна просити послабити чи змінити вже замовлений контент іншого гравця.",
+                ],
+                howItWorksLabel: "Як це працює",
+                howItWorksSteps: [
+                    "Заповніть форму нижче.",
+                    "Розробники перевіряють запит на реалізованість та відповідність лору (Developer Verification).",
+                    "Схвалені запити плануються та реалізуються.",
+                    "Вас повідомлять, коли зміну застосовано.",
+                ],
+                note: "Запити, що виходять за ці межі, будуть розбиті на кілька замовлень — ми повідомимо точну кількість до будь-якого додаткового списання.",
+            },
             status: {
                 PENDING_REVIEW: "На розгляді",
                 APPROVED: "Схвалено",
