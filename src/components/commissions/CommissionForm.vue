@@ -286,7 +286,7 @@ import type {
   SubmitCommissionRequestDto,
 } from '@/types/commissions';
 
-type DraftMajorChange = MajorChangeDto & { key: number };
+type DraftMajorChange = Omit<MajorChangeDto, 'loreReference'> & { key: number; loreReference: string };
 type DraftMinorChange = MinorChangeDto & { key: number };
 
 const emit = defineEmits<{ (e: 'submitted'): void }>();
