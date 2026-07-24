@@ -19,12 +19,14 @@ import {useBalanceWatcher} from "@/stores/balance";
 import {useUserWatcher} from "./stores/user";
 import {useServicesWatcher} from "./stores/services";
 import {useDailyBonusWatcher} from "./stores/dailyBonus";
+import {useAccountNotificationsWatcher} from "./stores/notifications";
 import {Analytics} from '@vercel/analytics/vue';
 
 useUserWatcher();
 useBalanceWatcher();
 useServicesWatcher();
 useDailyBonusWatcher();
+useAccountNotificationsWatcher();
 
 const route = useRoute();
 

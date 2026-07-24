@@ -24,6 +24,9 @@ export const PERM_COUNSEL_MANAGE = 'COUNSEL:MANAGE';
 // Game Balance Permissions (CoI balance dashboard for testers/balancers)
 export const PERM_BALANCE_MANAGE = 'BALANCE:MANAGE';
 
+// Commission Request Review Permissions
+export const PERM_COMMISSIONS_MANAGE = 'COMMISSIONS:MANAGE';
+
 /**
  * Permission groups for easier checking
  */

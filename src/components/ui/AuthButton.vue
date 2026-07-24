@@ -17,7 +17,7 @@
         </RouterLink>
 
         <!-- Admin Registry Dropdown -->
-        <div v-if="canEditAnyContent || canTuneBalance" ref="dropdownRef" class="admin-ritual-dropdown">
+        <div v-if="canEditAnyContent || canTuneBalance || canManageCommissions" ref="dropdownRef" class="admin-ritual-dropdown">
           <button 
               class="admin-ritual-trigger" 
               @click.stop="isDropdownOpen = !isDropdownOpen"
@@ -59,6 +59,14 @@
                 <div class="item-meta">
                   <span class="item-title">Observatory</span>
                   <span class="item-desc">Balance Tuning</span>
+                </div>
+              </RouterLink>
+
+              <RouterLink v-if="canManageCommissions" class="menu-ritual-item" to="/tools/commissions" @click="isDropdownOpen = false">
+                <i class="fa-solid fa-scroll"></i>
+                <div class="item-meta">
+                  <span class="item-title">Commissions</span>
+                  <span class="item-desc">Review Requests</span>
                 </div>
               </RouterLink>
 
@@ -107,7 +115,7 @@ const authStore = useAuthStore();
 const balanceStore = useBalanceStore();
 const {t} = useI18n();
 const {formatCurrency, currentCurrency} = useCurrency();
-const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop, canTuneBalance, canAccessAdmin} = usePermissions();
+const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop, canTuneBalance, canManageCommissions, canAccessAdmin} = usePermissions();
 
 const isDropdownOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);

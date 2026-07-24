@@ -4,6 +4,7 @@ import {nextTick} from "vue";
 import {
     PERM_ADMIN,
     PERM_BALANCE_MANAGE,
+    PERM_COMMISSIONS_MANAGE,
     PERM_COUNSEL_MANAGE,
     PERM_NEWS_MANAGE,
     PERM_SHOP_MANAGE,
@@ -176,6 +177,30 @@ const router = createRouter({
             name: "balance-tool",
             component: () => import("@/views/BalanceDashboardView.vue"),
             meta: {requiresAuth: true, requiresAnyPermission: [PERM_ADMIN, PERM_BALANCE_MANAGE]},
+        },
+        {
+            path: "/tools/commissions",
+            name: "commissions-tool",
+            component: () => import("@/views/AdminCommissionsView.vue"),
+            meta: {requiresAuth: true, requiresAnyPermission: [PERM_ADMIN, PERM_COMMISSIONS_MANAGE]},
+        },
+        {
+            path: "/notifications",
+            name: "notifications",
+            component: () => import("@/views/NotificationsView.vue"),
+            meta: {requiresAuth: true},
+        },
+        {
+            path: "/commissions",
+            name: "commissions",
+            component: () => import("@/views/CommissionsView.vue"),
+            meta: {requiresAuth: true},
+        },
+        {
+            path: "/commissions/:id",
+            name: "commission-detail",
+            component: () => import("@/views/CommissionDetailView.vue"),
+            meta: {requiresAuth: true},
         },
         {
             path: "/admin",

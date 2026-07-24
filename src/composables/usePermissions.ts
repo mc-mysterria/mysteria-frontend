@@ -4,6 +4,7 @@ import {
   canManageContent,
   PERM_ADMIN,
   PERM_BALANCE_MANAGE,
+  PERM_COMMISSIONS_MANAGE,
   PERM_COUNSEL_MANAGE,
   PERM_NEWS_MANAGE,
   PERM_SHOP_MANAGE,
@@ -48,6 +49,9 @@ export function usePermissions() {
     const canTuneBalance = computed(() =>
         hasPermission(PERM_ADMIN) || hasPermission(PERM_BALANCE_MANAGE)
     );
+    const canManageCommissions = computed(() =>
+        hasPermission(PERM_ADMIN) || hasPermission(PERM_COMMISSIONS_MANAGE)
+    );
 
     // Admin panel access - must match route requirements
     const canAccessAdmin = computed(() =>
@@ -68,6 +72,7 @@ export function usePermissions() {
         canManageCounsel,
         canManageShop,
         canTuneBalance,
+        canManageCommissions,
         canAccessAdmin,
         canEditAnyContent,
     };

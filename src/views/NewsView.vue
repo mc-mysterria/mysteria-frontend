@@ -215,6 +215,34 @@ onMounted(async () => {
   padding: 2px 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em;
 }
 
+.article-ritual-content :deep(table) {
+  width: 100%;
+  margin: 40px 0;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.article-ritual-content :deep(th),
+.article-ritual-content :deep(td) {
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: left;
+}
+
+.article-ritual-content :deep(th) {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--myst-gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.article-ritual-content :deep(tr:nth-child(even) td) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .article-ritual-footer { margin-top: 80px; text-align: center; }
 .ritual-end-mark { font-family: 'Playfair Display', serif; color: var(--myst-gold); font-size: 24px; letter-spacing: 8px; opacity: 0.3; }
 

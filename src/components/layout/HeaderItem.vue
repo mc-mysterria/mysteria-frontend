@@ -78,6 +78,7 @@
       <div class="header-actions">
         <LanguageSelector class="language-desktop"/>
         <BalanceButton class="balance-desktop"/>
+        <NotificationBell class="auth-desktop"/>
         <AuthButton class="auth-desktop"/>
         <button
             :aria-expanded="isMobileNavOpen"
@@ -150,6 +151,7 @@
               <div class="mobile-balance-wrapper">
                 <BalanceButton/>
               </div>
+              <NotificationBell/>
               <AuthButton mobile-mode @mobile-action="closeMobileNav"/>
             </div>
           </div>
@@ -164,6 +166,7 @@ import {computed, onUnmounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import AuthButton from "@/components/ui/AuthButton.vue";
 import BalanceButton from "@/components/ui/BalanceButton.vue";
+import NotificationBell from "@/components/notifications/NotificationBell.vue";
 import LanguageSelector from "@/components/ui/LanguageSelector.vue";
 import IconLogo from "@/assets/icons/IconLogo.vue";
 import IconNavbar from "@/assets/icons/IconNavbar.vue";

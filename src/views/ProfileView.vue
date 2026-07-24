@@ -37,6 +37,7 @@
                 :displayed-user="displayedUser"
                 :is-own-profile="isOwnProfile"
             />
+            <CommissionsCard :is-own-profile="isOwnProfile"/>
           </div>
         </div>
       </div>
@@ -59,6 +60,7 @@ import SectionTitle from "@/components/ui/SectionTitle.vue";
 import PersonalInfo from "@/components/profile/PersonalInfo.vue";
 import VerificationPanel from "@/components/profile/VerificationPanel.vue";
 import TransactionHistory from "@/components/profile/TransactionHistory.vue";
+import CommissionsCard from "@/components/profile/CommissionsCard.vue";
 import type {UserProfileDto} from "@/types/auth";
 import type {BeyonderData, BeyonderResponse} from "@/types/users";
 import BeyonderStatus from "@/components/profile/BeyonderStatus.vue";
@@ -263,6 +265,7 @@ onMounted(async () => {
 .profile-grid :deep(.beyonder-status-container),
 .profile-grid :deep(.verification-panel),
 .profile-grid :deep(.transaction-history),
+.profile-grid :deep(.commissions-card),
 .profile-grid :deep(.moderation-panel) {
   grid-column: 1 / -1;
 }
