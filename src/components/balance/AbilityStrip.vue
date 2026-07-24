@@ -12,7 +12,7 @@
           :key="r.id"
           class="strip-row"
           type="button"
-          :title="`${r.name} — dmg/spirit ${r.dps.toFixed(2)}, ${r.idx.toFixed(2)}× the sequence median. Click to jump to its row.`"
+          :title="`${r.name} – dmg/spirit ${r.dps.toFixed(2)}, ${r.idx.toFixed(2)}× the sequence median. Click to jump to its row.`"
           @click="$emit('focus', r.id)"
       >
         <span class="strip-label">{{ r.name }}</span>

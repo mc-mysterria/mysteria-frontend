@@ -3,7 +3,7 @@
     <div class="footer-container">
       <div class="footer-content">
         <div class="footer-copyright">
-          © {{ new Date().getFullYear() }} <span class="gold-text">Mysterria</span> — unofficial fan project † | All rights reserved
+          © {{ new Date().getFullYear() }} <span class="gold-text">Mysterria</span> – unofficial fan project † | All rights reserved
         </div>
         <nav class="footer-nav">
           <RouterLink class="footer-link" to="/wiki">{{ t('navWiki') }}</RouterLink>

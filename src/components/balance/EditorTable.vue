@@ -42,7 +42,7 @@
 
         <!-- cooldown + per-category -->
         <td class="num">
-          <span v-if="a._hard.cd < 0 && !Object.keys(a._hard.cats).length" class="none-dash">—</span>
+          <span v-if="a._hard.cd < 0 && !Object.keys(a._hard.cats).length" class="none-dash">–</span>
           <template v-else>
             <div v-if="a._hard.cd >= 0" class="tune-wrap">
               <input
@@ -90,7 +90,7 @@
               <span
                   v-if="!pmOf(a, k) && profilesPresent"
                   class="assumed-pill"
-                  title="No damage-key profile yet — numbers assume the key lands once per cast, on the cast cooldown."
+                  title="No damage-key profile yet – numbers assume the key lands once per cast, on the cast cooldown."
               >assumed once per cast</span>
             </div>
             <div v-if="pmOf(a, k)" class="profile-line">
@@ -104,16 +104,16 @@
         <!-- telemetry -->
         <template v-if="telemetryAvailable">
           <td class="num tele">{{ castsFor(a) }}</td>
-          <td class="num tele">{{ hitsFor(a)?.hits ?? '—' }}</td>
-          <td class="num tele">{{ hitsFor(a) ? fmt(hitsFor(a)!.avgFinal) : '—' }}</td>
-          <td class="num tele">{{ hitsFor(a)?.pvpHits ?? '—' }}</td>
+          <td class="num tele">{{ hitsFor(a)?.hits ?? '–' }}</td>
+          <td class="num tele">{{ hitsFor(a) ? fmt(hitsFor(a)!.avgFinal) : '–' }}</td>
+          <td class="num tele">{{ hitsFor(a)?.pvpHits ?? '–' }}</td>
           <td class="num tele">{{ obsMult(a) }}</td>
         </template>
       </tr>
       </tbody>
     </table>
     <p class="table-footnote">
-      ★ = primary key used in fairness math — variant keys are alternative hits, never summed.
+      ★ = primary key used in fairness math – variant keys are alternative hits, never summed.
       <template v-if="profilesPresent">
         ◆ = mechanically profiled key: the shown trigger/proc/period replaces the once-per-cast assumption
         in all charts; rates are Sequence-9 baselines. Keys without ◆ still assume one hit per cast.
@@ -121,7 +121,7 @@
       Casts join on the ability name; hits/damage join on the primary key.
       “Obs ×base” = observed avg final damage ÷ configured base, the live multiplier stack.
       <template v-if="profilesPresent">
-        For profiled DoT keys, expect many hits with a low avg — that's the mechanic, not bad data.
+        For profiled DoT keys, expect many hits with a low avg – that's the mechanic, not bad data.
       </template>
     </p>
   </div>
@@ -210,7 +210,7 @@ const profileTraits = (a: EnrichedAbility, k: string): string => {
   return parts.join(' · ');
 };
 
-/** Derived S9 rate — or the honest reason there isn't one (absent ≠ zero). */
+/** Derived S9 rate – or the honest reason there isn't one (absent ≠ zero). */
 const profileRate = (a: EnrichedAbility, k: string): string => {
   const m = pmOf(a, k);
   if (!m) return '';
@@ -222,11 +222,11 @@ const profileRate = (a: EnrichedAbility, k: string): string => {
   return s;
 };
 
-const castsFor = (a: EnrichedAbility) => props.castsByKey[a.kebabName]?.casts ?? '—';
+const castsFor = (a: EnrichedAbility) => props.castsByKey[a.kebabName]?.casts ?? '–';
 const hitsFor = (a: EnrichedAbility) => (a._primary ? props.dmgByKey[a._primary] : undefined) ?? null;
 const obsMult = (a: EnrichedAbility) => {
   const h = hitsFor(a);
-  return h && h.avgBase > 0 ? (h.avgFinal / h.avgBase).toFixed(1) + '×' : '—';
+  return h && h.avgBase > 0 ? (h.avgFinal / h.avgBase).toFixed(1) + '×' : '–';
 };
 </script>
 
@@ -388,7 +388,7 @@ const obsMult = (a: EnrichedAbility) => {
 }
 
 .key-pill.profiled.primary {
-  /* primary ★ still wins the accent — keep the ◆ glyph as the profile marker */
+  /* primary ★ still wins the accent – keep the ◆ glyph as the profile marker */
   border-color: color-mix(in srgb, var(--myst-gold) 55%, transparent);
   color: var(--myst-gold);
 }

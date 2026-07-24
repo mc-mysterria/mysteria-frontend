@@ -10,7 +10,7 @@ interface UserProfileDto {
 // Gated proxy for the CoI balance report. Catwalk's /balance/report is
 // API-key-protected, so it must not ride the open catwalk-proxy (which would
 // hand the report to any visitor). The session is verified against the main
-// API and the caller must hold ADMIN or BALANCE:MANAGE — the same gate as the
+// API and the caller must hold ADMIN or BALANCE:MANAGE – the same gate as the
 // /tools/balance route itself.
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const authHeader = req.headers.authorization;

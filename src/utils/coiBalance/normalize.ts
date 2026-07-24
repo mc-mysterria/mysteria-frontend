@@ -1,5 +1,5 @@
 /**
- * Catwalk's /balance/report doesn't return export-latest.json verbatim — it
+ * Catwalk's /balance/report doesn't return export-latest.json verbatim – it
  * serializes the plugin's internal object graph as a reflection tree:
  *
  *   object  → {"members": {key: node, …}}
@@ -35,7 +35,7 @@ function decodeNode(node: unknown): unknown {
         }
         return isObj(v) ? decodeNode(v) : v;
     }
-    return node; // plain object — never went through the tree serializer
+    return node; // plain object – never went through the tree serializer
 }
 
 /** Decode a /balance/report body if it carries the reflection tree, else pass through. */

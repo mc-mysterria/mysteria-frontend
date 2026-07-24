@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig, configDefaults } from 'vitest/config';
 
 // Standalone config: vite.config.ts exports a callback, which mergeConfig
-// cannot consume — mirror the aliases here instead of merging. No vue plugin:
+// cannot consume – mirror the aliases here instead of merging. No vue plugin:
 // the specs are pure TS, and vitest's bundled vite clashes with the plugin's types.
 export default defineConfig({
   resolve: {

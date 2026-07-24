@@ -104,7 +104,7 @@ describe('damage-key profiles', () => {
         aoe: false, ...over,
     });
 
-    // handoff example: disease-fatal-minor — 3.0 base, 50% roll every second, ~30s infection
+    // handoff example: disease-fatal-minor – 3.0 base, 50% roll every second, ~30s infection
     const diseaseAbility = () => ability({
         id: 'sun-9-2', kebabName: 'disease', plainName: 'disease',
         cooldownSeconds: 30, effectiveCooldownSeconds: 30,

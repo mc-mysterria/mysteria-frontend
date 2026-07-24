@@ -225,7 +225,7 @@
 
         </div>
 
-        <!-- ─── Table of contents — right side, jump anywhere, no gating ─── -->
+        <!-- ─── Table of contents – right side, jump anywhere, no gating ─── -->
         <aside class="guide-toc no-scrollbar">
           <div class="toc-frame">
             <h2 class="toc-title">{{ t('guide.tocTitle') }}</h2>
@@ -274,7 +274,7 @@ const navItems = [
   { id: 'faq',        labelKey: 'guide.navFaq' },
 ];
 
-// ── Pathway quiz — all 22 canonical Pathways, grouped into 3 thematic
+// ── Pathway quiz – all 22 canonical Pathways, grouped into 3 thematic
 // clusters that map onto the 3 answer options every question already offers
 // (knowledge/hidden-truths, authority/power, shadow/mystery). ─────────────
 const KNOWLEDGE_PATHWAYS = ['hermit', 'fool', 'fortune', 'visionary', 'door', 'priest', 'mother'] as const;
@@ -305,7 +305,7 @@ const KNOWLEDGE_W = clusterWeights(KNOWLEDGE_PATHWAYS);
 const AUTHORITY_W = clusterWeights(AUTHORITY_PATHWAYS);
 const SHADOW_W = clusterWeights(SHADOW_PATHWAYS);
 
-// questionKey is a translation KEY, resolved reactively via t() in the template —
+// questionKey is a translation KEY, resolved reactively via t() in the template –
 // storing a resolved string here would go stale on a language switch.
 const quizQuestions: { questionKey: string; options: QuizOption[] }[] = [
   {
@@ -334,7 +334,7 @@ const quizQuestions: { questionKey: string; options: QuizOption[] }[] = [
   },
 ];
 
-// ── Persistence (quiz result only — nothing else needs remembering) ──────
+// ── Persistence (quiz result only – nothing else needs remembering) ──────
 const STORAGE_KEY = 'myst.guide.v3';
 function loadState() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
 const saved = loadState();
@@ -462,7 +462,7 @@ export default {
   flex-direction: column;
 }
 
-/* ── Table of contents — right side, sticky, always visible ── */
+/* ── Table of contents – right side, sticky, always visible ── */
 .guide-toc {
   flex: 0 0 260px;
   position: sticky;

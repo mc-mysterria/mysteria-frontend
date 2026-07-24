@@ -55,7 +55,7 @@ export const useDailyBonusStore = defineStore('dailyBonus', {
                     this.randomPage = null;
                 }
             } catch {
-                // silently fail — bonus is non-critical
+                // silently fail – bonus is non-critical
             } finally {
                 this.isLoading = false;
             }

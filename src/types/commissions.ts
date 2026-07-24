@@ -1,5 +1,3 @@
-export type CommissionRequestType = 'MAJOR' | 'MINOR_BUNDLE';
-
 export type MajorType = 'LORE_ALIGNMENT' | 'BALANCE_REWORK' | 'NEW_SPELL';
 
 export const MAJOR_TYPES: { value: MajorType; label: string }[] = [
@@ -33,13 +31,21 @@ export interface CommissionSlotDto {
     createdAt: string;
 }
 
+export interface MajorChangeDto {
+    targetName: string;
+    majorType: MajorType;
+    requestedChange: string;
+    motivation: string;
+    loreReference: string | null;
+}
+
 export interface MinorChangeDto {
     targetName: string;
     changeDescription: string;
     motivation: string;
 }
 
-// Field limits enforced server-side — mirrored here for client-side validation/counters.
+// Field limits enforced server-side – mirrored here for client-side validation/counters.
 export const COMMISSION_LIMITS = {
     targetName: 128,
     majorRequestedChange: 900,
@@ -47,18 +53,20 @@ export const COMMISSION_LIMITS = {
     majorLoreReference: 500,
     minorChangeDescription: 200,
     minorMotivation: 200,
-    minorChangesMin: 1,
-    minorChangesMax: 3,
+    majorChangesMax: 2,
+    minorChangesMax: 6,
+    // Budget rule: 3 × (major count) + (minor count) ≤ budgetMax, at least one change total.
+    majorCost: 3,
+    minorCost: 1,
+    budgetMax: 6,
 } as const;
 
+export const computeBudgetUsed = (majorCount: number, minorCount: number): number =>
+    majorCount * COMMISSION_LIMITS.majorCost + minorCount * COMMISSION_LIMITS.minorCost;
+
 export interface SubmitCommissionRequestDto {
-    requestType: CommissionRequestType;
-    majorTargetName: string | null;
-    majorType: MajorType | null;
-    majorRequestedChange: string | null;
-    majorMotivation: string | null;
-    majorLoreReference: string | null;
-    minorChanges: MinorChangeDto[] | null;
+    majorChanges: MajorChangeDto[];
+    minorChanges: MinorChangeDto[];
     slotIds: string[];
     confirmLoreGrounded: boolean;
     confirmNoFundamentalRework: boolean;
@@ -69,19 +77,12 @@ export interface SubmitCommissionRequestDto {
 export interface CommissionResponseDto {
     id: string;
     playerIgn: string;
-    requestType: CommissionRequestType;
+    majorChanges: MajorChangeDto[];
+    minorChanges: MinorChangeDto[];
     status: CommissionStatus;
     commissionsRequired: number | null;
     linkedSlotCount: number;
     staffNotes?: string | null;
-    // Not in the documented player-facing contract as of the July 2026 handoff —
-    // rendered only if/when the backend starts sending them on this DTO.
-    majorTargetName?: string | null;
-    majorType?: MajorType | null;
-    majorRequestedChange?: string | null;
-    majorMotivation?: string | null;
-    majorLoreReference?: string | null;
-    minorChanges?: MinorChangeDto[] | null;
     createdAt: string;
     updatedAt: string;
 }
@@ -91,12 +92,7 @@ export interface AdminCommissionResponseDto {
     discordId: number;
     discordUsername: string;
     playerIgn: string;
-    requestType: CommissionRequestType;
-    majorTargetName: string | null;
-    majorType: MajorType | null;
-    majorRequestedChange: string | null;
-    majorMotivation: string | null;
-    majorLoreReference: string | null;
+    majorChanges: MajorChangeDto[];
     minorChanges: MinorChangeDto[];
     touchesExistingCommission: boolean;
     status: CommissionStatus;

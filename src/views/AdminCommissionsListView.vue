@@ -53,11 +53,10 @@
           <tr v-for="c in commissions" :key="c.id" class="commission-row" @click="openDetail(c.id)">
             <td>{{ c.playerIgn }}</td>
             <td>
-              <span :class="`type-${c.requestType.toLowerCase()}`" class="type-badge">{{ c.requestType }}</span>
+              <span class="type-badge">{{ formatTypeSummary(c) }}</span>
             </td>
             <td class="summary-cell">
-              <span v-if="c.requestType === 'MAJOR'">{{ c.majorTargetName }} — {{ c.majorType }}</span>
-              <span v-else>{{ c.minorChanges.length }} minor change(s)</span>
+              <span>{{ formatTargetSummary(c) }}</span>
               <span v-if="c.touchesExistingCommission" class="warning-badge" title="This target has been commissioned before">
                 <i class="fa-solid fa-triangle-exclamation"></i>
               </span>
@@ -112,6 +111,24 @@ const formatStatus = (status: string): string =>
     COMMISSION_STATUSES.find((s) => s.value === status)?.label || status;
 
 const formatDate = (dateString: string): string => new Date(dateString).toLocaleDateString();
+
+const formatTypeSummary = (c: AdminCommissionResponseDto): string => {
+  const parts: string[] = [];
+  if (c.majorChanges.length > 0) parts.push(`${c.majorChanges.length} major`);
+  if (c.minorChanges.length > 0) parts.push(`${c.minorChanges.length} minor`);
+  return parts.join(', ') || '–';
+};
+
+const formatTargetSummary = (c: AdminCommissionResponseDto): string => {
+  const parts: string[] = [];
+  if (c.majorChanges.length > 0) {
+    parts.push(c.majorChanges.map((m) => `${m.targetName} (${m.majorType})`).join('; '));
+  }
+  if (c.minorChanges.length > 0) {
+    parts.push(`${c.minorChanges.length} minor change(s)`);
+  }
+  return parts.join(' + ');
+};
 
 const loadCommissions = async () => {
   loading.value = true;

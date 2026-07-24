@@ -27,7 +27,7 @@
       <div class="section">
         <div class="form-card">
           <div class="detail-top-row">
-            <span :class="`type-${commission.requestType.toLowerCase()}`" class="type-badge">{{ commission.requestType }}</span>
+            <span class="type-badge">{{ formatTypeSummary(commission) }}</span>
             <span :class="`status-${commission.status.toLowerCase()}`" class="status-badge">{{ formatStatus(commission.status) }}</span>
             <a
                 v-if="ticketUrl"
@@ -72,36 +72,35 @@
             </div>
           </div>
 
-          <template v-if="commission.requestType === 'MAJOR'">
-            <div class="detail-section">
-              <label>Target</label>
-              <p>{{ commission.majorTargetName }} ({{ commission.majorType }})</p>
-            </div>
-            <div class="detail-section">
-              <label>Requested Change</label>
-              <p>{{ commission.majorRequestedChange }}</p>
-            </div>
-            <div class="detail-section">
-              <label>Motivation</label>
-              <p>{{ commission.majorMotivation }}</p>
-            </div>
-            <div v-if="commission.majorLoreReference" class="detail-section">
-              <label>Lore Reference</label>
-              <p>{{ commission.majorLoreReference }}</p>
+          <template v-if="commission.majorChanges.length > 0">
+            <div v-for="(change, index) in commission.majorChanges" :key="`major-${index}`" class="detail-section major-change-card">
+              <label>Major Change #{{ index + 1 }} – {{ change.targetName }} ({{ change.majorType }})</label>
+              <p>{{ change.requestedChange }}</p>
+              <p class="motivation-text">Motivation: {{ change.motivation }}</p>
+              <p v-if="change.loreReference" class="motivation-text">Lore Reference: {{ change.loreReference }}</p>
             </div>
           </template>
 
-          <template v-else>
-            <div v-for="(change, index) in commission.minorChanges" :key="index" class="detail-section">
-              <label>Minor Change #{{ index + 1 }} — {{ change.targetName }}</label>
-              <p>{{ change.changeDescription }}</p>
-              <p class="motivation-text">Motivation: {{ change.motivation }}</p>
-            </div>
-          </template>
+          <table v-if="commission.minorChanges.length > 0" class="minor-changes-table">
+            <thead>
+            <tr>
+              <th>Target</th>
+              <th>Change Description</th>
+              <th>Motivation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(change, index) in commission.minorChanges" :key="index">
+              <td>{{ change.targetName }}</td>
+              <td>{{ change.changeDescription }}</td>
+              <td>{{ change.motivation }}</td>
+            </tr>
+            </tbody>
+          </table>
 
           <div v-if="commission.touchesExistingCommission" class="touches-warning">
             <i class="fa-solid fa-triangle-exclamation"></i>
-            This target has been commissioned before (case-insensitive exact match — may miss renamed/aliased
+            This target has been commissioned before (case-insensitive exact match – may miss renamed/aliased
             spells; non-blocking, informational only).
           </div>
 
@@ -143,7 +142,7 @@
               <textarea
                   v-model="staffNotes"
                   :class="{ error: validationErrors.staffNotes }"
-                  placeholder="Explain what needs to change, or leave feedback — the player sees this."
+                  placeholder="Explain what needs to change, or leave feedback – the player sees this."
                   rows="3"
               ></textarea>
               <div v-if="validationErrors.staffNotes" class="field-error">{{ validationErrors.staffNotes }}</div>
@@ -229,6 +228,13 @@ const formatStatus = (status: string): string =>
     COMMISSION_STATUSES.find((s) => s.value === status)?.label || status;
 
 const formatDate = (dateString: string): string => new Date(dateString).toLocaleString();
+
+const formatTypeSummary = (c: AdminCommissionResponseDto): string => {
+  const parts: string[] = [];
+  if (c.majorChanges.length > 0) parts.push(`${c.majorChanges.length} major`);
+  if (c.minorChanges.length > 0) parts.push(`${c.minorChanges.length} minor`);
+  return parts.join(', ') || '–';
+};
 
 const selectAction = (action: ReviewAction) => {
   selectedAction.value = action;
@@ -527,6 +533,42 @@ onMounted(async () => {
   margin-top: 6px !important;
   color: var(--myst-ink-muted) !important;
   font-size: 12px !important;
+}
+
+.major-change-card {
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--myst-gold) 6%, transparent);
+  border-left: 2px solid var(--myst-gold);
+  border-radius: 4px;
+}
+
+.minor-changes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 12.5px;
+}
+
+.minor-changes-table th {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--myst-ink-muted);
+  border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
+}
+
+.minor-changes-table td {
+  padding: 10px;
+  color: var(--myst-ink);
+  border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 12%, transparent);
+  vertical-align: top;
+}
+
+.minor-changes-table tr:last-child td {
+  border-bottom: none;
 }
 
 .touches-warning {

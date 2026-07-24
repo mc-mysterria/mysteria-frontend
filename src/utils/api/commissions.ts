@@ -78,7 +78,7 @@ class CommissionsAPI extends BaseCRUD<never, never, never, never> {
 
     /**
      * Update a commission request's review status/notes. Gated by COMMISSIONS:MANAGE.
-     * Only send the fields that should change — omitted/undefined fields are left unchanged.
+     * Only send the fields that should change – omitted/undefined fields are left unchanged.
      *
      * Endpoint: PATCH /api/admin/commissions/{id}
      */

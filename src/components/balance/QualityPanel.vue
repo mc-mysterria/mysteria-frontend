@@ -3,7 +3,7 @@
     <details class="quality-group">
       <summary>
         <span class="q-count">{{ orphanCount }}</span>
-        Orphan damage-config keys — present in config, matched to no ability template (damage passives land here)
+        Orphan damage-config keys – present in config, matched to no ability template (damage passives land here)
       </summary>
       <div class="q-body">
         <div v-for="(keys, p) in payload.orphanKeys" :key="p" class="q-row">
@@ -17,7 +17,7 @@
     <details class="quality-group">
       <summary>
         <span class="q-count">{{ payload.bypassSites.length }}</span>
-        Telemetry blind spots — damage here never fires the telemetry event, so zero recorded hits ≠ zero damage
+        Telemetry blind spots – damage here never fires the telemetry event, so zero recorded hits ≠ zero damage
       </summary>
       <div class="q-body">
         <div class="q-row wrap">
@@ -30,7 +30,7 @@
     <details class="quality-group">
       <summary>
         <span class="q-count">{{ silentAbilities.length }}</span>
-        Damage abilities with zero recorded hits in the window — unused, unmeasured, or bypassing
+        Damage abilities with zero recorded hits in the window – unused, unmeasured, or bypassing
       </summary>
       <div class="q-body">
         <div class="q-row wrap">
@@ -43,7 +43,7 @@
     </details>
 
     <p class="q-note">
-      Casts are <em>attempts</em> — the usage event fires before cost deduction, so counts include
+      Casts are <em>attempts</em> – the usage event fires before cost deduction, so counts include
       failed and cancelled casts. Comparable across pathways, but not exact successes.
     </p>
   </div>

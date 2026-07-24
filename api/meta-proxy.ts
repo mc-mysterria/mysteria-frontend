@@ -66,8 +66,8 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string): st
   const firstSequence = pathway?.sequences[0]?.name.en;
   const finalSequence = pathway?.sequences[pathway.sequences.length - 1]?.name.en;
   const title = pathway
-    ? `${name} Pathway — Sequences & Abilities | Mysterria`
-    : 'Pathways & Sequences — Beyonder Archive | Mysterria';
+    ? `${name} Pathway – Sequences & Abilities | Mysterria`
+    : 'Pathways & Sequences – Beyonder Archive | Mysterria';
   const description = pathway
     ? `Explore the ${name} Pathway from Sequence ${pathway.sequences[0]?.sequence} ${firstSequence} to Sequence ${pathway.sequences[pathway.sequences.length - 1]?.sequence} ${finalSequence}. Discover ${abilityCount} abilities available on Mysterria.`
     : `Explore all ${pathwayData.pathways.length} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.`;
@@ -109,7 +109,7 @@ const STATIC_PAGES: Record<string, PageMeta> = {
 function generateStaticPageHTML(pageName: string, baseUrl: string): string {
   const meta = STATIC_PAGES[pageName] || {
     title: 'Mysterria - Lord of The Mysteries Minecraft Server',
-    description: 'Mysterria — A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches.',
+    description: 'Mysterria – A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches.',
     image: '/banner.webp',
   };
 

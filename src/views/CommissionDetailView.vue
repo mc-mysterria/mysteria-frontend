@@ -27,7 +27,7 @@
 
     <div v-else-if="commission" class="detail-card">
       <div class="detail-top-row">
-        <span class="type-tag">{{ t(`commissions.requestType.${commission.requestType}`) }}</span>
+        <span class="type-tag">{{ formatChangeSummary(commission.majorChanges.length, commission.minorChanges.length, t) }}</span>
         <CommissionStatusBadge :status="commission.status"/>
       </div>
 
@@ -50,28 +50,18 @@
         </div>
       </div>
 
-      <template v-if="commission.requestType === 'MAJOR'">
-        <div v-if="commission.majorTargetName" class="detail-section">
-          <label>{{ t('commissions.form.targetNameLabel') }}</label>
-          <p>{{ commission.majorTargetName }}<span v-if="commission.majorType"> — {{ t(`commissions.majorType.${commission.majorType}`) }}</span></p>
-        </div>
-        <div v-if="commission.majorRequestedChange" class="detail-section">
-          <label>{{ t('commissions.form.requestedChangeLabel') }}</label>
-          <p>{{ commission.majorRequestedChange }}</p>
-        </div>
-        <div v-if="commission.majorMotivation" class="detail-section">
-          <label>{{ t('commissions.form.motivationLabel') }}</label>
-          <p>{{ commission.majorMotivation }}</p>
-        </div>
-        <div v-if="commission.majorLoreReference" class="detail-section">
-          <label>{{ t('commissions.form.loreReferenceLabel') }}</label>
-          <p>{{ commission.majorLoreReference }}</p>
+      <template v-if="commission.majorChanges.length > 0">
+        <div v-for="(change, index) in commission.majorChanges" :key="`major-${index}`" class="detail-section">
+          <label>{{ t('commissions.form.majorChangeLabel') }} #{{ index + 1 }} – {{ change.targetName }} – {{ t(`commissions.majorType.${change.majorType}`) }}</label>
+          <p>{{ change.requestedChange }}</p>
+          <p class="motivation-text">{{ t('commissions.form.motivationLabel') }}: {{ change.motivation }}</p>
+          <p v-if="change.loreReference" class="motivation-text">{{ t('commissions.form.loreReferenceLabel') }}: {{ change.loreReference }}</p>
         </div>
       </template>
 
-      <template v-else-if="commission.minorChanges && commission.minorChanges.length > 0">
-        <div v-for="(change, index) in commission.minorChanges" :key="index" class="detail-section">
-          <label>{{ t('commissions.form.minorChangeLabel') }} #{{ index + 1 }} — {{ change.targetName }}</label>
+      <template v-if="commission.minorChanges.length > 0">
+        <div v-for="(change, index) in commission.minorChanges" :key="`minor-${index}`" class="detail-section">
+          <label>{{ t('commissions.form.minorChangeLabel') }} #{{ index + 1 }} – {{ change.targetName }}</label>
           <p>{{ change.changeDescription }}</p>
           <p class="motivation-text">{{ t('commissions.form.motivationLabel') }}: {{ change.motivation }}</p>
         </div>
@@ -105,6 +95,7 @@ import {computed, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {useI18n} from '@/composables/useI18n';
 import {commissionsAPI} from '@/utils/api/commissions';
+import {formatChangeSummary} from '@/utils/commissionSummary';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import CommissionStatusBadge from '@/components/commissions/CommissionStatusBadge.vue';
@@ -120,15 +111,7 @@ const commission = ref<CommissionResponseDto | null>(null);
 
 const hasContentDetails = computed(() => {
   if (!commission.value) return false;
-  if (commission.value.requestType === 'MAJOR') {
-    return Boolean(
-        commission.value.majorTargetName ||
-        commission.value.majorRequestedChange ||
-        commission.value.majorMotivation ||
-        commission.value.majorLoreReference,
-    );
-  }
-  return Boolean(commission.value.minorChanges && commission.value.minorChanges.length > 0);
+  return commission.value.majorChanges.length > 0 || commission.value.minorChanges.length > 0;
 });
 
 const formatDate = (dateString: string): string => new Date(dateString).toLocaleString();

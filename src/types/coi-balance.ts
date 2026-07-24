@@ -27,10 +27,10 @@ export interface DamageKeyProfile {
     procChance: number;              // 0–1, always present; 1.0 = guaranteed
     internalCooldownSeconds: number; // ability-enforced throttle between procs; 0 = none
     tickIntervalSeconds: number;     // seconds between DoT/aura applications; 0 = not tick-based
-    maxDurationSeconds: number;      // 0 = n/a, -1 = until cured/cleared (sentinel — never use in math)
+    maxDurationSeconds: number;      // 0 = n/a, -1 = until cured/cleared (sentinel – never use in math)
     expectedDurationSeconds: number; // author's typical-length estimate; 0 = unset
     aoe: boolean;                    // display flag, not math
-    notes?: string;                  // conditions the numbers can't express — show verbatim
+    notes?: string;                  // conditions the numbers can't express – show verbatim
 }
 
 /** Flat per-key row in the export. Derived fields are Sequence-9 baselines, each independently absent. */

@@ -268,7 +268,7 @@ function updatePageMeta() {
   const hasPathway = typeof route.params.pathway === 'string';
   const name = pathwayName(selected.value.id),
       abilityCount = selected.value.sequences.reduce((n, s) => n + s.abilities.length, 0);
-  const title = hasPathway ? `${name} Pathway — Sequences & Abilities | Mysterria` : 'Pathways & Sequences — Beyonder Archive | Mysterria';
+  const title = hasPathway ? `${name} Pathway – Sequences & Abilities | Mysterria` : 'Pathways & Sequences – Beyonder Archive | Mysterria';
   const description = hasPathway ? `Explore the ${name} Pathway, its ${selected.value.sequences.length} Sequences and ${abilityCount} abilities available on Mysterria.` : `Explore all ${pathways.length} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.`;
   const canonical = `https://mysterria.net/pathways${hasPathway ? `/${selected.value.id}` : ''}`,
       imageName = aliases[selected.value.id] || selected.value.id;

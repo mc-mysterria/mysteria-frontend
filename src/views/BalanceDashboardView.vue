@@ -65,12 +65,12 @@
       <button :disabled="fetchingReport" class="fetch-cta" type="button" @click.stop="fetchFromServer">
         {{ fetchingReport ? 'Consulting the server…' : 'Fetch the latest report from the server' }}
       </button>
-      <p class="empty-or">— or load it by hand —</p>
+      <p class="empty-or">– or load it by hand –</p>
       <p class="empty-lead">Drop <code>export-latest.json</code> anywhere on this page, or click to browse.</p>
       <ol class="empty-steps">
         <li>On the server, run <code>/coi balance export 30</code></li>
         <li>Fetch <code>plugins/CircleOfImagination/balance/export-latest.json</code></li>
-        <li>Drop it here — the payload stays in your browser and survives refresh</li>
+        <li>Drop it here – the payload stays in your browser and survives refresh</li>
       </ol>
     </div>
 
@@ -142,7 +142,7 @@
         <div class="card-head">
           <h2>Fairness index <span class="head-metric">· {{ metricLabel }}</span></h2>
           <p class="card-sub">
-            Each line ÷ the cross-pathway median of the same sequence column — the goal is to sit on the
+            Each line ÷ the cross-pathway median of the same sequence column – the goal is to sit on the
             <b>1× median</b> line, inside the gray fair band. Log₂ scale: half and double the median are symmetric.
             Points ringed in red sit outside the band. Dashed ghost = the pathway before your edits.
           </p>
@@ -162,7 +162,7 @@
       <section v-if="showAbsolute && selectedPathways.length" class="card">
         <div class="card-head">
           <h2>Absolute values <span class="head-metric">· {{ metricLabel }}</span></h2>
-          <p class="card-sub">Raw metric on a log₁₀ scale — sequence multipliers span 28×, so a linear axis would
+          <p class="card-sub">Raw metric on a log₁₀ scale – sequence multipliers span 28×, so a linear axis would
             flatten S9–S5. Dashed line = column median.</p>
         </div>
         <FairnessChart
@@ -179,9 +179,9 @@
       <section class="card">
         <div class="card-head">
           <h2>Fairness matrix</h2>
-          <p class="card-sub">Every pathway at a glance — click a row to chart it. Wash = deviation from the column
+          <p class="card-sub">Every pathway at a glance – click a row to chart it. Wash = deviation from the column
             median (blue weaker, red stronger); red ring = outside the ±{{ Math.round(threshold * 100) }}% band.
-            “—” = no measurable damage abilities at that sequence.</p>
+            “–” = no measurable damage abilities at that sequence.</p>
         </div>
         <div class="matrix-wrap">
           <table class="matrix">
@@ -230,7 +230,7 @@
           <h2>Ability drilldown</h2>
           <p class="card-sub">
             Damage keys are Sequence-9 baselines from damage-config.yml; cost and cooldown are the <em>effective</em>
-            values (tuning-config.yml overrides applied). Everything is editable — charts recompute live, amber marks
+            values (tuning-config.yml overrides applied). Everything is editable – charts recompute live, amber marks
             values that differ from the hardcoded numbers.
           </p>
         </div>
@@ -265,9 +265,9 @@
       <!-- outliers -->
       <section class="card">
         <div class="card-head">
-          <h2>Outliers — damage per spirit vs same-sequence median</h2>
+          <h2>Outliers – damage per spirit vs same-sequence median</h2>
           <p class="card-sub">Per damage ability at its native sequence. Long red bars are nerf candidates, long blue
-            bars buff candidates — confirm against the empirical columns before acting. Click to open in the
+            bars buff candidates – confirm against the empirical columns before acting. Click to open in the
             drilldown.</p>
         </div>
         <p v-if="!outlierRows.length" class="hint-empty">
@@ -279,7 +279,7 @@
       <!-- pvp kill keys -->
       <section v-if="telemetryAvailable" class="card">
         <div class="card-head">
-          <h2>Empirical — top PvP killing blows <span class="head-metric">· last {{ windowDays }} days</span></h2>
+          <h2>Empirical – top PvP killing blows <span class="head-metric">· last {{ windowDays }} days</span></h2>
         </div>
         <p v-if="!killKeys.length" class="hint-empty">No PvP kills recorded in the window.</p>
         <div v-else class="kill-list">
@@ -328,7 +328,7 @@
       </transition>
       <!-- pre-existing overrides only: quiet download -->
       <div v-if="dmgEditCount + tuneEditCount === 0 && hasTuningEntries" class="quiet-download">
-        The server already carries tuning overrides —
+        The server already carries tuning overrides –
         <button class="link-btn" @click="downloadTuning">download the full tuning-config.yml</button>
         to inspect or preserve them.
       </div>
@@ -522,7 +522,7 @@ const cellTitle = (p: string, s: number) => {
   const v = grid.value.values[p + '|' + s];
   const m = grid.value.medians[s];
   const idx = indexOf(grid.value, p, s);
-  if (v == null || m == null) return `${p} @ S${s} — no measurable damage abilities`;
+  if (v == null || m == null) return `${p} @ S${s} – no measurable damage abilities`;
   return `${p} @ S${s}\n${metricLabel.value}: ${fmt(v)}\ncolumn median: ${fmt(m)}\nindex: ${idx?.toFixed(2)}× median`
       + (idx != null && Math.abs(idx - 1) > threshold.value ? `\n⚠ outside ±${Math.round(threshold.value * 100)}% band` : '');
 };
@@ -737,7 +737,7 @@ const fetchFromServer = async () => {
       && !confirm('Replace the loaded payload? Your unsaved edits will be lost.')) return;
   const token = authStore.currentToken;
   if (!token) {
-    loadError.value = 'Your session has expired — sign in again to fetch from the server.';
+    loadError.value = 'Your session has expired – sign in again to fetch from the server.';
     return;
   }
   fetchingReport.value = true;
@@ -749,7 +749,7 @@ const fetchFromServer = async () => {
     let body: { success?: boolean; message?: string; data?: unknown } | null = null;
     try {
       body = await res.json();
-    } catch { /* non-JSON error page — fall through to the status check */
+    } catch { /* non-JSON error page – fall through to the status check */
     }
     if (!res.ok) {
       loadError.value = `Server fetch failed (HTTP ${res.status})${body?.message ? ': ' + body.message : ''}.`;
@@ -759,15 +759,15 @@ const fetchFromServer = async () => {
       loadError.value = 'Server fetch failed: ' + (body?.message || 'unexpected response shape.');
       return;
     }
-    // catwalk wraps the export in a reflection tree — rebuild the plain payload
+    // catwalk wraps the export in a reflection tree – rebuild the plain payload
     const data = decodeBalanceReport(body.data);
     if (!data || typeof data !== 'object' || !Object.keys(data).length) {
-      loadError.value = 'The server has no balance report yet — run /coi balance export there first.';
+      loadError.value = 'The server has no balance report yet – run /coi balance export there first.';
       return;
     }
     acceptPayload(data); // sets its own loadError if the payload is malformed
   } catch {
-    loadError.value = 'Could not reach the server report endpoint — check your connection and try again.';
+    loadError.value = 'Could not reach the server report endpoint – check your connection and try again.';
   } finally {
     fetchingReport.value = false;
   }
@@ -793,7 +793,7 @@ watch(payload, () => {
   saveTimer = setTimeout(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.value));
-    } catch { /* payload too large for localStorage — page still works, just won't survive refresh */
+    } catch { /* payload too large for localStorage – page still works, just won't survive refresh */
     }
   }, 800);
 }, {deep: true});
@@ -832,7 +832,7 @@ Burst-10: same with a 10s window and no regen.
 Damage per spirit = plan damage ÷ spirit spent.
 Fairness index = value ÷ cross-pathway median at the same sequence; flagged when |index − 1| > ${Math.round(threshold.value * 100)}%.
 Empirical columns come from live telemetry (window: ${windowDays.value} days).
-An ability's damage per cast uses its ★ primary key only — variant keys are visible in the drilldown but deliberately never summed.
+An ability's damage per cast uses its ★ primary key only – variant keys are visible in the drilldown but deliberately never summed.
 Keys with a ◆ damage-key profile replace the once-per-cast assumption: ACTIVE_CAST weights damage by proc chance; DoT/aura keys count sustained DPS × duration per application (re-applying refreshes, never stacks, on the single duelist target); throttled on-hit keys count as a continuous stream (DPS × fight length, one activation); an unthrottled on-hit is attack-speed-bound and keeps the old per-cast number. Unprofiled keys still assume one hit per cast.${payload.value.meta.damageProfiles ? '\n' + payload.value.meta.damageProfiles : ''}
 Cost and cooldown are EFFECTIVE values: tuning-config.yml overrides layered over the hardcoded numbers. The tuning download regenerates that file in full (pre-existing overrides plus your edits), so it is always safe to drop in.`;
 });
@@ -857,7 +857,7 @@ onMounted(() => {
     }
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) acceptPayload(JSON.parse(raw));
-  } catch { /* stale storage — start clean */
+  } catch { /* stale storage – start clean */
   }
 });
 

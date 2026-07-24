@@ -19,7 +19,7 @@
         <div class="entry-indicator" :class="`indicator-${c.status.toLowerCase()}`"></div>
         <div class="entry-main">
           <div class="entry-top-row">
-            <span class="type-tag">{{ t(`commissions.requestType.${c.requestType}`) }}</span>
+            <span class="type-tag">{{ formatChangeSummary(c.majorChanges.length, c.minorChanges.length, t) }}</span>
             <CommissionStatusBadge :status="c.status"/>
           </div>
 
@@ -61,6 +61,7 @@ import {useRouter} from 'vue-router';
 import {useI18n} from '@/composables/useI18n';
 import {commissionsAPI} from '@/utils/api/commissions';
 import {formatNotificationDate} from '@/utils/notifications';
+import {formatChangeSummary} from '@/utils/commissionSummary';
 import CommissionStatusBadge from '@/components/commissions/CommissionStatusBadge.vue';
 import type {CommissionResponseDto} from '@/types/commissions';
 

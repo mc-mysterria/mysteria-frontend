@@ -109,7 +109,7 @@ import {useI18n} from '@/composables/useI18n';
 
 const {t} = useI18n();
 
-// This is pre-aggregated server-side (api/beyonder-stats.ts) — only counts are
+// This is pre-aggregated server-side (api/beyonder-stats.ts) – only counts are
 // ever sent to the client, never the per-player roster (names, individual
 // sequences, etc).
 interface BeyonderStatsAggregate {

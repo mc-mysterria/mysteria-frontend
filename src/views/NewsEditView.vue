@@ -23,7 +23,7 @@
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
           <polyline points="14 2 14 8 20 8"/>
         </svg>
-        Unsaved draft: <strong>{{ pendingDraft.title || 'Untitled' }}</strong> — saved at {{ formatDraftTime(pendingDraft.savedAt) }}
+        Unsaved draft: <strong>{{ pendingDraft.title || 'Untitled' }}</strong> – saved at {{ formatDraftTime(pendingDraft.savedAt) }}
       </div>
       <div class="draft-banner-actions">
         <button class="draft-restore-btn" @click="restoreDraft">Restore</button>
@@ -159,7 +159,7 @@
                 <path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>
               </svg>
             </button>
-            <button type="button" class="md-toolbar-btn" title="Horizontal Rule" @click="toolbarActions.hr()">—</button>
+            <button type="button" class="md-toolbar-btn" title="Horizontal Rule" @click="toolbarActions.hr()">–</button>
           </div>
 
           <div class="pathway-picker-bar">
@@ -315,7 +315,7 @@ let draftTimer: ReturnType<typeof setTimeout> | null = null;
 const md = new MarkdownIt({html: true, linkify: true, typographer: true});
 md.use(pathwayEmojiPlugin);
 
-// — Computed —
+// – Computed –
 
 const isDirty = computed(() => {
   if (!selectedArticle.value) return false;
@@ -342,7 +342,7 @@ const renderedContent = computed(() => {
   return md.render(selectedArticle.value.content);
 });
 
-// — Draft management —
+// – Draft management –
 
 const formatDraftTime = (date: Date | string) => {
   const d = typeof date === 'string' ? new Date(date) : date;
@@ -382,7 +382,7 @@ const dismissDraft = () => {
   pendingDraft.value = null;
 };
 
-// — Unsaved changes protection —
+// – Unsaved changes protection –
 
 const handleBeforeUnload = (e: BeforeUnloadEvent) => {
   if (isDirty.value) {
@@ -400,7 +400,7 @@ onBeforeRouteLeave((to, from, next) => {
   }
 });
 
-// — Markdown toolbar —
+// – Markdown toolbar –
 
 const wrapSelection = (before: string, after: string, defaultText: string) => {
   const el = contentTextarea.value;
@@ -465,7 +465,7 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-// — Pathway insertion —
+// – Pathway insertion –
 
 const insertPathway = (name: string) => {
   if (!selectedArticle.value || !contentTextarea.value) return;
@@ -481,14 +481,14 @@ const insertPathway = (name: string) => {
   }, 0);
 };
 
-// — Split view —
+// – Split view –
 
 const toggleSplitView = () => {
   splitView.value = !splitView.value;
   if (splitView.value && showPreview.value) closePreview();
 };
 
-// — Preview modal —
+// – Preview modal –
 
 const openPreview = () => {
   showPreview.value = true;
@@ -500,7 +500,7 @@ const closePreview = () => {
   document.body.style.overflow = '';
 };
 
-// — Slug auto-generation —
+// – Slug auto-generation –
 
 const toSlug = (s: string) =>
     s.toLowerCase().trim()
@@ -509,7 +509,7 @@ const toSlug = (s: string) =>
         .replace(/-+/g, '-')
         .slice(0, 100);
 
-// — Validation —
+// – Validation –
 
 const validateSlug = (slug: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
 
@@ -537,7 +537,7 @@ const validateForm = () => {
   validationErrors.value = errors;
 };
 
-// — Watchers —
+// – Watchers –
 
 watch(() => selectedArticle.value, () => {
   if (!selectedArticle.value) return;
@@ -551,7 +551,7 @@ watch(() => selectedArticle.value?.title, (title) => {
   selectedArticle.value.slug = toSlug(title ?? '');
 });
 
-// — Lifecycle —
+// – Lifecycle –
 
 onMounted(async () => {
   window.addEventListener('beforeunload', handleBeforeUnload);
@@ -571,7 +571,7 @@ const showSuccess = (message: string) => {
 
 const goBack = () => router.push('/profile');
 
-// — API —
+// – API –
 
 const loadArticles = async () => {
   try {

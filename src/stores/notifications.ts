@@ -37,7 +37,7 @@ export const useAccountNotificationsStore = defineStore('accountNotifications', 
                 if (!response.ok) return;
                 this.unreadCount = await response.json();
             } catch {
-                // silently fail — badge is non-critical
+                // silently fail – badge is non-critical
             }
         },
 

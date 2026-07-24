@@ -1,5 +1,5 @@
 /**
- * Domain math for the CoI balance dashboard — BALANCE_WEB_HANDOFF.md §3.
+ * Domain math for the CoI balance dashboard – BALANCE_WEB_HANDOFF.md §3.
  * All formulas assume the idealized duelist: full acting ratio, uniqueness 1.0,
  * zero madness/tiredness, no amplification. Mirrors dashboard.html reference impl.
  */
@@ -27,13 +27,13 @@ export function validatePayload(raw: unknown): string | null {
     if (!p || typeof p !== 'object') return 'Not a JSON object.';
     if (!p.sequenceTables || !Array.isArray(p.sequenceTables.damageMultiplier)
         || p.sequenceTables.damageMultiplier.length !== 10)
-        return 'sequenceTables.damageMultiplier must have 10 entries — re-run /coi balance export.';
+        return 'sequenceTables.damageMultiplier must have 10 entries – re-run /coi balance export.';
     if (!Array.isArray(p.abilities) || p.abilities.length === 0)
-        return 'No abilities in payload — re-run /coi balance export.';
+        return 'No abilities in payload – re-run /coi balance export.';
     if (!p.pathways || typeof p.pathways !== 'object')
-        return 'Missing pathways table — re-run /coi balance export.';
+        return 'Missing pathways table – re-run /coi balance export.';
     if (!Array.isArray(p.damageConfigLines))
-        return 'Missing damageConfigLines — re-run /coi balance export.';
+        return 'Missing damageConfigLines – re-run /coi balance export.';
     return null;
 }
 
@@ -80,7 +80,7 @@ export function buildProfiles(payload: CoiBalancePayload): Profiles {
     return profiles;
 }
 
-/** Ability field accessors — `pristine` reads the pre-edit values for ghost lines. */
+/** Ability field accessors – `pristine` reads the pre-edit values for ghost lines. */
 const getDamage = (a: EnrichedAbility, key: string, pristine: boolean) =>
     pristine ? a._orig[key] : a.damageKeys[key];
 const getCd = (a: EnrichedAbility, pristine: boolean) => {
@@ -98,7 +98,7 @@ export const effCost = (a: EnrichedAbility, maxSpirit: number, pristine = false)
 /**
  * Derived profile numbers, recomputed client-side from the raw profile so live
  * edits to base damage / cooldown stay accurate (the export's own derived
- * fields are S9 snapshots of the same formulas). All values are S9 baselines —
+ * fields are S9 snapshots of the same formulas). All values are S9 baselines –
  * multiply by sequenceTables.damageMultiplier before display, like baseDamage.
  * Null means "unknown", never 0 (absent ≠ zero).
  */
@@ -141,11 +141,11 @@ export function profileMath(a: EnrichedAbility, key: string, pristine = false): 
 }
 
 export type CastDamageKind =
-    | 'unprofiled'    // no profile — once-per-cast assumption (status quo)
-    | 'per-cast'      // ACTIVE_CAST / OTHER — proc-weighted damage per cast
-    | 'dot'           // DOT/AURA — per-application total, clipped to the fight window
-    | 'stream'        // throttled ON_HIT/SUMMON_HIT — continuous DPS, one activation per fight
-    | 'attack-speed'; // unthrottled ON_HIT — period unknown, falls back to the once-per-cast number
+    | 'unprofiled'    // no profile – once-per-cast assumption (status quo)
+    | 'per-cast'      // ACTIVE_CAST / OTHER – proc-weighted damage per cast
+    | 'dot'           // DOT/AURA – per-application total, clipped to the fight window
+    | 'stream'        // throttled ON_HIT/SUMMON_HIT – continuous DPS, one activation per fight
+    | 'attack-speed'; // unthrottled ON_HIT – period unknown, falls back to the once-per-cast number
 
 export interface CastDamage {
     dmg: number;             // S9 damage per cast (for 'stream': for the whole fight)
@@ -160,7 +160,7 @@ export function castDamage(a: EnrichedAbility, key: string, fightSecs: number, p
     if (!m) return {dmg: base, maxCasts: null, kind: 'unprofiled'};
     const p = m.profile;
     if (isTickTrigger(p)) {
-        if (m.sustainedDps == null) return {dmg: base, maxCasts: null, kind: 'dot'}; // period unknown — don't rank as 0
+        if (m.sustainedDps == null) return {dmg: base, maxCasts: null, kind: 'dot'}; // period unknown – don't rank as 0
         if (m.durationSeconds == null) // indefinite with no estimate: ticks for the whole fight
             return {dmg: m.sustainedDps * fightSecs, maxCasts: 1, kind: 'dot'};
         return {
@@ -174,7 +174,7 @@ export function castDamage(a: EnrichedAbility, key: string, fightSecs: number, p
         if (m.sustainedDps == null) return {dmg: base, maxCasts: null, kind: 'attack-speed'};
         return {dmg: m.sustainedDps * fightSecs, maxCasts: 1, kind: 'stream'};
     }
-    // ACTIVE_CAST / OTHER: the cast cooldown already paces the plan — just weight by proc chance
+    // ACTIVE_CAST / OTHER: the cast cooldown already paces the plan – just weight by proc chance
     return {dmg: m.expectedDamagePerTrigger, maxCasts: null, kind: 'per-cast'};
 }
 
@@ -272,7 +272,7 @@ export const median = (xs: Array<number | null | undefined>): number | null => {
 };
 
 export const fmt = (x: number | null | undefined): string =>
-    x == null ? '—'
+    x == null ? '–'
         : x >= 1000000 ? (x / 1000000).toFixed(1) + 'M'
             : x >= 1000 ? (x / 1000).toFixed(1) + 'K'
                 : x >= 100 ? x.toFixed(0)

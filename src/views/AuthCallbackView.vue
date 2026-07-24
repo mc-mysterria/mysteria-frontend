@@ -69,7 +69,7 @@ onMounted(async () => {
 
       // Cross-domain auth: token is in localStorage, just close the popup.
       // The login page (Popup 1) polls authWindow.closed and will forward the token to the archive.
-      // window.opener is unreliable here — browsers clear it when the popup navigates to Discord.
+      // window.opener is unreliable here – browsers clear it when the popup navigates to Discord.
       if (redirectUrl) {
         if (!isAllowedRedirectUrl(redirectUrl)) {
           throw new Error(t('authCallback.invalidRedirectUrl') || 'Invalid redirect URL');
@@ -91,7 +91,7 @@ onMounted(async () => {
             window.location.origin,
         );
       } else {
-        // Not in a popup — go home
+        // Not in a popup – go home
         setTimeout(() => {
           window.location.href = "/";
         }, 2000);

@@ -76,10 +76,10 @@ const translations = {
         gameplayTitle: "Core Gameplay",
         gameplayFeatures: [
             "You are a Beyonder walking your own Sequence",
-            "Astral World, Spirit World, Spiritual Essence — more than just words",
+            "Astral World, Spirit World, Spiritual Essence – more than just words",
             "Ingredients must be found, obtained, or traded",
             "Potions are prepared through real alchemical processes",
-            "Mobs aren't just killed — each has its own tactics",
+            "Mobs aren't just killed – each has its own tactics",
         ],
 
         // Guides Section
@@ -713,7 +713,7 @@ const translations = {
         guideStep6ImagePlaceholder: "Wiki/Lore Screenshot Placeholder",
         guideStep7ImagePlaceholder: "Gameplay Screenshot Placeholder",
 
-        // Guide — reference hub
+        // Guide – reference hub
         guide: {
             navQuickStart: "Quick Start",
             navRules: "Rules",
@@ -730,7 +730,7 @@ const translations = {
 
             gatewayAddressLabel: "Gateway address",
             step3_1Title: "Open Minecraft Java Edition",
-            step3_1Desc: "Version required — check your launcher.",
+            step3_1Desc: "Version required – check your launcher.",
             step3_2Title: "Multiplayer → Add Server",
             step3_2Desc: "Name it anything. We like \"Mysterria\".",
             step3_3Title: "Paste the address & join",
@@ -741,11 +741,11 @@ const translations = {
             verify2: "Copy your verification code from the profile",
             verify3Title: "Enter it in Minecraft chat",
             verify3Desc: "/verify [your code]",
-            verify4: "You'll receive a confirmation message — done.",
+            verify4: "You'll receive a confirmation message – done.",
             openProfile: "Open profile →",
 
             rulesTitle: "The Covenant",
-            rulesLede: "Four rules — the short version. Read the full policy any time.",
+            rulesLede: "Four rules – the short version. Read the full policy any time.",
             readFullRules: "Read full rules →",
             rule1: "No exploits · no hacks.",
             rule1Sub: "The Fool watches.",
@@ -757,31 +757,31 @@ const translations = {
             rule4Sub: "/report in chat.",
 
             worldTitle: "The world · in brief",
-            worldBody: "Mysterria is a roleplay server set in an era of steam, fog, and secret societies. Power flows through Pathways — 22 ancient sequences that shape who you become. Start as a mortal. Advance through potions and ritual. Every choice leaves a mark.",
+            worldBody: "Mysterria is a roleplay server set in an era of steam, fog, and secret societies. Power flows through Pathways – 22 ancient sequences that shape who you become. Start as a mortal. Advance through potions and ritual. Every choice leaves a mark.",
 
             companionTitle: "Bind the Companion",
             companionLede: "The COI Client is an optional mod that brings server-specific gameplay to life. Strongly recommended, never required.",
             coiWhatTitle: "What it gives you",
             coiFeature1: "Cast mystical spells via configurable hotkeys",
             coiFeature2: "Custom visual effects tied to your Pathway",
-            coiFeature3: "Deeper immersion — rich presence and server-specific sounds",
+            coiFeature3: "Deeper immersion – rich presence and server-specific sounds",
             coiFeatureSpellHotkeys: "Spell Hotkeys",
             coiFeatureVisualEffects: "Visual Effects",
             coiFeatureRichPresence: "Rich Presence",
             coiFeatureSounds: "Server Sounds",
 
             pathwayTitle: "Find your Pathway",
-            pathwayLede: "Three questions map you to one of the 22 known Pathways. Purely for flavor — it doesn't affect anything in-game, and you'll discover your true Pathway through play.",
+            pathwayLede: "Three questions map you to one of the 22 known Pathways. Purely for flavor – it doesn't affect anything in-game, and you'll discover your true Pathway through play.",
             quizQuestion: "QUESTION",
             quizOf: "OF",
             quizChooseOne: "choose one",
             nextQuestion: "Next question →",
             confirmPathway: "Confirm pathway →",
             tentativeLabel: "TENTATIVE",
-            pathwayConfirmedNote: "Remembered on this device — come back anytime to change it.",
+            pathwayConfirmedNote: "Remembered on this device – come back anytime to change it.",
             quiz1Question: "What draws you to the world of Beyonders?",
             quiz1Option1: "Hidden knowledge and unseen truths",
-            quiz1Option2: "Authority — the power to shape fate",
+            quiz1Option2: "Authority – the power to shape fate",
             quiz1Option3: "The beauty of shadow and mystery",
             quiz2Question: "Faced with a powerful enemy, you…",
             quiz2Option1: "Study them until you find the flaw",
@@ -791,13 +791,13 @@ const translations = {
             quiz3Option1: "To know everything that is hidden",
             quiz3Option2: "To rule and reshape the world",
             quiz3Option3: "To transcend all mortal limits",
-            hintFool: "Fate-touched, unpredictable. The Fool walks outside the system — and that is the system.",
+            hintFool: "Fate-touched, unpredictable. The Fool walks outside the system – and that is the system.",
             hintHermit: "Knowledge-aligned. You observe before you act, and see what others cannot.",
-            hintFortune: "Fate-aligned. Luck is not random — it is a sequence you have learned to read.",
-            hintVisionary: "Sight-aligned. You see what hasn't happened yet — the present is just a rumor to you.",
+            hintFortune: "Fate-aligned. Luck is not random – it is a sequence you have learned to read.",
+            hintVisionary: "Sight-aligned. You see what hasn't happened yet – the present is just a rumor to you.",
             hintDoor: "Threshold-aligned. Every wall is a door you haven't found the key to yet.",
             hintPriest: "Faith-aligned. You carry a truth larger than yourself, and you will not put it down.",
-            hintMother: "Life-aligned. You create and you nurture — and you decide what a thing is allowed to become.",
+            hintMother: "Life-aligned. You create and you nurture – and you decide what a thing is allowed to become.",
             hintEmperor: "Authority-aligned. You were born to command, and the world will learn to listen.",
             hintSun: "Divine-aligned. Your light burns away falsehood. You carry the world on your shoulders.",
             hintJusticiar: "Order-aligned. You are the line between what is allowed and what is not.",
@@ -805,24 +805,24 @@ const translations = {
             hintParagon: "Excellence-aligned. \"Good enough\" was never a sentence you finished.",
             hintTyrant: "Dominion-aligned. You do not ask for the throne. You simply arrive at it.",
             hintTower: "Ruin-aligned. Some things stand only until you decide otherwise.",
-            hintDarkness: "Shadow-aligned. You thrive where others falter. Darkness is not the absence of light — it is its own thing.",
+            hintDarkness: "Shadow-aligned. You thrive where others falter. Darkness is not the absence of light – it is its own thing.",
             hintMoon: "Mystery-aligned. Beauty and shadow are your tools. The unseen bends to your will.",
-            hintDeath: "Transition-aligned. You understand that all things end — and that this is a door, not a wall.",
+            hintDeath: "Transition-aligned. You understand that all things end – and that this is a door, not a wall.",
             hintDemoness: "Temptation-aligned. You offer people exactly what they already wanted.",
             hintAbyss: "Void-aligned. You have looked down for so long that down has started looking back.",
-            hintChained: "Restraint-aligned. You carry a weight most people would have set down by now — on purpose.",
+            hintChained: "Restraint-aligned. You carry a weight most people would have set down by now – on purpose.",
             hintHanged: "Sacrifice-aligned. You already knew what it would cost. You said yes anyway.",
             hintError: "Anomaly-aligned. You are the exception the rule didn't account for.",
 
             faqTitle: "If something goes wrong",
-            faq1Q: "\"Can't connect — outdated client\"?",
+            faq1Q: "\"Can't connect – outdated client\"?",
             faq1A: "Your Minecraft version doesn't match the gateway. Check your launcher for the required version.",
             faq2Q: "Discord link failed on the profile",
             faq2A: "Clear cookies for the site and retry. Still stuck? Open a ticket in our Discord server.",
             faq3Q: "/verify code not working",
             faq3A: "Codes expire after a few minutes. Return to your profile page and copy a fresh code.",
             faq4Q: "Can I change my Pathway later?",
-            faq4A: "Yes — the quiz above is just for flavor. Retake it anytime; nothing is locked in.",
+            faq4A: "Yes – the quiz above is just for flavor. Retake it anytime; nothing is locked in.",
             faq5Q: "I'm on Bedrock / mobile",
             faq5A: "Mysterria supports both Java and Bedrock via the Geyser bridge. Use the same gateway address.",
             serverOnline: "Online",
@@ -1041,7 +1041,7 @@ const translations = {
         dailyBonusCatTitle: "A strange resonance...",
         dailyBonusCatAlt: "A mysterious cat",
         dailyBonusFound: "You found the Emporium Crystal! +20 Brilliant Emporium Points awarded.",
-        dailyBonusAlreadyClaimed: "Come back tomorrow — the crystal has already been claimed today.",
+        dailyBonusAlreadyClaimed: "Come back tomorrow – the crystal has already been claimed today.",
         dailyBonusLinkMinecraft: "Link your Minecraft account first to collect Emporium Points.",
 
         // Account Notifications
@@ -1058,7 +1058,7 @@ const translations = {
                 UNVERIFICATION: "Your Minecraft account was unlinked by staff.",
                 PUNISHMENT_ISSUED: "You received a {punishmentType}: {reason}",
                 PUNISHMENT_REMOVED: "Your {punishmentType} was revoked by staff.",
-                COMMISSION_SLOT_AVAILABLE: "A commission slot is available — you can submit a spell rework request.",
+                COMMISSION_SLOT_AVAILABLE: "A commission slot is available – you can submit a spell rework request.",
                 COMMISSION_STATUS_CHANGED: "Your commission request status changed to {status}.",
             },
             actions: {
@@ -1076,27 +1076,29 @@ const translations = {
                 title: "Magic System Commission",
                 price: "$50 per slot",
                 whatIsItLabel: "What is it?",
-                whatIsIt: "A custom development service that lets magic practitioners request focused, lore-accurate tweaks to existing spells, mechanics, or abilities — reviewed and implemented directly by our engineering team.",
+                whatIsIt: "A custom development service that lets magic practitioners request focused, lore-accurate tweaks to existing spells, mechanics, or abilities – reviewed by our testers and developers, then implemented directly by our engineering team.",
                 whatYouCanRequestLabel: "What you can request",
                 requestOptions: [
-                    "One Major Change — a full lore alignment rewrite, a balance rework of one ability, or one new spell/scaling addition.",
-                    "Up to 3 Minor Changes — small numeric tweaks (cooldown, damage, mana cost, scaling constants) or small lore-flavor edits, across one or several spells/abilities.",
+                    "A shared budget of 6 points per request – a Major Change costs 3 points, a Minor Change costs 1.",
+                    "Up to 2 Major Changes – a full lore alignment rewrite, a balance rework of one ability, or one new spell/scaling addition.",
+                    "Up to 6 Minor Changes – small numeric tweaks (cooldown, damage, mana cost, scaling constants) or small lore-flavor edits, across one or several spells/abilities.",
+                    "Mix and match within budget – e.g. 1 Major + 3 Minor uses the full 6 points, same as 2 Major or 6 Minor alone.",
                 ],
                 requirementsLabel: "Every request must be",
                 requirements: [
-                    "Justified — explain the gameplay or lore reasoning behind it.",
-                    "Lore-accurate — grounded in established setting/source material, not invented from scratch.",
-                    "Non-fundamental — no core system reworks or architecture changes.",
-                    "Respectful of prior work — no requests to nerf or alter another player's previously commissioned content.",
+                    "Justified – explain the gameplay or lore reasoning behind it.",
+                    "Lore-accurate – grounded in established setting/source material, not invented from scratch.",
+                    "Non-fundamental – no core system reworks or architecture changes.",
+                    "Considerate of recent work – don't request a redo of a spell/ability that was reworked recently and is currently in good, balanced shape just for a different take. If it's genuinely become unbalanced, outdated, or broken since – regardless of who touched it last – that's fair game to request.",
                 ],
                 howItWorksLabel: "How it works",
                 howItWorksSteps: [
                     "Fill out the form below.",
-                    "Engineering reviews for feasibility and lore accuracy (Developer Verification).",
+                    "Testers and developers review it for feasibility and lore accuracy (Staff Verification).",
                     "Approved requests are scheduled and implemented.",
                     "You're notified when it's live.",
                 ],
-                note: "Requests that don't fit these bounds will be scoped into multiple commissions — we'll tell you exactly how many before anything is charged further.",
+                note: "Requests that don't fit these bounds will be scoped into multiple commissions – we'll tell you exactly how many before anything is charged further.",
             },
             status: {
                 PENDING_REVIEW: "Pending Review",
@@ -1105,14 +1107,14 @@ const translations = {
                 RESCOPE_REQUIRED: "Rescope Required",
                 COMPLETED: "Completed",
             },
-            requestType: {
-                MAJOR: "Major Rework",
-                MINOR_BUNDLE: "Minor Bundle",
-            },
             majorType: {
                 LORE_ALIGNMENT: "Lore Alignment",
                 BALANCE_REWORK: "Balance Rework",
                 NEW_SPELL: "New Spell",
+            },
+            summary: {
+                major: "{count} major",
+                minor: "{count} minor",
             },
             form: {
                 eyebrow: "Spell Commission",
@@ -1123,9 +1125,18 @@ const translations = {
                 slotsLabel: "Commission Slots",
                 slotsNeeded: "{count} slot(s) will be spent on this request.",
                 slotLabel: "Commission Slot",
-                requestTypeLabel: "Request Type",
-                typeMajor: "Major Rework",
-                typeMinorBundle: "Minor Bundle",
+                budgetLabel: "Budget",
+                budgetUsedFormat: "{used} / {max} used",
+                budgetHint: "A Major Change costs 3 points, a Minor Change costs 1 – spend up to 6 points however you like.",
+                budgetOverBudget: "Over budget – remove a change or reduce scope.",
+                pointsUnit: "pts",
+                majorSectionTitle: "Major Changes",
+                majorSectionHint: "Up to 2 – a full lore rewrite, balance rework, or new spell/scaling addition.",
+                minorSectionTitle: "Minor Changes",
+                minorSectionHint: "Up to 6 – small numeric tweaks or lore-flavor edits.",
+                emptyStateHint: "Add a Major or Minor change below to spend your budget.",
+                majorChangeLabel: "Major Change",
+                addMajorChange: "Add Major Change",
                 targetNameLabel: "Target Name",
                 majorTypeLabel: "Type of Rework",
                 selectPlaceholder: "Select…",
@@ -1134,10 +1145,10 @@ const translations = {
                 loreReferenceLabel: "Lore Reference",
                 minorChangeLabel: "Minor Change",
                 changeDescriptionLabel: "Change Description",
-                addMinorChange: "Add Another Change",
+                addMinorChange: "Add Minor Change",
                 confirmLoreGrounded: "I confirm this change is grounded in existing lore.",
                 confirmNoFundamentalRework: "I confirm this is not a request for a fundamental rework.",
-                confirmNoNerfOtherCommission: "I confirm this does not nerf another player's commissioned content.",
+                confirmNoNerfOtherCommission: "I confirm this isn't a redundant redo of another player's recent, currently-balanced commissioned work.",
                 confirmUnderstandsScope: "I understand the scope of this commission and that a slot will be spent on submission.",
                 submit: "Submit Request",
                 submitting: "Submitting…",
@@ -1145,6 +1156,8 @@ const translations = {
                 errorRequired: "This field is required.",
                 errorConfirmations: "You must check all confirmations before submitting.",
                 errorSlots: "Select the required number of commission slots.",
+                errorBudgetExceeded: "This exceeds your budget of {max} points. Remove a change or reduce scope.",
+                errorAtLeastOneChange: "Add at least one Major or Minor change.",
             },
             mine: {
                 eyebrow: "Your Requests",
@@ -1237,16 +1250,16 @@ const translations = {
         welcomeQuote:
             '"Це не просто сервер... Це Книга, що сама пише себе у головах гравців."',
         mainDescription:
-            "Містеррія — унікальний український RPG-сервер, створений за мотивами Lord of the Mysteries. Кожен аспект геймплею занурює тебе у світ Туману, Бейондерів та Послідовностей. Тут магія — не ефект, а наука і шлях з обмеженнями та ціною.",
+            "Містеррія – унікальний український RPG-сервер, створений за мотивами Lord of the Mysteries. Кожен аспект геймплею занурює тебе у світ Туману, Бейондерів та Послідовностей. Тут магія – не ефект, а наука і шлях з обмеженнями та ціною.",
 
         // Gameplay Features
         gameplayTitle: "Основа геймплею",
         gameplayFeatures: [
-            "Ти — Потойбічний, що крокує власною Послідовністю",
-            "Астральний світ, Вимір Духів, Духовна Сутність — це більше ніж слова",
+            "Ти – Потойбічний, що крокує власною Послідовністю",
+            "Астральний світ, Вимір Духів, Духовна Сутність – це більше ніж слова",
             "Інгредієнти потрібно знаходити, здобувати або торгувати ними",
             "Зілля готуються за реальними алхімічними процесами",
-            "Мобів не просто вбити — кожен із них має свою тактику",
+            "Мобів не просто вбити – кожен із них має свою тактику",
         ],
 
         // Guides Section
@@ -1254,7 +1267,7 @@ const translations = {
         guidesFeatures: [
             "На сайті міститься багато детальних гайдів",
             "Інші гравці можуть пояснити механіки, але доведеться питати",
-            "Вивчення — частина гри. У Містеррії незнання = небезпека",
+            "Вивчення – частина гри. У Містеррії незнання = небезпека",
         ],
 
         // What Awaits
@@ -1878,7 +1891,7 @@ const translations = {
         guideStep6ImagePlaceholder: "Заповнювач скріншота Вікі/Лору",
         guideStep7ImagePlaceholder: "Заповнювач скріншота геймплею",
 
-        // Guide — довідковий хаб
+        // Guide – довідковий хаб
         guide: {
             navQuickStart: "Швидкий старт",
             navRules: "Правила",
@@ -1891,7 +1904,7 @@ const translations = {
 
             heroEyebrow: "ПОЧАТОК РОБОТИ",
             heroTitle: "Увійди в Туман",
-            heroLede: "Усе, що потрібно, щоб зайти в гру та верифікуватись, — на цій сторінці. Правила, лор та опціональний тест на Шлях — нижче, коли захочеш.",
+            heroLede: "Усе, що потрібно, щоб зайти в гру та верифікуватись, – на цій сторінці. Правила, лор та опціональний тест на Шлях – нижче, коли захочеш.",
 
             gatewayAddressLabel: "Адреса порталу",
             step3_1Title: "Відкрий Minecraft Java Edition",
@@ -1906,11 +1919,11 @@ const translations = {
             verify2: "Скопіюй код верифікації з профілю",
             verify3Title: "Введи його в чат Minecraft",
             verify3Desc: "/verify [твій код]",
-            verify4: "Ти отримаєш повідомлення про підтвердження — готово.",
+            verify4: "Ти отримаєш повідомлення про підтвердження – готово.",
             openProfile: "Відкрити профіль →",
 
             rulesTitle: "Ковенант",
-            rulesLede: "Чотири правила — коротка версія. Повну політику можна прочитати будь-коли.",
+            rulesLede: "Чотири правила – коротка версія. Повну політику можна прочитати будь-коли.",
             readFullRules: "Читати повні правила →",
             rule1: "Жодних експлойтів · жодних читів.",
             rule1Sub: "Блазень спостерігає.",
@@ -1922,31 +1935,31 @@ const translations = {
             rule4Sub: "/report в чаті.",
 
             worldTitle: "Світ · коротко",
-            worldBody: "Mysterria — рольовий сервер в епоху пари, туману та таємних товариств. Сила тече через Шляхи — 22 послідовності, що формують тебе. Почни як смертний. Просувайся через зілля та ритуали. Кожен вибір залишає слід.",
+            worldBody: "Mysterria – рольовий сервер в епоху пари, туману та таємних товариств. Сила тече через Шляхи – 22 послідовності, що формують тебе. Почни як смертний. Просувайся через зілля та ритуали. Кожен вибір залишає слід.",
 
             companionTitle: "Прив'яжи Компаньйона",
-            companionLede: "COI Client — опціональний мод, що оживляє серверний геймплей. Настійно рекомендований, але ніколи не обов'язковий.",
+            companionLede: "COI Client – опціональний мод, що оживляє серверний геймплей. Настійно рекомендований, але ніколи не обов'язковий.",
             coiWhatTitle: "Що він дає",
             coiFeature1: "Кастуй містичні заклинання через налаштовані хоткеї",
             coiFeature2: "Особливі візуальні ефекти прив'язані до твого Шляху",
-            coiFeature3: "Глибше занурення — rich presence та серверні звуки",
+            coiFeature3: "Глибше занурення – rich presence та серверні звуки",
             coiFeatureSpellHotkeys: "Хоткеї заклинань",
             coiFeatureVisualEffects: "Візуальні ефекти",
             coiFeatureRichPresence: "Rich Presence",
             coiFeatureSounds: "Серверні звуки",
 
             pathwayTitle: "Знайди свій Шлях",
-            pathwayLede: "Три питання визначать один із 22 відомих Шляхів. Суто для настрою — не впливає на гру, а свій справжній Шлях ти відкриєш через гру.",
+            pathwayLede: "Три питання визначать один із 22 відомих Шляхів. Суто для настрою – не впливає на гру, а свій справжній Шлях ти відкриєш через гру.",
             quizQuestion: "ПИТАННЯ",
             quizOf: "З",
             quizChooseOne: "вибери одне",
             nextQuestion: "Наступне питання →",
             confirmPathway: "Підтвердити шлях →",
             tentativeLabel: "ПОПЕРЕДНЬО",
-            pathwayConfirmedNote: "Запам'ятано на цьому пристрої — можна змінити будь-коли.",
+            pathwayConfirmedNote: "Запам'ятано на цьому пристрої – можна змінити будь-коли.",
             quiz1Question: "Що притягує тебе до світу Потойбічних?",
             quiz1Option1: "Приховані знання та невидимі істини",
-            quiz1Option2: "Влада — сила змінювати долю",
+            quiz1Option2: "Влада – сила змінювати долю",
             quiz1Option3: "Краса тіні та таємниці",
             quiz2Question: "Зіткнувшись з потужним ворогом, ти…",
             quiz2Option1: "Вивчаєш його, доки не знайдеш слабке місце",
@@ -1956,38 +1969,38 @@ const translations = {
             quiz3Option1: "Знати все приховане",
             quiz3Option2: "Правити та перебудовувати світ",
             quiz3Option3: "Вийти за межі всіх смертних обмежень",
-            hintFool: "Торкнутий долею, непередбачуваний. Блазень ходить поза системою — і це й є система.",
+            hintFool: "Торкнутий долею, непередбачуваний. Блазень ходить поза системою – і це й є система.",
             hintHermit: "Орієнтований на знання. Ти спостерігаєш перед дією і бачиш те, чого інші не можуть.",
-            hintFortune: "Орієнтований на долю. Удача — не випадковість, це послідовність, яку ти навчився читати.",
-            hintVisionary: "Орієнтований на передбачення. Ти бачиш те, що ще не сталося — теперішнє для тебе лише чутка.",
-            hintDoor: "Орієнтований на поріг. Кожна стіна — це двері, до яких ти ще не знайшов ключ.",
+            hintFortune: "Орієнтований на долю. Удача – не випадковість, це послідовність, яку ти навчився читати.",
+            hintVisionary: "Орієнтований на передбачення. Ти бачиш те, що ще не сталося – теперішнє для тебе лише чутка.",
+            hintDoor: "Орієнтований на поріг. Кожна стіна – це двері, до яких ти ще не знайшов ключ.",
             hintPriest: "Орієнтований на віру. Ти несеш істину, більшу за себе, і не збираєшся її відкладати.",
-            hintMother: "Орієнтований на життя. Ти створюєш і плекаєш — і вирішуєш, чим дозволено стати.",
+            hintMother: "Орієнтований на життя. Ти створюєш і плекаєш – і вирішуєш, чим дозволено стати.",
             hintEmperor: "Орієнтований на владу. Ти народжений командувати, і світ навчиться слухатись.",
             hintSun: "Орієнтований на божественне. Твоє світло спалює брехню. Ти несеш світ на своїх плечах.",
-            hintJusticiar: "Орієнтований на порядок. Ти — межа між дозволеним і забороненим.",
+            hintJusticiar: "Орієнтований на порядок. Ти – межа між дозволеним і забороненим.",
             hintGiant: "Орієнтований на силу. Ти не обходиш перешкоди. Ти проходиш крізь них.",
-            hintParagon: "Орієнтований на досконалість. \"Достатньо добре\" — речення, яке ти ніколи не дописував.",
+            hintParagon: "Орієнтований на досконалість. \"Достатньо добре\" – речення, яке ти ніколи не дописував.",
             hintTyrant: "Орієнтований на панування. Ти не просиш трон. Ти просто на ньому опиняєшся.",
             hintTower: "Орієнтований на руїну. Дещо стоїть лише доти, доки ти не вирішиш інакше.",
-            hintDarkness: "Орієнтований на тінь. Ти процвітаєш там, де інші зазнають поразки. Темрява — це не відсутність світла.",
-            hintMoon: "Орієнтований на таємницю. Краса і тінь — твої інструменти. Невидиме підкоряється твоїй волі.",
-            hintDeath: "Орієнтований на перехід. Ти розумієш, що все закінчується — і що це двері, а не стіна.",
+            hintDarkness: "Орієнтований на тінь. Ти процвітаєш там, де інші зазнають поразки. Темрява – це не відсутність світла.",
+            hintMoon: "Орієнтований на таємницю. Краса і тінь – твої інструменти. Невидиме підкоряється твоїй волі.",
+            hintDeath: "Орієнтований на перехід. Ти розумієш, що все закінчується – і що це двері, а не стіна.",
             hintDemoness: "Орієнтований на спокусу. Ти пропонуєш людям те, чого вони вже й так хотіли.",
             hintAbyss: "Орієнтований на безодню. Ти так довго дивився вниз, що безодня почала дивитись у відповідь.",
-            hintChained: "Орієнтований на стриманість. Ти несеш тягар, який інші давно поклали б — навмисно.",
+            hintChained: "Орієнтований на стриманість. Ти несеш тягар, який інші давно поклали б – навмисно.",
             hintHanged: "Орієнтований на жертву. Ти вже знав, чого це коштуватиме. І все одно погодився.",
-            hintError: "Орієнтований на аномалію. Ти — виняток, якого правило не передбачало.",
+            hintError: "Орієнтований на аномалію. Ти – виняток, якого правило не передбачало.",
 
             faqTitle: "Якщо щось пішло не так",
-            faq1Q: "\"Не можу підключитись — застарілий клієнт\"?",
+            faq1Q: "\"Не можу підключитись – застарілий клієнт\"?",
             faq1A: "Версія Minecraft не відповідає вимогам. Перевір потрібну версію у лаунчері.",
             faq2Q: "Discord-прив'язка не вдалась",
             faq2A: "Очисти cookies для сайту та спробуй ще раз. Досі не виходить? Відкрий тікет у Discord.",
             faq3Q: "Код /verify не спрацьовує",
             faq3A: "Коди закінчуються через кілька хвилин. Поверніться до профілю та скопіюйте свіжий код.",
             faq4Q: "Чи можна змінити Шлях пізніше?",
-            faq4A: "Так — тест вище лише для настрою. Проходь його будь-коли, нічого не закріплюється.",
+            faq4A: "Так – тест вище лише для настрою. Проходь його будь-коли, нічого не закріплюється.",
             faq5Q: "Я на Bedrock / мобільному",
             faq5A: "Mysterria підтримує Java та Bedrock через міст Geyser. Використовуй ту ж адресу.",
             serverOnline: "Онлайн",
@@ -2081,7 +2094,7 @@ const translations = {
             "1.1": {
                 title: "Психологічний хаос",
                 description:
-                    "Токсичність, неадекват, флуд, спам, шантаж — неприйнятні. Місто не терпить божевілля поза Контролем.",
+                    "Токсичність, неадекват, флуд, спам, шантаж – неприйнятні. Місто не терпить божевілля поза Контролем.",
             },
             "1.2": {
                 title: "Язик Ворога",
@@ -2091,59 +2104,59 @@ const translations = {
             "1.3": {
                 title: "Заборонені Артефакти",
                 description:
-                    "NSFW / 18+ контент, символіка війни, терористичні чи культові знаки — миттєво знищуються Церквою Сонця.",
+                    "NSFW / 18+ контент, символіка війни, терористичні чи культові знаки – миттєво знищуються Церквою Сонця.",
             },
             "1.4": {
                 title: "Нелюдське слово",
                 description:
-                    "Расизм, сексизм, шовінізм — неприпустимі. Лише росіяни позбавлені захисту моралі.",
+                    "Расизм, сексизм, шовінізм – неприпустимі. Лише росіяни позбавлені захисту моралі.",
             },
             "1.5": {
                 title: "Несанкціоноване проникнення",
                 description:
-                    "Будь-яка реклама без дозволу — акт Вторгнення. Це стосується навіть ПП.",
+                    "Будь-яка реклама без дозволу – акт Вторгнення. Це стосується навіть ПП.",
             },
             "1.6": {
                 title: "Порушення Завіси",
                 description:
-                    "Розголошення особистої інформації — навіть у приваті — карається вигнанням.",
+                    "Розголошення особистої інформації – навіть у приваті – карається вигнанням.",
             },
             "1.7": {
                 title: "Словесна магія",
                 description:
-                    "Надмірна нецензурна лексика виснажує твою душу. Кожне слово — це ритуал. Користуйся з розумом.",
+                    "Надмірна нецензурна лексика виснажує твою душу. Кожне слово – це ритуал. Користуйся з розумом.",
             },
             "1.8": {
                 title: "Обряд без вівтаря",
                 description:
-                    "Пиши тільки в каналі, призначеному для цього. Оффтоп — це магія без наслідків, але з покаранням.",
+                    "Пиши тільки в каналі, призначеному для цього. Оффтоп – це магія без наслідків, але з покаранням.",
             },
             "1.9": {
                 title: "Порожні оболонки",
                 description:
-                    "Твінки, другі акаунти — заборонені. Арканічна підміна особистості — злочин.",
+                    "Твінки, другі акаунти – заборонені. Арканічна підміна особистості – злочин.",
             },
             "1.10": {
                 title: "Фальшивий Лицар",
                 description:
-                    "Видавання себе за адміністрацію чи обман гравців — вічне мовчання у Тумані.",
+                    "Видавання себе за адміністрацію чи обман гравців – вічне мовчання у Тумані.",
             },
             "1.11": {
                 title: "Ритуали Підбурювання",
                 description:
-                    "Провокація інших до порушень — занурення в Прірву. Ти відповідаєш не тільки за дії, а й за вплив.",
+                    "Провокація інших до порушень – занурення в Прірву. Ти відповідаєш не тільки за дії, а й за вплив.",
             },
             "1.12": {
                 title: "Сіячі Хаосу",
                 description:
-                    "Створення конфліктів, нагнітання негативу — ритуали зворотної дії. Наслідки приходять раніше, ніж ти напишеш вибач...",
+                    "Створення конфліктів, нагнітання негативу – ритуали зворотної дії. Наслідки приходять раніше, ніж ти напишеш вибач...",
             },
         },
 
         // Minecraft Rules
         minecraftRulesTitle: "Арканічний Кодекс",
         minecraftRulesSubtitle:
-            '"Мирні землі Містеррії захищені не стінами, а Законами. Поруш їх — і Сутність обернеться проти тебе..."',
+            '"Мирні землі Містеррії захищені не стінами, а Законами. Поруш їх – і Сутність обернеться проти тебе..."',
         soulAgreement: "Угода Душі",
         soulAgreementDescription:
             "Граючи на сервері, ти автоматично погоджуєшся з Кодексом. Незнання правил не знімає відповідальності. Кара завжди знайде свого адресата.",
@@ -2151,57 +2164,57 @@ const translations = {
             "2.1": {
                 title: "Заборонені Модифікатори",
                 description:
-                    "Барітон, Х-Ray, автокліки, мультиакаунти — магія поза Балансом. Її ціна — вигнання.",
+                    "Барітон, Х-Ray, автокліки, мультиакаунти – магія поза Балансом. Її ціна – вигнання.",
             },
             "2.2": {
                 title: "Порушення Простору",
                 description:
-                    "Гріферство, псування ландшафту, крадіжка — вторгнення в чужу реальність. Місто цього не пробачає.",
+                    "Гріферство, псування ландшафту, крадіжка – вторгнення в чужу реальність. Місто цього не пробачає.",
             },
             "2.3": {
                 title: "Наруга над Домівкою",
                 description:
-                    "Заважання на чужій території без згоди — ритуал недовіри. Не вступай на землю без запрошення.",
+                    "Заважання на чужій території без згоди – ритуал недовіри. Не вступай на землю без запрошення.",
             },
             "2.4": {
                 title: "Злом Тканини Світу",
                 description:
-                    "Лаг-машини, дюпи, експлойти — дослідження Забороненого. І це має ціну. Фатальну.",
+                    "Лаг-машини, дюпи, експлойти – дослідження Забороненого. І це має ціну. Фатальну.",
             },
             "2.5": {
                 title: "Профанація Реліквій",
                 description:
-                    "Руйнування скринь у данжах — осквернення храмів. Релутінг існує — залиш іншим шанс на здобич.",
+                    "Руйнування скринь у данжах – осквернення храмів. Релутінг існує – залиш іншим шанс на здобич.",
             },
             "2.6": {
                 title: "Виклик Хаосу",
                 description:
-                    "Провокації на порушення правил — шепіт Демона в серце іншого. За це кара подвійна.",
+                    "Провокації на порушення правил – шепіт Демона в серце іншого. За це кара подвійна.",
             },
             "2.7": {
                 title: "Бій Без Згоди",
                 description:
-                    "Убивство, псування броні, використання магії — лише за взаємної згоди. Інакше — це напад.",
+                    "Убивство, псування броні, використання магії – лише за взаємної згоди. Інакше – це напад.",
             },
             "2.8": {
                 title: "Війна Без Пророцтва",
                 description:
-                    "Командні бої (війни) — лише з дозволу адмінів. Без пророцтва — лише різанина.",
+                    "Командні бої (війни) – лише з дозволу адмінів. Без пророцтва – лише різанина.",
             },
             "2.9": {
                 title: "Осквернення Ефіру",
                 description:
-                    "Реклама, NSFW, терористична символіка — забруднення Ефіру. Не буде прощення.",
+                    "Реклама, NSFW, терористична символіка – забруднення Ефіру. Не буде прощення.",
             },
             "2.10": {
                 title: "Несанкціоновані Оселення",
                 description:
-                    "Заборонено будувати ближче 300 блоків від Спавну без дозволу Арканіста. Координація — ключ.",
+                    "Заборонено будувати ближче 300 блоків від Спавну без дозволу Арканіста. Координація – ключ.",
             },
             "2.13": {
                 title: "Угода з Демоном",
                 description:
-                    "Продаж речей за реальні гроші — контракт із Безоднею. А вона завжди бере своє.",
+                    "Продаж речей за реальні гроші – контракт із Безоднею. А вона завжди бере своє.",
             },
         },
 
@@ -2209,7 +2222,7 @@ const translations = {
         dailyBonusCatTitle: "Дивний резонанс...",
         dailyBonusCatAlt: "Таємничий кіт",
         dailyBonusFound: "Ти знайшов Кристал Емпоріуму! +20 Блискучих Очок Емпоріуму нараховано.",
-        dailyBonusAlreadyClaimed: "Повернись завтра — кристал вже було зібрано сьогодні.",
+        dailyBonusAlreadyClaimed: "Повернись завтра – кристал вже було зібрано сьогодні.",
         dailyBonusLinkMinecraft: "Спочатку прив'яжи акаунт Minecraft, щоб збирати Очки Емпоріуму.",
 
         // Сповіщення про акаунт
@@ -2226,7 +2239,7 @@ const translations = {
                 UNVERIFICATION: "Ваш акаунт Minecraft відв'язано персоналом.",
                 PUNISHMENT_ISSUED: "Ви отримали покарання ({punishmentType}): {reason}",
                 PUNISHMENT_REMOVED: "Ваше покарання ({punishmentType}) скасовано персоналом.",
-                COMMISSION_SLOT_AVAILABLE: "Доступний слот для замовлення — ви можете подати заявку на доопрацювання заклинання.",
+                COMMISSION_SLOT_AVAILABLE: "Доступний слот для замовлення – ви можете подати заявку на доопрацювання заклинання.",
                 COMMISSION_STATUS_CHANGED: "Статус вашої заявки на замовлення змінено на {status}.",
             },
             actions: {
@@ -2244,27 +2257,29 @@ const translations = {
                 title: "Замовлення на доопрацювання магічної системи",
                 price: "$50 за слот",
                 whatIsItLabel: "Що це таке?",
-                whatIsIt: "Послуга кастомної розробки, яка дозволяє практикам магії замовляти точкові, лорно-обґрунтовані зміни до існуючих заклинань, механік чи здібностей — розглянуті та реалізовані безпосередньо нашою командою розробників.",
+                whatIsIt: "Послуга кастомної розробки, яка дозволяє практикам магії замовляти точкові, лорно-обґрунтовані зміни до існуючих заклинань, механік чи здібностей – розглянуті тестувальниками та розробниками, а потім реалізовані безпосередньо нашою командою розробників.",
                 whatYouCanRequestLabel: "Що можна замовити",
                 requestOptions: [
-                    "Одна велика зміна — повне переписання під лор, балансне доопрацювання однієї здібності, або додавання одного нового заклинання/скейлінгу.",
-                    "До 3 малих змін — невеликі числові коригування (перезарядка, шкода, вартість мани, коефіцієнти масштабування) або невеликі лорні правки, для одного чи кількох заклинань/здібностей.",
+                    "Спільний бюджет 6 балів на заявку – велика зміна коштує 3 бали, мала – 1 бал.",
+                    "До 2 великих змін – повне переписання під лор, балансне доопрацювання однієї здібності, або додавання одного нового заклинання/скейлінгу.",
+                    "До 6 малих змін – невеликі числові коригування (перезарядка, шкода, вартість мани, коефіцієнти масштабування) або невеликі лорні правки, для одного чи кількох заклинань/здібностей.",
+                    "Комбінуйте в межах бюджету – наприклад, 1 велика + 3 малі використовують усі 6 балів, так само як 2 великі або 6 малих окремо.",
                 ],
                 requirementsLabel: "Кожен запит має бути",
                 requirements: [
-                    "Обґрунтований — поясніть ігрову або лорну причину зміни.",
-                    "Лорно точний — базується на усталеному сеттінгу/джерельному матеріалі, а не вигаданий з нуля.",
-                    "Не фундаментальний — без перероблення ключових систем чи архітектури.",
-                    "Поважає попередню роботу — не можна просити послабити чи змінити вже замовлений контент іншого гравця.",
+                    "Обґрунтований – поясніть ігрову або лорну причину зміни.",
+                    "Лорно точний – базується на усталеному сеттінгу/джерельному матеріалі, а не вигаданий з нуля.",
+                    "Не фундаментальний – без перероблення ключових систем чи архітектури.",
+                    "Враховує нещодавню роботу – не варто просити переробити заклинання/здібність, яку нещодавно доопрацювали і яка зараз у гарному, збалансованому стані, просто заради іншого підходу. Якщо вона справді стала розбалансованою, застарілою чи зламаною – незалежно від того, хто торкався її востаннє – це справедливий привід для запиту.",
                 ],
                 howItWorksLabel: "Як це працює",
                 howItWorksSteps: [
                     "Заповніть форму нижче.",
-                    "Розробники перевіряють запит на реалізованість та відповідність лору (Developer Verification).",
+                    "Тестувальники та розробники перевіряють запит на реалізованість та відповідність лору (Staff Verification).",
                     "Схвалені запити плануються та реалізуються.",
                     "Вас повідомлять, коли зміну застосовано.",
                 ],
-                note: "Запити, що виходять за ці межі, будуть розбиті на кілька замовлень — ми повідомимо точну кількість до будь-якого додаткового списання.",
+                note: "Запити, що виходять за ці межі, будуть розбиті на кілька замовлень – ми повідомимо точну кількість до будь-якого додаткового списання.",
             },
             status: {
                 PENDING_REVIEW: "На розгляді",
@@ -2273,14 +2288,14 @@ const translations = {
                 RESCOPE_REQUIRED: "Потребує уточнення",
                 COMPLETED: "Завершено",
             },
-            requestType: {
-                MAJOR: "Велике доопрацювання",
-                MINOR_BUNDLE: "Пакет малих змін",
-            },
             majorType: {
                 LORE_ALIGNMENT: "Відповідність лору",
                 BALANCE_REWORK: "Балансне доопрацювання",
                 NEW_SPELL: "Нове заклинання",
+            },
+            summary: {
+                major: "{count} велика(их)",
+                minor: "{count} мала(их)",
             },
             form: {
                 eyebrow: "Замовлення заклинання",
@@ -2291,9 +2306,18 @@ const translations = {
                 slotsLabel: "Слоти замовлень",
                 slotsNeeded: "На цю заявку буде витрачено {count} слот(ів).",
                 slotLabel: "Слот замовлення",
-                requestTypeLabel: "Тип заявки",
-                typeMajor: "Велике доопрацювання",
-                typeMinorBundle: "Пакет малих змін",
+                budgetLabel: "Бюджет",
+                budgetUsedFormat: "{used} / {max} використано",
+                budgetHint: "Велика зміна коштує 3 бали, мала – 1 бал – витрачайте до 6 балів як завгодно.",
+                budgetOverBudget: "Перевищено бюджет – приберіть зміну або зменшіть обсяг.",
+                pointsUnit: "бал.",
+                majorSectionTitle: "Великі зміни",
+                majorSectionHint: "До 2 – повне переписання під лор, балансне доопрацювання, або нове заклинання/скейлінг.",
+                minorSectionTitle: "Малі зміни",
+                minorSectionHint: "До 6 – невеликі числові коригування або лорні правки.",
+                emptyStateHint: "Додайте велику або малу зміну нижче, щоб використати бюджет.",
+                majorChangeLabel: "Велика зміна",
+                addMajorChange: "Додати велику зміну",
                 targetNameLabel: "Назва цілі",
                 majorTypeLabel: "Тип доопрацювання",
                 selectPlaceholder: "Оберіть…",
@@ -2302,10 +2326,10 @@ const translations = {
                 loreReferenceLabel: "Посилання на лор",
                 minorChangeLabel: "Мала зміна",
                 changeDescriptionLabel: "Опис зміни",
-                addMinorChange: "Додати ще одну зміну",
+                addMinorChange: "Додати малу зміну",
                 confirmLoreGrounded: "Підтверджую, що ця зміна ґрунтується на існуючому лорі.",
                 confirmNoFundamentalRework: "Підтверджую, що це не запит на фундаментальне перероблення.",
-                confirmNoNerfOtherCommission: "Підтверджую, що це не послаблює замовлений контент іншого гравця.",
+                confirmNoNerfOtherCommission: "Підтверджую, що це не зайве повторне доопрацювання нещодавньої, наразі збалансованої заявки іншого гравця.",
                 confirmUnderstandsScope: "Розумію обсяг цього замовлення і що слот буде витрачено після подання.",
                 submit: "Подати заявку",
                 submitting: "Подання…",
@@ -2313,6 +2337,8 @@ const translations = {
                 errorRequired: "Це поле обов'язкове.",
                 errorConfirmations: "Перед поданням потрібно позначити всі підтвердження.",
                 errorSlots: "Оберіть потрібну кількість слотів замовлень.",
+                errorBudgetExceeded: "Перевищено бюджет у {max} балів. Приберіть зміну або зменшіть обсяг.",
+                errorAtLeastOneChange: "Додайте хоча б одну велику або малу зміну.",
             },
             mine: {
                 eyebrow: "Ваші заявки",
