@@ -67,6 +67,16 @@ class CommissionsAPI extends BaseCRUD<never, never, never, never> {
     }
 
     /**
+     * Get a single commission request for staff review. Gated by COMMISSIONS:MANAGE.
+     * 404 if the id doesn't exist.
+     *
+     * Endpoint: GET /api/admin/commissions/{id}
+     */
+    async adminGetById(id: string): Promise<APIResponse<AdminCommissionResponseDto>> {
+        return this.request<AdminCommissionResponseDto>("GET", `/${id}`, {}, this.adminPrefix);
+    }
+
+    /**
      * Update a commission request's review status/notes. Gated by COMMISSIONS:MANAGE.
      * Only send the fields that should change — omitted/undefined fields are left unchanged.
      *

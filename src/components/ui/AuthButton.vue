@@ -62,7 +62,7 @@
                 </div>
               </RouterLink>
 
-              <RouterLink v-if="canManageCommissions" class="menu-ritual-item" to="/tools/commissions" @click="isDropdownOpen = false">
+              <RouterLink v-if="canManageCommissions" class="menu-ritual-item" to="/admin/commissions" @click="isDropdownOpen = false">
                 <i class="fa-solid fa-scroll"></i>
                 <div class="item-meta">
                   <span class="item-title">Commissions</span>

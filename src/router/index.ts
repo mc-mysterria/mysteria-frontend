@@ -179,9 +179,15 @@ const router = createRouter({
             meta: {requiresAuth: true, requiresAnyPermission: [PERM_ADMIN, PERM_BALANCE_MANAGE]},
         },
         {
-            path: "/tools/commissions",
-            name: "commissions-tool",
-            component: () => import("@/views/AdminCommissionsView.vue"),
+            path: "/admin/commissions",
+            name: "admin-commissions-list",
+            component: () => import("@/views/AdminCommissionsListView.vue"),
+            meta: {requiresAuth: true, requiresAnyPermission: [PERM_ADMIN, PERM_COMMISSIONS_MANAGE]},
+        },
+        {
+            path: "/admin/commissions/:id",
+            name: "admin-commissions-detail",
+            component: () => import("@/views/AdminCommissionDetailView.vue"),
             meta: {requiresAuth: true, requiresAnyPermission: [PERM_ADMIN, PERM_COMMISSIONS_MANAGE]},
         },
         {
