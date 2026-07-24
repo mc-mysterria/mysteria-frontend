@@ -905,24 +905,6 @@ const translations = {
             loadError: "Failed to load staff members. Please try again later.",
         },
 
-        // UN-Meeting Counsel
-        counselTab: "Counsel",
-        counselTitle: "Community Suggestions",
-        counselSubtitle: "Proposals from UN democratic assemblies",
-        counselFilterActive: "Active",
-        counselFilterAll: "All",
-        counselStatusProposed: "Proposed",
-        counselStatusAccepted: "Accepted",
-        counselStatusRejected: "Rejected",
-        counselVotesFor: "For",
-        counselVotesAgainst: "Against",
-        counselSuggester: "Suggested by",
-        counselSuggestionDate: "Proposed on",
-        counselLoadingError: "Failed to load suggestions",
-        counselNoSuggestions: "No suggestions found",
-        counselBackToRules: "Back to Rules",
-        counselEmptyState: "No active proposals at the moment",
-        counselVotingResults: "Voting Results",
 
         mainRule: "The Main Rule",
         mainRuleDescription:
@@ -2091,24 +2073,6 @@ const translations = {
             loadError: "Не вдалося завантажити список персоналу. Спробуйте пізніше.",
         },
 
-        // UN-Meeting Counsel
-        counselTab: "Рада ООН",
-        counselTitle: "Пропозиції Спільноти",
-        counselSubtitle: "Пропозиції з демократичних зборів Ради ООН",
-        counselFilterActive: "Активні",
-        counselFilterAll: "Всі",
-        counselStatusProposed: "Запропоновано",
-        counselStatusAccepted: "Прийнято",
-        counselStatusRejected: "Відхилено",
-        counselVotesFor: "За",
-        counselVotesAgainst: "Проти",
-        counselSuggester: "Запропонував",
-        counselSuggestionDate: "Запропоновано",
-        counselLoadingError: "Не вдалося завантажити пропозиції",
-        counselNoSuggestions: "Пропозиції не знайдено",
-        counselBackToRules: "Назад до Правил",
-        counselEmptyState: "Наразі немає активних пропозицій",
-        counselVotingResults: "Результати Голосування",
 
         mainRule: "Основне правило",
         mainRuleDescription:

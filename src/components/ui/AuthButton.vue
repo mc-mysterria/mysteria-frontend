@@ -38,14 +38,6 @@
                 </div>
               </RouterLink>
 
-              <RouterLink v-if="canManageCounsel" class="menu-ritual-item" to="/edit/counsel" @click="isDropdownOpen = false">
-                <i class="fa-solid fa-gavel"></i>
-                <div class="item-meta">
-                  <span class="item-title">Counsel</span>
-                  <span class="item-desc">Moderate Suggestions</span>
-                </div>
-              </RouterLink>
-
               <RouterLink v-if="canManageShop" class="menu-ritual-item" to="/edit/services" @click="isDropdownOpen = false">
                 <i class="fa-solid fa-gem"></i>
                 <div class="item-meta">
@@ -115,7 +107,7 @@ const authStore = useAuthStore();
 const balanceStore = useBalanceStore();
 const {t} = useI18n();
 const {formatCurrency, currentCurrency} = useCurrency();
-const {canEditAnyContent, canManageNews, canManageCounsel, canManageShop, canTuneBalance, canManageCommissions, canAccessAdmin} = usePermissions();
+const {canEditAnyContent, canManageNews, canManageShop, canTuneBalance, canManageCommissions, canAccessAdmin} = usePermissions();
 
 const isDropdownOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);

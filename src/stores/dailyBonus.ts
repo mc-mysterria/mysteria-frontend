@@ -23,7 +23,7 @@ interface DailyBonusState {
     randomPage: string | null;
 }
 
-const PAGES = ['home', 'shop', 'rules', 'profile', 'counsel'];
+const PAGES = ['home', 'shop', 'rules', 'profile'];
 
 export const useDailyBonusStore = defineStore('dailyBonus', {
     state: (): DailyBonusState => ({

@@ -5,7 +5,6 @@ import {
   PERM_ADMIN,
   PERM_BALANCE_MANAGE,
   PERM_COMMISSIONS_MANAGE,
-  PERM_COUNSEL_MANAGE,
   PERM_NEWS_MANAGE,
   PERM_SHOP_MANAGE,
   PERM_USERS_VIEW,
@@ -44,7 +43,6 @@ export function usePermissions() {
 
     // Specific permission checks for common use cases
     const canManageNews = computed(() => hasPermission(PERM_NEWS_MANAGE));
-    const canManageCounsel = computed(() => hasPermission(PERM_COUNSEL_MANAGE));
     const canManageShop = computed(() => hasPermission(PERM_SHOP_MANAGE));
     const canTuneBalance = computed(() =>
         hasPermission(PERM_ADMIN) || hasPermission(PERM_BALANCE_MANAGE)
@@ -69,7 +67,6 @@ export function usePermissions() {
         hasAnyPermission,
         hasAllPermissions,
         canManageNews,
-        canManageCounsel,
         canManageShop,
         canTuneBalance,
         canManageCommissions,

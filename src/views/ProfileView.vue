@@ -56,7 +56,6 @@ import {useUserStore} from "@/stores/user";
 import {useI18n} from "@/composables/useI18n";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
-import SectionTitle from "@/components/ui/SectionTitle.vue";
 import PersonalInfo from "@/components/profile/PersonalInfo.vue";
 import VerificationPanel from "@/components/profile/VerificationPanel.vue";
 import TransactionHistory from "@/components/profile/TransactionHistory.vue";

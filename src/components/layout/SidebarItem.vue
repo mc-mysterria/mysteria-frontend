@@ -66,17 +66,6 @@
           </RouterLink>
 
           <RouterLink
-              v-if="canManageCounsel"
-              :class="{ active: $route.path.startsWith('/edit/counsel') }"
-              class="nav-ritual-item admin"
-              to="/edit/counsel"
-              @click="closeMobileSidebar"
-          >
-            <div class="nav-ritual-icon"><i class="fa-solid fa-gavel"></i></div>
-            <span v-show="!isCollapsed" class="nav-ritual-text">Edit Counsel</span>
-          </RouterLink>
-
-          <RouterLink
               v-if="canTuneBalance"
               :class="{ active: $route.path.startsWith('/tools/balance') }"
               class="nav-ritual-item admin"
@@ -117,7 +106,7 @@ const router = useRouter();
 const {show} = useNotification();
 const authStore = useAuthStore();
 const {t} = useI18n();
-const {canManageNews, canManageCounsel, canEditAnyContent, canTuneBalance} = usePermissions();
+const {canManageNews, canEditAnyContent, canTuneBalance} = usePermissions();
 
 const isCollapsed = ref(false);
 const isMobileOpen = ref(false);

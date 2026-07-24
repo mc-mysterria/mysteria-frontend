@@ -19,7 +19,6 @@ export const PERM_SHOP_MANAGE = 'SHOP:MANAGE';
 
 // Content Management Permissions
 export const PERM_NEWS_MANAGE = 'NEWS:MANAGE';
-export const PERM_COUNSEL_MANAGE = 'COUNSEL:MANAGE';
 
 // Game Balance Permissions (CoI balance dashboard for testers/balancers)
 export const PERM_BALANCE_MANAGE = 'BALANCE:MANAGE';
@@ -46,7 +45,6 @@ export const PERMISSION_GROUPS = {
     // Content management permissions
     CONTENT_MANAGEMENT: [
         PERM_NEWS_MANAGE,
-        PERM_COUNSEL_MANAGE,
     ],
 
     // Shop permissions
@@ -70,7 +68,7 @@ export const canAccessAdminPanel = (permissions: string[]): boolean => {
 };
 
 /**
- * Helper to check if a user can manage content (news, counsel, services)
+ * Helper to check if a user can manage content (news, services)
  */
 export const canManageContent = (permissions: string[]): boolean => {
     // Normalize permissions by removing PERM_ prefix if present

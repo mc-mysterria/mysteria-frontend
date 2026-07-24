@@ -30,20 +30,13 @@
           >
             <span class="ritual-label">{{ t('staffRules') }}</span>
           </button>
-          <button
-              :class="{ active: activeTab === 'counsel' }"
-              class="ritual-tab counsel-glow"
-              @click="setActiveTab('counsel')"
-          >
-            <span class="ritual-label">{{ t('counselTab') }}</span>
-          </button>
         </div>
       </div>
 
       <!-- Two Column Layout -->
-      <div :class="{ 'counsel-mode': activeTab === 'counsel' }" class="covenant-content">
+      <div class="covenant-content">
         <!-- Table of Covenants Sidebar -->
-        <aside v-if="activeTab !== 'counsel'" class="covenant-sidebar no-scrollbar">
+        <aside class="covenant-sidebar no-scrollbar">
           <div class="sidebar-frame">
             <h2 class="sidebar-title">{{ t('tableOfContents') }}</h2>
             <div class="sidebar-divider"></div>
@@ -138,11 +131,6 @@
               </div>
             </div>
           </div>
-
-          <!-- UN-Meeting Counsel -->
-          <div v-else-if="activeTab === 'counsel'" class="counsel-ritual-view">
-            <CounselListSection/>
-          </div>
         </div>
       </div>
     </div>
@@ -158,7 +146,6 @@ import {useI18n} from "@/composables/useI18n";
 import {useAuthStore} from "@/stores/auth";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
-import CounselListSection from "@/components/counsel/CounselListSection.vue";
 import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
 
 const {t, currentLanguage} = useI18n();
@@ -185,9 +172,9 @@ const isPrivilegedUser = computed(() => {
   return role && role !== 'MEMBER' && role !== 'PLAYER' && role !== 'USER'
 })
 
-const activeTab = ref<'player' | 'staff' | 'counsel'>('player')
+const activeTab = ref<'player' | 'staff'>('player')
 
-const setActiveTab = (tab: 'player' | 'staff' | 'counsel') => {
+const setActiveTab = (tab: 'player' | 'staff') => {
   activeTab.value = tab
 }
 
@@ -233,7 +220,7 @@ const loadStaffRulesForLanguage = async (lang: string) => {
 
 onMounted(() => {
   const tabQuery = route.query.tab as string | undefined
-  if (tabQuery === 'counsel' || tabQuery === 'staff' || tabQuery === 'player') {
+  if (tabQuery === 'staff' || tabQuery === 'player') {
     activeTab.value = tabQuery
   }
   loadRulesForLanguage(currentLanguage.value)
@@ -322,25 +309,11 @@ watch(isPrivilegedUser, () => {
   box-shadow: 0 0 10px var(--myst-gold);
 }
 
-.counsel-glow.active {
-  color: #4dd0e1;
-  background: rgba(77, 208, 225, 0.1);
-}
-
-.counsel-glow.active::after {
-  background: #4dd0e1;
-  box-shadow: 0 0 10px #4dd0e1;
-}
-
 /* Two Column Content */
 .covenant-content {
   display: flex;
   gap: 64px;
   align-items: flex-start;
-}
-
-.covenant-content.counsel-mode {
-  display: block;
 }
 
 /* Sidebar */

@@ -5,7 +5,6 @@ import {
     PERM_ADMIN,
     PERM_BALANCE_MANAGE,
     PERM_COMMISSIONS_MANAGE,
-    PERM_COUNSEL_MANAGE,
     PERM_NEWS_MANAGE,
     PERM_SHOP_MANAGE,
     PERM_USERS_VIEW,
@@ -137,11 +136,6 @@ const router = createRouter({
             component: () => import("@/views/NewsView.vue"),
         },
         {
-            path: "/counsel/:slug",
-            name: "counsel-detail",
-            component: () => import("@/views/CounselDetailView.vue"),
-        },
-        {
             path: "/services/:slug",
             name: "service-detail",
             component: () => import("@/views/ServiceView.vue"),
@@ -164,12 +158,6 @@ const router = createRouter({
                     component: () => import("@/views/ServiceEditView.vue"),
                     meta: {requiresAuth: true, requiresPermission: PERM_SHOP_MANAGE},
                 },
-                {
-                    path: "counsel",
-                    name: "edit-counsel",
-                    component: () => import("@/views/CounselEditView.vue"),
-                    meta: {requiresAuth: true, requiresPermission: PERM_COUNSEL_MANAGE},
-                }
             ],
         },
         {
