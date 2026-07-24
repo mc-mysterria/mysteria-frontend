@@ -33,11 +33,11 @@
                 :displayed-user="displayedUser"
                 :is-own-profile="isOwnProfile"
             />
+            <CommissionsCard :is-own-profile="isOwnProfile"/>
             <TransactionHistory
                 :displayed-user="displayedUser"
                 :is-own-profile="isOwnProfile"
             />
-            <CommissionsCard :is-own-profile="isOwnProfile"/>
           </div>
         </div>
       </div>
