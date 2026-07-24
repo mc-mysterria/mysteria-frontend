@@ -5,6 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
 import generateSitemap from 'vite-plugin-sitemap'
+import autoprefixer from 'autoprefixer'
 import fs from 'fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Connect, ViteDevServer } from 'vite'
@@ -217,7 +218,7 @@ export default defineConfig(({ mode }) => {
     },
     css: {
       postcss: {
-        plugins: [],
+        plugins: [autoprefixer()],
       },
     }
   }
