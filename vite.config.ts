@@ -5,7 +5,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
 import generateSitemap from 'vite-plugin-sitemap'
-import autoprefixer from 'autoprefixer'
 import fs from 'fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { ConfigEnv, Connect, Plugin, PluginOption, UserConfig, ViteDevServer } from 'vite'
@@ -216,11 +215,6 @@ function createViteConfig({ mode }: ConfigEnv): UserConfig {
         },
       },
       reportCompressedSize: false,
-    },
-    css: {
-      postcss: {
-        plugins: [autoprefixer()],
-      },
     }
   }
 }
