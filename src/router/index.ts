@@ -78,7 +78,7 @@ const router = createRouter({
             component: () => import("@/views/SLAView.vue"),
         },
         {
-            path: "/guide",
+            path: "/guide/:topic?",
             name: "guide",
             component: () => import("@/views/GuideView.vue"),
         },
