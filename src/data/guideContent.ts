@@ -209,7 +209,7 @@ const en: GuideContent = {
     },
     facts: [
         {label: "CLIENT", value: "Java recommended", note: "Bedrock works through Geyser with limited custom UI"},
-        {label: "VERSION", value: "1.21 – 26.1.2", note: "Use a current client if the resource pack fails"},
+        {label: "VERSION", value: "26.1.2+", note: "Use a current client if the resource pack fails"},
         {label: "REQUIRED", value: "Accept resource pack", note: "No client mods are required"},
     ],
     expectations: [
@@ -337,7 +337,7 @@ const en: GuideContent = {
                     title: "Server details",
                     bullets: [
                         "Address: mc.mysterria.net.",
-                        "Supported versions: 1.21 through 26.1.2.",
+                        "Supported versions: 26.1.2 and newer.",
                         "Java Edition is the fully supported experience; no client mods are required.",
                         "Bedrock can connect through Geyser, but pathway icons and some custom interfaces may render incorrectly.",
                     ],
@@ -773,7 +773,7 @@ const en: GuideContent = {
                     title: "I cannot connect",
                     bullets: [
                         "Confirm the address is exactly mc.mysterria.net.",
-                        "Use a supported version between 1.21 and 26.1.2.",
+                        "Use Minecraft 26.1.2 or newer.",
                         "Offline accounts must use /login after their first registration.",
                     ],
                 },
@@ -887,7 +887,7 @@ const uk: GuideContent = {
     },
     facts: [
         {label: "КЛІЄНТ", value: "Радимо Java", note: "Bedrock працює через Geyser з обмеженим власним UI"},
-        {label: "ВЕРСІЯ", value: "1.21 – 26.1.2", note: "Онови клієнт, якщо ресурс-пак не завантажується"},
+        {label: "ВЕРСІЯ", value: "26.1.2+", note: "Онови клієнт, якщо ресурс-пак не завантажується"},
         {label: "ОБОВʼЯЗКОВО", value: "Прийми ресурс-пак", note: "Клієнтські моди не потрібні"},
     ],
     expectations: [
@@ -1015,7 +1015,7 @@ const uk: GuideContent = {
                     title: "Дані сервера",
                     bullets: [
                         "Адреса: mc.mysterria.net.",
-                        "Підтримувані версії: від 1.21 до 26.1.2.",
+                        "Підтримувані версії: 26.1.2 і новіші.",
                         "Java Edition — повністю підтримуваний варіант; клієнтські моди не потрібні.",
                         "Bedrock підключається через Geyser, але іконки Шляхів та деякі інтерфейси можуть відображатися неправильно.",
                     ],
@@ -1451,7 +1451,7 @@ const uk: GuideContent = {
                     title: "Не можу підключитися",
                     bullets: [
                         "Переконайся, що адреса точно mc.mysterria.net.",
-                        "Використовуй підтримувану версію від 1.21 до 26.1.2.",
+                        "Використовуй Minecraft 26.1.2 або новіший.",
                         "Офлайн-акаунти після першої реєстрації мають вводити /login.",
                     ],
                 },

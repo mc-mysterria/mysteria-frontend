@@ -33,7 +33,7 @@ const translations = {
             wiki: "Wiki",
             joinServerTitle: "How to Join Mysterria",
             step1Title: "Launch Minecraft",
-            step1Description: "Start Minecraft Java (26.1.X) or Bedrock Edition",
+            step1Description: "Start Minecraft Java (26.1.2+) or Bedrock Edition",
             step2Title: "Connect to Server",
             step2Description: "Java (25565) & Bedrock (19132). Use the IP below:",
             step3Title: "Begin Your Journey",
@@ -63,7 +63,7 @@ const translations = {
             "Step into the mystical world of\nthe Lord of Mysteries universe\nwhere pathways and ancient secrets await",
         joinServer: "Join Server",
         lorePathways: "Lore & Pathways",
-        versionInfo: "26.1.X · Minecraft · No License Required",
+        versionInfo: "26.1.2+ · Minecraft · No License Required",
 
         // Main Description
         welcomeTitle: "WELCOME TO MYSTERRIA",
@@ -531,7 +531,7 @@ const translations = {
         copyIP: "Copy IP",
         copySuccess: "Copied!",
         serverVersion: "Version",
-        minecraftVersion: "26.1.X",
+        minecraftVersion: "26.1.2+",
         serverEdition: "Java & Bedrock",
         modsRequired: "Mods Required",
         noModsRequired: "None (Optional)",
@@ -1213,7 +1213,7 @@ const translations = {
             wiki: "Вікі",
             joinServerTitle: "Як приєднатися до Містеррії",
             step1Title: "Запустіть Minecraft",
-            step1Description: "Запустіть Minecraft Java (26.1.X) або Bedrock",
+            step1Description: "Запустіть Minecraft Java (26.1.2+) або Bedrock",
             step2Title: "Підключіться до сервера",
             step2Description: "Java (25565) та Bedrock (19132). Використайте IP:",
             step3Title: "Почніть свою подорож",
@@ -1243,7 +1243,7 @@ const translations = {
             "Зануртесь у містичний світ\nвсесвіту Lord of the Mysteries\nде шляхи та давні таємниці чекають",
         joinServer: "Приєднатися",
         lorePathways: "Лор і Шляхи",
-        versionInfo: "26.1.X · Minecraft · Ліцензія не обов'язкова",
+        versionInfo: "26.1.2+ · Minecraft · Ліцензія не обов'язкова",
 
         // Main Description
         welcomeTitle: "ВІТАЄМО У МІСТЕРРІЇ",
@@ -1715,7 +1715,7 @@ const translations = {
         copyIP: "Скопіювати IP",
         copySuccess: "Скопійовано!",
         serverVersion: "Версія",
-        minecraftVersion: "26.1.X",
+        minecraftVersion: "26.1.2+",
         serverEdition: "Java & Bedrock",
         modsRequired: "Моди Потрібні",
         noModsRequired: "Не потрібні (Опціонально)",

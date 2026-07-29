@@ -221,7 +221,7 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: minmax(180px, 300px) 1fr;
   gap: 28px;
-  align-items: end;
+  align-items: flex-end;
   padding-bottom: 22px;
   border-bottom: 1px solid rgba(200, 178, 115, 0.14);
 }

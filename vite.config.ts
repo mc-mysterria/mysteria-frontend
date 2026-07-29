@@ -8,12 +8,12 @@ import generateSitemap from 'vite-plugin-sitemap'
 import autoprefixer from 'autoprefixer'
 import fs from 'fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import type { Connect, ViteDevServer } from 'vite'
+import type { ConfigEnv, Connect, Plugin, PluginOption, UserConfig, ViteDevServer } from 'vite'
 
 // Mirrors the production guard in api/catwalk-proxy.ts: the dev server proxies
 // /catwalk/* straight to the upstream service (bypassing that Vercel function),
 // so the same per-player/full-roster paths need to be blocked here too.
-function blockSensitiveCatwalkPathsPlugin() {
+function blockSensitiveCatwalkPathsPlugin(): Plugin {
   return {
     name: 'block-sensitive-catwalk-paths',
     configureServer(server: ViteDevServer) {
@@ -41,7 +41,7 @@ function blockSensitiveCatwalkPathsPlugin() {
 // Dev mirror of api/balance-report.ts: /api/* proxies to the main backend in dev,
 // which has no such endpoint, so the permission-gated catwalk proxy lives here.
 // Registered before the /api proxy (configureServer middlewares run first).
-function balanceReportDevEndpointPlugin(env: Record<string, string>) {
+function balanceReportDevEndpointPlugin(env: Record<string, string>): Plugin {
   return {
     name: 'dev-balance-report-endpoint',
     configureServer(server: ViteDevServer) {
@@ -90,7 +90,7 @@ function balanceReportDevEndpointPlugin(env: Record<string, string>) {
   };
 }
 
-function copyRobotsPlugin() {
+function copyRobotsPlugin(): Plugin {
   return {
     name: 'copy-robots',
     buildEnd() {
@@ -107,28 +107,29 @@ function copyRobotsPlugin() {
   }
 }
 
-export default defineConfig(({ mode }) => {
+function createViteConfig({ mode }: ConfigEnv): UserConfig {
   const env = loadEnv(mode, process.cwd(), '')
+  const plugins: PluginOption[] = [
+    blockSensitiveCatwalkPathsPlugin(),
+    balanceReportDevEndpointPlugin(env),
+    vue(),
+    vueJsx(),
+    vueDevTools(),
+    vercel(),
+    copyRobotsPlugin(), // Must run before sitemap plugin
+    generateSitemap({
+      hostname: 'https://mysterria.net',
+      robots: [
+        {
+          userAgent: '*',
+          allow: '/',
+        }
+      ]
+    }),
+  ]
 
   return {
-    plugins: [
-      blockSensitiveCatwalkPathsPlugin(),
-      balanceReportDevEndpointPlugin(env),
-      vue(),
-      vueJsx(),
-      vueDevTools(),
-      vercel(),
-      copyRobotsPlugin(), // Must run before sitemap plugin
-      generateSitemap({
-        hostname: 'https://mysterria.net',
-        robots: [
-          {
-            userAgent: '*',
-            allow: '/',
-          }
-        ]
-      }),
-    ],
+    plugins,
     vercel: {},
     optimizeDeps: {
       include: ['marked', '@octokit/rest', 'vue'],
@@ -222,4 +223,6 @@ export default defineConfig(({ mode }) => {
       },
     }
   }
-})
+}
+
+export default defineConfig(createViteConfig)

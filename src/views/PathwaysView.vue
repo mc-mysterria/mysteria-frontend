@@ -673,7 +673,7 @@ onUnmounted(() => window.removeEventListener('scroll', updateActiveSequence));
 .sequence-title {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   padding-bottom: 18px;
   border-bottom: 1px solid #22242c
 }
