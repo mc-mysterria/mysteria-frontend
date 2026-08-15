@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { watch } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { useBalanceStore } from '@/stores/balance';
+import {defineStore} from 'pinia';
+import {watch} from 'vue';
+import {useAuthStore} from '@/stores/auth';
+import {useBalanceStore} from '@/stores/balance';
 
 interface DailyBonusStatus {
     available: boolean;
@@ -44,7 +44,7 @@ export const useDailyBonusStore = defineStore('dailyBonus', {
             this.isLoading = true;
             try {
                 const response = await fetch('/api/bonus/daily/status', {
-                    headers: { Authorization: `Bearer ${authStore.accessToken}` },
+                    headers: {Authorization: `Bearer ${authStore.accessToken}`},
                 });
                 if (!response.ok) return;
                 const data: DailyBonusStatus = await response.json();
@@ -64,7 +64,7 @@ export const useDailyBonusStore = defineStore('dailyBonus', {
         async claim(): Promise<DailyBonusClaimResult> {
             const authStore = useAuthStore();
             if (!authStore.accessToken) {
-                return { success: false, alreadyClaimed: false, pointsAwarded: 0, nextAvailableAt: null, message: '' };
+                return {success: false, alreadyClaimed: false, pointsAwarded: 0, nextAvailableAt: null, message: ''};
             }
 
             try {
@@ -86,7 +86,7 @@ export const useDailyBonusStore = defineStore('dailyBonus', {
 
                 return data;
             } catch {
-                return { success: false, alreadyClaimed: false, pointsAwarded: 0, nextAvailableAt: null, message: '' };
+                return {success: false, alreadyClaimed: false, pointsAwarded: 0, nextAvailableAt: null, message: ''};
             }
         },
 
@@ -110,6 +110,6 @@ export function useDailyBonusWatcher() {
                 bonusStore.reset();
             }
         },
-        { immediate: true },
+        {immediate: true},
     );
 }

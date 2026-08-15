@@ -3,7 +3,7 @@
     <HeaderItem/>
     <main class="pnf-main">
       <div class="mist-overlay"></div>
-      
+
       <div class="pnf-content">
         <FadeInSection>
           <div class="ritual-box-404">
@@ -28,12 +28,21 @@
 
 <script lang="ts" setup>
 import {useI18n} from "@/composables/useI18n";
+import {useSeo} from "@/composables/useSeo";
 import {useRouter} from "vue-router";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FadeInSection from "@/components/ui/FadeInSection.vue";
 
 const {t} = useI18n();
 const router = useRouter();
+
+// A soft 404: the SPA answers 200, so the noindex tag is what keeps these
+// out of the index instead of the status code.
+useSeo(() => ({
+  title: t("pageNotFoundTitle"),
+  description: t("pageNotFoundMessage"),
+  noindex: true,
+}));
 </script>
 
 <style scoped>
@@ -121,7 +130,13 @@ const router = useRouter();
 }
 
 @media (max-width: 768px) {
-  .glitch-text { font-size: 80px; }
-  .ritual-box-404 { padding: 40px 20px; margin: 20px; }
+  .glitch-text {
+    font-size: 80px;
+  }
+
+  .ritual-box-404 {
+    padding: 40px 20px;
+    margin: 20px;
+  }
 }
 </style>

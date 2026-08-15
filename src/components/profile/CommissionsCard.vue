@@ -1,35 +1,29 @@
 <template>
-  <div v-if="isOwnProfile" class="commissions-card">
-    <div class="card-header">
-      <span class="card-eyebrow">{{ t('commissions.card.eyebrow') }}</span>
-      <h3 class="card-title">{{ t('commissions.pageTitle') }}</h3>
+  <section v-if="isOwnProfile" class="commissions-card myst-panel">
+    <header class="card-head">
+      <h3>{{ t('commissions.pageTitle') }}</h3>
+      <RouterLink class="card-link" to="/commissions">{{ t('commissions.card.viewCta') }} →</RouterLink>
+    </header>
+
+    <div v-if="loading" class="card-loading" aria-hidden="true">
+      <span></span><span></span>
     </div>
 
-    <div v-if="loading" class="state-block">
-      <div class="loading-sigil"></div>
-    </div>
-
-    <template v-else>
-      <div class="stats-row">
-        <div class="stat">
-          <span class="stat-value">{{ availableSlots }}</span>
-          <span class="stat-label">{{ t('commissions.card.slotsAvailable') }}</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value">{{ pendingCount }}</span>
-          <span class="stat-label">{{ t('commissions.card.pending') }}</span>
-        </div>
-        <div v-if="rescopeCount > 0" class="stat highlight">
-          <span class="stat-value">{{ rescopeCount }}</span>
-          <span class="stat-label">{{ t('commissions.card.needsAction') }}</span>
-        </div>
+    <div v-else class="card-stats">
+      <div class="stat">
+        <span class="stat-value">{{ availableSlots }}</span>
+        <span class="stat-label">{{ t('commissions.card.slotsAvailable') }}</span>
       </div>
-
-      <RouterLink class="card-cta" to="/commissions">
-        {{ t('commissions.card.viewCta') }}
-      </RouterLink>
-    </template>
-  </div>
+      <div class="stat">
+        <span class="stat-value">{{ pendingCount }}</span>
+        <span class="stat-label">{{ t('commissions.card.pending') }}</span>
+      </div>
+      <div v-if="rescopeCount > 0" class="stat highlight">
+        <span class="stat-value">{{ rescopeCount }}</span>
+        <span class="stat-label">{{ t('commissions.card.needsAction') }}</span>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
@@ -47,12 +41,8 @@ const slots = ref<CommissionSlotDto[]>([]);
 const commissions = ref<CommissionResponseDto[]>([]);
 
 const availableSlots = computed(() => slots.value.length);
-const pendingCount = computed(
-    () => commissions.value.filter((c) => c.status === 'PENDING_REVIEW').length,
-);
-const rescopeCount = computed(
-    () => commissions.value.filter((c) => c.status === 'RESCOPE_REQUIRED').length,
-);
+const pendingCount = computed(() => commissions.value.filter(c => c.status === 'PENDING_REVIEW').length);
+const rescopeCount = computed(() => commissions.value.filter(c => c.status === 'RESCOPE_REQUIRED').length);
 
 const load = async () => {
   if (!props.isOwnProfile) return;
@@ -74,123 +64,77 @@ onMounted(load);
 
 <style scoped>
 .commissions-card {
-  position: relative;
-  background: rgba(13, 16, 30, 0.4);
-  padding: 28px 32px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 28px 30px;
 }
 
-.card-header {
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.card-eyebrow {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--myst-gold);
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  margin-bottom: 8px;
-  opacity: 0.6;
-}
-
-.card-title {
+.card-head h3 {
   margin: 0;
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
+  font-family: var(--myst-font-display);
+  font-size: 18px;
+  font-weight: 700;
   color: var(--myst-offwhite);
 }
 
-.state-block {
-  padding: 24px 0;
-  text-align: center;
+.card-link {
+  font-family: var(--myst-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--myst-ink-muted);
+  white-space: nowrap;
 }
 
-.loading-sigil {
-  width: 26px;
-  height: 26px;
-  margin: 0 auto;
-  border: 2px solid rgba(200, 178, 115, 0.2);
-  border-top-color: var(--myst-gold);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.card-link:hover {
+  color: var(--myst-gold);
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.stats-row {
+.card-stats {
   display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 32px;
   flex-wrap: wrap;
 }
 
 .stat {
-  flex: 1;
-  min-width: 100px;
-  padding: 14px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  text-align: center;
-}
-
-.stat.highlight {
-  background: rgba(96, 165, 250, 0.08);
-  border-color: rgba(96, 165, 250, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .stat-value {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 24px;
+  font-family: var(--myst-font-mono);
+  font-size: 26px;
   font-weight: 700;
   color: var(--myst-gold);
 }
 
-.stat.highlight .stat-value {
-  color: #60a5fa;
-}
-
 .stat-label {
-  display: block;
-  margin-top: 4px;
-  font-size: 11px;
-  color: #888;
+  font-family: var(--myst-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--myst-ink-muted);
 }
 
-.card-cta {
-  display: block;
-  text-align: center;
-  padding: 12px;
-  background: rgba(200, 178, 115, 0.1);
-  border: 1px solid rgba(200, 178, 115, 0.3);
-  color: var(--myst-gold);
-  text-decoration: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.2s;
+.stat.highlight .stat-value {
+  color: var(--myst-amber);
 }
 
-.card-cta:hover {
-  background: var(--myst-gold);
-  color: #05070a;
+.card-loading {
+  display: flex;
+  gap: 32px;
 }
 
-@media (max-width: 600px) {
-  .commissions-card {
-    padding: 20px;
-  }
+.card-loading span {
+  width: 64px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.04);
 }
 </style>

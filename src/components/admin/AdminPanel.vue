@@ -21,9 +21,9 @@
     <!-- Tab Navigation -->
     <div class="admin-tabs">
       <button
-        :class="{ active: activeTab === 'users' }"
-        class="tab-btn"
-        @click="activeTab = 'users'"
+          :class="{ active: activeTab === 'users' }"
+          class="tab-btn"
+          @click="activeTab = 'users'"
       >
         <svg fill="none" height="15" stroke="currentColor" viewBox="0 0 24 24" width="15" stroke-width="2">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -34,9 +34,9 @@
         Users
       </button>
       <button
-        :class="{ active: activeTab === 'permissions' }"
-        class="tab-btn"
-        @click="activeTab = 'permissions'"
+          :class="{ active: activeTab === 'permissions' }"
+          class="tab-btn"
+          @click="activeTab = 'permissions'"
       >
         <svg fill="none" height="15" stroke="currentColor" viewBox="0 0 24 24" width="15" stroke-width="2">
           <rect height="11" rx="2" ry="2" width="18" x="3" y="11"/>
@@ -87,7 +87,7 @@
               <div class="user-details">
                 <span>Discord ID: {{ user.discordId }}</span>
                 <span v-if="user.email">Email: {{ user.email }}</span>
-                <span>Balance: {{ user.balance }}₴</span>
+                <span>Balance: {{ user.balance }} Marks</span>
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@
             <label>Selected User</label>
             <div class="selected-user-info">
               <strong>{{ selectedUser.nickname || `User#${selectedUser.discordId}` }}</strong>
-              <span>Current Balance: <strong>{{ selectedUser.balance }}₴</strong></span>
+              <span>Current Balance: <strong>{{ selectedUser.balance }} Marks</strong></span>
             </div>
           </div>
 
@@ -193,7 +193,7 @@
                 type="number"
             />
             <small>
-              New balance will be: {{ (selectedUser.balance + (balanceAmount || 0)).toFixed(2) }}₴
+              New balance will be: {{ (selectedUser.balance + (balanceAmount || 0)).toFixed(2) }} Marks
             </small>
             <div v-if="validationErrors.balanceAmount" class="field-error">
               {{ validationErrors.balanceAmount }}
@@ -248,7 +248,7 @@
       <div class="section">
         <h2 class="section-title">Role Permissions</h2>
         <p class="section-desc">Toggle permissions per role. Changes are auto-saved after each update.</p>
-        <RolePermissionsEditor />
+        <RolePermissionsEditor/>
       </div>
     </div>
   </div>
@@ -415,7 +415,7 @@ const adjustBalance = async () => {
 
   const newBalance = selectedUser.value.balance + balanceAmount.value;
 
-  if (!confirm(`Are you sure you want to adjust ${selectedUser.value.nickname || 'this user'}'s balance by ${balanceAmount.value > 0 ? '+' : ''}${balanceAmount.value}₴?\n\nCurrent: ${selectedUser.value.balance}₴\nNew: ${newBalance.toFixed(2)}₴\n\nReason: ${balanceReason.value}`)) {
+  if (!confirm(`Are you sure you want to adjust ${selectedUser.value.nickname || 'this user'}'s balance by ${balanceAmount.value > 0 ? '+' : ''}${balanceAmount.value} Marks?\n\nCurrent: ${selectedUser.value.balance} Marks\nNew: ${newBalance.toFixed(2)} Marks\n\nReason: ${balanceReason.value}`)) {
     return;
   }
 
@@ -435,7 +435,7 @@ const adjustBalance = async () => {
       users.value[userIndex].balance = response.data.balanceAfter;
     }
 
-    showSuccess(`Successfully adjusted balance by ${balanceAmount.value > 0 ? '+' : ''}${balanceAmount.value}₴. New balance: ${response.data.balanceAfter}₴`);
+    showSuccess(`Successfully adjusted balance by ${balanceAmount.value > 0 ? '+' : ''}${balanceAmount.value} Marks. New balance: ${response.data.balanceAfter} Marks`);
     clearBalanceForm();
   } catch (err) {
     console.error('Failed to adjust balance:', err);
@@ -906,7 +906,9 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .success-message {

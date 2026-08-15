@@ -353,7 +353,8 @@ export const useAuthStore = defineStore("auth", {
                                         {type: "AUTH_SUCCESS", token: this.accessToken},
                                         new URL(redirectUrl).origin,
                                     );
-                                } catch {}
+                                } catch {
+                                }
                                 setTimeout(() => window.close(), 1200);
                             }
                         }
@@ -382,7 +383,8 @@ export const useAuthStore = defineStore("auth", {
                                                 {type: "AUTH_SUCCESS", token: this.accessToken},
                                                 new URL(redirectUrl).origin,
                                             );
-                                        } catch {}
+                                        } catch {
+                                        }
                                         setTimeout(() => window.close(), 1200);
                                     }
                                 } else {

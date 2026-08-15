@@ -2,15 +2,15 @@
   <FadeInSection>
     <div class="unauthorized-ritual-container">
       <div class="mist-overlay"></div>
-      
+
       <div class="ritual-box">
         <div class="ritual-icon">
           <i class="fa-solid fa-lock"></i>
         </div>
-        
+
         <h2 class="ritual-title">{{ t('authenticationRequired') }}</h2>
         <div class="ritual-divider"></div>
-        
+
         <div class="ritual-benefits">
           <div class="benefit-item">
             <i class="fa-solid fa-star-of-life"></i>

@@ -11,7 +11,7 @@
           @click="handleClick"
           @keydown.enter="handleClick"
       >
-        <div class="daily-cat-glow" />
+        <div class="daily-cat-glow"/>
         <img
             :alt="t('dailyBonusCatAlt')"
             class="daily-cat-img"
@@ -132,13 +132,23 @@ const handleClick = async () => {
 }
 
 @keyframes cat-bob {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(1.15); }
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.15);
+  }
 }
 
 .cat-fade-enter-active {

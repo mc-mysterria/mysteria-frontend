@@ -2,7 +2,7 @@
 /* Default: dark */
 
 :root {
-    --myst-bg: #0c0e1a;
+    --myst-bg: #05070a;
     --myst-bg-2: #13162a;
     --myst-ink: #f5f5f7;
     --myst-ink-muted: #a1a1aa;
@@ -10,6 +10,42 @@
     --myst-gold: #c8b273;
     --myst-gold-soft: #bda76a;
     --myst-offwhite: #f7f5ef;
+
+    /* Redesign surfaces */
+    --myst-bg-deep: #080a14;
+    --myst-on-gold: #0a0805;
+    --myst-panel: linear-gradient(160deg, rgba(13, 16, 30, 0.55), rgba(8, 10, 20, 0.8));
+    --myst-panel-strong: linear-gradient(165deg, rgba(16, 19, 34, 0.85), rgba(8, 10, 18, 0.95));
+    --myst-panel-warm: linear-gradient(160deg, rgba(24, 22, 14, 0.6), rgba(10, 10, 16, 0.88));
+
+    /* Hairlines — gold at fixed alphas, the redesign's core edge language */
+    --myst-line-10: rgba(200, 178, 115, 0.1);
+    --myst-line-12: rgba(200, 178, 115, 0.12);
+    --myst-line-14: rgba(200, 178, 115, 0.14);
+    --myst-line-16: rgba(200, 178, 115, 0.16);
+    --myst-line-18: rgba(200, 178, 115, 0.18);
+    --myst-line-20: rgba(200, 178, 115, 0.2);
+    --myst-line-28: rgba(200, 178, 115, 0.28);
+    --myst-line-35: rgba(200, 178, 115, 0.35);
+    --myst-line-40: rgba(200, 178, 115, 0.4);
+    --myst-line-55: rgba(200, 178, 115, 0.55);
+    --myst-wash: rgba(200, 178, 115, 0.06);
+    --myst-wash-strong: rgba(200, 178, 115, 0.12);
+
+    /* Status */
+    --myst-green: #4ade80;
+    --myst-green-soft: #8fdc9a;
+    --myst-red: #d96a6a;
+    --myst-red-soft: #d99a9a;
+    --myst-amber: #e0a04f;
+
+    /* Families */
+    --myst-font-display: 'Playfair Display', Georgia, serif;
+    --myst-font-mono: 'JetBrains Mono', ui-monospace, 'Courier New', monospace;
+    --myst-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+    --myst-header-height: 68px;
+    --myst-shell: 1180px;
 }
 
 /* Parchment theme */
@@ -109,7 +145,9 @@ a:hover {
     background: var(--myst-gold);
 }
 
-* {
+/* scrollbar-* inherit, so declaring them once on the root is enough — the
+   universal selector only made every element re-resolve the same two values. */
+html {
     scrollbar-width: thin;
     scrollbar-color: var(--myst-ink-muted) var(--myst-bg-2);
 }
@@ -149,13 +187,6 @@ embed,
 object {
     max-width: 100%;
     height: auto;
-}
-
-body {
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
 }
 
 .container {
@@ -396,16 +427,6 @@ h6,
     .mobile-full {
         width: 100%;
     }
-
-    @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-        }
-    }
 }
 
 @media (max-width: 360px) {
@@ -502,14 +523,276 @@ html {
         gap: 16px;
         min-width: 0;
     }
+
     .myst-header-decoration {
         max-width: 40px;
     }
+
     .myst-header-label {
         min-width: 0;
         font-size: 11px;
         letter-spacing: 3px;
         overflow-wrap: anywhere;
         white-space: normal;
+    }
+}
+
+/* ==========================================================================
+   REDESIGN PRIMITIVES
+   Shared building blocks for the 2026 redesign. Views compose these instead
+   of re-declaring the same eyebrow / panel / button rules in every <style>.
+   ========================================================================== */
+
+.myst-shell {
+    width: 100%;
+    max-width: var(--myst-shell);
+    margin: 0 auto;
+}
+
+/* Mono eyebrow label — the single most repeated element in the design */
+.myst-eyebrow {
+    margin: 0;
+    font-family: var(--myst-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--myst-gold);
+}
+
+.myst-micro {
+    font-family: var(--myst-font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--myst-ink-muted);
+}
+
+/* Centered section header: hairline — eyebrow — hairline */
+.myst-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 18px;
+}
+
+.myst-section-head .rule {
+    height: 1px;
+    flex: 1;
+    max-width: 140px;
+}
+
+.myst-section-head .rule.left {
+    background: linear-gradient(90deg, transparent, rgba(200, 178, 115, 0.6));
+}
+
+.myst-section-head .rule.right {
+    background: linear-gradient(90deg, rgba(200, 178, 115, 0.6), transparent);
+}
+
+.myst-h2 {
+    margin: 0;
+    font-family: var(--myst-font-display);
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--myst-offwhite);
+}
+
+.myst-h1 {
+    margin: 0;
+    font-family: var(--myst-font-display);
+    font-size: clamp(34px, 4.6vw, 54px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--myst-offwhite);
+}
+
+.myst-lede {
+    color: var(--myst-ink-muted);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* Panels */
+.myst-panel {
+    background: var(--myst-panel);
+    border: 1px solid var(--myst-line-16);
+}
+
+/* Inset hairline with a cut corner, drawn as an overlay child */
+.myst-corner-frame {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    right: 7px;
+    bottom: 7px;
+    border: 1px solid var(--myst-line-10);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 22px, 22px 0);
+    pointer-events: none;
+}
+
+/* Buttons */
+.myst-btn-gold,
+.myst-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    font-family: var(--myst-font-mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.myst-btn-gold {
+    padding: 15px 34px;
+    background: var(--myst-gold);
+    color: var(--myst-on-gold);
+    border: 1px solid var(--myst-gold);
+    font-weight: 700;
+}
+
+.myst-btn-gold:hover {
+    background: var(--myst-offwhite);
+    border-color: var(--myst-offwhite);
+    color: var(--myst-on-gold);
+}
+
+.myst-btn-outline {
+    padding: 14px 30px;
+    background: transparent;
+    border: 1px solid var(--myst-line-40);
+    color: var(--myst-gold);
+}
+
+.myst-btn-outline:hover {
+    background: rgba(200, 178, 115, 0.08);
+    border-color: var(--myst-gold);
+    color: var(--myst-gold);
+}
+
+/* Segmented control (shop tabs, transaction filter, rules tabs) */
+.myst-segmented {
+    display: inline-flex;
+    border: 1px solid var(--myst-line-28);
+    background: rgba(8, 10, 18, 0.7);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.myst-segmented::-webkit-scrollbar {
+    display: none;
+}
+
+.myst-segmented button {
+    padding: 13px 32px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--myst-line-16);
+    cursor: pointer;
+    font-family: var(--myst-font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--myst-ink-muted);
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.myst-segmented button:last-child {
+    border-right: none;
+}
+
+.myst-segmented button:hover {
+    color: var(--myst-gold);
+}
+
+.myst-segmented button.active {
+    background: rgba(200, 178, 115, 0.14);
+    color: var(--myst-gold);
+}
+
+.myst-segmented button .count {
+    margin-left: 8px;
+    font-size: 10px;
+    opacity: 0.6;
+}
+
+/* Callouts */
+.myst-callout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 22px 28px;
+    background: rgba(200, 178, 115, 0.03);
+    border: 1px solid var(--myst-line-18);
+}
+
+.myst-callout > i {
+    margin-top: 2px;
+    color: var(--myst-gold);
+}
+
+.myst-callout p {
+    margin: 0;
+    color: var(--myst-ink-muted);
+    font-size: 13.5px;
+    line-height: 1.7;
+}
+
+.myst-callout strong {
+    margin-right: 10px;
+    color: var(--myst-gold);
+    font-family: var(--myst-font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.myst-callout.warn {
+    background: rgba(224, 160, 79, 0.05);
+    border-color: rgba(224, 160, 79, 0.3);
+}
+
+.myst-callout.warn > i,
+.myst-callout.warn strong {
+    color: var(--myst-amber);
+}
+
+.myst-callout.warn p {
+    color: #c4b190;
+}
+
+/* Gold progress bar */
+.myst-meter {
+    height: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.myst-meter > span {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, rgba(200, 178, 115, 0.5), var(--myst-gold));
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Ambient motion is decorative everywhere in this design. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

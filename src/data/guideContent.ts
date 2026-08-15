@@ -245,22 +245,86 @@ const en: GuideContent = {
         },
     ],
     tasks: [
-        {icon: "fa-solid fa-plug", title: "Join the server", description: "Versions, resource pack, accounts, and verification.", topicId: "connect"},
-        {icon: "fa-solid fa-scale-balanced", title: "Choose my starter bonus", description: "Understand Shortcut, Resolve, and what the pathway choice means.", topicId: "starter-choice"},
-        {icon: "fa-solid fa-flask", title: "Become Sequence 9", description: "Recipe, cauldron, ingredients, brewing, and drinking.", topicId: "first-potion"},
-        {icon: "fa-solid fa-box-open", title: "Find recipes or ingredients", description: "Loot chests, focusing, creatures, nodes, and trading.", topicId: "loot"},
-        {icon: "fa-solid fa-arrow-trend-up", title: "Advance my Sequence", description: "Acting, rituals, Spirituality, Madness, and progression.", topicId: "progression"},
-        {icon: "fa-solid fa-dungeon", title: "Find a dungeon", description: "Use /subspace, weaken Rifts, form a party, and understand cooldowns.", topicId: "activities"},
-        {icon: "fa-solid fa-house-flag", title: "Join or build a town", description: "Protected land, group play, nations, and going solo.", topicId: "towns"},
-        {icon: "fa-solid fa-wand-magic-sparkles", title: "Fix missing custom UI", description: "Resource-pack, client-version, and Bedrock limitations.", topicId: "troubleshooting"},
+        {
+            icon: "fa-solid fa-plug",
+            title: "Join the server",
+            description: "Versions, resource pack, accounts, and verification.",
+            topicId: "connect"
+        },
+        {
+            icon: "fa-solid fa-scale-balanced",
+            title: "Choose my starter bonus",
+            description: "Understand Shortcut, Resolve, and what the pathway choice means.",
+            topicId: "starter-choice"
+        },
+        {
+            icon: "fa-solid fa-flask",
+            title: "Become Sequence 9",
+            description: "Recipe, cauldron, ingredients, brewing, and drinking.",
+            topicId: "first-potion"
+        },
+        {
+            icon: "fa-solid fa-box-open",
+            title: "Find recipes or ingredients",
+            description: "Loot chests, focusing, creatures, nodes, and trading.",
+            topicId: "loot"
+        },
+        {
+            icon: "fa-solid fa-arrow-trend-up",
+            title: "Advance my Sequence",
+            description: "Acting, rituals, Spirituality, Madness, and progression.",
+            topicId: "progression"
+        },
+        {
+            icon: "fa-solid fa-dungeon",
+            title: "Find a dungeon",
+            description: "Use /subspace, weaken Rifts, form a party, and understand cooldowns.",
+            topicId: "activities"
+        },
+        {
+            icon: "fa-solid fa-house-flag",
+            title: "Join or build a town",
+            description: "Protected land, group play, nations, and going solo.",
+            topicId: "towns"
+        },
+        {
+            icon: "fa-solid fa-wand-magic-sparkles",
+            title: "Fix missing custom UI",
+            description: "Resource-pack, client-version, and Bedrock limitations.",
+            topicId: "troubleshooting"
+        },
     ],
     firstHour: [
-        {title: "Connect and accept the resource pack", description: "Add mc.mysterria.net, join Mysteries through the lobby selector, and accept the server pack.", topicId: "connect"},
-        {title: "Register only if Minecraft asks", description: "Offline accounts use /register and /login. Official premium accounts are authenticated automatically.", topicId: "connect"},
-        {title: "Verify your Minecraft account", description: "Generate a code on your profile, then enter it in the verification window shown in-game.", topicId: "connect"},
-        {title: "Choose your starter bonus carefully", description: "The pathway is only a direction for your bonus. Shortcut and Resolve have very different long-term costs.", topicId: "starter-choice"},
-        {title: "Choose town life or self-sufficiency", description: "Ask for a recruiting town, or begin a solo chest-running and exploration loop.", topicId: "towns"},
-        {title: "Work toward your first potion", description: "Your first Sequence needs a recipe, cauldron, ingredients, successful brew, and nothing else.", topicId: "first-potion"},
+        {
+            title: "Connect and accept the resource pack",
+            description: "Add mc.mysterria.net, join Mysteries through the lobby selector, and accept the server pack.",
+            topicId: "connect"
+        },
+        {
+            title: "Register only if Minecraft asks",
+            description: "Offline accounts use /register and /login. Official premium accounts are authenticated automatically.",
+            topicId: "connect"
+        },
+        {
+            title: "Verify your Minecraft account",
+            description: "Generate a code on your profile, then enter it in the verification window shown in-game.",
+            topicId: "connect"
+        },
+        {
+            title: "Choose your starter bonus carefully",
+            description: "The pathway is only a direction for your bonus. Shortcut and Resolve have very different long-term costs.",
+            topicId: "starter-choice"
+        },
+        {
+            title: "Choose town life or self-sufficiency",
+            description: "Ask for a recruiting town, or begin a solo chest-running and exploration loop.",
+            topicId: "towns"
+        },
+        {
+            title: "Work toward your first potion",
+            description: "Your first Sequence needs a recipe, cauldron, ingredients, successful brew, and nothing else.",
+            topicId: "first-potion"
+        },
     ],
     starterChoices: [
         {
@@ -923,22 +987,86 @@ const uk: GuideContent = {
         },
     ],
     tasks: [
-        {icon: "fa-solid fa-plug", title: "Зайти на сервер", description: "Версії, ресурс-пак, акаунти та верифікація.", topicId: "connect"},
-        {icon: "fa-solid fa-scale-balanced", title: "Обрати стартовий бонус", description: "Різниця між Скороченням, Рішучістю та вибором Шляху.", topicId: "starter-choice"},
-        {icon: "fa-solid fa-flask", title: "Стати Послідовністю 9", description: "Рецепт, казан, інгредієнти, варіння та зілля.", topicId: "first-potion"},
-        {icon: "fa-solid fa-box-open", title: "Знайти рецепт чи інгредієнти", description: "Скрині, фокусування, істоти, вузли та торгівля.", topicId: "loot"},
-        {icon: "fa-solid fa-arrow-trend-up", title: "Підняти Послідовність", description: "Відіграш, ритуали, Духовність, Божевілля та розвиток.", topicId: "progression"},
-        {icon: "fa-solid fa-dungeon", title: "Знайти підземелля", description: "/subspace, Розломи, групи та перезарядки.", topicId: "activities"},
-        {icon: "fa-solid fa-house-flag", title: "Приєднатися або створити місто", description: "Захищені землі, групова гра, нації та соло.", topicId: "towns"},
-        {icon: "fa-solid fa-wand-magic-sparkles", title: "Виправити відсутній UI", description: "Ресурс-пак, версія клієнта та обмеження Bedrock.", topicId: "troubleshooting"},
+        {
+            icon: "fa-solid fa-plug",
+            title: "Зайти на сервер",
+            description: "Версії, ресурс-пак, акаунти та верифікація.",
+            topicId: "connect"
+        },
+        {
+            icon: "fa-solid fa-scale-balanced",
+            title: "Обрати стартовий бонус",
+            description: "Різниця між Скороченням, Рішучістю та вибором Шляху.",
+            topicId: "starter-choice"
+        },
+        {
+            icon: "fa-solid fa-flask",
+            title: "Стати Послідовністю 9",
+            description: "Рецепт, казан, інгредієнти, варіння та зілля.",
+            topicId: "first-potion"
+        },
+        {
+            icon: "fa-solid fa-box-open",
+            title: "Знайти рецепт чи інгредієнти",
+            description: "Скрині, фокусування, істоти, вузли та торгівля.",
+            topicId: "loot"
+        },
+        {
+            icon: "fa-solid fa-arrow-trend-up",
+            title: "Підняти Послідовність",
+            description: "Відіграш, ритуали, Духовність, Божевілля та розвиток.",
+            topicId: "progression"
+        },
+        {
+            icon: "fa-solid fa-dungeon",
+            title: "Знайти підземелля",
+            description: "/subspace, Розломи, групи та перезарядки.",
+            topicId: "activities"
+        },
+        {
+            icon: "fa-solid fa-house-flag",
+            title: "Приєднатися або створити місто",
+            description: "Захищені землі, групова гра, нації та соло.",
+            topicId: "towns"
+        },
+        {
+            icon: "fa-solid fa-wand-magic-sparkles",
+            title: "Виправити відсутній UI",
+            description: "Ресурс-пак, версія клієнта та обмеження Bedrock.",
+            topicId: "troubleshooting"
+        },
     ],
     firstHour: [
-        {title: "Підключися та прийми ресурс-пак", description: "Додай mc.mysterria.net, зайди в Mysteries через селектор лобі та прийми серверний пак.", topicId: "connect"},
-        {title: "Реєструйся, лише якщо Minecraft просить", description: "Офлайн-акаунти використовують /register та /login. Офіційні акаунти входять автоматично.", topicId: "connect"},
-        {title: "Підтвердь Minecraft-акаунт", description: "Створи код у профілі й введи його у вікні верифікації в грі.", topicId: "connect"},
-        {title: "Уважно обери стартовий бонус", description: "Шлях лише визначає напрямок бонусу. Скорочення і Рішучість мають зовсім різну довгострокову ціну.", topicId: "starter-choice"},
-        {title: "Обери міське життя або самостійність", description: "Знайди місто з набором або почни сольне дослідження скринь і світу.", topicId: "towns"},
-        {title: "Працюй над першим зіллям", description: "Для першої Послідовності потрібні рецепт, казан, інгредієнти та вдале варіння — більше нічого.", topicId: "first-potion"},
+        {
+            title: "Підключися та прийми ресурс-пак",
+            description: "Додай mc.mysterria.net, зайди в Mysteries через селектор лобі та прийми серверний пак.",
+            topicId: "connect"
+        },
+        {
+            title: "Реєструйся, лише якщо Minecraft просить",
+            description: "Офлайн-акаунти використовують /register та /login. Офіційні акаунти входять автоматично.",
+            topicId: "connect"
+        },
+        {
+            title: "Підтвердь Minecraft-акаунт",
+            description: "Створи код у профілі й введи його у вікні верифікації в грі.",
+            topicId: "connect"
+        },
+        {
+            title: "Уважно обери стартовий бонус",
+            description: "Шлях лише визначає напрямок бонусу. Скорочення і Рішучість мають зовсім різну довгострокову ціну.",
+            topicId: "starter-choice"
+        },
+        {
+            title: "Обери міське життя або самостійність",
+            description: "Знайди місто з набором або почни сольне дослідження скринь і світу.",
+            topicId: "towns"
+        },
+        {
+            title: "Працюй над першим зіллям",
+            description: "Для першої Послідовності потрібні рецепт, казан, інгредієнти та вдале варіння — більше нічого.",
+            topicId: "first-potion"
+        },
     ],
     starterChoices: [
         {

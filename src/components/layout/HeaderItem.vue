@@ -1,88 +1,49 @@
 <template>
-  <header class="main-header">
-    <div class="header-content">
-      <RouterLink class="header-logo-link" to="/" @click="closeMobileNav">
-        <IconLogo/>
+  <!-- Season announcement, shown above the header on the pages that ask for it -->
+  <div v-if="showAnnouncement && announcement && !announcementDismissed" class="season-bar">
+    <span class="season-headline">{{ announcement.headline }}</span>
+    <span class="season-divider" aria-hidden="true">†</span>
+    <RouterLink v-if="announcement.to" class="season-link" :to="announcement.to">
+      {{ announcement.linkLabel }} →
+    </RouterLink>
+    <button :aria-label="t('header.closeNav')" class="season-dismiss" @click="dismissAnnouncement">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <header class="site-header">
+    <div class="header-grid">
+      <RouterLink class="brand" to="/" @click="closeMobileNav">
+        <img :src="logo" alt="Mysterria" class="brand-mark" width="38" height="38">
+        <span class="brand-words">
+          <span class="brand-name">Mysterria</span>
+          <span class="brand-tagline">{{ t('header.tagline') }}</span>
+        </span>
       </RouterLink>
 
-      <nav ref="navigationRef" class="navigation">
-        <component
-            :is="link.external ? 'a' : 'RouterLink'"
+      <nav ref="navigationRef" class="primary-nav" :aria-label="t('header.navLabel')">
+        <RouterLink
             v-for="link in navigationLinks"
             :key="link.path"
-            :class="[
-            'nav-link',
-            { active: !link.external && route.path === link.path },
-          ]"
-            :data-path="link.path"
-            v-bind="getNavLinkProps(link)"
+            :class="['nav-link', { active: isActive(link) }]"
+            :to="link.path"
         >
           {{ link.title }}
-        </component>
-
-        <!-- Services Dropdown -->
-        <div class="services-dropdown" @mouseenter="clearCloseServicesTimeout"
-             @mouseleave="scheduleCloseServicesDropdown">
-          <button
-              :class="['nav-link', 'services-trigger', { 'active': isServicesOpen }]"
-              @click="toggleServicesDropdown"
-              @mouseenter="openServicesDropdown"
-          >
-            {{ t('navServices') }}
-            <span v-if="showServicesDot" aria-hidden="true" class="attention-dot"></span>
-            <svg
-                :class="{ 'rotate': isServicesOpen }"
-                class="dropdown-arrow"
-                fill="none"
-                height="16"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="16"
-            >
-              <polyline points="6,9 12,15 18,9"></polyline>
-            </svg>
-          </button>
-
-          <Transition name="dropdown">
-            <div v-if="isServicesOpen" class="services-dropdown-menu" @mouseenter="clearCloseServicesTimeout"
-                 @mouseleave="scheduleCloseServicesDropdown">
-              <a
-                  v-for="service in servicesLinks"
-                  :key="service.url"
-                  :href="service.url"
-                  class="service-link"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  @click="closeServicesDropdown"
-              >
-                <component :is="service.icon" class="service-icon"/>
-                <div class="service-info">
-                  <span class="service-name">{{ service.name }}</span>
-                  <span class="service-description">{{ service.description }}</span>
-                </div>
-                <svg class="external-link-icon" fill="none" height="14" stroke="currentColor" stroke-width="2"
-                     viewBox="0 0 24 24" width="14">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  <polyline points="15,3 21,3 21,9"></polyline>
-                  <line x1="10" x2="21" y1="14" y2="3"></line>
-                </svg>
-              </a>
-            </div>
-          </Transition>
-        </div>
+          <span v-if="isActive(link)" class="nav-underline" aria-hidden="true"></span>
+        </RouterLink>
       </nav>
 
-      <ServerStatusChip class="server-chip-desktop"/>
-
       <div class="header-actions">
-        <LanguageSelector class="language-desktop"/>
-        <BalanceButton class="balance-desktop"/>
-        <NotificationBell class="auth-desktop"/>
-        <AuthButton class="auth-desktop"/>
+        <BalanceButton v-if="isAuthenticated" class="header-chip"/>
+        <ServerStatusChip v-else class="header-chip"/>
+
+        <LanguageSelector class="desktop-only"/>
+        <NotificationBell v-if="isAuthenticated" class="desktop-only"/>
+        <AuthButton class="desktop-only"/>
+
         <button
             :aria-expanded="isMobileNavOpen"
-            aria-label="Toggle navigation"
+            :aria-label="t('header.toggleNav')"
             class="mobile-nav-toggle"
             @click="toggleMobileNav"
         >
@@ -98,35 +59,28 @@
         <div class="mobile-nav-backdrop" @click="closeMobileNav"></div>
         <nav class="mobile-nav">
           <div class="mobile-nav-header">
-            <button
-                aria-label="Close navigation"
-                class="mobile-nav-close"
-                @click="closeMobileNav"
-            >
+            <RouterLink class="brand compact" to="/" @click="closeMobileNav">
+              <img :src="logo" alt="" class="brand-mark" width="30" height="30">
+              <span class="brand-name">Mysterria</span>
+            </RouterLink>
+            <button :aria-label="t('header.closeNav')" class="mobile-nav-close" @click="closeMobileNav">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
 
           <div class="mobile-nav-content">
-            <component
-                :is="link.external ? 'a' : 'RouterLink'"
+            <RouterLink
                 v-for="link in navigationLinks"
                 :key="link.path"
-                :class="[
-                'mobile-nav-link',
-                { active: !link.external && route.path === link.path },
-              ]"
-                v-bind="getNavLinkProps(link)"
+                :class="['mobile-nav-link', { active: isActive(link) }]"
+                :to="link.path"
                 @click="closeMobileNav"
             >
               {{ link.title }}
-            </component>
+            </RouterLink>
 
-            <!-- Mobile Services Links -->
-            <div class="mobile-services-section">
-              <div class="mobile-services-header">{{ t('navServices') }}
-                <span v-if="showServicesDot" aria-hidden="true" class="attention-dot mobile"></span>
-              </div>
+            <div class="mobile-services">
+              <p class="mobile-section-label">{{ t('navServices') }}</p>
               <a
                   v-for="service in servicesLinks"
                   :key="service.url"
@@ -137,21 +91,17 @@
                   @click="closeMobileNav"
               >
                 <component :is="service.icon" class="mobile-service-icon"/>
-                <div class="mobile-service-info">
-                  <span class="mobile-service-name">{{ service.name }}</span>
-                  <span class="mobile-service-description">{{ service.description }}</span>
-                </div>
+                <span>
+                  <strong>{{ service.name }}</strong>
+                  <small>{{ service.description }}</small>
+                </span>
               </a>
             </div>
 
-            <div class="mobile-nav-auth">
-              <div class="mobile-language-selector">
-                <LanguageSelector/>
-              </div>
-              <div class="mobile-balance-wrapper">
-                <BalanceButton/>
-              </div>
-              <NotificationBell/>
+            <div class="mobile-nav-footer">
+              <ServerStatusChip class="mobile-ip"/>
+              <LanguageSelector/>
+              <NotificationBell v-if="isAuthenticated"/>
               <AuthButton mobile-mode @mobile-action="closeMobileNav"/>
             </div>
           </div>
@@ -168,640 +118,517 @@ import AuthButton from "@/components/ui/AuthButton.vue";
 import BalanceButton from "@/components/ui/BalanceButton.vue";
 import NotificationBell from "@/components/notifications/NotificationBell.vue";
 import LanguageSelector from "@/components/ui/LanguageSelector.vue";
-import IconLogo from "@/assets/icons/IconLogo.vue";
+import ServerStatusChip from "@/components/ui/ServerStatusChip.vue";
 import IconNavbar from "@/assets/icons/IconNavbar.vue";
-import IconArchive from "@/assets/icons/IconArchive.vue";
 import IconMap from "@/assets/icons/IconMap.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import IconDiscord from "@/assets/icons/IconDiscord.vue";
 import {useI18n} from "@/composables/useI18n";
-import ServerStatusChip from "@/components/ui/ServerStatusChip.vue";
+import {SEASON_ANNOUNCEMENT_SLUG} from "@/constants/season";
+import {useAuthStore} from "@/stores/auth";
+import logo from "@/assets/icons/sources/IconLogo.webp";
 
 interface NavLink {
   path: string;
   title: string;
-  external?: boolean;
-  target?: string;
-  rel?: string;
+  /** Extra path prefixes that should light this link up. */
+  matches?: string[];
 }
+
+withDefaults(defineProps<{ showAnnouncement?: boolean }>(), {showAnnouncement: false});
 
 const route = useRoute();
 const {t} = useI18n();
+const authStore = useAuthStore();
 const isMobileNavOpen = ref(false);
-const isServicesOpen = ref(false);
-let closeDropdownTimeout: NodeJS.Timeout | null = null;
+const navigationRef = ref<HTMLElement | null>(null);
 
-// Show a small attention dot on the Services trigger until user opens it once.
-const showServicesDot = ref(true);
-try {
-  showServicesDot.value = !localStorage.getItem('servicesDotDismissed_v1');
-} catch {
-  // If localStorage is unavailable, default to showing the dot.
-  showServicesDot.value = true;
-}
-
-const markServicesSeen = () => {
-  if (showServicesDot.value) {
-    showServicesDot.value = false;
-    try {
-      localStorage.setItem('servicesDotDismissed_v1', '1');
-    } catch {
-      // ignore storage errors
-    }
-  }
-};
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 
 const navigationLinks = computed<NavLink[]>(() => [
-  {path: "/", title: t("navHome") || "Home"},
-  {path: "/guide", title: t("navGame") || "Guide"},
-  {path: "/rules", title: t("navRules") || "Rules"},
-  {path: "/store", title: t("navShop") || "Shop"},
+  {path: "/", title: t("navHome")},
+  {path: "/guide", title: t("navGame")},
+  {path: "/pathways", title: t("navPathways")},
+  {path: "/store", title: t("navShop"), matches: ["/services"]},
+  {path: "/rules", title: t("navRules")},
+  {path: "/news", title: t("navNews")},
 ]);
 
-const iconComponents = {
-  IconArchive,
-  IconMap,
-  IconWiki,
-  IconDiscord
+const announcement = computed(() => {
+  const headline = t("header.seasonHeadline");
+  if (!headline || headline === "header.seasonHeadline") return null;
+  return {
+    headline,
+    linkLabel: t("header.seasonLink"),
+    to: SEASON_ANNOUNCEMENT_SLUG ? `/news/${SEASON_ANNOUNCEMENT_SLUG}` : "/news",
+  };
+});
+
+/* The bar is copy-driven; dismissal is keyed to the copy so a new announcement
+   shows again for people who dismissed the previous one. */
+const ANNOUNCEMENT_KEY = "myst-season-bar-dismissed";
+const announcementDismissed = ref(false);
+
+const announcementId = computed(() => announcement.value?.headline ?? "");
+
+try {
+  announcementDismissed.value = localStorage.getItem(ANNOUNCEMENT_KEY) === announcementId.value;
+} catch {
+  announcementDismissed.value = false;
+}
+
+const dismissAnnouncement = () => {
+  announcementDismissed.value = true;
+  try {
+    localStorage.setItem(ANNOUNCEMENT_KEY, announcementId.value);
+  } catch {
+    // Storage unavailable — the bar simply returns on the next visit.
+  }
 };
 
 const servicesLinks = computed(() => [
   {
-    name: t("navWiki") || "Wiki",
-    description: t("servicesWikiDesc") || "Knowledge base & guides",
+    name: t("navWiki"),
+    description: t("servicesWikiDesc"),
     url: "https://wiki.mysterria.net/",
-    icon: iconComponents.IconWiki
+    icon: IconWiki,
   },
   {
-    name: t("servicesDiscord") || "Discord",
-    description: t("servicesDiscordDesc") || "Join our community",
+    name: t("servicesDiscord"),
+    description: t("servicesDiscordDesc"),
     url: "https://discord.com/invite/jc7GSxBWgb",
-    icon: iconComponents.IconDiscord
+    icon: IconDiscord,
   },
   {
-    name: t("servicesMap") || "Live Map",
-    description: t("servicesMapDesc") || "Explore the world",
+    name: t("servicesMap"),
+    description: t("servicesMapDesc"),
     url: "https://map.mysterria.net/",
-    icon: iconComponents.IconMap
-  }
+    icon: IconMap,
+  },
 ]);
 
-const getNavLinkProps = (link: NavLink) => {
-  if (link.external) {
-    return {
-      href: link.path,
-      target: link.target,
-      rel: link.rel,
-    };
-  }
-  return {
-    to: link.path,
-  };
+const isActive = (link: NavLink) => {
+  if (link.path === "/") return route.path === "/";
+  if (route.path.startsWith(link.path)) return true;
+  return (link.matches ?? []).some(prefix => route.path.startsWith(prefix));
 };
 
-const toggleMobileNav = () => {
-  isMobileNavOpen.value = !isMobileNavOpen.value;
-};
+const toggleMobileNav = () => (isMobileNavOpen.value = !isMobileNavOpen.value);
+const closeMobileNav = () => (isMobileNavOpen.value = false);
 
-const closeMobileNav = () => {
-  isMobileNavOpen.value = false;
-};
-
-const toggleServicesDropdown = () => {
-  if (!isServicesOpen.value) {
-    markServicesSeen();
-  }
-  isServicesOpen.value = !isServicesOpen.value;
-};
-
-const clearCloseServicesTimeout = () => {
-  if (closeDropdownTimeout) {
-    clearTimeout(closeDropdownTimeout);
-    closeDropdownTimeout = null;
-  }
-};
-
-const scheduleCloseServicesDropdown = () => {
-  clearCloseServicesTimeout();
-  closeDropdownTimeout = setTimeout(() => {
-    isServicesOpen.value = false;
-    closeDropdownTimeout = null;
-  }, 220);
-};
-
-const openServicesDropdown = () => {
-  clearCloseServicesTimeout();
-  markServicesSeen();
-  isServicesOpen.value = true;
-};
-
-const closeServicesDropdown = () => {
-  clearCloseServicesTimeout();
-  isServicesOpen.value = false;
-};
-
-watch(isMobileNavOpen, (isOpen) => {
-  if (isOpen) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "";
-  }
+watch(isMobileNavOpen, isOpen => {
+  document.body.style.overflow = isOpen ? "hidden" : "";
 });
+
+watch(() => route.path, closeMobileNav);
 
 onUnmounted(() => {
   document.body.style.overflow = "";
-  clearCloseServicesTimeout();
 });
 </script>
 
 <style scoped>
-.main-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  padding: 0 16px;
-  gap: 24px;
-  background: color-mix(in srgb, var(--myst-bg) 80%, transparent);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid color-mix(in srgb, white 15%, transparent);
-  z-index: 1000;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 24px;
-}
-
-.header-logo-link {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: var(--myst-ink);
-  transition: all 0.3s ease;
-}
-
-.header-logo-link:hover {
-  color: var(--myst-gold);
-}
-
-.logo-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--myst-gold);
-}
-
-.navigation {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-@media (max-width: 768px) {
-  .navigation {
-    display: none;
-  }
-}
-
-.nav-link {
-  padding: 8px 16px;
-  border-radius: 4px;
-  color: #888;
-  text-decoration: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
+/* ---- Season announcement ---- */
+.season-bar {
+  position: relative;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  gap: 8px 14px;
+  flex-wrap: wrap;
+  padding: 9px 16px;
+  background: linear-gradient(90deg, rgba(200, 178, 115, 0), rgba(200, 178, 115, 0.12), rgba(200, 178, 115, 0));
+  border-bottom: 1px solid var(--myst-line-18);
 }
 
-.nav-link:hover {
+.season-headline,
+.season-link {
+  font-family: var(--myst-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.season-headline {
+  letter-spacing: 0.28em;
   color: var(--myst-gold);
 }
 
+.season-divider {
+  color: var(--myst-line-40);
+  font-size: 10px;
+}
+
+.season-link {
+  letter-spacing: 0.2em;
+  color: var(--myst-ink-muted);
+}
+
+.season-link:hover {
+  color: var(--myst-gold);
+}
+
+.season-dismiss {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--myst-line-40);
+  font-size: 12px;
+  transition: color 0.25s ease;
+}
+
+.season-dismiss:hover {
+  color: var(--myst-gold);
+}
+
+@media (max-width: 560px) {
+  .season-bar {
+    padding-right: 40px;
+  }
+}
+
+/* ---- Header shell ---- */
+.site-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: color-mix(in srgb, var(--myst-bg) 78%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--myst-line-14);
+}
+
+.header-grid {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: var(--myst-header-height);
+  gap: 18px;
+}
+
+/* ---- Brand ---- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  justify-self: start;
+  color: inherit;
+}
+
+.brand:hover {
+  color: inherit;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(200, 178, 115, 0.35));
+}
+
+.brand-words {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-name {
+  font-family: var(--myst-font-display);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--myst-offwhite);
+}
+
+.brand-tagline {
+  margin-top: 4px;
+  font-family: var(--myst-font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--myst-gold);
+}
+
+.brand.compact .brand-mark {
+  width: 30px;
+  height: 30px;
+}
+
+/* ---- Nav ---- */
+.primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-self: center;
+  min-width: 0;
+}
+
+.nav-link {
+  position: relative;
+  padding: 10px 12px;
+  font-family: var(--myst-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--myst-ink-muted);
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.nav-link:hover,
 .nav-link.active {
   color: var(--myst-gold);
-  background: rgba(200, 178, 115, 0.05);
-  box-shadow: inset 0 0 10px rgba(200, 178, 115, 0.05);
 }
 
+.nav-underline {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--myst-gold), transparent);
+}
+
+/* ---- Actions ---- */
 .header-actions {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
+  justify-self: end;
 }
 
 .mobile-nav-toggle {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: color-mix(in srgb, var(--myst-bg) 60%, transparent);
-  border: 1px solid color-mix(in srgb, white 15%, transparent);
-  color: var(--myst-ink);
+  width: 38px;
+  height: 36px;
+  background: var(--myst-wash);
+  border: 1px solid var(--myst-line-28);
+  border-radius: 2px;
+  color: var(--myst-gold);
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
-}
-
-:root[data-theme="parchment"] .mobile-nav-toggle {
-  background: var(--myst-bg-2);
-  border-color: color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
 }
 
 .mobile-nav-toggle:hover {
-  background: color-mix(in srgb, white 5%, transparent);
-  border-color: color-mix(in srgb, white 30%, transparent);
+  border-color: var(--myst-gold);
+  background: var(--myst-wash-strong);
 }
 
-:root[data-theme="parchment"] .mobile-nav-toggle:hover {
-  background: var(--myst-bg);
-  border-color: var(--myst-ink-muted);
-}
-
-@media (max-width: 768px) {
-  .mobile-nav-toggle {
-    display: flex;
-  }
-
-  .auth-desktop,
-  .balance-desktop,
-  .language-desktop,
-  .server-chip-desktop {
+/* ---- Responsive ladder from the handoff ---- */
+@media (max-width: 1220px) {
+  .header-actions :deep(.lang-ritual-selector) {
     display: none;
   }
 }
 
+@media (max-width: 1140px) {
+  .header-chip {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .brand-tagline {
+    display: none;
+  }
+
+  .nav-link {
+    padding: 8px 8px;
+    letter-spacing: 0.06em;
+    font-size: 10.5px;
+  }
+}
+
+@media (max-width: 800px) {
+  .primary-nav {
+    display: none;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
+  .header-grid {
+    padding: 0 16px;
+  }
+}
+
+/* ---- Mobile drawer ---- */
 .mobile-nav-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 1200;
   display: flex;
 }
 
 .mobile-nav-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
 }
 
 .mobile-nav {
   position: relative;
   width: 100%;
-  max-width: 320px;
-  height: 100vh;
-  background: var(--myst-bg);
-  border-right: 1px solid color-mix(in srgb, white 10%, transparent);
+  max-width: 330px;
+  height: 100dvh;
+  background: var(--myst-bg-deep);
+  border-right: 1px solid var(--myst-line-16);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  transition: transform 0.3s ease;
 }
 
 .mobile-nav-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid color-mix(in srgb, white 10%, transparent);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--myst-line-14);
 }
 
 .mobile-nav-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 32px;
   height: 32px;
+  display: grid;
+  place-items: center;
   background: transparent;
-  border: 1px solid color-mix(in srgb, white 15%, transparent);
-  border-radius: 6px;
-  color: var(--myst-ink);
-  font-size: 16px;
+  border: 1px solid var(--myst-line-20);
+  border-radius: 2px;
+  color: var(--myst-gold);
   cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.mobile-nav-close:hover {
-  background: color-mix(in srgb, white 5%, transparent);
-  border-color: color-mix(in srgb, white 30%, transparent);
 }
 
 .mobile-nav-content {
   flex: 1;
-  padding: 32px 0;
+  padding: 20px 0 32px;
 }
 
 .mobile-nav-link {
   display: flex;
   align-items: center;
-  padding: 18px 28px;
-  color: #e2e8f0;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-left: 4px solid transparent;
-  letter-spacing: 0.025em;
-}
-
-.mobile-nav-link:hover {
-  color: #ffffff;
-  background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent);
-  border-left-color: #10b981;
-  transform: translateX(6px);
-}
-
-.mobile-nav-link.active {
-  color: #ffffff;
-  background: linear-gradient(
-      90deg,
-      rgba(16, 185, 129, 0.2),
-      rgba(34, 197, 94, 0.1)
-  );
-  border-left-color: #22c55e;
-  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.1) inset;
-}
-
-.mobile-nav-auth {
-  margin-top: 32px;
-  padding: 0 28px;
-  border-top: 1px solid rgba(148, 163, 184, 0.1);
-  background: rgba(15, 23, 42, 0.5);
-}
-
-.mobile-language-selector {
-  margin: 24px 0 16px 0;
-}
-
-.mobile-balance-wrapper {
-  margin-bottom: 16px;
-}
-
-.mobile-balance-wrapper :deep(.dollar) {
-  width: 100%;
-  justify-content: center;
-  padding: 12px 20px;
-  font-size: 1rem;
-}
-
-:root[data-theme="parchment"] .mobile-balance-wrapper :deep(.dollar) {
-  background: var(--myst-bg-2);
-  border-color: color-mix(in srgb, var(--myst-ink-muted) 25%, transparent);
-}
-
-:root[data-theme="parchment"] .mobile-balance-wrapper :deep(.dollar):hover {
-  background: var(--myst-bg);
-  border-color: var(--myst-ink-muted);
-}
-
-.mobile-nav-enter-active,
-.mobile-nav-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .mobile-nav {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .mobile-nav-backdrop {
-    transition: opacity 0.4s ease;
-  }
-}
-
-.mobile-nav-enter-from,
-.mobile-nav-leave-to {
-  opacity: 0;
-
-  .mobile-nav {
-    transform: translateX(-100%);
-  }
-
-  .mobile-nav-backdrop {
-    opacity: 0;
-  }
-}
-
-/* Services Dropdown Styles */
-.services-dropdown {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.services-trigger {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-
-.dropdown-arrow {
-  transition: transform 0.2s ease;
-}
-
-.dropdown-arrow.rotate {
-  transform: rotate(180deg);
-}
-
-.services-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 12px;
-  min-width: 320px;
-  background: #080a14;
-  border: 1px solid rgba(200, 178, 115, 0.2);
-  border-radius: 4px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-  z-index: 100;
-  overflow: hidden;
-  padding: 8px;
-}
-
-.service-link {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 16px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border-radius: 2px;
-  border: 1px solid transparent;
-}
-
-.service-link:hover {
-  background: rgba(200, 178, 115, 0.05);
-  border-color: rgba(200, 178, 115, 0.1);
-}
-
-.service-icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  color: var(--myst-gold);
-  opacity: 0.8;
-}
-
-.service-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.service-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.service-description {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.external-link-icon {
-  flex-shrink: 0;
-  color: #444;
-  width: 12px;
-  transition: all 0.3s;
-}
-
-.service-link:hover .external-link-icon {
-  color: var(--myst-gold);
-  transform: translate(2px, -2px);
-}
-
-/* Dropdown animations */
-.dropdown-enter-active,
-.dropdown-leave-active {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dropdown-enter-from,
-.dropdown-leave-to {
-  opacity: 0;
-  transform: translateX(-50%) translateY(-8px);
-}
-
-/* Mobile responsive adjustments for dropdown */
-@media (max-width: 768px) {
-  .services-dropdown {
-    display: none;
-  }
-}
-
-/* Mobile Services Section */
-.mobile-services-section {
-  margin-top: 20px;
-  border-top: 1px solid rgba(148, 163, 184, 0.1);
-  padding-top: 20px;
-}
-
-.mobile-services-header {
-  padding: 0 28px 12px;
-  color: #a1a1aa;
+  padding: 15px 24px;
+  border-left: 2px solid transparent;
+  font-family: var(--myst-font-mono);
   font-size: 12px;
-  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  color: var(--myst-ink-muted);
+  transition: all 0.25s ease;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  color: var(--myst-gold);
+  border-left-color: var(--myst-gold);
+  background: rgba(200, 178, 115, 0.06);
+}
+
+.mobile-services {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--myst-line-12);
+}
+
+.mobile-section-label {
+  margin: 0 0 8px;
+  padding: 0 24px;
+  font-family: var(--myst-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--myst-gold);
 }
 
 .mobile-service-link {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 28px;
-  color: #e2e8f0;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-left: 4px solid transparent;
+  gap: 14px;
+  padding: 12px 24px;
+  color: inherit;
 }
 
 .mobile-service-link:hover {
-  color: #ffffff;
-  background: linear-gradient(90deg, rgba(200, 178, 115, 0.1), transparent);
-  border-left-color: var(--myst-gold);
-  transform: translateX(6px);
+  background: rgba(200, 178, 115, 0.05);
+  color: inherit;
 }
 
 .mobile-service-icon {
-  flex-shrink: 0;
   width: 18px;
   height: 18px;
+  flex-shrink: 0;
   color: var(--myst-gold);
 }
 
-.mobile-service-info {
-  flex: 1;
+.mobile-service-link span {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.mobile-service-name {
+.mobile-service-link strong {
+  color: var(--myst-offwhite);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.mobile-service-description {
+.mobile-service-link small {
+  color: var(--myst-ink-muted);
   font-size: 11px;
-  color: #a1a1aa;
 }
 
-/* Attention dot styles for Services */
-.services-trigger {
-  position: relative;
+.mobile-nav-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 20px 24px 0;
+  border-top: 1px solid var(--myst-line-12);
 }
 
-.attention-dot {
-  position: absolute;
-  top: 6px;
-  right: 10px;
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  background: var(--myst-gold);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--myst-bg) 85%, transparent);
+.mobile-ip {
+  width: 100%;
+  justify-content: center;
 }
 
-/* Mobile variant inside header label */
-.mobile-services-header {
-  position: relative;
+.mobile-nav-enter-active,
+.mobile-nav-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-.attention-dot.mobile {
-  position: absolute;
-  top: 8px;
-  right: 28px;
+.mobile-nav-enter-active .mobile-nav,
+.mobile-nav-leave-active .mobile-nav {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-nav-enter-from,
+.mobile-nav-leave-to {
+  opacity: 0;
+}
+
+.mobile-nav-enter-from .mobile-nav,
+.mobile-nav-leave-to .mobile-nav {
+  transform: translateX(-100%);
 }
 </style>

@@ -1,71 +1,81 @@
 <template>
-  <HeaderItem />
-  <main class="staff-page">
-    <div class="staff-mist" aria-hidden="true"></div>
+  <div class="staff-page">
+    <HeaderItem/>
 
-    <div class="staff-container">
-      <div class="myst-page-header">
-        <div class="myst-header-decoration" aria-hidden="true"></div>
-        <h1 class="myst-header-label">{{ t("staffPage.eyebrow") }}</h1>
-        <div class="myst-header-decoration" aria-hidden="true"></div>
-      </div>
+    <main class="order">
+      <div class="order-glow" aria-hidden="true"></div>
+      <div class="myst-shell order-inner">
+        <header class="order-head">
+          <p class="myst-eyebrow">{{ t('staffOrder.eyebrow') }}</p>
+          <h1 class="myst-h1">{{ t('staffOrder.title') }}</h1>
+          <p class="order-lede">{{ t('staffOrder.lede') }}</p>
+        </header>
 
-      <section class="staff-hero">
-        <p class="staff-kicker">{{ t("staffPage.kicker") }}</p>
-        <h2 class="staff-title">{{ t("staffPage.title") }}</h2>
-        <p class="staff-lede">{{ t("staffPage.subtitle") }}</p>
-      </section>
+        <div v-if="loading" class="order-state">
+          <div class="order-spinner" aria-hidden="true"></div>
+          <p>{{ t('loading') }}</p>
+        </div>
 
-      <div v-if="loading" class="staff-status">
-        <div class="staff-spinner" aria-hidden="true"></div>
-        <p>{{ t("loading") }}</p>
-      </div>
+        <div v-else-if="error" class="order-state">
+          <p>{{ t('staffPage.loadError') }}</p>
+        </div>
 
-      <div v-else-if="error" class="staff-status">
-        <p>{{ t("staffPage.loadError") }}</p>
-      </div>
-
-      <section v-else class="staff-ledger" :aria-label="t('staffPage.listLabel')">
-        <article
-          v-for="group in memberGroups"
-          :key="group.position"
-          class="rank-section"
-        >
-          <div class="rank-header">
-            <div>
-              <p class="rank-count">{{ group.members.length }} {{ t("staffPage.members") }}</p>
-              <h3 class="rank-title">{{ group.position }}</h3>
+        <template v-else>
+          <section
+              v-for="(group, groupIndex) in memberGroups"
+              :key="group.position"
+              class="rank-section"
+          >
+            <div class="rank-head">
+              <h2>{{ group.position }}</h2>
+              <span class="rank-rule" aria-hidden="true"></span>
+              <span class="rank-count">{{ group.members.length }} {{ t('staffPage.members') }}</span>
             </div>
-          </div>
 
-          <div class="member-grid">
-            <div
-              v-for="member in group.members"
-              :key="`${group.position}-${member.nickname}`"
-              class="member-card"
-            >
-              <img
-                v-if="member.avatarUrl"
-                class="member-avatar"
-                :alt="member.nickname"
-                :src="member.avatarUrl"
-                loading="lazy"
-                referrerpolicy="no-referrer"
+            <div class="member-grid">
+              <div
+                  v-for="member in group.members"
+                  :key="`${group.position}-${member.nickname}`"
+                  :class="['member-card', { crown: groupIndex === 0 }]"
               >
-              <div v-else class="member-avatar member-avatar-fallback" aria-hidden="true">
-                <i class="fa-solid fa-user"></i>
-              </div>
-              <div class="member-info">
-                <h4 class="member-name">{{ member.nickname }}</h4>
-                <p class="member-role">{{ group.position }}</p>
+                <img
+                    v-if="member.avatarUrl"
+                    :alt="member.nickname"
+                    :src="member.avatarUrl"
+                    class="member-avatar"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                >
+                <div v-else aria-hidden="true" class="member-avatar member-initial">
+                  {{ member.nickname.charAt(0).toUpperCase() }}
+                </div>
+
+                <div class="member-copy">
+                  <h3>{{ member.nickname }}</h3>
+                  <p>{{ group.position }}</p>
+                </div>
               </div>
             </div>
+          </section>
+
+          <div class="order-cta">
+            <p>{{ t('staffOrder.helpQuestion') }}</p>
+            <a
+                class="myst-btn-gold"
+                href="https://discord.com/invite/jc7GSxBWgb"
+                rel="noopener noreferrer"
+                target="_blank"
+            >
+              <IconDiscord aria-hidden="true"/>
+              {{ t('staffOrder.openTicket') }}
+            </a>
           </div>
-        </article>
-      </section>
-    </div>
-  </main>
-  <FooterItem />
+        </template>
+      </div>
+    </main>
+
+    <FooterItem/>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -73,6 +83,8 @@ import {computed, onMounted, ref} from "vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import {useI18n} from "@/composables/useI18n";
+import {breadcrumbLd, useSeo} from "@/composables/useSeo";
+import IconDiscord from "@/assets/icons/IconDiscord.vue";
 import {membersAPI} from "@/utils/api/staff";
 import type {StaffMember} from "@/types/staff";
 
@@ -81,6 +93,13 @@ const {t} = useI18n();
 const members = ref<StaffMember[]>([]);
 const loading = ref(true);
 const error = ref(false);
+
+useSeo(() => ({
+  title: t("staffOrder.title"),
+  description: t("staffOrder.lede"),
+  path: "/staff",
+  jsonLd: [breadcrumbLd([{name: "Home", path: "/"}, {name: "Staff", path: "/staff"}])],
+}));
 
 interface MemberGroup {
   position: string;
@@ -114,184 +133,137 @@ onMounted(async () => {
 
 <style scoped>
 .staff-page {
-  position: relative;
   min-height: 100vh;
-  padding: 120px 0 88px;
-  background: #080a14;
+  display: flex;
+  flex-direction: column;
+  background: var(--myst-bg);
   color: var(--myst-ink);
+}
+
+.order {
+  position: relative;
+  flex: 1 0 auto;
+  padding: 80px 24px 90px;
   overflow: hidden;
 }
 
-.staff-mist {
+.order-glow {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 20% 0%, rgba(200, 178, 115, 0.08), transparent 36%),
-    radial-gradient(circle at 80% 18%, rgba(77, 208, 225, 0.05), transparent 30%);
   pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200, 178, 115, 0.06), transparent 65%);
 }
 
-.staff-container {
+.order-inner {
   position: relative;
-  z-index: 1;
-  width: min(1180px, calc(100% - 48px));
-  margin: 0 auto;
 }
 
-.staff-hero {
-  max-width: 780px;
-  margin: 0 auto 56px;
+.order-head {
+  margin-bottom: 70px;
   text-align: center;
 }
 
-.staff-kicker,
-.rank-count,
-.member-role {
-  font-family: 'JetBrains Mono', monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
+.order-head .myst-eyebrow {
+  margin-bottom: 14px;
 }
 
-.staff-kicker {
-  margin: 0 0 14px;
-  color: var(--myst-gold);
-  font-size: 11px;
+.order-lede {
+  margin: 18px auto 0;
+  max-width: 58ch;
+  color: var(--myst-ink-muted);
+  font-size: 15.5px;
+  line-height: 1.7;
 }
 
-.staff-title {
-  margin: 0;
-  color: var(--myst-offwhite);
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(34px, 6vw, 64px);
-  font-weight: 700;
-  line-height: 1.05;
-}
-
-.staff-lede {
-  max-width: 62ch;
-  margin: 22px auto 0;
-  color: #aaa;
-  font-size: 16px;
-  line-height: 1.75;
-}
-
-.staff-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 64px 0;
-  color: #aaa;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.staff-spinner {
-  width: 28px;
-  height: 28px;
-  border: 2px solid rgba(200, 178, 115, 0.2);
-  border-top-color: var(--myst-gold);
-  border-radius: 50%;
-  animation: staff-spin 0.8s linear infinite;
-}
-
-@keyframes staff-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.staff-ledger {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
+/* Rank sections */
 .rank-section {
-  border: 1px solid rgba(200, 178, 115, 0.14);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
-  border-radius: 4px;
-  padding: 28px;
-  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.25);
+  margin-bottom: 56px;
 }
 
-.rank-header {
-  display: grid;
-  grid-template-columns: minmax(180px, 300px) 1fr;
-  gap: 28px;
-  align-items: flex-end;
-  padding-bottom: 22px;
-  border-bottom: 1px solid rgba(200, 178, 115, 0.14);
+.rank-head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.rank-head h2 {
+  margin: 0;
+  font-family: var(--myst-font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--myst-offwhite);
+}
+
+.rank-rule {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, var(--myst-line-40), transparent);
 }
 
 .rank-count {
-  margin: 0 0 8px;
-  color: var(--myst-gold);
+  font-family: var(--myst-font-mono);
   font-size: 10px;
-}
-
-.rank-title {
-  margin: 0;
-  color: var(--myst-offwhite);
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(24px, 3vw, 34px);
-  line-height: 1.1;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--myst-ink-muted);
+  white-space: nowrap;
 }
 
 .member-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 14px;
-  padding-top: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 16px;
 }
 
 .member-card {
   display: flex;
   align-items: center;
+  gap: 18px;
   min-width: 0;
-  gap: 14px;
-  padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(0, 0, 0, 0.22);
-  border-radius: 4px;
-  color: inherit;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  padding: 20px 24px;
+  background: var(--myst-panel);
+  border: 1px solid var(--myst-line-16);
+  transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
 .member-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(200, 178, 115, 0.28);
-  background: rgba(200, 178, 115, 0.045);
+  border-color: var(--myst-line-40);
+  transform: translateY(-3px);
+}
+
+.member-card.crown {
+  background: var(--myst-panel-warm);
+  border-color: var(--myst-line-35);
 }
 
 .member-avatar {
-  flex: 0 0 54px;
-  width: 54px;
-  height: 54px;
-  border: 1px solid rgba(200, 178, 115, 0.3);
-  border-radius: 4px;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 2px;
   object-fit: cover;
-  background: rgba(200, 178, 115, 0.08);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
+  background: linear-gradient(135deg, #2a3050, #171a2c);
 }
 
-.member-avatar-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.member-card.crown .member-avatar {
+  border: 1px solid var(--myst-line-35);
+}
+
+.member-initial {
+  display: grid;
+  place-items: center;
   color: var(--myst-gold);
+  font-family: var(--myst-font-display);
   font-size: 20px;
-  opacity: 0.7;
+  font-weight: 700;
 }
 
-.member-info {
-  flex: 1;
+.member-copy {
   min-width: 0;
 }
 
-.member-name {
+.member-copy h3 {
   margin: 0 0 5px;
   overflow-wrap: anywhere;
   color: var(--myst-offwhite);
@@ -300,46 +272,83 @@ onMounted(async () => {
   line-height: 1.25;
 }
 
-.member-role {
+.member-copy p {
   margin: 0;
-  color: #666;
-  font-size: 10px;
+  font-family: var(--myst-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--myst-ink-muted);
 }
 
-@media (max-width: 900px) {
-  .staff-page {
-    padding-top: 104px;
-  }
+.member-card.crown .member-copy p {
+  color: var(--myst-gold);
+}
 
-  .rank-header {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    align-items: start;
+/* Bottom CTA */
+.order-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 70px;
+  padding: 26px 32px;
+  background: rgba(200, 178, 115, 0.03);
+  border: 1px solid var(--myst-line-18);
+}
+
+.order-cta p {
+  margin: 0;
+  color: var(--myst-ink-muted);
+  font-size: 14px;
+}
+
+.order-cta .myst-btn-gold {
+  padding: 12px 26px;
+  font-size: 11px;
+}
+
+/* States */
+.order-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 64px 0;
+  color: var(--myst-ink-muted);
+  font-family: var(--myst-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.order-spinner {
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--myst-line-20);
+  border-top-color: var(--myst-gold);
+  border-radius: 50%;
+  animation: orderSpin 0.9s linear infinite;
+}
+
+@keyframes orderSpin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
 @media (max-width: 640px) {
-  .staff-container {
-    width: min(100% - 32px, 1180px);
+  .order {
+    padding: 50px 20px 70px;
   }
 
-  .staff-hero {
-    margin-bottom: 38px;
-    text-align: left;
-  }
-
-  .rank-section {
-    padding: 20px;
+  .order-head {
+    margin-bottom: 44px;
   }
 
   .member-grid {
     grid-template-columns: 1fr;
-  }
-
-  .member-avatar {
-    flex-basis: 52px;
-    width: 52px;
-    height: 52px;
   }
 }
 </style>

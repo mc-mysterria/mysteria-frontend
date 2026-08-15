@@ -91,12 +91,35 @@ const handleError = () => {
 }
 
 /* Base Sizing on the wrapper */
-.xs { width: 24px; height: 24px; }
-.sm { width: 36px; height: 36px; }
-.md { width: 48px; height: 48px; }
-.lg { width: 64px; height: 64px; }
-.xl { width: 96px; height: 96px; }
-.full { width: 100%; height: 100%; }
+.xs {
+  width: 24px;
+  height: 24px;
+}
+
+.sm {
+  width: 36px;
+  height: 36px;
+}
+
+.md {
+  width: 48px;
+  height: 48px;
+}
+
+.lg {
+  width: 64px;
+  height: 64px;
+}
+
+.xl {
+  width: 96px;
+  height: 96px;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
 
 .has-glow .avatar-ritual-frame {
   box-shadow: 0 0 20px rgba(200, 178, 115, 0.3);

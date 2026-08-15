@@ -7,27 +7,32 @@
   {
     "id": "1.1",
     "title": "Toxicity & Harassment",
-    "content": "Flaming, bullying, or harassing others is not allowed. This includes constant arguing to provoke people, personal insults, and targeting someone repeatedly. Example: calling someone trash every time they speak = warnable offense."
+    "content": "Flaming, bullying, or harassing others is not allowed. This includes constant arguing to provoke people, personal insults, and targeting someone repeatedly. Example: calling someone trash every time they speak = warnable offense.",
+    "severity": "warn"
   },
   {
     "id": "1.2",
     "title": "Swearing & Vulgarity",
-    "content": "Mild swearing is fine, but excessive profanity, sexual jokes, or constant foul language are not. Example: saying 'damn' in frustration is okay, spamming f-bombs or sexual comments is not."
+    "content": "Mild swearing is fine, but excessive profanity, sexual jokes, or constant foul language are not. Example: saying 'damn' in frustration is okay, spamming f-bombs or sexual comments is not.",
+    "severity": "warn"
   },
   {
     "id": "1.3",
     "title": "Spam & Noise",
-    "content": "Do not spam chat or flood voice channels. This includes repeating the same message, mic spamming, or abusing soundboards. Example: spamming 'ez' in chat or blasting loud noises in VC = punishable."
+    "content": "Do not spam chat or flood voice channels. This includes repeating the same message, mic spamming, or abusing soundboards. Example: spamming 'ez' in chat or blasting loud noises in VC = punishable.",
+    "severity": "mute"
   },
   {
     "id": "1.4",
     "title": "Private Harassment",
-    "content": "Harassing people in DMs (Minecraft or Discord) counts just the same as public harassment. Example: sending 20 messages to annoy someone after they told you to stop = warn."
+    "content": "Harassing people in DMs (Minecraft or Discord) counts just the same as public harassment. Example: sending 20 messages to annoy someone after they told you to stop = warn.",
+    "severity": "warn"
   },
   {
     "id": "1.5",
     "title": "Names & Avatars",
-    "content": "Nicknames, avatars, or skins with offensive, extremist, or NSFW content are forbidden. Example: Nazi skins, hentai profile pics, or racist usernames = instant action by staff."
+    "content": "Nicknames, avatars, or skins with offensive, extremist, or NSFW content are forbidden. Example: Nazi skins, hentai profile pics, or racist usernames = instant action by staff.",
+    "severity": "instant"
   },
   {
     "id": "2",
@@ -37,17 +42,20 @@
   {
     "id": "2.1",
     "title": "Offensive Builds & Content",
-    "content": "No extremist symbols, sexual structures, or other offensive builds. Example: swastikas, inappropriate statues, or extremist banners = instant removal + punishment."
+    "content": "No extremist symbols, sexual structures, or other offensive builds. Example: swastikas, inappropriate statues, or extremist banners = instant removal + punishment.",
+    "severity": "instant"
   },
   {
     "id": "2.2",
     "title": "Griefing & Stealing",
-    "content": "Breaking builds, stealing items, or trolling others without consent is forbidden. Example: destroying a house or taking chest loot that isn’t yours = punishable."
+    "content": "Breaking builds, stealing items, or trolling others without consent is forbidden. Example: destroying a house or taking chest loot that isn’t yours = punishable.",
+    "severity": "ban"
   },
   {
     "id": "2.3",
     "title": "Lag & Exploit Machines",
-    "content": "Machines or farms that cause lag (like TNT spam) or unauthorized chunk loaders are not allowed. Example: building a redstone clock to crash the server = ban."
+    "content": "Machines or farms that cause lag (like TNT spam) or unauthorized chunk loaders are not allowed. Example: building a redstone clock to crash the server = ban.",
+    "severity": "ban"
   },
   {
     "id": "3",
@@ -57,12 +65,14 @@
   {
     "id": "3.1",
     "title": "Hacks & Cheats",
-    "content": "Using hacks, x-ray, autoclickers, macros, dupes, or bug exploits is an instant permanent ban. Example: x-ray mining for diamonds = permaban."
+    "content": "Using hacks, x-ray, autoclickers, macros, dupes, or bug exploits is an instant permanent ban. Example: x-ray mining for diamonds = permaban.",
+    "severity": "instant"
   },
   {
     "id": "3.2",
     "title": "Bug Abuse",
-    "content": "If you find a glitch, report it. Do not abuse it. Example: finding a way to duplicate items and using it = permaban. You will be rewarded for reporting it."
+    "content": "If you find a glitch, report it. Do not abuse it. Example: finding a way to duplicate items and using it = permaban. You will be rewarded for reporting it.",
+    "severity": "ban"
   },
   {
     "id": "4",
@@ -72,22 +82,26 @@
   {
     "id": "4.1",
     "title": "Privacy & Doxxing",
-    "content": "Never share personal info (real names, addresses, social media, etc.). Example: leaking someone’s Instagram without permission = instant permaban."
+    "content": "Never share personal info (real names, addresses, social media, etc.). Example: leaking someone’s Instagram without permission = instant permaban.",
+    "severity": "instant"
   },
   {
     "id": "4.2",
     "title": "Outside Influence",
-    "content": "Don’t use Discord/DMs to manipulate in-game actions unfairly (metagaming). Example: telling your friend over Discord to ambush someone’s base = punishable."
+    "content": "Don’t use Discord/DMs to manipulate in-game actions unfairly (metagaming). Example: telling your friend over Discord to ambush someone’s base = punishable.",
+    "severity": "warn"
   },
   {
     "id": "4.3",
     "title": "Alt Accounts",
-    "content": "Only one account per person unless approved by staff. Unauthorized alts = permaban. Example: making a second account to avoid a mute = instant ban."
+    "content": "Only one account per person unless approved by staff. Unauthorized alts = permaban. Example: making a second account to avoid a mute = instant ban.",
+    "severity": "ban"
   },
   {
     "id": "4.4",
     "title": "Impersonation",
-    "content": "Do not impersonate staff or other players. Faking evidence or pretending to be a Guardian = permanent ban."
+    "content": "Do not impersonate staff or other players. Faking evidence or pretending to be a Guardian = permanent ban.",
+    "severity": "instant"
   },
   {
     "id": "5",
@@ -97,32 +111,38 @@
   {
     "id": "5.1",
     "title": "Hate Speech",
-    "content": "Racism, sexism, homophobia, and other hate speech is forbidden. Example: using slurs = instant warn or ban depending on severity."
+    "content": "Racism, sexism, homophobia, and other hate speech is forbidden. Example: using slurs = instant warn or ban depending on severity.",
+    "severity": "instant"
   },
   {
     "id": "5.2",
     "title": "False Accusations",
-    "content": "Making false reports against players or staff wastes time and spreads toxicity. Example: faking screenshots to get someone banned = punishable."
+    "content": "Making false reports against players or staff wastes time and spreads toxicity. Example: faking screenshots to get someone banned = punishable.",
+    "severity": "ban"
   },
   {
     "id": "5.3",
     "title": "Disrespecting Staff",
-    "content": "Guardians (staff) must be respected. Insulting or trolling staff directly = heavy punishment."
+    "content": "Guardians (staff) must be respected. Insulting or trolling staff directly = heavy punishment.",
+    "severity": "warn"
   },
   {
     "id": "5.4",
     "title": "Drama & Negativity",
-    "content": "Creating drama, spreading negativity, or constantly complaining ruins the atmosphere. Example: repeatedly saying 'this server sucks' = warnable offense."
+    "content": "Creating drama, spreading negativity, or constantly complaining ruins the atmosphere. Example: repeatedly saying 'this server sucks' = warnable offense.",
+    "severity": "warn"
   },
   {
     "id": "5.5",
     "title": "Begging & Pestering",
-    "content": "Do not spam staff for free items, ranks, or attention. Example: 'pls gimme op' every 5 minutes = punishable."
+    "content": "Do not spam staff for free items, ranks, or attention. Example: 'pls gimme op' every 5 minutes = punishable.",
+    "severity": "warn"
   },
   {
     "id": "5.6",
     "title": "Black Market",
-    "content": "Trading in-game valuables for real money bypassing the server is strictly prohibited. We respect your entrepreneurial spirit, but please, let’s not turn the server into a marketplace!"
+    "content": "Trading in-game valuables for real money bypassing the server is strictly prohibited. We respect your entrepreneurial spirit, but please, let’s not turn the server into a marketplace!",
+    "severity": "ban"
   },
   {
     "id": "6",
@@ -132,12 +152,14 @@
   {
     "id": "6.1",
     "title": "Stay On-Topic",
-    "content": "Use the right channels for the right discussions. Example: posting memes in #announcements = warn."
+    "content": "Use the right channels for the right discussions. Example: posting memes in #announcements = warn.",
+    "severity": "warn"
   },
   {
     "id": "6.2",
     "title": "Advertising",
-    "content": "No advertising or promotion unless approved by staff. This includes other servers, Discords, or YouTube channels. Example: DMing players your server IP = ban."
+    "content": "No advertising or promotion unless approved by staff. This includes other servers, Discords, or YouTube channels. Example: DMing players your server IP = ban.",
+    "severity": "ban"
   },
   {
     "id": "7",
@@ -147,17 +169,20 @@
   {
     "id": "7.1",
     "title": "The Warning Path",
-    "content": "Each offense = 1 warning. Punishments double each time: mute, longer mute, tempban, longer tempban. 8 warnings = permanent ban. Warnings expire after 6 months."
+    "content": "Each offense = 1 warning. Punishments double each time: mute, longer mute, tempban, longer tempban. 8 warnings = permanent ban. Warnings expire after 6 months.",
+    "severity": "warn"
   },
   {
     "id": "7.2",
     "title": "Instant Permanent Bans",
-    "content": "Some actions lead to instant permaban: hacking, dupes, bug abuse, doxxing, extremist symbols, NSFW builds. No second chances."
+    "content": "Some actions lead to instant permaban: hacking, dupes, bug abuse, doxxing, extremist symbols, NSFW builds. No second chances.",
+    "severity": "instant"
   },
   {
     "id": "7.3",
     "title": "Final Authority",
-    "content": "Staff decisions are final. No appeals, no exceptions."
+    "content": "Staff decisions are final. No appeals, no exceptions.",
+    "severity": "warn"
   },
   {
     "id": "8",
@@ -167,16 +192,19 @@
   {
     "id": "8.1",
     "title": "Guardian Presence",
-    "content": "Any server, 'town' (e.g., GHC or PHG), or community published or promoted within Mysterria community must include a Staff member in its ranks. They must be granted audit log access to ensure the safety of our players. Example: Promoting your town’s Discord in our channels requires a moderator to be present in that Discord."
+    "content": "Any server, 'town' (e.g., GHC or PHG), or community published or promoted within Mysterria community must include a Staff member in its ranks. They must be granted audit log access to ensure the safety of our players. Example: Promoting your town’s Discord in our channels requires a moderator to be present in that Discord.",
+    "severity": "warn"
   },
   {
     "id": "8.2",
     "title": "Extended Accountability",
-    "content": "Members represent the Mysterria community wherever our connections reach. Severe violations - specifically racism, hate speech (slurs), or doxxing–committed on affiliated servers will result in the same punishments as if they occurred here. Example: Using racial slurs in a town's Discord will result in a ban from the main Mysterria server."
+    "content": "Members represent the Mysterria community wherever our connections reach. Severe violations - specifically racism, hate speech (slurs), or doxxing–committed on affiliated servers will result in the same punishments as if they occurred here. Example: Using racial slurs in a town's Discord will result in a ban from the main Mysterria server.",
+    "severity": "ban"
   },
   {
     "id": "8.3",
     "title": "Severing the Tie",
-    "content": "If an affiliated server fails to maintain proper moderation standards or refuses Staff oversight, its 'approved' status will be revoked and all associated links will be removed. Example: A town leader who ignores toxicity in their own chat will lose the right to promote their project within Mysterria."
+    "content": "If an affiliated server fails to maintain proper moderation standards or refuses Staff oversight, its 'approved' status will be revoked and all associated links will be removed. Example: A town leader who ignores toxicity in their own chat will lose the right to promote their project within Mysterria.",
+    "severity": "ban"
   }
 ]

@@ -9,10 +9,8 @@ import {useCurrency} from "@/composables/useCurrency";
 import {Decimal} from "decimal.js";
 import {APIError, RequestError} from "@/utils/api/errors";
 import {debounce} from "lodash-es";
-import {shopAPI} from "@/utils/api/shop";
 
 const serviceTransformCache = new Map<string, ServiceResponse>();
-const serviceMarkdownCache = new Map<string, ServiceMarkdownDto>();
 
 function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): ServiceResponse {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

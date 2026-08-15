@@ -144,7 +144,7 @@ export class BaseCRUD<
                 try {
                     const processedText = this.preprocessJsonForLargeNumbers(responseText);
                     data = JSON.parse(processedText);
-                } catch (e) {
+                } catch {
                     console.error("JSON parse error:", {
                         responseText,
                         url,

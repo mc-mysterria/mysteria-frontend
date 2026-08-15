@@ -1,9 +1,7 @@
 import {defineStore} from "pinia";
 import type {UserProfileDto} from "@/types/auth";
-import type {UserUpdateRequest} from "@/types/users";
 import {useAuthStore} from "./auth";
 import {watch} from "vue";
-import {useNotification} from "@/services/useNotification";
 import {debounce} from "lodash-es";
 
 interface UserState {

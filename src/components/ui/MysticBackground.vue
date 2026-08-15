@@ -1,7 +1,9 @@
 <template>
-  <div class="mystic-background">
-    <div class="myst-fog myst-fog-a"></div>
-    <div class="myst-fog myst-fog-b"></div>
+  <div class="mystic-background" aria-hidden="true">
+    <!-- One wash is enough: the second layer was an identical .myst-fog stacked
+         on top of the first, so it doubled a full-viewport paint for a change
+         no one can see. -->
+    <div class="myst-fog"></div>
   </div>
 </template>
 
@@ -27,22 +29,10 @@ onMounted(() => {
   pointer-events: none;
 }
 
-.gear img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: sepia(50%) brightness(0.8);
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-:root[data-theme="parchment"] .gear img {
-  filter: sepia(100%) saturate(150%) hue-rotate(20deg) brightness(0.5);
-}
-
-:root[data-theme="parchment"] {
-  opacity: 0.02;
-  mix-blend-mode: multiply;
+/* Two layers at 0.3 composited to 1 - 0.7² = 0.51, so the single layer keeps
+   the exact same wash. */
+.mystic-background .myst-fog {
+  opacity: 0.51;
 }
 
 </style>

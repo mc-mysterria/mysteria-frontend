@@ -23,7 +23,8 @@
       </button>
 
       <!-- Progress bar for duration -->
-      <div v-if="duration && duration > 0" :style="{ animationDuration: `${duration}ms` }" class="ritual-progress"></div>
+      <div v-if="duration && duration > 0" :style="{ animationDuration: `${duration}ms` }"
+           class="ritual-progress"></div>
     </div>
   </Transition>
 </template>
@@ -122,44 +123,72 @@ onMounted(() => {
 }
 
 .close-ritual-btn {
-  background: none; border: none;
-  color: #444; cursor: pointer;
+  background: none;
+  border: none;
+  color: #444;
+  cursor: pointer;
   transition: color 0.2s;
   padding: 4px;
 }
-.close-ritual-btn:hover { color: var(--myst-gold); }
+
+.close-ritual-btn:hover {
+  color: var(--myst-gold);
+}
 
 .ritual-progress {
   position: absolute;
-  bottom: 0; left: 0; height: 2px;
+  bottom: 0;
+  left: 0;
+  height: 2px;
   width: 100%;
   background: var(--myst-gold);
   transform-origin: left;
   animation: ritualShrink linear forwards;
 }
 
-.error .ritual-progress, .fatal .ritual-progress { background: #ff5252; }
+.error .ritual-progress, .fatal .ritual-progress {
+  background: #ff5252;
+}
 
-@keyframes ritualShrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes ritualShrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
 
 /* Transitions */
 .ritual-toast-enter-active {
   animation: ritualToastIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .ritual-toast-leave-active {
   animation: ritualToastOut 0.3s ease-in forwards;
 }
 
 @keyframes ritualToastIn {
-  from { opacity: 0; transform: translateX(50px) scale(0.9); }
-  to { opacity: 1; transform: translateX(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 
 @keyframes ritualToastOut {
-  to { opacity: 0; transform: translateX(20px) scale(0.95); }
+  to {
+    opacity: 0;
+    transform: translateX(20px) scale(0.95);
+  }
 }
 
 @media (max-width: 480px) {
-  .notification-ritual-card { width: calc(100vw - 40px); }
+  .notification-ritual-card {
+    width: calc(100vw - 40px);
+  }
 }
 </style>

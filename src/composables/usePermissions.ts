@@ -1,13 +1,13 @@
 import {computed} from 'vue';
 import {useAuthStore} from '@/stores/auth';
 import {
-  canManageContent,
-  PERM_ADMIN,
-  PERM_BALANCE_MANAGE,
-  PERM_COMMISSIONS_MANAGE,
-  PERM_NEWS_MANAGE,
-  PERM_SHOP_MANAGE,
-  PERM_USERS_VIEW,
+    canManageContent,
+    PERM_ADMIN,
+    PERM_BALANCE_MANAGE,
+    PERM_COMMISSIONS_MANAGE,
+    PERM_NEWS_MANAGE,
+    PERM_SHOP_MANAGE,
+    PERM_USERS_VIEW,
 } from '@/constants/permissions';
 
 /**

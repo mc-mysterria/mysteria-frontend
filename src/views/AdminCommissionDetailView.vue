@@ -28,7 +28,8 @@
         <div class="form-card">
           <div class="detail-top-row">
             <span class="type-badge">{{ formatTypeSummary(commission) }}</span>
-            <span :class="`status-${commission.status.toLowerCase()}`" class="status-badge">{{ formatStatus(commission.status) }}</span>
+            <span :class="`status-${commission.status.toLowerCase()}`"
+                  class="status-badge">{{ formatStatus(commission.status) }}</span>
             <a
                 v-if="ticketUrl"
                 :href="ticketUrl"
@@ -36,7 +37,7 @@
                 rel="noopener noreferrer"
                 target="_blank"
             >
-              <i class="fa-brands fa-discord"></i>
+              <IconDiscord aria-hidden="true"/>
               Open Discord Ticket
             </a>
           </div>
@@ -73,7 +74,8 @@
           </div>
 
           <template v-if="commission.majorChanges.length > 0">
-            <div v-for="(change, index) in commission.majorChanges" :key="`major-${index}`" class="detail-section major-change-card">
+            <div v-for="(change, index) in commission.majorChanges" :key="`major-${index}`"
+                 class="detail-section major-change-card">
               <label>Major Change #{{ index + 1 }} – {{ change.targetName }} ({{ change.majorType }})</label>
               <p>{{ change.requestedChange }}</p>
               <p class="motivation-text">Motivation: {{ change.motivation }}</p>
@@ -117,13 +119,16 @@
 
         <div class="form-card">
           <div class="action-buttons">
-            <button :class="{ active: selectedAction === 'APPROVE' }" class="action-select-btn approve" @click="selectAction('APPROVE')">
+            <button :class="{ active: selectedAction === 'APPROVE' }" class="action-select-btn approve"
+                    @click="selectAction('APPROVE')">
               <i class="fa-solid fa-check"></i> Approve
             </button>
-            <button :class="{ active: selectedAction === 'DECLINE' }" class="action-select-btn decline" @click="selectAction('DECLINE')">
+            <button :class="{ active: selectedAction === 'DECLINE' }" class="action-select-btn decline"
+                    @click="selectAction('DECLINE')">
               <i class="fa-solid fa-xmark"></i> Decline
             </button>
-            <button :class="{ active: selectedAction === 'RESCOPE' }" class="action-select-btn rescope" @click="selectAction('RESCOPE')">
+            <button :class="{ active: selectedAction === 'RESCOPE' }" class="action-select-btn rescope"
+                    @click="selectAction('RESCOPE')">
               <i class="fa-solid fa-rotate-left"></i> Request Rescope
             </button>
             <button
@@ -170,7 +175,8 @@
             </div>
           </div>
 
-          <p class="update-note">This also posts a status-update message into the request's Discord ticket automatically.</p>
+          <p class="update-note">This also posts a status-update message into the request's Discord ticket
+            automatically.</p>
         </div>
       </div>
     </template>
@@ -183,6 +189,7 @@ import {useRoute, useRouter} from 'vue-router';
 import {commissionsAPI} from '@/utils/api/commissions';
 import {COMMISSION_STATUSES} from '@/types/commissions';
 import type {AdminCommissionResponseDto, CommissionStatus} from '@/types/commissions';
+import IconDiscord from '@/assets/icons/IconDiscord.vue';
 
 type ReviewAction = 'APPROVE' | 'DECLINE' | 'RESCOPE' | 'COMPLETE';
 

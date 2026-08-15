@@ -187,6 +187,7 @@ function buildOption(): echarts.EChartsCoreOption {
           axisValueLabel: string;
           data?: { raw?: number | null };
         }
+
         const list = (Array.isArray(params) ? params : [params]) as TipParam[];
         const rows = list.filter(p => !String(p.seriesName).endsWith(GHOST_SUFFIX));
         if (!rows.length) return '';

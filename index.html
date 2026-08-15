@@ -1,129 +1,131 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/logo.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" href="/logo.webp"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <!-- Primary Meta Tags -->
+    <!-- Defaults for first paint; useSeo.ts replaces these per route. -->
     <meta
-      name="title"
-      content="Mysterria – Lord of The Mysteries Minecraft Server | Potions, Sequences, Pathways"
+            name="title"
+            content="Mysterria — Lord of the Mysteries Minecraft Server | Pathways, Potions, Sequences"
     />
     <meta
-      name="description"
-      content="Mysterria – A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches. English and Ukrainian support."
+            name="description"
+            content="A Lord of the Mysteries Minecraft server with the full Beyonder system: 22 Pathways, brewing, rituals and the Sequence 9 to 0 climb. Java and Bedrock, free to join, English and Ukrainian."
     />
-    <meta
-      name="keywords"
-      content="minecraft, Lord of the Mysteries, Mysterria, mystical minecraft, potions, sequences, pathways, gods, churches, magic, beyonder, mysticism, occultism, roleplay server"
-    />
+    <link rel="canonical" href="https://mysterria.net/"/>
+    <meta name="theme-color" content="#05070a"/>
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mysterria.net/" />
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="Mysterria"/>
+    <meta property="og:url" content="https://mysterria.net/"/>
     <meta
-      property="og:title"
-      content="Mysterria – Lord of The Mysteries Minecraft Server | Mystical Adventures"
+            property="og:title"
+            content="Mysterria — Lord of the Mysteries Minecraft Server"
     />
     <meta
-      property="og:description"
-      content="Dive into the world of Lord of the Mysteries! A unique Minecraft server with Potions, Sequences, Pathways, and mystical adventures. English and Ukrainian support."
+            property="og:description"
+            content="Drink the potion. Act the role. Climb 22 Beyonder Pathways from Sequence 9 toward godhood on a Lord of the Mysteries Minecraft server."
     />
-    <meta property="og:image" content="/banner.webp" />
+    <meta property="og:image" content="https://mysterria.net/banner.webp"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:image:alt" content="Mysterria — a Lord of the Mysteries Minecraft server"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:locale:alternate" content="uk_UA"/>
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://mysterria.net/" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:url" content="https://mysterria.net/"/>
     <meta
-      property="twitter:title"
-      content="Mysterria – Lord of The Mysteries Minecraft Server | Mystical Adventures"
+            name="twitter:title"
+            content="Mysterria — Lord of the Mysteries Minecraft Server"
     />
     <meta
-      property="twitter:description"
-      content="Dive into the world of Lord of the Mysteries! A unique Minecraft server with Potions, Sequences, Pathways, and mystical adventures. English and Ukrainian support."
+            name="twitter:description"
+            content="Drink the potion. Act the role. Climb 22 Beyonder Pathways from Sequence 9 toward godhood on a Lord of the Mysteries Minecraft server."
     />
-    <meta property="twitter:image" content="/banner.webp" />
+    <meta name="twitter:image" content="https://mysterria.net/banner.webp"/>
 
-    <link
-      rel="preload"
-      as="style"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-      />
-    </noscript>
-
-    <!-- Preload critical resources -->
+    <!-- Icons: self-hosted FA subset, imported from main.ts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    
-    <!-- Ultra-lightweight font - Inter variable font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Preload LCP image - will be updated by Vite -->
-    <link rel="preload" as="image" type="image/webp" href="/src/assets/images/optimized/banner.webp">
-    
+
+    <!-- Inter (body), Playfair Display (headings), JetBrains Mono (labels), one
+         request so the Cyrillic subsets come along for the Ukrainian locale. -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap"
+            rel="stylesheet">
+
+    <!-- LCP image: the hero paints it via a bound background-image, which the
+         preload scanner cannot discover on its own. Vite hashes this href. -->
+    <link rel="preload" as="image" type="image/webp" href="/src/assets/images/optimized/Klein.webp">
+
     <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://api.mysterria.net">
     <link rel="preconnect" href="https://catwalk.mysterria.net">
-    
+
     <!-- Critical CSS for font loading optimization -->
     <style>
-      /* Use Inter font with system fallbacks */
-      :root {
-        --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        --font-display: "Inter", "Segoe UI", system-ui, sans-serif;
-      }
-      
-      body { 
-        font-family: var(--font-primary);
-        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-      }
+        /* Use Inter font with system fallbacks */
+        :root {
+            --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-display: "Playfair Display", Georgia, serif;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        }
     </style>
-    
+
     <!-- No custom font loading script needed - Inter loads fast with display=swap -->
 
     <title>Mysterria - Lord of The Mysteries Minecraft Server</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-    <script type="application/ld+json">
-      {
+</head>
+<body>
+<div id="app"></div>
+<script type="module" src="/src/main.ts"></script>
+<!-- Declared statically so it survives without JS; useSeo references these @ids. -->
+<script type="application/ld+json">
+    {
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Mysterria - Lord of The Mysteries Minecraft Server",
-        "alternateName": "Mysterria",
-        "description": "Lord of The Mysteries inspired Minecraft server with Potions, Sequences, Pathways, and mystical adventures",
-        "url": "https://mysterria.net/",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://mysterria.net/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        },
-        "sameAs": [
-          "https://docs.mysterria.net/",
-          "https://map.mysterria.net/"
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://mysterria.net/#organization",
+                "name": "Mysterria",
+                "url": "https://mysterria.net/",
+                "logo": "https://mysterria.net/logo.webp",
+                "description": "Mysterria is a Lord of the Mysteries inspired Minecraft server with a custom Beyonder system: 22 Pathways, potions, rituals and a Sequence 9 to 0 climb.",
+                "sameAs": [
+                    "https://discord.com/invite/jc7GSxBWgb",
+                    "https://wiki.mysterria.net/",
+                    "https://map.mysterria.net/",
+                    "https://docs.mysterria.net/",
+                    "https://github.com/ikeepcalm/coi-client",
+                    "https://modrinth.com/mod/coi-client",
+                    "https://www.curseforge.com/minecraft/mc-mods/coi-client"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://mysterria.net/#website",
+                "url": "https://mysterria.net/",
+                "name": "Mysterria",
+                "alternateName": "Mysterria Minecraft Server",
+                "inLanguage": [
+                    "en",
+                    "uk"
+                ],
+                "publisher": {
+                    "@id": "https://mysterria.net/#organization"
+                }
+            }
         ]
-      }
-    </script>
-    <style>
-      /* body {
-			width: 1400px;
-			margin: auto;
-		} */
-    </style>
-  </body>
+    }
+</script>
+</body>
 </html>

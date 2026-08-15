@@ -1,45 +1,46 @@
 # Mysteria Frontend
 
-A modern Vue 3 frontend for Mysteria, a Lord of The Mysteries-inspired Minecraft server. Built with TypeScript, Vite, and Pinia.
+A modern Vue 3 frontend for Mysteria, a Lord of The Mysteries-inspired Minecraft server. Built with TypeScript, Vite,
+and Pinia.
 
 ## ✨ Features
 
--   **Authentication**: Discord OAuth for user login.
--   **User Profiles**: View and manage user information.
--   **E-commerce**: In-game item shop.
--   **News & Updates**: Announcements and articles.
--   **Admin Panel**: Content and user management.
--   **Static Pages**: Rules, guides, and wiki.
--   **Multi-language Support**: English and Ukrainian.
+- **Authentication**: Discord OAuth for user login.
+- **User Profiles**: View and manage user information.
+- **E-commerce**: In-game item shop.
+- **News & Updates**: Announcements and articles.
+- **Admin Panel**: Content and user management.
+- **Static Pages**: Rules, guides, and wiki.
+- **Multi-language Support**: English and Ukrainian.
 
 ## 🛠 Tech Stack
 
--   **Framework**: Vue 3 (Composition API)
--   **Language**: TypeScript
--   **Build Tool**: Vite
--   **State Management**: Pinia
--   **Routing**: Vue Router
--   **Styling**: PostCSS
--   **Package Manager**: Bun
+- **Framework**: Vue 3 (Composition API)
+- **Language**: TypeScript
+- **Build Tool**: Vite
+- **State Management**: Pinia
+- **Routing**: Vue Router
+- **Styling**: PostCSS
+- **Package Manager**: Bun
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
--   [Bun](https://bun.sh/) or Node.js 18+
+- [Bun](https://bun.sh/) or Node.js 18+
 
 ### Installation
 
-1.  Clone the repository:
-    ```bash
-    git clone <repository-url>
-    cd mysteria-frontend
-    ```
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd mysteria-frontend
+   ```
 
-2.  Install dependencies:
-    ```bash
-    bun install
-    ```
+2. Install dependencies:
+   ```bash
+   bun install
+   ```
 
 ### Development
 

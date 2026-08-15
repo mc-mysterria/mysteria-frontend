@@ -1,15 +1,21 @@
 User-agent: *
 Allow: /
-Allow: /game
-Allow: /shop
-Allow: /rules
-Allow: /guide
 
+# Account-scoped or staff-only surfaces: no value in the index, and they
+# burn crawl budget on pages that render empty to a logged-out crawler.
 Disallow: /profile
 Disallow: /admin
-Disallow: /api/
-Disallow: /auth/
 Disallow: /edit
-Disallow: /*?*
+Disallow: /notifications
+Disallow: /commissions
+Disallow: /tools/
+Disallow: /logout
+Disallow: /login
+Disallow: /auth/
+Disallow: /api/
+
+# Query strings only ever carry UI state (?tab=staff, auth callbacks); the
+# canonical, parameter-free URL is the one worth indexing.
+Disallow: /*?
 
 Sitemap: https://mysterria.net/sitemap.xml

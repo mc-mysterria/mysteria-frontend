@@ -57,7 +57,8 @@
             </td>
             <td class="summary-cell">
               <span>{{ formatTargetSummary(c) }}</span>
-              <span v-if="c.touchesExistingCommission" class="warning-badge" title="This target has been commissioned before">
+              <span v-if="c.touchesExistingCommission" class="warning-badge"
+                    title="This target has been commissioned before">
                 <i class="fa-solid fa-triangle-exclamation"></i>
               </span>
             </td>

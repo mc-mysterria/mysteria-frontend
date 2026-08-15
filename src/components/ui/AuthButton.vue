@@ -1,91 +1,74 @@
 <template>
-  <div class="auth-ritual-container">
+  <div :class="['auth-cluster', { mobile: mobileMode }]">
     <template v-if="isLoading">
-      <div class="ritual-loading">
-        <div class="ritual-spinner"></div>
-      </div>
+      <div class="auth-skeleton" aria-hidden="true"></div>
     </template>
 
     <template v-else-if="user">
-      <div class="user-ritual-group">
-        <RouterLink class="profile-ritual-link" to="/profile">
-          <UserAvatar :nickname="user.nickname" :src="user.avatarUrl" size="sm" glow/>
-          <div class="profile-info">
-            <span class="profile-nickname">{{ user.nickname }}</span>
-            <span class="profile-marks">{{ formattedBalance }}</span>
-          </div>
-        </RouterLink>
+      <RouterLink class="profile-chip" to="/profile" @click="emitMobileAction">
+        <span class="profile-nickname">{{ user.nickname || t('profileTitle') }}</span>
+        <UserAvatar :nickname="user.nickname" :src="user.avatarUrl" class="profile-avatar" size="xs"/>
+      </RouterLink>
 
-        <!-- Admin Registry Dropdown -->
-        <div v-if="canEditAnyContent || canTuneBalance || canManageCommissions" ref="dropdownRef" class="admin-ritual-dropdown">
-          <button 
-              class="admin-ritual-trigger" 
-              @click.stop="isDropdownOpen = !isDropdownOpen"
-              :class="{ active: isDropdownOpen }"
-          >
-            <i class="fa-solid fa-eye-evil fa-eye"></i>
-          </button>
-          
-          <Transition name="ritual-dropdown">
-            <div v-if="isDropdownOpen" class="admin-ritual-menu">
-              <div class="menu-ritual-header">Registry</div>
-              
-              <RouterLink v-if="canManageNews" class="menu-ritual-item" to="/edit/news" @click="isDropdownOpen = false">
-                <i class="fa-solid fa-pen-nib"></i>
-                <div class="item-meta">
-                  <span class="item-title">Archives</span>
-                  <span class="item-desc">Edit News & Lore</span>
-                </div>
-              </RouterLink>
-
-              <RouterLink v-if="canManageShop" class="menu-ritual-item" to="/edit/services" @click="isDropdownOpen = false">
-                <i class="fa-solid fa-gem"></i>
-                <div class="item-meta">
-                  <span class="item-title">Reliquary</span>
-                  <span class="item-desc">Manage Services</span>
-                </div>
-              </RouterLink>
-
-              <RouterLink v-if="canTuneBalance" class="menu-ritual-item" to="/tools/balance" @click="isDropdownOpen = false">
-                <i class="fa-solid fa-scale-balanced"></i>
-                <div class="item-meta">
-                  <span class="item-title">Observatory</span>
-                  <span class="item-desc">Balance Tuning</span>
-                </div>
-              </RouterLink>
-
-              <RouterLink v-if="canManageCommissions" class="menu-ritual-item" to="/admin/commissions" @click="isDropdownOpen = false">
-                <i class="fa-solid fa-scroll"></i>
-                <div class="item-meta">
-                  <span class="item-title">Commissions</span>
-                  <span class="item-desc">Review Requests</span>
-                </div>
-              </RouterLink>
-
-              <template v-if="canAccessAdmin">
-                <div class="menu-ritual-divider"></div>
-
-                <RouterLink class="menu-ritual-item admin-primary" to="/admin" @click="isDropdownOpen = false">
-                  <i class="fa-solid fa-scroll"></i>
-                  <div class="item-meta">
-                    <span class="item-title">Full Registry</span>
-                    <span class="item-desc">Admin Dashboard</span>
-                  </div>
-                </RouterLink>
-              </template>
-            </div>
-          </Transition>
-        </div>
-
-        <button class="logout-ritual-btn" @click="handleLogout" :title="t('logout')">
-          <i class="fa-solid fa-sign-out-alt"></i>
+      <!-- Staff-only registry menu -->
+      <div
+          v-if="canEditAnyContent || canTuneBalance || canManageCommissions"
+          ref="dropdownRef"
+          class="registry"
+      >
+        <button
+            :aria-expanded="isDropdownOpen"
+            :class="['icon-button', { active: isDropdownOpen }]"
+            :title="t('navServices')"
+            @click.stop="isDropdownOpen = !isDropdownOpen"
+        >
+          <i class="fa-solid fa-eye"></i>
         </button>
+
+        <Transition name="registry-menu">
+          <div v-if="isDropdownOpen" class="registry-menu">
+            <p class="registry-heading">Registry</p>
+
+            <RouterLink v-if="canManageNews" class="registry-item" to="/edit/news" @click="closeDropdown">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span><strong>Archives</strong><small>Edit news &amp; lore</small></span>
+            </RouterLink>
+
+            <RouterLink v-if="canManageShop" class="registry-item" to="/edit/services" @click="closeDropdown">
+              <i class="fa-solid fa-gem"></i>
+              <span><strong>Reliquary</strong><small>Manage services</small></span>
+            </RouterLink>
+
+            <RouterLink v-if="canTuneBalance" class="registry-item" to="/tools/balance" @click="closeDropdown">
+              <i class="fa-solid fa-scale-balanced"></i>
+              <span><strong>Observatory</strong><small>Balance tuning</small></span>
+            </RouterLink>
+
+            <RouterLink v-if="canManageCommissions" class="registry-item" to="/admin/commissions"
+                        @click="closeDropdown">
+              <i class="fa-solid fa-scroll"></i>
+              <span><strong>Commissions</strong><small>Review requests</small></span>
+            </RouterLink>
+
+            <template v-if="canAccessAdmin">
+              <div class="registry-divider" aria-hidden="true"></div>
+              <RouterLink class="registry-item" to="/admin" @click="closeDropdown">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span><strong>Full registry</strong><small>Admin dashboard</small></span>
+              </RouterLink>
+            </template>
+          </div>
+        </Transition>
       </div>
+
+      <button class="icon-button" :title="t('logout')" @click="handleLogout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      </button>
     </template>
 
     <template v-else>
-      <button class="btn-ritual-auth" @click="handleLogin">
-        <i class="fa-brands fa-discord"></i>
+      <button class="login-button" @click="handleLogin">
+        <IconDiscord aria-hidden="true"/>
         <span>{{ t('login') }}</span>
       </button>
     </template>
@@ -96,35 +79,36 @@
 import {computed, onMounted, onUnmounted, ref} from "vue";
 import {useUserStore} from "@/stores/user";
 import {useAuthStore} from "@/stores/auth";
-import {useBalanceStore} from "@/stores/balance";
 import {useI18n} from "@/composables/useI18n";
 import {usePermissions} from "@/composables/usePermissions";
-import {useCurrency} from "@/composables/useCurrency";
 import UserAvatar from "@/components/ui/UserAvatar.vue";
+import IconDiscord from "@/assets/icons/IconDiscord.vue";
+
+withDefaults(defineProps<{ mobileMode?: boolean }>(), {mobileMode: false});
+const emit = defineEmits<{ (e: "mobile-action"): void }>();
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
-const balanceStore = useBalanceStore();
 const {t} = useI18n();
-const {formatCurrency, currentCurrency} = useCurrency();
-const {canEditAnyContent, canManageNews, canManageShop, canTuneBalance, canManageCommissions, canAccessAdmin} = usePermissions();
+const {
+  canEditAnyContent,
+  canManageNews,
+  canManageShop,
+  canTuneBalance,
+  canManageCommissions,
+  canAccessAdmin
+} = usePermissions();
 
 const isDropdownOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);
 
 const user = computed(() => userStore.currentUser);
 const isLoading = computed(() => userStore.isLoading || authStore.isLoading);
-const balance = computed(() => balanceStore.currentBalance?.amount || 0);
-
-const formattedBalance = computed(() => {
-  if (currentCurrency.value === 'POINTS') {
-    return `${balance.value} ${t('marks')}`;
-  }
-  return formatCurrency(balance.value);
-});
 
 const handleLogin = () => authStore.openDiscordAuth();
 const handleLogout = () => authStore.logout();
+const closeDropdown = () => (isDropdownOpen.value = false);
+const emitMobileAction = () => emit("mobile-action");
 
 const handleClickOutside = (event: MouseEvent) => {
   if (isDropdownOpen.value && dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
@@ -132,211 +116,204 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
-onMounted(() => {
-  window.addEventListener('click', handleClickOutside);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('click', handleClickOutside);
-});
+onMounted(() => window.addEventListener("click", handleClickOutside));
+onUnmounted(() => window.removeEventListener("click", handleClickOutside));
 </script>
 
 <style scoped>
-.auth-ritual-container {
+.auth-cluster {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
-.btn-ritual-auth {
+.auth-skeleton {
+  width: 96px;
+  height: 34px;
+  border: 1px solid var(--myst-line-14);
+  background: rgba(200, 178, 115, 0.04);
+}
+
+/* Logged out */
+.login-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 22px;
+  background: var(--myst-gold);
+  border: none;
+  border-radius: 2px;
+  color: var(--myst-on-gold);
+  font-family: var(--myst-font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.login-button:hover {
+  background: var(--myst-offwhite);
+  color: var(--myst-on-gold);
+}
+
+/* Logged in */
+.profile-chip {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 24px;
-  background: transparent;
-  border: 1px solid var(--myst-gold);
-  color: var(--myst-gold);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 6px 6px 6px 16px;
+  border: 1px solid var(--myst-line-28);
+  border-radius: 2px;
+  color: var(--myst-offwhite);
+  font-family: var(--myst-font-mono);
+  font-size: 11.5px;
+  max-width: 220px;
+  transition: border-color 0.25s ease, background 0.25s ease;
 }
 
-.btn-ritual-auth:hover {
-  background: rgba(200, 178, 115, 0.1);
-  box-shadow: 0 0 15px rgba(200, 178, 115, 0.2);
-}
-
-.user-ritual-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  padding: 4px 4px 4px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  position: relative;
-}
-
-.profile-ritual-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.profile-info {
-  display: flex;
-  flex-direction: column;
+.profile-chip:hover {
+  border-color: var(--myst-gold);
+  background: var(--myst-wash);
+  color: var(--myst-offwhite);
 }
 
 .profile-nickname {
-  font-family: 'Playfair Display', serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.profile-marks {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--myst-gold);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.profile-avatar {
+  flex-shrink: 0;
 }
 
-/* Admin Dropdown */
-.admin-ritual-dropdown {
-  position: relative;
+.profile-avatar :deep(.avatar-ritual-frame),
+.profile-avatar :deep(img) {
+  border-radius: 2px;
 }
 
-.admin-ritual-trigger {
-  color: var(--myst-gold);
+.icon-button {
   width: 32px;
   height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(200, 178, 115, 0.1);
-  border: 1px solid rgba(200, 178, 115, 0.2);
+  display: grid;
+  place-items: center;
+  background: var(--myst-wash);
+  border: 1px solid var(--myst-line-20);
   border-radius: 2px;
+  color: var(--myst-gold);
+  font-size: 12px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s ease;
 }
 
-.admin-ritual-trigger:hover, .admin-ritual-trigger.active {
+.icon-button:hover,
+.icon-button.active {
   background: var(--myst-gold);
-  color: #05070a;
+  border-color: var(--myst-gold);
+  color: var(--myst-on-gold);
 }
 
-.admin-ritual-menu {
+/* Registry menu */
+.registry {
+  position: relative;
+  display: flex;
+}
+
+.registry-menu {
   position: absolute;
   top: calc(100% + 12px);
-  right: -40px;
-  width: 260px;
-  background: #080a14;
-  border: 1px solid rgba(200, 178, 115, 0.2);
-  border-radius: 4px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-  z-index: 100;
+  right: 0;
+  min-width: 280px;
   padding: 8px;
+  background: var(--myst-bg-deep);
+  border: 1px solid var(--myst-line-20);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.7);
+  z-index: 120;
 }
 
-.menu-ritual-header {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+.registry-heading {
+  margin: 6px 10px 10px;
+  font-family: var(--myst-font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  color: #444;
-  padding: 8px 12px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--myst-gold);
 }
 
-.menu-ritual-item {
+.registry-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px;
-  text-decoration: none;
-  transition: all 0.3s;
-  border-radius: 2px;
+  gap: 14px;
+  padding: 11px 12px;
+  border: 1px solid transparent;
+  color: inherit;
+  transition: all 0.25s ease;
 }
 
-.menu-ritual-item i {
-  width: 16px;
-  font-size: 14px;
+.registry-item:hover {
+  background: rgba(200, 178, 115, 0.05);
+  border-color: var(--myst-line-12);
+  color: inherit;
+}
+
+.registry-item i {
+  width: 18px;
   color: var(--myst-gold);
-  opacity: 0.8;
+  font-size: 13px;
   text-align: center;
 }
 
-.item-meta {
+.registry-item span {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
-.item-title {
-  font-family: 'Playfair Display', serif;
+.registry-item strong {
+  color: var(--myst-offwhite);
   font-size: 14px;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 600;
 }
 
-.item-desc {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  color: #555;
+.registry-item small {
+  font-family: var(--myst-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  color: var(--myst-ink-muted);
 }
 
-.menu-ritual-item:hover {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.menu-ritual-item.admin-primary {
-  background: rgba(200, 178, 115, 0.03);
-}
-
-.menu-ritual-divider {
+.registry-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.05);
-  margin: 8px 0;
+  margin: 8px 12px;
+  background: var(--myst-line-12);
 }
 
-.logout-ritual-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  color: #444;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
+.registry-menu-enter-active,
+.registry-menu-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.registry-menu-enter-from,
+.registry-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* Mobile drawer variant */
+.auth-cluster.mobile {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.auth-cluster.mobile .login-button,
+.auth-cluster.mobile .profile-chip {
+  flex: 1;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s;
+  min-height: 46px;
+  max-width: none;
 }
-
-.logout-ritual-btn:hover {
-  color: #ff5252;
-  border-color: rgba(255, 82, 82, 0.2);
-}
-
-/* Transitions */
-.ritual-dropdown-enter-active, .ritual-dropdown-leave-active { transition: all 0.3s ease; }
-.ritual-dropdown-enter-from, .ritual-dropdown-leave-to { opacity: 0; transform: translateY(-10px); }
-
-.ritual-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(200, 178, 115, 0.2);
-  border-top-color: var(--myst-gold);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
 </style>

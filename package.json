@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "npm run build:icons && run-p type-check \"build-only {@}\" -- && npm run build:sitemap",
+    "build:sitemap": "node scripts/build-sitemap.mjs",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
+    "build:icons": "node scripts/build-fontawesome-subset.mjs",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
@@ -44,6 +46,7 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@tsconfig/node22": "^22.0.0",
     "@types/jsdom": "^21.1.7",
     "@types/lodash-es": "^4.17.12",
@@ -69,6 +72,7 @@
     "postcss": "^8.5.6",
     "prettier": "^3.3.3",
     "rollup": "^4.44.0",
+    "subset-font": "^2.5.0",
     "typescript": "~5.6.3",
     "vite": "^6.0.5",
     "vite-plugin-sitemap": "^0.7.1",

@@ -1,11 +1,10 @@
 <template>
   <svg
-      aria-label="Іконка Discord"
+      aria-hidden="true"
+      focusable="false"
       class="icon-discord"
       fill="none"
       height="16"
-      role="img"
-      tabindex="0"
       viewBox="0 0 22 16"
       width="22"
       xmlns="http://www.w3.org/2000/svg"

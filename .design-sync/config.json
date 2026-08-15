@@ -1,8 +1,0 @@
-{
-  "projectId": "6fcbd8f8-0557-4073-b11a-9320213a477b",
-  "shape": "package",
-  "pkg": "mysterria-frontend",
-  "globalName": "Mysterria",
-  "cssEntry": "src/assets/main.css",
-  "readmeHeader": ".design-sync/conventions.md"
-}

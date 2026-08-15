@@ -49,7 +49,8 @@
             <span :class="{ over: overBudget }" class="budget-meter-value">{{ budgetUsedText }}</span>
           </div>
           <div class="budget-meter-track">
-            <div :class="{ over: overBudget }" :style="{ width: budgetFillPercent + '%' }" class="budget-meter-fill"></div>
+            <div :class="{ over: overBudget }" :style="{ width: budgetFillPercent + '%' }"
+                 class="budget-meter-fill"></div>
           </div>
           <small class="budget-meter-hint">{{ t('commissions.form.budgetHint') }}</small>
         </div>

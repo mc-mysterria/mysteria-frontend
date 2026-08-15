@@ -1,65 +1,68 @@
 <template>
-  <div class="divinity-path beyonder-status-container">
-    <div class="divinity-frame" aria-hidden="true"></div>
-    
-    <div class="divinity-header">
-      <div class="pathway-sigil-container">
-        <img :alt="pathwayDisplay" :src="pathwayImage" class="pathway-sigil"/>
-        <div class="sigil-echo"></div>
+  <section class="pathway-panel beyonder-status-container">
+    <span class="myst-corner-frame panel-frame" aria-hidden="true"></span>
+    <span class="panel-glow" aria-hidden="true"></span>
+
+    <div class="panel-head">
+      <div class="sigil">
+        <span class="sigil-echo" aria-hidden="true"></span>
+        <span class="sigil-disc">
+          <img :alt="pathwayDisplay" :src="pathwayImg">
+        </span>
       </div>
-      <div class="header-text">
-        <span class="path-eyebrow">{{ t('beyonderStatus') }}</span>
-        <h3 class="path-title">{{ pathwayDisplay }}</h3>
-      </div>
+      <p class="pathway-label">{{ t('profilePage.pathwayOfThe') }}</p>
+      <h2 class="pathway-name">{{ pathwayDisplay }}</h2>
+      <p class="pathway-sequence">
+        {{ t('profilePage.sequence') }} {{ beyonderData.sequence }}
+        <template v-if="currentRungName"> · {{ currentRungName }}</template>
+      </p>
     </div>
 
-    <div class="divinity-content">
-      <div class="divinity-stat">
-        <div class="stat-meta">
-          <span class="stat-label">{{ t('sequence') }}</span>
-          <span class="stat-divider"></span>
-        </div>
-        <div class="stat-value sequence-val">{{ beyonderData.sequence }}</div>
+    <div class="acting">
+      <div class="acting-head">
+        <span class="myst-micro">{{ t('profilePage.actingProgress') }}</span>
+        <span class="acting-value">{{ actingPercentage }}%</span>
       </div>
+      <div class="myst-meter acting-meter">
+        <span :style="{ width: `${Math.min(100, Number(actingPercentage))}%` }"></span>
+      </div>
+      <p class="acting-hint">{{ t('profilePage.actingHint') }}</p>
+    </div>
 
-      <div class="divinity-stat acting-stat">
-        <div class="stat-meta">
-          <span class="stat-label">{{ t('actingProgress') }}</span>
-          <span class="stat-value acting-val">{{ actingPercentage }}%</span>
-        </div>
-        <div class="ethereal-gauge">
-          <div class="gauge-track"></div>
-          <div :style="{ width: actingPercentage + '%' }" class="gauge-fill">
-            <div class="gauge-light"></div>
-          </div>
-          <div class="gauge-markers">
-            <div v-for="i in 4" :key="i" class="marker"></div>
-          </div>
+    <div v-if="ladder.length" class="ladder">
+      <span class="myst-micro ladder-label">{{ t('profilePage.climb') }}</span>
+      <div class="ladder-rows">
+        <div
+            v-for="rung in ladder"
+            :key="rung.sequence"
+            :class="['rung', rung.state]"
+        >
+          <span class="rung-number">S{{ rung.sequence }}</span>
+          <span class="rung-name">{{ rung.name }}</span>
+          <span class="rung-tag">{{ rung.tag }}</span>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
 import {computed} from 'vue';
 import {useI18n} from '@/composables/useI18n';
 import type {BeyonderData} from '@/types/users';
+import {pathwayImage, pathwayLadder, pathwayName} from '@/data/pathways';
 
-const {t} = useI18n();
+const {t, currentLanguage} = useI18n();
 
-const props = defineProps<{
-  beyonderData: BeyonderData;
-}>();
+const props = defineProps<{ beyonderData: BeyonderData }>();
 
-const pathwayDisplay = computed(() => {
-  return props.beyonderData.pathway.charAt(0).toUpperCase() +
-      props.beyonderData.pathway.slice(1);
-});
+const pathwayId = computed(() => props.beyonderData.pathway.toLowerCase());
+const pathwayDisplay = computed(() => pathwayName(pathwayId.value, currentLanguage.value));
+const pathwayImg = computed(() => pathwayImage(pathwayId.value));
 
-const pathwayImage = computed(() => {
-  const pathwayName = props.beyonderData.pathway.toLowerCase();
-  return new URL(`../../assets/images/pathways/${pathwayName}.webp`, import.meta.url).href;
+const currentSequence = computed(() => {
+  const parsed = Number.parseInt(String(props.beyonderData.sequence), 10);
+  return Number.isFinite(parsed) ? parsed : null;
 });
 
 const actingPercentage = computed(() => {
@@ -67,211 +70,256 @@ const actingPercentage = computed(() => {
   if (percentage < 0.01) return percentage.toFixed(4);
   return percentage.toFixed(2);
 });
+
+type RungState = 'done' | 'current' | 'next' | 'locked';
+
+const ladder = computed(() => {
+  const rungs = pathwayLadder(pathwayId.value, currentLanguage.value);
+  const current = currentSequence.value;
+
+  return rungs.map(rung => {
+    let state: RungState = 'locked';
+    if (current !== null) {
+      if (rung.sequence > current) state = 'done';
+      else if (rung.sequence === current) state = 'current';
+      else if (rung.sequence === current - 1) state = 'next';
+    }
+
+    return {
+      ...rung,
+      state,
+      tag: state === 'done'
+          ? t('profilePage.climbed')
+          : state === 'current'
+              ? t('profilePage.youAreHere')
+              : state === 'next'
+                  ? t('profilePage.nextRitual')
+                  : '',
+    };
+  });
+});
+
+const currentRungName = computed(
+    () => ladder.value.find(rung => rung.state === 'current')?.name ?? '',
+);
 </script>
 
 <style scoped>
-/* PATH OF DIVINITY AESTHETIC */
-
-.divinity-path {
+.pathway-panel {
   position: relative;
-  background: linear-gradient(135deg, rgba(13, 16, 30, 0.6) 0%, rgba(8, 10, 20, 0.8) 100%);
-  padding: 32px;
+  padding: 40px 36px;
+  background: linear-gradient(170deg, rgba(16, 19, 34, 0.9), rgba(8, 10, 18, 0.96));
+  border: 1px solid var(--myst-line-35);
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 4px;
 }
 
-.divinity-path:hover {
-  transform: translateY(-5px);
-  background: linear-gradient(135deg, rgba(20, 24, 45, 0.7) 0%, rgba(13, 16, 30, 0.9) 100%);
+.panel-frame {
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border-color: var(--myst-line-12);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 24px, 24px 0);
 }
 
-.divinity-frame {
+.panel-glow {
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(255, 255, 255, 0.03);
   pointer-events: none;
+  background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(200, 178, 115, 0.08), transparent 70%);
 }
 
-.divinity-frame::after {
-  content: '';
-  position: absolute;
-  top: 6px; left: 6px; bottom: 6px; right: 6px;
-  border: 1px solid rgba(200, 178, 115, 0.15);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 20px, 20px 0);
-}
-
-/* Header Refinement */
-.divinity-header {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.pathway-sigil-container {
+.panel-head {
   position: relative;
-  width: 72px;
-  height: 72px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px;
+  text-align: center;
+  margin-bottom: 34px;
 }
 
-.pathway-sigil {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(200, 178, 115, 0.3));
+.sigil {
   position: relative;
-  z-index: 5;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 22px;
 }
 
 .sigil-echo {
   position: absolute;
-  inset: -4px;
-  border: 1px solid rgba(200, 178, 115, 0.2);
+  inset: -6px;
+  border: 1px solid rgba(200, 178, 115, 0.25);
   border-radius: 50%;
-  animation: pulseEcho 3s ease-out infinite;
+  animation: pulseEcho 3.2s ease-out infinite;
 }
 
 @keyframes pulseEcho {
-  0% { transform: scale(0.9); opacity: 1; }
-  100% { transform: scale(1.3); opacity: 0; }
+  0% {
+    transform: scale(0.92);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
 }
 
-.path-eyebrow {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--myst-gold);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: 4px;
-  opacity: 0.6;
-}
-
-.path-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  color: var(--myst-offwhite);
-  margin: 0;
-  font-weight: 700;
-}
-
-/* Content Area */
-.divinity-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.divinity-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.stat-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.stat-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.stat-divider {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent);
-  margin-left: 16px;
-}
-
-.stat-value {
-  font-family: 'Playfair Display', serif;
-}
-
-.sequence-val {
-  font-size: 32px;
-  color: var(--myst-gold);
-  font-weight: 700;
-  line-height: 1;
-}
-
-/* Ethereal Gauge */
-.acting-val {
-  font-size: 14px;
-  color: #aaa;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.ethereal-gauge {
-  position: relative;
-  height: 6px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.gauge-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--myst-gold) 0%, #4ecdc4 100%);
-  position: relative;
-  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 3px;
-}
-
-.gauge-light {
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 30px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4));
-  filter: blur(2px);
-  animation: shine 2s linear infinite;
-}
-
-@keyframes shine {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(300%); }
-}
-
-.gauge-markers {
+.sigil-disc {
   position: absolute;
   inset: 0;
-  display: flex;
-  justify-content: space-evenly;
-  pointer-events: none;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--myst-line-20);
 }
 
-.marker {
-  width: 1px;
+.sigil-disc img {
+  width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(200, 178, 115, 0.4));
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .divinity-path {
-    padding: 24px;
+.pathway-label {
+  margin: 0 0 8px;
+  font-family: var(--myst-font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(200, 178, 115, 0.6);
+}
+
+.pathway-name {
+  margin: 0;
+  font-family: var(--myst-font-display);
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--myst-offwhite);
+}
+
+.pathway-sequence {
+  margin: 10px 0 0;
+  font-family: var(--myst-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--myst-gold);
+}
+
+/* Acting */
+.acting {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.acting-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.acting-value {
+  font-family: var(--myst-font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--myst-gold);
+}
+
+.acting-meter {
+  height: 6px;
+}
+
+.acting-hint {
+  margin: 10px 0 0;
+  color: var(--myst-ink-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Ladder */
+.ladder {
+  position: relative;
+}
+
+.ladder-label {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.ladder-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.rung {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 12px;
+  border-left: 2px solid rgba(255, 255, 255, 0.06);
+}
+
+.rung-number {
+  font-family: var(--myst-font-mono);
+  font-size: 11px;
+  color: rgba(145, 145, 155, 0.4);
+}
+
+.rung-name {
+  font-size: 13px;
+  color: rgba(145, 145, 155, 0.45);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rung-tag {
+  font-family: var(--myst-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(145, 145, 155, 0.5);
+  white-space: nowrap;
+}
+
+.rung.done {
+  border-left-color: var(--myst-line-40);
+}
+
+.rung.done .rung-number {
+  color: var(--myst-gold);
+}
+
+.rung.done .rung-name {
+  color: var(--myst-ink);
+}
+
+.rung.next .rung-number,
+.rung.current .rung-number {
+  color: var(--myst-gold);
+}
+
+.rung.current {
+  background: rgba(200, 178, 115, 0.1);
+  border-left-color: var(--myst-gold);
+}
+
+.rung.current .rung-name {
+  color: var(--myst-offwhite);
+  font-weight: 700;
+}
+
+.rung.current .rung-tag {
+  color: var(--myst-gold);
+}
+
+@media (max-width: 520px) {
+  .pathway-panel {
+    padding: 30px 22px;
   }
-  
-  .path-title {
-    font-size: 24px;
-  }
-  
-  .sequence-val {
+
+  .pathway-name {
     font-size: 28px;
   }
 }

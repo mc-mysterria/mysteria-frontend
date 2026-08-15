@@ -1,11 +1,10 @@
 <template>
   <svg
-      aria-label="Іконка мапи"
+      aria-hidden="true"
+      focusable="false"
       class="icon-map"
       fill="currentColor"
       height="18"
-      role="img"
-      tabindex="0"
       viewBox="0 0 18 18"
       width="18"
       xmlns="http://www.w3.org/2000/svg"

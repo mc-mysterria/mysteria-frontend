@@ -23,7 +23,8 @@
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
           <polyline points="14 2 14 8 20 8"/>
         </svg>
-        Unsaved draft: <strong>{{ pendingDraft.title || 'Untitled' }}</strong> – saved at {{ formatDraftTime(pendingDraft.savedAt) }}
+        Unsaved draft: <strong>{{ pendingDraft.title || 'Untitled' }}</strong> – saved at
+        {{ formatDraftTime(pendingDraft.savedAt) }}
       </div>
       <div class="draft-banner-actions">
         <button class="draft-restore-btn" @click="restoreDraft">Restore</button>
@@ -89,7 +90,10 @@
               placeholder="Brief description for preview (optional)"
           />
           <small>{{ selectedArticle.shortDescription?.length || 0 }}/500 characters</small>
-          <div v-if="validationErrors.shortDescription" class="field-error">{{ validationErrors.shortDescription }}</div>
+          <div v-if="validationErrors.shortDescription" class="field-error">{{
+              validationErrors.shortDescription
+            }}
+          </div>
         </div>
 
         <div class="form-group">
@@ -116,8 +120,10 @@
           </div>
 
           <div class="md-toolbar">
-            <button type="button" class="md-toolbar-btn" title="Bold (Ctrl+B)" @click="toolbarActions.bold()"><strong>B</strong></button>
-            <button type="button" class="md-toolbar-btn italic-btn" title="Italic (Ctrl+I)" @click="toolbarActions.italic()"><em>I</em></button>
+            <button type="button" class="md-toolbar-btn" title="Bold (Ctrl+B)" @click="toolbarActions.bold()">
+              <strong>B</strong></button>
+            <button type="button" class="md-toolbar-btn italic-btn" title="Italic (Ctrl+I)"
+                    @click="toolbarActions.italic()"><em>I</em></button>
             <span class="toolbar-sep"></span>
             <button type="button" class="md-toolbar-btn" title="Heading 2" @click="toolbarActions.h2()">H2</button>
             <button type="button" class="md-toolbar-btn" title="Heading 3" @click="toolbarActions.h3()">H3</button>
@@ -130,24 +136,31 @@
             </button>
             <button type="button" class="md-toolbar-btn" title="Inline Code" @click="toolbarActions.code()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
               </svg>
             </button>
             <button type="button" class="md-toolbar-btn" title="Code Block" @click="toolbarActions.codeBlock()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
               </svg>
             </button>
             <span class="toolbar-sep"></span>
             <button type="button" class="md-toolbar-btn" title="Blockquote" @click="toolbarActions.blockquote()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+                <path
+                    d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                <path
+                    d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
               </svg>
             </button>
             <button type="button" class="md-toolbar-btn" title="Bullet List" @click="toolbarActions.bulletList()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/>
+                <line x1="9" y1="6" x2="20" y2="6"/>
+                <line x1="9" y1="12" x2="20" y2="12"/>
+                <line x1="9" y1="18" x2="20" y2="18"/>
                 <circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/>
                 <circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/>
                 <circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/>
@@ -155,8 +168,12 @@
             </button>
             <button type="button" class="md-toolbar-btn" title="Numbered List" @click="toolbarActions.numberedList()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/>
-                <path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>
+                <line x1="10" y1="6" x2="21" y2="6"/>
+                <line x1="10" y1="12" x2="21" y2="12"/>
+                <line x1="10" y1="18" x2="21" y2="18"/>
+                <path d="M4 6h1v4"/>
+                <path d="M4 10h2"/>
+                <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>
               </svg>
             </button>
             <button type="button" class="md-toolbar-btn" title="Horizontal Rule" @click="toolbarActions.hr()">–</button>
@@ -165,10 +182,12 @@
           <div class="pathway-picker-bar">
             <button type="button" class="pathway-picker-toggle" @click="showPathwayPicker = !showPathwayPicker">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4l3 3"/>
               </svg>
               Pathway Emojis
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" :style="{ transform: showPathwayPicker ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   :style="{ transform: showPathwayPicker ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }">
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
@@ -210,7 +229,8 @@
         </div>
 
         <div class="form-group">
-          <label><input v-model="selectedArticle.isPinned" type="checkbox"/> Pinned (will appear at the top of the news list)</label>
+          <label><input v-model="selectedArticle.isPinned" type="checkbox"/> Pinned (will appear at the top of the news
+            list)</label>
         </div>
 
         <div class="form-actions">
@@ -236,7 +256,9 @@
         </div>
         <div class="live-preview-body">
           <h1 class="live-preview-title">{{ selectedArticle.title || 'Untitled Article' }}</h1>
-          <p v-if="selectedArticle.shortDescription" class="live-preview-desc">{{ selectedArticle.shortDescription }}</p>
+          <p v-if="selectedArticle.shortDescription" class="live-preview-desc">{{
+              selectedArticle.shortDescription
+            }}</p>
           <div v-dompurify-html="renderedContent" class="preview-article-content"></div>
         </div>
       </div>
@@ -365,12 +387,15 @@ const checkForDraft = () => {
   if (!raw) return;
   try {
     pendingDraft.value = JSON.parse(raw);
-  } catch { /* ignore */ }
+  } catch { /* ignore */
+  }
 };
 
 const restoreDraft = () => {
   if (!pendingDraft.value) return;
-  const {savedAt, ...article} = pendingDraft.value;
+  // savedAt is draft bookkeeping, not part of the article payload
+  const article = {...pendingDraft.value} as Partial<typeof pendingDraft.value> & NewsArticle;
+  delete (article as { savedAt?: unknown }).savedAt;
   selectedArticle.value = article as NewsArticle;
   if (article.id) selectedArticleId.value = article.id;
   savedSnapshot.value = '';
@@ -394,7 +419,7 @@ const handleBeforeUnload = (e: BeforeUnloadEvent) => {
 onBeforeRouteLeave((to, from, next) => {
   if (isDirty.value) {
     const ok = confirm('You have unsaved changes. Leave this page?');
-    ok ? next() : next(false);
+    next(ok ? undefined : false);
   } else {
     next();
   }
@@ -458,10 +483,22 @@ const toolbarActions = {
 const handleKeydown = (e: KeyboardEvent) => {
   if (!e.ctrlKey && !e.metaKey) return;
   switch (e.key) {
-    case 's': e.preventDefault(); if (canSave.value && !loading.value) saveArticle(); break;
-    case 'b': e.preventDefault(); toolbarActions.bold(); break;
-    case 'i': e.preventDefault(); toolbarActions.italic(); break;
-    case 'k': e.preventDefault(); toolbarActions.link(); break;
+    case 's':
+      e.preventDefault();
+      if (canSave.value && !loading.value) saveArticle();
+      break;
+    case 'b':
+      e.preventDefault();
+      toolbarActions.bold();
+      break;
+    case 'i':
+      e.preventDefault();
+      toolbarActions.italic();
+      break;
+    case 'k':
+      e.preventDefault();
+      toolbarActions.link();
+      break;
   }
 };
 
@@ -530,8 +567,11 @@ const validateForm = () => {
     errors.shortDescription = 'Short description must be less than 500 characters';
 
   if (selectedArticle.value.preview?.trim()) {
-    try { new URL(selectedArticle.value.preview); }
-    catch { errors.preview = 'Please enter a valid URL'; }
+    try {
+      new URL(selectedArticle.value.preview);
+    } catch {
+      errors.preview = 'Please enter a valid URL';
+    }
   }
 
   validationErrors.value = errors;
@@ -566,7 +606,9 @@ onBeforeUnmount(() => {
 
 const showSuccess = (message: string) => {
   successMessage.value = message;
-  setTimeout(() => {successMessage.value = '';}, 5000);
+  setTimeout(() => {
+    successMessage.value = '';
+  }, 5000);
 };
 
 const goBack = () => router.push('/profile');
@@ -802,8 +844,12 @@ const cancelEdit = () => {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .draft-saved {
@@ -866,7 +912,9 @@ const cancelEdit = () => {
   transition: all 0.2s ease;
 }
 
-.draft-restore-btn:hover { background: #d97706; }
+.draft-restore-btn:hover {
+  background: #d97706;
+}
 
 .draft-dismiss-btn {
   padding: 6px 14px;
@@ -923,12 +971,35 @@ const cancelEdit = () => {
   transition: all 0.2s ease;
 }
 
-.controls button:first-of-type { background: var(--myst-gold); color: var(--myst-bg); }
-.controls button:first-of-type:hover { background: var(--myst-gold-soft); transform: translateY(-1px); }
-.pin-btn { background: #f59e0b !important; color: white !important; }
-.pin-btn:hover { background: #d97706 !important; transform: translateY(-1px); }
-.delete-btn { background: #ef4444 !important; color: white !important; }
-.delete-btn:hover { background: #dc2626 !important; transform: translateY(-1px); }
+.controls button:first-of-type {
+  background: var(--myst-gold);
+  color: var(--myst-bg);
+}
+
+.controls button:first-of-type:hover {
+  background: var(--myst-gold-soft);
+  transform: translateY(-1px);
+}
+
+.pin-btn {
+  background: #f59e0b !important;
+  color: white !important;
+}
+
+.pin-btn:hover {
+  background: #d97706 !important;
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.delete-btn:hover {
+  background: #dc2626 !important;
+  transform: translateY(-1px);
+}
 
 /* Split layout */
 .split-layout {
@@ -1058,13 +1129,22 @@ const cancelEdit = () => {
 
 .form-group input.error,
 .form-group select.error,
-.form-group textarea.error { border-color: #ef4444; }
+.form-group textarea.error {
+  border-color: #ef4444;
+}
 
 .form-group input.error:focus,
 .form-group select.error:focus,
-.form-group textarea.error:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2); }
+.form-group textarea.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
 
-.field-error { color: #ef4444; font-size: 12px; font-weight: 500; margin-top: 4px; }
+.field-error {
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+}
 
 .form-group textarea {
   height: 380px;
@@ -1073,7 +1153,11 @@ const cancelEdit = () => {
   line-height: 1.6;
 }
 
-.form-group label input[type="checkbox"] { width: auto; margin-right: 12px; transform: scale(1.1); }
+.form-group label input[type="checkbox"] {
+  width: auto;
+  margin-right: 12px;
+  transform: scale(1.1);
+}
 
 /* Content label row */
 .content-label-row {
@@ -1137,7 +1221,9 @@ const cancelEdit = () => {
   color: var(--myst-gold);
 }
 
-.italic-btn em { font-style: italic; }
+.italic-btn em {
+  font-style: italic;
+}
 
 .toolbar-sep {
   width: 1px;
@@ -1162,7 +1248,9 @@ const cancelEdit = () => {
   margin-top: 4px;
 }
 
-.stats-sep { opacity: 0.5; }
+.stats-sep {
+  opacity: 0.5;
+}
 
 /* Form actions */
 .form-actions {
@@ -1212,7 +1300,10 @@ const cancelEdit = () => {
   transition: all 0.2s ease;
 }
 
-.cancel-btn:hover { background: var(--myst-ink); transform: translateY(-1px); }
+.cancel-btn:hover {
+  background: var(--myst-ink);
+  transform: translateY(-1px);
+}
 
 .preview-btn {
   display: flex;
@@ -1278,8 +1369,12 @@ const cancelEdit = () => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .success {
@@ -1332,9 +1427,14 @@ const cancelEdit = () => {
   transition: all 0.2s ease;
 }
 
-.pathway-picker-toggle:hover { background: color-mix(in srgb, var(--myst-gold) 10%, var(--myst-bg)); }
+.pathway-picker-toggle:hover {
+  background: color-mix(in srgb, var(--myst-gold) 10%, var(--myst-bg));
+}
 
-.pathway-picker-hint { font-size: 11px; color: var(--myst-ink-muted); }
+.pathway-picker-hint {
+  font-size: 11px;
+  color: var(--myst-ink-muted);
+}
 
 .pathway-picker-grid {
   display: flex;
@@ -1366,7 +1466,11 @@ const cancelEdit = () => {
   border-color: color-mix(in srgb, var(--myst-gold) 40%, transparent);
 }
 
-.pathway-picker-img { width: 32px; height: 32px; object-fit: contain; }
+.pathway-picker-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
 
 .pathway-picker-label {
   font-size: 10px;
@@ -1390,8 +1494,12 @@ const cancelEdit = () => {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .preview-modal-content {
@@ -1407,8 +1515,14 @@ const cancelEdit = () => {
 }
 
 @keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .preview-header {
@@ -1419,7 +1533,12 @@ const cancelEdit = () => {
   border-bottom: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
 }
 
-.preview-header h2 { margin: 0; font-size: 20px; font-weight: 700; color: var(--myst-ink); }
+.preview-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--myst-ink);
+}
 
 .close-preview-btn {
   background: none;
@@ -1439,9 +1558,16 @@ const cancelEdit = () => {
   color: var(--myst-ink);
 }
 
-.preview-body { overflow-y: auto; padding: 32px; flex: 1; }
+.preview-body {
+  overflow-y: auto;
+  padding: 32px;
+  flex: 1;
+}
 
-.preview-article { max-width: 800px; margin: 0 auto; }
+.preview-article {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
 .preview-article-header {
   margin-bottom: 24px;
@@ -1449,9 +1575,20 @@ const cancelEdit = () => {
   border-bottom: 2px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
 }
 
-.preview-article-title { font-size: 32px; font-weight: 700; color: var(--myst-ink); margin: 0 0 16px 0; line-height: 1.2; }
+.preview-article-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--myst-ink);
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
 
-.preview-article-meta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.preview-article-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
 .preview-language, .preview-status, .preview-pinned {
   display: inline-block;
@@ -1462,15 +1599,46 @@ const cancelEdit = () => {
   text-transform: uppercase;
 }
 
-.preview-language { background: color-mix(in srgb, var(--myst-gold) 20%, transparent); color: var(--myst-gold); }
-.preview-status.published { background: color-mix(in srgb, #10b981 20%, transparent); color: #10b981; }
-.preview-status.draft { background: color-mix(in srgb, var(--myst-ink-muted) 30%, transparent); color: var(--myst-ink-muted); }
-.preview-pinned { background: color-mix(in srgb, #f59e0b 20%, transparent); color: #f59e0b; }
+.preview-language {
+  background: color-mix(in srgb, var(--myst-gold) 20%, transparent);
+  color: var(--myst-gold);
+}
 
-.preview-short-description { font-size: 16px; color: var(--myst-ink-muted); margin-bottom: 24px; line-height: 1.6; font-style: italic; }
+.preview-status.published {
+  background: color-mix(in srgb, #10b981 20%, transparent);
+  color: #10b981;
+}
 
-.preview-image-wrapper { margin-bottom: 32px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
-.preview-image { width: 100%; height: auto; display: block; }
+.preview-status.draft {
+  background: color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+  color: var(--myst-ink-muted);
+}
+
+.preview-pinned {
+  background: color-mix(in srgb, #f59e0b 20%, transparent);
+  color: #f59e0b;
+}
+
+.preview-short-description {
+  font-size: 16px;
+  color: var(--myst-ink-muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.preview-image-wrapper {
+  margin-bottom: 32px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 /* Shared article content styles (preview modal + live preview) */
 .preview-article-content {
@@ -1492,13 +1660,36 @@ const cancelEdit = () => {
   line-height: 1.3;
 }
 
-.preview-article-content :deep(h1) { font-size: 28px; color: var(--myst-gold); }
-.preview-article-content :deep(h2) { font-size: 24px; }
-.preview-article-content :deep(h3) { font-size: 20px; }
-.preview-article-content :deep(h4) { font-size: 18px; }
-.preview-article-content :deep(p) { margin-bottom: 16px; }
-.preview-article-content :deep(a) { color: var(--myst-gold); text-decoration: underline; transition: color 0.2s ease; }
-.preview-article-content :deep(a:hover) { color: var(--myst-gold-soft); }
+.preview-article-content :deep(h1) {
+  font-size: 28px;
+  color: var(--myst-gold);
+}
+
+.preview-article-content :deep(h2) {
+  font-size: 24px;
+}
+
+.preview-article-content :deep(h3) {
+  font-size: 20px;
+}
+
+.preview-article-content :deep(h4) {
+  font-size: 18px;
+}
+
+.preview-article-content :deep(p) {
+  margin-bottom: 16px;
+}
+
+.preview-article-content :deep(a) {
+  color: var(--myst-gold);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.preview-article-content :deep(a:hover) {
+  color: var(--myst-gold-soft);
+}
 
 .preview-article-content :deep(img.pathway-emoji) {
   display: inline;
@@ -1518,8 +1709,14 @@ const cancelEdit = () => {
 }
 
 .preview-article-content :deep(ul),
-.preview-article-content :deep(ol) { margin-bottom: 16px; padding-left: 24px; }
-.preview-article-content :deep(li) { margin-bottom: 8px; }
+.preview-article-content :deep(ol) {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.preview-article-content :deep(li) {
+  margin-bottom: 8px;
+}
 
 .preview-article-content :deep(blockquote) {
   border-left: 4px solid var(--myst-gold);
@@ -1545,10 +1742,26 @@ const cancelEdit = () => {
   margin: 24px 0;
 }
 
-.preview-article-content :deep(pre code) { background: none; padding: 0; }
+.preview-article-content :deep(pre code) {
+  background: none;
+  padding: 0;
+}
 
-.preview-article-content :deep(table) { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.preview-article-content :deep(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
 .preview-article-content :deep(th),
-.preview-article-content :deep(td) { padding: 8px 12px; border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent); }
-.preview-article-content :deep(th) { background: color-mix(in srgb, var(--myst-gold) 10%, transparent); color: var(--myst-gold); font-weight: 600; }
+.preview-article-content :deep(td) {
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+}
+
+.preview-article-content :deep(th) {
+  background: color-mix(in srgb, var(--myst-gold) 10%, transparent);
+  color: var(--myst-gold);
+  font-weight: 600;
+}
 </style>

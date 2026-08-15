@@ -102,7 +102,7 @@ const handleSubmitted = () => {
 .commissions-main {
   flex: 1 0 auto;
   background: var(--myst-bg);
-  padding: 100px 0 60px;
+  padding: 40px 0 60px;
 }
 
 .commissions-view {

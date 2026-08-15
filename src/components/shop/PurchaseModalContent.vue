@@ -13,7 +13,7 @@
       <label class="ritual-label">{{ t('amount') || 'Amount' }}</label>
       <div class="amount-stepper">
         <button class="step-btn" @click="updateAmount(Math.max(1, amount - 1))">-</button>
-        <input :value="amount" class="amount-input" min="1" type="number" @input="handleAmountInput" />
+        <input :value="amount" class="amount-input" min="1" type="number" @input="handleAmountInput"/>
         <button class="step-btn" @click="updateAmount(amount + 1)">+</button>
       </div>
     </div>
@@ -305,6 +305,12 @@ const updateRecipient = (val: string) => {
   gap: 10px;
 }
 
-.ritual-fade-enter-active, .ritual-fade-leave-active { transition: all 0.3s ease; }
-.ritual-fade-enter-from, .ritual-fade-leave-to { opacity: 0; transform: translateY(-10px); }
+.ritual-fade-enter-active, .ritual-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.ritual-fade-enter-from, .ritual-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 </style>

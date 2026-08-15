@@ -12,8 +12,12 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node"],
-    "lib": ["ESNext"],
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "ESNext"
+    ],
     "target": "ES2020",
     "skipLibCheck": true
   }

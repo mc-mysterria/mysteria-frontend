@@ -1,10 +1,10 @@
 <template>
   <div class="choice-grid">
     <article
-      v-for="choice in choices"
-      :key="choice.name"
-      class="choice-card"
-      :class="{ recommended: choice.recommended }"
+        v-for="choice in choices"
+        :key="choice.name"
+        class="choice-card"
+        :class="{ recommended: choice.recommended }"
     >
       <div class="choice-card-head">
         <div>
@@ -57,9 +57,8 @@ defineProps<{
 
 .choice-card.recommended {
   border-color: rgba(200, 178, 115, 0.5);
-  background:
-    linear-gradient(145deg, rgba(200, 178, 115, 0.09), transparent 55%),
-    rgba(17, 19, 29, 0.86);
+  background: linear-gradient(145deg, rgba(200, 178, 115, 0.09), transparent 55%),
+  rgba(17, 19, 29, 0.86);
 }
 
 .choice-card-head {

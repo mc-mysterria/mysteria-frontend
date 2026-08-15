@@ -4,429 +4,181 @@
 
     <main class="guide-main">
       <Transition name="guide-page">
-      <div v-if="!selectedTopic" key="guide-home" class="guide-home">
-        <section v-reveal class="guide-hero" aria-labelledby="guide-title">
-          <div class="hero-copy">
-            <span class="eyebrow">{{ content.ui.eyebrow }}</span>
-            <h1 id="guide-title">{{ content.ui.title }}</h1>
-            <p>{{ content.ui.lede }}</p>
-
-            <div class="hero-actions">
-              <button class="button-primary" type="button" @click="scrollToId('first-hour')">
-                {{ content.ui.startJourney }}
-                <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-              </button>
-              <button class="button-secondary" type="button" @click="focusSearch">
-                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                {{ content.ui.findAnswer }}
-              </button>
-            </div>
-          </div>
-
-          <div class="join-card">
-            <span class="micro-label">{{ content.ui.serverAddress }}</span>
-            <div class="server-address">{{ t('serverAddress') }}</div>
-            <button class="copy-button" type="button" @click="copyIP">
-              <i :class="isCopied ? 'fa-solid fa-check' : 'fa-regular fa-copy'" aria-hidden="true"></i>
-              {{ isCopied ? content.ui.copied : content.ui.copyAddress }}
+        <GuideHome
+            v-if="!selectedTopic"
+            key="guide-home"
+            :content="content"
+            :topics="content.topics"
+            @open-topic="openTopic"
+        />
+        <div v-else :key="selectedTopic.id" class="topic-layout">
+          <aside class="topic-sidebar">
+            <button class="back-button" type="button" @click="backToGuide">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              {{ content.ui.backToGuide }}
             </button>
-            <div class="join-card-note">
-              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-              {{ content.facts[2].value }} · {{ content.facts[2].note }}
-            </div>
-          </div>
-        </section>
 
-        <section v-reveal class="quick-facts" :aria-label="content.ui.quickFactsLabel">
-          <div class="quick-facts-label">{{ content.ui.quickFactsLabel }}</div>
-          <div v-for="fact in content.facts" :key="fact.label" class="quick-fact">
-            <span>{{ fact.label }}</span>
-            <strong>{{ fact.value }}</strong>
-            <small>{{ fact.note }}</small>
-          </div>
-        </section>
-
-        <section v-reveal class="guide-section expectations-section" aria-labelledby="expectations-title">
-          <GuideSectionHeading
-            :eyebrow="content.ui.expectationsEyebrow"
-            :title="content.ui.expectationsTitle"
-            :lede="content.ui.expectationsLede"
-          />
-
-          <div class="expectation-grid">
-            <details v-for="expectation in content.expectations" :key="expectation.title" class="expectation-card">
-              <summary>
-                <span class="expectation-icon"><i :class="expectation.icon" aria-hidden="true"></i></span>
-                <span class="expectation-copy">
-                  <strong>{{ expectation.title }}</strong>
-                  <small>{{ expectation.summary }}</small>
-                </span>
-                <i class="fa-solid fa-plus expectation-toggle" aria-hidden="true"></i>
-              </summary>
-              <p>{{ expectation.detail }}</p>
-            </details>
-          </div>
-        </section>
-
-        <section id="find-answer" v-reveal class="guide-section task-section" aria-labelledby="tasks-title">
-          <GuideSectionHeading
-            :eyebrow="content.ui.tasksEyebrow"
-            :title="content.ui.tasksTitle"
-            :lede="content.ui.tasksLede"
-          />
-
-          <div class="search-wrap">
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-            <input
-              ref="searchInput"
-              v-model.trim="searchQuery"
-              type="search"
-              :placeholder="content.ui.searchPlaceholder"
-              :aria-label="content.ui.findAnswer"
-            >
-            <button v-if="searchQuery" type="button" @click="searchQuery = ''">
-              {{ content.ui.clearSearch }}
-            </button>
-          </div>
-
-          <div v-if="searchQuery" class="search-results" aria-live="polite">
-            <div class="results-meta">{{ content.ui.searchResults }} · {{ filteredTopics.length }}</div>
-            <TransitionGroup v-if="filteredTopics.length" name="search-result" tag="div" class="result-list">
-              <button
-                v-for="topic in filteredTopics"
-                :key="topic.id"
-                class="search-result"
-                type="button"
-                @click="openTopic(topic.id)"
-              >
-                <span class="topic-icon"><i :class="topic.icon" aria-hidden="true"></i></span>
-                <span>
-                  <strong>{{ topic.title }}</strong>
-                  <small>{{ topic.summary }}</small>
-                </span>
-                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-              </button>
-            </TransitionGroup>
-            <div v-else class="empty-results">
-              <i class="fa-regular fa-compass" aria-hidden="true"></i>
-              <strong>{{ content.ui.noResults }}</strong>
-              <span>{{ content.ui.noResultsHint }}</span>
-            </div>
-          </div>
-
-          <div v-else class="task-grid">
-            <button
-              v-for="task in content.tasks"
-              :key="task.title"
-              class="task-card"
-              type="button"
-              @click="openTopic(task.topicId)"
-            >
-              <span class="task-icon"><i :class="task.icon" aria-hidden="true"></i></span>
-              <span class="task-copy">
-                <strong>{{ task.title }}</strong>
-                <small>{{ task.description }}</small>
-              </span>
-              <i class="fa-solid fa-arrow-right task-arrow" aria-hidden="true"></i>
-            </button>
-          </div>
-        </section>
-
-        <section id="first-hour" v-reveal class="guide-section first-hour-section" aria-labelledby="first-hour-title">
-          <GuideSectionHeading
-            :eyebrow="content.ui.firstHourEyebrow"
-            :title="content.ui.firstHourTitle"
-            :lede="content.ui.firstHourLede"
-          />
-
-          <ol class="journey-list">
-            <li v-for="(step, index) in content.firstHour" :key="step.title" class="journey-step">
-              <span class="journey-number">{{ String(index + 1).padStart(2, '0') }}</span>
-              <div class="journey-copy">
-                <h3>{{ step.title }}</h3>
-                <p>{{ step.description }}</p>
+            <nav :aria-label="content.ui.mobileBrowse">
+              <div v-for="group in topicGroups" :key="group.id" class="sidebar-group">
+                <span>{{ group.label }}</span>
+                <button
+                    v-for="topic in group.topics"
+                    :key="topic.id"
+                    :class="{ active: topic.id === selectedTopic.id }"
+                    type="button"
+                    @click="openTopic(topic.id)"
+                >
+                  {{ topic.shortTitle }}
+                </button>
               </div>
-              <button v-if="step.topicId" type="button" @click="openTopic(step.topicId)">
-                {{ content.ui.openStep }}
-                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </nav>
+          </aside>
+
+          <article class="topic-article">
+            <button class="mobile-back" type="button" @click="backToGuide">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              {{ content.ui.backToGuide }}
+            </button>
+
+            <details class="mobile-topic-index">
+              <summary>
+                <i class="fa-solid fa-list" aria-hidden="true"></i>
+                {{ content.ui.mobileBrowse }}
+              </summary>
+              <div>
+                <button
+                    v-for="topic in content.topics"
+                    :key="topic.id"
+                    :class="{ active: topic.id === selectedTopic.id }"
+                    type="button"
+                    @click="openTopic(topic.id)"
+                >
+                  {{ topic.shortTitle }}
+                </button>
+              </div>
+            </details>
+
+            <header v-reveal class="topic-header">
+              <span class="eyebrow">{{ content.categories[selectedTopic.category] }}</span>
+              <div class="topic-title-row">
+                <span class="topic-hero-icon"><i :class="selectedTopic.icon" aria-hidden="true"></i></span>
+                <h1>{{ selectedTopic.title }}</h1>
+              </div>
+              <p>{{ selectedTopic.summary }}</p>
+            </header>
+
+            <section v-reveal class="quick-answer">
+              <span>{{ content.ui.quickAnswer }}</span>
+              <p>{{ selectedTopic.answer }}</p>
+            </section>
+
+            <section v-if="selectedTopic.id === 'connect'" v-reveal class="screenshot-section">
+              <span class="micro-label">{{ content.ui.screenshotsLabel }}</span>
+              <div class="screenshot-grid">
+                <figure>
+                  <img :src="ipScreenshot" :alt="content.ui.screenshotIp">
+                  <figcaption>01 · {{ content.ui.screenshotIp }}</figcaption>
+                </figure>
+                <figure>
+                  <img :src="joinScreenshot" :alt="content.ui.screenshotJoin">
+                  <figcaption>02 · {{ content.ui.screenshotJoin }}</figcaption>
+                </figure>
+                <figure>
+                  <img :src="portalScreenshot" :alt="content.ui.screenshotPortal">
+                  <figcaption>03 · {{ content.ui.screenshotPortal }}</figcaption>
+                </figure>
+              </div>
+            </section>
+
+            <GuideChoiceComparison
+                v-if="selectedTopic.id === 'starter-choice'"
+                v-reveal
+                class="topic-choice-comparison"
+                :choices="content.starterChoices"
+                :ui="content.ui"
+            />
+
+            <nav v-reveal class="section-index" :aria-label="content.ui.onThisPage">
+              <span>{{ content.ui.onThisPage }}</span>
+              <button
+                  v-for="(section, index) in selectedTopic.sections"
+                  :key="section.title"
+                  type="button"
+                  @click="scrollToId(`topic-section-${index}`)"
+              >
+                {{ section.title }}
               </button>
-            </li>
-          </ol>
-        </section>
+            </nav>
 
-        <section v-reveal class="guide-section starter-section" aria-labelledby="starter-title">
-          <GuideSectionHeading
-            :eyebrow="content.ui.starterEyebrow"
-            :title="content.ui.starterTitle"
-            :lede="content.ui.starterLede"
-          />
+            <section
+                v-for="(section, index) in selectedTopic.sections"
+                :id="`topic-section-${index}`"
+                :key="section.title"
+                v-reveal="index"
+                class="topic-section"
+            >
+              <span class="section-number">{{ String(index + 1).padStart(2, '0') }}</span>
+              <div class="topic-section-content">
+                <h2>{{ section.title }}</h2>
 
-          <GuideChoiceComparison :choices="content.starterChoices" :ui="content.ui"/>
+                <p v-for="paragraph in section.paragraphs" :key="paragraph">{{ paragraph }}</p>
 
-          <div class="important-callout">
-            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-            <div>
-              <strong>{{ content.ui.important }}</strong>
-              <p>{{ content.ui.starterWarning }}</p>
-            </div>
-          </div>
-        </section>
+                <ul v-if="section.bullets" class="content-list">
+                  <li v-for="bullet in section.bullets" :key="bullet">{{ bullet }}</li>
+                </ul>
 
-        <section v-reveal class="guide-section direction-section" aria-labelledby="direction-title">
-          <GuideSectionHeading
-            :eyebrow="content.ui.directionEyebrow"
-            :title="content.ui.directionTitle"
-            :lede="content.ui.directionLede"
-          />
+                <ol v-if="section.steps" class="content-steps">
+                  <li v-for="(step, stepIndex) in section.steps" :key="step">
+                    <span>{{ stepIndex + 1 }}</span>
+                    <p>{{ step }}</p>
+                  </li>
+                </ol>
 
-          <div class="direction-grid">
-            <article v-for="direction in content.directions" :key="direction.title" class="direction-card">
-              <div class="direction-head">
-                <span class="direction-icon"><i :class="direction.icon" aria-hidden="true"></i></span>
-                <div>
-                  <span class="micro-label">{{ direction.eyebrow }}</span>
-                  <h3>{{ direction.title }}</h3>
+                <div v-if="section.commands" class="command-list">
+                  <div v-for="command in section.commands" :key="command.command" class="command-row">
+                    <code>{{ command.command }}</code>
+                    <span>{{ command.purpose }}</span>
+                  </div>
+                </div>
+
+                <div v-if="section.warning" class="inline-callout warning">
+                  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                  <div>
+                    <strong>{{ content.ui.commonMistake }}</strong>
+                    <p>{{ section.warning }}</p>
+                  </div>
+                </div>
+
+                <div v-if="section.tip" class="inline-callout tip">
+                  <i class="fa-solid fa-lightbulb" aria-hidden="true"></i>
+                  <div>
+                    <strong>{{ content.ui.usefulTip }}</strong>
+                    <p>{{ section.tip }}</p>
+                  </div>
                 </div>
               </div>
-              <p>{{ direction.description }}</p>
-              <ul>
-                <li v-for="point in direction.points" :key="point">{{ point }}</li>
-              </ul>
-              <button class="text-link" type="button" @click="openTopic(direction.topicId)">
-                {{ content.ui.openTopic }}
-                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-              </button>
-            </article>
-          </div>
-        </section>
+            </section>
 
-        <section v-reveal class="guide-section browse-section" aria-labelledby="browse-title">
-          <GuideSectionHeading
-            :eyebrow="content.ui.browseEyebrow"
-            :title="content.ui.browseTitle"
-            :lede="content.ui.browseLede"
-          />
-
-          <div class="category-list">
-            <section v-for="group in topicGroups" :key="group.id" class="category-group">
-              <div class="category-heading">
-                <h3>{{ group.label }}</h3>
-                <span>{{ group.topics.length }} {{ content.ui.topics }}</span>
-              </div>
-              <div class="category-topics">
+            <section v-if="relatedTopics.length" v-reveal class="related-section">
+              <span class="eyebrow">{{ content.ui.relatedTopics }}</span>
+              <div class="related-grid">
                 <button
-                  v-for="topic in group.topics"
-                  :key="topic.id"
-                  type="button"
-                  @click="openTopic(topic.id)"
+                    v-for="topic in relatedTopics"
+                    :key="topic.id"
+                    type="button"
+                    @click="openTopic(topic.id)"
                 >
                   <span class="topic-icon"><i :class="topic.icon" aria-hidden="true"></i></span>
                   <span>
-                    <strong>{{ topic.shortTitle }}</strong>
-                    <small>{{ topic.summary }}</small>
-                  </span>
+                  <strong>{{ topic.shortTitle }}</strong>
+                  <small>{{ topic.summary }}</small>
+                </span>
                   <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </button>
               </div>
             </section>
-          </div>
-        </section>
-
-        <section v-reveal class="guide-section popular-section" aria-labelledby="popular-title">
-          <GuideSectionHeading :eyebrow="content.ui.popularEyebrow" :title="content.ui.popularTitle"/>
-
-          <div class="question-grid">
-            <button
-              v-for="item in content.popularQuestions"
-              :key="item.question"
-              type="button"
-              @click="openTopic(item.topicId)"
-            >
-              <span>{{ item.question }}</span>
-              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-            </button>
-          </div>
-
-          <div class="support-row">
-            <router-link to="/profile" class="button-primary">{{ content.ui.profileCta }}</router-link>
-            <router-link to="/pathways" class="button-secondary">{{ content.ui.pathwaysCta }}</router-link>
-            <router-link to="/rules" class="button-secondary">{{ content.ui.fullRulesCta }}</router-link>
-            <a class="button-secondary" href="https://discord.com/invite/jc7GSxBWgb" target="_blank" rel="noopener">
-              <i class="fa-brands fa-discord" aria-hidden="true"></i>
-              {{ content.ui.supportCta }}
-            </a>
-          </div>
-        </section>
-      </div>
-
-      <div v-else :key="selectedTopic.id" class="topic-layout">
-        <aside class="topic-sidebar">
-          <button class="back-button" type="button" @click="backToGuide">
-            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-            {{ content.ui.backToGuide }}
-          </button>
-
-          <nav :aria-label="content.ui.mobileBrowse">
-            <div v-for="group in topicGroups" :key="group.id" class="sidebar-group">
-              <span>{{ group.label }}</span>
-              <button
-                v-for="topic in group.topics"
-                :key="topic.id"
-                :class="{ active: topic.id === selectedTopic.id }"
-                type="button"
-                @click="openTopic(topic.id)"
-              >
-                {{ topic.shortTitle }}
-              </button>
-            </div>
-          </nav>
-        </aside>
-
-        <article class="topic-article">
-          <button class="mobile-back" type="button" @click="backToGuide">
-            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-            {{ content.ui.backToGuide }}
-          </button>
-
-          <details class="mobile-topic-index">
-            <summary>
-              <i class="fa-solid fa-list" aria-hidden="true"></i>
-              {{ content.ui.mobileBrowse }}
-            </summary>
-            <div>
-              <button
-                v-for="topic in content.topics"
-                :key="topic.id"
-                :class="{ active: topic.id === selectedTopic.id }"
-                type="button"
-                @click="openTopic(topic.id)"
-              >
-                {{ topic.shortTitle }}
-              </button>
-            </div>
-          </details>
-
-          <header v-reveal class="topic-header">
-            <span class="eyebrow">{{ content.categories[selectedTopic.category] }}</span>
-            <div class="topic-title-row">
-              <span class="topic-hero-icon"><i :class="selectedTopic.icon" aria-hidden="true"></i></span>
-              <h1>{{ selectedTopic.title }}</h1>
-            </div>
-            <p>{{ selectedTopic.summary }}</p>
-          </header>
-
-          <section v-reveal class="quick-answer">
-            <span>{{ content.ui.quickAnswer }}</span>
-            <p>{{ selectedTopic.answer }}</p>
-          </section>
-
-          <section v-if="selectedTopic.id === 'connect'" v-reveal class="screenshot-section">
-            <span class="micro-label">{{ content.ui.screenshotsLabel }}</span>
-            <div class="screenshot-grid">
-              <figure>
-                <img :src="ipScreenshot" :alt="content.ui.screenshotIp">
-                <figcaption>01 · {{ content.ui.screenshotIp }}</figcaption>
-              </figure>
-              <figure>
-                <img :src="joinScreenshot" :alt="content.ui.screenshotJoin">
-                <figcaption>02 · {{ content.ui.screenshotJoin }}</figcaption>
-              </figure>
-              <figure>
-                <img :src="portalScreenshot" :alt="content.ui.screenshotPortal">
-                <figcaption>03 · {{ content.ui.screenshotPortal }}</figcaption>
-              </figure>
-            </div>
-          </section>
-
-          <GuideChoiceComparison
-            v-if="selectedTopic.id === 'starter-choice'"
-            v-reveal
-            class="topic-choice-comparison"
-            :choices="content.starterChoices"
-            :ui="content.ui"
-          />
-
-          <nav v-reveal class="section-index" :aria-label="content.ui.onThisPage">
-            <span>{{ content.ui.onThisPage }}</span>
-            <button
-              v-for="(section, index) in selectedTopic.sections"
-              :key="section.title"
-              type="button"
-              @click="scrollToId(`topic-section-${index}`)"
-            >
-              {{ section.title }}
-            </button>
-          </nav>
-
-          <section
-            v-for="(section, index) in selectedTopic.sections"
-            :id="`topic-section-${index}`"
-            :key="section.title"
-            v-reveal="index"
-            class="topic-section"
-          >
-            <span class="section-number">{{ String(index + 1).padStart(2, '0') }}</span>
-            <div class="topic-section-content">
-              <h2>{{ section.title }}</h2>
-
-              <p v-for="paragraph in section.paragraphs" :key="paragraph">{{ paragraph }}</p>
-
-              <ul v-if="section.bullets" class="content-list">
-                <li v-for="bullet in section.bullets" :key="bullet">{{ bullet }}</li>
-              </ul>
-
-              <ol v-if="section.steps" class="content-steps">
-                <li v-for="(step, stepIndex) in section.steps" :key="step">
-                  <span>{{ stepIndex + 1 }}</span>
-                  <p>{{ step }}</p>
-                </li>
-              </ol>
-
-              <div v-if="section.commands" class="command-list">
-                <div v-for="command in section.commands" :key="command.command" class="command-row">
-                  <code>{{ command.command }}</code>
-                  <span>{{ command.purpose }}</span>
-                </div>
-              </div>
-
-              <div v-if="section.warning" class="inline-callout warning">
-                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-                <div>
-                  <strong>{{ content.ui.commonMistake }}</strong>
-                  <p>{{ section.warning }}</p>
-                </div>
-              </div>
-
-              <div v-if="section.tip" class="inline-callout tip">
-                <i class="fa-regular fa-lightbulb" aria-hidden="true"></i>
-                <div>
-                  <strong>{{ content.ui.usefulTip }}</strong>
-                  <p>{{ section.tip }}</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section v-if="relatedTopics.length" v-reveal class="related-section">
-            <span class="eyebrow">{{ content.ui.relatedTopics }}</span>
-            <div class="related-grid">
-              <button
-                v-for="topic in relatedTopics"
-                :key="topic.id"
-                type="button"
-                @click="openTopic(topic.id)"
-              >
-                <span class="topic-icon"><i :class="topic.icon" aria-hidden="true"></i></span>
-                <span>
-                  <strong>{{ topic.shortTitle }}</strong>
-                  <small>{{ topic.summary }}</small>
-                </span>
-                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-              </button>
-            </div>
-          </section>
-        </article>
-      </div>
+          </article>
+        </div>
       </Transition>
     </main>
 
@@ -435,13 +187,14 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, ref, watch, type DirectiveBinding} from "vue";
+import {computed, onBeforeUnmount, watch, type DirectiveBinding} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
-import GuideSectionHeading from "@/components/guide/GuideSectionHeading.vue";
 import GuideChoiceComparison from "@/components/guide/GuideChoiceComparison.vue";
+import GuideHome from "@/components/guide/GuideHome.vue";
 import {useI18n} from "@/composables/useI18n";
+import {breadcrumbLd, faqLd, useSeo} from "@/composables/useSeo";
 import {
   guideContent,
   type GuideCategory,
@@ -451,17 +204,14 @@ import ipScreenshot from "@/assets/images/guide/ip.webp";
 import portalScreenshot from "@/assets/images/guide/portal.webp";
 import joinScreenshot from "@/assets/images/guide/join.webp";
 
-const {t, currentLanguage} = useI18n();
+const {currentLanguage} = useI18n();
 const route = useRoute();
 const router = useRouter();
 
 const content = computed(() => guideContent[currentLanguage.value]);
-const searchQuery = ref("");
-const searchInput = ref<HTMLInputElement | null>(null);
-const isCopied = ref(false);
 let revealObserver: IntersectionObserver | null = null;
 
-type RevealElement = HTMLElement & {__guideRevealDelay?: number};
+type RevealElement = HTMLElement & { __guideRevealDelay?: number };
 
 const vReveal = {
   mounted(element: RevealElement, binding: DirectiveBinding<number | undefined>) {
@@ -478,14 +228,14 @@ const vReveal = {
 
     if (!revealObserver) {
       revealObserver = new IntersectionObserver(
-        entries => {
-          entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add("is-revealed");
-            revealObserver?.unobserve(entry.target);
-          });
-        },
-        {rootMargin: "0px 0px -8% 0px", threshold: 0.08},
+          entries => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-revealed");
+              revealObserver?.unobserve(entry.target);
+            });
+          },
+          {rootMargin: "0px 0px -8% 0px", threshold: 0.08},
       );
     }
 
@@ -505,75 +255,72 @@ const selectedTopic = computed<GuideTopic | null>(() => {
 });
 
 const topicGroups = computed(() => categoryOrder
-  .map(id => ({
-    id,
-    label: content.value.categories[id],
-    topics: content.value.topics.filter(topic => topic.category === id),
-  }))
-  .filter(group => group.topics.length));
+    .map(id => ({
+      id,
+      label: content.value.categories[id],
+      topics: content.value.topics.filter(topic => topic.category === id),
+    }))
+    .filter(group => group.topics.length));
 
-const filteredTopics = computed(() => {
-  const query = normalizeSearch(searchQuery.value);
-  if (!query) return [];
+/*
+ * The handbook is the site's deepest body of indexable text, and each topic
+ * already stores a question-shaped title with a one-paragraph answer — exactly
+ * the shape FAQPage rewards. The index page publishes the whole set; a topic
+ * page publishes its own answer plus a breadcrumb.
+ */
+useSeo(() => {
+  const topic = selectedTopic.value;
+  const trail = [{name: "Home", path: "/"}, {name: "Guide", path: "/guide"}];
 
-  return content.value.topics
-    .map(topic => {
-      const searchable = normalizeSearch([
-        topic.title,
-        topic.shortTitle,
-        topic.summary,
-        topic.answer,
-        ...topic.tags,
-        ...topic.sections.flatMap(section => [
-          section.title,
-          ...(section.paragraphs ?? []),
-          ...(section.bullets ?? []),
-          ...(section.steps ?? []),
-          section.warning ?? "",
-          section.tip ?? "",
-          ...(section.commands ?? []).flatMap(command => [command.command, command.purpose]),
-        ]),
-      ].join(" "));
+  if (!topic) {
+    return {
+      title: content.value.ui.title,
+      description: content.value.ui.lede,
+      path: "/guide",
+      imageAlt: "Getting started on Mysterria",
+      jsonLd: [
+        breadcrumbLd(trail),
+        faqLd(
+            content.value.topics
+                .filter(entry => entry.summary && entry.answer)
+                .map(entry => ({question: entry.title, answer: entry.answer})),
+        ),
+      ],
+    };
+  }
 
-      const titleMatch = normalizeSearch(`${topic.title} ${topic.shortTitle} ${topic.tags.join(" ")}`).includes(query);
-      const allTermsMatch = query.split(" ").every(term => searchable.includes(term));
-      return {topic, score: titleMatch ? 2 : allTermsMatch ? 1 : 0};
-    })
-    .filter(result => result.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .map(result => result.topic);
+  return {
+    title: topic.title,
+    description: topic.summary || topic.answer,
+    path: `/guide/${topic.id}`,
+    jsonLd: [
+      breadcrumbLd([...trail, {name: topic.shortTitle, path: `/guide/${topic.id}`}]),
+      faqLd([{question: topic.title, answer: topic.answer}]),
+    ],
+  };
 });
 
 const relatedTopics = computed(() => {
   if (!selectedTopic.value) return [];
   return selectedTopic.value.related
-    .map(id => content.value.topics.find(topic => topic.id === id))
-    .filter((topic): topic is GuideTopic => Boolean(topic));
+      .map(id => content.value.topics.find(topic => topic.id === id))
+      .filter((topic): topic is GuideTopic => Boolean(topic));
 });
 
 watch(
-  () => route.params.topic,
-  topicId => {
-    if (topicId && typeof topicId === "string" && !content.value.topics.some(topic => topic.id === topicId)) {
-      void router.replace({name: "guide"});
-    }
-  },
-  {immediate: true},
+    () => route.params.topic,
+    topicId => {
+      if (topicId && typeof topicId === "string" && !content.value.topics.some(topic => topic.id === topicId)) {
+        void router.replace({name: "guide"});
+      }
+    },
+    {immediate: true},
 );
 
 onBeforeUnmount(() => {
   revealObserver?.disconnect();
   revealObserver = null;
 });
-
-function normalizeSearch(value: string): string {
-  return value
-    .toLocaleLowerCase(currentLanguage.value === "uk" ? "uk-UA" : "en-US")
-    .replace(/[’ʼ`]/g, "'")
-    .replace(/[^\p{L}\p{N}/' -]+/gu, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function openTopic(topicId: string) {
   void router.push({name: "guide", params: {topic: topicId}});
@@ -587,31 +334,13 @@ function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({behavior: "smooth", block: "start"});
 }
 
-async function focusSearch() {
-  scrollToId("find-answer");
-  await nextTick();
-  searchInput.value?.focus({preventScroll: true});
-}
-
-async function copyIP() {
-  try {
-    await navigator.clipboard.writeText(t("serverAddress"));
-    isCopied.value = true;
-    window.setTimeout(() => {
-      isCopied.value = false;
-    }, 1800);
-  } catch {
-    isCopied.value = false;
-  }
-}
 </script>
 
 <style scoped>
 .guide-page {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 15% 7%, rgba(200, 178, 115, 0.07), transparent 25rem),
-    #080a10;
+  background: radial-gradient(circle at 15% 7%, rgba(200, 178, 115, 0.07), transparent 25rem),
+  #080a10;
   color: var(--myst-ink);
 }
 
@@ -628,9 +357,8 @@ async function copyIP() {
 }
 
 .guide-page-enter-active {
-  transition:
-    opacity 0.24s ease,
-    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.24s ease,
+  transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .guide-page-leave-active {
@@ -657,10 +385,9 @@ async function copyIP() {
   opacity: 0;
   filter: blur(2px);
   transform: translateY(24px);
-  transition:
-    opacity 0.58s ease var(--reveal-delay, 0ms),
-    filter 0.58s ease var(--reveal-delay, 0ms),
-    transform 0.64s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  transition: opacity 0.58s ease var(--reveal-delay, 0ms),
+  filter 0.58s ease var(--reveal-delay, 0ms),
+  transform 0.64s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
 }
 
 .reveal-item.is-revealed {
@@ -870,9 +597,8 @@ button {
   padding: 30px;
   overflow: hidden;
   border: 1px solid rgba(200, 178, 115, 0.32);
-  background:
-    linear-gradient(135deg, rgba(200, 178, 115, 0.09), transparent 58%),
-    rgba(13, 15, 23, 0.94);
+  background: linear-gradient(135deg, rgba(200, 178, 115, 0.09), transparent 58%),
+  rgba(13, 15, 23, 0.94);
 }
 
 .join-card::before {
@@ -1208,9 +934,8 @@ button {
 .search-result-enter-active,
 .search-result-leave-active,
 .search-result-move {
-  transition:
-    opacity 0.24s ease,
-    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.24s ease,
+  transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .search-result-enter-from,
@@ -1619,9 +1344,8 @@ button {
   margin: 32px 0;
   padding: 24px 26px;
   border: 1px solid rgba(200, 178, 115, 0.38);
-  background:
-    linear-gradient(120deg, rgba(200, 178, 115, 0.1), transparent 60%),
-    rgba(17, 19, 29, 0.84);
+  background: linear-gradient(120deg, rgba(200, 178, 115, 0.1), transparent 60%),
+  rgba(17, 19, 29, 0.84);
 }
 
 .quick-answer > span,

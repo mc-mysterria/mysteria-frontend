@@ -2,8 +2,6 @@ import {type APIResponse, BaseCRUD} from "./base";
 import type {
     CreateServiceDto,
     CreateServiceMarkdownDto,
-    PurchaseDto,
-    PurchaseRequest,
     ServiceDto,
     ServiceMarkdownDto,
     UpdateServiceMarkdownDto

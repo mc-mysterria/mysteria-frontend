@@ -3,87 +3,91 @@
     <HeaderItem/>
 
     <main class="commission-detail-main">
-    <div class="commission-detail-view">
-    <div class="page-header">
-      <button class="back-button" @click="router.push('/commissions')">
-        <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
-          <path d="m15 18-6-6 6-6"/>
-        </svg>
-        {{ t('back') || 'Back' }}
-      </button>
-      <div class="title-block">
-        <h1 class="page-title">{{ t('commissions.detail.title') }}</h1>
+      <div class="commission-detail-view">
+        <div class="page-header">
+          <button class="back-button" @click="router.push('/commissions')">
+            <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            {{ t('back') || 'Back' }}
+          </button>
+          <div class="title-block">
+            <h1 class="page-title">{{ t('commissions.detail.title') }}</h1>
+          </div>
+        </div>
+
+        <div v-if="loading" class="state-block">
+          <div class="loading-sigil"></div>
+        </div>
+
+        <div v-else-if="error" class="state-block empty">
+          <i class="fa-solid fa-circle-exclamation empty-icon"></i>
+          <p>{{ error }}</p>
+        </div>
+
+        <div v-else-if="commission" class="detail-card">
+          <div class="detail-top-row">
+            <span class="type-tag">{{
+                formatChangeSummary(commission.majorChanges.length, commission.minorChanges.length, t)
+              }}</span>
+            <CommissionStatusBadge :status="commission.status"/>
+          </div>
+
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>{{ t('commissions.mine.slotsUsed') }}</label>
+              <span>{{ commission.linkedSlotCount }}</span>
+            </div>
+            <div v-if="commission.commissionsRequired" class="detail-item">
+              <label>{{ t('commissions.mine.slotsRequired') }}</label>
+              <span>{{ commission.commissionsRequired }}</span>
+            </div>
+            <div class="detail-item">
+              <label>{{ t('commissions.detail.submitted') }}</label>
+              <span>{{ formatDate(commission.createdAt) }}</span>
+            </div>
+            <div class="detail-item">
+              <label>{{ t('commissions.detail.updated') }}</label>
+              <span>{{ formatDate(commission.updatedAt) }}</span>
+            </div>
+          </div>
+
+          <template v-if="commission.majorChanges.length > 0">
+            <div v-for="(change, index) in commission.majorChanges" :key="`major-${index}`" class="detail-section">
+              <label>{{ t('commissions.form.majorChangeLabel') }} #{{ index + 1 }} – {{ change.targetName }} –
+                {{ t(`commissions.majorType.${change.majorType}`) }}</label>
+              <p>{{ change.requestedChange }}</p>
+              <p class="motivation-text">{{ t('commissions.form.motivationLabel') }}: {{ change.motivation }}</p>
+              <p v-if="change.loreReference" class="motivation-text">{{ t('commissions.form.loreReferenceLabel') }}:
+                {{ change.loreReference }}</p>
+            </div>
+          </template>
+
+          <template v-if="commission.minorChanges.length > 0">
+            <div v-for="(change, index) in commission.minorChanges" :key="`minor-${index}`" class="detail-section">
+              <label>{{ t('commissions.form.minorChangeLabel') }} #{{ index + 1 }} – {{ change.targetName }}</label>
+              <p>{{ change.changeDescription }}</p>
+              <p class="motivation-text">{{ t('commissions.form.motivationLabel') }}: {{ change.motivation }}</p>
+            </div>
+          </template>
+
+          <div v-if="!hasContentDetails" class="content-unavailable">
+            {{ t('commissions.detail.contentUnavailable') }}
+          </div>
+
+          <div v-if="commission.staffNotes" class="staff-notice">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>
+              <strong>{{ t('commissions.mine.staffNotes') }}</strong>
+              <p>{{ commission.staffNotes }}</p>
+            </div>
+          </div>
+
+          <button v-if="commission.status === 'RESCOPE_REQUIRED'" class="resubmit-btn" @click="resubmit">
+            {{ t('commissions.mine.resubmit') }}
+          </button>
+        </div>
       </div>
-    </div>
-
-    <div v-if="loading" class="state-block">
-      <div class="loading-sigil"></div>
-    </div>
-
-    <div v-else-if="error" class="state-block empty">
-      <i class="fa-solid fa-circle-exclamation empty-icon"></i>
-      <p>{{ error }}</p>
-    </div>
-
-    <div v-else-if="commission" class="detail-card">
-      <div class="detail-top-row">
-        <span class="type-tag">{{ formatChangeSummary(commission.majorChanges.length, commission.minorChanges.length, t) }}</span>
-        <CommissionStatusBadge :status="commission.status"/>
-      </div>
-
-      <div class="detail-grid">
-        <div class="detail-item">
-          <label>{{ t('commissions.mine.slotsUsed') }}</label>
-          <span>{{ commission.linkedSlotCount }}</span>
-        </div>
-        <div v-if="commission.commissionsRequired" class="detail-item">
-          <label>{{ t('commissions.mine.slotsRequired') }}</label>
-          <span>{{ commission.commissionsRequired }}</span>
-        </div>
-        <div class="detail-item">
-          <label>{{ t('commissions.detail.submitted') }}</label>
-          <span>{{ formatDate(commission.createdAt) }}</span>
-        </div>
-        <div class="detail-item">
-          <label>{{ t('commissions.detail.updated') }}</label>
-          <span>{{ formatDate(commission.updatedAt) }}</span>
-        </div>
-      </div>
-
-      <template v-if="commission.majorChanges.length > 0">
-        <div v-for="(change, index) in commission.majorChanges" :key="`major-${index}`" class="detail-section">
-          <label>{{ t('commissions.form.majorChangeLabel') }} #{{ index + 1 }} – {{ change.targetName }} – {{ t(`commissions.majorType.${change.majorType}`) }}</label>
-          <p>{{ change.requestedChange }}</p>
-          <p class="motivation-text">{{ t('commissions.form.motivationLabel') }}: {{ change.motivation }}</p>
-          <p v-if="change.loreReference" class="motivation-text">{{ t('commissions.form.loreReferenceLabel') }}: {{ change.loreReference }}</p>
-        </div>
-      </template>
-
-      <template v-if="commission.minorChanges.length > 0">
-        <div v-for="(change, index) in commission.minorChanges" :key="`minor-${index}`" class="detail-section">
-          <label>{{ t('commissions.form.minorChangeLabel') }} #{{ index + 1 }} – {{ change.targetName }}</label>
-          <p>{{ change.changeDescription }}</p>
-          <p class="motivation-text">{{ t('commissions.form.motivationLabel') }}: {{ change.motivation }}</p>
-        </div>
-      </template>
-
-      <div v-if="!hasContentDetails" class="content-unavailable">
-        {{ t('commissions.detail.contentUnavailable') }}
-      </div>
-
-      <div v-if="commission.staffNotes" class="staff-notice">
-        <i class="fa-solid fa-circle-info"></i>
-        <div>
-          <strong>{{ t('commissions.mine.staffNotes') }}</strong>
-          <p>{{ commission.staffNotes }}</p>
-        </div>
-      </div>
-
-      <button v-if="commission.status === 'RESCOPE_REQUIRED'" class="resubmit-btn" @click="resubmit">
-        {{ t('commissions.mine.resubmit') }}
-      </button>
-    </div>
-    </div>
     </main>
 
     <FooterItem/>
@@ -150,7 +154,7 @@ onMounted(async () => {
 .commission-detail-main {
   flex: 1 0 auto;
   background: var(--myst-bg);
-  padding: 100px 0 60px;
+  padding: 40px 0 60px;
 }
 
 .commission-detail-view {

@@ -65,7 +65,7 @@
         </section>
 
         <article class="service-content-card">
-          <div class="content-label"><span></span>{{ t('details') || 'Details' }}<span></span></div>
+          <div class="content-label"><span></span>{{ t('details') }}<span></span></div>
           <div v-if="renderedContent" v-dompurify-html="renderedContent" class="service-content"></div>
           <p v-else class="content-empty">{{ t('serviceContentNotCreated') }}</p>
         </article>
@@ -114,9 +114,9 @@
           {{ t('cancel') }}
         </button>
         <button
-          :disabled="purchasing || insufficientFunds || (isGift && !recipientId)"
-          class="btn-ritual-primary"
-          @click="confirmPurchase"
+            :disabled="purchasing || insufficientFunds || (isGift && !recipientId)"
+            class="btn-ritual-primary"
+            @click="confirmPurchase"
         >
           <i v-if="purchasing" class="fa-solid fa-spinner fa-spin"></i>
           {{ t('confirmPurchase') || 'Confirm Purchase' }}
@@ -143,6 +143,7 @@ import {useCurrency} from '@/composables/useCurrency';
 import ModalItem from '@/components/ui/ModalItem.vue';
 import PurchaseModalContent from '@/components/shop/PurchaseModalContent.vue';
 import MarkdownIt from 'markdown-it';
+import {breadcrumbLd, useSeo} from '@/composables/useSeo';
 import Decimal from 'decimal.js';
 
 const route = useRoute();
@@ -175,6 +176,43 @@ const md = new MarkdownIt({
 const renderedContent = computed(() => {
   if (!service.value?.markdownContent) return '';
   return md.render(service.value.markdownContent);
+});
+
+useSeo(() => {
+  const item = service.value;
+  if (!item) {
+    return {
+      title: t('loadingService'),
+      description: t('shopPage.lede'),
+      noindex: true,
+    };
+  }
+
+  const slug = route.params.slug as string;
+  // Services carry markdown, not a summary field — flatten the opening prose.
+  const summary = (item.markdownContent || '')
+      .replace(/!\[[^\]]*]\([^)]*\)/g, '')
+      .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/[*_~`>#-]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  const description = summary || `${item.name} — ${t('shopPage.lede')}`;
+
+  return {
+    title: item.name,
+    description,
+    path: `/services/${slug}`,
+    image: item.imageUrl || undefined,
+    imageAlt: item.name,
+    jsonLd: [
+      breadcrumbLd([
+        {name: 'Home', path: '/'},
+        {name: 'Shop', path: '/store'},
+        {name: item.name, path: `/services/${slug}`},
+      ]),
+    ],
+  };
 });
 
 const formattedPrice = computed(() => {
@@ -239,7 +277,7 @@ const openPurchaseModal = async () => {
   purchaseAmount.value = 1;
   isGift.value = false;
   recipientId.value = '';
-  
+
   await balanceStore.fetchBalance();
   confirmModal.value?.showModal({
     title: t('confirmPurchase') || 'Confirm Purchase'
@@ -252,9 +290,9 @@ const confirmPurchase = async () => {
   try {
     purchasing.value = true;
     const success = await balanceStore.initiatePurchase(
-      service.value.id.toString(),
-      purchaseAmount.value,
-      isGift.value ? recipientId.value : undefined
+        service.value.id.toString(),
+        purchaseAmount.value,
+        isGift.value ? recipientId.value : undefined
     );
 
     if (success) {
@@ -349,7 +387,7 @@ export default {
   flex: 1;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 120px 16px 40px 16px; /* Increased top padding to prevent header overlap */
+  padding: 56px 16px 40px 16px;
   width: 100%;
 }
 
@@ -913,7 +951,7 @@ export default {
 /* Responsive design */
 @media (max-width: 768px) {
   .service-detail-container {
-    padding: 100px 16px 20px 16px;
+    padding: 40px 16px 20px 16px;
   }
 
   .service-header {
@@ -983,17 +1021,19 @@ export default {
 
 /* Modern product detail composition */
 .service-page {
-  background:
-    radial-gradient(circle at 78% 12%, rgba(200, 178, 115, 0.07), transparent 28rem),
-    linear-gradient(180deg, #111218, #090b13 70%);
+  background: radial-gradient(circle at 78% 12%, rgba(200, 178, 115, 0.07), transparent 28rem),
+  linear-gradient(180deg, #111218, #090b13 70%);
 }
 
 .service-detail-container {
   max-width: 1180px;
-  padding: 110px 24px 72px;
+  padding: 48px 24px 72px;
 }
 
-.back-button-container { margin-bottom: 22px; }
+.back-button-container {
+  margin-bottom: 22px;
+}
+
 .back-button {
   min-height: 44px;
   padding: 0 16px;
@@ -1002,8 +1042,17 @@ export default {
   color: #b9bdc8;
   backdrop-filter: blur(10px);
 }
-.back-button:hover { border-color: rgba(200, 178, 115, 0.38); background: rgba(200, 178, 115, 0.08); color: var(--myst-gold); }
-.back-button:focus-visible, .purchase-btn:focus-visible { outline: 2px solid var(--myst-gold); outline-offset: 3px; }
+
+.back-button:hover {
+  border-color: rgba(200, 178, 115, 0.38);
+  background: rgba(200, 178, 115, 0.08);
+  color: var(--myst-gold);
+}
+
+.back-button:focus-visible, .purchase-btn:focus-visible {
+  outline: 2px solid var(--myst-gold);
+  outline-offset: 3px;
+}
 
 .service-hero {
   display: grid;
@@ -1027,68 +1076,321 @@ export default {
   background-size: 250% 100%;
   animation: serviceShimmer 1.6s linear infinite;
 }
-.service-image-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(200, 178, 115, 0.28); font-size: 58px; }
-.service-image-wrapper.loaded, .service-image-wrapper.failed { animation: none; background: #111525; }
-.service-image { position: absolute; inset: 0; opacity: 0; filter: saturate(0.88) contrast(1.05); transition: opacity 0.5s ease; }
-.service-image-wrapper.loaded .service-image { opacity: 1; }
-.service-image-wrapper::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 58%, rgba(10, 12, 23, 0.3)), linear-gradient(0deg, rgba(5, 7, 14, 0.42), transparent 50%); pointer-events: none; }
 
-.service-title-section { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(30px, 5vw, 58px); }
-.service-eyebrow { margin-bottom: 13px; color: var(--myst-gold); font: 700 11px/1 'JetBrains Mono', monospace; letter-spacing: 2.4px; text-transform: uppercase; }
-.service-title { margin: 0; color: var(--myst-offwhite); font: 700 clamp(36px, 5vw, 58px)/1.04 'Playfair Display', serif; background: none; -webkit-text-fill-color: initial; overflow-wrap: anywhere; }
-.service-meta { gap: 9px; margin: 22px 0 0; }
-.service-feature, .service-subscription { padding: 7px 10px; border-radius: 7px; font: 600 11px 'JetBrains Mono', monospace; }
-.service-feature.giftable, .service-feature.bulkable { border-color: rgba(200, 178, 115, 0.23); background: rgba(200, 178, 115, 0.07); color: #d8cba9; }
+.service-image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(200, 178, 115, 0.28);
+  font-size: 58px;
+}
 
-.purchase-panel { margin-top: 34px; padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-.purchase-price { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
-.purchase-price span { color: #777e8e; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: 1.5px; text-transform: uppercase; }
-.purchase-price strong { color: var(--myst-gold); font: 800 clamp(24px, 3vw, 32px)/1 'JetBrains Mono', monospace; text-align: right; }
-.purchase-btn { width: 100%; min-height: 52px; padding: 0 24px; border: 1px solid var(--myst-gold); border-radius: 10px; background: var(--myst-gold); color: #10121a; font: 800 12px 'JetBrains Mono', monospace; letter-spacing: 1.3px; text-transform: uppercase; }
-.purchase-btn:hover:not(:disabled) { background: #eee4c6; box-shadow: 0 10px 30px rgba(200, 178, 115, 0.2); }
-.purchase-btn:disabled { border-color: rgba(255, 255, 255, 0.11); background: rgba(255, 255, 255, 0.06); color: #777d8b; }
-.auth-notice { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px 0 0; color: #767c8b; font-size: 12px; }
+.service-image-wrapper.loaded, .service-image-wrapper.failed {
+  animation: none;
+  background: #111525;
+}
 
-.service-content-card { margin-top: 28px; padding: clamp(24px, 5vw, 58px); border: 1px solid rgba(255, 255, 255, 0.075); border-radius: 18px; background: rgba(16, 19, 32, 0.76); box-shadow: 0 20px 55px rgba(0, 0, 0, 0.2); }
-.content-label { display: flex; align-items: center; gap: 16px; margin-bottom: 36px; color: var(--myst-gold); font: 700 10px 'JetBrains Mono', monospace; letter-spacing: 2px; text-transform: uppercase; }
-.content-label span { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, rgba(200, 178, 115, 0.3)); }
-.content-label span:last-child { transform: scaleX(-1); }
-.service-content { max-width: 780px; margin: 0 auto; color: #b9bdc7; font-size: 16px; line-height: 1.82; }
-.service-content :deep(h1), .service-content :deep(h2), .service-content :deep(h3) { font-family: 'Playfair Display', serif; line-height: 1.25; }
-.service-content :deep(h2) { padding-bottom: 10px; border-bottom: 1px solid rgba(200, 178, 115, 0.14); color: var(--myst-offwhite); }
-.service-content :deep(a) { color: var(--myst-gold); text-underline-offset: 3px; }
-.service-content :deep(img) { display: block; max-width: 100%; height: auto; margin: 26px auto; border-radius: 12px; }
-.service-content :deep(table) { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }
-.service-content :deep(th), .service-content :deep(td) { padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.1); }
-.content-empty { margin: 0; color: #777d8b; text-align: center; }
+.service-image {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  filter: saturate(0.88) contrast(1.05);
+  transition: opacity 0.5s ease;
+}
 
-@keyframes serviceShimmer { to { background-position: -250% 0; } }
+.service-image-wrapper.loaded .service-image {
+  opacity: 1;
+}
+
+.service-image-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 58%, rgba(10, 12, 23, 0.3)), linear-gradient(0deg, rgba(5, 7, 14, 0.42), transparent 50%);
+  pointer-events: none;
+}
+
+.service-title-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(30px, 5vw, 58px);
+}
+
+.service-eyebrow {
+  margin-bottom: 13px;
+  color: var(--myst-gold);
+  font: 700 11px/1 'JetBrains Mono', monospace;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.service-title {
+  margin: 0;
+  color: var(--myst-offwhite);
+  font: 700 clamp(36px, 5vw, 58px)/1.04 'Playfair Display', serif;
+  background: none;
+  -webkit-text-fill-color: initial;
+  overflow-wrap: anywhere;
+}
+
+.service-meta {
+  gap: 9px;
+  margin: 22px 0 0;
+}
+
+.service-feature, .service-subscription {
+  padding: 7px 10px;
+  border-radius: 7px;
+  font: 600 11px 'JetBrains Mono', monospace;
+}
+
+.service-feature.giftable, .service-feature.bulkable {
+  border-color: rgba(200, 178, 115, 0.23);
+  background: rgba(200, 178, 115, 0.07);
+  color: #d8cba9;
+}
+
+.purchase-panel {
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.purchase-price {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.purchase-price span {
+  color: #777e8e;
+  font: 600 10px 'JetBrains Mono', monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.purchase-price strong {
+  color: var(--myst-gold);
+  font: 800 clamp(24px, 3vw, 32px)/1 'JetBrains Mono', monospace;
+  text-align: right;
+}
+
+.purchase-btn {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 24px;
+  border: 1px solid var(--myst-gold);
+  border-radius: 10px;
+  background: var(--myst-gold);
+  color: #10121a;
+  font: 800 12px 'JetBrains Mono', monospace;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.purchase-btn:hover:not(:disabled) {
+  background: #eee4c6;
+  box-shadow: 0 10px 30px rgba(200, 178, 115, 0.2);
+}
+
+.purchase-btn:disabled {
+  border-color: rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.06);
+  color: #777d8b;
+}
+
+.auth-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  color: #767c8b;
+  font-size: 12px;
+}
+
+.service-content-card {
+  margin-top: 28px;
+  padding: clamp(24px, 5vw, 58px);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 18px;
+  background: rgba(16, 19, 32, 0.76);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.2);
+}
+
+.content-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+  color: var(--myst-gold);
+  font: 700 10px 'JetBrains Mono', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.content-label span {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, rgba(200, 178, 115, 0.3));
+}
+
+.content-label span:last-child {
+  transform: scaleX(-1);
+}
+
+.service-content {
+  max-width: 780px;
+  margin: 0 auto;
+  color: #b9bdc7;
+  font-size: 16px;
+  line-height: 1.82;
+}
+
+.service-content :deep(h1), .service-content :deep(h2), .service-content :deep(h3) {
+  font-family: 'Playfair Display', serif;
+  line-height: 1.25;
+}
+
+.service-content :deep(h2) {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(200, 178, 115, 0.14);
+  color: var(--myst-offwhite);
+}
+
+.service-content :deep(a) {
+  color: var(--myst-gold);
+  text-underline-offset: 3px;
+}
+
+.service-content :deep(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 26px auto;
+  border-radius: 12px;
+}
+
+.service-content :deep(table) {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.service-content :deep(th), .service-content :deep(td) {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.content-empty {
+  margin: 0;
+  color: #777d8b;
+  text-align: center;
+}
+
+@keyframes serviceShimmer {
+  to {
+    background-position: -250% 0;
+  }
+}
 
 @media (max-width: 800px) {
-  .service-detail-container { padding: 96px 16px 48px; }
-  .service-hero { grid-template-columns: 1fr; min-height: 0; }
-  .service-image-wrapper { min-height: 0; aspect-ratio: 16 / 10; }
-  .service-image-wrapper::after { background: linear-gradient(0deg, rgba(10, 12, 23, 0.55), transparent 45%); }
-  .service-title-section { padding: 28px; text-align: left; }
-  .service-meta { justify-content: flex-start; flex-direction: row; }
+  .service-detail-container {
+    padding: 96px 16px 48px;
+  }
+
+  .service-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .service-image-wrapper {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .service-image-wrapper::after {
+    background: linear-gradient(0deg, rgba(10, 12, 23, 0.55), transparent 45%);
+  }
+
+  .service-title-section {
+    padding: 28px;
+    text-align: left;
+  }
+
+  .service-meta {
+    justify-content: flex-start;
+    flex-direction: row;
+  }
 }
 
 @media (max-width: 520px) {
-  .service-detail-container { padding-inline: 10px; }
-  .back-button { width: 44px; padding: 0; justify-content: center; font-size: 0; }
-  .back-button i { font-size: 14px; }
-  .service-hero, .service-content-card { border-radius: 13px; }
-  .service-image-wrapper { width: auto; height: auto; aspect-ratio: 4 / 3; }
-  .service-title-section { padding: 22px 18px; }
-  .service-title { font-size: 34px; }
-  .purchase-panel { margin-top: 25px; padding-top: 20px; }
-  .service-content-card { margin-top: 16px; padding: 25px 18px; }
-  .content-label { margin-bottom: 24px; }
-  .service-content { font-size: 15px; line-height: 1.72; }
+  .service-detail-container {
+    padding-inline: 10px;
+  }
+
+  .back-button {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+    font-size: 0;
+  }
+
+  .back-button i {
+    font-size: 14px;
+  }
+
+  .service-hero, .service-content-card {
+    border-radius: 13px;
+  }
+
+  .service-image-wrapper {
+    width: auto;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .service-title-section {
+    padding: 22px 18px;
+  }
+
+  .service-title {
+    font-size: 34px;
+  }
+
+  .purchase-panel {
+    margin-top: 25px;
+    padding-top: 20px;
+  }
+
+  .service-content-card {
+    margin-top: 16px;
+    padding: 25px 18px;
+  }
+
+  .content-label {
+    margin-bottom: 24px;
+  }
+
+  .service-content {
+    font-size: 15px;
+    line-height: 1.72;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .service-image-wrapper { animation: none; }
-  .service-image, .back-button, .purchase-btn { transition: none; }
+  .service-image-wrapper {
+    animation: none;
+  }
+
+  .service-image, .back-button, .purchase-btn {
+    transition: none;
+  }
 }
 </style>

@@ -23,7 +23,8 @@
           :class="{ 'row-flash': flashId === a.id }">
         <td class="seq-cell">S{{ a.sequence }}</td>
         <td class="name-cell">{{ a.plainName }}</td>
-        <td class="type-cell">{{ a.type.toLowerCase() }}<span v-if="a.activated" class="mini-pill" title="Toggle-style ability">toggle</span></td>
+        <td class="type-cell">{{ a.type.toLowerCase() }}<span v-if="a.activated" class="mini-pill"
+                                                              title="Toggle-style ability">toggle</span></td>
 
         <!-- cost -->
         <td class="num">
@@ -95,7 +96,9 @@
             </div>
             <div v-if="pmOf(a, k)" class="profile-line">
               <span class="profile-meta">{{ profileTraits(a, k) }}</span>
-              <span :class="['profile-rate', { unknown: pmOf(a, k)!.sustainedDps == null }]">{{ profileRate(a, k) }}</span>
+              <span :class="['profile-rate', { unknown: pmOf(a, k)!.sustainedDps == null }]">{{
+                  profileRate(a, k)
+                }}</span>
             </div>
             <div v-if="pmOf(a, k)?.profile.notes" class="profile-notes">{{ pmOf(a, k)!.profile.notes }}</div>
           </div>

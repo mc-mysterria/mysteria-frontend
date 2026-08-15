@@ -38,7 +38,8 @@
       </div>
     </Transition>
 
-    <div v-if="!isLoading && !isUserSelected && searchQuery.length >= 2 && userOptions.length === 0" class="ritual-no-results">
+    <div v-if="!isLoading && !isUserSelected && searchQuery.length >= 2 && userOptions.length === 0"
+         class="ritual-no-results">
       {{ t('noUsersFound') || 'No verified users found' }}
     </div>
 
@@ -124,27 +125,40 @@ const handleUserSelect = (userId: string) => {
 </script>
 
 <style scoped>
-.user-ritual-selector { position: relative; width: 100%; }
-
-.ritual-label {
-  display: block; margin-bottom: 12px;
-  font-family: 'Playfair Display', serif; font-size: 14px;
-  color: var(--myst-gold); text-transform: uppercase; letter-spacing: 2px;
+.user-ritual-selector {
+  position: relative;
+  width: 100%;
 }
 
-.ritual-search-wrapper { position: relative; }
+.ritual-label {
+  display: block;
+  margin-bottom: 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: var(--myst-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.ritual-search-wrapper {
+  position: relative;
+}
 
 .ritual-search-input {
-  width: 100%; padding: 14px 44px 14px 16px;
+  width: 100%;
+  padding: 14px 44px 14px 16px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-  color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
   transition: all 0.3s ease;
 }
 
 .ritual-search-input:focus {
-  outline: none; border-color: var(--myst-gold);
+  outline: none;
+  border-color: var(--myst-gold);
   background: rgba(200, 178, 115, 0.05);
   box-shadow: 0 0 20px rgba(200, 178, 115, 0.1);
 }
@@ -155,57 +169,105 @@ const handleUserSelect = (userId: string) => {
 }
 
 .ritual-search-icon {
-  position: absolute; right: 16px; top: 50%;
-  transform: translateY(-50%); color: #444; font-size: 14px;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #444;
+  font-size: 14px;
 }
 
-.success-ritual { color: #4ade80; }
+.success-ritual {
+  color: #4ade80;
+}
 
 .ritual-results {
-  position: absolute; top: calc(100% + 12px); left: 0; right: 0;
-  max-height: 240px; overflow-y: auto;
-  background: #080a14; border: 1px solid rgba(200, 178, 115, 0.2);
-  border-radius: 4px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  right: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  background: #080a14;
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
   z-index: 1000;
 }
 
 .ritual-user-option {
-  padding: 14px 16px; cursor: pointer;
-  transition: all 0.2s ease; border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.ritual-user-option:last-child { border-bottom: none; }
+.ritual-user-option:last-child {
+  border-bottom: none;
+}
 
-.ritual-user-option:hover { background: rgba(255, 255, 255, 0.03); }
+.ritual-user-option:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
 
 .ritual-user-option.selected {
   background: rgba(200, 178, 115, 0.05);
   border-left: 2px solid var(--myst-gold);
 }
 
-.user-ritual-info { display: flex; flex-direction: column; gap: 4px; }
-
-.user-ritual-name {
-  display: flex; align-items: center; gap: 8px;
-  font-family: 'Playfair Display', serif; font-size: 16px; color: #fff;
+.user-ritual-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.gold-seal { color: var(--myst-gold); font-size: 12px; }
+.user-ritual-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #fff;
+}
 
-.user-ritual-desc { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555; }
+.gold-seal {
+  color: var(--myst-gold);
+  font-size: 12px;
+}
+
+.user-ritual-desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #555;
+}
 
 .ritual-no-results {
-  padding: 16px; text-align: center;
-  font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #444;
+  padding: 16px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #444;
 }
 
 .ritual-error {
-  display: flex; align-items: center; gap: 8px; margin-top: 12px;
-  color: #ff5252; font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #ff5252;
+  font-size: 13px;
 }
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
-.ritual-fade-enter-active, .ritual-fade-leave-active { transition: all 0.3s ease; }
-.ritual-fade-enter-from, .ritual-fade-leave-to { opacity: 0; transform: translateY(-10px); }
+.ritual-fade-enter-active, .ritual-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.ritual-fade-enter-from, .ritual-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 </style>

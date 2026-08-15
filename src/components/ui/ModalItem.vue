@@ -129,11 +129,17 @@ defineExpose({
 }
 
 .modal-ritual-close {
-  background: none; border: none;
-  color: #444; font-size: 24px;
-  cursor: pointer; transition: color 0.3s;
+  background: none;
+  border: none;
+  color: #444;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s;
 }
-.modal-ritual-close:hover { color: var(--myst-gold); }
+
+.modal-ritual-close:hover {
+  color: var(--myst-gold);
+}
 
 .modal-ritual-body {
   padding: 32px;
@@ -151,15 +157,38 @@ defineExpose({
 }
 
 /* Sizes */
-.sm { max-width: 400px; }
-.md { max-width: 600px; }
-.lg { max-width: 800px; }
-.xl { max-width: 1000px; }
-.full { max-width: 95vw; height: 95vh; }
+.sm {
+  max-width: 400px;
+}
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
+.md {
+  max-width: 600px;
+}
+
+.lg {
+  max-width: 800px;
+}
+
+.xl {
+  max-width: 1000px;
+}
+
+.full {
+  max-width: 95vw;
+  height: 95vh;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
 /* Transitions */
-.ritual-fade-enter-active, .ritual-fade-leave-active { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-.ritual-fade-enter-from, .ritual-fade-leave-to { opacity: 0; transform: scale(0.95) translateY(10px); }
+.ritual-fade-enter-active, .ritual-fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ritual-fade-enter-from, .ritual-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+}
 </style>

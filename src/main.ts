@@ -1,3 +1,6 @@
+// Self-hosted Font Awesome subset (solid face, only the glyphs this app uses).
+// Regenerate with `npm run build:icons` after adding or removing an icon.
+import "./assets/fontawesome-subset.css";
 import "./assets/main.css";
 
 import {createApp} from "vue";

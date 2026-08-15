@@ -3,7 +3,7 @@ import {serviceAPI} from "@/utils/api/payments";
 import {useAuthStore} from "@/stores/auth";
 import {watch} from "vue";
 import {useNotification} from "@/services/useNotification";
-import type {ServiceCreate, ServiceResponse,} from "@/types/services";
+import type {ServiceResponse} from "@/types/services";
 
 interface ServicesState {
     services: ServiceResponse[];

@@ -30,40 +30,41 @@ useAccountNotificationsWatcher();
 
 const route = useRoute();
 
-// Force scroll to top on every route change
+// Force scroll to top on every route change.
+// `behavior: "instant"` overrides the global `scroll-behavior: smooth`, which
+// would otherwise animate the whole page back to the top on every navigation —
+// on a long page that reads as the site lagging behind the click.
 watch(() => route.path, () => {
   // Use requestAnimationFrame to ensure it happens after DOM updates
   requestAnimationFrame(() => {
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    window.scrollTo(0, 0);
+    window.scrollTo({top: 0, left: 0, behavior: "instant"});
   });
 }, {immediate: false});
 
 const cursor = ref<HTMLDivElement | null>(null);
 const cursorSize = 50;
 let rafId: number | null = null;
+let pointerX = 0;
+let pointerY = 0;
+
+/*
+ * The glow is a fixed-position layer, so it only needs viewport coordinates.
+ * Reading scrollHeight here (as the page-coordinate version did) forced a full
+ * layout on every single mousemove frame, which showed up as sluggish scrolling
+ * and hover feedback across the whole site.
+ */
+const paintCursor = () => {
+  rafId = null;
+  const element = cursor.value;
+  if (!element) return;
+  element.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
+};
 
 const updateCursorPosition = (event: MouseEvent) => {
-  if (cursor.value && !rafId) {
-    rafId = requestAnimationFrame(() => {
-      if (cursor.value) {
-        const halfSize = cursorSize / 2;
-        const x = Math.min(
-            Math.max(event.pageX - halfSize, 0),
-            window.innerWidth - cursorSize,
-        );
-        const y = Math.min(
-            Math.max(event.pageY - halfSize, 0),
-            document.documentElement.scrollHeight - cursorSize,
-        );
-
-        // Use transform instead of left/top for better performance
-        cursor.value.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      }
-      rafId = null;
-    });
-  }
+  const halfSize = cursorSize / 2;
+  pointerX = event.clientX - halfSize;
+  pointerY = event.clientY - halfSize;
+  if (!rafId) rafId = requestAnimationFrame(paintCursor);
 };
 
 onMounted(() => {
@@ -75,6 +76,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener("mousemove", updateCursorPosition);
+  if (rafId) cancelAnimationFrame(rafId);
 });
 </script>
 
@@ -85,7 +87,10 @@ onUnmounted(() => {
 }
 
 .cursor-background {
-  position: absolute;
+  /* fixed, not absolute: the glow tracks the pointer in viewport space, so it
+     never has to be re-positioned against the document height while scrolling,
+     and the blurred layer stays 50px instead of page-tall. */
+  position: fixed;
   top: 0;
   left: 0;
   width: 50px;

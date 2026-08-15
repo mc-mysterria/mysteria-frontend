@@ -1,13 +1,13 @@
 <template>
   <button
       v-if="profile"
-      :class="['topup-ritual-btn', { 'is-icon-only': iconMode }]"
+      :class="['balance-chip', { 'is-icon-only': iconMode }]"
       :title="t('topUpBalance')"
       type="button"
       @click="handleTopUpClick"
   >
-    <i class="fa-solid fa-plus-ritual fa-plus"></i>
-    <span v-if="!iconMode" class="btn-text">{{ t('topUpBalance') }}</span>
+    <IconMark class="chip-icon"/>
+    <span v-if="!iconMode" class="chip-amount">{{ formattedBalance }}</span>
   </button>
 
   <!-- Currency Conversion Modal -->
@@ -19,7 +19,7 @@
             <h3 class="ritual-title">{{ t('currencySettings') }}</h3>
             <button class="modal-ritual-close" @click="closeCurrencyModal">†</button>
           </div>
-          
+
           <div class="modal-ritual-body no-scrollbar">
             <div class="ritual-section">
               <h4 class="ritual-section-title">{{ t('displayCurrency') }}</h4>
@@ -32,7 +32,7 @@
                     @click="selectCurrency(curr.code)"
                 >
                   <span v-if="curr.symbol" class="curr-symbol">{{ curr.symbol }}</span>
-                  <IconBalance v-else class="curr-icon"/>
+                  <IconMark v-else class="curr-icon"/>
                   <span class="curr-name">{{ curr.code === 'POINTS' ? t('marks') : curr.code }}</span>
                   <span class="curr-rate">{{ getRateText(curr.code) }}</span>
                 </button>
@@ -77,9 +77,9 @@ import {useUserStore} from "@/stores/user";
 import {useI18n} from "@/composables/useI18n";
 import {useCurrency} from "@/composables/useCurrency";
 import {computed, ref} from "vue";
-import IconBalance from "@/assets/icons/IconBalance.vue";
+import IconMark from "@/assets/icons/IconMark.vue";
 
-const props = defineProps<{
+defineProps<{
   iconMode?: boolean;
 }>();
 
@@ -89,6 +89,15 @@ const {t, currentLanguage} = useI18n();
 const {currentCurrency, setCurrency} = useCurrency();
 
 const profile = computed(() => userStore.currentUser);
+
+/* The amount is always in Marks; the sigil beside it carries the unit, so no
+   currency glyph belongs in the string itself. */
+const formattedBalance = computed(() => {
+  const amount = balanceStore.currentBalance?.amount;
+  if (amount === undefined || amount === null) return "—";
+  return Number(amount).toLocaleString(currentLanguage.value === "uk" ? "uk-UA" : "en-US");
+});
+
 const donatelloUrl = computed(() => balanceStore.donatelloUrl);
 const topUpUrl = computed(() =>
     currentLanguage.value === 'en'
@@ -98,9 +107,9 @@ const topUpUrl = computed(() =>
 const showCurrencyModal = ref(false);
 
 const currencies = [
-  { code: 'USD', symbol: '$' },
-  { code: 'EUR', symbol: '€' },
-  { code: 'POINTS', symbol: null }
+  {code: 'USD', symbol: '$'},
+  {code: 'EUR', symbol: '€'},
+  {code: 'POINTS', symbol: null}
 ] as const;
 
 const getRateText = (code: string) => {
@@ -127,106 +136,161 @@ const handleTopUpClick = () => {
 </script>
 
 <style scoped>
-.topup-ritual-btn {
+.balance-chip {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 20px;
-  height: 40px;
-  background: rgba(200, 178, 115, 0.1);
-  border: 1px solid rgba(200, 178, 115, 0.3);
-  border-radius: 4px;
-  color: var(--myst-gold);
+  gap: 9px;
+  padding: 8px 14px;
+  background: var(--myst-wash);
+  border: 1px solid var(--myst-line-28);
+  border-radius: 2px;
+  color: var(--myst-ink);
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  transition: all 0.25s ease;
+  font-family: var(--myst-font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 
-.topup-ritual-btn:hover {
-  background: var(--myst-gold);
-  color: #05070a;
+.balance-chip:hover {
+  border-color: var(--myst-gold);
+  background: var(--myst-wash-strong);
 }
 
-.topup-ritual-btn.is-icon-only {
-  width: 40px;
+.chip-icon {
+  color: var(--myst-gold);
+  font-size: 15px;
+}
+
+.balance-chip.is-icon-only {
+  width: 38px;
   padding: 0;
   justify-content: center;
+  height: 36px;
 }
 
 /* Modal Ritual Styles - Compact */
 .modal-ritual-overlay {
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 2000; padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
 }
 
 .modal-ritual-content.compact {
   background: #080a14;
   border: 1px solid rgba(200, 178, 115, 0.2);
-  width: 100%; max-width: 440px;
-  display: flex; flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
 }
 
 .modal-ritual-header {
   padding: 16px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .ritual-title {
   font-family: 'Playfair Display', serif;
-  font-size: 18px; color: var(--myst-gold); margin: 0;
+  font-size: 18px;
+  color: var(--myst-gold);
+  margin: 0;
 }
 
 .modal-ritual-close {
-  background: none; border: none;
-  color: #444; font-size: 20px;
-  cursor: pointer; transition: color 0.3s;
+  background: none;
+  border: none;
+  color: #444;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
 }
-.modal-ritual-close:hover { color: var(--myst-gold); }
 
-.modal-ritual-body { padding: 24px; }
+.modal-ritual-close:hover {
+  color: var(--myst-gold);
+}
 
-.ritual-section { margin-bottom: 24px; }
+.modal-ritual-body {
+  padding: 24px;
+}
+
+.ritual-section {
+  margin-bottom: 24px;
+}
 
 .ritual-section-title {
   font-family: 'Playfair Display', serif;
-  font-size: 14px; color: #fff; margin-bottom: 6px;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 6px;
 }
 
 .ritual-section-desc {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: #666; margin-bottom: 12px;
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 12px;
 }
 
 .currency-ritual-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
 
 .currency-ritual-option {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 12px 4px;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  cursor: pointer; transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.currency-ritual-option:hover { border-color: rgba(200, 178, 115, 0.3); }
+.currency-ritual-option:hover {
+  border-color: rgba(200, 178, 115, 0.3);
+}
+
 .currency-ritual-option.active {
   border-color: var(--myst-gold);
   background: rgba(200, 178, 115, 0.05);
 }
 
-.curr-symbol { font-size: 18px; color: #fff; }
-.curr-icon { width: 18px; height: 18px; color: var(--myst-gold); }
-.curr-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #aaa; }
-.curr-rate { font-size: 8px; color: #555; text-align: center; }
+.curr-symbol {
+  font-size: 18px;
+  color: #fff;
+}
+
+.curr-icon {
+  font-size: 18px;
+  color: var(--myst-gold);
+}
+
+.curr-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #aaa;
+}
+
+.curr-rate {
+  font-size: 8px;
+  color: #555;
+  text-align: center;
+}
 
 .conversion-ledger {
   background: rgba(0, 0, 0, 0.3);
@@ -234,32 +298,67 @@ const handleTopUpClick = () => {
 }
 
 .ledger-row {
-  display: flex; justify-content: space-between;
-  padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.ledger-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #888; }
-.ledger-val { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--myst-gold); }
+.ledger-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #888;
+}
+
+.ledger-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--myst-gold);
+}
 
 .ritual-warning-box {
   background: rgba(200, 178, 115, 0.03);
   border-left: 2px solid var(--myst-gold);
-  padding: 12px; margin-bottom: 24px;
+  padding: 12px;
+  margin-bottom: 24px;
 }
 
-.warning-ritual-text { font-size: 11px; color: #666; line-height: 1.4; margin: 0; }
+.warning-ritual-text {
+  font-size: 11px;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+}
 
 .btn-ritual-primary {
-  width: 100%; display: flex; align-items: center; justify-content: center;
-  padding: 12px; background: var(--myst-gold); color: #05070a;
-  text-decoration: none; font-family: 'Playfair Display', serif;
-  font-size: 16px; font-weight: 700; transition: all 0.3s;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: var(--myst-gold);
+  color: #05070a;
+  text-decoration: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.3s;
 }
 
-.btn-ritual-primary:hover { background: #fff; }
+.btn-ritual-primary:hover {
+  background: #fff;
+}
 
-.ritual-fade-enter-active, .ritual-fade-leave-active { transition: all 0.4s ease; }
-.ritual-fade-enter-from, .ritual-fade-leave-to { opacity: 0; transform: scale(0.95); }
+.ritual-fade-enter-active, .ritual-fade-leave-active {
+  transition: all 0.4s ease;
+}
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
+.ritual-fade-enter-from, .ritual-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 </style>

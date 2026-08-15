@@ -1,44 +1,67 @@
 <template>
-  <div class="news-ritual-page page-container">
+  <div class="news-page">
     <HeaderItem/>
-    <main class="news-article-ritual">
-      <div v-if="article" class="article-ritual-box">
-        <!-- Navigation -->
-        <div class="article-ritual-nav">
-          <button class="btn-ritual-back" @click="goBack">
-            <i class="fa-solid fa-arrow-left"></i>
-            <span>{{ t('goBack') }}</span>
-          </button>
-        </div>
 
-        <!-- Header -->
-        <header class="article-ritual-header">
-          <div class="article-ritual-meta">
-            <span class="ritual-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
-            <div class="ritual-header-line"></div>
+    <main class="dispatch">
+      <header class="dispatch-masthead">
+        <p class="myst-eyebrow">{{ t('newsPage.eyebrow') }}</p>
+        <h1 class="myst-h1">{{ t('newsPage.title') }}</h1>
+      </header>
+
+      <div v-if="loading" class="dispatch-state">
+        <div class="dispatch-spinner" aria-hidden="true"></div>
+        <p>{{ t('loadingService') }}</p>
+      </div>
+
+      <article v-else-if="article" class="dispatch-article">
+        <header class="article-head">
+          <div class="article-meta">
+            <span class="meta-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
+            <template v-if="article.isPinned">
+              <span class="meta-divider" aria-hidden="true">†</span>
+              <span class="meta-tag">{{ t('homePage.newsPinned') }}</span>
+            </template>
           </div>
-          <h1 class="article-ritual-title">{{ article.title }}</h1>
+          <h2 class="article-title">{{ article.title }}</h2>
         </header>
 
-        <!-- Content -->
-        <div v-dompurify-html="renderedContent" class="article-ritual-content"></div>
+        <div v-if="article.preview" class="article-hero">
+          <img :alt="article.title" :src="article.preview">
+          <span class="hero-fade" aria-hidden="true"></span>
+        </div>
 
-        <!-- Footer -->
-        <footer class="article-ritual-footer">
-          <div class="ritual-end-mark">† † †</div>
-        </footer>
+        <div v-dompurify-html="renderedContent" class="article-body"></div>
+
+        <div class="article-end" aria-hidden="true">† † †</div>
+      </article>
+
+      <div v-else class="dispatch-state">
+        <p>{{ t('newsPage.notFound') }}</p>
+        <button class="myst-btn-outline" type="button" @click="goBack">{{ t('goBack') }}</button>
       </div>
 
-      <!-- Loading / Error -->
-      <div v-else-if="loading" class="ritual-loading-area">
-        <div class="ritual-spinner"></div>
-        <p>{{ t('loadingService') || 'Invoking the archives...' }}</p>
-      </div>
-      <div v-else class="ritual-error-area">
-        <p>Registry entry not found or restricted.</p>
-        <button class="btn-ritual-back" @click="goBack">RECOVER</button>
-      </div>
+      <section v-if="earlier.length" class="earlier">
+        <div class="earlier-head">
+          <h3>{{ t('newsPage.earlier') }}</h3>
+          <span class="earlier-note">{{ t('newsPage.season') }}</span>
+        </div>
+
+        <RouterLink
+            v-for="entry in earlier"
+            :key="entry.id"
+            class="earlier-row"
+            :to="`/news/${entry.slug}`"
+        >
+          <span class="earlier-date">{{ formatDate(entry.publishedAt) }}</span>
+          <span class="earlier-copy">
+            <strong>{{ entry.title }}</strong>
+            <p v-if="entry.shortDescription">{{ entry.shortDescription }}</p>
+          </span>
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </RouterLink>
+      </section>
     </main>
+
     <FooterItem/>
   </div>
 </template>
@@ -47,24 +70,22 @@
 import {computed, nextTick, onMounted, ref, watch} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {newsAPI} from '@/utils/api/news';
-import type {NewsArticle} from '@/types/news';
+import type {NewsArticle, NewsPreview} from '@/types/news';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
 import MarkdownIt from 'markdown-it';
 import {pathwayEmojiPlugin} from '@/utils/pathwayPlugin';
+import {articleLd, breadcrumbLd, useSeo} from '@/composables/useSeo';
 
 const route = useRoute();
 const router = useRouter();
 const article = ref<NewsArticle | null>(null);
+const earlier = ref<NewsPreview[]>([]);
 const loading = ref(true);
 const {currentLanguage, setLanguage, t} = useI18n();
 
-const md = new MarkdownIt({
-  html: true,
-  linkify: true,
-  typographer: true
-});
+const md = new MarkdownIt({html: true, linkify: true, typographer: true});
 md.use(pathwayEmojiPlugin);
 
 const renderedContent = computed(() => {
@@ -72,40 +93,112 @@ const renderedContent = computed(() => {
   return md.render(article.value.content);
 });
 
-const formatDate = (dateString: string) => {
+const formatDate = (dateString?: string) => {
+  if (!dateString) return '';
   return new Date(dateString).toLocaleDateString(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   });
 };
 
 const SUPPORTED_LOCALES = new Set<'en' | 'uk'>(['en', 'uk']);
 
-const loadArticle = async () => {
-  const slug = route.params.slug as string;
-  const localeParam = route.params.locale as string | undefined;
-  const lang = localeParam && SUPPORTED_LOCALES.has(localeParam as 'en' | 'uk')
-    ? localeParam as 'en' | 'uk'
-    : currentLanguage.value;
-
-  if (localeParam && lang !== currentLanguage.value) {
-    setLanguage(lang);
+/*
+ * News is the one place where a locale really does live in the URL
+ * (/news/uk/:slug), so it is the one place hreflang alternates are truthful.
+ */
+useSeo(() => {
+  const current = article.value;
+  if (!current) {
+    return {
+      title: t('newsPage.title'),
+      description: 'Patch notes, season announcements and dispatches from Mysterria, the Lord of the Mysteries Minecraft server.',
+      path: '/news',
+      jsonLd: [breadcrumbLd([{name: 'Home', path: '/'}, {name: 'News', path: '/news'}])],
+    };
   }
 
-  if (slug) {
-    try {
-      loading.value = true;
+  const slug = current.slug;
+  const path = currentLanguage.value === 'uk' ? `/news/uk/${slug}` : `/news/${slug}`;
+  const published = 'publishedAt' in current ? current.publishedAt : undefined;
+  const description = current.shortDescription || current.title;
+
+  return {
+    title: current.title,
+    description,
+    path,
+    type: 'article' as const,
+    image: current.preview || undefined,
+    imageAlt: current.title,
+    publishedTime: published,
+    modifiedTime: 'updatedAt' in current ? (current as { updatedAt?: string }).updatedAt : undefined,
+    alternates: {en: `/news/${slug}`, uk: `/news/uk/${slug}`},
+    jsonLd: [
+      articleLd({
+        title: current.title,
+        description,
+        url: path,
+        image: current.preview || undefined,
+        published,
+        modified: 'updatedAt' in current ? (current as { updatedAt?: string }).updatedAt : undefined,
+        language: currentLanguage.value,
+      }),
+      breadcrumbLd([
+        {name: 'Home', path: '/'},
+        {name: 'News', path: '/news'},
+        {name: current.title, path},
+      ]),
+    ],
+  };
+});
+
+const resolveLanguage = () => {
+  const localeParam = route.params.locale as string | undefined;
+  const lang = localeParam && SUPPORTED_LOCALES.has(localeParam as 'en' | 'uk')
+      ? (localeParam as 'en' | 'uk')
+      : currentLanguage.value;
+
+  if (localeParam && lang !== currentLanguage.value) setLanguage(lang);
+  return lang;
+};
+
+const loadArticle = async () => {
+  const slug = route.params.slug as string | undefined;
+  const lang = resolveLanguage();
+
+  loading.value = true;
+  try {
+    if (slug) {
       const response = await newsAPI.getBySlug(lang, slug);
       article.value = response.data;
-    } catch (error) {
-      console.error('Failed to fetch news article:', error);
-      article.value = null;
-    } finally {
-      loading.value = false;
+    } else {
+      // /news with no slug — open the newest dispatch.
+      const latest = await newsAPI.getLatest(lang);
+      const newest = [...latest.data].sort(
+          (a, b) =>
+              new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime(),
+      )[0];
+      article.value = newest ?? null;
     }
-  } else {
+  } catch (error) {
+    console.error('Failed to fetch news article:', error);
+    article.value = null;
+  } finally {
     loading.value = false;
+  }
+};
+
+const loadEarlier = async () => {
+  const lang = (resolveLanguage().toUpperCase()) as 'EN' | 'UK';
+  try {
+    const response = await newsAPI.getPublished(lang, {page: 0, size: 8});
+    earlier.value = response.data.content
+        .filter(entry => entry.slug !== article.value?.slug)
+        .slice(0, 5);
+  } catch (error) {
+    console.error('Failed to fetch earlier dispatches:', error);
+    earlier.value = [];
   }
 };
 
@@ -119,147 +212,372 @@ const scrollToTop = () => {
 
 const goBack = () => router.back();
 
-watch(() => route.params.slug, async (newSlug, oldSlug) => {
-  if (newSlug && newSlug !== oldSlug) {
-    scrollToTop();
-    await loadArticle();
-    await nextTick();
-    scrollToTop();
-  }
-}, {immediate: false});
-
-onMounted(async () => {
+const reload = async () => {
   scrollToTop();
   await loadArticle();
+  await loadEarlier();
   await nextTick();
   scrollToTop();
+};
+
+watch(() => route.fullPath, (next, previous) => {
+  if (next !== previous) void reload();
 });
+
+watch(currentLanguage, () => {
+  // A /news/:locale/:slug URL pins its own language; only the language switcher
+  // should re-fetch, and that path already set currentLanguage itself.
+  if (route.params.locale) return;
+  void reload();
+});
+
+onMounted(reload);
 </script>
 
 <style scoped>
-.news-ritual-page { background-color: #05070a; min-height: 100vh; display: flex; flex-direction: column; }
-
-.news-article-ritual {
-  flex: 1; max-width: 900px; margin: 0 auto;
-  padding: 120px 24px 80px; width: 100%;
+.news-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--myst-bg);
+  color: var(--myst-ink);
 }
 
-.article-ritual-box { position: relative; }
-
-.article-ritual-nav { margin-bottom: 48px; }
-
-.btn-ritual-back {
-  background: transparent; border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #666; padding: 10px 24px; cursor: pointer;
-  font-family: 'JetBrains Mono', monospace; font-size: 11px;
-  text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;
+.dispatch {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 80px 24px 90px;
 }
 
-.btn-ritual-back:hover { color: var(--myst-gold); border-color: var(--myst-gold); transform: translateX(-4px); }
-
-.article-ritual-header { margin-bottom: 60px; text-align: center; }
-
-.article-ritual-meta {
-  display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 24px;
+.dispatch-masthead {
+  margin-bottom: 64px;
+  text-align: center;
 }
 
-.ritual-date {
-  font-family: 'JetBrains Mono', monospace; font-size: 13px;
-  color: var(--myst-gold); text-transform: uppercase; letter-spacing: 4px;
+.dispatch-masthead .myst-eyebrow {
+  margin-bottom: 14px;
 }
 
-.ritual-header-line { width: 40px; height: 1px; background: var(--myst-gold); opacity: 0.4; }
-
-.article-ritual-title {
-  font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem);
-  color: #fff; line-height: 1.1; font-weight: 800; margin: 0;
+/* Article */
+.article-head {
+  margin-bottom: 52px;
+  text-align: center;
 }
 
-.article-ritual-content {
-  line-height: 1.8; color: #ccc; font-size: 18px;
+.article-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
 }
 
-/* Content Styles */
-.article-ritual-content :deep(p) { margin-bottom: 24px; }
-.article-ritual-content :deep(h2), .article-ritual-content :deep(h3) {
-  font-family: 'Playfair Display', serif; color: #fff; margin: 48px 0 20px;
+.meta-date,
+.meta-tag {
+  font-family: var(--myst-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
 }
-.article-ritual-content :deep(strong) { color: var(--myst-gold); font-weight: 700; }
 
-.article-ritual-content :deep(img.pathway-emoji) {
+.meta-date {
+  color: var(--myst-gold);
+}
+
+.meta-tag {
+  color: var(--myst-ink-muted);
+}
+
+.meta-divider {
+  color: var(--myst-line-35);
+}
+
+.article-title {
+  margin: 0 auto;
+  max-width: 20ch;
+  font-family: var(--myst-font-display);
+  font-size: clamp(30px, 4.4vw, 50px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--myst-offwhite);
+}
+
+.article-hero {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  border: 1px solid var(--myst-line-20);
+  margin-bottom: 52px;
+}
+
+.article-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85);
+}
+
+.hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5, 7, 10, 0.5), transparent 50%);
+}
+
+.article-body {
+  max-width: 680px;
+  margin: 0 auto;
+  font-size: 17.5px;
+  line-height: 1.85;
+  color: #c9c9cf;
+}
+
+.article-body :deep(p) {
+  margin: 0 0 26px;
+}
+
+/* Playfair drop cap on the opening paragraph */
+.article-body :deep(> p:first-of-type::first-letter) {
+  float: left;
+  padding: 8px 14px 0 0;
+  font-family: var(--myst-font-display);
+  font-size: 64px;
+  line-height: 0.82;
+  color: var(--myst-gold);
+}
+
+.article-body :deep(h2),
+.article-body :deep(h3) {
+  margin: 48px 0 18px;
+  font-family: var(--myst-font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--myst-offwhite);
+}
+
+.article-body :deep(strong) {
+  color: var(--myst-gold);
+  font-weight: 600;
+}
+
+.article-body :deep(blockquote) {
+  margin: 44px 0;
+  padding: 6px 0 6px 32px;
+  border-left: 2px solid var(--myst-gold);
+  font-family: var(--myst-font-display);
+  font-style: italic;
+  font-size: 21px;
+  line-height: 1.6;
+  color: rgba(247, 245, 239, 0.75);
+}
+
+.article-body :deep(code) {
+  padding: 2px 9px;
+  background: rgba(200, 178, 115, 0.08);
+  border: 1px solid var(--myst-line-18);
+  color: var(--myst-gold);
+  font-family: var(--myst-font-mono);
+  font-size: 0.85em;
+}
+
+.article-body :deep(ul),
+.article-body :deep(ol) {
+  margin: 0 0 26px;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.article-body :deep(li) {
+  position: relative;
+  padding-left: 28px;
+}
+
+.article-body :deep(li)::before {
+  content: '†';
+  position: absolute;
+  left: 0;
+  color: var(--myst-gold);
+}
+
+.article-body :deep(img) {
+  max-width: 100%;
+  height: auto;
+  margin: 40px auto;
+  display: block;
+  border: 1px solid var(--myst-line-12);
+}
+
+.article-body :deep(img.pathway-emoji) {
   display: inline;
   width: auto;
   height: 1.2em;
   vertical-align: -0.2em;
   margin: 0 0.1em;
   border: none;
-  transform: none;
-  box-shadow: none;
-  opacity: 1;
 }
 
-.article-ritual-content :deep(blockquote) {
-  margin: 40px 0; padding: 24px 32px;
-  background: rgba(255, 255, 255, 0.02);
-  border-left: 2px solid var(--myst-gold);
-  font-style: italic; color: #888;
-}
-
-.article-ritual-content :deep(img) {
-  max-width: 100%; height: auto; margin: 40px auto; display: block;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.article-ritual-content :deep(code) {
-  background: rgba(255, 255, 255, 0.05); color: var(--myst-gold);
-  padding: 2px 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em;
-}
-
-.article-ritual-content :deep(table) {
+.article-body :deep(table) {
   width: 100%;
   margin: 40px 0;
   border-collapse: collapse;
   font-size: 0.9em;
 }
 
-.article-ritual-content :deep(th),
-.article-ritual-content :deep(td) {
+.article-body :deep(th),
+.article-body :deep(td) {
   padding: 12px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--myst-line-12);
   text-align: left;
 }
 
-.article-ritual-content :deep(th) {
-  background: rgba(255, 255, 255, 0.04);
+.article-body :deep(th) {
+  background: rgba(200, 178, 115, 0.05);
   color: var(--myst-gold);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--myst-font-mono);
   font-size: 0.8em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
+}
+
+.article-end {
+  margin-top: 64px;
+  text-align: center;
+  font-family: var(--myst-font-display);
+  font-size: 22px;
+  letter-spacing: 10px;
+  color: var(--myst-gold);
+  opacity: 0.35;
+}
+
+/* Earlier dispatches */
+.earlier {
+  margin-top: 90px;
+  padding-top: 44px;
+  border-top: 1px solid var(--myst-line-20);
+}
+
+.earlier-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.earlier-head h3 {
+  margin: 0;
+  font-family: var(--myst-font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--myst-offwhite);
+}
+
+.earlier-note {
+  font-family: var(--myst-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--myst-ink-muted);
+}
+
+.earlier-row {
+  display: grid;
+  grid-template-columns: 140px 1fr auto;
+  gap: 28px;
+  align-items: baseline;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--myst-line-10);
+  color: inherit;
+  transition: background 0.25s ease;
+}
+
+.earlier-row:hover {
+  background: rgba(200, 178, 115, 0.02);
+  color: inherit;
+}
+
+.earlier-date {
+  font-family: var(--myst-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--myst-gold);
+}
+
+.earlier-copy strong {
+  color: var(--myst-offwhite);
+  font-size: 17px;
   font-weight: 700;
 }
 
-.article-ritual-content :deep(tr:nth-child(even) td) {
-  background: rgba(255, 255, 255, 0.02);
+.earlier-copy p {
+  margin: 7px 0 0;
+  color: var(--myst-ink-muted);
+  font-size: 13.5px;
+  line-height: 1.6;
 }
 
-.article-ritual-footer { margin-top: 80px; text-align: center; }
-.ritual-end-mark { font-family: 'Playfair Display', serif; color: var(--myst-gold); font-size: 24px; letter-spacing: 8px; opacity: 0.3; }
-
-.ritual-loading-area, .ritual-error-area {
-  min-height: 400px; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; gap: 24px; color: #444; font-family: 'JetBrains Mono', monospace;
+.earlier-row > i {
+  color: rgba(200, 178, 115, 0.4);
+  font-size: 12px;
 }
 
-.ritual-spinner {
-  width: 40px; height: 40px; border: 2px solid rgba(200, 178, 115, 0.1);
-  border-top-color: var(--myst-gold); border-radius: 50%; animation: spin 1s linear infinite;
+/* States */
+.dispatch-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 320px;
+  color: var(--myst-ink-muted);
+  font-family: var(--myst-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+.dispatch-spinner {
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--myst-line-20);
+  border-top-color: var(--myst-gold);
+  border-radius: 50%;
+  animation: dispatchSpin 0.9s linear infinite;
+}
 
-@media (max-width: 768px) {
-  .news-article-ritual { padding-top: 100px; }
-  .article-ritual-title { font-size: 2rem; }
+@keyframes dispatchSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .dispatch {
+    padding: 50px 20px 70px;
+  }
+
+  .dispatch-masthead {
+    margin-bottom: 40px;
+  }
+
+  .article-body {
+    font-size: 16.5px;
+  }
+
+  .earlier-row {
+    grid-template-columns: 1fr auto;
+    gap: 10px 16px;
+  }
+
+  .earlier-date {
+    grid-column: 1 / -1;
+  }
 }
 </style>

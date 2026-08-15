@@ -3,81 +3,81 @@
     <HeaderItem/>
 
     <main class="notifications-main">
-    <div class="notifications-view">
-    <div class="page-header">
-      <button class="back-button" @click="router.push('/profile')">
-        <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
-          <path d="m15 18-6-6 6-6"/>
-        </svg>
-        {{ t('back') || 'Back' }}
-      </button>
-      <div class="title-block">
-        <span class="eyebrow">{{ t('notifications.title') }}</span>
-        <h1 class="page-title">{{ t('notifications.title') }}</h1>
-      </div>
-      <button v-if="store.unreadCount > 0" class="mark-all-btn" @click="store.markAllRead()">
-        {{ t('notifications.markAllRead') }}
-      </button>
-    </div>
-
-    <div v-if="store.isLoading && items.length === 0" class="state-block">
-      <div class="loading-sigil"></div>
-    </div>
-
-    <div v-else-if="items.length === 0" class="state-block empty">
-      <i class="fa-solid fa-bell-slash empty-icon"></i>
-      <p>{{ t('notifications.empty') }}</p>
-    </div>
-
-    <div v-else class="notif-entries">
-      <div
-          v-for="item in items"
-          :key="item.id"
-          :class="{ unread: !item.read }"
-          class="notif-entry"
-          @click="handleItemClick(item)"
-      >
-        <div class="entry-indicator"></div>
-        <i :class="notificationIcon(item.type)" class="entry-icon"></i>
-        <div class="entry-body">
-          <p class="entry-text">{{ buildNotificationText(item, t) }}</p>
-          <span class="entry-date">{{ formatNotificationDate(item.createdAt, locale) }}</span>
+      <div class="notifications-view">
+        <div class="page-header">
+          <button class="back-button" @click="router.push('/profile')">
+            <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            {{ t('back') || 'Back' }}
+          </button>
+          <div class="title-block">
+            <span class="eyebrow">{{ t('notifications.title') }}</span>
+            <h1 class="page-title">{{ t('notifications.title') }}</h1>
+          </div>
+          <button v-if="store.unreadCount > 0" class="mark-all-btn" @click="store.markAllRead()">
+            {{ t('notifications.markAllRead') }}
+          </button>
         </div>
-        <button v-if="item.actionable" class="entry-cta" @click.stop="handleAction(item)">
-          {{ notificationCtaLabel(item, t) }}
-        </button>
+
+        <div v-if="store.isLoading && items.length === 0" class="state-block">
+          <div class="loading-sigil"></div>
+        </div>
+
+        <div v-else-if="items.length === 0" class="state-block empty">
+          <i class="fa-solid fa-bell-slash empty-icon"></i>
+          <p>{{ t('notifications.empty') }}</p>
+        </div>
+
+        <div v-else class="notif-entries">
+          <div
+              v-for="item in items"
+              :key="item.id"
+              :class="{ unread: !item.read }"
+              class="notif-entry"
+              @click="handleItemClick(item)"
+          >
+            <div class="entry-indicator"></div>
+            <i :class="notificationIcon(item.type)" class="entry-icon"></i>
+            <div class="entry-body">
+              <p class="entry-text">{{ buildNotificationText(item, t) }}</p>
+              <span class="entry-date">{{ formatNotificationDate(item.createdAt, locale) }}</span>
+            </div>
+            <button v-if="item.actionable" class="entry-cta" @click.stop="handleAction(item)">
+              {{ notificationCtaLabel(item, t) }}
+            </button>
+          </div>
+        </div>
+
+        <div v-if="store.totalPages > 1" class="pagination">
+          <button
+              :disabled="store.page === 0 || store.isLoading"
+              class="pagination-btn"
+              @click="goToPage(store.page - 1)"
+          >
+            <svg fill="none" height="14" stroke="currentColor" viewBox="0 0 24 24" width="14">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            {{ t('previous') || 'Previous' }}
+          </button>
+
+          <div class="pagination-info">
+            {{ t('notifications.page') }} {{ store.page + 1 }} / {{ store.totalPages }}
+            <span class="total-count">({{ store.totalElements }} {{ t('notifications.total') }})</span>
+          </div>
+
+          <button
+              :disabled="store.page >= store.totalPages - 1 || store.isLoading"
+              class="pagination-btn"
+              @click="goToPage(store.page + 1)"
+          >
+            {{ t('next') || 'Next' }}
+            <svg fill="none" height="14" stroke="currentColor" viewBox="0 0 24 24" width="14">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
       </div>
-    </div>
-
-    <div v-if="store.totalPages > 1" class="pagination">
-      <button
-          :disabled="store.page === 0 || store.isLoading"
-          class="pagination-btn"
-          @click="goToPage(store.page - 1)"
-      >
-        <svg fill="none" height="14" stroke="currentColor" viewBox="0 0 24 24" width="14">
-          <path d="m15 18-6-6 6-6"/>
-        </svg>
-        {{ t('previous') || 'Previous' }}
-      </button>
-
-      <div class="pagination-info">
-        {{ t('page') || 'Page' }} {{ store.page + 1 }} / {{ store.totalPages }}
-        <span class="total-count">({{ store.totalElements }} {{ t('total') || 'total' }})</span>
-      </div>
-
-      <button
-          :disabled="store.page >= store.totalPages - 1 || store.isLoading"
-          class="pagination-btn"
-          @click="goToPage(store.page + 1)"
-      >
-        {{ t('next') || 'Next' }}
-        <svg fill="none" height="14" stroke="currentColor" viewBox="0 0 24 24" width="14">
-          <path d="m9 18 6-6-6-6"/>
-        </svg>
-      </button>
-    </div>
-    </div>
     </main>
 
     <FooterItem/>
@@ -140,7 +140,7 @@ onMounted(() => {
 .notifications-main {
   flex: 1 0 auto;
   background: var(--myst-bg);
-  padding: 100px 0 60px;
+  padding: 40px 0 60px;
 }
 
 .notifications-view {

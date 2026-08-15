@@ -10,184 +10,240 @@ const translations = {
         navHome: "Home",
         navShop: "Shop",
         navWiki: "Wiki",
-        navGame: "Play!",
+        navGame: "Guide",
+        navPathways: "Pathways",
+        navNews: "News",
         navServices: "Services",
-        navForum: "Forum",
-        navStaff: "Staff",
+        header: {
+            tagline: "Beyond the Fog",
+            navLabel: "Primary",
+            toggleNav: "Toggle navigation",
+            closeNav: "Close navigation",
+            seasonHeadline: "Season II has just begun!",
+            seasonLink: "Read the announcement",
+        },
+        footer: {
+            disclaimer: "An unofficial fan project inspired by Lord of the Mysteries. Not affiliated with the author or Mojang.",
+            playHeading: "Play",
+            accountHeading: "Account",
+            communityHeading: "Community",
+            legalLabel: "Legal and quick links",
+            linkGuide: "New player guide",
+            linkArchive: "Beyonder Archive",
+            linkRules: "Laws of Mysterria",
+            linkStaff: "The Order (staff)",
+            linkCompanion: "COI Client (optional mod)",
+            linkDossier: "Beyonder dossier",
+            linkShop: "Wares of the Evernight",
+            linkNews: "News & dispatches",
+        },
+
+        // ---- Redesign: home ----
+        homePage: {
+            heroEyebrowBefore: "A",
+            heroEyebrowBrand: "Lord of the Mysteries",
+            heroEyebrowAfter: "Minecraft server",
+            heroTagline: "Drink the potion. Act the role. Climb from Sequence 9 toward godhood — before the Fog claims you.",
+            heroPrimaryCta: "Begin the journey",
+            heroSecondaryCta: "Choose a pathway",
+            serverIpLabel: "Server IP",
+            copyHint: "Click to copy",
+            copiedHint: "✓ Copied",
+            statBeyonders: "Beyonders",
+            statPathways: "Pathways",
+            statCountdown: "To next season",
+            circleEyebrow: "The Circle of Imagination",
+            circleTitle: "Every power in the novel. Playable.",
+            circleLede: "Our custom plugin implements the full Beyonder power system — 22 pathways, potions, rituals, acting, and loss of control. No mods required; a client-side companion adds the visuals.",
+            circleStepOneTitle: "Find your recipe",
+            circleStepOneBody: "Loot refilling chests, trade with players, or hunt mystical creatures for a Sequence 9 potion formula from any of the 22 pathways.",
+            circleStepTwoTitle: "Brew & drink the potion",
+            circleStepTwoBody: "Gather the main ingredients, work the cauldron, and swallow your fate. Real abilities, spirituality costs — and real madness if you rush.",
+            circleStepThreeTitle: "Act your role. Advance.",
+            circleStepThreeBody: "Digest the potion by living your Sequence's role. Perform rituals, complete the acting, and climb 9 → 0 across a season-long journey.",
+            tarotEyebrow: "Beyonder Archive",
+            tarotTitle: "Which card will you draw?",
+            tarotSeq: "SEQ 9",
+            tarotCta: "Open the full archive",
+            tarotCtaCount: "22 pathways",
+            observatoryEyebrow: "The Observatory",
+            observatoryTitle: "A living world of {count} Beyonders",
+            observatoryLede: "Live census of every awakened player this season — which pathways they walk and how far they've climbed. Updated hourly from the server itself.",
+            observatoryAdvanced: "Advanced (Seq 0–3)",
+            observatoryAverage: "Average Sequence",
+            observatoryActive: "Active Pathways",
+            observatoryPanelTitle: "Most walked pathways",
+            observatoryPanelNote: "This season",
+            newsEyebrow: "From Behind the Fog",
+            newsTitle: "Latest dispatches",
+            newsAll: "All news",
+            newsPinned: "Pinned",
+            newsRead: "Read the dispatch",
+            closingEyebrow: "The invitation",
+            closingTitleLineOne: "The Fog is waiting.",
+            closingTitleLineTwo: "Will you look inside?",
+            closingLede: "Free to join. Java 26.1.2+, accept the resource pack, and your first Sequence is about an evening away.",
+            closingCopy: "Copy the server IP",
+            closingCopied: "✓ IP copied",
+            closingDiscord: "Join the Discord",
+        },
+
+        // ---- Redesign: companion mod ----
+        companion: {
+            eyebrow: "The Companion",
+            title: "COI Client",
+            lede: "Mysterria plays perfectly on a plain Minecraft client — every Beyonder mechanic lives on the server. The COI Client is a small, optional mod that adds the one thing a vanilla client cannot draw: the magic itself.",
+            featureHotkeysTitle: "Cast from the keyboard",
+            featureHotkeysBody: "Bind your abilities to hotkeys and cast mid-fight without ever opening a menu.",
+            featureVisualsTitle: "See your pathway",
+            featureVisualsBody: "Ritual circles, sigils and casting effects rendered in full on your own client.",
+            featurePresenceTitle: "Hear it, and show it",
+            featurePresenceBody: "Server-specific sound design, plus Discord rich presence carrying your Sequence.",
+            downloadEyebrow: "Get the mod",
+            platformNote: "Latest release · installs alongside the server resource pack",
+            optionalLabel: "Optional",
+            optional: "Nothing on the server is locked behind the mod, and you will never be asked to install it. Pick whichever platform you already use — all three carry the same build.",
+        },
+
+        // ---- Redesign: guide ----
+        guidePage: {
+            joinNoMods: "No client mods required",
+            joinBedrock: "Bedrock supported via Geyser",
+            joinFree: "Free to play, forever",
+            joinCompanion: "Want the visuals? Get the COI Client",
+            checklistEyebrow: "The First Hour",
+            checklistTitle: "Six steps from the server list to your first objective",
+            checklistLede: "Check them off as you go — your progress is saved on this device.",
+            checklistProgress: "Progress",
+            topicsCount: "topics",
+            noTopics: "No topic matches that phrase. Browse everything below.",
+            browseAll: "Browse every major system",
+        },
+
+        // ---- Redesign: shop ----
+        shopPage: {
+            eyebrow: "The Reliquary",
+            title: "Wares of the Evernight",
+            lede: "Support the server, never buy power. Everything here is cosmetic, convenience, or a way to commission the staff — the Sequence climb stays sacred.",
+            tabAll: "All wares",
+            showing: "Showing {shown} of {total} manifestations",
+            giftable: "Everything is giftable to another player",
+            perMonth: "Per month",
+            oneTime: "One time",
+            fairPlayLabel: "Fair play promise",
+            fairPlay: "No purchase grants combat power, Sequence progress, recipes, or ingredients. Purchases fund hosting and development of the Circle of Imagination plugin.",
+        },
+
+        // ---- Redesign: profile ----
+        profilePage: {
+            eyebrow: "Beyonder Dossier",
+            verified: "Verified",
+            unverified: "Unverified",
+            role: "Role",
+            logOut: "Log out",
+            pathwayOfThe: "Pathway of the",
+            sequence: "Sequence",
+            actingProgress: "Acting progress",
+            actingHint: "Digest your potion by living your role. At 100% you may attempt the next Sequence ritual.",
+            climb: "The climb · 9 → 0",
+            climbed: "Climbed",
+            youAreHere: "You are here",
+            nextRitual: "Next ritual",
+            balance: "Balance",
+            topUp: "Top up",
+            subscription: "Subscription",
+            account: "Account",
+            discordId: "Discord ID",
+            ledgerEyebrow: "Financial ledger",
+            filterAll: "All",
+            filterIncome: "Income",
+            filterSpending: "Spending",
+            crossGuideTitle: "Advancement stuck?",
+            crossGuideBody: "The handbook covers acting, rituals and madness.",
+            crossPathwayTitle: "Study your pathway",
+            crossPathwayBody: "Every ability, Sequence 9 → 0, in the archive.",
+            noBeyonder: "No Beyonder record yet. Verify your account and drink your first potion.",
+        },
+
+        // ---- Redesign: news ----
+        newsPage: {
+            eyebrow: "From Behind the Fog",
+            title: "Dispatches",
+            earlier: "Earlier dispatches",
+            season: "Season II · 2026",
+            notFound: "Registry entry not found or restricted.",
+        },
+
+        // ---- Redesign: rules ----
+        rulesPage: {
+            eyebrow: "The Covenant",
+            lede: "Short, human-readable, and enforced with judgement rather than scripts. When in doubt: don't ruin someone's day.",
+            appeals: "Appeals go through a Discord ticket — never in public chat.",
+            staffNote: "This is the player covenant. Staff operate under a separate, stricter code — visible to staff accounts on this page.",
+            severityWarn: "Warn",
+            severityMute: "Mute",
+            severityBan: "Ban",
+            severityInstant: "Instant action",
+        },
+
+        // ---- Redesign: staff ----
+        staffOrder: {
+            eyebrow: "Keepers of the Fog",
+            title: "The Order",
+            lede: "The administrators, moderators and builders who keep the world turning. Reach them in Discord for tickets and appeals — never in DMs.",
+            helpQuestion: "Need help, or want to report something?",
+            openTicket: "Open a ticket",
+        },
 
         // Services
         servicesWikiDesc: "Knowledge base & guides",
         servicesDiscord: "Discord",
         servicesDiscordDesc: "Join our community",
-        servicesArchive: "Archive",
-        servicesArchiveDesc: "Like a library, for new items",
         servicesMap: "Live Map",
         servicesMapDesc: "Explore the world",
 
-        // Home Page
-        home: {
-            heroSubtitleHome: "A Lord of the Mysteries inspired Minecraft world",
-            heroDescriptionHome: "Step through the fog and into the era of steam and divination. Join an immersive server where fate, sequences, and secret organizations intertwine.",
-            readGuide: "Read the Guide",
-            letsPlay: "Let's Play!",
-            wiki: "Wiki",
-            joinServerTitle: "How to Join Mysterria",
-            step1Title: "Launch Minecraft",
-            step1Description: "Start Minecraft Java (26.1.2+) or Bedrock Edition",
-            step2Title: "Connect to Server",
-            step2Description: "Java (25565) & Bedrock (19132). Use the IP below:",
-            step3Title: "Begin Your Journey",
-            step3Description: "Welcome to the world of mysteries, secrets and deeds! Explore, learn, adapt, survive!",
-            fullGuide: "Full Game Guide",
-            featureEldritchLoreTitle: "Otherworldliness",
-            featureEldritchLoreDescription: "Discover sequences, potions, and relics hidden in the fog. Rise to the top!",
-            featureVictorianCraftTitle: "The Unknown",
-            featureVictorianCraftDescription: "Uncover all the secrets of this world and climb to the top of the chain of knowledge!",
-            featureSecretSocietiesTitle: "Secret Societies",
-            featureSecretSocietiesDescription: "Pledge your allegiance and rise through the ranks. Let the whole world hear of you!",
-            newsEyebrow: "News",
-            newsTitle: "From Behind the Fog",
-            newsSubtitle: "Updates and dispatches from the Evernight.",
-            pinnedNewsEyebrow: "Important",
-            pinnedNewsTitle: "Pinned Announcements",
-            pinnedNewsSubtitle: "Important long-term updates and announcements.",
-            pinnedNews: "Pinned",
-            loadMorePinned: "Show more pinned",
-            readMore: "Read more",
-            loadAdditional: "Show more",
-        },
-
-        // Hero Section
         serverName: "Mysterria",
-        heroSubtitle:
-            "Step into the mystical world of\nthe Lord of Mysteries universe\nwhere pathways and ancient secrets await",
-        joinServer: "Join Server",
-        lorePathways: "Lore & Pathways",
-        versionInfo: "26.1.2+ · Minecraft · No License Required",
-
-        // Main Description
-        welcomeTitle: "WELCOME TO MYSTERRIA",
-        welcomeQuote:
-            '"This is not just a server... It\'s a Book that writes itself in the minds of players."',
-        mainDescription:
-            "Mysterria is a unique Ukrainian RPG server inspired by Lord of the Mysteries. Every aspect of gameplay immerses you in the world of Fog, Beyonders, and Sequences. Here, magic is not an effect, but a science and path with limitations and costs.",
-
-        // Gameplay Features
-        gameplayTitle: "Core Gameplay",
-        gameplayFeatures: [
-            "You are a Beyonder walking your own Sequence",
-            "Astral World, Spirit World, Spiritual Essence – more than just words",
-            "Ingredients must be found, obtained, or traded",
-            "Potions are prepared through real alchemical processes",
-            "Mobs aren't just killed – each has its own tactics",
-        ],
-
-        // Guides Section
-        guidesTitle: "Guides & Help",
-        guidesFeatures: [
-            "The website contains many detailed guides",
-            "Other players can explain mechanics, but you'll have to ask",
-            "Learning is part of the game. In Mysterria, ignorance = danger",
-        ],
-
-        // What Awaits
-        awaitsTitle: "What Awaits You?",
-        awaitsFeatures: [
-            "Sequence system from 9 to 0 level",
-            "Unique potions, rituals, spirit summoning",
-            "Custom mobs, events, secrets and worldview",
-            "Interaction with others through intriguing events",
-            "Gradual updates and expansion",
-        ],
-
-        finalMessage:
-            'Don\'t play to "win". Play to survive and discover the truth.',
-
-        // Authentication
         login: "Login",
         logout: "Logout",
         loginWithDiscord: "Login with Discord",
-        profile: "Profile",
-        welcome: "Welcome",
         processing: "Processing...",
         secureLoginDisclaimer: "Secure login via Discord - your privacy is protected",
 
-        // Shop
-        shop: "Shop",
         purchase: "Purchase",
-        buy: "Buy",
         price: "Price",
         item: "Item",
         items: "Items",
         subscription: "Subscription",
-        subscriptions: "Subscriptions",
-        balance: "Balance",
-        coins: "Coins",
         marks: "Marks",
         giftable: "Giftable",
-        bulkAvailable: "Bulk Available",
         bulkPurchase: "Bulk Purchase",
-        quantity: "Quantity",
         amount: "Amount",
         buyAsGift: "Purchase as a gift",
         recipient: "Recipient",
         searchRecipient: "Search by nickname...",
         totalCost: "Total Cost",
         pricePerUnit: "Price per unit",
-        giftToUser: "Gift to user",
         selectRecipient: "Select recipient...",
-        searchUsers: "Search users...",
-        unitPrice: "Unit Price",
-        totalPrice: "Total",
         giftFrom: "Gift from",
         giftSuccess: "Gift sent successfully!",
         giftSentFor: "for",
         purchaseSuccessPrefix: "Successfully purchased",
         purchaseSuccessFor: "for",
         loginRequired: "Authentication required for purchase",
-        recipientRequired: "Please select a gift recipient",
-        onlyVerifiedUsers: "Only verified users can receive gifts",
         noUsersFound: "No verified users found",
-        searchingUsers: "Searching users...",
         errorSearchingUsers: "Failed to search users. Please try again.",
         unknown: "Unknown",
 
-        // Profile
-        personalInfo: "Personal Information",
-        serverInfo: "Server Information",
-        transactions: "Transactions",
         transactionHistoryTitle: "Transaction History",
-        moderation: "Moderation",
         verification: "Verification",
-        nickname: "Nickname",
-        discordTag: "Discord Tag",
-        joinedDate: "Joined Date",
-        lastSeen: "Last Seen",
-        playTime: "Play Time",
-
-        // General UI
         close: "Close",
-        save: "Save",
         cancel: "Cancel",
-        confirm: "Confirm",
         loading: "Loading",
-        error: "Error",
-        success: "Success",
         back: "Back",
         next: "Next",
         previous: "Previous",
+        details: "Details",
 
-        // Stats
-        online: "Online",
-        offline: "Offline",
-        players: "Players",
-        statistics: "Statistics",
-
-        // Footer
-        rights: "All rights reserved",
-        copyright: "© 2025 ~",
-
-        // Notifications
         copyError: "Failed to copy",
         errorDetailsClickToCopy: "Click to copy detailed information for administrator",
         errorDetailsCopied: "Error information copied to clipboard",
@@ -202,50 +258,16 @@ const translations = {
         additionalInfoLabel: "Additional Information",
         errorDetailsFooter: "Please provide this information to the administrator for faster problem resolution.",
 
-        // Common Actions
-        edit: "Edit",
-        delete: "Delete",
-        view: "View",
-        search: "Search",
         filter: "Filter",
-        sort: "Sort",
-
-        // Profile Additional
         role: "Role",
         verified: "Verified",
-        notVerified: "Not Verified",
-        beyonderStatus: "Beyonder Status",
         pathway: "Pathway",
         sequence: "Sequence",
-        actingProgress: "Acting Progress",
-
-        // Home Stats
-        stableOnline: "Stable\nOnline",
-        uniqueContent: "Unique\nContent",
-        serverAge: "Years\nOnline",
-
-        // Beyonder Statistics
-        communityEyebrow: "Community",
-        loadingStatistics: "Loading Statistics...",
-        activeBeyonders: "Active Beyonders",
-        joinPlayersCommunity: "Join hundreds of players on their mystical journey",
-        totalBeyonders: "Total Beyonders",
-        activePathways: "Active Pathways",
-        advancedBeyonders: "Advanced (Seq 0-3)",
-        averageSequence: "Average Sequence",
-        mostPopularPathways: "Most Popular Pathways",
-        sequenceDistribution: "Sequence Distribution",
-        sequenceBeyonders: "beyonders",
-
-        // 404 Page
         pageNotFoundTitle: "Oops! Looks like you're lost...",
         pageNotFoundMessage:
             "Unfortunately, the page you are looking for was not found. But don't worry, you can always go back.",
         goBack: "Go Back",
 
-        // Additional UI
-        myProfile: "My Profile",
-        accountVerification: "Account Verification",
         verifyMinecraftAccount: "Verify Minecraft Account",
         unavailable: "Unavailable",
 
@@ -253,7 +275,6 @@ const translations = {
         verificationDescriptionPre: "To verify your Minecraft account, generate a code below and enter the command",
         verificationDescriptionCommand: "/verify <code>",
         verificationDescriptionPost: "on the server.",
-        generating: "Generating...",
         generateCode: "Generate Code",
         yourVerificationCode: "Your verification code:",
         codeValidUntil: "Code valid until:",
@@ -261,13 +282,6 @@ const translations = {
         verificationCodeGenerated: "Verification code generated!",
         verificationCodeError: "Error generating verification code",
 
-        // Shop
-        processing2: "Processing...",
-
-        // Language Switcher
-        changeLanguage: "Change Language",
-
-        // Auth Callback
         authCallback: {
             processing: "Processing authentication...",
             authError: "Authentication Error",
@@ -275,10 +289,10 @@ const translations = {
             closeWindow: "You can close this window",
             authorizationCodeNotReceived: "Authorization code not received",
             authenticationFailed: "Authentication failed",
-            failedToGetToken: "Failed to get authentication token",
             authCancelled: "Authentication was cancelled",
             authTimeout: "Authorization timeout. Please try again.",
             logoutSuccess: "Successfully logged out",
+            invalidRedirectUrl: "That redirect address is not allowed.",
         },
         popupBlocked: "Popup window blocked. Please allow popups for this site.",
 
@@ -316,37 +330,16 @@ const translations = {
         balanceTopUpSuccess: "Balance successfully topped up!",
         balanceTopUpTimeout: "Balance top-up waiting time expired",
 
-        // Logout Messages
-        errorLogout: "Error logging out",
         errorLogoutConsole: "Logout error",
 
-        // Player Stats Dashboard
-        networkStatistics: "Network Statistics",
-        newPlayers24h: "New (24h)",
-        avgPlaytime: "Avg. playtime",
-        playersOnline: "Players Online",
-        topPlayers: "Top Players",
-        hourlyActivity: "Hourly Activity",
-        allServers: "All Servers",
-        onlinePlayersChart: "Online Players",
-        unknownPlayer: "Unknown Player",
-        failedToLoadHourlyData: "Failed to load hourly data",
-        failedToLoadSummary: "Failed to load summary",
         unknownError: "Unknown error",
-        server: "Server",
-        selectServer: "Select server...",
-
-        // Transaction History
         loading2: "Loading...",
         loadMore: "Load more",
         errorLoadingTransactionHistory: "Error loading transaction history",
         transactionHistory: {
-            allTypes: "All types",
             loading: "Loading transaction history...",
             noTransactions: "Transaction history is empty",
-            noFilterResults: "No transactions found for the selected filter: {filter}",
             noTransactionsDescription: "Your transaction history will appear here once you make your first transaction.",
-            details: "Details",
         },
         transactionTypes: {
             PURCHASE: "Purchase",
@@ -359,108 +352,18 @@ const translations = {
             REWARD: "Reward",
         },
 
-        // Server Info & Profile
-        magicPath: "Magic Path on server",
-        residence: "Residence on server",
-        serverInformation: "Server Information:",
-        loadingServerData: "Loading server data...",
-        timePlayedTitle: "Time spent on server",
-        timePlayed: "Time played",
-        magicPathTitle: "Magic path on server",
-        magicPathLabel: "Magic Path",
-        residenceTitle: "Place of residence on server",
-        livesIn: "Lives in",
-        magicLevel: "Magic Level",
-        experienceLevel: "Experience Level",
-        criminalRecords: "Criminal Records",
-        warnings: "Warnings",
-
-        // Moderation Panel
-        warn: "Issue Warning",
-        mute: "Mute Player",
-        ban: "Ban Player",
-        forever: "Forever",
-        unknownUser: "Unknown",
-        failedToGetCurrentUser: "Failed to determine current user",
-        unknownError2: "Unknown error",
-
-        // Modal and UI
-        yes: "Yes",
-        no: "No",
-        topUp: "Top Up",
-        topUpping: "Opening top up page...",
-        purchaseCancelled: "Purchase cancelled",
-        purchaseFailed: "Purchase failed! Contact stuff, please!",
-        nicknameCannotBeEmpty: "Nickname cannot be empty",
-        nicknameSavedSuccessfully: "Nickname saved successfully!",
-        noResultsFound: "No results found",
-        selectOption: "Select option...",
-
-        // Shop Confirmations
         insufficientFundsMessage:
             "Insufficient funds for purchase. Would you like to top up by",
         confirmPurchase: "Confirm Purchase",
-        confirmPurchaseMessage: "Are you sure you want to purchase this item?",
         shopLoginRequired: "Log in to your account to access the Shop!",
         profileSetupRequired: "Please verify your account and set up your profile to make purchases",
         itemNotFound: "Item not found",
         itemNotAvailable: "This item is currently unavailable for purchase",
+        noItemsFound: "Nothing is offered in this category yet.",
 
-        // Shop Categories
-        shopCategoryItems: "Items",
-        shopCategoryItemsDesc: "In-game items and equipment",
-        shopCategoryPermissions: "Permissions",
-        shopCategoryPermissionsDesc: "Special permissions and abilities",
-        shopCategorySubscriptions: "Subscriptions",
-        shopCategorySubscriptionsDesc: "Recurring premium services",
-        shopCategoryDiscordRoles: "Discord Roles",
-        shopCategoryDiscordRolesDesc: "Discord server roles and benefits",
-        shopCategoryCosmetics: "Cosmetics",
-        shopCategoryCosmeticsDesc: "Cosmetic items and appearance customizations",
-        shopCategoryAppeals: "Appeals",
-        shopCategoryAppealsDesc: "Ban appeals and account recovery services",
-        shopCategoryBattlepass: "Battlepass",
-        shopCategoryBattlepassDesc: "Seasonal battlepass rewards and progression",
-        shopCategoryDungeonKeys: "Dungeon Keys",
-        shopCategoryDungeonKeysDesc: "Keys to unlock dungeons and special areas",
-        shopCategoryBeyonderish: "Beyonderish",
-        shopCategoryBeyonderishDesc: "Services related to the Lord of The Mysteries",
-        shopCategoryOther: "Other",
-        shopCategoryOtherDesc: "Miscellaneous services",
-        shopCategoryAll: "All Items",
-        shopCategoryNew: "New",
-        shopCategoryDiscounted: "Discounted",
-        shopCategoryPopular: "Popular",
-        selectCategory: "Select Category",
-        selectCategoryDescription: "Choose a category to browse available items",
-        itemsCount: "items",
-        backToCategories: "Back to Categories",
-
-        // Comparison
-        compareItems: "Compare Items",
-        comparisonMode: "Comparison Mode",
-        exitComparisonMode: "Exit Comparison",
-        selectItemsToCompare: "Select items to compare",
-        compareNow: "Compare Now",
-        addToComparison: "Add to comparison",
-        removeFromComparison: "Remove from comparison",
-        itemComparison: "Item Comparison",
-        closeComparison: "Close",
-        comparisonFeatures: "Features",
-        comparisonDuration: "Duration",
-        comparisonType: "Type",
-        comparisonDiscount: "Discount",
-
-        // Shop UI
-        shopEyebrow: "Shop",
-        shopTitle: "Wares of the Evernight",
-        shopSubtitle: "Clean, elegant, and fair. Your support sustains the city's lamps.",
         shopLoading: "Loading shop...",
         shopLoadFailed: "Failed to load shop",
         tryAgain: "Try Again",
-        viewDetails: "View Details",
-
-        // Service Types
         serviceTypeItem: "Item",
         serviceTypePermission: "Permission",
         serviceTypeSubscription: "Subscription",
@@ -474,18 +377,6 @@ const translations = {
         backToShop: "Back to Shop",
         loginToPurchase: "Please log in to purchase this service",
         purchaseError: "Failed to prepare purchase",
-        purchaseSuccess: "Purchase successful!",
-
-        // Shop Account Setup
-        accountSetupRequired: "Account Verification Required",
-        shopAccessDescription:
-            "To access the shop, you first need to set your Minecraft nickname. This helps us link your account with Discord and ensure proper shop functionality.",
-        profileSetupInstructions:
-            "Go to your profile page to generate a verification code and link your Minecraft account.",
-        goToProfile: "Go to Profile",
-        selectServerForItem: "Select server to receive the item:",
-
-        // Unauthorized Message
         authenticationRequired: "Authentication Required",
         accessExclusiveItems: "Access exclusive items",
         manageYourBalance: "Manage your balance",
@@ -495,549 +386,28 @@ const translations = {
         displayCurrency: "Display Currency",
         displayCurrencyDesc: "Display balance & prices in:",
         paymentConversionRates: "Payment Conversion Rates",
-        topUpConversionRates: "Top-up conversion rates:",
         donationWarning: "Important: When making a donation, please set your name to your in-game nickname so we can credit your account.",
         topUpBalance: "Top Up Balance",
         showActualPoints: "Show actual points",
         oneCurrencyRate: "1 {currency} = {rate} Marks",
 
-        // Dropdown
-        useCustomInput: "Use: \"{query}\"",
-
-        // Game Guide Page
-        gameGuideTitle: "Getting Started Guide",
-        gameGuideSubtitle:
-            "Everything you need to know to begin your journey in Mysterria",
-        ritualOfInitiation: "Ritual of Initiation",
-        gatewayAddress: "GATEWAY ADDRESS",
-
-        // COI Client
-        coiClientTitle: "COI Client",
-        coiClientDescription: "Enhance your connection with the custom supporting mod",
-        coiClientBenefit1: "Enables rich presence and deeper immersion",
-        coiClientBenefit2: "Synchronizes mystical effects with your client",
-        coiClientBenefit3: "Enables casting magic spells via hotkeys",
-        coiClientAcquire: "ACQUIRE COI CLIENT",
-        coiClientOptional: "This supporting mod is entirely optional but recommended for the full experience.",
-
-
-        // Server Connection
-        serverConnectionTitle: "Connect to Server",
-        serverConnectionDescription:
-            "Join our Minecraft server to start your adventure in the Lord of Mysteries universe.",
-        serverIP: "Server IP",
-        serverAddress: "mc.mysterria.net",
-        copyToClipboard: "Copy to clipboard",
-        copyIP: "Copy IP",
         copySuccess: "Copied!",
-        serverVersion: "Version",
-        minecraftVersion: "26.1.2+",
-        serverEdition: "Java & Bedrock",
-        modsRequired: "Mods Required",
-        noModsRequired: "None (Optional)",
-        serverType: "Server Type",
-        rpgServer: "RPG/Roleplay",
-        serverScreenshotPlaceholder: "Server lobby screenshot will be placed here",
-
-        // Lore & Anime
-        loreAnimeTitle: "Understand the World",
-        loreAnimeDescription:
-            "Before diving into the game, we highly recommend familiarizing yourself with the source material.",
-        webNovelTitle: "Web Novel",
-        webNovelDescription:
-            "Read the original Lord of the Mysteries web novel to understand the world better.",
-        readWebNovel: "Read Web Novel",
-        animeTitle: "Anime Series",
-        animeDescription:
-            "Watch the currently airing anime adaptation for visual storytelling.",
-        watchAnime: "Watch Anime",
-        loreImagePlaceholder: "Lord of Mysteries artwork will be placed here",
-
-        // Harmoniya Launcher
-        launcherTitle: "Harmoniya Launcher",
-        launcherDescription:
-            "Our custom launcher with pre-configured modpack for the best server experience.",
-        launcherFeature1: "Pre-installed server modpack",
-        launcherFeature2: "Automatic updates and configuration",
-        launcherFeature3: "Optional - no mods required to play",
-        launcherFeature4: "Auto-login to server, no need to enter password",
-        launcherFeature5:
-            "Pre-installed client mods for extended Magic system support",
-        downloadLauncher: "Download Launcher",
-        launcherScreenshotPlaceholder:
-            "Launcher interface screenshot will be placed here",
-
-        // Rules
-        rulesDescription:
-            "Familiarize yourself with our server rules before playing.",
-        readRules: "Read Server Rules",
-        rulesImagePlaceholder: "Rules illustration will be placed here",
-        mainRuleConcepts: "Main Rule Concepts",
-        ruleConcepts: [
-            "No toxicity, spam, or psychological chaos",
-            "Russian language prohibited in text channels",
-            "No NSFW content or forbidden symbols",
-            "No cheating, hacking, or exploits",
-            "Respect others' property - no griefing",
-        ],
-
-        // Discord Guild
-        discordTitle: "Join Our Discord",
-        discordDescription:
-            "Connect with the community, get help, participate in events, and stay updated on server news.",
-        discordBenefits: [
-            "Get help from experienced players and staff",
-            "Participate in community events and giveaways",
-            "Stay updated on server news and announcements",
-            "Find teammates for adventures and quests",
-            "Access exclusive Discord-only content",
-        ],
-        joinDiscord: "Join Discord Server",
-        discordImagePlaceholder: "Discord server screenshot will be placed here",
-
-        // Profile & Verification
         profileTitle: "Setup Your Profile",
-        profileDescription:
-            "Link your Minecraft account to Discord for verification and access to all server features.",
-        verificationStep1: "Visit your profile page",
-        verificationStep2: "Generate verification code",
-        verificationStep3: "Use /verify <code> command in-game",
-        profileImagePlaceholder: "Profile setup screenshot will be placed here",
-
-        // Quick Tips
-        quickTipsTitle: "Quick Tips for New Players",
-        quickTips: [
-            "Start by reading the lore to understand Beyonder pathways and sequences",
-            "Join Discord to connect with other players and get help",
-            "Visit the spawn area to find starter guides and tutorials",
-            "Ask questions in chat - the community is helpful to newcomers",
-            "Take your time to explore and learn the custom mechanics",
-            "Remember: this is an RPG server focused on immersion and roleplay",
-            "Check the project wiki for detailed guides and gameplay mechanics",
-            "Be respectful and friendly - help create a welcoming community for everyone",
-        ],
-
-        // Bottom CTA
-        readyToStart: "Ready to Begin Your Journey?",
-        readyToStartDescription:
-            "Set up your profile and review the rules to get started on your path as a Beyonder.",
-        setupProfile: "Setup Profile",
-        reviewRules: "Review Rules",
-
         termsViewTitle: "TOS",
         privacyViewTitle: "Privacy",
         slaViewTitle: "SLA",
-        uniquePowers: "Variety of Pathways",
-        highSequences: "High Sequences",
-
-        // Guide Steps
-        guideStep1Title: "Copy IP",
-        guideStep1Description: "Copy server IP address",
-        guideStep2Title: "Add Server",
-        guideStep2Description: "Add Mysteria server",
-        guideStep3Title: "Join Server",
-        guideStep3Description: "Connect to server",
-        guideStep4Title: "Verify",
-        guideStep4Description: "Verify your account",
-        guideStep5Title: "Enter World",
-        guideStep5Description: "Leave lobby area",
-        guideStep6Title: "Learn Lore",
-        guideStep6Description: "Read about Beyonders",
-        guideStep7Title: "Start Playing",
-        guideStep7Description: "Begin your adventure",
-        guideStep8Title: "Harmoniya Launcher",
-        guideStep8Description: "Optional enhanced client",
-
-        // Common UI
-        optional: "Optional",
-        launcherBenefits: "Launcher Benefits",
-
-        // Guide Step Content - Full Titles and Descriptions
-        guideStep1FullTitle: "Copy Server IP Address",
-        guideStep1FullDescription: "First, copy our server IP address to connect to Mysteria.",
-        guideStep2FullTitle: "Add Mysteria Server",
-        guideStep2FullDescription: "Add our server to your server list using the IP address you copied.",
-        guideStep3FullTitle: "Join the Server",
-        guideStep3FullDescription: "Connect to Mysteria by joining the server you just added.",
-        guideStep4FullTitle: "Verify Your Account",
-        guideStep4FullDescription: "Get your verification code from your profile and verify in-game.",
-        guideStep5FullTitle: "Enter the Open World",
-        guideStep5FullDescription: "Leave the lobby area and enter the main game world to begin your adventure.",
-        guideStep6FullTitle: "Learn About Beyonders",
-        guideStep6FullDescription: "Read our wiki to understand the mystical system of Beyonders and how to advance.",
-        guideStep7FullTitle: "Begin Your Adventure!",
-        guideStep7FullDescription: "You're all set! Start your journey in the mystical world of Mysteria.",
-
-        // Guide Step Instructions
-        guideStep2Instruction1: "Click \"Add Server\" in the multiplayer menu",
-        guideStep2Instruction2: "Enter \"Mysteria\" as the server name",
-        guideStep2Instruction3: "Paste the server IP in the address field",
-        guideStep2Instruction4: "Click \"Done\" to save the server",
-
-        guideStep3Instruction1: "Select \"Mysteria\" from your server list",
-        guideStep3Instruction2: "Click \"Join Server\" to connect",
-        guideStep3Instruction3: "Wait for the connection to establish",
-        guideStep3Instruction4: "Accept the server resource pack when prompted",
-
-        guideStep4Instruction1: "Visit your profile page on our website",
-        guideStep4Instruction2: "Copy your verification code",
-        guideStep4Instruction3: "Type the code in chat: /verify [code]",
-        guideStep4Instruction4: "Wait for verification confirmation",
-
-        guideStep5Instruction1: "Look for the world portal in the lobby",
-        guideStep5Instruction2: "Right-click or walk through the portal",
-        guideStep5Instruction3: "Choose your starting location",
-        guideStep5Instruction4: "Begin exploring the mystical world",
-
-        // Guide Step 6 - Lore Content
-        guideStep6LoreTitle1: "Understanding Pathways",
-        guideStep6LoreDesc1: "Learn about the 22 mystical pathways and their unique abilities",
-        guideStep6LoreTitle2: "Potion System",
-        guideStep6LoreDesc2: "Discover how to advance through sequences using potions",
-        guideStep6LoreTitle3: "Mystical Items",
-        guideStep6LoreDesc3: "Explore the various artifacts and their supernatural powers",
-
-        // Guide Step 7 - Final Tips
-        guideStep7JourneyTitle: "Your Journey Begins Here",
-        guideStep7Tip1: "Start as a mortal and work your way up the mystical sequences",
-        guideStep7Tip2: "Choose your pathway carefully - each has unique abilities",
-        guideStep7Tip3: "Join our Discord community for help and roleplay",
-        guideStep7Tip4: "Read the rules to understand our roleplay guidelines",
-
-        // Image Placeholders
-        guideStep1ImagePlaceholder: "Copy IP Screenshot Placeholder",
-        guideStep2ImagePlaceholder: "Add Server Screenshot Placeholder",
-        guideStep3ImagePlaceholder: "Join Server Screenshot Placeholder",
-        guideStep4ImagePlaceholder: "Account Verification Screenshot Placeholder",
-        guideStep5ImagePlaceholder: "World Portal Screenshot Placeholder",
-        guideStep6ImagePlaceholder: "Wiki/Lore Screenshot Placeholder",
-        guideStep7ImagePlaceholder: "Gameplay Screenshot Placeholder",
-
-        // Guide – reference hub
-        guide: {
-            navQuickStart: "Quick Start",
-            navRules: "Rules",
-            navWorld: "World & Lore",
-            navCompanion: "Companion Mod",
-            navPathway: "Pathway",
-            navFaq: "FAQ",
-            optionalTag: "Optional",
-            tocTitle: "On this page",
-
-            heroEyebrow: "GETTING STARTED",
-            heroTitle: "Enter the Fog",
-            heroLede: "Everything you need to get in-game and verified is on this page. Rules, lore, and an optional pathway quiz are below whenever you want them.",
-
-            gatewayAddressLabel: "Gateway address",
-            step3_1Title: "Open Minecraft Java Edition",
-            step3_1Desc: "Version required – check your launcher.",
-            step3_2Title: "Multiplayer → Add Server",
-            step3_2Desc: "Name it anything. We like \"Mysterria\".",
-            step3_3Title: "Paste the address & join",
-            step3_3Desc: "You'll land in the spawn lobby.",
-
-            verifyRiteTitle: "Verify your account · 4 steps",
-            verify1: "Sign in via Discord on your profile page",
-            verify2: "Copy your verification code from the profile",
-            verify3Title: "Enter it in Minecraft chat",
-            verify3Desc: "/verify [your code]",
-            verify4: "You'll receive a confirmation message – done.",
-            openProfile: "Open profile →",
-
-            rulesTitle: "The Covenant",
-            rulesLede: "Four rules – the short version. Read the full policy any time.",
-            readFullRules: "Read full rules →",
-            rule1: "No exploits · no hacks.",
-            rule1Sub: "The Fool watches.",
-            rule2: "Respect other Believers.",
-            rule2Sub: "Disputes go to a Hermit (staff).",
-            rule3: "Mind your tongue.",
-            rule3Sub: "Slurs earn a silence.",
-            rule4: "Report, don't retaliate.",
-            rule4Sub: "/report in chat.",
-
-            worldTitle: "The world · in brief",
-            worldBody: "Mysterria is a roleplay server set in an era of steam, fog, and secret societies. Power flows through Pathways – 22 ancient sequences that shape who you become. Start as a mortal. Advance through potions and ritual. Every choice leaves a mark.",
-
-            companionTitle: "Bind the Companion",
-            companionLede: "The COI Client is an optional mod that brings server-specific gameplay to life. Strongly recommended, never required.",
-            coiWhatTitle: "What it gives you",
-            coiFeature1: "Cast mystical spells via configurable hotkeys",
-            coiFeature2: "Custom visual effects tied to your Pathway",
-            coiFeature3: "Deeper immersion – rich presence and server-specific sounds",
-            coiFeatureSpellHotkeys: "Spell Hotkeys",
-            coiFeatureVisualEffects: "Visual Effects",
-            coiFeatureRichPresence: "Rich Presence",
-            coiFeatureSounds: "Server Sounds",
-
-            pathwayTitle: "Find your Pathway",
-            pathwayLede: "Three questions map you to one of the 22 known Pathways. Purely for flavor – it doesn't affect anything in-game, and you'll discover your true Pathway through play.",
-            quizQuestion: "QUESTION",
-            quizOf: "OF",
-            quizChooseOne: "choose one",
-            nextQuestion: "Next question →",
-            confirmPathway: "Confirm pathway →",
-            tentativeLabel: "TENTATIVE",
-            pathwayConfirmedNote: "Remembered on this device – come back anytime to change it.",
-            quiz1Question: "What draws you to the world of Beyonders?",
-            quiz1Option1: "Hidden knowledge and unseen truths",
-            quiz1Option2: "Authority – the power to shape fate",
-            quiz1Option3: "The beauty of shadow and mystery",
-            quiz2Question: "Faced with a powerful enemy, you…",
-            quiz2Option1: "Study them until you find the flaw",
-            quiz2Option2: "Overwhelm them before they can react",
-            quiz2Option3: "Slip into shadow and wait for the right moment",
-            quiz3Question: "What is your ultimate ambition?",
-            quiz3Option1: "To know everything that is hidden",
-            quiz3Option2: "To rule and reshape the world",
-            quiz3Option3: "To transcend all mortal limits",
-            hintFool: "Fate-touched, unpredictable. The Fool walks outside the system – and that is the system.",
-            hintHermit: "Knowledge-aligned. You observe before you act, and see what others cannot.",
-            hintFortune: "Fate-aligned. Luck is not random – it is a sequence you have learned to read.",
-            hintVisionary: "Sight-aligned. You see what hasn't happened yet – the present is just a rumor to you.",
-            hintDoor: "Threshold-aligned. Every wall is a door you haven't found the key to yet.",
-            hintPriest: "Faith-aligned. You carry a truth larger than yourself, and you will not put it down.",
-            hintMother: "Life-aligned. You create and you nurture – and you decide what a thing is allowed to become.",
-            hintEmperor: "Authority-aligned. You were born to command, and the world will learn to listen.",
-            hintSun: "Divine-aligned. Your light burns away falsehood. You carry the world on your shoulders.",
-            hintJusticiar: "Order-aligned. You are the line between what is allowed and what is not.",
-            hintGiant: "Strength-aligned. You do not move around obstacles. You move through them.",
-            hintParagon: "Excellence-aligned. \"Good enough\" was never a sentence you finished.",
-            hintTyrant: "Dominion-aligned. You do not ask for the throne. You simply arrive at it.",
-            hintTower: "Ruin-aligned. Some things stand only until you decide otherwise.",
-            hintDarkness: "Shadow-aligned. You thrive where others falter. Darkness is not the absence of light – it is its own thing.",
-            hintMoon: "Mystery-aligned. Beauty and shadow are your tools. The unseen bends to your will.",
-            hintDeath: "Transition-aligned. You understand that all things end – and that this is a door, not a wall.",
-            hintDemoness: "Temptation-aligned. You offer people exactly what they already wanted.",
-            hintAbyss: "Void-aligned. You have looked down for so long that down has started looking back.",
-            hintChained: "Restraint-aligned. You carry a weight most people would have set down by now – on purpose.",
-            hintHanged: "Sacrifice-aligned. You already knew what it would cost. You said yes anyway.",
-            hintError: "Anomaly-aligned. You are the exception the rule didn't account for.",
-
-            faqTitle: "If something goes wrong",
-            faq1Q: "\"Can't connect – outdated client\"?",
-            faq1A: "Your Minecraft version doesn't match the gateway. Check your launcher for the required version.",
-            faq2Q: "Discord link failed on the profile",
-            faq2A: "Clear cookies for the site and retry. Still stuck? Open a ticket in our Discord server.",
-            faq3Q: "/verify code not working",
-            faq3A: "Codes expire after a few minutes. Return to your profile page and copy a fresh code.",
-            faq4Q: "Can I change my Pathway later?",
-            faq4A: "Yes – the quiz above is just for flavor. Retake it anytime; nothing is locked in.",
-            faq5Q: "I'm on Bedrock / mobile",
-            faq5A: "Mysterria supports both Java and Bedrock via the Geyser bridge. Use the same gateway address.",
-            serverOnline: "Online",
-            serverOffline: "Offline",
-            serverPlayers: "{n} players",
-            copyAddress: "Copy address",
-        },
-
-        // Wiki Page
-        wikiEyebrow: "Wiki",
-        wikiTitle: "Knowledge Compendium",
-        wikiSubtitle: "Discover the secrets and lore of Mysterria",
-        language: "Language",
-        category: "Category",
-        allCategories: "All Categories",
-        searchWikiPlaceholder: "Search wiki pages...",
-        clearSearch: "Clear search",
-        searchResults: "Found {count} results for \"{query}\"",
-        categoryResults: "Showing {count} pages in {category}",
-        totalPages: "Total pages: {count}",
-        failedToLoadPages: "Failed to load pages",
-        noPagesFound: "No pages found",
-        noSearchResults: "No pages found matching your search",
-        noCategoryPages: "No pages found in this category",
-        noWikiPages: "No wiki pages available",
-        showAllPages: "Show All Pages",
-
-        // Guide Page
-        guideEyebrow: "Guide",
-        guideTitle: "Enter the Fog",
-        guideSubtitle: "Your complete guide to surviving the mysteries of Mysterria.",
-        gettingStartedSectionTitle: "Getting Started",
-        firstStepsTitle: "First Steps",
-        firstStepsDescription: "Join the server at mc.mysterria.net and begin your journey into the world of mysteries.",
-        characterCreationTitle: "Character Creation",
-        characterCreationDescription: "Choose your starting pathway and begin ascending the mystical sequences.",
-        sequencesPathwaysSectionTitle: "Sequences & Pathways",
-        foolPathwayTitle: "The Fool Pathway",
-        foolPathwayDescription: "Master divination, illusion, and the power to manipulate fate itself.",
-        hunterPathwayTitle: "Hunter Pathway",
-        hunterPathwayDescription: "Excel in combat, tracking, and supernatural marksmanship abilities.",
-        seerPathwayTitle: "Seer Pathway",
-        seerPathwayDescription: "Gain foresight, prophecy, and the ability to peer through time.",
-        secretOrganizationsSectionTitle: "Secret Organizations",
-        tarotClubTitle: "The Tarot Club",
-        tarotClubDescription: "A mysterious gathering above the gray fog where members trade knowledge and favors.",
-        churchOfEvernightGoddessTitle: "Church of the Evernight Goddess",
-        churchOfEvernightGoddessDescription: "One of the orthodox churches maintaining order in the supernatural world.",
-        mysticalCraftingSectionTitle: "Mystical Crafting",
-        potionMakingTitle: "Potion Making",
-        potionMakingDescription: "Brew advancement potions to climb the sequences and gain new abilities.",
-        sealedArtifactsTitle: "Sealed Artifacts",
-        sealedArtifactsDescription: "Discover and wield powerful but dangerous mystical items.",
-        quickTipsForNewBeyondersTitle: "Quick Tips for New Beyonders",
-        quickTipsForNewBeyondersList: [
-            "Always be cautious when dealing with supernatural phenomena",
-            "Knowledge can be both power and danger - share wisely",
-            "Join or form a team for dangerous expeditions",
-            "Keep your advancement steady - rushing leads to loss of control",
-            "The fog holds many secrets, but not all are meant to be uncovered",
-        ],
-
-        // Rules Page
         navRules: "Rules",
         lawsOfMysterria: "Laws of Mysterria",
 
-        rulesSubtitle:
-            '"He who enters the City of Fog is bound to obey the Laws of Mysterria. Violators will be cursed by the Entity itself..."',
         tableOfContents: "Table of Contents",
         staffRules: "Staff Rules",
         examples: "Examples",
         playerRules: "Player Rules",
         staffPage: {
-            eyebrow: "Staff",
-            kicker: "Guardians of the fog",
-            title: "Mysterria Staff",
-            subtitle: "The people keeping the server, community, stories, art, and testing rituals moving.",
-            listLabel: "Mysterria staff members by rank",
             members: "members",
             loadError: "Failed to load staff members. Please try again later.",
         },
 
-
-        mainRule: "The Main Rule",
-        mainRuleDescription:
-            "Participation in the server means automatic agreement to the following. Ignorance does not exempt from responsibility. And punishment will always find you...!",
-        rulesSection: {
-            "1.1": {
-                title: "Psychological Chaos",
-                description:
-                    "Toxicity, inadequacy, flooding, spam, blackmail are unacceptable. The City does not tolerate madness beyond Control.",
-            },
-            "1.2": {
-                title: "Enemy Language",
-                description:
-                    "Any manifestation of Russian language in text channels is prohibited. In voice channels - at the discretion of its owner.",
-            },
-            "1.3": {
-                title: "Forbidden Artifacts",
-                description:
-                    "NSFW / 18+ content, war symbols, terrorist or cult signs are instantly destroyed by the Church of the Sun.",
-            },
-            "1.4": {
-                title: "Inhuman Word",
-                description:
-                    "Racism, sexism, chauvinism are unacceptable. Only Russians are deprived of moral protection.",
-            },
-            "1.5": {
-                title: "Unauthorized Intrusion",
-                description:
-                    "Any advertising without permission is an act of Invasion. This applies even to DMs.",
-            },
-            "1.6": {
-                title: "Breach of the Veil",
-                description:
-                    "Disclosure of personal information - even in private - is punishable by exile.",
-            },
-            "1.7": {
-                title: "Verbal Magic",
-                description:
-                    "Excessive profanity drains your soul. Every word is a ritual. Use wisely.",
-            },
-            "1.8": {
-                title: "Ritual Without Altar",
-                description:
-                    "Write only in the channel designated for it. Off-topic is magic without consequences, but with punishment.",
-            },
-            "1.9": {
-                title: "Empty Shells",
-                description:
-                    "Twinks, second accounts are prohibited. Arcane identity substitution is a crime.",
-            },
-            "1.10": {
-                title: "False Knight",
-                description:
-                    "Impersonating administration or deceiving players - eternal silence in the Fog.",
-            },
-            "1.11": {
-                title: "Incitement Rituals",
-                description:
-                    "Provoking others to violate - diving into the Abyss. You are responsible not only for actions, but also for influence.",
-            },
-            "1.12": {
-                title: "Sowers of Chaos",
-                description:
-                    "Creating conflicts, escalating negativity - rituals of reverse action. Consequences come before you write sorry...",
-            },
-        },
-
-        // Minecraft Rules
-        minecraftRulesTitle: "Arcane Codex",
-        minecraftRulesSubtitle:
-            '"The peaceful lands of Mysterria are protected not by walls, but by Laws. Break them - and the Entity will turn against you..."',
-        soulAgreement: "Soul Agreement",
-        soulAgreementDescription:
-            "By playing on the server, you automatically agree to the Codex. Ignorance of the rules does not remove responsibility. Punishment will always find its addressee.",
-        minecraftRulesSection: {
-            "2.1": {
-                title: "Forbidden Modifiers",
-                description:
-                    "Baritone, X-Ray, auto-clickers, multi-accounts - magic beyond Balance. Its price is exile.",
-            },
-            "2.2": {
-                title: "Space Violation",
-                description:
-                    "Griefing, landscape damage, theft - invasion of another's reality. The City does not forgive this.",
-            },
-            "2.3": {
-                title: "Desecration of Home",
-                description:
-                    "Interfering on someone else's territory without consent - a ritual of distrust. Do not enter the land without invitation.",
-            },
-            "2.4": {
-                title: "Breaking the World Fabric",
-                description:
-                    "Lag machines, dupes, exploits - research of the Forbidden. And it has a price. Fatal.",
-            },
-            "2.5": {
-                title: "Profanation of Relics",
-                description:
-                    "Destroying chests in dungeons - desecration of temples. Relooting exists - leave others a chance for loot.",
-            },
-            "2.6": {
-                title: "Summoning Chaos",
-                description:
-                    "Provoking rule violations - the Demon's whisper in another's heart. For this, the punishment is double.",
-            },
-            "2.7": {
-                title: "Combat Without Consent",
-                description:
-                    "Killing, armor damage, using magic - only by mutual consent. Otherwise - it's an attack.",
-            },
-            "2.8": {
-                title: "War Without Prophecy",
-                description:
-                    "Team battles (wars) - only with admin permission. Without prophecy - only slaughter.",
-            },
-            "2.9": {
-                title: "Desecration of Ether",
-                description:
-                    "Advertising, NSFW, terrorist symbols - pollution of the Ether. There will be no forgiveness.",
-            },
-            "2.10": {
-                title: "Unauthorized Settlements",
-                description:
-                    "Building closer than 300 blocks from Spawn without Arcanist permission is forbidden. Coordination is key.",
-            },
-            "2.13": {
-                title: "Deal with the Demon",
-                description:
-                    "Selling items for real money - a contract with the Abyss. And it always takes its due.",
-            },
-        },
-
-        // Daily Bonus Cat
         dailyBonusCatTitle: "A strange resonance...",
         dailyBonusCatAlt: "A mysterious cat",
         dailyBonusFound: "You found the Emporium Crystal! +20 Brilliant Emporium Points awarded.",
@@ -1190,184 +560,240 @@ const translations = {
         navHome: "Головна",
         navShop: "Крамниця",
         navWiki: "Вікіпедія",
-        navGame: "Грати!",
+        navGame: "Довідник",
+        navPathways: "Шляхи",
+        navNews: "Новини",
         navServices: "Сервіси",
-        navForum: "Форум",
-        navStaff: "Персонал",
+        header: {
+            tagline: "За межами Туману",
+            navLabel: "Головне меню",
+            toggleNav: "Відкрити меню",
+            closeNav: "Закрити меню",
+            seasonHeadline: "Сезон II щойно розпочався!",
+            seasonLink: "Читати оголошення",
+        },
+        footer: {
+            disclaimer: "Неофіційний фанатський проєкт, натхненний «Володарем Таємниць». Не пов'язаний з автором або Mojang.",
+            playHeading: "Гра",
+            accountHeading: "Акаунт",
+            communityHeading: "Спільнота",
+            legalLabel: "Правові та швидкі посилання",
+            linkGuide: "Довідник новачка",
+            linkArchive: "Архів Потойбічного",
+            linkRules: "Закони Містеррії",
+            linkStaff: "Орден (персонал)",
+            linkCompanion: "COI Client (опційний мод)",
+            linkDossier: "Досьє Потойбічного",
+            linkShop: "Товари Вічної Ночі",
+            linkNews: "Новини та депеші",
+        },
+
+        // ---- Редизайн: головна ----
+        homePage: {
+            heroEyebrowBefore: "Minecraft-сервер за",
+            heroEyebrowBrand: "Володарем Таємниць",
+            heroEyebrowAfter: "",
+            heroTagline: "Випий зілля. Зіграй роль. Піднімись від Послідовності 9 до божественності — перш ніж Туман забере тебе.",
+            heroPrimaryCta: "Почати шлях",
+            heroSecondaryCta: "Обрати Шлях",
+            serverIpLabel: "IP сервера",
+            copyHint: "Натисніть, щоб скопіювати",
+            copiedHint: "✓ Скопійовано",
+            statBeyonders: "Потойбічних",
+            statPathways: "Шляхів",
+            statCountdown: "До нового сезону",
+            circleEyebrow: "Коло Уяви",
+            circleTitle: "Кожна сила з роману. Ігрова.",
+            circleLede: "Наш власний плагін реалізує повну систему сил Потойбічних — 22 Шляхи, зілля, ритуали, акторство та втрату контролю. Моди не потрібні; клієнтський компаньйон додає візуал.",
+            circleStepOneTitle: "Знайди рецепт",
+            circleStepOneBody: "Обшукуй скрині, що поповнюються, торгуй з гравцями або полюй на містичних істот заради формули зілля Послідовності 9 будь-якого з 22 Шляхів.",
+            circleStepTwoTitle: "Звари та випий зілля",
+            circleStepTwoBody: "Збери основні інгредієнти, попрацюй з казаном і прийми свою долю. Справжні здібності, витрати духовності — і справжнє божевілля, якщо поспішиш.",
+            circleStepThreeTitle: "Зіграй роль. Просувайся.",
+            circleStepThreeBody: "Перетрави зілля, живучи роллю своєї Послідовності. Проводь ритуали, завершуй акторство і піднімайся 9 → 0 упродовж цілого сезону.",
+            tarotEyebrow: "Архів Потойбічного",
+            tarotTitle: "Яку карту ви витягнете?",
+            tarotSeq: "ПОСЛ. 9",
+            tarotCta: "Відкрити повний архів",
+            tarotCtaCount: "22 Шляхи",
+            observatoryEyebrow: "Обсерваторія",
+            observatoryTitle: "Живий світ із {count} Потойбічних",
+            observatoryLede: "Живий перепис кожного пробудженого гравця цього сезону — якими Шляхами вони йдуть і як високо піднялись. Оновлюється щогодини із самого сервера.",
+            observatoryAdvanced: "Просунуті (Посл. 0–3)",
+            observatoryAverage: "Середня Послідовність",
+            observatoryActive: "Активні Шляхи",
+            observatoryPanelTitle: "Найпопулярніші Шляхи",
+            observatoryPanelNote: "Цього сезону",
+            newsEyebrow: "З-за Туману",
+            newsTitle: "Останні депеші",
+            newsAll: "Усі новини",
+            newsPinned: "Закріплено",
+            newsRead: "Читати депешу",
+            closingEyebrow: "Запрошення",
+            closingTitleLineOne: "Туман чекає.",
+            closingTitleLineTwo: "Чи зазирнете ви всередину?",
+            closingLede: "Безкоштовний вхід. Java 26.1.2+, прийміть ресурспак — і до першої Послідовності лишиться один вечір.",
+            closingCopy: "Скопіювати IP сервера",
+            closingCopied: "✓ IP скопійовано",
+            closingDiscord: "Приєднатись до Discord",
+        },
+
+        // ---- Редизайн: клієнтський мод ----
+        companion: {
+            eyebrow: "Компаньйон",
+            title: "COI Client",
+            lede: "Містеррія чудово працює на звичайному клієнті Minecraft — уся механіка Потойбічних живе на сервері. COI Client — невеликий необов'язковий мод, який додає єдине, чого ванільний клієнт намалювати не може: саму магію.",
+            featureHotkeysTitle: "Кастуй з клавіатури",
+            featureHotkeysBody: "Прив'яжи здібності до гарячих клавіш і кастуй посеред бою, не відкриваючи меню.",
+            featureVisualsTitle: "Побач свій Шлях",
+            featureVisualsBody: "Ритуальні кола, сигіли та ефекти кастування у повному вигляді на твоєму клієнті.",
+            featurePresenceTitle: "Почуй і покажи",
+            featurePresenceBody: "Серверний звуковий дизайн і Discord rich presence із твоєю Послідовністю.",
+            downloadEyebrow: "Завантажити мод",
+            platformNote: "Останній реліз · встановлюється поряд із серверним ресурспаком",
+            optionalLabel: "Необов'язково",
+            optional: "Жоден вміст сервера не закритий за модом, і встановлювати його ніхто не змусить. Обирай ту платформу, якою вже користуєшся — на всіх трьох однакова збірка.",
+        },
+
+        // ---- Редизайн: довідник ----
+        guidePage: {
+            joinNoMods: "Моди не потрібні",
+            joinBedrock: "Bedrock підтримується через Geyser",
+            joinFree: "Безкоштовно, назавжди",
+            joinCompanion: "Хочеш візуал? Встанови COI Client",
+            checklistEyebrow: "Перша година",
+            checklistTitle: "Шість кроків від списку серверів до першої мети",
+            checklistLede: "Відмічайте кроки — прогрес зберігається на цьому пристрої.",
+            checklistProgress: "Прогрес",
+            topicsCount: "тем",
+            noTopics: "Немає теми за цим запитом. Перегляньте всі теми нижче.",
+            browseAll: "Огляд усіх систем",
+        },
+
+        // ---- Редизайн: крамниця ----
+        shopPage: {
+            eyebrow: "Реліквіарій",
+            title: "Товари Вічної Ночі",
+            lede: "Підтримайте сервер, а не купуйте силу. Усе тут — косметика, зручність або замовлення персоналу; сходження Послідовностями лишається священним.",
+            tabAll: "Усі товари",
+            showing: "Показано {shown} з {total} проявів",
+            giftable: "Усе можна подарувати іншому гравцю",
+            perMonth: "На місяць",
+            oneTime: "Одноразово",
+            fairPlayLabel: "Обіцянка чесної гри",
+            fairPlay: "Жодна покупка не дає бойової сили, прогресу Послідовності, рецептів чи інгредієнтів. Кошти йдуть на хостинг і розробку плагіна «Коло Уяви».",
+        },
+
+        // ---- Редизайн: профіль ----
+        profilePage: {
+            eyebrow: "Досьє Потойбічного",
+            verified: "Підтверджено",
+            unverified: "Не підтверджено",
+            role: "Роль",
+            logOut: "Вийти",
+            pathwayOfThe: "Шлях",
+            sequence: "Послідовність",
+            actingProgress: "Прогрес акторства",
+            actingHint: "Перетравлюйте зілля, живучи своєю роллю. На 100% ви зможете спробувати ритуал наступної Послідовності.",
+            climb: "Сходження · 9 → 0",
+            climbed: "Пройдено",
+            youAreHere: "Ви тут",
+            nextRitual: "Наступний ритуал",
+            balance: "Баланс",
+            topUp: "Поповнити",
+            subscription: "Підписка",
+            account: "Акаунт",
+            discordId: "Discord ID",
+            ledgerEyebrow: "Фінансовий журнал",
+            filterAll: "Усі",
+            filterIncome: "Надходження",
+            filterSpending: "Витрати",
+            crossGuideTitle: "Застрягли з просуванням?",
+            crossGuideBody: "Довідник пояснює акторство, ритуали та божевілля.",
+            crossPathwayTitle: "Вивчіть свій Шлях",
+            crossPathwayBody: "Усі здібності, Послідовності 9 → 0, в архіві.",
+            noBeyonder: "Запису Потойбічного ще немає. Підтвердіть акаунт і випийте перше зілля.",
+        },
+
+        // ---- Редизайн: новини ----
+        newsPage: {
+            eyebrow: "З-за Туману",
+            title: "Депеші",
+            earlier: "Попередні депеші",
+            season: "Сезон II · 2026",
+            notFound: "Запис не знайдено або доступ обмежено.",
+        },
+
+        // ---- Редизайн: правила ----
+        rulesPage: {
+            eyebrow: "Завіт",
+            lede: "Стисло, зрозуміло і з судженням, а не за скриптом. Якщо сумніваєтесь — не псуйте комусь день.",
+            appeals: "Апеляції подаються тікетом у Discord — ніколи в загальному чаті.",
+            staffNote: "Це завіт гравців. Персонал працює за окремим, суворішим кодексом — він видимий персоналу на цій сторінці.",
+            severityWarn: "Попередження",
+            severityMute: "Мут",
+            severityBan: "Бан",
+            severityInstant: "Миттєва дія",
+        },
+
+        // ---- Редизайн: персонал ----
+        staffOrder: {
+            eyebrow: "Хранителі Туману",
+            title: "Орден",
+            lede: "Адміністратори, модератори та білдери, які тримають світ у русі. Звертайтесь у Discord за тікетами й апеляціями — ніколи в особисті.",
+            helpQuestion: "Потрібна допомога або хочете щось повідомити?",
+            openTicket: "Відкрити тікет",
+        },
 
         // Services
         servicesWikiDesc: "База знань та посібники",
         servicesDiscord: "Discord",
         servicesDiscordDesc: "Приєднуйтесь до спільноти",
-        servicesArchive: "Архів",
-        servicesArchiveDesc: "Як бібліотека, але для нових предметів",
         servicesMap: "Мапа",
         servicesMapDesc: "Досліджуйте світ",
 
-        // Home Page
-        home: {
-            heroSubtitleHome: "Minecraft світ, натхненний Lord of the Mysteries",
-            heroDescriptionHome: "Пройдіть крізь туман в епоху пари та ворожіння. Приєднуйтесь до захоплюючого сервера, де переплітаються доля, послідовності та таємні організації.",
-            readGuide: "Читати Гайд",
-            letsPlay: "Грайте!",
-            wiki: "Вікі",
-            joinServerTitle: "Як приєднатися до Містеррії",
-            step1Title: "Запустіть Minecraft",
-            step1Description: "Запустіть Minecraft Java (26.1.2+) або Bedrock",
-            step2Title: "Підключіться до сервера",
-            step2Description: "Java (25565) та Bedrock (19132). Використайте IP:",
-            step3Title: "Почніть свою подорож",
-            step3Description: "Вітаємо у світі таємниць, магії та пригод!",
-            fullGuide: "Повний гайд по грі",
-            featureEldritchLoreTitle: "Потойбічність",
-            featureEldritchLoreDescription: "Відкрийте послідовності, зілля та реліквії, приховані в тумані. Підійміться на вершину!",
-            featureVictorianCraftTitle: "Незвіданість",
-            featureVictorianCraftDescription: "Відкрийте всі таємниці цього світу, станьте на вершину інформаційного ланцюга!",
-            featureSecretSocietiesTitle: "Таємні Товариства",
-            featureSecretSocietiesDescription: "Присягніть на вірність і підніміться по рангах. Нехай весь світ почує про вас!",
-            newsEyebrow: "Новини",
-            newsTitle: "З-за Туману",
-            newsSubtitle: "Оновлення та повідомлення від Вічної Ночі.",
-            pinnedNewsEyebrow: "Важливе",
-            pinnedNewsTitle: "Закріплені Оголошення",
-            pinnedNewsSubtitle: "Важливі довготривалі оновлення та оголошення.",
-            pinnedNews: "Закріплено",
-            loadMorePinned: "Показати більше закріплених",
-            readMore: "Читати далі",
-            loadAdditional: "Показати більше",
-        },
-
-        // Hero Section
         serverName: "Містеррія",
-        heroSubtitle:
-            "Зануртесь у містичний світ\nвсесвіту Lord of the Mysteries\nде шляхи та давні таємниці чекають",
-        joinServer: "Приєднатися",
-        lorePathways: "Лор і Шляхи",
-        versionInfo: "26.1.2+ · Minecraft · Ліцензія не обов'язкова",
-
-        // Main Description
-        welcomeTitle: "ВІТАЄМО У МІСТЕРРІЇ",
-        welcomeQuote:
-            '"Це не просто сервер... Це Книга, що сама пише себе у головах гравців."',
-        mainDescription:
-            "Містеррія – унікальний український RPG-сервер, створений за мотивами Lord of the Mysteries. Кожен аспект геймплею занурює тебе у світ Туману, Бейондерів та Послідовностей. Тут магія – не ефект, а наука і шлях з обмеженнями та ціною.",
-
-        // Gameplay Features
-        gameplayTitle: "Основа геймплею",
-        gameplayFeatures: [
-            "Ти – Потойбічний, що крокує власною Послідовністю",
-            "Астральний світ, Вимір Духів, Духовна Сутність – це більше ніж слова",
-            "Інгредієнти потрібно знаходити, здобувати або торгувати ними",
-            "Зілля готуються за реальними алхімічними процесами",
-            "Мобів не просто вбити – кожен із них має свою тактику",
-        ],
-
-        // Guides Section
-        guidesTitle: "Гайди та допомога",
-        guidesFeatures: [
-            "На сайті міститься багато детальних гайдів",
-            "Інші гравці можуть пояснити механіки, але доведеться питати",
-            "Вивчення – частина гри. У Містеррії незнання = небезпека",
-        ],
-
-        // What Awaits
-        awaitsTitle: "Що на тебе чекає?",
-        awaitsFeatures: [
-            "Система Послідовностей з 9 до 0 рівня",
-            "Унікальні зілля, ритуали, покликання духів",
-            "Власні моби, події, таємниці та світогляд",
-            "Взаємодія з іншими через інтригуючі події",
-            "Поступове оновлення і розширення",
-        ],
-
-        finalMessage:
-            "Грайте не для того, щоб «виграти». Грайте, щоб вижити і відкрити істину.",
-
-        // Authentication
         login: "Увійти",
         logout: "Вийти",
         loginWithDiscord: "Увійти через Discord",
-        profile: "Профіль",
-        welcome: "Ласкаво просимо",
         processing: "Обробка...",
         secureLoginDisclaimer: "Безпечний вхід через Discord - ваша конфіденційність захищена",
 
-        // Shop
-        shop: "Крамниця",
         purchase: "Придбати",
-        buy: "Купити",
         price: "Ціна",
         item: "Предмет",
         items: "Предмети",
         subscription: "Підписка",
-        subscriptions: "Підписки",
-        balance: "Баланс",
-        coins: "Монети",
         marks: "Марок",
         giftable: "Можна подарувати",
-        bulkAvailable: "Доступна оптова покупка",
         bulkPurchase: "Оптова покупка",
-        quantity: "Кількість",
         amount: "Кількість",
         buyAsGift: "Придбати як подарунок",
         recipient: "Одержувач",
         searchRecipient: "Шукати за нікнеймом...",
         totalCost: "Загальна вартість",
         pricePerUnit: "Ціна за одиницю",
-        giftToUser: "Подарувати користувачу",
         selectRecipient: "Оберіть одержувача...",
-        searchUsers: "Шукати користувачів...",
-        unitPrice: "Ціна за одиницю",
-        totalPrice: "Загалом",
         giftFrom: "Подарунок від",
         giftSuccess: "Подарунок успішно відправлено!",
         giftSentFor: "за",
         purchaseSuccessPrefix: "Успішно придбано",
         purchaseSuccessFor: "за",
         loginRequired: "Для покупки необхідно увійти в систему",
-        recipientRequired: "Будь ласка, оберіть одержувача подарунка",
-        onlyVerifiedUsers: "Тільки верифіковані користувачі можуть отримувати подарунки",
         noUsersFound: "Верифіковані користувачі не знайдені",
-        searchingUsers: "Пошук користувачів...",
         errorSearchingUsers: "Помилка пошуку користувачів. Будь ласка, спробуйте ще раз.",
         unknown: "Невідомо",
 
-        // Profile
-        personalInfo: "Особиста інформація",
-        serverInfo: "Інформація про сервер",
-        transactions: "Транзакції",
         transactionHistoryTitle: "Історія транзакцій",
-        moderation: "Модерація",
         verification: "Верифікація",
-        nickname: "Нікнейм",
-        discordTag: "Discord тег",
-        joinedDate: "Дата приєднання",
-        lastSeen: "Останній візит",
-        playTime: "Час гри",
-
-        // General UI
         close: "Закрити",
-        save: "Зберегти",
         cancel: "Скасувати",
-        confirm: "Підтвердити",
         loading: "Завантаження",
-        error: "Помилка",
-        success: "Успіх",
         back: "Назад",
         next: "Далі",
         previous: "Попередній",
+        details: "Деталі",
 
-        // Stats
-        online: "Онлайн",
-        offline: "Офлайн",
-        players: "Гравці",
-        statistics: "Статистика",
-
-        // Footer
-        rights: "Всі права захищені",
-        copyright: "© 2025 ~",
-
-        // Notifications
         copyError: "Не вдалося скопіювати",
         errorDetailsClickToCopy: "Натисніть щоб скопіювати детальну інформацію для адміністратора",
         errorDetailsCopied: "Інформацію про помилку скопійовано в буфер обміну",
@@ -1382,50 +808,16 @@ const translations = {
         additionalInfoLabel: "Додаткова інформація",
         errorDetailsFooter: "Будь ласка, надайте цю інформацію адміністратору для швидшого вирішення проблеми.",
 
-        // Common Actions
-        edit: "Редагувати",
-        delete: "Видалити",
-        view: "Переглянути",
-        search: "Пошук",
         filter: "Фільтр",
-        sort: "Сортувати",
-
-        // Profile Additional
         role: "Роль",
         verified: "Підтверджено",
-        notVerified: "Не підтверджено",
-        beyonderStatus: "Статус Потойбічного",
         pathway: "Шлях",
         sequence: "Послідовність",
-        actingProgress: "Прогрес Акторства",
-
-        // Home Stats
-        stableOnline: "Стабільного\nонлайну",
-        uniqueContent: "Унікального\nконтенту",
-        serverAge: "Існування\nсервера",
-
-        // Beyonder Statistics
-        communityEyebrow: "Спільнота",
-        loadingStatistics: "Завантаження статистики...",
-        activeBeyonders: "Активних Потойбічних",
-        joinPlayersCommunity: "Приєднуйтесь до сотень гравців у їхній містичній подорожі",
-        totalBeyonders: "Всього Потойбічних",
-        activePathways: "Активних Шляхів",
-        advancedBeyonders: "Просунутих (Посл 0-3)",
-        averageSequence: "Середня Послідовність",
-        mostPopularPathways: "Найпопулярніші Шляхи",
-        sequenceDistribution: "Розподіл Послідовностей",
-        sequenceBeyonders: "потойбічних",
-
-        // 404 Page
         pageNotFoundTitle: "Ой! Схоже, ви заблукали...",
         pageNotFoundMessage:
             "На жаль, сторінку, яку ви шукаєте, не знайдено. Але не хвилюйтеся, ви завжди можете повернутися назад.",
         goBack: "Повернутись",
 
-        // Additional UI
-        myProfile: "Мій профіль",
-        accountVerification: "Верифікація акаунту",
         verifyMinecraftAccount: "Верифікація Minecraft акаунту",
         unavailable: "Недоступно",
 
@@ -1433,7 +825,6 @@ const translations = {
         verificationDescriptionPre: "Щоб підтвердити свій Minecraft акаунт, згенеруйте код нижче і введіть команду",
         verificationDescriptionCommand: "/verify <код>",
         verificationDescriptionPost: "на сервері.",
-        generating: "Генерую...",
         generateCode: "Згенерувати код",
         yourVerificationCode: "Ваш код верифікації:",
         codeValidUntil: "Код дійсний до:",
@@ -1441,13 +832,6 @@ const translations = {
         verificationCodeGenerated: "Код верифікації згенеровано!",
         verificationCodeError: "Помилка при генеруванні коду верифікації",
 
-        // Shop
-        processing2: "Обробка...",
-
-        // Language Switcher
-        changeLanguage: "Змінити мову",
-
-        // Auth Callback
         authCallback: {
             processing: "Обробка автентифікації...",
             authError: "Помилка автентифікації",
@@ -1455,10 +839,10 @@ const translations = {
             closeWindow: "Ви можете закрити це вікно",
             authorizationCodeNotReceived: "Код авторизації не отримано",
             authenticationFailed: "Автентифікація не вдалася",
-            failedToGetToken: "Не вдалося отримати токен автентифікації",
             authCancelled: "Авторизація була скасована",
             authTimeout: "Час очікування авторизації вийшов. Спробуйте ще раз.",
             logoutSuccess: "Успішний вихід з системи",
+            invalidRedirectUrl: "Ця адреса перенаправлення не дозволена.",
         },
         popupBlocked: "Спливаюче вікно заблоковано. Будь ласка, дозвольте спливаючі вікна для цього сайту.",
 
@@ -1496,38 +880,17 @@ const translations = {
         balanceTopUpSuccess: "Баланс успішно поповнено!",
         balanceTopUpTimeout: "Час очікування поповнення балансу війшов",
 
-        // Logout Messages
-        errorLogout: "Помилка при виході з системи",
         errorLogoutConsole: "Помилка при виході",
 
-        // Player Stats Dashboard
-        networkStatistics: "Статистика Мережі",
-        newPlayers24h: "Нові (24г)",
-        avgPlaytime: "Сер. час гри",
-        playersOnline: "Гравці Онлайн",
-        topPlayers: "Топ гравці",
-        hourlyActivity: "Активність по годинах",
-        allServers: "Всі сервери",
-        onlinePlayersChart: "Онлайн гравці",
-        unknownPlayer: "Невідомий гравець",
-        failedToLoadHourlyData: "Не вдалося завантажити погодинні дані",
-        failedToLoadSummary: "Не вдалося завантажити зводку",
         unknownError: "Невідома помилка",
-        server: "Сервер",
-        selectServer: "Виберіть сервер...",
-
-        // Transaction History
         loading2: "Завантаження...",
         loadMore: "Завантажити більше",
         errorLoadingTransactionHistory:
             "Помилка при завантаженні історії транзакцій",
         transactionHistory: {
-            allTypes: "Всі типи",
             loading: "Завантаження історії транзакцій...",
             noTransactions: "Історія транзакцій порожня",
-            noFilterResults: "Не знайдено транзакцій для обраного фільтра: {filter}",
             noTransactionsDescription: "Ваша історія транзакцій з'явиться тут після першої транзакції.",
-            details: "Деталі",
         },
         transactionTypes: {
             PURCHASE: "Покупка",
@@ -1540,109 +903,19 @@ const translations = {
             REWARD: "Нагорода",
         },
 
-        // Server Info & Profile
-        magicPath: "Шлях магії на сервері",
-        residence: "Місце проживання на сервері",
-        serverInformation: "Серверна інформація:",
-        loadingServerData: "Завантаження серверних даних...",
-        timePlayedTitle: "Час, який провели на сервері",
-        timePlayed: "Часу награно",
-        magicPathTitle: "Шлях магії на сервері",
-        magicPathLabel: "Шлях магії",
-        residenceTitle: "Місце проживання на сервері",
-        livesIn: "Проживає в",
-        magicLevel: "Рівень магії",
-        experienceLevel: "Рівень досвіду",
-        criminalRecords: "Судимостей",
-        warnings: "Попереджень",
-        topUpping: "Відкриваю сторінку поповнення рахунку...",
-
-        // Moderation Panel
-        warn: "Видати попередження",
-        mute: "Замутити гравця",
-        ban: "Забанити гравця",
-        forever: "Назавжди",
-        unknownUser: "Невідомо",
-        failedToGetCurrentUser: "Не вдалося визначити поточного користувача",
-        unknownError2: "Невідома помилка",
-
-        // Modal and UI
-        yes: "Так",
-        no: "Ні",
-        topUp: "Поповнити",
-        purchaseCancelled: "Покупку скасовано",
-        purchaseFailed: "Покупка не вдалася! Зверніться до служби підтримки, будь ласка!",
-        nicknameCannotBeEmpty: "Нікнейм не може бути порожнім",
-        nicknameSavedSuccessfully: "Нікнейм успішно збережено!",
-        noResultsFound: "Нічого не знайдено",
-        selectOption: "Виберіть опцію...",
-
-        // Shop Confirmations
         insufficientFundsMessage:
             "Недостатньо коштів для покупки. Чи не бажаєте ви поповнити на",
         confirmPurchase: "Підтвердити покупку",
-        confirmPurchaseMessage: "Ви впевнені, що хочете придбати цей товар?",
         shopLoginRequired:
             "Увійдіть у свій обліковий запис, щоб мати доступ до Крамниці!",
         profileSetupRequired: "Будь ласка, підтвердіть свій акаунт і налаштуйте профіль для здійснення покупок",
         itemNotFound: "Товар не знайдено",
         itemNotAvailable: "Цей товар наразі недоступний для покупки",
+        noItemsFound: "У цій категорії поки нічого не пропонують.",
 
-        // Shop Categories
-        shopCategoryItems: "Предмети",
-        shopCategoryItemsDesc: "Ігрові предмети та спорядження",
-        shopCategoryPermissions: "Дозволи",
-        shopCategoryPermissionsDesc: "Спеціальні дозволи та здібності",
-        shopCategorySubscriptions: "Підписки",
-        shopCategorySubscriptionsDesc: "Регулярні преміум послуги",
-        shopCategoryDiscordRoles: "Discord Ролі",
-        shopCategoryDiscordRolesDesc: "Ролі Discord сервера та переваги",
-        shopCategoryCosmetics: "Косметика",
-        shopCategoryCosmeticsDesc: "Косметичні предмети та налаштування зовнішності",
-        shopCategoryAppeals: "Апеляції",
-        shopCategoryAppealsDesc: "Апеляції щодо банів та відновлення акаунтів",
-        shopCategoryBattlepass: "Бойовий Пропуск",
-        shopCategoryBattlepassDesc: "Сезонні нагороди та прогрес бойового пропуску",
-        shopCategoryDungeonKeys: "Ключі Підземель",
-        shopCategoryDungeonKeysDesc: "Ключі для відкриття підземель та спеціальних зон",
-        shopCategoryBeyonderish: "Потойбічне",
-        shopCategoryBeyonderishDesc: "Послуги пов'язані з Володарем Таємниць",
-        shopCategoryOther: "Інше",
-        shopCategoryOtherDesc: "Різноманітні послуги",
-        shopCategoryAll: "Всі товари",
-        shopCategoryNew: "Нові",
-        shopCategoryDiscounted: "Знижки",
-        shopCategoryPopular: "Популярні",
-        selectCategory: "Оберіть категорію",
-        selectCategoryDescription: "Виберіть категорію для перегляду доступних товарів",
-        itemsCount: "товарів",
-        backToCategories: "Назад до категорій",
-
-        // Comparison
-        compareItems: "Порівняти товари",
-        comparisonMode: "Режим порівняння",
-        exitComparisonMode: "Вийти з порівняння",
-        selectItemsToCompare: "Виберіть товари для порівняння",
-        compareNow: "Порівняти зараз",
-        addToComparison: "Додати до порівняння",
-        removeFromComparison: "Видалити з порівняння",
-        itemComparison: "Порівняння товарів",
-        closeComparison: "Закрити",
-        comparisonFeatures: "Функції",
-        comparisonDuration: "Тривалість",
-        comparisonType: "Тип",
-        comparisonDiscount: "Знижка",
-
-        // Shop UI
-        shopEyebrow: "Крамниця",
-        shopTitle: "Товари Вічної Ночі",
-        shopSubtitle: "Чисто, елегантно та справедливо. Ваша підтримка підтримує вогні міста.",
         shopLoading: "Завантаження крамниці...",
         shopLoadFailed: "Не вдалося завантажити крамницю",
         tryAgain: "Спробувати знову",
-        viewDetails: "Детальніше",
-
-        // Service Types
         serviceTypeItem: "Предмет",
         serviceTypePermission: "Дозвіл",
         serviceTypeSubscription: "Підписка",
@@ -1656,17 +929,6 @@ const translations = {
         backToShop: "Назад до Крамниці",
         loginToPurchase: "Будь ласка, увійдіть в систему, щоб придбати цей сервіс",
         purchaseError: "Не вдалося підготувати покупку",
-        purchaseSuccess: "Покупка успішна!",
-
-        // Shop Account Setup
-        accountSetupRequired: "Потрібно підтвердити акаунт",
-        shopAccessDescription:
-            "Для доступу до крамниці спочатку потрібно встановити ваш Minecraft нікнейм. Це допоможе нам зв'язати ваш акаунт з Discord та забезпечити коректну роботу крамниці.",
-        profileSetupInstructions:
-            "Перейдіть на сторінку профілю, щоб створити код підтвердження та прив'язати ваш Minecraft акаунт.",
-        selectServerForItem: "Оберіть сервер для отримання товару:",
-
-        // Unauthorized Message
         authenticationRequired: "Необхідна автентифікація",
         accessExclusiveItems: "Доступ до ексклюзивних товарів",
         manageYourBalance: "Керування вашим балансом",
@@ -1676,549 +938,28 @@ const translations = {
         displayCurrency: "Валюта Відображення",
         displayCurrencyDesc: "Відображати баланс та ціни в:",
         paymentConversionRates: "Курси Конвертації Платежів",
-        topUpConversionRates: "Курси конвертації поповнення:",
         donationWarning: "Важливо: При здійсненні донату, будь ласка, вкажіть ваш ігровий нікнейм, щоб ми могли зарахувати кошти на ваш акаунт.",
         topUpBalance: "Поповнити Баланс",
         showActualPoints: "Показувати фактичні марки",
         oneCurrencyRate: "1 {currency} = {rate} Марок",
 
-        // Dropdown
-        useCustomInput: "Використати: \"{query}\"",
-
-        // Game Guide Page
-        gameGuideTitle: "Посібник з Початку Гри",
-        gameGuideSubtitle:
-            "Все, що потрібно знати, щоб розпочати свою подорож у Містеррії",
-        ritualOfInitiation: "Ритуал Ініціації",
-        gatewayAddress: "АДРЕСА ШЛЮЗУ",
-
-        // COI Client
-        coiClientTitle: "COI Клієнт",
-        coiClientDescription: "Покращіть свій зв'язок за допомогою спеціального допоміжного моду",
-        coiClientBenefit1: "Забезпечує rich presence та глибше занурення",
-        coiClientBenefit2: "Синхронізує містичні ефекти з вашим клієнтом",
-        coiClientBenefit3: "Дозволяє кастувати здібності за допомогою швидких клавіш",
-        coiClientAcquire: "ОТРИМАТИ COI КЛІЄНТ",
-        coiClientOptional: "Цей допоміжний мод є цілком необов'язковим, але рекомендованим для повного досвіду.",
-
-        uniquePowers: "Варіативність",
-        highSequences: "Низьких Послідовностей",
-
-
-        // Server Connection
-        serverConnectionTitle: "Підключення до Сервера",
-        serverConnectionDescription:
-            "Приєднайтеся до нашого Minecraft сервера, щоб розпочати пригоди у всесвіті Lord of the Mysteries.",
-        serverIP: "IP Сервера",
-        serverAddress: "mc.mysterria.net",
-        copyToClipboard: "Скопіювати у буфер",
-        copyIP: "Скопіювати IP",
         copySuccess: "Скопійовано!",
-        serverVersion: "Версія",
-        minecraftVersion: "26.1.2+",
-        serverEdition: "Java & Bedrock",
-        modsRequired: "Моди Потрібні",
-        noModsRequired: "Не потрібні (Опціонально)",
-        serverType: "Тип Сервера",
-        rpgServer: "RPG/Рольова гра",
-        serverScreenshotPlaceholder: "Тут буде розміщено скріншот лобі сервера",
-
-        // Lore & Anime
-        loreAnimeTitle: "Розуміння Світу",
-        loreAnimeDescription:
-            "Перед зануренням у гру ми настійно рекомендуємо ознайомитися з оригінальним матеріалом.",
-        webNovelTitle: "Веб-Новела",
-        webNovelDescription:
-            "Прочитайте оригінальну веб-новелу Lord of the Mysteries для кращого розуміння світу.",
-        readWebNovel: "Читати Веб-Новелу",
-        animeTitle: "Аніме Серіал",
-        animeDescription:
-            "Дивіться аніме адаптацію, що зараз виходить, для візуального розповідання.",
-        watchAnime: "Дивитися Аніме",
-        loreImagePlaceholder: "Тут буде розміщено ілюстрації Lord of the Mysteries",
-
-        // Harmoniya Launcher
-        launcherTitle: "Лаунчер Harmoniya",
-        launcherDescription:
-            "Наш власний лаунчер з попередньо налаштованим модпаком для найкращого досвіду на сервері.",
-        launcherFeature1: "Попередньо встановлений модпак сервера",
-        launcherFeature2: "Автоматичні оновлення та налаштування",
-        launcherFeature3: "Опціонально - моди не обов'язкові для гри",
-        launcherFeature4: "Авто-логін на сервер, не потрібно вводити пароль",
-        launcherFeature5:
-            "Попередньо встановлені клієнтські моди для розширеної підтримки системи Магії",
-        downloadLauncher: "Завантажити Лаунчер",
-        launcherScreenshotPlaceholder:
-            "Тут буде розміщено скріншот інтерфейсу лаунчера",
-
-        // Rules
-        rulesDescription: "Ознайомтеся з правилами нашого сервера перед грою.",
-        readRules: "Читати Правила Сервера",
-        rulesImagePlaceholder: "Тут буде розміщено ілюстрацію правил",
-        mainRuleConcepts: "Основні Концепції Правил",
-        ruleConcepts: [
-            "Заборона токсичності, спаму та психологічного хаосу",
-            "Російська мова заборонена в текстових каналах",
-            "Заборона NSFW контенту та заборонених символів",
-            "Заборона читів, хаків та експлойтів",
-            "Повага до чужого майна - заборона гріферства",
-        ],
-
-        // Discord Guild
-        discordTitle: "Приєднуйтесь до Discord",
-        discordDescription:
-            "Спілкуйтеся зі спільнотою, отримуйте допомогу, беріть участь у подіях та слідкуйте за новинами сервера.",
-        discordBenefits: [
-            "Отримуйте допомогу від досвідчених гравців та персоналу",
-            "Беріть участь у спільнотних подіях та роздачах",
-            "Слідкуйте за новинами та оголошеннями сервера",
-            "Знаходьте товаришів для пригод та квестів",
-            "Отримуйте доступ до ексклюзивного Discord контенту",
-        ],
-        joinDiscord: "Приєднатися до Discord",
-        discordImagePlaceholder: "Тут буде розміщено скріншот Discord сервера",
-
-        // Profile & Verification
         profileTitle: "Налаштування Профілю",
-        profileDescription:
-            "Зв'яжіть свій Minecraft акаунт з Discord для верифікації та доступу до всіх функцій сервера.",
-        verificationStep1: "Відвідайте сторінку свого профілю",
-        verificationStep2: "Згенеруйте код верифікації",
-        verificationStep3: "Використайте команду /verify <код> у грі",
-        goToProfile: "Перейти до Профілю",
-        profileImagePlaceholder: "Тут буде розміщено скріншот налаштування профілю",
-
-        // Quick Tips
-        quickTipsTitle: "Швидкі Поради для Нових Гравців",
-        quickTips: [
-            "Почніть з читання лору, щоб зрозуміти шляхи Потойбічних та послідовності",
-            "Приєднайтеся до Discord, щоб спілкуватися з іншими гравцями та отримувати допомогу",
-            "Відвідайте зону спавну, щоб знайти посібники для початківців та туторіали",
-            "Задавайте питання в чаті - спільнота дружньо ставиться до новачків",
-            "Не поспішайте дослідити та вивчити власні механіки",
-            "Пам'ятайте: це RPG сервер, зосереджений на зануренні та рольовій грі",
-            "Перевірте вікі проекту для детальних гайдів та ігрових механік",
-            "Будьте поважливими та дружніми - допоможіть створити гостинну спільноту для всіх",
-        ],
-
-        // Bottom CTA
-        readyToStart: "Готові Розпочати Свою Подорож?",
-        readyToStartDescription:
-            "Налаштуйте свій профіль та перегляньте правила, щоб почати свій шлях як Потойбічний.",
-        setupProfile: "Налаштувати Профіль",
-        reviewRules: "Переглянути Правила",
-
-        // Guide Steps
-        guideStep1Title: "Скопіювати IP",
-        guideStep1Description: "Скопіювати адресу сервера",
-        guideStep2Title: "Додати Сервер",
-        guideStep2Description: "Додати сервер Містеррії",
-        guideStep3Title: "Приєднатися",
-        guideStep3Description: "Підключитися до сервера",
-        guideStep4Title: "Верифікація",
-        guideStep4Description: "Підтвердити акаунт",
-        guideStep5Title: "Увійти у Світ",
-        guideStep5Description: "Покинути лобі",
-        guideStep6Title: "Вивчити Лор",
-        guideStep6Description: "Дізнатися про Потойбічних",
-        guideStep7Title: "Почати Гру",
-        guideStep7Description: "Розпочати пригоди",
-        guideStep8Title: "Лаунчер Harmoniya",
-        guideStep8Description: "Опціональний клієнт",
-
-        // Common UI
-        optional: "Опціонально",
-        launcherBenefits: "Переваги Лаунчера",
-
-        // Guide Step Content - Full Titles and Descriptions
-        guideStep1FullTitle: "Скопіювати IP адресу сервера",
-        guideStep1FullDescription: "Спочатку скопіюйте IP адресу нашого сервера для підключення до Містеррії.",
-        guideStep2FullTitle: "Додати сервер Містеррії",
-        guideStep2FullDescription: "Додайте наш сервер до списку серверів, використовуючи скопійовану IP адресу.",
-        guideStep3FullTitle: "Приєднатися до сервера",
-        guideStep3FullDescription: "Підключіться до Містеррії, приєднавшись до щойно доданого сервера.",
-        guideStep4FullTitle: "Підтвердити ваш акаунт",
-        guideStep4FullDescription: "Отримайте код верифікації з вашого профілю та підтвердіть в грі.",
-        guideStep5FullTitle: "Увійти у відкритий світ",
-        guideStep5FullDescription: "Покиньте область лобі та увійдіть у основний ігровий світ, щоб розпочати пригоди.",
-        guideStep6FullTitle: "Дізнатися про Потойбічних",
-        guideStep6FullDescription: "Прочитайте нашу вікі, щоб зрозуміти містичну систему Потойбічних та як прогресувати.",
-        guideStep7FullTitle: "Почніть свою пригоду!",
-        guideStep7FullDescription: "Все готово! Розпочніть свою подорож у містичному світі Містеррії.",
-
-        // Guide Step Instructions
-        guideStep2Instruction1: "Натисніть \"Додати сервер\" в меню мультиплеєра",
-        guideStep2Instruction2: "Введіть \"Mysteria\" як назву сервера",
-        guideStep2Instruction3: "Вставте IP сервера в поле адреси",
-        guideStep2Instruction4: "Натисніть \"Готово\", щоб зберегти сервер",
-
-        guideStep3Instruction1: "Виберіть \"Mysteria\" зі списку серверів",
-        guideStep3Instruction2: "Натисніть \"Приєднатися до сервера\" для підключення",
-        guideStep3Instruction3: "Дочекайтеся встановлення з'єднання",
-        guideStep3Instruction4: "Прийміть ресурс-пак сервера при запиті",
-
-        guideStep4Instruction1: "Відвідайте сторінку вашого профілю на нашому сайті",
-        guideStep4Instruction2: "Скопіюйте ваш код верифікації",
-        guideStep4Instruction3: "Введіть код у чат: /verify [код]",
-        guideStep4Instruction4: "Дочекайтеся підтвердження верифікації",
-
-        guideStep5Instruction1: "Знайдіть портал світу в лобі",
-        guideStep5Instruction2: "Клікніть правою кнопкою або пройдіть крізь портал",
-        guideStep5Instruction3: "Виберіть вашу початкову локацію",
-        guideStep5Instruction4: "Починайте досліджувати містичний світ",
-
-        // Guide Step 6 - Lore Content
-        guideStep6LoreTitle1: "Розуміння Шляхів",
-        guideStep6LoreDesc1: "Дізнайтеся про 22 містичні шляхи та їх унікальні здібності",
-        guideStep6LoreTitle2: "Система Зілля",
-        guideStep6LoreDesc2: "Відкрийте, як прогресувати через послідовності за допомогою зілля",
-        guideStep6LoreTitle3: "Містичні Предмети",
-        guideStep6LoreDesc3: "Досліджуйте різноманітні артефакти та їх надприродні сили",
-
-        // Guide Step 7 - Final Tips
-        guideStep7JourneyTitle: "Ваша подорож починається тут",
-        guideStep7Tip1: "Почніть як смертний і пробивайтеся вгору містичними послідовностями",
-        guideStep7Tip2: "Обирайте свій шлях обережно - кожен має унікальні здібності",
-        guideStep7Tip3: "Приєднуйтесь до нашої Discord спільноти для допомоги та рольової гри",
-        guideStep7Tip4: "Прочитайте правила, щоб зрозуміти наші рекомендації з рольової гри",
-
-        // Image Placeholders
-        guideStep1ImagePlaceholder: "Заповнювач скріншота копіювання IP",
-        guideStep2ImagePlaceholder: "Заповнювач скріншота додавання сервера",
-        guideStep3ImagePlaceholder: "Заповнювач скріншота приєднання до сервера",
-        guideStep4ImagePlaceholder: "Заповнювач скріншота верифікації акаунту",
-        guideStep5ImagePlaceholder: "Заповнювач скріншота порталу світу",
-        guideStep6ImagePlaceholder: "Заповнювач скріншота Вікі/Лору",
-        guideStep7ImagePlaceholder: "Заповнювач скріншота геймплею",
-
-        // Guide – довідковий хаб
-        guide: {
-            navQuickStart: "Швидкий старт",
-            navRules: "Правила",
-            navWorld: "Світ і лор",
-            navCompanion: "Компаньйон",
-            navPathway: "Шлях",
-            navFaq: "FAQ",
-            optionalTag: "Опціонально",
-            tocTitle: "На цій сторінці",
-
-            heroEyebrow: "ПОЧАТОК РОБОТИ",
-            heroTitle: "Увійди в Туман",
-            heroLede: "Усе, що потрібно, щоб зайти в гру та верифікуватись, – на цій сторінці. Правила, лор та опціональний тест на Шлях – нижче, коли захочеш.",
-
-            gatewayAddressLabel: "Адреса порталу",
-            step3_1Title: "Відкрий Minecraft Java Edition",
-            step3_1Desc: "Перевір потрібну версію у лаунчері.",
-            step3_2Title: "Мультигравець → Додати сервер",
-            step3_2Desc: "Назви як хочеш. Нам подобається \"Mysterria\".",
-            step3_3Title: "Встав адресу та приєднайся",
-            step3_3Desc: "Ти опинишся в стартовому лобі.",
-
-            verifyRiteTitle: "Підтвердь акаунт · 4 кроки",
-            verify1: "Увійди через Discord на сторінці профілю",
-            verify2: "Скопіюй код верифікації з профілю",
-            verify3Title: "Введи його в чат Minecraft",
-            verify3Desc: "/verify [твій код]",
-            verify4: "Ти отримаєш повідомлення про підтвердження – готово.",
-            openProfile: "Відкрити профіль →",
-
-            rulesTitle: "Ковенант",
-            rulesLede: "Чотири правила – коротка версія. Повну політику можна прочитати будь-коли.",
-            readFullRules: "Читати повні правила →",
-            rule1: "Жодних експлойтів · жодних читів.",
-            rule1Sub: "Блазень спостерігає.",
-            rule2: "Поважай інших Вірян.",
-            rule2Sub: "Суперечки вирішує Відлюдник (персонал).",
-            rule3: "Стеж за язиком.",
-            rule3Sub: "Образи тягнуть за собою мовчання.",
-            rule4: "Повідомляй, не мсти.",
-            rule4Sub: "/report в чаті.",
-
-            worldTitle: "Світ · коротко",
-            worldBody: "Mysterria – рольовий сервер в епоху пари, туману та таємних товариств. Сила тече через Шляхи – 22 послідовності, що формують тебе. Почни як смертний. Просувайся через зілля та ритуали. Кожен вибір залишає слід.",
-
-            companionTitle: "Прив'яжи Компаньйона",
-            companionLede: "COI Client – опціональний мод, що оживляє серверний геймплей. Настійно рекомендований, але ніколи не обов'язковий.",
-            coiWhatTitle: "Що він дає",
-            coiFeature1: "Кастуй містичні заклинання через налаштовані хоткеї",
-            coiFeature2: "Особливі візуальні ефекти прив'язані до твого Шляху",
-            coiFeature3: "Глибше занурення – rich presence та серверні звуки",
-            coiFeatureSpellHotkeys: "Хоткеї заклинань",
-            coiFeatureVisualEffects: "Візуальні ефекти",
-            coiFeatureRichPresence: "Rich Presence",
-            coiFeatureSounds: "Серверні звуки",
-
-            pathwayTitle: "Знайди свій Шлях",
-            pathwayLede: "Три питання визначать один із 22 відомих Шляхів. Суто для настрою – не впливає на гру, а свій справжній Шлях ти відкриєш через гру.",
-            quizQuestion: "ПИТАННЯ",
-            quizOf: "З",
-            quizChooseOne: "вибери одне",
-            nextQuestion: "Наступне питання →",
-            confirmPathway: "Підтвердити шлях →",
-            tentativeLabel: "ПОПЕРЕДНЬО",
-            pathwayConfirmedNote: "Запам'ятано на цьому пристрої – можна змінити будь-коли.",
-            quiz1Question: "Що притягує тебе до світу Потойбічних?",
-            quiz1Option1: "Приховані знання та невидимі істини",
-            quiz1Option2: "Влада – сила змінювати долю",
-            quiz1Option3: "Краса тіні та таємниці",
-            quiz2Question: "Зіткнувшись з потужним ворогом, ти…",
-            quiz2Option1: "Вивчаєш його, доки не знайдеш слабке місце",
-            quiz2Option2: "Знищуєш його до того, як він встигне відреагувати",
-            quiz2Option3: "Ковзаєш у тінь і чекаєш слушного моменту",
-            quiz3Question: "Яка твоя кінцева амбіція?",
-            quiz3Option1: "Знати все приховане",
-            quiz3Option2: "Правити та перебудовувати світ",
-            quiz3Option3: "Вийти за межі всіх смертних обмежень",
-            hintFool: "Торкнутий долею, непередбачуваний. Блазень ходить поза системою – і це й є система.",
-            hintHermit: "Орієнтований на знання. Ти спостерігаєш перед дією і бачиш те, чого інші не можуть.",
-            hintFortune: "Орієнтований на долю. Удача – не випадковість, це послідовність, яку ти навчився читати.",
-            hintVisionary: "Орієнтований на передбачення. Ти бачиш те, що ще не сталося – теперішнє для тебе лише чутка.",
-            hintDoor: "Орієнтований на поріг. Кожна стіна – це двері, до яких ти ще не знайшов ключ.",
-            hintPriest: "Орієнтований на віру. Ти несеш істину, більшу за себе, і не збираєшся її відкладати.",
-            hintMother: "Орієнтований на життя. Ти створюєш і плекаєш – і вирішуєш, чим дозволено стати.",
-            hintEmperor: "Орієнтований на владу. Ти народжений командувати, і світ навчиться слухатись.",
-            hintSun: "Орієнтований на божественне. Твоє світло спалює брехню. Ти несеш світ на своїх плечах.",
-            hintJusticiar: "Орієнтований на порядок. Ти – межа між дозволеним і забороненим.",
-            hintGiant: "Орієнтований на силу. Ти не обходиш перешкоди. Ти проходиш крізь них.",
-            hintParagon: "Орієнтований на досконалість. \"Достатньо добре\" – речення, яке ти ніколи не дописував.",
-            hintTyrant: "Орієнтований на панування. Ти не просиш трон. Ти просто на ньому опиняєшся.",
-            hintTower: "Орієнтований на руїну. Дещо стоїть лише доти, доки ти не вирішиш інакше.",
-            hintDarkness: "Орієнтований на тінь. Ти процвітаєш там, де інші зазнають поразки. Темрява – це не відсутність світла.",
-            hintMoon: "Орієнтований на таємницю. Краса і тінь – твої інструменти. Невидиме підкоряється твоїй волі.",
-            hintDeath: "Орієнтований на перехід. Ти розумієш, що все закінчується – і що це двері, а не стіна.",
-            hintDemoness: "Орієнтований на спокусу. Ти пропонуєш людям те, чого вони вже й так хотіли.",
-            hintAbyss: "Орієнтований на безодню. Ти так довго дивився вниз, що безодня почала дивитись у відповідь.",
-            hintChained: "Орієнтований на стриманість. Ти несеш тягар, який інші давно поклали б – навмисно.",
-            hintHanged: "Орієнтований на жертву. Ти вже знав, чого це коштуватиме. І все одно погодився.",
-            hintError: "Орієнтований на аномалію. Ти – виняток, якого правило не передбачало.",
-
-            faqTitle: "Якщо щось пішло не так",
-            faq1Q: "\"Не можу підключитись – застарілий клієнт\"?",
-            faq1A: "Версія Minecraft не відповідає вимогам. Перевір потрібну версію у лаунчері.",
-            faq2Q: "Discord-прив'язка не вдалась",
-            faq2A: "Очисти cookies для сайту та спробуй ще раз. Досі не виходить? Відкрий тікет у Discord.",
-            faq3Q: "Код /verify не спрацьовує",
-            faq3A: "Коди закінчуються через кілька хвилин. Поверніться до профілю та скопіюйте свіжий код.",
-            faq4Q: "Чи можна змінити Шлях пізніше?",
-            faq4A: "Так – тест вище лише для настрою. Проходь його будь-коли, нічого не закріплюється.",
-            faq5Q: "Я на Bedrock / мобільному",
-            faq5A: "Mysterria підтримує Java та Bedrock через міст Geyser. Використовуй ту ж адресу.",
-            serverOnline: "Онлайн",
-            serverOffline: "Офлайн",
-            serverPlayers: "{n} гравців",
-            copyAddress: "Скопіювати адресу",
-        },
-
-        // Wiki Page
-        wikiEyebrow: "Вікі",
-        wikiTitle: "Компендіум Знань",
-        wikiSubtitle: "Відкрийте таємниці та лор Містеррії",
-        language: "Мова",
-        category: "Категорія",
-        allCategories: "Всі Категорії",
-        searchWikiPlaceholder: "Пошук по вікі...",
-        clearSearch: "Очистити пошук",
-        searchResults: "Знайдено {count} результатів для \"{query}\"",
-        categoryResults: "Показано {count} сторінок в {category}",
-        totalPages: "Всього сторінок: {count}",
-        failedToLoadPages: "Не вдалося завантажити сторінки",
-        noPagesFound: "Сторінки не знайдено",
-        noSearchResults: "Не знайдено сторінок за вашим запитом",
-        noCategoryPages: "Не знайдено сторінок в цій категорії",
-        noWikiPages: "Вікі сторінки недоступні",
-        showAllPages: "Показати Всі Сторінки",
-
-        // Guide Page
-        guideEyebrow: "Гайд",
-        guideTitle: "Увійдіть у Туман",
-        guideSubtitle: "Ваш повний посібник з виживання в таємницях Містеррії.",
-        gettingStartedSectionTitle: "Початок",
-        firstStepsTitle: "Перші кроки",
-        firstStepsDescription: "Приєднуйтесь до сервера за адресою mc.mysterria.net і почніть свою подорож у світ таємниць.",
-        characterCreationTitle: "Створення персонажа",
-        characterCreationDescription: "Оберіть свій початковий шлях і почніть підніматися містичними послідовностями.",
-        sequencesPathwaysSectionTitle: "Послідовності та Шляхи",
-        foolPathwayTitle: "Шлях Блазня",
-        foolPathwayDescription: "Опануйте ворожіння, ілюзії та силу маніпулювати самою долею.",
-        hunterPathwayTitle: "Шлях Мисливця",
-        hunterPathwayDescription: "Відзначтеся в бою, відстеженні та надприродних здібностях стрільби.",
-        seerPathwayTitle: "Шлях Провидця",
-        seerPathwayDescription: "Отримайте передбачення, пророцтва та здатність заглядати крізь час.",
-        secretOrganizationsSectionTitle: "Таємні Організації",
-        tarotClubTitle: "Клуб Таро",
-        tarotClubDescription: "Таємниче зібрання над сірим туманом, де учасники обмінюються знаннями та послугами.",
-        churchOfEvernightGoddessTitle: "Церква Богині Вічної Ночі",
-        churchOfEvernightGoddessDescription: "Одна з ортодоксальних церков, що підтримує порядок у надприродному світі.",
-        mysticalCraftingSectionTitle: "Містичне Ремесло",
-        potionMakingTitle: "Виготовлення зілля",
-        potionMakingDescription: "Варіть зілля просування, щоб підніматися послідовностями та отримувати нові здібності.",
-        sealedArtifactsTitle: "Запечатані Артефакти",
-        sealedArtifactsDescription: "Відкривайте та використовуйте потужні, але небезпечні містичні предмети.",
-        quickTipsForNewBeyondersTitle: "Швидкі поради для нових Потойбічних",
-        quickTipsForNewBeyondersList: [
-            "Завжди будьте обережні, маючи справу з надприродними явищами",
-            "Знання можуть бути як силою, так і небезпекою - діліться мудро",
-            "Приєднуйтесь або створюйте команду для небезпечних експедицій",
-            "Підтримуйте свій прогрес стабільним - поспіх призводить до втрати контролю",
-            "Туман приховує багато таємниць, але не всі з них призначені для розкриття",
-        ],
-
-        // Rules Page
         navRules: "Правила",
         termsViewTitle: "TOS",
         privacyViewTitle: "Приватність",
         slaViewTitle: "SLA",
 
         lawsOfMysterria: "Закони Містеррії",
-        rulesSubtitle:
-            '"Той, хто входить у Місто Туману, зобов\'язаний коритись Законам Містеррії. Порушники будуть прокляті самою Сутністю..."',
         tableOfContents: "Зміст",
         staffRules: "Правила Персоналу",
         examples: "Приклади",
         playerRules: "Правила Гравців",
         staffPage: {
-            eyebrow: "Персонал",
-            kicker: "Хранителі туману",
-            title: "Персонал Містеррії",
-            subtitle: "Люди, які підтримують сервер, спільноту, історії, візуал і тестування.",
-            listLabel: "Персонал Містеррії за рангами",
             members: "учасників",
             loadError: "Не вдалося завантажити список персоналу. Спробуйте пізніше.",
         },
 
-
-        mainRule: "Основне правило",
-        mainRuleDescription:
-            "Участь у сервері означає автоматичну згоду з нижченаведеним. Незнання не звільняє від відповідальності. А покарання вас завжди знайде.",
-        rulesSection: {
-            "1.1": {
-                title: "Психологічний хаос",
-                description:
-                    "Токсичність, неадекват, флуд, спам, шантаж – неприйнятні. Місто не терпить божевілля поза Контролем.",
-            },
-            "1.2": {
-                title: "Язик Ворога",
-                description:
-                    "Будь-який прояв російської мови в текстових каналах заборонений. У голосових каналах - на розсуд його власника.",
-            },
-            "1.3": {
-                title: "Заборонені Артефакти",
-                description:
-                    "NSFW / 18+ контент, символіка війни, терористичні чи культові знаки – миттєво знищуються Церквою Сонця.",
-            },
-            "1.4": {
-                title: "Нелюдське слово",
-                description:
-                    "Расизм, сексизм, шовінізм – неприпустимі. Лише росіяни позбавлені захисту моралі.",
-            },
-            "1.5": {
-                title: "Несанкціоноване проникнення",
-                description:
-                    "Будь-яка реклама без дозволу – акт Вторгнення. Це стосується навіть ПП.",
-            },
-            "1.6": {
-                title: "Порушення Завіси",
-                description:
-                    "Розголошення особистої інформації – навіть у приваті – карається вигнанням.",
-            },
-            "1.7": {
-                title: "Словесна магія",
-                description:
-                    "Надмірна нецензурна лексика виснажує твою душу. Кожне слово – це ритуал. Користуйся з розумом.",
-            },
-            "1.8": {
-                title: "Обряд без вівтаря",
-                description:
-                    "Пиши тільки в каналі, призначеному для цього. Оффтоп – це магія без наслідків, але з покаранням.",
-            },
-            "1.9": {
-                title: "Порожні оболонки",
-                description:
-                    "Твінки, другі акаунти – заборонені. Арканічна підміна особистості – злочин.",
-            },
-            "1.10": {
-                title: "Фальшивий Лицар",
-                description:
-                    "Видавання себе за адміністрацію чи обман гравців – вічне мовчання у Тумані.",
-            },
-            "1.11": {
-                title: "Ритуали Підбурювання",
-                description:
-                    "Провокація інших до порушень – занурення в Прірву. Ти відповідаєш не тільки за дії, а й за вплив.",
-            },
-            "1.12": {
-                title: "Сіячі Хаосу",
-                description:
-                    "Створення конфліктів, нагнітання негативу – ритуали зворотної дії. Наслідки приходять раніше, ніж ти напишеш вибач...",
-            },
-        },
-
-        // Minecraft Rules
-        minecraftRulesTitle: "Арканічний Кодекс",
-        minecraftRulesSubtitle:
-            '"Мирні землі Містеррії захищені не стінами, а Законами. Поруш їх – і Сутність обернеться проти тебе..."',
-        soulAgreement: "Угода Душі",
-        soulAgreementDescription:
-            "Граючи на сервері, ти автоматично погоджуєшся з Кодексом. Незнання правил не знімає відповідальності. Кара завжди знайде свого адресата.",
-        minecraftRulesSection: {
-            "2.1": {
-                title: "Заборонені Модифікатори",
-                description:
-                    "Барітон, Х-Ray, автокліки, мультиакаунти – магія поза Балансом. Її ціна – вигнання.",
-            },
-            "2.2": {
-                title: "Порушення Простору",
-                description:
-                    "Гріферство, псування ландшафту, крадіжка – вторгнення в чужу реальність. Місто цього не пробачає.",
-            },
-            "2.3": {
-                title: "Наруга над Домівкою",
-                description:
-                    "Заважання на чужій території без згоди – ритуал недовіри. Не вступай на землю без запрошення.",
-            },
-            "2.4": {
-                title: "Злом Тканини Світу",
-                description:
-                    "Лаг-машини, дюпи, експлойти – дослідження Забороненого. І це має ціну. Фатальну.",
-            },
-            "2.5": {
-                title: "Профанація Реліквій",
-                description:
-                    "Руйнування скринь у данжах – осквернення храмів. Релутінг існує – залиш іншим шанс на здобич.",
-            },
-            "2.6": {
-                title: "Виклик Хаосу",
-                description:
-                    "Провокації на порушення правил – шепіт Демона в серце іншого. За це кара подвійна.",
-            },
-            "2.7": {
-                title: "Бій Без Згоди",
-                description:
-                    "Убивство, псування броні, використання магії – лише за взаємної згоди. Інакше – це напад.",
-            },
-            "2.8": {
-                title: "Війна Без Пророцтва",
-                description:
-                    "Командні бої (війни) – лише з дозволу адмінів. Без пророцтва – лише різанина.",
-            },
-            "2.9": {
-                title: "Осквернення Ефіру",
-                description:
-                    "Реклама, NSFW, терористична символіка – забруднення Ефіру. Не буде прощення.",
-            },
-            "2.10": {
-                title: "Несанкціоновані Оселення",
-                description:
-                    "Заборонено будувати ближче 300 блоків від Спавну без дозволу Арканіста. Координація – ключ.",
-            },
-            "2.13": {
-                title: "Угода з Демоном",
-                description:
-                    "Продаж речей за реальні гроші – контракт із Безоднею. А вона завжди бере своє.",
-            },
-        },
-
-        // Daily Bonus Cat
         dailyBonusCatTitle: "Дивний резонанс...",
         dailyBonusCatAlt: "Таємничий кіт",
         dailyBonusFound: "Ти знайшов Кристал Емпоріуму! +20 Блискучих Очок Емпоріуму нараховано.",

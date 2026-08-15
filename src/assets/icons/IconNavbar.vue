@@ -1,11 +1,10 @@
 <template>
   <svg
-      aria-label="Іконка меню навігації"
+      aria-hidden="true"
+      focusable="false"
       class="icon-navbar"
       fill="none"
       height="18"
-      role="img"
-      tabindex="0"
       viewBox="0 0 22 18"
       width="22"
       xmlns="http://www.w3.org/2000/svg"

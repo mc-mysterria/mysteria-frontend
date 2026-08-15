@@ -104,86 +104,27 @@ import {useRoute, useRouter} from 'vue-router';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
-import source from '@/assets/sources/pathway-abilities.json';
+import {breadcrumbLd, itemListLd, useSeo} from '@/composables/useSeo';
+import {
+  type Ability,
+  boonPathwayIds,
+  corePathways,
+  type Localized,
+  type Pathway,
+  type Sequence,
+  pathwayImage,
+  pathwayImageName,
+  pathwayName as localizedPathwayName,
+  pathways,
+  pathwaysLastUpdated,
+} from '@/data/pathways';
 
-type Localized = { en: string; uk: string };
-type Ability = { id: string; name: Localized; description: Localized };
-type Sequence = { sequence: number; name: Localized; abilities: Ability[] };
-type Pathway = { id: string; sequences: Sequence[] };
-const pathways = source.pathways as Pathway[];
 const formattedLastUpdated = computed(() => new Intl.DateTimeFormat(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
   timeZone: 'UTC'
-}).format(new Date(`${source.lastUpdated}T00:00:00Z`)));
-const images = import.meta.glob('/src/assets/images/pathways/*.webp', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>;
-const aliases: Record<string, string> = {aeon: 'eternalaeon'};
-const names: Record<string, string> = {
-  abyss: 'Abyss',
-  chained: 'Chained',
-  darkness: 'Darkness',
-  death: 'Death',
-  demoness: 'Demoness',
-  door: 'Door',
-  emperor: 'Black Emperor',
-  error: 'Error',
-  fool: 'Fool',
-  fortune: 'Wheel of Fortune',
-  giant: 'Twilight Giant',
-  hanged: 'Hanged Man',
-  hermit: 'Hermit',
-  justiciar: 'Justiciar',
-  moon: 'Moon',
-  mother: 'Mother',
-  paragon: 'Paragon',
-  priest: 'Red Priest',
-  sun: 'Sun',
-  tower: 'White Tower',
-  tyrant: 'Tyrant',
-  visionary: 'Visionary',
-  aeon: 'Eternal Aeon',
-  chaos: 'Chaos',
-  chaosmist: 'Chaos Mist',
-  condenser: 'Condenser',
-  devouring: 'Devouring',
-  edict: 'Edict',
-  everlasting: 'Everlasting',
-  patriarch: 'Patriarch',
-  secondlaw: 'Second Law',
-  sublunary: 'Sublunary'
-};
-const ukNames: Record<string, string> = {
-  abyss: 'Безодня',
-  chained: 'Прикутий',
-  darkness: 'Темрява',
-  death: 'Смерть',
-  demoness: 'Демонеса',
-  door: 'Двері',
-  emperor: 'Чорний Імператор',
-  error: 'Помилка',
-  fool: 'Дурень',
-  fortune: 'Колесо Фортуни',
-  giant: 'Сутінковий Велетень',
-  hanged: 'Повішений',
-  hermit: 'Відлюдник',
-  justiciar: 'Юстиціар',
-  moon: 'Місяць',
-  mother: 'Мати',
-  paragon: 'Парагон',
-  priest: 'Червоний Жрець',
-  sun: 'Сонце',
-  tower: 'Біла Вежа',
-  tyrant: 'Тиран',
-  visionary: 'Візіонер',
-  aeon: 'Вічний Еон',
-  patriarch: 'Патріарх',
-  sublunary: 'Підмісячний'
-};
+}).format(new Date(`${pathwaysLastUpdated}T00:00:00Z`)));
 const copy = {
   en: {
     archive: 'BEYONDER ARCHIVE',
@@ -230,9 +171,8 @@ const routeId = computed(() => typeof route.params.pathway === 'string' && pathw
 watch(routeId, id => selectedId.value = id);
 const selected = computed(() => pathways.find(p => p.id === selectedId.value) ?? pathways[0]);
 const localized = (v: Localized) => v[currentLanguage.value] || v.en;
-const titleCase = (id: string) => id.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, c => c.toUpperCase());
-const pathwayName = (id: string) => currentLanguage.value === 'uk' ? (ukNames[id] || names[id] || titleCase(id)) : (names[id] || titleCase(id));
-const imageFor = (id: string) => images[`/src/assets/images/pathways/${aliases[id] || id}.webp`];
+const pathwayName = (id: string) => localizedPathwayName(id, currentLanguage.value);
+const imageFor = (id: string) => pathwayImage(id);
 const totalSequences = computed(() => pathways.reduce((n, p) => n + p.sequences.length, 0)),
     totalAbilities = computed(() => pathways.reduce((n, p) => n + p.sequences.reduce((m, s) => m + s.abilities.length, 0), 0));
 const haystack = (p: Pathway) => [pathwayName(p.id), ...p.sequences.flatMap(s => [localized(s.name), ...s.abilities.flatMap(a => [localized(a.name), localized(a.description)])])].join(' ').toLowerCase();
@@ -240,62 +180,52 @@ const filteredPathways = computed(() => {
   const q = query.value.trim().toLowerCase();
   return q ? pathways.filter(p => haystack(p).includes(q)) : pathways
 });
-const boonIds = new Set(['aeon', 'chaos', 'chaosmist', 'condenser', 'devouring', 'edict', 'everlasting', 'patriarch', 'secondlaw', 'sublunary']);
 const pathwayGroups = computed(() => [
   {
     id: 'normal',
     label: currentLanguage.value === 'uk' ? 'Звичайні Шляхи' : 'Standard Pathways',
-    pathways: filteredPathways.value.filter(p => !boonIds.has(p.id))
+    pathways: filteredPathways.value.filter(p => !boonPathwayIds.has(p.id))
   },
   {
     id: 'boons',
     label: currentLanguage.value === 'uk' ? 'Благословення' : 'Boons',
-    pathways: filteredPathways.value.filter(p => boonIds.has(p.id))
+    pathways: filteredPathways.value.filter(p => boonPathwayIds.has(p.id))
   }
 ]);
 
-function setMeta(selector: string, attribute: 'name' | 'property', key: string, content: string) {
-  let tag = document.head.querySelector<HTMLMetaElement>(selector);
-  if (!tag) {
-    tag = document.createElement('meta');
-    tag.setAttribute(attribute, key);
-    document.head.appendChild(tag)
-  }
-  tag.content = content
-}
-
-function updatePageMeta() {
+useSeo(() => {
   const hasPathway = typeof route.params.pathway === 'string';
-  const name = pathwayName(selected.value.id),
-      abilityCount = selected.value.sequences.reduce((n, s) => n + s.abilities.length, 0);
-  const title = hasPathway ? `${name} Pathway – Sequences & Abilities | Mysterria` : 'Pathways & Sequences – Beyonder Archive | Mysterria';
-  const description = hasPathway ? `Explore the ${name} Pathway, its ${selected.value.sequences.length} Sequences and ${abilityCount} abilities available on Mysterria.` : `Explore all ${pathways.length} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.`;
-  const canonical = `https://mysterria.net/pathways${hasPathway ? `/${selected.value.id}` : ''}`,
-      imageName = aliases[selected.value.id] || selected.value.id;
-  const image = hasPathway && imageFor(selected.value.id) ? `https://mysterria.net/pathways/${imageName}.webp` : 'https://mysterria.net/banner.webp';
-  document.title = title;
-  setMeta('meta[name="description"]', 'name', 'description', description);
-  for (const [key, value] of Object.entries({
-    'og:url': canonical,
-    'og:title': title,
-    'og:description': description,
-    'og:image': image,
-    'og:image:alt': hasPathway ? `${name} Pathway symbol` : 'Mysterria Beyonder Pathways'
-  })) setMeta(`meta[property="${key}"]`, 'property', key, value);
-  for (const [key, value] of Object.entries({
-    'twitter:url': canonical,
-    'twitter:title': title,
-    'twitter:description': description,
-    'twitter:image': image
-  })) setMeta(`meta[property="${key}"],meta[name="${key}"]`, 'name', key, value);
-  let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-  if (!link) {
-    link = document.createElement('link');
-    link.rel = 'canonical';
-    document.head.appendChild(link)
+  const name = pathwayName(selected.value.id);
+  const abilityCount = selected.value.sequences.reduce((n, s) => n + s.abilities.length, 0);
+  const trail = [{name: 'Home', path: '/'}, {name: 'Pathways', path: '/pathways'}];
+
+  if (!hasPathway) {
+    return {
+      title: 'Pathways & Sequences — Beyonder Archive',
+      description: `Every one of the ${corePathways.length} Beyonder Pathways from Lord of the Mysteries, playable on Mysterria: Sequence names 9 to 0 and all ${totalAbilities.value} abilities.`,
+      path: '/pathways',
+      imageAlt: 'Mysterria Beyonder Pathways',
+      jsonLd: [
+        breadcrumbLd(trail),
+        itemListLd(
+            'Beyonder Pathways',
+            corePathways.map(p => ({name: pathwayName(p.id), path: `/pathways/${p.id}`})),
+        ),
+      ],
+    };
   }
-  link.href = canonical;
-}
+
+  return {
+    title: `${name} Pathway — Sequences & Abilities`,
+    description: `The ${name} Pathway on Mysterria: ${selected.value.sequences.length} Sequences from 9 to 0 and ${abilityCount} Beyonder abilities, with the ritual and acting each rung demands.`,
+    path: `/pathways/${selected.value.id}`,
+    image: imageFor(selected.value.id)
+        ? `/pathways/${pathwayImageName(selected.value.id)}.webp`
+        : undefined,
+    imageAlt: `${name} Pathway symbol`,
+    jsonLd: [breadcrumbLd([...trail, {name, path: `/pathways/${selected.value.id}`}])],
+  };
+});
 
 const selectedNameMatches = computed(() => {
   const q = query.value.trim().toLowerCase();
@@ -332,12 +262,33 @@ function sequenceClass(n: number) {
   return n <= 4 ? `ranked rank-${n}` : ''
 }
 
-function updateActiveSequence() {
-  const cards = [...document.querySelectorAll<HTMLElement>('.sequence-card')];
+/*
+ * Scroll-spy for the sequence rail. The rects are read once per card and only
+ * once per animation frame — the previous version re-measured both sides of the
+ * comparison inside a reduce, so a single scroll event forced ~20 layouts and
+ * scroll events fire far faster than frames.
+ */
+let spyRaf: number | null = null;
+
+function measureActiveSequence() {
+  spyRaf = null;
+  const cards = document.querySelectorAll<HTMLElement>('.sequence-card');
   if (!cards.length) return;
   const threshold = 240;
-  const current = cards.reduce((best, card) => Math.abs(card.getBoundingClientRect().top - threshold) < Math.abs(best.getBoundingClientRect().top - threshold) ? card : best);
-  activeSequence.value = Number(current.id.replace('sequence-', ''))
+  let bestId = '';
+  let bestDistance = Infinity;
+  for (const card of cards) {
+    const distance = Math.abs(card.getBoundingClientRect().top - threshold);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestId = card.id;
+    }
+  }
+  if (bestId) activeSequence.value = Number(bestId.replace('sequence-', ''))
+}
+
+function updateActiveSequence() {
+  if (spyRaf === null) spyRaf = requestAnimationFrame(measureActiveSequence)
 }
 
 function selectPathway(id: string) {
@@ -356,9 +307,12 @@ watch(visibleSequences, sequences => {
   activeSequence.value = sequences[0]?.sequence;
   nextTick(updateActiveSequence)
 }, {immediate: true});
-watch([selected, currentLanguage, () => route.params.pathway], updatePageMeta, {immediate: true});
+// Metadata is handled by useSeo above, which tracks these sources itself.
 onMounted(() => window.addEventListener('scroll', updateActiveSequence, {passive: true}));
-onUnmounted(() => window.removeEventListener('scroll', updateActiveSequence));
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateActiveSequence);
+  if (spyRaf !== null) cancelAnimationFrame(spyRaf)
+});
 </script>
 
 <style scoped>
@@ -369,7 +323,7 @@ onUnmounted(() => window.removeEventListener('scroll', updateActiveSequence));
 }
 
 .archive-hero {
-  padding: 150px 24px 72px;
+  padding: 84px 24px 72px;
   text-align: center;
   background: radial-gradient(circle at 50% 0, rgba(200, 178, 115, .13), transparent 48%), linear-gradient(#0c0e1a, #070910);
   border-bottom: 1px solid rgba(200, 178, 115, .12)
@@ -767,7 +721,7 @@ onUnmounted(() => window.removeEventListener('scroll', updateActiveSequence));
 
 @media (max-width: 560px) {
   .archive-hero {
-    padding-top: 120px
+    padding-top: 56px
   }
 
   .archive-stats {
@@ -886,7 +840,7 @@ onUnmounted(() => window.removeEventListener('scroll', updateActiveSequence));
 
 @media (max-width: 900px) {
   .archive-hero {
-    padding-top: 82px
+    padding-top: 40px
   }
 
   .archive-layout {

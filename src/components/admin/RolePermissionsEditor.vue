@@ -15,11 +15,11 @@
       <div class="rpe-sidebar">
         <div class="rpe-sidebar-label">Roles</div>
         <button
-          v-for="role in sortedRoles"
-          :key="role.id"
-          class="rpe-role-btn"
-          :class="{ active: selectedRoleId === role.id }"
-          @click="selectRole(role)"
+            v-for="role in sortedRoles"
+            :key="role.id"
+            class="rpe-role-btn"
+            :class="{ active: selectedRoleId === role.id }"
+            @click="selectRole(role)"
         >
           <span class="rpe-role-name">{{ role.displayName }}</span>
           <div class="rpe-role-meta">
@@ -60,16 +60,16 @@
               </div>
               <div class="rpe-perm-list">
                 <label
-                  v-for="perm in perms"
-                  :key="perm"
-                  class="rpe-perm-item"
-                  :class="{ 'is-checked': localPermissions.has(perm) }"
+                    v-for="perm in perms"
+                    :key="perm"
+                    class="rpe-perm-item"
+                    :class="{ 'is-checked': localPermissions.has(perm) }"
                 >
                   <input
-                    type="checkbox"
-                    class="rpe-checkbox"
-                    :checked="localPermissions.has(perm)"
-                    @change="toggle(perm)"
+                      type="checkbox"
+                      class="rpe-checkbox"
+                      :checked="localPermissions.has(perm)"
+                      @change="toggle(perm)"
                   />
                   <span class="rpe-perm-key">{{ perm.split(':')[1] }}</span>
                   <span class="rpe-perm-full">{{ perm }}</span>
@@ -264,7 +264,9 @@ onMounted(loadData);
 }
 
 @keyframes rpe-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .rpe-retry-btn {
