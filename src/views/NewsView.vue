@@ -190,7 +190,7 @@ const loadArticle = async () => {
 };
 
 const loadEarlier = async () => {
-  const lang = (resolveLanguage().toUpperCase()) as 'EN' | 'UK';
+  const lang = resolveLanguage();
   try {
     const response = await newsAPI.getPublished(lang, {page: 0, size: 8});
     earlier.value = response.data.content

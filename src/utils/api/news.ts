@@ -30,7 +30,7 @@ class NewsAPI extends BaseCRUD<NewsArticle, CreateNewsData, UpdateNewsData, Reco
         return this.request<NewsArticle>("GET", `/admin/${language}/article/${slug}`);
     }
 
-    async getPublished(language: 'EN' | 'UK', params?: {
+    async getPublished(language: 'en' | 'uk', params?: {
         page?: number;
         size?: number
     }): Promise<APIResponse<Page<NewsPreview>>> {
