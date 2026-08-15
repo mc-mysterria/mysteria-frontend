@@ -11,7 +11,14 @@
  * optionally folds in published news articles from the API. If the API is
  * unreachable the build still succeeds — it just omits the article URLs.
  *
- * Runs from `npm run build`, after vite build (so dist/ exists).
+ * Runs from `npm run build`, after vite build (so the output dirs exist).
+ *
+ * It writes to every build output root, not just dist/. vite-plugin-vercel
+ * copies dist/ into .vercel/output/static during the build, and that Build
+ * Output API directory is what Vercel actually deploys. Writing dist/ alone
+ * (which is what this did originally) landed the file after that copy, so
+ * sitemap.xml never shipped and /sitemap.xml fell through the catch-all
+ * rewrite in vercel.json and served index.html instead.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -21,7 +28,10 @@ import {createRequire} from "node:module";
 const require = createRequire(import.meta.url);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://mysterria.net";
-const OUT = path.join(root, "dist/sitemap.xml");
+// dist/ is always written; .vercel/output/static only when the Vercel build
+// output exists (it does on any real `vite build`, since vite-plugin-vercel is
+// in the plugin list).
+const OUT_DIRS = ["dist", ".vercel/output/static"];
 const API = process.env.SITEMAP_API_URL || "https://api.mysterria.net";
 
 const today = new Date().toISOString().slice(0, 10);
@@ -104,10 +114,18 @@ const body = urls
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 
-fs.mkdirSync(path.dirname(OUT), {recursive: true});
-fs.writeFileSync(OUT, xml, "utf8");
+const written = [];
+for (const dir of OUT_DIRS) {
+    const target = path.join(root, dir);
+    // dist/ is the canonical output and is created if missing; the Vercel
+    // output dir is only written when that build actually ran.
+    if (dir !== "dist" && !fs.existsSync(target)) continue;
+    fs.mkdirSync(target, {recursive: true});
+    fs.writeFileSync(path.join(target, "sitemap.xml"), xml, "utf8");
+    written.push(`${dir}/sitemap.xml`);
+}
 
 console.log(
     `Sitemap: ${urls.length} URLs ` +
-    `(${topicIds.length} guide topics, ${pathwayData.pathways.length} pathways, ${articleUrls.length} news) -> dist/sitemap.xml`,
+    `(${topicIds.length} guide topics, ${pathwayData.pathways.length} pathways, ${articleUrls.length} news) -> ${written.join(", ")}`,
 );
