@@ -163,43 +163,39 @@ const resolveLanguage = () => {
   return lang;
 };
 
-const loadArticle = async () => {
+const byFeatured = (a: NewsPreview, b: NewsPreview) =>
+    Number(b.isPinned ?? false) - Number(a.isPinned ?? false) ||
+    new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+
+const loadNews = async () => {
   const slug = route.params.slug as string | undefined;
   const lang = resolveLanguage();
 
   loading.value = true;
-  try {
-    if (slug) {
-      const response = await newsAPI.getBySlug(lang, slug);
-      article.value = response.data;
-    } else {
-      // /news with no slug — open the newest dispatch.
-      const latest = await newsAPI.getLatest(lang);
-      const newest = [...latest.data].sort(
-          (a, b) =>
-              new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime(),
-      )[0];
-      article.value = newest ?? null;
-    }
-  } catch (error) {
-    console.error('Failed to fetch news article:', error);
-    article.value = null;
-  } finally {
-    loading.value = false;
-  }
-};
 
-const loadEarlier = async () => {
-  const lang = resolveLanguage();
-  try {
-    const response = await newsAPI.getPublished(lang, {page: 0, size: 8});
-    earlier.value = response.data.content
-        .filter(entry => entry.slug !== article.value?.slug)
-        .slice(0, 5);
-  } catch (error) {
-    console.error('Failed to fetch earlier dispatches:', error);
-    earlier.value = [];
-  }
+  const entriesRequest = newsAPI.getPublished(lang, {page: 0, size: 8})
+      .then(response => [...response.data.content].sort(byFeatured))
+      .catch(error => {
+        console.error('Failed to fetch earlier dispatches:', error);
+        return [] as NewsPreview[];
+      });
+
+  const articleRequest = (slug
+      ? newsAPI.getBySlug(lang, slug).then(response => response.data)
+      : entriesRequest.then(entries => {
+        const featured = entries[0];
+        return featured ? newsAPI.getBySlug(lang, featured.slug).then(response => response.data) : null;
+      }))
+      .catch(error => {
+        console.error('Failed to fetch news article:', error);
+        return null;
+      });
+
+  const [entries, current] = await Promise.all([entriesRequest, articleRequest]);
+
+  article.value = current;
+  earlier.value = entries.filter(entry => entry.slug !== current?.slug).slice(0, 5);
+  loading.value = false;
 };
 
 const scrollToTop = () => {
@@ -214,8 +210,7 @@ const goBack = () => router.back();
 
 const reload = async () => {
   scrollToTop();
-  await loadArticle();
-  await loadEarlier();
+  await loadNews();
   await nextTick();
   scrollToTop();
 };
