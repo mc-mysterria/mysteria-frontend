@@ -696,6 +696,13 @@ useSeo(() => ({
   max-width: 148px;
 }
 
+/* The 18 Saint seats break as two even ranks of nine, matching the Angel row's width. */
+.seat-row.rank-3 .seat-pips {
+  display: grid;
+  grid-template-columns: repeat(9, 7px);
+  justify-content: end;
+}
+
 .seat-pips i {
   width: 7px;
   height: 7px;
@@ -833,6 +840,10 @@ useSeo(() => ({
     max-width: none;
     justify-content: flex-start;
     grid-column: 2;
+  }
+
+  .seat-row.rank-3 .seat-pips {
+    justify-content: start;
   }
 
   .legend-chip {
