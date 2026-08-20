@@ -32,7 +32,7 @@ const route = useRoute();
 
 // Force scroll to top on every route change.
 // `behavior: "instant"` overrides the global `scroll-behavior: smooth`, which
-// would otherwise animate the whole page back to the top on every navigation —
+// would otherwise animate the whole page back to the top on every navigation -
 // on a long page that reads as the site lagging behind the click.
 watch(() => route.path, () => {
   // Use requestAnimationFrame to ensure it happens after DOM updates

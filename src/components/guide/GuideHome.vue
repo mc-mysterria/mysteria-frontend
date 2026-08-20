@@ -256,7 +256,7 @@ const toggleStep = (index: number) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(done.value));
   } catch {
-    // Private-mode storage — the toggle still works for this session.
+    // Private-mode storage - the toggle still works for this session.
   }
 };
 

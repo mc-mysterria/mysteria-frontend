@@ -264,7 +264,7 @@ const topicGroups = computed(() => categoryOrder
 
 /*
  * The handbook is the site's deepest body of indexable text, and each topic
- * already stores a question-shaped title with a one-paragraph answer — exactly
+ * already stores a question-shaped title with a one-paragraph answer - exactly
  * the shape FAQPage rewards. The index page publishes the whole set; a topic
  * page publishes its own answer plus a breadcrumb.
  */

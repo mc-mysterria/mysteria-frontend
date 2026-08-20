@@ -182,7 +182,7 @@ const dismissAnnouncement = () => {
   try {
     localStorage.setItem(ANNOUNCEMENT_KEY, announcementId.value);
   } catch {
-    // Storage unavailable — the bar simply returns on the next visit.
+    // Storage unavailable - the bar simply returns on the next visit.
   }
 };
 

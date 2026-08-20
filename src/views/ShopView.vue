@@ -372,7 +372,7 @@ export default {name: "ShopView"};
 }
 
 /* No backdrop-filter here: the tab bar sits on a flat vertical gradient, so a
-   blur of that backdrop is pixel-identical to the backdrop itself — it only
+   blur of that backdrop is pixel-identical to the backdrop itself - it only
    bought an extra compositing layer. */
 .shop-tabs {
   background: rgba(8, 10, 18, 0.72);

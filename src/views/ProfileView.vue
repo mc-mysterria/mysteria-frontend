@@ -157,7 +157,7 @@ const displayRole = computed(() => displayedUser.value?.role || t('unknown'));
 
 const formattedBalance = computed(() => {
   const amount = balanceStore.currentBalance?.amount;
-  if (amount === undefined || amount === null) return "—";
+  if (amount === undefined || amount === null) return "-";
   return Number(amount).toLocaleString(currentLanguage.value === "uk" ? "uk-UA" : "en-US");
 });
 

@@ -18,7 +18,7 @@
     --myst-panel-strong: linear-gradient(165deg, rgba(16, 19, 34, 0.85), rgba(8, 10, 18, 0.95));
     --myst-panel-warm: linear-gradient(160deg, rgba(24, 22, 14, 0.6), rgba(10, 10, 16, 0.88));
 
-    /* Hairlines — gold at fixed alphas, the redesign's core edge language */
+    /* Hairlines - gold at fixed alphas, the redesign's core edge language */
     --myst-line-10: rgba(200, 178, 115, 0.1);
     --myst-line-12: rgba(200, 178, 115, 0.12);
     --myst-line-14: rgba(200, 178, 115, 0.14);
@@ -145,7 +145,7 @@ a:hover {
     background: var(--myst-gold);
 }
 
-/* scrollbar-* inherit, so declaring them once on the root is enough — the
+/* scrollbar-* inherit, so declaring them once on the root is enough - the
    universal selector only made every element re-resolve the same two values. */
 html {
     scrollbar-width: thin;
@@ -549,7 +549,7 @@ html {
     margin: 0 auto;
 }
 
-/* Mono eyebrow label — the single most repeated element in the design */
+/* Mono eyebrow label - the single most repeated element in the design */
 .myst-eyebrow {
     margin: 0;
     font-family: var(--myst-font-mono);
@@ -567,7 +567,7 @@ html {
     color: var(--myst-ink-muted);
 }
 
-/* Centered section header: hairline — eyebrow — hairline */
+/* Centered section header: hairline - eyebrow - hairline */
 .myst-section-head {
     display: flex;
     align-items: center;

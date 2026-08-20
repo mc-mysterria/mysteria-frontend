@@ -115,10 +115,10 @@ const copy = {
   en: {
     eyebrow: 'HIGH SEQUENCE REGISTRY',
     title: 'Thrones of Ascension',
-    subtitle: 'Above Sequence 4 the ladder narrows: every pathway seats only so many Beyonders at once. Survey who has climbed — and where a throne still stands empty — before you choose your road.',
+    subtitle: 'Above Sequence 4 the ladder narrows: every pathway seats only so many Beyonders at once. Survey who has climbed - and where a throne still stands empty - before you choose your road.',
     archiveLink: 'Study the pathways in the archive',
     epochTitle: 'The Epoch will turn',
-    epochBody: 'When the next Epoch begins, every Beyonder is reset and all of these seats are vacated. Whatever is claimed below is held only for now — come the new Epoch, everyone fights for the thrones again.',
+    epochBody: 'When the next Epoch begins, every Beyonder is reset and all of these seats are vacated. Whatever is claimed below is held only for now - come the new Epoch, everyone fights for the thrones again.',
     seatsClaimed: 'seats claimed',
     deitiesSeated: 'Deities enthroned',
     pathwaysOpen: 'pathways fully open',
@@ -139,10 +139,10 @@ const copy = {
   uk: {
     eyebrow: 'РЕЄСТР ВИСОКИХ ПОСЛІДОВНОСТЕЙ',
     title: 'Трони Вознесіння',
-    subtitle: 'Вище Послідовності 4 драбина звужується: кожен Шлях вміщує лише обмежену кількість Потойбічних водночас. Погляньте, хто вже піднявся — і де трон досі порожній — перш ніж обрати свою дорогу.',
+    subtitle: 'Вище Послідовності 4 драбина звужується: кожен Шлях вміщує лише обмежену кількість Потойбічних водночас. Погляньте, хто вже піднявся - і де трон досі порожній - перш ніж обрати свою дорогу.',
     archiveLink: 'Дослідити Шляхи в архіві',
     epochTitle: 'Епоха зміниться',
-    epochBody: 'З початком нової Епохи кожного Потойбічного буде скинуто, і всі ці місця звільняться. Здобуте нижче утримується лише до часу — у новій Епосі боротьба за трони почнеться знову.',
+    epochBody: 'З початком нової Епохи кожного Потойбічного буде скинуто, і всі ці місця звільняться. Здобуте нижче утримується лише до часу - у новій Епосі боротьба за трони почнеться знову.',
     seatsClaimed: 'місць зайнято',
     deitiesSeated: 'Божеств на тронах',
     pathwaysOpen: 'Шляхів повністю вільні',
@@ -166,7 +166,7 @@ const {currentLanguage} = useI18n();
 const ui = computed(() => copy[currentLanguage.value]);
 const {stats, loading, highSeats, fetchedAt, reload} = useBeyonderStats();
 
-/** The four limited rungs, thrones first — Deity at the top of every listing. */
+/** The four limited rungs, thrones first - Deity at the top of every listing. */
 const HIGH_SEQUENCES = [0, 1, 2, 3] as const;
 
 function seatsLabel(count: number): string {
@@ -210,7 +210,7 @@ interface PathwayRow {
 
 function buildRow(pathway: Pathway): PathwayRow | null {
   // The ability archive stops at Sequence 1, but every pathway that climbs
-  // into the divine rungs has all four seats on the server — so eligibility
+  // into the divine rungs has all four seats on the server - so eligibility
   // is judged by reach, not by which rungs the archive happens to document.
   // Boons stop at Sequence 5 and are rightly excluded.
   if (!pathway.sequences.some(s => s.sequence <= 4)) return null;
@@ -220,7 +220,7 @@ function buildRow(pathway: Pathway): PathwayRow | null {
     return {
       sequence,
       rank: sequenceRank(sequence, currentLanguage.value),
-      // A pathway's Sequence 0 bears the pathway's own name — the deity title.
+      // A pathway's Sequence 0 bears the pathway's own name - the deity title.
       designation: rung
           ? (rung.name[currentLanguage.value] || rung.name.en)
           : pathwayName(pathway.id, currentLanguage.value),
@@ -288,8 +288,8 @@ const formattedFetchedAt = computed(() => {
 });
 
 useSeo(() => ({
-  title: 'Ascension Registry — Sequence 3–0 Seat Availability',
-  description: 'Live seat availability for the high Sequences on Mysterria: every pathway seats at most 18 Saints, 9 Angels, 3 Archangels and a single Deity. See which thrones are taken before you climb — the next Epoch resets them all.',
+  title: 'Ascension Registry - Sequence 3–0 Seat Availability',
+  description: 'Live seat availability for the high Sequences on Mysterria: every pathway seats at most 18 Saints, 9 Angels, 3 Archangels and a single Deity. See which thrones are taken before you climb - the next Epoch resets them all.',
   path: '/ascension',
   imageAlt: 'Mysterria Ascension Registry',
   jsonLd: [breadcrumbLd([
@@ -390,7 +390,7 @@ useSeo(() => ({
   color: var(--myst-gold);
 }
 
-/* Rank auras — same hues the archive uses for Sequences 3 → 0. */
+/* Rank auras - same hues the archive uses for Sequences 3 → 0. */
 .rank-3 {
   color: #c9d7e8;
 }
@@ -711,7 +711,7 @@ useSeo(() => ({
   box-shadow: 0 0 7px color-mix(in srgb, currentColor 65%, transparent);
 }
 
-/* The lone Deity seat is the headline — give it a larger throne mark. */
+/* The lone Deity seat is the headline - give it a larger throne mark. */
 .seat-row.rank-0 .seat-pips i {
   width: 11px;
   height: 11px;

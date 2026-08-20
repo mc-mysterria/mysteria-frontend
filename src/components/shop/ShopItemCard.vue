@@ -122,7 +122,7 @@ const handlePurchase = () => emit("purchase", props.item.id);
   flex-direction: column;
   background: var(--myst-panel-strong);
   border: 1px solid var(--myst-line-18);
-  /* Named properties, not `all` — the grid renders one of these per item, and
+  /* Named properties, not `all` - the grid renders one of these per item, and
      `all` makes every one of them a candidate for transitioning layout
      properties too. */
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;

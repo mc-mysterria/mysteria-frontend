@@ -145,7 +145,7 @@ const copy = {
     noResults: 'Nothing found in the archive.',
     noAbilities: 'No matching abilities',
     trySearch: 'Try another search or clear the field.',
-    registryCta: 'Sequence 3–0 seats are limited — see live availability'
+    registryCta: 'Sequence 3–0 seats are limited - see live availability'
   },
   uk: {
     archive: 'АРХІВ ПОТОЙБІЧНОГО',
@@ -164,7 +164,7 @@ const copy = {
     noResults: 'В архіві нічого не знайдено.',
     noAbilities: 'Здібностей не знайдено',
     trySearch: 'Спробуйте інший запит або очистьте поле.',
-    registryCta: 'Місця Послідовностей 3–0 обмежені — перегляньте наявність'
+    registryCta: 'Місця Послідовностей 3–0 обмежені - перегляньте наявність'
   }
 };
 const {currentLanguage} = useI18n(), route = useRoute(), router = useRouter(), query = ref(''),
@@ -205,7 +205,7 @@ useSeo(() => {
 
   if (!hasPathway) {
     return {
-      title: 'Pathways & Sequences — Beyonder Archive',
+      title: 'Pathways & Sequences - Beyonder Archive',
       description: `Every one of the ${corePathways.length} Beyonder Pathways from Lord of the Mysteries, playable on Mysterria: Sequence names 9 to 0 and all ${totalAbilities.value} abilities.`,
       path: '/pathways',
       imageAlt: 'Mysterria Beyonder Pathways',
@@ -220,7 +220,7 @@ useSeo(() => {
   }
 
   return {
-    title: `${name} Pathway — Sequences & Abilities`,
+    title: `${name} Pathway - Sequences & Abilities`,
     description: `The ${name} Pathway on Mysterria: ${selected.value.sequences.length} Sequences from 9 to 0 and ${abilityCount} Beyonder abilities, with the ritual and acting each rung demands.`,
     path: `/pathways/${selected.value.id}`,
     image: imageFor(selected.value.id)
@@ -263,7 +263,7 @@ function sequenceClass(n: number) {
 
 /*
  * Scroll-spy for the sequence rail. The rects are read once per card and only
- * once per animation frame — the previous version re-measured both sides of the
+ * once per animation frame - the previous version re-measured both sides of the
  * comparison inside a reduce, so a single scroll event forced ~20 layouts and
  * scroll events fire far faster than frames.
  */

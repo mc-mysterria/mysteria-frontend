@@ -8,7 +8,7 @@ export interface PathwaySeatOccupancy {
 }
 
 /**
- * Pre-aggregated server-side (api/beyonder-stats.ts) — only counts are ever
+ * Pre-aggregated server-side (api/beyonder-stats.ts) - only counts are ever
  * sent to the client, never the per-player roster.
  */
 export interface BeyonderStatsAggregate {
@@ -53,7 +53,7 @@ async function load() {
             }
         }
     } catch {
-        // Corrupt cache — fall through to the network.
+        // Corrupt cache - fall through to the network.
     }
 
     loading.value = true;
@@ -67,7 +67,7 @@ async function load() {
                 try {
                     localStorage.setItem(CACHE_KEY, JSON.stringify({data: result.data, timestamp: fetchedAt.value}));
                 } catch {
-                    // Storage full or unavailable — the in-memory copy is enough.
+                    // Storage full or unavailable - the in-memory copy is enough.
                 }
             }
         } catch (error) {
@@ -93,7 +93,7 @@ export function useBeyonderStats() {
         totalBeyonders: computed(() => stats.value?.totalBeyonders ?? 0),
         uniquePathways: computed(() => stats.value?.uniquePathways ?? 0),
         advancedBeyonders: computed(() => stats.value?.advancedBeyonders ?? 0),
-        averageSequence: computed(() => stats.value?.averageSequence ?? "—"),
+        averageSequence: computed(() => stats.value?.averageSequence ?? "-"),
         topPathways,
         maxPathwayCount,
         sequenceDistribution: computed(() => stats.value?.sequenceDistribution ?? []),

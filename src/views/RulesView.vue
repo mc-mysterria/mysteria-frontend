@@ -253,7 +253,7 @@ const elementIdFor = (id: string) => {
 
 /*
  * Clicking the TOC sets the active entry immediately and suppresses the
- * scroll-spy until the smooth scroll settles — otherwise every rule the page
+ * scroll-spy until the smooth scroll settles - otherwise every rule the page
  * flies past would grab the highlight on the way to the target.
  */
 let suppressSpyUntil = 0;
@@ -271,7 +271,7 @@ const goToRule = (id: string) => {
 /*
  * Scroll-spy. The sticky TOC implies "you are here", so it has to follow the
  * reader. Rects are read once per entry per animation frame, never per scroll
- * event — scroll events outrun frames and each read forces layout.
+ * event - scroll events outrun frames and each read forces layout.
  */
 let spyRaf: number | null = null;
 
@@ -356,7 +356,7 @@ watch(tocEntries, () => {
 
 /*
  * The TOC scrolls independently once the list is long, so the highlighted entry
- * has to be kept inside it — scrolling the panel only, never the page.
+ * has to be kept inside it - scrolling the panel only, never the page.
  */
 watch(activeId, id => {
   const panel = tocRef.value;

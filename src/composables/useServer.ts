@@ -3,7 +3,7 @@ import {onUnmounted, readonly, ref} from "vue";
 export const SERVER_IP = "mc.mysterria.net";
 
 /* ------------------------------------------------------------------ *
- * Live status — one poller shared by every mounted consumer.
+ * Live status - one poller shared by every mounted consumer.
  * ------------------------------------------------------------------ */
 
 const isOnline = ref(false);
@@ -59,7 +59,7 @@ export function useCopyIp() {
         try {
             await navigator.clipboard.writeText(SERVER_IP);
         } catch {
-            // Clipboard unavailable (insecure context / denied) — still flash the
+            // Clipboard unavailable (insecure context / denied) - still flash the
             // confirmation so the address stays selectable on screen.
         }
         copied.value = true;

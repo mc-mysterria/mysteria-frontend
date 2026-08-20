@@ -5,7 +5,7 @@ export const SITE_URL = "https://mysterria.net";
 export const SITE_NAME = "Mysterria";
 export const DEFAULT_IMAGE = `${SITE_URL}/banner.webp`;
 
-/** Titles read best as "Page — Mysterria"; the home page owns the bare brand. */
+/** Titles read best as "Page - Mysterria"; the home page owns the bare brand. */
 const TITLE_SUFFIX = ` | ${SITE_NAME}`;
 const MAX_DESCRIPTION = 160;
 
@@ -85,7 +85,7 @@ function clearManaged() {
  * Applies per-route metadata to <head>.
  *
  * The app is a client-rendered SPA, so every route otherwise inherits the single
- * title and description baked into index.html — which is what search engines
+ * title and description baked into index.html - which is what search engines
  * index for the whole site. This re-applies the correct set on every navigation
  * and whenever the reader switches language.
  *
@@ -99,7 +99,7 @@ export function useSeo(source: () => SeoInput) {
         const seo = source();
         const language = currentLanguage.value;
 
-        const title = seo.title ? `${seo.title}${TITLE_SUFFIX}` : `${SITE_NAME} — Lord of the Mysteries Minecraft Server`;
+        const title = seo.title ? `${seo.title}${TITLE_SUFFIX}` : `${SITE_NAME} - Lord of the Mysteries Minecraft Server`;
         const description = trimDescription(seo.description);
         const canonical = absolute(seo.path ?? window.location.pathname);
         const image = absolute(seo.image ?? DEFAULT_IMAGE);
@@ -216,7 +216,7 @@ export const websiteLd = () => ({
     publisher: {"@id": `${SITE_URL}/#organization`},
 });
 
-/** The server itself — the entity most competitor searches are really after. */
+/** The server itself - the entity most competitor searches are really after. */
 export const videoGameLd = (playerCount?: number) => ({
     "@context": "https://schema.org",
     "@type": "VideoGame",

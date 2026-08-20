@@ -292,8 +292,8 @@
                 "uk": "Голосове Прокляття"
               },
               "description": {
-                "en": "Speak a corrupting word that tears into the target's mind — dealing damage, inflicting a random debuff, and adding 7 madness",
-                "uk": "Вимовте слово, що розриває розум цілі — завдаючи шкоди, накладаючи випадковий дебафф та додаючи 7 безумства"
+                "en": "Speak a corrupting word that tears into the target's mind - dealing damage, inflicting a random debuff, and adding 7 madness",
+                "uk": "Вимовте слово, що розриває розум цілі - завдаючи шкоди, накладаючи випадковий дебафф та додаючи 7 безумства"
               }
             },
             {
@@ -303,8 +303,8 @@
                 "uk": "Поховальний Дзвін"
               },
               "description": {
-                "en": "Forge a spiritual tether, then execute to project your voice into the target's mind from up to 45 blocks away — dealing damage, inflicting severe debuffs, and adding 10 madness. Sever to cancel early",
-                "uk": "Сформуйте духовний зв'язок, а потім виконайте його, щоб проектувати свій голос у розум цілі з відстані до 45 блоків — завдаючи шкоди, накладаючи сильні дебаффи та додаючи 10 безумства. Розрубайте зв'язок, щоб скасувати"
+                "en": "Forge a spiritual tether, then execute to project your voice into the target's mind from up to 45 blocks away - dealing damage, inflicting severe debuffs, and adding 10 madness. Sever to cancel early",
+                "uk": "Сформуйте духовний зв'язок, а потім виконайте його, щоб проектувати свій голос у розум цілі з відстані до 45 блоків - завдаючи шкоди, накладаючи сильні дебаффи та додаючи 10 безумства. Розрубайте зв'язок, щоб скасувати"
               }
             }
           ]
@@ -323,8 +323,8 @@
                 "uk": "Залишки Безодні"
               },
               "description": {
-                "en": "When lethal damage would kill you, your body shatters into 5 dark remnants spread around your death site. Remnants have brief protection after forming. If all are deliberately crushed, you die. If any survive after 20 seconds, you revive — stronger for each one left.",
-                "uk": "Коли смертельний удар мав би вас вбити, ваше тіло розпадається на 5 темних уламків, розкиданих навколо місця смерті. Уламки мають короткий захист після появи. Якщо всі навмисно розчавлені — ви гинете. Якщо хоча б один вижив через 20 секунд — ви воскресаєте, і кожен уламок повертає частину здоров'я."
+                "en": "When lethal damage would kill you, your body shatters into 5 dark remnants spread around your death site. Remnants have brief protection after forming. If all are deliberately crushed, you die. If any survive after 20 seconds, you revive - stronger for each one left.",
+                "uk": "Коли смертельний удар мав би вас вбити, ваше тіло розпадається на 5 темних уламків, розкиданих навколо місця смерті. Уламки мають короткий захист після появи. Якщо всі навмисно розчавлені - ви гинете. Якщо хоча б один вижив через 20 секунд - ви воскресаєте, і кожен уламок повертає частину здоров'я."
               }
             },
             {
@@ -334,8 +334,8 @@
                 "uk": "Насіння Злоби"
               },
               "description": {
-                "en": "Plant a Seed of Malice deep within a target's psyche, steadily weakening and eroding their mind. If your Abyss Remnants are all destroyed, the seed detonates — ravaging the host and resurrecting you.",
-                "uk": "Посадіть Насіння Злоби глибоко в психіку цілі, поступово послаблюючи й руйнуючи її розум. Якщо всі ваші Залишки Безодні знищені, насіння детонує — спустошуючи носія й воскресаючи вас."
+                "en": "Plant a Seed of Malice deep within a target's psyche, steadily weakening and eroding their mind. If your Abyss Remnants are all destroyed, the seed detonates - ravaging the host and resurrecting you.",
+                "uk": "Посадіть Насіння Злоби глибоко в психіку цілі, поступово послаблюючи й руйнуючи її розум. Якщо всі ваші Залишки Безодні знищені, насіння детонує - спустошуючи носія й воскресаючи вас."
               }
             },
             {
@@ -376,8 +376,8 @@
                 "uk": "Суверенна Нечисть"
               },
               "description": {
-                "en": "A passive aura of pure contamination emanating from your very being. Nearby enemies accumulate filth stacks — those already corrupted or maddened gather filth twice as fast. When the filth overflows, it erupts in a burst of rot and decay. Sun-blessed souls alone resist the taint.",
-                "uk": "Пасивна аура чистого забруднення, що виходить з вашого єства. Ворогів поблизу охоплюють стеки нечисті — ті, хто вже заражені або збожеволіли, накопичують їх удвічі швидше. Коли нечисть переповнюється, вона вибухає гниллю і розпадом. Лише благословенні Сонцем стійкі до скверни."
+                "en": "A passive aura of pure contamination emanating from your very being. Nearby enemies accumulate filth stacks - those already corrupted or maddened gather filth twice as fast. When the filth overflows, it erupts in a burst of rot and decay. Sun-blessed souls alone resist the taint.",
+                "uk": "Пасивна аура чистого забруднення, що виходить з вашого єства. Ворогів поблизу охоплюють стеки нечисті - ті, хто вже заражені або збожеволіли, накопичують їх удвічі швидше. Коли нечисть переповнюється, вона вибухає гниллю і розпадом. Лише благословенні Сонцем стійкі до скверни."
               }
             },
             {
@@ -398,8 +398,8 @@
                 "uk": "Руйнівник"
               },
               "description": {
-                "en": "Begin corroding a target's spiritual barrier, stacking a creeping rot over time. At 7 stacks the barrier shatters — dealing devastating damage and flooding their mind with madness.",
-                "uk": "Починайте роз'їдати духовний бар'єр цілі, накопичуючи повзучу гниль з часом. На 7 стеках бар'єр розсипається — завдаючи нищівної шкоди та заливаючи їхній розум безумством."
+                "en": "Begin corroding a target's spiritual barrier, stacking a creeping rot over time. At 7 stacks the barrier shatters - dealing devastating damage and flooding their mind with madness.",
+                "uk": "Починайте роз'їдати духовний бар'єр цілі, накопичуючи повзучу гниль з часом. На 7 стеках бар'єр розсипається - завдаючи нищівної шкоди та заливаючи їхній розум безумством."
               }
             }
           ]
@@ -520,8 +520,8 @@
                 "uk": "Берсерк"
               },
               "description": {
-                "en": "Activated madness amplifier draining 1% spirituality per second. Combat effects scale with current madness — enhanced arrows (25%), vampiric strikes (50%), empowered fists (75%), peak power (90%). Killing a player while active reduces madness by 10% (unique per hour).",
-                "uk": "Активована здібність берсерка, що витрачає 1% духовності за секунду. Бойові ефекти посилюються з безумством — стріли (25%), вампіричні удари (50%), посилені кулаки (75%), пік сили (90%). Вбивство гравця знижує безумство на 10% (унікальний гравець раз на годину)."
+                "en": "Activated madness amplifier draining 1% spirituality per second. Combat effects scale with current madness - enhanced arrows (25%), vampiric strikes (50%), empowered fists (75%), peak power (90%). Killing a player while active reduces madness by 10% (unique per hour).",
+                "uk": "Активована здібність берсерка, що витрачає 1% духовності за секунду. Бойові ефекти посилюються з безумством - стріли (25%), вампіричні удари (50%), посилені кулаки (75%), пік сили (90%). Вбивство гравця знижує безумство на 10% (унікальний гравець раз на годину)."
               }
             },
             {
@@ -551,8 +551,8 @@
                 "uk": "Прокляття Перевертня"
               },
               "description": {
-                "en": "During Full Moon or Crimson Moon nights, madness builds and hunger gnaws. Kill a player to end it — or suffer the consequences. They say eating Rotten Flesh can help with that but temperance comes at a price!",
-                "uk": "У ніч Повного або Кривавого Місяця безумство зростає, а голод гризе. Вбийте гравця — або страждайте від наслідків."
+                "en": "During Full Moon or Crimson Moon nights, madness builds and hunger gnaws. Kill a player to end it - or suffer the consequences. They say eating Rotten Flesh can help with that but temperance comes at a price!",
+                "uk": "У ніч Повного або Кривавого Місяця безумство зростає, а голод гризе. Вбийте гравця - або страждайте від наслідків."
               }
             },
             {
@@ -574,7 +574,7 @@
               },
               "description": {
                 "en": "Your bare-handed strikes become claws that inflict poison and wither. Grants Speed and Strength I; from Sequence 6, grants Speed and Strength II plus Regeneration, and Resistance I (II from Sequence 4).",
-                "uk": "Ваші удари голими руками стають кігтями, що накладають отруту й висихання. Дає Швидкість і Силу I; з послідовності 6 — Швидкість і Силу II, Регенерацію та Опір I (II з послідовності 4)."
+                "uk": "Ваші удари голими руками стають кігтями, що накладають отруту й висихання. Дає Швидкість і Силу I; з послідовності 6 - Швидкість і Силу II, Регенерацію та Опір I (II з послідовності 4)."
               }
             },
             {
@@ -637,8 +637,8 @@
                 "uk": "Прокляття Зомбі"
               },
               "description": {
-                "en": "No natural regen. Lifesteal 50%. Curse triggers on blood moons and every 2 real hours without a kill — doubled during blood moons.",
-                "uk": "Відсутність природної регенерації. Кровопивство 50%. Прокляття активується під час кривавих місяців і кожні 2 реальні години без вбивства — подвоюється під час кривавих місяців."
+                "en": "No natural regen. Lifesteal 50%. Curse triggers on blood moons and every 2 real hours without a kill - doubled during blood moons.",
+                "uk": "Відсутність природної регенерації. Кровопивство 50%. Прокляття активується під час кривавих місяців і кожні 2 реальні години без вбивства - подвоюється під час кривавих місяців."
               }
             },
             {
@@ -648,8 +648,8 @@
                 "uk": "Тіло Зомбі"
               },
               "description": {
-                "en": "Your undead body refuses to die. Lethal hits randomly sever a limb instead of killing you — unless the head is struck. Lost limbs debilitate you; they regenerate after 30 seconds, with 15 extra seconds for each missing limb, and regeneration pauses for 5 seconds after damage.",
-                "uk": "Ваше мертве тіло відмовляється вмирати. Смертельні удари випадково відривають кінцівку замість вбивства — якщо тільки не уражена голова. Втрачені кінцівки виснажують вас; вони відростають через 30 секунд, плюс 15 секунд за кожну втрату, а відновлення зупиняється на 5 секунд після шкоди."
+                "en": "Your undead body refuses to die. Lethal hits randomly sever a limb instead of killing you - unless the head is struck. Lost limbs debilitate you; they regenerate after 30 seconds, with 15 extra seconds for each missing limb, and regeneration pauses for 5 seconds after damage.",
+                "uk": "Ваше мертве тіло відмовляється вмирати. Смертельні удари випадково відривають кінцівку замість вбивства - якщо тільки не уражена голова. Втрачені кінцівки виснажують вас; вони відростають через 30 секунд, плюс 15 секунд за кожну втрату, а відновлення зупиняється на 5 секунд після шкоди."
               }
             },
             {
@@ -693,7 +693,7 @@
               },
               "description": {
                 "en": "Use Zombie mode to bind nearby corporeal undead or Ghost mode to bind phantoms and vexes.",
-                "uk": "Режим Зомбі підкорює тілесну нежить, а режим Привида — фантомів і викликачів."
+                "uk": "Режим Зомбі підкорює тілесну нежить, а режим Привида - фантомів і викликачів."
               }
             },
             {
@@ -734,8 +734,8 @@
                 "uk": "Прокляття Примари"
               },
               "description": {
-                "en": "Must kill a player every 3 real hours. Warnings at 2h, 2h30m, and 10 minutes before deadline. Failure inflicts 75% madness floor, Weakness III, Slowness, and Hunger — cleared only by a kill.",
-                "uk": "Необхідно вбивати гравця кожні 3 реальні години. Попередження о 2г, 2г30хв і за 10 хвилин до кінця. Провал: поріг безумства 75%, Слабкість III, Уповільнення, Голод — знімається лише вбивством."
+                "en": "Must kill a player every 3 real hours. Warnings at 2h, 2h30m, and 10 minutes before deadline. Failure inflicts 75% madness floor, Weakness III, Slowness, and Hunger - cleared only by a kill.",
+                "uk": "Необхідно вбивати гравця кожні 3 реальні години. Попередження о 2г, 2г30хв і за 10 хвилин до кінця. Провал: поріг безумства 75%, Слабкість III, Уповільнення, Голод - знімається лише вбивством."
               }
             },
             {
@@ -745,8 +745,8 @@
                 "uk": "Перетворення Примари"
               },
               "description": {
-                "en": "Charge briefly, then transform into a wraith — fly, pass unseen, and erode nearby souls. Wraith form drains 2 spirituality per second. From sequence 3, Evil Spirit form drains 20 per second plus 25 per affected target. Taking damage during the charge interrupts the transformation.",
-                "uk": "Коротко накопичуйте силу, а потім перетворюйтесь на примару — літайте, залишайтесь непоміченими та руйнуйте душі поблизу. Форма примари витрачає 2 духовності за секунду. Від послідовності 3 форма Злого Духа витрачає 20 за секунду та ще 25 за кожну уражену ціль. Отримання шкоди під час накопичення перериває перетворення."
+                "en": "Charge briefly, then transform into a wraith - fly, pass unseen, and erode nearby souls. Wraith form drains 2 spirituality per second. From sequence 3, Evil Spirit form drains 20 per second plus 25 per affected target. Taking damage during the charge interrupts the transformation.",
+                "uk": "Коротко накопичуйте силу, а потім перетворюйтесь на примару - літайте, залишайтесь непоміченими та руйнуйте душі поблизу. Форма примари витрачає 2 духовності за секунду. Від послідовності 3 форма Злого Духа витрачає 20 за секунду та ще 25 за кожну уражену ціль. Отримання шкоди під час накопичення перериває перетворення."
               }
             },
             {
@@ -854,7 +854,7 @@
               },
               "description": {
                 "en": "Control a target's clothes to bind them. They get Slowness if they're wearing armor, and Slowness 2 if they're fully clothed. Their elytra is bound to them and their clothes harm them as well.",
-                "uk": "Керуйте одягом цілі, щоб зв'язати її. Якщо ціль носить броню, вона отримує Сповільнення, а якщо повністю вдягнена — Сповільнення II. Її елітри прив'язуються до неї, а одяг також завдає їй шкоди."
+                "uk": "Керуйте одягом цілі, щоб зв'язати її. Якщо ціль носить броню, вона отримує Сповільнення, а якщо повністю вдягнена - Сповільнення II. Її елітри прив'язуються до неї, а одяг також завдає їй шкоди."
               }
             },
             {
@@ -1002,7 +1002,7 @@
               },
               "description": {
                 "en": "Passive aura. Players within 48 blocks have their spirituality regen halved; those within 16 blocks have it reduced to one-third. Players you directly damage (including magical damage) are immune to this effect for 5 minutes.",
-                "uk": "Пасивна аура. Гравці в радіусі 48 блоків отримують вдвічі менше духовності за кожен тік регенерації; ті, хто в межах 16 блоків — утричі менше. Гравці, яких ви вдарили безпосередньо (включаючи магічну шкоду), імунні до цього ефекту протягом 5 хвилин."
+                "uk": "Пасивна аура. Гравці в радіусі 48 блоків отримують вдвічі менше духовності за кожен тік регенерації; ті, хто в межах 16 блоків - утричі менше. Гравці, яких ви вдарили безпосередньо (включаючи магічну шкоду), імунні до цього ефекту протягом 5 хвилин."
               }
             },
             {
@@ -1013,7 +1013,7 @@
               },
               "description": {
                 "en": "Assume your True Form: grow to Sequence 1 MCF scale and gain 20 absorption hearts. Players who look at you for a total of 20 continuous seconds fill a dread bar; once full they accumulate 0.5% madness per second. The bar freezes for 15 seconds after they look away before beginning to drain.",
-                "uk": "Прийміть свою Справжню Форму: зростіть до розміру МФС Послідовності 1 та отримайте 20 сердець поглинання. Гравці, що дивляться на вас сукупно 20 секунд, заповнюють шкалу жаху; коли вона повна — вони отримують 0.5% безумства на секунду. Шкала заморожується на 15 секунд після того, як гравець відводить погляд, перш ніж почати спадати."
+                "uk": "Прийміть свою Справжню Форму: зростіть до розміру МФС Послідовності 1 та отримайте 20 сердець поглинання. Гравці, що дивляться на вас сукупно 20 секунд, заповнюють шкалу жаху; коли вона повна - вони отримують 0.5% безумства на секунду. Шкала заморожується на 15 секунд після того, як гравець відводить погляд, перш ніж почати спадати."
               }
             },
             {
@@ -1023,8 +1023,8 @@
                 "uk": "Омерзливий Рев"
               },
               "description": {
-                "en": "While in True Form, unleash a reality-warping roar. Every player within 48 blocks is frozen in place for 1.5 seconds, their hotbar is shuffled, and their held item is dropped — a representation of all thought scattering before the Abomination.",
-                "uk": "У Справжній Формі — видайте рев, що викривляє реальність. Кожен гравець у радіусі 48 блоків заморожується на 1,5 секунди, його хотбар перемішується, а тримуваний предмет випадає — уособлення розсіяних думок перед Омерзінням."
+                "en": "While in True Form, unleash a reality-warping roar. Every player within 48 blocks is frozen in place for 1.5 seconds, their hotbar is shuffled, and their held item is dropped - a representation of all thought scattering before the Abomination.",
+                "uk": "У Справжній Формі - видайте рев, що викривляє реальність. Кожен гравець у радіусі 48 блоків заморожується на 1,5 секунди, його хотбар перемішується, а тримуваний предмет випадає - уособлення розсіяних думок перед Омерзінням."
               }
             },
             {
@@ -1035,7 +1035,7 @@
               },
               "description": {
                 "en": "While in True Form, reach deformed arms into the sky to seal a 48-block area. No player may enter or leave. Spirituality drains per second, doubling every 5 seconds: 50, 100, 200, 400... Door sequence 0 is unaffected.",
-                "uk": "У Справжній Формі — простягніть деформовані руки до неба, щоб запечатати область радіусом 48 блоків. Жоден гравець не може ввійти або вийти. Духовність витрачається щосекунди і подвоюється кожні 5 секунд: 50, 100, 200, 400... Послідовність 0 Дверей не піддається ефекту."
+                "uk": "У Справжній Формі - простягніть деформовані руки до неба, щоб запечатати область радіусом 48 блоків. Жоден гравець не може ввійти або вийти. Духовність витрачається щосекунди і подвоюється кожні 5 секунд: 50, 100, 200, 400... Послідовність 0 Дверей не піддається ефекту."
               }
             },
             {
@@ -1400,7 +1400,7 @@
               },
               "description": {
                 "en": "Summon a blade of pure darkness that deals magic damage and builds corruption per hit. Right-click to unleash a massive tide that damages, blinds, and slows enemies.",
-                "uk": "Викликає клинок чистої темряви, що завдає магічної шкоди та накопичує корупцію при кожному ударі. Правий клік — випускає масивну хвилю темряви, що завдає шкоди, засліплює та сповільнює ворогів."
+                "uk": "Викликає клинок чистої темряви, що завдає магічної шкоди та накопичує корупцію при кожному ударі. Правий клік - випускає масивну хвилю темряви, що завдає шкоди, засліплює та сповільнює ворогів."
               }
             },
             {
@@ -1432,8 +1432,8 @@
                 "uk": "Кошмарний Світ"
               },
               "description": {
-                "en": "Open a gateway to your personal Nightmare World — a dimension of eternal darkness where only you can see clearly.",
-                "uk": "Відкрийте прохід до власного Кошмарного Світу — виміру вічної темряви, де лише ви можете бачити чітко."
+                "en": "Open a gateway to your personal Nightmare World - a dimension of eternal darkness where only you can see clearly.",
+                "uk": "Відкрийте прохід до власного Кошмарного Світу - виміру вічної темряви, де лише ви можете бачити чітко."
               }
             }
           ]
@@ -1475,7 +1475,7 @@
               },
               "description": {
                 "en": "Wield the authority of the Servant of Concealment. Erase beings from existence, shroud allies in secrecy, or render your own actions unfathomable.",
-                "uk": "Wielding the authority of the Servant of Concealment — erase beings from existence, shroud allies in secrecy, or render your own actions unfathomable."
+                "uk": "Wielding the authority of the Servant of Concealment - erase beings from existence, shroud allies in secrecy, or render your own actions unfathomable."
               }
             },
             {
@@ -1496,8 +1496,8 @@
                 "uk": "Безтурботне Тіло"
               },
               "description": {
-                "en": "Passive. Reduces madness buildup by 60%, accelerates dissipation, grants immunity to Enhanced Desire Mastery and strong mental resistance. Calms nearby mobs and projects a serenity aura that gradually suppresses the combat will of players within 12 blocks — filling their serenity bar reduces their damage dealt, and a full bar halves it. Bar is hidden while caster is concealed. Suppresses danger premonition abilities.",
-                "uk": "Пасивна. Зменшує накопичення безумства на 60%, прискорює розсіювання, надає імунітет до Покращеного Опанування Бажанням та потужний ментальний захист. Заспокоює навколишніх мобів і проектує ауру спокою на гравців у 12 блоках — заповнення їхнього індикатора спокою зменшує завданий ними удар, а повний індикатор вдвічі зменшує шкоду. Бар прихований, поки заклинач прихований. Пригнічує здібності передчуття небезпеки."
+                "en": "Passive. Reduces madness buildup by 60%, accelerates dissipation, grants immunity to Enhanced Desire Mastery and strong mental resistance. Calms nearby mobs and projects a serenity aura that gradually suppresses the combat will of players within 12 blocks - filling their serenity bar reduces their damage dealt, and a full bar halves it. Bar is hidden while caster is concealed. Suppresses danger premonition abilities.",
+                "uk": "Пасивна. Зменшує накопичення безумства на 60%, прискорює розсіювання, надає імунітет до Покращеного Опанування Бажанням та потужний ментальний захист. Заспокоює навколишніх мобів і проектує ауру спокою на гравців у 12 блоках - заповнення їхнього індикатора спокою зменшує завданий ними удар, а повний індикатор вдвічі зменшує шкоду. Бар прихований, поки заклинач прихований. Пригнічує здібності передчуття небезпеки."
               }
             }
           ]
@@ -1552,8 +1552,8 @@
                 "uk": "Сприйняття Духовних Тіл"
               },
               "description": {
-                "en": "Your senses pierce the veil, letting you perceive the spiritual bodies of those hidden from sight — players in spectator or rendered invisible. A concealer whose mastery of death exceeds your own by at least one sequence can still elude you, and Darkness Self Concealment never registers to this sense.",
-                "uk": "Ваші чуття проникають крізь завісу, дозволяючи сприймати духовні тіла тих, хто прихований від очей — гравців у режимі спостерігача або невидимих. Приховувач, чия влада над смертю перевершує вашу щонайменше на одну послідовність, усе ще може уникнути вас, а Самоприховування Темряви ніколи не виявляється цим чуттям."
+                "en": "Your senses pierce the veil, letting you perceive the spiritual bodies of those hidden from sight - players in spectator or rendered invisible. A concealer whose mastery of death exceeds your own by at least one sequence can still elude you, and Darkness Self Concealment never registers to this sense.",
+                "uk": "Ваші чуття проникають крізь завісу, дозволяючи сприймати духовні тіла тих, хто прихований від очей - гравців у режимі спостерігача або невидимих. Приховувач, чия влада над смертю перевершує вашу щонайменше на одну послідовність, усе ще може уникнути вас, а Самоприховування Темряви ніколи не виявляється цим чуттям."
               }
             },
             {
@@ -1575,7 +1575,7 @@
               },
               "description": {
                 "en": "Passively grant a chance to drop the head of any mob you kill. Base chance is 20%%, increasing by 5%% per sequence level above 9.",
-                "uk": "Пасивно надає шанс отримати голову будь-якого моба, якого ви вбиваєте. Базовий шанс — 20%%, збільшується на 5%% за кожен рівень послідовності вище 9."
+                "uk": "Пасивно надає шанс отримати голову будь-якого моба, якого ви вбиваєте. Базовий шанс - 20%%, збільшується на 5%% за кожен рівень послідовності вище 9."
               }
             },
             {
@@ -1649,8 +1649,8 @@
                 "uk": "Фізична стійкість"
               },
               "description": {
-                "en": "Your body defies death's frailty — passively gaining speed and reducing fall damage.",
-                "uk": "Ваше тіло долає крихкість смерті — пасивно отримуючи швидкість і знижуючи шкоду від падіння."
+                "en": "Your body defies death's frailty - passively gaining speed and reducing fall damage.",
+                "uk": "Ваше тіло долає крихкість смерті - пасивно отримуючи швидкість і знижуючи шкоду від падіння."
               }
             }
           ]
@@ -1703,7 +1703,7 @@
               },
               "description": {
                 "en": "Spirit Mediums will have informants all throughout the spirit world, if danger approaches they will be warned. To designate people that you wish for your spirit informants to ignore, Crouch and press your interact button while you have an empty hand and are looking at a player.",
-                "uk": "Медіуми матимуть інформаторів по всьому світу духів — якщо небезпека наближається, вони отримають попередження. Щоб позначити гравців, яких ваші духи-інформатори мають ігнорувати, присядьте та натисніть кнопку взаємодії з порожньою рукою, дивлячись на гравця."
+                "uk": "Медіуми матимуть інформаторів по всьому світу духів - якщо небезпека наближається, вони отримають попередження. Щоб позначити гравців, яких ваші духи-інформатори мають ігнорувати, присядьте та натисніть кнопку взаємодії з порожньою рукою, дивлячись на гравця."
               }
             },
             {
@@ -1756,7 +1756,7 @@
               },
               "description": {
                 "en": "By speaking the language of death a spirit guide can pull the spirit body from all who hear the chanting. Alternatively they can exert influence over the dead such as a fool's marionettes.",
-                "uk": "Промовляючи мову смерті, провідник духів може витягнути духовне тіло з усіх, хто чує спів. Також вони можуть здійснювати вплив над мертвими — наприклад, маріонетками Дурня."
+                "uk": "Промовляючи мову смерті, провідник духів може витягнути духовне тіло з усіх, хто чує спів. Також вони можуть здійснювати вплив над мертвими - наприклад, маріонетками Дурня."
               }
             },
             {
@@ -1766,8 +1766,8 @@
                 "uk": "Обмін Душі"
               },
               "description": {
-                "en": "Consume at minimum half of your currently sealed Internal Underworld undead (rounded up, regardless of Sequence) to create a Soul Anchor: an inert undead puppet you can place somewhere of your choosing. Manage your placed anchors from the Soul Manager. While connected to an anchor, the next hit you take destroys it instead of harming you — but if that anchor dies before being used, you take that damage instead.",
-                "uk": "Пожертвуйте щонайменше половиною запечатаної у вашому Внутрішньому Підземному Світі нежиті (округлено вгору, незалежно від Послідовності), щоб створити Якір Душі: інертну нежить-ляльку, яку можна розмістити де завгодно. Керуйте розміщеними якорями через Управління Душами. Поки ви підключені до якоря, наступний удар знищує його замість того, щоб завдати вам шкоди — але якщо цей якір гине сам по собі, цей удар відчуєте ви."
+                "en": "Consume at minimum half of your currently sealed Internal Underworld undead (rounded up, regardless of Sequence) to create a Soul Anchor: an inert undead puppet you can place somewhere of your choosing. Manage your placed anchors from the Soul Manager. While connected to an anchor, the next hit you take destroys it instead of harming you - but if that anchor dies before being used, you take that damage instead.",
+                "uk": "Пожертвуйте щонайменше половиною запечатаної у вашому Внутрішньому Підземному Світі нежиті (округлено вгору, незалежно від Послідовності), щоб створити Якір Душі: інертну нежить-ляльку, яку можна розмістити де завгодно. Керуйте розміщеними якорями через Управління Душами. Поки ви підключені до якоря, наступний удар знищує його замість того, щоб завдати вам шкоди - але якщо цей якір гине сам по собі, цей удар відчуєте ви."
               }
             },
             {
@@ -1777,8 +1777,8 @@
                 "uk": "Провідник Мертвих"
               },
               "description": {
-                "en": "Right-click to open a menu and summon or dismiss one of three minions: a Death Knight, a Shadow-Swallowing Python, or a Living Shadow. Left-click instead summons or dismisses the Goddess of the Lake, who conjures harmless decoys. None of these despawn on their own — only dismissal or death removes them.",
-                "uk": "Праве натискання відкриває меню для виклику або відпускання одного з трьох прислужників: Лицар Смерті, Тіньова Пожираюча Змія або Живий Морок. Ліве натискання замість цього викликає або відпускає Богиню Озера, яка створює нешкідливі копії-двійники. Жоден з них не зникає сам собою — лише відпускання чи смерть їх прибирає."
+                "en": "Right-click to open a menu and summon or dismiss one of three minions: a Death Knight, a Shadow-Swallowing Python, or a Living Shadow. Left-click instead summons or dismisses the Goddess of the Lake, who conjures harmless decoys. None of these despawn on their own - only dismissal or death removes them.",
+                "uk": "Праве натискання відкриває меню для виклику або відпускання одного з трьох прислужників: Лицар Смерті, Тіньова Пожираюча Змія або Живий Морок. Ліве натискання замість цього викликає або відпускає Богиню Озера, яка створює нешкідливі копії-двійники. Жоден з них не зникає сам собою - лише відпускання чи смерть їх прибирає."
               }
             }
           ]
@@ -1820,7 +1820,7 @@
               },
               "description": {
                 "en": "Seal resurrected minions (left-click). Summon all sealed minions (right-click). Sneak + right-click to merge them into fewer, more powerful warriors.",
-                "uk": "Запечатуйте воскреслих міньйонів (ліва кнопка). Викликайте всіх запечатаних (права кнопка). Shift + права кнопка — злийте їх у менше, але потужніших воїнів."
+                "uk": "Запечатуйте воскреслих міньйонів (ліва кнопка). Викликайте всіх запечатаних (права кнопка). Shift + права кнопка - злийте їх у менше, але потужніших воїнів."
               }
             }
           ]
@@ -1872,8 +1872,8 @@
                 "uk": "Запечатування артефактів"
               },
               "description": {
-                "en": "Channel the power of the Underworld to seal a single artifact's drawbacks — the one held in the target's main hand or offhand. Sustained casting converts spirituality into seal duration up to 24 hours. Unlike Purification's Salvation which briefly shields all artifacts nearby, this targets one artifact at great cost but for far longer.",
-                "uk": "Спрямуйте силу Потойбіччя, щоб запечатати негативні ефекти одного артефакту — того, що тримає ціль у головній руці чи в недомінантній. Тривале застосування перетворює духовність на час печатки до 24 годин. На відміну від Спасіння Очищення, яке ненадовго захищає всі артефакти поруч, ця здібність діє на один артефакт із великими витратами, але надовго."
+                "en": "Channel the power of the Underworld to seal a single artifact's drawbacks - the one held in the target's main hand or offhand. Sustained casting converts spirituality into seal duration up to 24 hours. Unlike Purification's Salvation which briefly shields all artifacts nearby, this targets one artifact at great cost but for far longer.",
+                "uk": "Спрямуйте силу Потойбіччя, щоб запечатати негативні ефекти одного артефакту - того, що тримає ціль у головній руці чи в недомінантній. Тривале застосування перетворює духовність на час печатки до 24 годин. На відміну від Спасіння Очищення, яке ненадовго захищає всі артефакти поруч, ця здібність діє на один артефакт із великими витратами, але надовго."
               }
             },
             {
@@ -1925,8 +1925,8 @@
                 "uk": "Покращене фізичне посилення"
               },
               "description": {
-                "en": "Your body transcends mortal limits — immune to blindness, hunger, fatigue, nausea, poison, slowness, weakness, and wither, while fall damage is halved and freeze is constantly cleared.",
-                "uk": "Ваше тіло переступає межі смертного — імунітет до сліпоти, голоду, втоми, нудоти, отрути, повільності, слабкості та зів'янення, шкода від падіння зменшена вдвічі, а заморожування постійно знімається."
+                "en": "Your body transcends mortal limits - immune to blindness, hunger, fatigue, nausea, poison, slowness, weakness, and wither, while fall damage is halved and freeze is constantly cleared.",
+                "uk": "Ваше тіло переступає межі смертного - імунітет до сліпоти, голоду, втоми, нудоти, отрути, повільності, слабкості та зів'янення, шкода від падіння зменшена вдвічі, а заморожування постійно знімається."
               }
             },
             {
@@ -1948,7 +1948,7 @@
               },
               "description": {
                 "en": "Manifest the cursed gaze of death. All entities within 30 blocks are warned to look away. Those who approach within 20 blocks suffer Wither III. Players who stare at you lose 2% of their max magic HP per second; if they look away, they are afflicted with Wither III for 4 seconds.",
-                "uk": "Проявіть прокляте дивлення смерті. Усі сутності в радіусі 30 блоків отримують попередження відвернутися. Ті, хто наближається в межах 20 блоків, страждають від В'янення III. Гравці, що дивляться на вас, втрачають 2% від максимального магічного HP за секунду; якщо відвернуться — отримують В'янення III на 4 секунди."
+                "uk": "Проявіть прокляте дивлення смерті. Усі сутності в радіусі 30 блоків отримують попередження відвернутися. Ті, хто наближається в межах 20 блоків, страждають від В'янення III. Гравці, що дивляться на вас, втрачають 2% від максимального магічного HP за секунду; якщо відвернуться - отримують В'янення III на 4 секунди."
               }
             }
           ]
@@ -1967,8 +1967,8 @@
                 "uk": "Абсолютна Смерть"
               },
               "description": {
-                "en": "Unfurl a 40-block domain of absolute death. All players within see their DEATH bar fill — faster near you, slower at distance. When the bar fills completely it locks; the next lethal blow has an 80%% chance to bypass all revival mechanics (totem, persona, reincarnation, soul refuge) and inflict true death. On failure the bar resets with an 8-second cooldown.",
-                "uk": "Розгорніть 40-блочний домен абсолютної смерті. Усі гравці всередині бачать, як їхня шкала СМЕРТІ заповнюється — швидше поблизу вас, повільніше на відстані. Коли шкала заповниться повністю, вона блокується; наступний смертельний удар має 80%% шанс обійти всі механіки воскресіння (тотем, персона, переродження, притулок душі) і завдати справжньої смерті. При провалі шкала скидається з 8-секундним перезарядженням."
+                "en": "Unfurl a 40-block domain of absolute death. All players within see their DEATH bar fill - faster near you, slower at distance. When the bar fills completely it locks; the next lethal blow has an 80%% chance to bypass all revival mechanics (totem, persona, reincarnation, soul refuge) and inflict true death. On failure the bar resets with an 8-second cooldown.",
+                "uk": "Розгорніть 40-блочний домен абсолютної смерті. Усі гравці всередині бачать, як їхня шкала СМЕРТІ заповнюється - швидше поблизу вас, повільніше на відстані. Коли шкала заповниться повністю, вона блокується; наступний смертельний удар має 80%% шанс обійти всі механіки воскресіння (тотем, персона, переродження, притулок душі) і завдати справжньої смерті. При провалі шкала скидається з 8-секундним перезарядженням."
               }
             },
             {
@@ -1978,8 +1978,8 @@
                 "uk": "Нація Мертвих"
               },
               "description": {
-                "en": "Consecrate your surroundings as the Nation of the Dead. All mobs within 30 blocks are slain and reborn as Soul Knights under your command — seizable by Internal Manipulation. Enemy players within the domain suffer Wither, Slowness, and magical damage each second. Drains 50 spirituality per second.",
-                "uk": "Освяти своє оточення як Націю Мертвих. Усі моби у радіусі 30 блоків гинуть і відроджуються Лицарями Душі під вашим командуванням — їх можна запечатати через Внутрішнє Потойбіччя. Вороги-гравці в домені отримують Вогонь Іссушення, Уповільнення та магічну шкоду щосекунди. Витрачає 50 духовності за секунду."
+                "en": "Consecrate your surroundings as the Nation of the Dead. All mobs within 30 blocks are slain and reborn as Soul Knights under your command - seizable by Internal Manipulation. Enemy players within the domain suffer Wither, Slowness, and magical damage each second. Drains 50 spirituality per second.",
+                "uk": "Освяти своє оточення як Націю Мертвих. Усі моби у радіусі 30 блоків гинуть і відроджуються Лицарями Душі під вашим командуванням - їх можна запечатати через Внутрішнє Потойбіччя. Вороги-гравці в домені отримують Вогонь Іссушення, Уповільнення та магічну шкоду щосекунди. Витрачає 50 духовності за секунду."
               }
             },
             {
@@ -2000,8 +2000,8 @@
                 "uk": "Межа Життя і Смерті"
               },
               "description": {
-                "en": "Dying revives you instead of killing you, raising a 0-100%% Life and Death meter — the higher it climbs, the worse the toll and the likelier a future revival fails outright. Gain: 5%% cold, or 10/15/20%%... per revival chained within 5 min. Thresholds: 15%% less food saturation | 25%% -25%% heal, -15%% max spirit | 40%% +15%% perm. madness | 50%% -50%% heal, -30%% max spirit, -25%% spirit regen | 60%% madness to 30%% | 75%% no HP regen, -50%% max spirit, -25%% max HP | 85%% no positive potions, Death Aura locked, madness to 50%% | 100%% max HP halved, -75%% max spirit, -50%% spirit regen, revival always fails. Crit a Beyonder -1%%, kill one -10%%, Sun/Tyrant hits +1%%. Fades 5%%/min in the Nether, or resets via a same-sequence potion.",
-                "uk": "Смерть воскрешає вас замість вбивства, підіймаючи шкалу Життя і Смерті (0-100%%) — що вища вона, то гірші наслідки і то більший шанс, що майбутнє воскресіння провалиться. Приріст: 5%% з нуля, або 10/15/20%%... за послідовні воскресіння протягом 5 хв. Пороги: 15%% менше насичення від їжі | 25%% -25%% лікування, -15%% макс. духовність | 40%% +15%% пост. безумство | 50%% -50%% лікування, -30%% макс. духовність, -25%% регенерація духовності | 60%% безумство до 30%% | 75%% немає регенерації HP, -50%% макс. духовність, -25%% макс. HP | 85%% жодних позитивних зілль, резерв Смертної Аури заблоковано, безумство до 50%% | 100%% макс. HP вдвічі менше, -75%% макс. духовність, -50%% регенерація духовності, воскресіння завжди провалюється. Критичний удар по Потойбічному -1%%, вбивство -10%%, удар Сонця/Тирана +1%%. Згасає 5%%/хв у Пеклі, або скидається зіллям своєї послідовності."
+                "en": "Dying revives you instead of killing you, raising a 0-100%% Life and Death meter - the higher it climbs, the worse the toll and the likelier a future revival fails outright. Gain: 5%% cold, or 10/15/20%%... per revival chained within 5 min. Thresholds: 15%% less food saturation | 25%% -25%% heal, -15%% max spirit | 40%% +15%% perm. madness | 50%% -50%% heal, -30%% max spirit, -25%% spirit regen | 60%% madness to 30%% | 75%% no HP regen, -50%% max spirit, -25%% max HP | 85%% no positive potions, Death Aura locked, madness to 50%% | 100%% max HP halved, -75%% max spirit, -50%% spirit regen, revival always fails. Crit a Beyonder -1%%, kill one -10%%, Sun/Tyrant hits +1%%. Fades 5%%/min in the Nether, or resets via a same-sequence potion.",
+                "uk": "Смерть воскрешає вас замість вбивства, підіймаючи шкалу Життя і Смерті (0-100%%) - що вища вона, то гірші наслідки і то більший шанс, що майбутнє воскресіння провалиться. Приріст: 5%% з нуля, або 10/15/20%%... за послідовні воскресіння протягом 5 хв. Пороги: 15%% менше насичення від їжі | 25%% -25%% лікування, -15%% макс. духовність | 40%% +15%% пост. безумство | 50%% -50%% лікування, -30%% макс. духовність, -25%% регенерація духовності | 60%% безумство до 30%% | 75%% немає регенерації HP, -50%% макс. духовність, -25%% макс. HP | 85%% жодних позитивних зілль, резерв Смертної Аури заблоковано, безумство до 50%% | 100%% макс. HP вдвічі менше, -75%% макс. духовність, -50%% регенерація духовності, воскресіння завжди провалюється. Критичний удар по Потойбічному -1%%, вбивство -10%%, удар Сонця/Тирана +1%%. Згасає 5%%/хв у Пеклі, або скидається зіллям своєї послідовності."
               }
             }
           ]
@@ -2020,8 +2020,8 @@
                 "uk": "Блідість"
               },
               "description": {
-                "en": "Tear open a passage to the Pale World — a 20x20 void plane of white. All players within 20 blocks are pulled in with you. Positive effects are stripped. Enemy players build a Withering meter; when it fills, their abilities are suppressed. All captives suffer periodic damage. The domain ends when spirituality is exhausted. Drains 60 spirituality per second.",
-                "uk": "Розриваєте прохід до Блідого Світу — 20x20 площина білої порожнечі. Усіх гравців у радіусі 20 блоків затягує разом з вами. Позитивні ефекти знімаються. Вороги накопичують шкалу В'янення; коли вона заповнюється — здібності пригнічуються. Усі полонені отримують відкидальну шкоду. Домен зникає, коли вичерпується духовність. Витрачає 60 духовності на секунду."
+                "en": "Tear open a passage to the Pale World - a 20x20 void plane of white. All players within 20 blocks are pulled in with you. Positive effects are stripped. Enemy players build a Withering meter; when it fills, their abilities are suppressed. All captives suffer periodic damage. The domain ends when spirituality is exhausted. Drains 60 spirituality per second.",
+                "uk": "Розриваєте прохід до Блідого Світу - 20x20 площина білої порожнечі. Усіх гравців у радіусі 20 блоків затягує разом з вами. Позитивні ефекти знімаються. Вороги накопичують шкалу В'янення; коли вона заповнюється - здібності пригнічуються. Усі полонені отримують відкидальну шкоду. Домен зникає, коли вичерпується духовність. Витрачає 60 духовності на секунду."
               }
             },
             {
@@ -2031,8 +2031,8 @@
                 "uk": "Контроль Душі"
               },
               "description": {
-                "en": "Reach beyond flesh and seize a nearby target's spirit body from their physical form (40% chance). On success, drains their spirituality and casts their spirit 30 blocks away — they must return to their body clone before the timer expires. On failure, afflicts them with withering debuffs.",
-                "uk": "Зверніться за межі плоті й захопіть духовне тіло ближньої цілі (40%% шанс). При успіху духовність жертви виснажується, а їхній дух відкидається на 30 блоків — вони мають повернутися до клону свого тіла до завершення таймера. При провалі жертва отримує слабкі дебафи."
+                "en": "Reach beyond flesh and seize a nearby target's spirit body from their physical form (40% chance). On success, drains their spirituality and casts their spirit 30 blocks away - they must return to their body clone before the timer expires. On failure, afflicts them with withering debuffs.",
+                "uk": "Зверніться за межі плоті й захопіть духовне тіло ближньої цілі (40%% шанс). При успіху духовність жертви виснажується, а їхній дух відкидається на 30 блоків - вони мають повернутися до клону свого тіла до завершення таймера. При провалі жертва отримує слабкі дебафи."
               }
             },
             {
@@ -2042,8 +2042,8 @@
                 "uk": "Смертний Декрет"
               },
               "description": {
-                "en": "A Pale Emperor's authority over life and death made manifest. Normal use targets a being in your gaze — a buildup of wither energy culminates in a pale decree that strips half their life. Targets weaker than Sequence 5 are killed outright regardless of protection. Sneak + use issues an Area Decree across 50 blocks, cutting all targets' maximum vitality by 20%% for 2 minutes. Both cases accelerate an Absolute Death mark by 45%% if present.",
-                "uk": "Авторитет Блідого Імператора над життям і смертю. Звичайне використання націлене на істоту у вашому погляді — накопичення енергії зів'янення завершується блідим декретом, що забирає половину їхнього здоров'я. Цілі слабкіші за Послідовність 5 вбиваються миттєво незалежно від захисту. Присісти + використати — видати Декрет Площі на 50 блоків, знижуючи максимальне здоров'я всіх цілей на 20%% на 2 хвилини. Обидва варіанти прискорюють відмітку Абсолютної Смерті на 45%%."
+                "en": "A Pale Emperor's authority over life and death made manifest. Normal use targets a being in your gaze - a buildup of wither energy culminates in a pale decree that strips half their life. Targets weaker than Sequence 5 are killed outright regardless of protection. Sneak + use issues an Area Decree across 50 blocks, cutting all targets' maximum vitality by 20%% for 2 minutes. Both cases accelerate an Absolute Death mark by 45%% if present.",
+                "uk": "Авторитет Блідого Імператора над життям і смертю. Звичайне використання націлене на істоту у вашому погляді - накопичення енергії зів'янення завершується блідим декретом, що забирає половину їхнього здоров'я. Цілі слабкіші за Послідовність 5 вбиваються миттєво незалежно від захисту. Присісти + використати - видати Декрет Площі на 50 блоків, знижуючи максимальне здоров'я всіх цілей на 20%% на 2 хвилини. Обидва варіанти прискорюють відмітку Абсолютної Смерті на 45%%."
               }
             },
             {
@@ -2053,8 +2053,8 @@
                 "uk": "Бліде Підкорення"
               },
               "description": {
-                "en": "Fix your gaze upon a living being within 20 blocks and exert the Emperor's pale authority — after a period of subjugation, the target is irrevocably bound to your will as a spirit slave. Mobs are subjugated in 3 seconds. Players resist longer the higher their sequence. Enslaved mobs receive AI behavior and persist across server restarts. Enslaved players are stunned and a clone is left behind. Maximum 3 slaves.",
-                "uk": "Зафіксуйте погляд на живій істоті у радіусі 20 блоків і застосуйте бліду владу Імператора — після підкорення ціль назавжди прив'язується до вашої волі як духовний слуга. Моби підкоряються за 3 секунди. Гравці опираються довше залежно від їхньої послідовності. Поневолені моби отримують AI-поведінку та зберігаються між перезапусками. Поневолені гравці отримують приголомшення, а замість них залишається клон. Максимум 3 слуги."
+                "en": "Fix your gaze upon a living being within 20 blocks and exert the Emperor's pale authority - after a period of subjugation, the target is irrevocably bound to your will as a spirit slave. Mobs are subjugated in 3 seconds. Players resist longer the higher their sequence. Enslaved mobs receive AI behavior and persist across server restarts. Enslaved players are stunned and a clone is left behind. Maximum 3 slaves.",
+                "uk": "Зафіксуйте погляд на живій істоті у радіусі 20 блоків і застосуйте бліду владу Імператора - після підкорення ціль назавжди прив'язується до вашої волі як духовний слуга. Моби підкоряються за 3 секунди. Гравці опираються довше залежно від їхньої послідовності. Поневолені моби отримують AI-поведінку та зберігаються між перезапусками. Поневолені гравці отримують приголомшення, а замість них залишається клон. Максимум 3 слуги."
               }
             },
             {
@@ -2064,8 +2064,8 @@
                 "uk": "Повелитель Духів"
               },
               "description": {
-                "en": "Opens the spirit slave management interface. Review your bound spirits, cycle their AI behaviors between Idle, Roam, Follow, and Guard, free them from service, or — while in Spirit Body — possess them directly. Activating while possessing a slave ejects your spirit back to your own body.",
-                "uk": "Відкриває інтерфейс управління духовними слугами. Переглядайте прив'язаних духів, циклічно змінюйте їхню поведінку між Бездіяльністю, Блуканням, Супроводом та Охороною, звільняйте їх від служби, або — перебуваючи в Духовному тілі — особисто захоплюйте їх. Активація під час захоплення слуги виганяє ваш дух назад у власне тіло."
+                "en": "Opens the spirit slave management interface. Review your bound spirits, cycle their AI behaviors between Idle, Roam, Follow, and Guard, free them from service, or - while in Spirit Body - possess them directly. Activating while possessing a slave ejects your spirit back to your own body.",
+                "uk": "Відкриває інтерфейс управління духовними слугами. Переглядайте прив'язаних духів, циклічно змінюйте їхню поведінку між Бездіяльністю, Блуканням, Супроводом та Охороною, звільняйте їх від служби, або - перебуваючи в Духовному тілі - особисто захоплюйте їх. Активація під час захоплення слуги виганяє ваш дух назад у власне тіло."
               }
             },
             {
@@ -2451,8 +2451,8 @@
                 "uk": "Дзеркальна Дуель"
               },
               "description": {
-                "en": "Challenge a player to a death duel in a twisted mirror of the real world. For the duration of the duel you become a living clone of your opponent — their pathway(s), sequence, abilities, acting, and HP. Winning earns a Soul Shard; losing costs you madness and locks half your abilities for 30 minutes.",
-                "uk": "Викличте гравця на дуель до смерті у викривленому дзеркалі реального світу. На час дуелі ви станете живою копією свого суперника — його Шлях(и), Послідовність, здібності, лицедійство та здоров'я. Перемога дає Уламок Душі; поразка коштує вам безумства та блокує половину ваших здібностей на 30 хвилин."
+                "en": "Challenge a player to a death duel in a twisted mirror of the real world. For the duration of the duel you become a living clone of your opponent - their pathway(s), sequence, abilities, acting, and HP. Winning earns a Soul Shard; losing costs you madness and locks half your abilities for 30 minutes.",
+                "uk": "Викличте гравця на дуель до смерті у викривленому дзеркалі реального світу. На час дуелі ви станете живою копією свого суперника - його Шлях(и), Послідовність, здібності, лицедійство та здоров'я. Перемога дає Уламок Душі; поразка коштує вам безумства та блокує половину ваших здібностей на 30 хвилин."
               }
             },
             {
@@ -2493,8 +2493,8 @@
                 "uk": "Удар метеора"
               },
               "description": {
-                "en": "Summons a meteor at your target location. After a brief descent, it impacts the ground in a 5-block radius — igniting the area and dealing devastating damage to all caught in the blast.",
-                "uk": "Викликає метеор у вибраному місці. Після короткого падіння він вдаряє в радіусі 5 блоків — запалює місцевість і завдає нищівної шкоди всім у зоні вибуху."
+                "en": "Summons a meteor at your target location. After a brief descent, it impacts the ground in a 5-block radius - igniting the area and dealing devastating damage to all caught in the blast.",
+                "uk": "Викликає метеор у вибраному місці. Після короткого падіння він вдаряє в радіусі 5 блоків - запалює місцевість і завдає нищівної шкоди всім у зоні вибуху."
               }
             },
             {
@@ -2546,8 +2546,8 @@
                 "uk": "Влада Насолоди"
               },
               "description": {
-                "en": "Prolonged exposure to the Demoness's charm escalates into devastating debuffs, culminating in death. Immune to the Visionary's mental plague — attempts to infect you are reflected back upon the caster.",
-                "uk": "Тривале перебування під впливом чарів Демонеси переростає у нищівні дебафи, що завершуються смертю. Ви маєте повний імунітет до ментальної чуми Ясновидця — спроби заразити вас відбиваються на самому заклиначеві."
+                "en": "Prolonged exposure to the Demoness's charm escalates into devastating debuffs, culminating in death. Immune to the Visionary's mental plague - attempts to infect you are reflected back upon the caster.",
+                "uk": "Тривале перебування під впливом чарів Демонеси переростає у нищівні дебафи, що завершуються смертю. Ви маєте повний імунітет до ментальної чуми Ясновидця - спроби заразити вас відбиваються на самому заклиначеві."
               }
             }
           ]
@@ -2603,7 +2603,7 @@
               },
               "description": {
                 "en": "Summon a wind field around you for a few seconds. While it lasts, left-click to Gust (blast enemies away and deflect projectiles), sneak to Draw (pull them in), jump to Ride the wind, or swap hands to plant a lingering Cyclone. Each gesture spends one charge and a burst of spirituality.",
-                "uk": "Закликаєте навколо себе вітряне поле на кілька секунд. Поки воно триває: ЛКМ — Порив (відкидає ворогів і відхиляє снаряди), присідання — Тяга (притягує їх), стрибок — Політ на вітрі, зміна рук — закладає стійкий Циклон. Кожен жест витрачає один заряд і сплеск духовності."
+                "uk": "Закликаєте навколо себе вітряне поле на кілька секунд. Поки воно триває: ЛКМ - Порив (відкидає ворогів і відхиляє снаряди), присідання - Тяга (притягує їх), стрибок - Політ на вітрі, зміна рук - закладає стійкий Циклон. Кожен жест витрачає один заряд і сплеск духовності."
               }
             }
           ]
@@ -2706,8 +2706,8 @@
                 "uk": "Теле-стрибок"
               },
               "description": {
-                "en": "Tear through space and teleport a short distance in the direction you are looking. Sneak+use consumes all Blink charges and enters a state lasting 0.5s per charge (10 charges = 5s) — while active, all ability cooldowns are halved and mind attacks cannot affect you.",
-                "uk": "Розірвіть простір та телепортуйтеся на невелику відстань в напрямку погляду. Присідання+використання витрачає всі заряди Блимання та входить у стан на 0.5с за заряд (10 зарядів = 5с) — поки активний, всі перезарядки здібностей вдвічі коротші і атаки розуму не можуть вплинути на вас."
+                "en": "Tear through space and teleport a short distance in the direction you are looking. Sneak+use consumes all Blink charges and enters a state lasting 0.5s per charge (10 charges = 5s) - while active, all ability cooldowns are halved and mind attacks cannot affect you.",
+                "uk": "Розірвіть простір та телепортуйтеся на невелику відстань в напрямку погляду. Присідання+використання витрачає всі заряди Блимання та входить у стан на 0.5с за заряд (10 зарядів = 5с) - поки активний, всі перезарядки здібностей вдвічі коротші і атаки розуму не можуть вплинути на вас."
               }
             },
             {
@@ -2717,8 +2717,8 @@
                 "uk": "Просторовий Інстинкт"
               },
               "description": {
-                "en": "An instinctive spatial reflex — when struck, spends a Blink charge to phase sideways and evade the blow.",
-                "uk": "Інстинктивний просторовий рефлекс — при ударі витрачає заряд Теле-стрибку, щоб відхилитися вбік та уникнути удару."
+                "en": "An instinctive spatial reflex - when struck, spends a Blink charge to phase sideways and evade the blow.",
+                "uk": "Інстинктивний просторовий рефлекс - при ударі витрачає заряд Теле-стрибку, щоб відхилитися вбік та уникнути удару."
               }
             }
           ]
@@ -2771,7 +2771,7 @@
               },
               "description": {
                 "en": "Left-click a door to link it (up to 5). Right-click while standing near a linked door to open the hop menu.",
-                "uk": "Лівою кнопкою миші зв'яжіть двері (до 5). Правою кнопкою поряд із зв'язаними дверима — відкрити меню переходу."
+                "uk": "Лівою кнопкою миші зв'яжіть двері (до 5). Правою кнопкою поряд із зв'язаними дверима - відкрити меню переходу."
               }
             },
             {
@@ -2865,8 +2865,8 @@
                 "uk": "Символізація"
               },
               "description": {
-                "en": "Transform yourself into a Symbol — invisible, weightless, and shielded from madness. Drains spirituality continuously while active.",
-                "uk": "Перетворіться на Символ — невидимий, невагомий і захищений від безумства. Постійно споживає духовність, поки активна."
+                "en": "Transform yourself into a Symbol - invisible, weightless, and shielded from madness. Drains spirituality continuously while active.",
+                "uk": "Перетворіться на Символ - невидимий, невагомий і захищений від безумства. Постійно споживає духовність, поки активна."
               }
             },
             {
@@ -2899,7 +2899,7 @@
               },
               "description": {
                 "en": "Inscribe starlight seals in 5 modes. Left-click to switch. Root entities or freeze item timers; suppress a target's concept (blocking regen/sight/movement/attacks...); lock 1-3 of their pathway symbolisms disabling those abilities; anchor a 20-block zone that blocks all banish and connection-altering abilities; or seal madness gain on self or target.",
-                "uk": "Накладайте зоряні печатки у 5 режимах. Лівий клік — зміна режиму. Прикуйте сутність або заморозьте таймер предмету; пригнічуйте концепцію цілі (регенерацію/зір/рух/атаки...); заблокуйте 1-3 символізмів їхнього шляху; закріпіть реальність у 20-блоковій зоні, блокуючи всі здібності вигнання та зміни зв'язків; або запечатайте зростання безумства."
+                "uk": "Накладайте зоряні печатки у 5 режимах. Лівий клік - зміна режиму. Прикуйте сутність або заморозьте таймер предмету; пригнічуйте концепцію цілі (регенерацію/зір/рух/атаки...); заблокуйте 1-3 символізмів їхнього шляху; закріпіть реальність у 20-блоковій зоні, блокуючи всі здібності вигнання та зміни зв'язків; або запечатайте зростання безумства."
               }
             }
           ]
@@ -2929,8 +2929,8 @@
                 "uk": "Зоряне Позиціювання"
               },
               "description": {
-                "en": "Look at a Beyonder to seal their position — freezing them in place for 6 seconds. Without a target, open a tracking veil to locate any player with your compass.",
-                "uk": "Дивіться на Безмежника, щоб запечатати його позицію — заморозивши на місці на 6 секунд. Без цілі відкрийте завісу стеження, щоб відстежити будь-якого гравця компасом."
+                "en": "Look at a Beyonder to seal their position - freezing them in place for 6 seconds. Without a target, open a tracking veil to locate any player with your compass.",
+                "uk": "Дивіться на Безмежника, щоб запечатати його позицію - заморозивши на місці на 6 секунд. Без цілі відкрийте завісу стеження, щоб відстежити будь-якого гравця компасом."
               }
             },
             {
@@ -2987,8 +2987,8 @@
                 "uk": "Майстерність Закону"
               },
               "description": {
-                "en": "Detect weaknesses in entities, display their health, and deal bonus damage to weakened targets. Reveals invisible entities nearby. Passively records a ghost impression of your position every 15s — diviners who attempt to locate you are redirected to it instead.",
-                "uk": "Виявляйте слабкості сутностей, відображайте їхнє здоров'я та завдавайте бонусну шкоду ослабленим цілям. Розкриває невидимих сутностей поблизу. Пасивно записує примарний відбиток вашого положення кожні 15 с — провидці, що намагаються знайти вас, переправляються до нього."
+                "en": "Detect weaknesses in entities, display their health, and deal bonus damage to weakened targets. Reveals invisible entities nearby. Passively records a ghost impression of your position every 15s - diviners who attempt to locate you are redirected to it instead.",
+                "uk": "Виявляйте слабкості сутностей, відображайте їхнє здоров'я та завдавайте бонусну шкоду ослабленим цілям. Розкриває невидимих сутностей поблизу. Пасивно записує примарний відбиток вашого положення кожні 15 с - провидці, що намагаються знайти вас, переправляються до нього."
               }
             }
           ]
@@ -3113,8 +3113,8 @@
                 "uk": "Корозія"
               },
               "description": {
-                "en": "Two corruption modes — Burst releases a corrosive AoE wave; Channel imprints a creeping corruption on a single target that intensifies with Disorder.",
-                "uk": "Два режими корупції — Вибух виплескує роз'їдаючу хвилю; Канал вплітає повзучу корупцію в одну ціль, що посилюється з Безладом."
+                "en": "Two corruption modes - Burst releases a corrosive AoE wave; Channel imprints a creeping corruption on a single target that intensifies with Disorder.",
+                "uk": "Два режими корупції - Вибух виплескує роз'їдаючу хвилю; Канал вплітає повзучу корупцію в одну ціль, що посилюється з Безладом."
               }
             },
             {
@@ -3197,8 +3197,8 @@
                 "uk": "Експлуатація"
               },
               "description": {
-                "en": "Exploit the natural laws — toggle flight or extended reach draining Disorder, detonate accumulated Disorder as a chaos burst, or launch into a meteor slam.",
-                "uk": "Експлуатуйте природні закони — перемикайте політ або розширену досяжність, витрачаючи Безлад, детонуйте накопичений Безлад як вибух хаосу або падайте як метеор."
+                "en": "Exploit the natural laws - toggle flight or extended reach draining Disorder, detonate accumulated Disorder as a chaos burst, or launch into a meteor slam.",
+                "uk": "Експлуатуйте природні закони - перемикайте політ або розширену досяжність, витрачаючи Безлад, детонуйте накопичений Безлад як вибух хаосу або падайте як метеор."
               }
             },
             {
@@ -3303,8 +3303,8 @@
                 "uk": "Авторитет Експлуатації"
               },
               "description": {
-                "en": "Exploit gravitational laws to leap across vast distances — launching skyward and descending upon a target.",
-                "uk": "Експлуатуйте закони гравітації, щоб здійснити стрибок на величезні відстані — злітаючи в небо та обрушуючись на ціль."
+                "en": "Exploit gravitational laws to leap across vast distances - launching skyward and descending upon a target.",
+                "uk": "Експлуатуйте закони гравітації, щоб здійснити стрибок на величезні відстані - злітаючи в небо та обрушуючись на ціль."
               }
             },
             {
@@ -3345,8 +3345,8 @@
                 "uk": "Спотворення Земель"
               },
               "description": {
-                "en": "Warp reality across a wide domain — none within may escape, and every 6 seconds each has a 25% chance of having their abilities distorted.",
-                "uk": "Викривляє реальність на широкій території — ніхто всередині не може вибратися, і кожні 6 секунд кожен має 25% шанс того, що його здібності будуть спотворені."
+                "en": "Warp reality across a wide domain - none within may escape, and every 6 seconds each has a 25% chance of having their abilities distorted.",
+                "uk": "Викривляє реальність на широкій території - ніхто всередині не може вибратися, і кожні 6 секунд кожен має 25% шанс того, що його здібності будуть спотворені."
               }
             }
           ]
@@ -3552,7 +3552,7 @@
               },
               "description": {
                 "en": "Steal a recently used Beyonder ability. Right-click while looking at a target to choose from their abilities. Sneak-right-click toggles private ability orbs; empty-hand left-click an orb to steal it. Left-click this ability to manage your stolen-ability bank. The base chance is 90%, reduced by 20% per Sequence the target outranks you, with a 10% minimum.",
-                "uk": "Вкрадіть нещодавно використану здібність Бейондера. Клацніть правою кнопкою, дивлячись на ціль, щоб вибрати її здібності. Shift+ПКМ вмикає приватні кулі здібностей; клацніть по кулі порожньою рукою ЛКМ, щоб украсти її. ЛКМ цією здібністю відкриває банк. Базовий шанс — 90%, мінус 20% за кожну Послідовність переваги цілі, але не менше 10%."
+                "uk": "Вкрадіть нещодавно використану здібність Бейондера. Клацніть правою кнопкою, дивлячись на ціль, щоб вибрати її здібності. Shift+ПКМ вмикає приватні кулі здібностей; клацніть по кулі порожньою рукою ЛКМ, щоб украсти її. ЛКМ цією здібністю відкриває банк. Базовий шанс - 90%, мінус 20% за кожну Послідовність переваги цілі, але не менше 10%."
               }
             },
             {
@@ -3563,7 +3563,7 @@
               },
               "description": {
                 "en": "Toggle private Madness orbs above nearby players. Empty-hand left-click an orb to steal 10% of its owner's recoverable Madness. Sneak-right-click steals your own Madness. Left-click gives held Madness to an offhand Artifact; from Sequence 4 onward, it can also be given to players.",
-                "uk": "Вмикає приватні кулі Божевілля над гравцями поруч. Клацніть ЛКМ порожньою рукою по кулі, щоб украсти 10% відновлюваного Божевілля власника. Shift+ПКМ краде власне Божевілля. ЛКМ передає утримуване Божевілля Артефакту в другій руці, а з Послідовності 4 — також гравцям."
+                "uk": "Вмикає приватні кулі Божевілля над гравцями поруч. Клацніть ЛКМ порожньою рукою по кулі, щоб украсти 10% відновлюваного Божевілля власника. Shift+ПКМ краде власне Божевілля. ЛКМ передає утримуване Божевілля Артефакту в другій руці, а з Послідовності 4 - також гравцям."
               }
             },
             {
@@ -4311,8 +4311,8 @@
                 "uk": "Астральна Проєкція"
               },
               "description": {
-                "en": "Separate your astral form from your body and traverse the world as a spirit. Your body remains behind — if disturbed, you are forcibly returned.",
-                "uk": "Відокремте своє астральне тіло від фізичного та мандруйте світом у вигляді духу. Ваше тіло залишається позаду — якщо його потривожать, вас примусово повернуть."
+                "en": "Separate your astral form from your body and traverse the world as a spirit. Your body remains behind - if disturbed, you are forcibly returned.",
+                "uk": "Відокремте своє астральне тіло від фізичного та мандруйте світом у вигляді духу. Ваше тіло залишається позаду - якщо його потривожать, вас примусово повернуть."
               }
             },
             {
@@ -4322,8 +4322,8 @@
                 "uk": "Генерація Сувою Бажань"
               },
               "description": {
-                "en": "Conjure a scroll imbued with your Miracle Invoker authority. Give it to a player — they right-click with it to open the item browser and submit their wish.",
-                "uk": "Створіть сувій, наповнений авторитетом Виконавця Чудес. Передайте його гравцю — він клацає правою кнопкою, щоб відкрити браузер предметів і подати бажання."
+                "en": "Conjure a scroll imbued with your Miracle Invoker authority. Give it to a player - they right-click with it to open the item browser and submit their wish.",
+                "uk": "Створіть сувій, наповнений авторитетом Виконавця Чудес. Передайте його гравцю - він клацає правою кнопкою, щоб відкрити браузер предметів і подати бажання."
               }
             },
             {
@@ -4334,7 +4334,7 @@
               },
               "description": {
                 "en": "View and manage wishes submitted via your Wish Scrolls. Accept a wish to lock it to you, then fulfill it to conjure the item directly to the wisher and gain Wish Pool.",
-                "uk": "Переглядайте та керуйте бажаннями, поданими через ваші сувої. Прийміть бажання, щоб закріпити його за собою, потім відкрийте дошку, щоб виконати його — предмет буде викликаний напряму до бажаючого. Виконання бажань надає Пул Бажань залежно від рівня предмету."
+                "uk": "Переглядайте та керуйте бажаннями, поданими через ваші сувої. Прийміть бажання, щоб закріпити його за собою, потім відкрийте дошку, щоб виконати його - предмет буде викликаний напряму до бажаючого. Виконання бажань надає Пул Бажань залежно від рівня предмету."
               }
             },
             {
@@ -4386,8 +4386,8 @@
                 "uk": "Царство Таємниць"
               },
               "description": {
-                "en": "Manifest a domain of mysteries — a fixed realm where enemies are trapped inside and cannot enter from without.",
-                "uk": "Проявіть домен таємниць — фіксований простір, де вороги потрапляють у пастку та не можуть ні увійти, ні вийти."
+                "en": "Manifest a domain of mysteries - a fixed realm where enemies are trapped inside and cannot enter from without.",
+                "uk": "Проявіть домен таємниць - фіксований простір, де вороги потрапляють у пастку та не можуть ні увійти, ні вийти."
               }
             },
             {
@@ -4434,7 +4434,7 @@
               },
               "description": {
                 "en": "Passively scans a 10-block radius every couple of seconds for hazards - nearby monsters, sneaking players outside your line of sight, dangerous blocks (lava, fire, cacti, TNT, and the like), and unseen drops into the void - and shows colored directional particles plus an action-bar warning when one is within 5 blocks.",
-                "uk": "Пасивно сканує радіус у 10 блоків кожні кілька секунд на предмет небезпек — ворожих істот поблизу, гравців, що скрадаються поза межами вашого поля зору, небезпечних блоків (лава, вогонь, кактуси, TNT тощо) та непомітних провалів у порожнечу — і показує кольорові напрямні частинки та попередження на панелі дій, коли небезпека в межах 5 блоків."
+                "uk": "Пасивно сканує радіус у 10 блоків кожні кілька секунд на предмет небезпек - ворожих істот поблизу, гравців, що скрадаються поза межами вашого поля зору, небезпечних блоків (лава, вогонь, кактуси, TNT тощо) та непомітних провалів у порожнечу - і показує кольорові напрямні частинки та попередження на панелі дій, коли небезпека в межах 5 блоків."
               }
             },
             {
@@ -4445,7 +4445,7 @@
               },
               "description": {
                 "en": "Reveals a vision of an upcoming event - danger, death, treasure, an encounter, the weather, or the time of day - that grants a reward when it comes true. At Sequence 7 and below, sneak to pick a specific vision type from a menu instead of a random one, with more types unlocking as you advance; at Sequence 4, this menu also grants weather manipulation and Fortune Channeling, letting you directly cast a stored luck effect onto yourself or a fate-linked target.",
-                "uk": "Відкриває видіння майбутньої події — небезпеки, смерті, скарбу, зустрічі, погоди або часу доби — яка дає нагороду, коли справджується. На Послідовності 7 і нижче скрадайтеся, щоб обрати конкретний тип видіння з меню замість випадкового, з дедалі більшою кількістю варіантів по мірі просування; на Послідовності 4 те саме меню також відкриває керування погодою та Канал Фортуни, що дозволяє напряму накласти накопичений ефект удачі на себе або на ціль, зв'язану ниткою долі."
+                "uk": "Відкриває видіння майбутньої події - небезпеки, смерті, скарбу, зустрічі, погоди або часу доби - яка дає нагороду, коли справджується. На Послідовності 7 і нижче скрадайтеся, щоб обрати конкретний тип видіння з меню замість випадкового, з дедалі більшою кількістю варіантів по мірі просування; на Послідовності 4 те саме меню також відкриває керування погодою та Канал Фортуни, що дозволяє напряму накласти накопичений ефект удачі на себе або на ціль, зв'язану ниткою долі."
               }
             }
           ]
@@ -4465,7 +4465,7 @@
               },
               "description": {
                 "en": "Builds a passive calculation reserve that fills as you land hits and secure kills, and drains steadily when not maintained. At 30%+ reserve you gain Speed, at 60%+ Speed and Strength, and at 80%+ an enhanced Speed II and Strength I. Sneak for a few seconds to toggle a trance-off state that freezes the drain but disables the buffs, letting you preserve your reserve. At Sequence 4 and below, the reserve also acts as a damage shield.",
-                "uk": "Накопичує пасивний \"обчислювальний резерв\", який поповнюється від влучних ударів і вбивств та поступово витрачається, якщо його не підтримувати. Від 30% резерву ви отримуєте Швидкість, від 60% — Швидкість і Силу, а від 80% — посилену Швидкість II та Силу I. Скрадайтеся кілька секунд, щоб перемкнути стан \"транс вимкнено\", який зупиняє витрату резерву, але вимикає бафи, дозволяючи зберегти накопичене. На Послідовності 4 і нижче резерв також діє як щит від пошкоджень."
+                "uk": "Накопичує пасивний \"обчислювальний резерв\", який поповнюється від влучних ударів і вбивств та поступово витрачається, якщо його не підтримувати. Від 30% резерву ви отримуєте Швидкість, від 60% - Швидкість і Силу, а від 80% - посилену Швидкість II та Силу I. Скрадайтеся кілька секунд, щоб перемкнути стан \"транс вимкнено\", який зупиняє витрату резерву, але вимикає бафи, дозволяючи зберегти накопичене. На Послідовності 4 і нижче резерв також діє як щит від пошкоджень."
               }
             },
             {
@@ -4549,7 +4549,7 @@
               },
               "description": {
                 "en": "Opens a menu to pick a calamity - lightning, lava, an earthshake, or a creeper explosion (or let fate choose one at random) - then aim at a location within its range and click again to confirm the strike within a 15-second window, subject to a minimum safe distance and a per-calamity cooldown.",
-                "uk": "Відкриває меню для вибору катаклізму — блискавка, лава, землетрус або вибух кріпера (або дозвольте долі обрати випадковий) — після чого прицільтеся в місце в межах дальності та клацніть ще раз, щоб підтвердити удар протягом 15-секундного вікна, з урахуванням мінімальної безпечної відстані та власної перезарядки для кожного катаклізму."
+                "uk": "Відкриває меню для вибору катаклізму - блискавка, лава, землетрус або вибух кріпера (або дозвольте долі обрати випадковий) - після чого прицільтеся в місце в межах дальності та клацніть ще раз, щоб підтвердити удар протягом 15-секундного вікна, з урахуванням мінімальної безпечної відстані та власної перезарядки для кожного катаклізму."
               }
             },
             {
@@ -4560,7 +4560,7 @@
               },
               "description": {
                 "en": "Toggles an aura within 10 blocks that periodically deals rising damage to anyone in your line of sight - the longer they're exposed, the more it hurts - while stacking Slowness and Nausea on players and occasionally throwing off their aim. Drains spirituality every second while active.",
-                "uk": "Перемикає ауру в радіусі 10 блоків, яка періодично завдає зростаючого пошкодження всім у вашому полі зору — чим довше вплив, тим болючіше — накопичуючи Повільність і Нудоту на гравцях та іноді збиваючи їм приціл. Витрачає духовність щосекунди, поки активна."
+                "uk": "Перемикає ауру в радіусі 10 блоків, яка періодично завдає зростаючого пошкодження всім у вашому полі зору - чим довше вплив, тим болючіше - накопичуючи Повільність і Нудоту на гравцях та іноді збиваючи їм приціл. Витрачає духовність щосекунди, поки активна."
               }
             },
             {
@@ -4571,7 +4571,7 @@
               },
               "description": {
                 "en": "Passively senses danger before it happens: shows a brief blindness-into-vision warning ahead of nearby lightning strikes, incoming thunderstorms, lava close by, severe damage, or hostile mobs spawning near you (each on its own cooldown). Also has a small periodic chance to manifest its own calamity on you - lightning, an explosion, fire, hostile potion effects, or spawned mobs - with the same warning first, unless your luck is high enough to ward it off.",
-                "uk": "Пасивно відчуває небезпеку заздалегідь: показує коротке попередження у вигляді сліпоти, що переходить у нічне бачення, перед ударом блискавки поблизу, наближенням грози, лавою неподалік, тяжким пошкодженням або появою ворожих істот поруч із вами (кожен випадок має власну перезарядку). Також має невеликий періодичний шанс викликати власний катаклізм на вас — блискавку, вибух, вогонь, ворожі ефекти зілля або спричинити появу істот — з тим самим попередженням заздалегідь, якщо тільки ваша удача не досить висока, щоб відвернути його."
+                "uk": "Пасивно відчуває небезпеку заздалегідь: показує коротке попередження у вигляді сліпоти, що переходить у нічне бачення, перед ударом блискавки поблизу, наближенням грози, лавою неподалік, тяжким пошкодженням або появою ворожих істот поруч із вами (кожен випадок має власну перезарядку). Також має невеликий періодичний шанс викликати власний катаклізм на вас - блискавку, вибух, вогонь, ворожі ефекти зілля або спричинити появу істот - з тим самим попередженням заздалегідь, якщо тільки ваша удача не досить висока, щоб відвернути його."
               }
             }
           ]
@@ -4633,7 +4633,7 @@
               },
               "description": {
                 "en": "Toggle a fate-link to a target within 30 blocks, draining your spirituality every tick while it holds. While linked, the target periodically receives the same random luck-based fortune or misfortune effects your own luck would trigger, sharing your fortune - or lack of it - with them at range.",
-                "uk": "Перемикає зв'язок долі з ціллю в межах 30 блоків, витрачаючи вашу духовність кожен тік, поки він триває. Поки зв'язок активний, ціль періодично отримує ті самі випадкові ефекти удачі чи невдачі, які викликала б ваша власна удача, — ділячись вашою фортуною, чи її відсутністю, на відстані."
+                "uk": "Перемикає зв'язок долі з ціллю в межах 30 блоків, витрачаючи вашу духовність кожен тік, поки він триває. Поки зв'язок активний, ціль періодично отримує ті самі випадкові ефекти удачі чи невдачі, які викликала б ваша власна удача, - ділячись вашою фортуною, чи її відсутністю, на відстані."
               }
             },
             {
@@ -4644,7 +4644,7 @@
               },
               "description": {
                 "en": "Summons a storm centered on you (up to 24 blocks at low Sequence) that periodically rolls a random probability effect on everyone caught inside - teleport, position-swap with you, random knockback, instant damage or healing, a random buff potion, aim confusion, levitation, invisibility, or freezing - while also giving nearby entities a chance to dodge or take double damage from ongoing hits. Effects lean positive or negative for others based on your current luck.",
-                "uk": "Викликає шторм з центром на вас (до 24 блоків на низькій Послідовності), який періодично накладає випадковий ефект ймовірності на всіх, хто опинився всередині — телепортацію, обмін місцями з вами, випадковий поштовх, миттєве пошкодження чи зцілення, випадкове зілля-баф, збивання прицілу, левітацію, невидимість або заморожування — а також дає сутностям поблизу шанс ухилитися від атак або отримати подвійне пошкодження. Ефекти схиляються до позитивних чи негативних для інших залежно від вашої поточної удачі."
+                "uk": "Викликає шторм з центром на вас (до 24 блоків на низькій Послідовності), який періодично накладає випадковий ефект ймовірності на всіх, хто опинився всередині - телепортацію, обмін місцями з вами, випадковий поштовх, миттєве пошкодження чи зцілення, випадкове зілля-баф, збивання прицілу, левітацію, невидимість або заморожування - а також дає сутностям поблизу шанс ухилитися від атак або отримати подвійне пошкодження. Ефекти схиляються до позитивних чи негативних для інших залежно від вашої поточної удачі."
               }
             },
             {
@@ -4677,7 +4677,7 @@
               },
               "description": {
                 "en": "Your body becomes fate-favored mercury. Roughly 5-8% of the time (higher at lower Sequences), an incoming hit - melee, magic, or otherwise - is reduced by about 30-40%, grants a burst of Resistance, and randomly grants Speed, Strength, or Jump Boost. Also blocks other Beyonders of equal or lower Sequence from divining, prophesying, or spiritually sensing you.",
-                "uk": "Ваше тіло стає улюбленою ртуттю долі. Приблизно у 5-8% випадків (більше на нижчих Послідовностях) вхідний удар — ближній бій, магія чи інше — знижується приблизно на 30-40%, дає сплеск Опору та випадково надає Швидкість, Силу або Стрибучість. Також блокує спроби інших Позамежних рівної або нижчої Послідовності ворожити, пророкувати чи духовно відчувати вас."
+                "uk": "Ваше тіло стає улюбленою ртуттю долі. Приблизно у 5-8% випадків (більше на нижчих Послідовностях) вхідний удар - ближній бій, магія чи інше - знижується приблизно на 30-40%, дає сплеск Опору та випадково надає Швидкість, Силу або Стрибучість. Також блокує спроби інших Позамежних рівної або нижчої Послідовності ворожити, пророкувати чи духовно відчувати вас."
               }
             },
             {
@@ -4836,7 +4836,7 @@
               },
               "description": {
                 "en": "Left-click cycles between three modes: checkpoint (saves position, HP, and potion effects of nearby mobs and allied players in a 30m radius); reboot-destiny (restores their saved checkpoint state within 5 minutes); reboot-entity (targets an entity to clear all potion effects, delete Error avatars or Fool marionette bindings, and if they are a player, cure mental plagues and diseases while silencing their abilities for 30s).",
-                "uk": "Лівий клік перемикає три режими: checkpoint (зберігає позицію, здоров'я та ефекти зілля мобів і союзних гравців у радіусі 30м); reboot-destiny (протягом 5 хвилин відновлює їхній збережений стан); reboot-entity (очищає ефекти цілі, видаляє аватари Error або маріонеток Fool, а для гравців — зцілює ментальні хвороби, блокуючи їхні здібності на 30 секунд)."
+                "uk": "Лівий клік перемикає три режими: checkpoint (зберігає позицію, здоров'я та ефекти зілля мобів і союзних гравців у радіусі 30м); reboot-destiny (протягом 5 хвилин відновлює їхній збережений стан); reboot-entity (очищає ефекти цілі, видаляє аватари Error або маріонеток Fool, а для гравців - зцілює ментальні хвороби, блокуючи їхні здібності на 30 секунд)."
               }
             },
             {
@@ -4846,8 +4846,8 @@
                 "uk": "Цикл Долі"
               },
               "description": {
-                "en": "First cast: select target players in 50m via head GUI to bind them to a cycle. Second cast: choose to Restart the cycle at a cost of 1,000 luck per online victim (caster dies if luck reaches -10,000) — after 10 seconds, select a resolution effect: Spirituality (drains 10% max spirituality); Health (deals magic damage to you and victims); Sealed Chaos (applies your sealed potion effects); or Fate Bond (deals damage and -300 luck) — or choose to Cut the cycle, ending it immediately at no cost.",
-                "uk": "Перший каст: виберіть гравців у радіусі 50м для прив'язки до циклу. Другий каст: виберіть Перезапустити цикл ціною 1,000 удачі за кожну жертву (заклинач гине, якщо удача впаде до -10,000) — через 10 секунд виберіть ефект вирішення: Spirituality (забирає 10% макс. духовності); Health (наносить магічну шкоду вам і жертвам); Sealed Chaos (накладає ваші запечатані зілля); або Fate Bond (наносить шкоду та -300 удачі) — або Обірвати цикл, завершивши його негайно без витрат."
+                "en": "First cast: select target players in 50m via head GUI to bind them to a cycle. Second cast: choose to Restart the cycle at a cost of 1,000 luck per online victim (caster dies if luck reaches -10,000) - after 10 seconds, select a resolution effect: Spirituality (drains 10% max spirituality); Health (deals magic damage to you and victims); Sealed Chaos (applies your sealed potion effects); or Fate Bond (deals damage and -300 luck) - or choose to Cut the cycle, ending it immediately at no cost.",
+                "uk": "Перший каст: виберіть гравців у радіусі 50м для прив'язки до циклу. Другий каст: виберіть Перезапустити цикл ціною 1,000 удачі за кожну жертву (заклинач гине, якщо удача впаде до -10,000) - через 10 секунд виберіть ефект вирішення: Spirituality (забирає 10% макс. духовності); Health (наносить магічну шкоду вам і жертвам); Sealed Chaos (накладає ваші запечатані зілля); або Fate Bond (наносить шкоду та -300 удачі) - або Обірвати цикл, завершивши його негайно без витрат."
               }
             }
           ]
@@ -5265,7 +5265,7 @@
               },
               "description": {
                 "en": "Summon an unbreakable golden greatsword that deals magic damage on each strike, applying Slowness II for 2 seconds (non-stacking). Right-click to release a 10-block crescent shockwave that stuns all targets in a wide arc for 1 second (5s cooldown).",
-                "uk": "Викликає незламний золотий меч-бастард, що завдає магічної шкоди при кожному ударі та накладає Сповільнення II на 2 секунди (не накопичується). ПКМ — випустити ударну хвилю у вигляді сектору на 10 блоків, що приголомшує всіх у широкій дузі на 1 секунду (кулдаун 5 сек)."
+                "uk": "Викликає незламний золотий меч-бастард, що завдає магічної шкоди при кожному ударі та накладає Сповільнення II на 2 секунди (не накопичується). ПКМ - випустити ударну хвилю у вигляді сектору на 10 блоків, що приголомшує всіх у широкій дузі на 1 секунду (кулдаун 5 сек)."
               }
             },
             {
@@ -5365,7 +5365,7 @@
               },
               "description": {
                 "en": "Right-click to scan within 50 blocks. Reveals each Beyonder's name, pathway, and sequence. Cooldown: 2 seconds.",
-                "uk": "Правий клік — сканувати Бейондерів у радіусі 50 блоків. Виявляє ім'я, шлях та послідовність кожного гравця. Відновлення: 2 секунди."
+                "uk": "Правий клік - сканувати Бейондерів у радіусі 50 блоків. Виявляє ім'я, шлях та послідовність кожного гравця. Відновлення: 2 секунди."
               }
             },
             {
@@ -5375,8 +5375,8 @@
                 "uk": "Знання"
               },
               "description": {
-                "en": "At Sequence 9, you must make a pact — a choice sealed until you lose control. Options 2 and 3 grant ritual spells at the cost of permanent madness that fades as you advance.",
-                "uk": "На Послідовності 9 ви повинні укласти пакт — вибір запечатується до втрати контролю. Варіанти 2 та 3 дають ритуальні заклинання ціною постійного безумства, що зникає з просуванням."
+                "en": "At Sequence 9, you must make a pact - a choice sealed until you lose control. Options 2 and 3 grant ritual spells at the cost of permanent madness that fades as you advance.",
+                "uk": "На Послідовності 9 ви повинні укласти пакт - вибір запечатується до втрати контролю. Варіанти 2 та 3 дають ритуальні заклинання ціною постійного безумства, що зникає з просуванням."
               }
             }
           ]
@@ -5417,8 +5417,8 @@
                 "uk": "Насіння Корупції"
               },
               "description": {
-                "en": "The deeper pact plants a seed within you. Madness inflicted by Beyonder abilities from those of equal or lesser rank cannot take root — their influence falls on deaf ears.",
-                "uk": "Глибший пакт саджає насіння в тебе. Безумство, яке накладають здібності Понадчасових рівного або нижчого рангу, не може вкоренитися — їхній вплив падає на глухі вуха."
+                "en": "The deeper pact plants a seed within you. Madness inflicted by Beyonder abilities from those of equal or lesser rank cannot take root - their influence falls on deaf ears.",
+                "uk": "Глибший пакт саджає насіння в тебе. Безумство, яке накладають здібності Понадчасових рівного або нижчого рангу, не може вкоренитися - їхній вплив падає на глухі вуха."
               }
             }
           ]
@@ -5449,7 +5449,7 @@
               },
               "description": {
                 "en": "Summon a shadow wolf. Left-click to toggle mode: Attack (4 magic dmg) or Restrain (Slowness II + Weakness I). Only 1 servant at a time. Right-click again to dismiss. If the wolf is slain, 10-minute cooldown.",
-                "uk": "Викликати тіньового вовка. Лівий клік — перемикання режиму: Атака (4 магічних пошкодження) або Утримання (Повільність II + Слабкість I). Лише 1 слуга одночасно. Правий клік повторно — відкликати. Якщо вовка вбито — 10 хвилин відновлення."
+                "uk": "Викликати тіньового вовка. Лівий клік - перемикання режиму: Атака (4 магічних пошкодження) або Утримання (Повільність II + Слабкість I). Лише 1 слуга одночасно. Правий клік повторно - відкликати. Якщо вовка вбито - 10 хвилин відновлення."
               }
             },
             {
@@ -5459,8 +5459,8 @@
                 "uk": "Тіньові Пута"
               },
               "description": {
-                "en": "Right-click to bind a target within 16 blocks — applies Slowness V for 5 seconds. Left-click to set the throw direction; the target is launched at 4x velocity. Deals 5 magic damage on impact with a surface. Cooldown: 10 seconds.",
-                "uk": "Правий клік — прив'язати ціль у 16 блоках: накладає Повільність V на 5 секунд. Лівий клік — встановити напрямок кидка; ціль запускається з 4x швидкістю. Завдає 5 магічних пошкоджень при зіткненні з поверхнею. Відновлення: 10 секунд."
+                "en": "Right-click to bind a target within 16 blocks - applies Slowness V for 5 seconds. Left-click to set the throw direction; the target is launched at 4x velocity. Deals 5 magic damage on impact with a surface. Cooldown: 10 seconds.",
+                "uk": "Правий клік - прив'язати ціль у 16 блоках: накладає Повільність V на 5 секунд. Лівий клік - встановити напрямок кидка; ціль запускається з 4x швидкістю. Завдає 5 магічних пошкоджень при зіткненні з поверхнею. Відновлення: 10 секунд."
               }
             },
             {
@@ -5502,7 +5502,7 @@
               },
               "description": {
                 "en": "Hold right-click for 2 seconds to charge, then release to throw a flesh bomb (20 magic dmg uncharged, 25 charged) in a 4-block radius. Costs 10% max HP and 15 flesh reserve. Right-click without charging to plant it at a nearby target (5% HP cost). Left-click: spend 5 flesh to empower a melee strike (5 magic dmg). Cooldown: 15 seconds.",
-                "uk": "Утримуйте правий клік 2 секунди для зарядки, потім відпустіть, щоб кинути м'ясну бомбу (20 магічних пошкоджень без зарядки, 25 із зарядкою) у радіусі 4 блоки. Коштує 10% макс. HP та 15 одиниць резерву плоті. Правий клік без зарядки — посадити на ціль (5% HP). Лівий клік: витратити 5 плоті для посилення удару в ближньому бою (5 магічних пошкоджень). Відновлення: 15 секунд."
+                "uk": "Утримуйте правий клік 2 секунди для зарядки, потім відпустіть, щоб кинути м'ясну бомбу (20 магічних пошкоджень без зарядки, 25 із зарядкою) у радіусі 4 блоки. Коштує 10% макс. HP та 15 одиниць резерву плоті. Правий клік без зарядки - посадити на ціль (5% HP). Лівий клік: витратити 5 плоті для посилення удару в ближньому бою (5 магічних пошкоджень). Відновлення: 15 секунд."
               }
             },
             {
@@ -5524,7 +5524,7 @@
               },
               "description": {
                 "en": "Passive. Build flesh reserves by killing creatures, eating, or striking players. Reserves reduce incoming damage by up to 60%: the more stored, the greater the protection. Flesh drains slowly over time and is consumed when absorbing damage.",
-                "uk": "Пасивна. Накопичуйте резерви плоті, вбиваючи, харчуючись або атакуючи гравців. Резерви зменшують вхідні пошкодження до 60%: чим більше запасів — тим кращий захист. Плоть повільно витрачається з часом та витрачається при поглинанні пошкоджень."
+                "uk": "Пасивна. Накопичуйте резерви плоті, вбиваючи, харчуючись або атакуючи гравців. Резерви зменшують вхідні пошкодження до 60%: чим більше запасів - тим кращий захист. Плоть повільно витрачається з часом та витрачається при поглинанні пошкоджень."
               }
             },
             {
@@ -5546,7 +5546,7 @@
               },
               "description": {
                 "en": "Summon 5 Flesh Blood Servants that attack your enemies. Each servant deals magic damage on hit. When a servant dies it explodes in a blood-red mist, dealing area damage. Left-click to manually detonate all servants. Each explosion restores flesh reserve.",
-                "uk": "Викликайте 5 Слуг з Плоті і Крові, які атакують ваших ворогів. Кожен слуга завдає магічної шкоди при ударі. Коли слуга гине, він вибухає кров'яним туманом, завдаючи шкоди в області. Ліве натискання — підривати всіх слуг. Кожен вибух відновлює резерв плоті."
+                "uk": "Викликайте 5 Слуг з Плоті і Крові, які атакують ваших ворогів. Кожен слуга завдає магічної шкоди при ударі. Коли слуга гине, він вибухає кров'яним туманом, завдаючи шкоди в області. Ліве натискання - підривати всіх слуг. Кожен вибух відновлює резерв плоті."
               }
             }
           ]
@@ -5577,7 +5577,7 @@
               },
               "description": {
                 "en": "Right-click to open your Grazed Souls collection. Left-click to open the release menu, returning stolen powers. Active soul slots: 1 at Seq 5+, 2 at Seq 4, 2+Trinity heads at Seq 3-2, 2+(2xTrinity heads) at Seq 1-0. Switching active soul costs 100 spirit. After 24 hours the victim regains their powers, but the soul remains.",
-                "uk": "Правий клік — відкрити колекцію Пограбованих Душ. Лівий клік — відкрити меню звільнення, повертаючи вкрадені сили. Активні слоти душ: 1 на Посл. 5+, 2 на Посл. 4, 2+голови Трійці на Посл. 3-2, 2+(2x голови Трійці) на Посл. 1-0. Перемикання активної душі коштує 100 духовності. Через 24 години жертва повертає сили, але душа залишається."
+                "uk": "Правий клік - відкрити колекцію Пограбованих Душ. Лівий клік - відкрити меню звільнення, повертаючи вкрадені сили. Активні слоти душ: 1 на Посл. 5+, 2 на Посл. 4, 2+голови Трійці на Посл. 3-2, 2+(2x голови Трійці) на Посл. 1-0. Перемикання активної душі коштує 100 духовності. Через 24 години жертва повертає сили, але душа залишається."
               }
             },
             {
@@ -5629,8 +5629,8 @@
                 "uk": "Чорна Броня"
               },
               "description": {
-                "en": "Transforms you into a small giant 2-3 meters tall, covered in black, cold armor. The armor is formed from the forces of Degeneration and redirects incoming damage into its own durability instead of your health. Durability persists across activations and only regenerates while deactivated — shattered armor stays weak until you stay unequipped long enough for it to mend.",
-                "uk": "Перетворює вас на малого гіганта висотою 2-3 метри, покритого чорною холодною бронею. Броня сформована з сил Дегенерації та перенаправляє вхідні пошкодження у власну міцність замість вашого здоров'я. Міцність зберігається між активаціями і відновлюється лише поки броня деактивована — розбита броня залишається слабкою, доки ви не проведете достатньо часу без неї, щоб вона відновилася."
+                "en": "Transforms you into a small giant 2-3 meters tall, covered in black, cold armor. The armor is formed from the forces of Degeneration and redirects incoming damage into its own durability instead of your health. Durability persists across activations and only regenerates while deactivated - shattered armor stays weak until you stay unequipped long enough for it to mend.",
+                "uk": "Перетворює вас на малого гіганта висотою 2-3 метри, покритого чорною холодною бронею. Броня сформована з сил Дегенерації та перенаправляє вхідні пошкодження у власну міцність замість вашого здоров'я. Міцність зберігається між активаціями і відновлюється лише поки броня деактивована - розбита броня залишається слабкою, доки ви не проведете достатньо часу без неї, щоб вона відновилася."
               }
             },
             {
@@ -5663,7 +5663,7 @@
               },
               "description": {
                 "en": "Opens a soul selection menu. Choose up to 2 grazed souls to manifest as Beyonder NPCs. The selected soul vanishes from your collection and its abilities are lost. If the NPC is slain, the soul is permanently destroyed. Costs 1200 spirit with a 120 second cooldown.",
-                "uk": "Відкриває меню вибору душ. Оберіть до 2 пограбованих душ для матеріалізації у вигляді NPC-Підготовлених. Обрана душа зникає з колекції, а її здібності втрачаються. Якщо NPC буде вбито — душа знищується назавжди. Витрачає 1200 духовності з перезарядкою 120 секунд."
+                "uk": "Відкриває меню вибору душ. Оберіть до 2 пограбованих душ для матеріалізації у вигляді NPC-Підготовлених. Обрана душа зникає з колекції, а її здібності втрачаються. Якщо NPC буде вбито - душа знищується назавжди. Витрачає 1200 духовності з перезарядкою 120 секунд."
               }
             }
           ]
@@ -5694,7 +5694,7 @@
               },
               "description": {
                 "en": "Triples your spirituality reserves and manifests two additional spectral heads. Opens a menu to pre-bind two abilities that auto-execute alongside any primary ability. When brought to a critical state, one head is consumed to grant regeneration for 4 seconds. Prolonged use releases grazed souls every minute; if none remain, you lose control.",
-                "uk": "Потроює ваші запаси духовності та проявляє дві додаткові примарні голови. Відкриває меню для попереднього прив'язування двох здібностей, що автоматично активуються разом із будь-якою основною. Коли вас доводять до критичного стану, одна голова поглинається, даруючи регенерацію на 4 секунди. Тривале використання вивільняє захоплені душі щохвилини; якщо їх не залишиться — ви втратите контроль."
+                "uk": "Потроює ваші запаси духовності та проявляє дві додаткові примарні голови. Відкриває меню для попереднього прив'язування двох здібностей, що автоматично активуються разом із будь-якою основною. Коли вас доводять до критичного стану, одна голова поглинається, даруючи регенерацію на 4 секунди. Тривале використання вивільняє захоплені душі щохвилини; якщо їх не залишиться - ви втратите контроль."
               }
             }
           ]
@@ -5713,8 +5713,8 @@
                 "uk": "Нечестива Мова"
               },
               "description": {
-                "en": "Releases a wave of profane spiritual energy that radiates outward in a 15-block radius. All targets receive corruption proportional to their weakness — the less advanced their sequence, the more their spirit is tainted. Powerful Beyonders resist the effect entirely.",
-                "uk": "Вивільняє хвилю нечестивої духовної енергії, що розходиться в радіусі 15 блоків. Цілі отримують зіпсування, пропорційне їхній слабкості — чим нижча послідовність, тим більше забруднюється дух. Потужні Бейондери повністю резистуються."
+                "en": "Releases a wave of profane spiritual energy that radiates outward in a 15-block radius. All targets receive corruption proportional to their weakness - the less advanced their sequence, the more their spirit is tainted. Powerful Beyonders resist the effect entirely.",
+                "uk": "Вивільняє хвилю нечестивої духовної енергії, що розходиться в радіусі 15 блоків. Цілі отримують зіпсування, пропорційне їхній слабкості - чим нижча послідовність, тим більше забруднюється дух. Потужні Бейондери повністю резистуються."
               }
             },
             {
@@ -5755,8 +5755,8 @@
                 "uk": "Тіні"
               },
               "description": {
-                "en": "The Dark Angel is veiled in shadow — taking 50% less damage from shadow and shadow-world abilities. When struck by a weaker shadow user, the damage is reflected back. Two Dark Angels of equal rank are mutually immune to each other's shadow powers. In darkness, the shadows strengthen the body, granting Resistance II.",
-                "uk": "Темний Ангел огорнений тінями — отримує на 50% менше шкоди від тіньових здібностей. При атаці слабшого тіньового мага, шкода відбивається. Два Темних Ангели рівної секвенції взаємно імунні до тіньових сил. У темряві тіні зміцнюють тіло, даючи Опір II."
+                "en": "The Dark Angel is veiled in shadow - taking 50% less damage from shadow and shadow-world abilities. When struck by a weaker shadow user, the damage is reflected back. Two Dark Angels of equal rank are mutually immune to each other's shadow powers. In darkness, the shadows strengthen the body, granting Resistance II.",
+                "uk": "Темний Ангел огорнений тінями - отримує на 50% менше шкоди від тіньових здібностей. При атаці слабшого тіньового мага, шкода відбивається. Два Темних Ангели рівної секвенції взаємно імунні до тіньових сил. У темряві тіні зміцнюють тіло, даючи Опір II."
               }
             },
             {
@@ -5766,8 +5766,8 @@
                 "uk": "Виродження"
               },
               "description": {
-                "en": "Corrupts a targeted entity within 20 blocks with the Mark of Degeneration — forcing a random part of them to betray their very nature. Each use fills the degeneration scale; when full, two betrayals strike at once and the scale resets. Effects last 15 seconds. Drop item applies to players only; dismiss puppet seeks nearby shadow servants.",
-                "uk": "Вражає ціль у радіусі 20 блоків Міткою Виродження — змушуючи випадкову частину її єства зрадити своїй природі. Кожне застосування наповнює шкалу виродження; коли вона повна — відбувається подвійна зрада, і шкала скидається. Ефекти тривають 15 секунд."
+                "en": "Corrupts a targeted entity within 20 blocks with the Mark of Degeneration - forcing a random part of them to betray their very nature. Each use fills the degeneration scale; when full, two betrayals strike at once and the scale resets. Effects last 15 seconds. Drop item applies to players only; dismiss puppet seeks nearby shadow servants.",
+                "uk": "Вражає ціль у радіусі 20 блоків Міткою Виродження - змушуючи випадкову частину її єства зрадити своїй природі. Кожне застосування наповнює шкалу виродження; коли вона повна - відбувається подвійна зрада, і шкала скидається. Ефекти тривають 15 секунд."
               }
             },
             {
@@ -5813,8 +5813,8 @@
                 "uk": "Погоня за Знаннями"
               },
               "description": {
-                "en": "The relentless pursuit of knowledge injects itself at random intervals — fragments of truth may sharpen the mind, restore vitality, or grant clarity, while forbidden knowledge may drain spirituality, blind the senses, or paralyze the body.",
-                "uk": "Невпинне прагнення знань вриваєтьcя випадковими спалахами — фрагменти істини можуть загострити розум, відновити сили або дарувати ясність, тоді як заборонені знання можуть виснажити духовність, осліпити або паралізувати тіло."
+                "en": "The relentless pursuit of knowledge injects itself at random intervals - fragments of truth may sharpen the mind, restore vitality, or grant clarity, while forbidden knowledge may drain spirituality, blind the senses, or paralyze the body.",
+                "uk": "Невпинне прагнення знань вриваєтьcя випадковими спалахами - фрагменти істини можуть загострити розум, відновити сили або дарувати ясність, тоді як заборонені знання можуть виснажити духовність, осліпити або паралізувати тіло."
               }
             },
             {
@@ -5824,8 +5824,8 @@
                 "uk": "Духовне Бачення"
               },
               "description": {
-                "en": "Passively perceives the spiritual essence of observed beings within 25 blocks — reveals health, detects Beyonders alongside their pathway and sequence, and gauges their current spirituality level.",
-                "uk": "Пасивно сприймає духовну сутність спостережуваних істот у радіусі 25 блоків — розкриває стан здоров'я, виявляє Надзвичайних разом з їхнім шляхом та послідовністю, а також визначає поточний рівень їхньої духовності."
+                "en": "Passively perceives the spiritual essence of observed beings within 25 blocks - reveals health, detects Beyonders alongside their pathway and sequence, and gauges their current spirituality level.",
+                "uk": "Пасивно сприймає духовну сутність спостережуваних істот у радіусі 25 блоків - розкриває стан здоров'я, виявляє Надзвичайних разом з їхнім шляхом та послідовністю, а також визначає поточний рівень їхньої духовності."
               }
             },
             {
@@ -5847,7 +5847,7 @@
               },
               "description": {
                 "en": "Choose an inventory stack and send it to another player by mystical chicken courier. Delivery takes 60 seconds and has a 120-second cooldown.",
-                "uk": "Оберіть стос предметів з інвентарю та надішліть його іншому гравцеві містичною куркою-кур'єром. Доставка триває 60 секунд, перезарядка — 120 секунд."
+                "uk": "Оберіть стос предметів з інвентарю та надішліть його іншому гравцеві містичною куркою-кур'єром. Доставка триває 60 секунд, перезарядка - 120 секунд."
               }
             },
             {
@@ -5877,8 +5877,8 @@
                 "uk": "Бойовий Аналіз"
               },
               "description": {
-                "en": "Passively analyzes nearby hostile entities — the longer an enemy remains in range, the deeper the analysis, granting up to 25% bonus damage on hit. Fully analyzed enemies trigger a visual indicator and grant acting points.",
-                "uk": "Пасивно аналізує ворожих істот поблизу — чим довше ворог перебуває в зоні огляду, тим глибший аналіз, що забезпечує до 25%% бонусу до шкоди при влученні. Повністю проаналізовані вороги викликають візуальний індикатор і надають очки дії."
+                "en": "Passively analyzes nearby hostile entities - the longer an enemy remains in range, the deeper the analysis, granting up to 25% bonus damage on hit. Fully analyzed enemies trigger a visual indicator and grant acting points.",
+                "uk": "Пасивно аналізує ворожих істот поблизу - чим довше ворог перебуває в зоні огляду, тим глибший аналіз, що забезпечує до 25%% бонусу до шкоди при влученні. Повністю проаналізовані вороги викликають візуальний індикатор і надають очки дії."
               }
             },
             {
@@ -6014,8 +6014,8 @@
                 "uk": "Бачення Сузір'їв"
               },
               "description": {
-                "en": "Sense hidden existences within 30 blocks: entities that are disguised, invisible, or sneaking are forcibly revealed with a red glow and crimson particles, while entities merely out of sight receive a faint stellar outline. A shroud of shadowy curtains perpetually surrounds the caster — a sign that something, somewhere, watches back.",
-                "uk": "Відчуває приховані існування у радіусі 30 блоків: замасковані, невидимі або крадучись пересуваються сутності розкриваються червоним свіченням та кримсоновими частинками. Звичайні сутності поза полем зору отримують ледь помітний зоряний контур. Темні завіси клубочаться навколо майстра — знак того, що щось, десь, спостерігає у відповідь."
+                "en": "Sense hidden existences within 30 blocks: entities that are disguised, invisible, or sneaking are forcibly revealed with a red glow and crimson particles, while entities merely out of sight receive a faint stellar outline. A shroud of shadowy curtains perpetually surrounds the caster - a sign that something, somewhere, watches back.",
+                "uk": "Відчуває приховані існування у радіусі 30 блоків: замасковані, невидимі або крадучись пересуваються сутності розкриваються червоним свіченням та кримсоновими частинками. Звичайні сутності поза полем зору отримують ледь помітний зоряний контур. Темні завіси клубочаться навколо майстра - знак того, що щось, десь, спостерігає у відповідь."
               }
             },
             {
@@ -6098,8 +6098,8 @@
                 "uk": "Пронизливий Погляд Таємниці"
               },
               "description": {
-                "en": "Your sight pierces ordinary veils — passively senses every player within 50 blocks and sees through invisibility, vanish, and anti-divination protection. Darkness Self Concealment remains hidden unless you possess Omniscient Eye.",
-                "uk": "Ваш погляд пронизує звичайні завіси — пасивно відчуває кожного гравця у радіусі 50 блоків і бачить крізь невидимість, режим vanish та захист від ворожіння. Самоприховування Темряви залишається прихованим, якщо ви не володієте Всезнаючим Оком."
+                "en": "Your sight pierces ordinary veils - passively senses every player within 50 blocks and sees through invisibility, vanish, and anti-divination protection. Darkness Self Concealment remains hidden unless you possess Omniscient Eye.",
+                "uk": "Ваш погляд пронизує звичайні завіси - пасивно відчуває кожного гравця у радіусі 50 блоків і бачить крізь невидимість, режим vanish та захист від ворожіння. Самоприховування Темряви залишається прихованим, якщо ви не володієте Всезнаючим Оком."
               }
             },
             {
@@ -6109,8 +6109,8 @@
                 "uk": "Ясновидіння"
               },
               "description": {
-                "en": "Left-click for Glimpse — spend 500 spirit to pry open a named player's pathway, vitals, acting, and inventory. Right-click for Foresee — spend 50 spirit/sec to spectate a named player indefinitely, building a temporary damage/resistance edge against their pathway.",
-                "uk": "ЛКМ — Проблиск: витратьте 500 духовності, щоб розкрити шлях, стан та інвентар названого гравця. ПКМ — Передбачення: витрачайте 50 духовності/сек, щоб безстроково спостерігати за названим гравцем, накопичуючи тимчасову перевагу в шкоді та захисті проти його шляху."
+                "en": "Left-click for Glimpse - spend 500 spirit to pry open a named player's pathway, vitals, acting, and inventory. Right-click for Foresee - spend 50 spirit/sec to spectate a named player indefinitely, building a temporary damage/resistance edge against their pathway.",
+                "uk": "ЛКМ - Проблиск: витратьте 500 духовності, щоб розкрити шлях, стан та інвентар названого гравця. ПКМ - Передбачення: витрачайте 50 духовності/сек, щоб безстроково спостерігати за названим гравцем, накопичуючи тимчасову перевагу в шкоді та захисті проти його шляху."
               }
             }
           ]
@@ -6173,8 +6173,8 @@
                 "uk": "Ясновидющий Рефлекс"
               },
               "description": {
-                "en": "Your prophetic sense has sharpened to a razor's edge — fragments of future actions flicker through your mind before they land. Grants a 25% chance to foresee and dodge incoming damage.",
-                "uk": "Ваше пророче відчуття загострилось до бритви — уривки майбутніх дій миготять у вашій свідомості до того, як вони відбудуться. Дає 25% шанс передбачити та ухилитися від вхідної шкоди."
+                "en": "Your prophetic sense has sharpened to a razor's edge - fragments of future actions flicker through your mind before they land. Grants a 25% chance to foresee and dodge incoming damage.",
+                "uk": "Ваше пророче відчуття загострилось до бритви - уривки майбутніх дій миготять у вашій свідомості до того, як вони відбудуться. Дає 25% шанс передбачити та ухилитися від вхідної шкоди."
               }
             },
             {
@@ -6215,8 +6215,8 @@
                 "uk": "Спис Руйнування"
               },
               "description": {
-                "en": "Hurl a white spear condensed from pure knowledge. It detonates on impact in a 5-block explosion, dealing massive magic damage to all enemies caught in the blast and stunning them — knowledge forcibly inserted into their minds leaves them nauseated for 1 minute.",
-                "uk": "Кидайте білий спис, стиснутий з чистих знань. Детонує при влученні у радіусі 5 блоків, завдаючи масивного магічного урону всім ворогам у вибуху та оглушуючи їх — знання, насильно вставлені в їхні розуми, залишають їх нудотними протягом 1 хвилини."
+                "en": "Hurl a white spear condensed from pure knowledge. It detonates on impact in a 5-block explosion, dealing massive magic damage to all enemies caught in the blast and stunning them - knowledge forcibly inserted into their minds leaves them nauseated for 1 minute.",
+                "uk": "Кидайте білий спис, стиснутий з чистих знань. Детонує при влученні у радіусі 5 блоків, завдаючи масивного магічного урону всім ворогам у вибуху та оглушуючи їх - знання, насильно вставлені в їхні розуми, залишають їх нудотними протягом 1 хвилини."
               }
             },
             {
@@ -6237,8 +6237,8 @@
                 "uk": "Цифровий Аватар"
               },
               "description": {
-                "en": "Dissolve your physical form into pure digital information. You become invisible and surrounded by swirling enchantment runes. While active: all physical damage is negated, every attack you land injects forbidden knowledge that raises the target's madness by 1%. Left-click to open the Information Navigator — teleport safely to nearby Books, Ritual Altars, or White Tower players.",
-                "uk": "Розчиніть свою фізичну форму в чисту цифрову інформацію. Ви стаєте невидимим та оточеним вихровими рунами зачарування. Поки активний: весь фізичний урон нейтрується, кожна ваша атака впорскує заборонені знання, що підвищують безумство цілі на 1%. Ліва кнопка миші відкриває Навігатор Інформації — безпечно переміщуйтесь до сусідніх Книг, Ритуальних Вівтарів або гравців Білої Вежі."
+                "en": "Dissolve your physical form into pure digital information. You become invisible and surrounded by swirling enchantment runes. While active: all physical damage is negated, every attack you land injects forbidden knowledge that raises the target's madness by 1%. Left-click to open the Information Navigator - teleport safely to nearby Books, Ritual Altars, or White Tower players.",
+                "uk": "Розчиніть свою фізичну форму в чисту цифрову інформацію. Ви стаєте невидимим та оточеним вихровими рунами зачарування. Поки активний: весь фізичний урон нейтрується, кожна ваша атака впорскує заборонені знання, що підвищують безумство цілі на 1%. Ліва кнопка миші відкриває Навігатор Інформації - безпечно переміщуйтесь до сусідніх Книг, Ритуальних Вівтарів або гравців Білої Вежі."
               }
             },
             {
@@ -6259,8 +6259,8 @@
                 "uk": "Потік Інформації"
               },
               "description": {
-                "en": "Activate a continuous information scan. Each nearby player gradually fills a progress bar — when it reaches 100 you enter a stream state with that player: they become invisible, you cannot damage them and they cannot be damaged by others, lasting 60 seconds or until they leave range.",
-                "uk": "Активуйте безперервне сканування інформації. Кожен гравець поблизу поступово заповнює шкалу прогресу — коли вона досягає 100 ви входите у стан потоку з цим гравцем: вони стають невидимими, ви не можете завдавати їм шкоди і вони захищені від інших на 60 секунд або поки не залишать зону."
+                "en": "Activate a continuous information scan. Each nearby player gradually fills a progress bar - when it reaches 100 you enter a stream state with that player: they become invisible, you cannot damage them and they cannot be damaged by others, lasting 60 seconds or until they leave range.",
+                "uk": "Активуйте безперервне сканування інформації. Кожен гравець поблизу поступово заповнює шкалу прогресу - коли вона досягає 100 ви входите у стан потоку з цим гравцем: вони стають невидимими, ви не можете завдавати їм шкоди і вони захищені від інших на 60 секунд або поки не залишать зону."
               }
             }
           ]
@@ -6307,7 +6307,7 @@
               },
               "description": {
                 "en": "Passively grants physical buffs and increases body size by 2% with each advancement, from normal size at Sequence 9 to 116% at Sequence 1. Seq 9: Speed I. Seq 8: Speed I, Strength I. Seq 7: Speed II, Strength I. Seq 6: Speed II, Strength I, Resistance I. Seq 5 and below: Speed II, Strength II, Resistance I.",
-                "uk": "Пасивно надає фізичні бонуси та збільшує розмір тіла на 2% з кожним просуванням — від звичайного розміру на Послідовності 9 до 116% на Послідовності 1. Посл. 9: Швидкість I. Посл. 8: Швидкість I, Сила I. Посл. 7: Швидкість II, Сила I. Посл. 6: Швидкість II, Сила I, Опір I. Посл. 5 і нижче: Швидкість II, Сила II, Опір I."
+                "uk": "Пасивно надає фізичні бонуси та збільшує розмір тіла на 2% з кожним просуванням - від звичайного розміру на Послідовності 9 до 116% на Послідовності 1. Посл. 9: Швидкість I. Посл. 8: Швидкість I, Сила I. Посл. 7: Швидкість II, Сила I. Посл. 6: Швидкість II, Сила I, Опір I. Посл. 5 і нижче: Швидкість II, Сила II, Опір I."
               }
             }
           ]
@@ -6603,7 +6603,7 @@
               },
               "description": {
                 "en": "Divides the battlefield. Left side becomes Order (abilities suppressed, slowed), right side becomes Disorder (chaotic effects and Judgment marks). Recast while active to collapse Order early, damaging and heavily marking Order-side entities for Sword of Judgment.",
-                "uk": "Ділить поле бою. Ліва сторона стає Порядком (здібності заблоковані, повільність), права — Безладом (хаотичні ефекти). Через 15с Порядок руйнується у сплеску Безладу, що завдає шкоди та максимально підвищує рівень безладу."
+                "uk": "Ділить поле бою. Ліва сторона стає Порядком (здібності заблоковані, повільність), права - Безладом (хаотичні ефекти). Через 15с Порядок руйнується у сплеску Безладу, що завдає шкоди та максимально підвищує рівень безладу."
               }
             },
             {
@@ -6677,8 +6677,8 @@
                 "uk": "Рівновага Влади"
               },
               "description": {
-                "en": "Activate to establish a 80-block arena. Beyonders in range are sorted by sequence and paired — pairs are pulled to face each other at the midpoint. Each pair can only attack their assigned partner. If one combatant's score (HP% + buff weight) exceeds their partner's by 2.5×, the dominant fighter is ejected from the arena and has their abilities blocked for 10–120 seconds. The arena persists until cancelled or spirituality is depleted (150 spirituality per second). Activate again to cancel.",
-                "uk": "Активуйте, щоб встановити арену радіусом 80 блоків. Потойбічні в радіусі сортуються за послідовністю та об'єднуються в пари — пари притягуються один до одного в середню точку. Кожна пара може атакувати лише свого призначеного суперника. Якщо рахунок одного з бійців (% ХП + вага буфів) перевищує рахунок партнера в 2.5×, домінуючий боєць виштовхується з арени і його здібності блокуються на 10–120 секунд. Арена діє, поки не скасована або не вичерпається духовність (150 духовності на секунду). Активуйте знову для скасування."
+                "en": "Activate to establish a 80-block arena. Beyonders in range are sorted by sequence and paired - pairs are pulled to face each other at the midpoint. Each pair can only attack their assigned partner. If one combatant's score (HP% + buff weight) exceeds their partner's by 2.5×, the dominant fighter is ejected from the arena and has their abilities blocked for 10–120 seconds. The arena persists until cancelled or spirituality is depleted (150 spirituality per second). Activate again to cancel.",
+                "uk": "Активуйте, щоб встановити арену радіусом 80 блоків. Потойбічні в радіусі сортуються за послідовністю та об'єднуються в пари - пари притягуються один до одного в середню точку. Кожна пара може атакувати лише свого призначеного суперника. Якщо рахунок одного з бійців (% ХП + вага буфів) перевищує рахунок партнера в 2.5×, домінуючий боєць виштовхується з арени і його здібності блокуються на 10–120 секунд. Арена діє, поки не скасована або не вичерпається духовність (150 духовності на секунду). Активуйте знову для скасування."
               }
             }
           ]
@@ -7093,8 +7093,8 @@
                 "uk": "Нескінченне Життя"
               },
               "description": {
-                "en": "When death claims you, dissolve into blood mist. Others may destroy your circles to end the mist — if any circle survives, you are reborn at full health.",
-                "uk": "Коли смерть наздоганяє вас, ви розчиняєтеся у кривавому тумані. Інші можуть знищити ваші кола, щоб розсіяти туман — якщо хоч одне коло вцілить, ви відродитеся з повним здоров'ям."
+                "en": "When death claims you, dissolve into blood mist. Others may destroy your circles to end the mist - if any circle survives, you are reborn at full health.",
+                "uk": "Коли смерть наздоганяє вас, ви розчиняєтеся у кривавому тумані. Інші можуть знищити ваші кола, щоб розсіяти туман - якщо хоч одне коло вцілить, ви відродитеся з повним здоров'ям."
               }
             }
           ]
@@ -7318,7 +7318,7 @@
               },
               "description": {
                 "en": "Left-click to designate adversaries (up to 50). Right-click to unleash nature's wrath upon them, amplifying every existing environmental danger.",
-                "uk": "ЛКМ — позначити ворога (до 50). ПКМ — випустити гнів природи на всіх позначених, підсилюючи кожну існуючу небезпеку довкілля."
+                "uk": "ЛКМ - позначити ворога (до 50). ПКМ - випустити гнів природи на всіх позначених, підсилюючи кожну існуючу небезпеку довкілля."
               }
             },
             {
@@ -7423,8 +7423,8 @@
                 "uk": "Перетворення Злих Духів"
               },
               "description": {
-                "en": "Activate to enter transformation mode, draining spirituality every second. Mobs that die within range are transformed into Evil Spirits that serve you — up to 10, and reaching the cap ends the mode. Spirits have HP equal to 5% of your max spirituality and remain after the mode ends. Use the ability again to dismiss them.",
-                "uk": "Активуй для входу в режим перетворення, що витрачає духовність щосекунди. Моби, що гинуть поблизу, перетворюються на Злих Духів, що служать тобі — до 10, а досягнення межі завершує режим. Духи мають HP рівне 5% від твоєї максимальної духовності та залишаються після завершення режиму. Використай здібність ще раз, щоб відкликати їх."
+                "en": "Activate to enter transformation mode, draining spirituality every second. Mobs that die within range are transformed into Evil Spirits that serve you - up to 10, and reaching the cap ends the mode. Spirits have HP equal to 5% of your max spirituality and remain after the mode ends. Use the ability again to dismiss them.",
+                "uk": "Активуй для входу в режим перетворення, що витрачає духовність щосекунди. Моби, що гинуть поблизу, перетворюються на Злих Духів, що служать тобі - до 10, а досягнення межі завершує режим. Духи мають HP рівне 5% від твоєї максимальної духовності та залишаються після завершення режиму. Використай здібність ще раз, щоб відкликати їх."
               }
             },
             {
@@ -7507,8 +7507,8 @@
                 "uk": "Створення Світу"
               },
               "description": {
-                "en": "Nurture a realm embodying the concept of Nature — a living sanctuary of grass, trees, and flowers. All within are shielded from each other and their madness stills, but the tranquility has its limits.",
-                "uk": "Виношує царство, що втілює концепцію Природи — живе святилище з травою, деревами та квітами. Всі всередині захищені один від одного, а їхній безум затихає, але спокій має свої межі."
+                "en": "Nurture a realm embodying the concept of Nature - a living sanctuary of grass, trees, and flowers. All within are shielded from each other and their madness stills, but the tranquility has its limits.",
+                "uk": "Виношує царство, що втілює концепцію Природи - живе святилище з травою, деревами та квітами. Всі всередині захищені один від одного, а їхній безум затихає, але спокій має свої межі."
               }
             }
           ]
@@ -7595,7 +7595,7 @@
               },
               "description": {
                 "en": "Reduces or neutralizes the harmful effects of sealed artifacts on yourself based on their danger level - a purely personal resistance from your mastery as an Artisan. Works similarly to a self-regenerating shield.",
-                "uk": "Зменшує або нейтралізує шкідливий вплив запечатаних артефактів на вас залежно від їхнього рівня небезпеки — це суто особиста стійкість, що випливає з вашої майстерності як Ремісника. Діє аналогічно до самовідновлюваного щита."
+                "uk": "Зменшує або нейтралізує шкідливий вплив запечатаних артефактів на вас залежно від їхнього рівня небезпеки - це суто особиста стійкість, що випливає з вашої майстерності як Ремісника. Діє аналогічно до самовідновлюваного щита."
               }
             },
             {
@@ -7873,7 +7873,7 @@
               },
               "description": {
                 "en": "An upgraded form of Artifact Crafting. Select two abilities to embed in a single artifact. Right-click uses the primary ability; left-click uses the secondary. Base success chance is doubled.",
-                "uk": "Покращена форма Створення Артефактів. Оберіть дві здібності для вбудовування в один артефакт. ПКМ використовує основну здібність, ЛКМ — вторинну. Базовий шанс успіху подвоєний."
+                "uk": "Покращена форма Створення Артефактів. Оберіть дві здібності для вбудовування в один артефакт. ПКМ використовує основну здібність, ЛКМ - вторинну. Базовий шанс успіху подвоєний."
               }
             }
           ]
@@ -7904,7 +7904,7 @@
               },
               "description": {
                 "en": "Cycle through physical laws: gravity (forces entities in a 10m radius to float with slow falling for 8s); temperature (hot mode inflicts fire ticks and damage, cold mode inflicts Slowness II, Mining Fatigue, and freezing damage for 8s); or force (blasts entities in a 12m radius away in looking direction).",
-                "uk": "Керуйте фізичними законами: gravity (змушує істот у радіусі 10м левітувати з повільним падінням на 8с); temperature (гарячий режим підпалює та завдає вогняної шкоди, холодний — накладає Сповільнення II, Втому та обмороження на 8с); або force (відштовхує ворогів у радіусі 12м за напрямком погляду)."
+                "uk": "Керуйте фізичними законами: gravity (змушує істот у радіусі 10м левітувати з повільним падінням на 8с); temperature (гарячий режим підпалює та завдає вогняної шкоди, холодний - накладає Сповільнення II, Втому та обмороження на 8с); або force (відштовхує ворогів у радіусі 12м за напрямком погляду)."
               }
             },
             {
@@ -8173,7 +8173,7 @@
                 "uk": "Вогненне Перетворення"
               },
               "description": {
-                "en": "Merges the body with fire, granting fire immunity and igniting enemies that strike you in melee. At Sequence 4, natural flames heal the body. Left-click while active to Disperse — a burst of flame that briefly disperses the body, igniting all nearby enemies.",
+                "en": "Merges the body with fire, granting fire immunity and igniting enemies that strike you in melee. At Sequence 4, natural flames heal the body. Left-click while active to Disperse - a burst of flame that briefly disperses the body, igniting all nearby enemies.",
                 "uk": "Злийте тіло з вогнем, отримавши імунітет до полум'я та підпалюючи ворогів, які атакують вас у ближньому бою. На Послідовності 4 природний вогонь зцілює тіло. Ліва кнопка миші під час дії викликає Розсіювання та підпалює ворогів поруч. На Послідовності 1 усе створене полум'я стає чисто фіолетовим."
               }
             }
@@ -8673,8 +8673,8 @@
                 "uk": "Священне Спорядження"
               },
               "description": {
-                "en": "Causes a golden glow to surge from the body, condensing a layer of armor made of pure Light and manifesting a Holy weapon. Incoming physical and magical damage is absorbed by the armor's durability. Durability persists across activations and only regenerates while deactivated. At Sequence 3, left-click opens a selection menu to bestow the equipment on multiple allies, nearby players, or yourself at once — casting then equips everyone selected, each drawing their own share of spirituality from you every two seconds. Bestowed armor is less durable than the caster's own set.",
-                "uk": "Викликає золоте сяйво з тіла, конденсуючи шар обладунків зі чистого Світла та створюючи Священну зброю. Вхідні фізичні та магічні пошкодження поглинаються міцністю обладунку. Міцність зберігається між активаціями і відновлюється лише поки спорядження деактивоване. На Послідовності 3 лівий клік відкриває меню вибору, щоб надати спорядження одразу кільком союзникам, гравцям поблизу або собі — накладання тоді спорядить усіх обраних, і кожен з них окремо витрачає вашу духовність кожні дві секунди. Наданий обладунок менш міцний, ніж власний комплект заклинача."
+                "en": "Causes a golden glow to surge from the body, condensing a layer of armor made of pure Light and manifesting a Holy weapon. Incoming physical and magical damage is absorbed by the armor's durability. Durability persists across activations and only regenerates while deactivated. At Sequence 3, left-click opens a selection menu to bestow the equipment on multiple allies, nearby players, or yourself at once - casting then equips everyone selected, each drawing their own share of spirituality from you every two seconds. Bestowed armor is less durable than the caster's own set.",
+                "uk": "Викликає золоте сяйво з тіла, конденсуючи шар обладунків зі чистого Світла та створюючи Священну зброю. Вхідні фізичні та магічні пошкодження поглинаються міцністю обладунку. Міцність зберігається між активаціями і відновлюється лише поки спорядження деактивоване. На Послідовності 3 лівий клік відкриває меню вибору, щоб надати спорядження одразу кільком союзникам, гравцям поблизу або собі - накладання тоді спорядить усіх обраних, і кожен з них окремо витрачає вашу духовність кожні дві секунди. Наданий обладунок менш міцний, ніж власний комплект заклинача."
               }
             }
           ]
@@ -8693,8 +8693,8 @@
                 "uk": "Авторитет Контракту та Порядку"
               },
               "description": {
-                "en": "A passive accumulation of authority granted through playtime as a Justice Mentor. As the bar fills, all Sun pathway ability damage scales upward — reaching full power only when the bar is completely charged after 48 hours of experience.",
-                "uk": "Пасивне накопичення авторитету, яке зростає зі стажем Наставника Справедливості. Коли шкала заповнюється, шкода від усіх здібностей Шляху Сонця зростає — повна потужність досягається лише після 48 годин досвіду."
+                "en": "A passive accumulation of authority granted through playtime as a Justice Mentor. As the bar fills, all Sun pathway ability damage scales upward - reaching full power only when the bar is completely charged after 48 hours of experience.",
+                "uk": "Пасивне накопичення авторитету, яке зростає зі стажем Наставника Справедливості. Коли шкала заповнюється, шкода від усіх здібностей Шляху Сонця зростає - повна потужність досягається лише після 48 годин досвіду."
               }
             },
             {
@@ -8705,7 +8705,7 @@
               },
               "description": {
                 "en": "A permanent halo of light hovers above the Justice Mentor's head, glowing brighter in sunlight and dimming in darkness. It passively empowers the outgoing damage of the caster and their allies, while weakening the outgoing damage of non-allies within range. When shining bright, it also occasionally blesses the caster and allies with regeneration and, more rarely, restores a bit of spirituality. Radius and strength grow with sequence, while the damage swing scales with Contract & Order Authority.",
-                "uk": "Над головою Наставника Справедливості сяє незгасний ореол світла — яскравіший на сонці й тьмяніший у темряві. Він пасивно підсилює вихідну шкоду власника та його союзників, водночас послаблюючи вихідну шкоду не-союзників поблизу. Коли сяє яскраво, він також час від часу благословляє власника і союзників регенерацією, а зрідка — відновлює трохи духовності. Радіус і сила зростають із послідовністю, а зміна шкоди масштабується Авторитетом Договору й Порядку."
+                "uk": "Над головою Наставника Справедливості сяє незгасний ореол світла - яскравіший на сонці й тьмяніший у темряві. Він пасивно підсилює вихідну шкоду власника та його союзників, водночас послаблюючи вихідну шкоду не-союзників поблизу. Коли сяє яскраво, він також час від часу благословляє власника і союзників регенерацією, а зрідка - відновлює трохи духовності. Радіус і сила зростають із послідовністю, а зміна шкоди масштабується Авторитетом Договору й Порядку."
               }
             },
             {
@@ -8810,8 +8810,8 @@
                 "uk": "Втілення Порядку"
               },
               "description": {
-                "en": "Channel your partial authority over Order to restore your vitality. Healing scales with VerlDors held — each VerlDor adds 1/5 of max health healed, up to 4 VerlDors (4/5). Without VerlDors, the effect is minor.",
-                "uk": "Каналізуй свою часткову владу над Порядком, щоб відновити своє здоров'я. Ефект посилюється з кількістю ВерлДорів у інвентарі — кожен ВерлДор додає 1/5 максимального здоров'я, до 4 ВерлДорів (4/5). Без ВерлДорів ефект мінімальний."
+                "en": "Channel your partial authority over Order to restore your vitality. Healing scales with VerlDors held - each VerlDor adds 1/5 of max health healed, up to 4 VerlDors (4/5). Without VerlDors, the effect is minor.",
+                "uk": "Каналізуй свою часткову владу над Порядком, щоб відновити своє здоров'я. Ефект посилюється з кількістю ВерлДорів у інвентарі - кожен ВерлДор додає 1/5 максимального здоров'я, до 4 ВерлДорів (4/5). Без ВерлДорів ефект мінімальний."
               }
             },
             {
@@ -8854,8 +8854,8 @@
                 "uk": "Сонячне Панування"
               },
               "description": {
-                "en": "Assert the authority of the Sun — force the world into day and channel blazing solar power through your body",
-                "uk": "Твердження авторитету Сонця — примусово встановлює день і направляє палаючу сонячну силу через твоє тіло"
+                "en": "Assert the authority of the Sun - force the world into day and channel blazing solar power through your body",
+                "uk": "Твердження авторитету Сонця - примусово встановлює день і направляє палаючу сонячну силу через твоє тіло"
               }
             }
           ]
@@ -9008,7 +9008,7 @@
               },
               "description": {
                 "en": "Your physical capabilities are enhanced through mystical means - increased movement and attack speed, step height, and fall damage negation during dangerous falls.",
-                "uk": "Фізичні здібності посилені містичним чином — збільшена швидкість руху й атак, висота кроку та нівелювання шкоди від падіння під час небезпечних стрибків."
+                "uk": "Фізичні здібності посилені містичним чином - збільшена швидкість руху й атак, висота кроку та нівелювання шкоди від падіння під час небезпечних стрибків."
               }
             }
           ]
@@ -9176,7 +9176,7 @@
               },
               "description": {
                 "en": "Cycle modes with Left-Click: damage (physical hits repeat 5 times; magic-weapon hits repeat 3 times at reduced power); destruction (breaking blocks shatters adjacent ones for 12 seconds); sickness (16m pulse aura applying Poison, Weakness, and Slowness, and extends debuff durations by 75%); spirituality-drain (doubles target's next spirituality cost).",
-                "uk": "Вибір режимів лівим кліком: damage (фізичні удари повторюються 5 разів, а удари магічною зброєю — 3 рази зі зниженою силою); destruction (руйнування блоку ламає сусідні блоки протягом 12 секунд); sickness (аура в радіусі 16м, що накладає Отруту, Слабкість і Сповільнення, та подовжує дію дебафів на 75%); spirituality-drain (подвоює вартість наступної здібності цілі)."
+                "uk": "Вибір режимів лівим кліком: damage (фізичні удари повторюються 5 разів, а удари магічною зброєю - 3 рази зі зниженою силою); destruction (руйнування блоку ламає сусідні блоки протягом 12 секунд); sickness (аура в радіусі 16м, що накладає Отруту, Слабкість і Сповільнення, та подовжує дію дебафів на 75%); spirituality-drain (подвоює вартість наступної здібності цілі)."
               }
             },
             {
@@ -9209,7 +9209,7 @@
               },
               "description": {
                 "en": "Choose a demand and impose it on a targeted Beyonder within 30 blocks. They have 2 minutes to break 16 blocks, consume 5 food items, deal 40 damage, or kill 5 entities. Failure or disconnecting gives 12 Madness. At Sequence 1, the deadline is 60 seconds and the penalty is 20 Madness.",
-                "uk": "Оберіть вимогу та нав'яжіть її Бейондеру в межах 30 блоків. Він має 2 хвилини, щоб зламати 16 блоків, з'їсти 5 предметів їжі, завдати 40 шкоди або вбити 5 істот. Невдача чи вихід із сервера додає 12 Безумства. На Послідовності 1 строк становить 60 секунд, а покарання — 20 Безумства."
+                "uk": "Оберіть вимогу та нав'яжіть її Бейондеру в межах 30 блоків. Він має 2 хвилини, щоб зламати 16 блоків, з'їсти 5 предметів їжі, завдати 40 шкоди або вбити 5 істот. Невдача чи вихід із сервера додає 12 Безумства. На Послідовності 1 строк становить 60 секунд, а покарання - 20 Безумства."
               }
             }
           ]
@@ -9240,7 +9240,7 @@
               },
               "description": {
                 "en": "Alter the rate of digestion and acting for all nearby Beyonders. Right-click to accelerate; left-click to suppress. Costs %s spirituality per second.",
-                "uk": "Змінюйте швидкість засвоєння та відігравання для всіх навколишніх Бейондерів. Праве клацання — прискорити; ліве — пригнітити. Коштує %s духовності на секунду."
+                "uk": "Змінюйте швидкість засвоєння та відігравання для всіх навколишніх Бейондерів. Праве клацання - прискорити; ліве - пригнітити. Коштує %s духовності на секунду."
               }
             },
             {
@@ -9251,7 +9251,7 @@
               },
               "description": {
                 "en": "Deal bonus damage to targets based on how much of their pathway you have analyzed. At 100% analysis, deal 10% more damage; at 50%, deal 5% more, and so on.",
-                "uk": "Завдавайте більше шкоди цілям залежно від того, наскільки ви проаналізували їхній шлях. При 100% аналізі — на 10% більше шкоди; при 50% — на 5% більше, і так далі."
+                "uk": "Завдавайте більше шкоди цілям залежно від того, наскільки ви проаналізували їхній шлях. При 100% аналізі - на 10% більше шкоди; при 50% - на 5% більше, і так далі."
               }
             },
             {
@@ -9282,7 +9282,7 @@
               },
               "description": {
                 "en": "Passive omniscience at its apex. Analysis speed is greatly enhanced. Cognizing range extends to 50 blocks. All concealment below GOO status is pierced. Previously hurt entities take 10% more damage. Analyzed abilities have a 10% dodge chance; imitated abilities grant 20%.",
-                "uk": "Пасивне всезнання на своїй вершині. Швидкість аналізу значно підвищена. Радіус Пізнання розширюється до 50 блоків. Будь-яке приховання нижче статусу ВБ пронизується. Сутності, яким вже завдавалась шкода, отримують на 10% більше. Проаналізовані здібності дають 10% шанс ухилення; імітовані — 20%."
+                "uk": "Пасивне всезнання на своїй вершині. Швидкість аналізу значно підвищена. Радіус Пізнання розширюється до 50 блоків. Будь-яке приховання нижче статусу ВБ пронизується. Сутності, яким вже завдавалась шкода, отримують на 10% більше. Проаналізовані здібності дають 10% шанс ухилення; імітовані - 20%."
               }
             }
           ]
@@ -10172,8 +10172,8 @@
                 "uk": "Ткач Снів"
               },
               "description": {
-                "en": "Weave reality itself — conjure a clone of another player, plant an illusory object, or shape the surrounding landscape into a domain.",
-                "uk": "Зітки саму реальність — зіткай клон іншого гравця, посади ілюзорний предмет або перетвори навколишній пейзаж на домен."
+                "en": "Weave reality itself - conjure a clone of another player, plant an illusory object, or shape the surrounding landscape into a domain.",
+                "uk": "Зітки саму реальність - зіткай клон іншого гравця, посади ілюзорний предмет або перетвори навколишній пейзаж на домен."
               }
             },
             {
@@ -10267,8 +10267,8 @@
                 "uk": "Сон Реальності"
               },
               "description": {
-                "en": "Create a personal dimension — your own Garden of Eden. Forge keys to grant others entry. Every visitor is announced to you.",
-                "uk": "Створіть особистий вимір — свій власний Едемський Сад. Виготовляйте ключі, щоб надати іншим доступ. Кожен відвідувач буде оголошений вам."
+                "en": "Create a personal dimension - your own Garden of Eden. Forge keys to grant others entry. Every visitor is announced to you.",
+                "uk": "Створіть особистий вимір - свій власний Едемський Сад. Виготовляйте ключі, щоб надати іншим доступ. Кожен відвідувач буде оголошений вам."
               }
             },
             {
@@ -10289,8 +10289,8 @@
                 "uk": "Передбачення"
               },
               "description": {
-                "en": "Weave fantasy into reality. Choose a world event and a target — it will manifest in 10 to 30 seconds. The power of the target determines the spiritual cost.",
-                "uk": "Вплітай фантазію в реальність. Обери подію та ціль — вона проявиться через 10–30 секунд. Сила цілі визначає духовні витрати."
+                "en": "Weave fantasy into reality. Choose a world event and a target - it will manifest in 10 to 30 seconds. The power of the target determines the spiritual cost.",
+                "uk": "Вплітай фантазію в реальність. Обери подію та ціль - вона проявиться через 10–30 секунд. Сила цілі визначає духовні витрати."
               }
             },
             {
@@ -10300,8 +10300,8 @@
                 "uk": "Накази Провидіння"
               },
               "description": {
-                "en": "Speak words that become reality. Issue an authoritative order to a player within range — compliance is optional, but disobedience is costly.",
-                "uk": "Вимов слова, що стають реальністю. Видай владний наказ гравцю в радіусі дії — підкорення необов'язкове, але непокора дорого обійдеться."
+                "en": "Speak words that become reality. Issue an authoritative order to a player within range - compliance is optional, but disobedience is costly.",
+                "uk": "Вимов слова, що стають реальністю. Видай владний наказ гравцю в радіусі дії - підкорення необов'язкове, але непокора дорого обійдеться."
               }
             },
             {
@@ -10391,8 +10391,8 @@
                 "uk": "Фізичне Вдосконалення"
               },
               "description": {
-                "en": "Advancement into the Alms Monk grants extreme flexibility — you passively move faster, reduce fall damage, and have a 8% chance to dodge attacks from other players",
-                "uk": "Просування до Жебрака-Монаха дарує надзвичайну гнучкість — ви пасивно рухаєтесь швидше, зменшуєте шкоду від падіння та маєте 15% шанс ухилитися від ударів інших гравців"
+                "en": "Advancement into the Alms Monk grants extreme flexibility - you passively move faster, reduce fall damage, and have a 8% chance to dodge attacks from other players",
+                "uk": "Просування до Жебрака-Монаха дарує надзвичайну гнучкість - ви пасивно рухаєтесь швидше, зменшуєте шкоду від падіння та маєте 15% шанс ухилитися від ударів інших гравців"
               }
             }
           ]
@@ -10422,8 +10422,8 @@
                 "uk": "Інтуїція Удачі"
               },
               "description": {
-                "en": "A passive gift — fate occasionally bestows one of many boons: a Luck Boon, a burst of fortune, a mend of wounds, or sustenance. Those who strike you may find lightning answers for them.",
-                "uk": "Пасивний дар — доля час від часу дарує один із багатьох благ: Благо Удачі, спалах фортуни, загоєння ран або живлення. Ті, хто нападуть на вас, можуть отримати блискавку у відповідь."
+                "en": "A passive gift - fate occasionally bestows one of many boons: a Luck Boon, a burst of fortune, a mend of wounds, or sustenance. Those who strike you may find lightning answers for them.",
+                "uk": "Пасивний дар - доля час від часу дарує один із багатьох благ: Благо Удачі, спалах фортуни, загоєння ран або живлення. Ті, хто нападуть на вас, можуть отримати блискавку у відповідь."
               }
             },
             {
@@ -10485,7 +10485,7 @@
               },
               "description": {
                 "en": "Suppress, accumulate, and erupt � compress your emotions for bearable drawbacks and vent for power; compress your strength for a giant form; and condense rituals for combat use",
-                "uk": "Придушуй, накопичуй та виривайся — стискай емоції заради терпимих недоліків і виривайся задля сили; стискай силу заради гігантської форми; і конденсуй ритуали для бойового використання"
+                "uk": "Придушуй, накопичуй та виривайся - стискай емоції заради терпимих недоліків і виривайся задля сили; стискай силу заради гігантської форми; і конденсуй ритуали для бойового використання"
               }
             }
           ]
@@ -10615,8 +10615,8 @@
                 "uk": "Майстерність Інструментів"
               },
               "description": {
-                "en": "A Gardener's mastery over their tools — hoes and shears deal bonus magic damage in combat, and fully grown crops yield double when harvested with a hoe.",
-                "uk": "Майстерність Садівника над своїми інструментами — мотики та ножиці завдають додаткової магічної шкоди в бою, а повністю зрілі культури дають подвійний урожай при зборі мотикою."
+                "en": "A Gardener's mastery over their tools - hoes and shears deal bonus magic damage in combat, and fully grown crops yield double when harvested with a hoe.",
+                "uk": "Майстерність Садівника над своїми інструментами - мотики та ножиці завдають додаткової магічної шкоди в бою, а повністю зрілі культури дають подвійний урожай при зборі мотикою."
               }
             },
             {
@@ -10679,8 +10679,8 @@
                 "uk": "Спалення Життя"
               },
               "description": {
-                "en": "Burn the life force itself — ignite an enemy's blood to drain their life, or consume your own to surge with power.",
-                "uk": "Спаліть саму життєву силу — підпаліть кров ворога, щоб виснажити його життя, або спаліть власну, щоб зарядитися силою."
+                "en": "Burn the life force itself - ignite an enemy's blood to drain their life, or consume your own to surge with power.",
+                "uk": "Спаліть саму життєву силу - підпаліть кров ворога, щоб виснажити його життя, або спаліть власну, щоб зарядитися силою."
               }
             },
             {
@@ -10855,7 +10855,7 @@
               },
               "description": {
                 "en": "Sustained observation reveals a player's material needs and eventually a vague clue about the powers associated with them.",
-                "uk": "Тривале спостереження розкриває матеріальні потреби гравця, а згодом — нечітку підказку про пов'язані з ним сили."
+                "uk": "Тривале спостереження розкриває матеріальні потреби гравця, а згодом - нечітку підказку про пов'язані з ним сили."
               }
             }
           ]
@@ -11185,8 +11185,8 @@
                 "uk": "Адаптація"
               },
               "description": {
-                "en": "A Tramp's resilience allows them to adapt to hostile environments — breathing underwater, resisting fire, and enduring injury.",
-                "uk": "Стійкість бродяги дозволяє пристосовуватися до ворожих умов — дихати під водою, чинити опір вогню і витримувати поранення."
+                "en": "A Tramp's resilience allows them to adapt to hostile environments - breathing underwater, resisting fire, and enduring injury.",
+                "uk": "Стійкість бродяги дозволяє пристосовуватися до ворожих умов - дихати під водою, чинити опір вогню і витримувати поранення."
               }
             },
             {
@@ -11207,8 +11207,8 @@
                 "uk": "Покращення Травлення"
               },
               "description": {
-                "en": "A Tramp's iron stomach can process what others cannot — rotten flesh, spider eyes, and bones provide real sustenance, though the body still bears their side effects.",
-                "uk": "Залізний шлунок бродяги здатен переварити те, що іншим не під силу — гнила плоть, павучі очі та кістки дають справжнє харчування, хоч тіло й відчуває їхні побічні ефекти."
+                "en": "A Tramp's iron stomach can process what others cannot - rotten flesh, spider eyes, and bones provide real sustenance, though the body still bears their side effects.",
+                "uk": "Залізний шлунок бродяги здатен переварити те, що іншим не під силу - гнила плоть, павучі очі та кістки дають справжнє харчування, хоч тіло й відчуває їхні побічні ефекти."
               }
             }
           ]
@@ -11227,8 +11227,8 @@
                 "uk": "Ненажерливість"
               },
               "description": {
-                "en": "The Glutton's reserve — ten slots of stored food-energy fed by Primordial Cravings. Every few minutes a craving demands a specific kind of food: sate it in time to fill a slot; fail and a slot drains while hunger and weakness set in, worsening with each consecutive failure — and biting far harder the deeper your sequence. Filled slots grant Regeneration along with Strength and Speed that grow stronger every three slots, capped by your sequence — the sweet spot is nine, as filling the tenth slot ruptures the Glutton's stomach and kills them outright. Screaming Regurgitation purges the entire reserve, so spend it wisely. Disable to suspend all reserve mechanics.",
-                "uk": "Резерв Ненажери — десять комірок накопиченої харчової енергії, що живляться Первісними Жаданнями. Щокілька хвилин жадання вимагає певного виду їжі: вгамуйте його вчасно, щоб заповнити комірку; провал спустошує одну, а голод і слабкість посилюються з кожною поспіль невдачею — і б'ють значно сильніше, що глибша ваша послідовність. Заповнені комірки дарують Регенерацію, а також Силу та Швидкість, що зростають кожні три комірки — межа залежить від вашої послідовності; найкраще тримати дев'ять, адже заповнення десятої розриває шлунок Ненажери, вбиваючи на місці. Волаюча Регургітація повністю очищує резерв, тож витрачайте його розважливо. Вимкніть, щоб призупинити всі механіки резерву."
+                "en": "The Glutton's reserve - ten slots of stored food-energy fed by Primordial Cravings. Every few minutes a craving demands a specific kind of food: sate it in time to fill a slot; fail and a slot drains while hunger and weakness set in, worsening with each consecutive failure - and biting far harder the deeper your sequence. Filled slots grant Regeneration along with Strength and Speed that grow stronger every three slots, capped by your sequence - the sweet spot is nine, as filling the tenth slot ruptures the Glutton's stomach and kills them outright. Screaming Regurgitation purges the entire reserve, so spend it wisely. Disable to suspend all reserve mechanics.",
+                "uk": "Резерв Ненажери - десять комірок накопиченої харчової енергії, що живляться Первісними Жаданнями. Щокілька хвилин жадання вимагає певного виду їжі: вгамуйте його вчасно, щоб заповнити комірку; провал спустошує одну, а голод і слабкість посилюються з кожною поспіль невдачею - і б'ють значно сильніше, що глибша ваша послідовність. Заповнені комірки дарують Регенерацію, а також Силу та Швидкість, що зростають кожні три комірки - межа залежить від вашої послідовності; найкраще тримати дев'ять, адже заповнення десятої розриває шлунок Ненажери, вбиваючи на місці. Волаюча Регургітація повністю очищує резерв, тож витрачайте його розважливо. Вимкніть, щоб призупинити всі механіки резерву."
               }
             },
             {
@@ -11289,8 +11289,8 @@
                 "uk": "Обробка Інгредієнтів"
               },
               "description": {
-                "en": "A Chef's mastery of preparation — brew mystical sludge from raw ingredients, or crucible-extract a stored gut resource into a standalone essence for Divine Cooking.",
-                "uk": "Майстерність Шефа у підготовці — звари Слиз з сирих інгредієнтів або витягни з Горнила ресурс у есенцію для Божественної Кулінарії."
+                "en": "A Chef's mastery of preparation - brew mystical sludge from raw ingredients, or crucible-extract a stored gut resource into a standalone essence for Divine Cooking.",
+                "uk": "Майстерність Шефа у підготовці - звари Слиз з сирих інгредієнтів або витягни з Горнила ресурс у есенцію для Божественної Кулінарії."
               }
             },
             {
@@ -11300,8 +11300,8 @@
                 "uk": "Кулінарія"
               },
               "description": {
-                "en": "A Chef's highest culinary art — imbue food with mystical properties. Fool pathway ingredients grant temporary Spirituality regeneration, while a Beyonder Characteristic unlocks an active ability sealed within the dish.",
-                "uk": "Вища кулінарна майстерність Шеф-кухаря — наповнення їжі містичними властивостями. Інгредієнти шляху Дурня дають тимчасову регенерацію Духовності, а Характеристика Надзвичайного відкриває активну здібність, запечатану в страві."
+                "en": "A Chef's highest culinary art - imbue food with mystical properties. Fool pathway ingredients grant temporary Spirituality regeneration, while a Beyonder Characteristic unlocks an active ability sealed within the dish.",
+                "uk": "Вища кулінарна майстерність Шеф-кухаря - наповнення їжі містичними властивостями. Інгредієнти шляху Дурня дають тимчасову регенерацію Духовності, а Характеристика Надзвичайного відкриває активну здібність, запечатану в страві."
               }
             }
           ]
@@ -11321,7 +11321,7 @@
               },
               "description": {
                 "en": "Mark a Beyonder, then let the mark mature over time: steal 1-3 of their abilities depending on stage, or their entire characteristic at Stage 4. Attack the marked target within 5 minutes of the theft to tear off flesh and devour enough pieces to permanently claim what you stole. Permanently held power carries Integrity that wears down from damage you take and dying makes the integrity decrease by 10% no matter what and is lost forever if it collapses to 0.",
-                "uk": "Відмічає Надзвичайного, після чого мітка з часом дозріває: викрадайте від 1 до 3 їхніх здібностей залежно від стадії, або всю їхню характеристику на 4 стадії. Атакуйте відмічену ціль протягом 5 хвилин після викрадення, щоб вирвати плоть і з'їсти достатньо шматків, аби назавжди привласнити вкрадене. Назавжди утримана сила має Цілісність, яка знижується від отриманих ударів, а смерть завжди забирає 10% цілісності — і назавжди зникає, якщо впаде до 0."
+                "uk": "Відмічає Надзвичайного, після чого мітка з часом дозріває: викрадайте від 1 до 3 їхніх здібностей залежно від стадії, або всю їхню характеристику на 4 стадії. Атакуйте відмічену ціль протягом 5 хвилин після викрадення, щоб вирвати плоть і з'їсти достатньо шматків, аби назавжди привласнити вкрадене. Назавжди утримана сила має Цілісність, яка знижується від отриманих ударів, а смерть завжди забирає 10% цілісності - і назавжди зникає, якщо впаде до 0."
               }
             },
             {
@@ -11331,8 +11331,8 @@
                 "uk": "Внутрішній Тигель"
               },
               "description": {
-                "en": "Cycle between four modes. Gnaw: devour blocks (water, lava, fire, foliage), gulp down rushing air while airborne, or bite a living target for magic damage while gnawing off a piece of their armor, filling your gut with the matching resource. Spit: reject a portion of your gut's dominant resource at a target, unleashing an effect matching what you ate — wind simply blows them away. Energy Consumption: open a 3-second window that converts incoming magic damage into gut resource — waste it and you risk being struck by lightning. View: inspect what's currently in your gut.",
-                "uk": "Перемикайтесь між чотирма режимами. Гризти: пожирайте блоки (воду, лаву, вогонь, листя), заковтуйте потоки повітря в польоті, або вкусіть живу ціль, завдаючи магічної шкоди та відгризаючи шматок її броні, наповнюючи шлунок відповідним ресурсом. Виплюнути: викиньте частину домінантного ресурсу вашого шлунка в ціль, вивільняючи ефект, що відповідає з'їденому — вітер просто здуває ціль геть. Поглинання Енергії: відкрийте 3-секундне вікно, що перетворює вхідну магічну шкоду на ресурс шлунка — змарнуйте його, і ризикуєте отримати удар блискавки. Огляд: перевірте, що зараз у вашому шлунку."
+                "en": "Cycle between four modes. Gnaw: devour blocks (water, lava, fire, foliage), gulp down rushing air while airborne, or bite a living target for magic damage while gnawing off a piece of their armor, filling your gut with the matching resource. Spit: reject a portion of your gut's dominant resource at a target, unleashing an effect matching what you ate - wind simply blows them away. Energy Consumption: open a 3-second window that converts incoming magic damage into gut resource - waste it and you risk being struck by lightning. View: inspect what's currently in your gut.",
+                "uk": "Перемикайтесь між чотирма режимами. Гризти: пожирайте блоки (воду, лаву, вогонь, листя), заковтуйте потоки повітря в польоті, або вкусіть живу ціль, завдаючи магічної шкоди та відгризаючи шматок її броні, наповнюючи шлунок відповідним ресурсом. Виплюнути: викиньте частину домінантного ресурсу вашого шлунка в ціль, вивільняючи ефект, що відповідає з'їденому - вітер просто здуває ціль геть. Поглинання Енергії: відкрийте 3-секундне вікно, що перетворює вхідну магічну шкоду на ресурс шлунка - змарнуйте його, і ризикуєте отримати удар блискавки. Огляд: перевірте, що зараз у вашому шлунку."
               }
             },
             {
@@ -11343,7 +11343,7 @@
               },
               "description": {
                 "en": "Sneak and left-click with an empty hand to cycle which resource in your gut Internal Crucible's Spit will eject, instead of always defaulting to whichever is most abundant.",
-                "uk": "Скрадайтеся та клацніть лівою кнопкою порожньою рукою, щоб переключити ресурс у вашому шлунку, який виплюне Виплюнути з Внутрішнього Тигля — замість того, щоб завжди використовувати найбільш наповнений."
+                "uk": "Скрадайтеся та клацніть лівою кнопкою порожньою рукою, щоб переключити ресурс у вашому шлунку, який виплюне Виплюнути з Внутрішнього Тигля - замість того, щоб завжди використовувати найбільш наповнений."
               }
             }
           ]
@@ -11654,8 +11654,8 @@
                 "uk": "Фізичне Вдосконалення"
               },
               "description": {
-                "en": "While hungry and carrying food, your body draws on reserves — granting your legs power",
-                "uk": "Поки ви голодні та маєте їжу в інвентарі, ваше тіло черпає резерви — Надаючи силу вашим ногам"
+                "en": "While hungry and carrying food, your body draws on reserves - granting your legs power",
+                "uk": "Поки ви голодні та маєте їжу в інвентарі, ваше тіло черпає резерви - Надаючи силу вашим ногам"
               }
             },
             {
@@ -11813,8 +11813,8 @@
                 "uk": "Навіювання Задоволення"
               },
               "description": {
-                "en": "Induce a sense of fulfillment in a target, granting them Strength II and Speed II — followed by Weakness II and Slowness I.",
-                "uk": "Навіяти цілі відчуття задоволення, надаючи Силу II та Швидкість II — після чого Слабкість II та Повільність I."
+                "en": "Induce a sense of fulfillment in a target, granting them Strength II and Speed II - followed by Weakness II and Slowness I.",
+                "uk": "Навіяти цілі відчуття задоволення, надаючи Силу II та Швидкість II - після чого Слабкість II та Повільність I."
               }
             }
           ]

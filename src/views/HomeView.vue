@@ -57,7 +57,7 @@
       <div class="hero-stats">
         <div class="stat-strip">
           <div class="stat-cell">
-            <div class="stat-value">{{ totalBeyonders || '—' }}</div>
+            <div class="stat-value">{{ totalBeyonders || '-' }}</div>
             <div class="stat-label">{{ t('homePage.statBeyonders') }}</div>
           </div>
           <div class="stat-cell">
@@ -136,7 +136,7 @@
 
         <div class="tarot-cta">
           <RouterLink class="myst-btn-outline" to="/pathways">
-            {{ t('homePage.tarotCta') }} — {{ t('homePage.tarotCtaCount') }}
+            {{ t('homePage.tarotCta') }} - {{ t('homePage.tarotCtaCount') }}
             <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
           </RouterLink>
         </div>
@@ -251,7 +251,7 @@ useSeo(() => ({
   title: null,
   description: t("homePage.heroTagline"),
   path: "/",
-  imageAlt: "Mysterria — a Lord of the Mysteries Minecraft server",
+  imageAlt: "Mysterria - a Lord of the Mysteries Minecraft server",
   // Organization and WebSite are declared statically in index.html; this only
   // adds the entity a "best LotM Minecraft server" search is actually after.
   jsonLd: [videoGameLd(totalBeyonders.value)],
@@ -291,8 +291,8 @@ const isDragging = ref(false);
 /*
  * The rail keeps a real scroll container (so touch, keyboard and a11y all work
  * natively) but the wheel drives an eased target instead of jumping: each notch
- * reads as the deck gliding sideways. Anything that would fight that — CSS
- * scroll snapping, smooth scroll-behavior — is off on the track.
+ * reads as the deck gliding sideways. Anything that would fight that - CSS
+ * scroll snapping, smooth scroll-behavior - is off on the track.
  */
 let railTarget = 0;
 let railRaf: number | null = null;
@@ -305,7 +305,7 @@ const railMaxScroll = () => {
   return track ? Math.max(0, track.scrollWidth - track.clientWidth) : 0;
 };
 
-/** Pure edge readout — safe to call from inside the animation. */
+/** Pure edge readout - safe to call from inside the animation. */
 const updateRailEdges = () => {
   const track = tarotTrack.value;
   if (!track) return;
@@ -366,7 +366,7 @@ const onTarotWheel = (event: WheelEvent) => {
   const max = railMaxScroll();
   if (max <= 0) return;
 
-  // Take whichever axis dominates — trackpads send diagonal deltas.
+  // Take whichever axis dominates - trackpads send diagonal deltas.
   const raw = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
   if (!raw) return;
 
@@ -882,7 +882,7 @@ watch(currentLanguage, loadNews);
   margin-bottom: 66px;
 }
 
-/* Horizontal rail — vertical wheel over it rotates the deck sideways */
+/* Horizontal rail - vertical wheel over it rotates the deck sideways */
 .tarot-rail {
   position: relative;
   /* Bleed past the shell so cards run to the section edges */
@@ -897,7 +897,7 @@ watch(currentLanguage, loadNews);
   padding: 24px max(24px, calc(50vw - var(--myst-shell) / 2)) 28px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  /* The wheel handler animates scrollLeft frame by frame — CSS snapping and
+  /* The wheel handler animates scrollLeft frame by frame - CSS snapping and
      smooth scroll-behavior both fight that, so neither is used here. */
   scroll-snap-type: none;
   scroll-behavior: auto;
@@ -916,7 +916,7 @@ watch(currentLanguage, loadNews);
 }
 
 .tarot-track.dragging .tarot-card {
-  /* No hover lift mid-drag — the deck should slide as one piece */
+  /* No hover lift mid-drag - the deck should slide as one piece */
   transition: none;
 }
 

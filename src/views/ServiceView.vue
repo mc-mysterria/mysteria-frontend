@@ -189,7 +189,7 @@ useSeo(() => {
   }
 
   const slug = route.params.slug as string;
-  // Services carry markdown, not a summary field — flatten the opening prose.
+  // Services carry markdown, not a summary field - flatten the opening prose.
   const summary = (item.markdownContent || '')
       .replace(/!\[[^\]]*]\([^)]*\)/g, '')
       .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
@@ -197,7 +197,7 @@ useSeo(() => {
       .replace(/[*_~`>#-]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
-  const description = summary || `${item.name} — ${t('shopPage.lede')}`;
+  const description = summary || `${item.name} - ${t('shopPage.lede')}`;
 
   return {
     title: item.name,

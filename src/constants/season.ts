@@ -1,6 +1,6 @@
 /**
  * The season currently being played. Season II opened on the date below, so the
- * hero's countdown cell stays retired until a future season is announced — set
+ * hero's countdown cell stays retired until a future season is announced - set
  * SEASON_START to that future date to bring the countdown back automatically.
  */
 export const SEASON_NUMERAL = "II";
@@ -14,7 +14,7 @@ export function daysUntilSeason(now: Date = new Date()): number {
     return Math.max(0, Math.ceil(diff / 86_400_000));
 }
 
-/** True once the season has opened — the countdown is meaningless after that. */
+/** True once the season has opened - the countdown is meaningless after that. */
 export function seasonHasBegun(now: Date = new Date()): boolean {
     return now.getTime() >= SEASON_START.getTime();
 }

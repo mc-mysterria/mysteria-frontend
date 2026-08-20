@@ -1,6 +1,6 @@
 <template>
   <!--
-    The Mark — Mysterria's own currency.
+    The Mark - Mysterria's own currency.
     Drawn in the redesign's language: hairline rings echoing the ritual circles
     on the home hero, and an M monogram struck through the middle. Everything is
     `currentColor`, so it takes gold, muted ink or on-gold from its context

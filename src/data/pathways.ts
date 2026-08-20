@@ -156,7 +156,7 @@ export function sequenceRank(n: number, language: Language = "en"): string {
     return n <= 4 && n >= 0 ? sequenceRankNames[language][n as keyof typeof sequenceRankNames.en] : "";
 }
 
-/** Sequence 9 role name — used for the "SEQ 9 · SEER" tarot labels. */
+/** Sequence 9 role name - used for the "SEQ 9 · SEER" tarot labels. */
 export function sequenceNineName(id: string, language: Language = "en"): string {
     const rung = pathwayById(id)?.sequences.find(sequence => sequence.sequence === 9);
     if (!rung) return "";
