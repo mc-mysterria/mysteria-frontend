@@ -140,6 +140,22 @@ export function pathwayLadder(id: string, language: Language = "en"): Array<{ se
         }));
 }
 
+/**
+ * Server-enforced seat caps for the high Sequences: at most this many
+ * Beyonders per pathway may hold each rung at once. Mirrors catwalk config.
+ */
+export const HIGH_SEAT_LIMITS: Record<number, number> = {0: 1, 1: 3, 2: 9, 3: 18};
+
+/** Divine rank titles for Sequences 4–0, shared by the archive and the registry. */
+export const sequenceRankNames = {
+    en: {4: "Demigod", 3: "Saint", 2: "Angel", 1: "Archangel", 0: "Deity"},
+    uk: {4: "Напівбог", 3: "Святий", 2: "Янгол", 1: "Архангел", 0: "Божество"},
+} as const;
+
+export function sequenceRank(n: number, language: Language = "en"): string {
+    return n <= 4 && n >= 0 ? sequenceRankNames[language][n as keyof typeof sequenceRankNames.en] : "";
+}
+
 /** Sequence 9 role name — used for the "SEQ 9 · SEER" tarot labels. */
 export function sequenceNineName(id: string, language: Language = "en"): string {
     const rung = pathwayById(id)?.sequences.find(sequence => sequence.sequence === 9);

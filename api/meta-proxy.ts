@@ -120,6 +120,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
         description: 'Support Mysterria and unlock exclusive perks! Browse our store for ranks, items, and special features for the Lord of the Mysteries Minecraft server.',
         image: '/banner.webp',
     },
+    ascension: {
+        title: 'Ascension Registry - Mysterria',
+        description: 'Live seat availability for the high Sequences on Mysterria: every pathway seats at most 18 Saints, 9 Angels, 3 Archangels and a single Deity. See which thrones are taken before you climb.',
+        image: '/banner.webp',
+    },
     guide: {
         title: 'Getting Started Guide - Mysterria',
         description: 'New to Mysterria? Learn how to get started on our Lord of the Mysteries inspired server. Discover Pathways, Sequences, and mystical adventures.',

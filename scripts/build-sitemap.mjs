@@ -45,6 +45,7 @@ const add = (loc, priority, changefreq, lastmod = today) =>
 add("/", "1.0", "daily");
 add("/guide", "0.9", "weekly");
 add("/pathways", "0.9", "weekly");
+add("/ascension", "0.8", "daily");
 add("/news", "0.8", "daily");
 add("/rules", "0.7", "monthly");
 add("/store", "0.7", "weekly");

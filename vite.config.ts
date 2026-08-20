@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
 import type {IncomingMessage, ServerResponse} from 'node:http'
 import type {ConfigEnv, Connect, Plugin, PluginOption, UserConfig, ViteDevServer} from 'vite'
+import {loadBeyonderStats} from './server/beyonderAggregate'
 
 // Mirrors the production guard in api/catwalk-proxy.ts: the dev server proxies
 // /catwalk/* straight to the upstream service (bypassing that Vercel function),
@@ -91,11 +92,40 @@ function balanceReportDevEndpointPlugin(env: Record<string, string>): Plugin {
 }
 
 
+// Dev mirror of api/beyonder-stats.ts: /api/* proxies to the main backend in dev,
+// which has no such endpoint, so the aggregate-only catwalk proxy lives here.
+function beyonderStatsDevEndpointPlugin(env: Record<string, string>): Plugin {
+    return {
+        name: 'dev-beyonder-stats-endpoint',
+        configureServer(server: ViteDevServer) {
+            const middleware: Connect.NextHandleFunction = (req: IncomingMessage, res: ServerResponse, next) => {
+                if (!(req.url || '').startsWith('/api/beyonder-stats')) {
+                    next();
+                    return;
+                }
+                const send = (status: number, body: unknown) => {
+                    res.statusCode = status;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify(body));
+                };
+                loadBeyonderStats(process.env.CATWALK_API_TOKEN || env.CATWALK_API_TOKEN)
+                    .then((result) => send(result.status, result.body))
+                    .catch((error) => {
+                        console.error('Error in dev beyonder-stats endpoint:', error);
+                        send(502, {success: false, message: 'Failed to reach catwalk service'});
+                    });
+            };
+            server.middlewares.use(middleware);
+        },
+    };
+}
+
 function createViteConfig({mode}: ConfigEnv): UserConfig {
     const env = loadEnv(mode, process.cwd(), '')
     const plugins: PluginOption[] = [
         blockSensitiveCatwalkPathsPlugin(),
         balanceReportDevEndpointPlugin(env),
+        beyonderStatsDevEndpointPlugin(env),
         vue(),
         vueJsx(),
         vueDevTools(),

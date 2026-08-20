@@ -88,6 +88,11 @@ const router = createRouter({
             component: () => import("@/views/PathwaysView.vue"),
         },
         {
+            path: "/ascension",
+            name: "ascension",
+            component: () => import("@/views/AscensionView.vue"),
+        },
+        {
             path: "/wiki",
             redirect: () => {
                 window.open("https://wiki.mysterria.net/", "_blank");

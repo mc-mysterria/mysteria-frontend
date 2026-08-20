@@ -47,6 +47,10 @@
             <span class="row-count">{{ pathway.count }}</span>
           </RouterLink>
         </div>
+
+        <RouterLink class="panel-registry-link" to="/ascension">
+          {{ t('homePage.observatoryRegistryCta') }} →
+        </RouterLink>
       </div>
     </div>
   </section>
@@ -239,6 +243,23 @@ const title = computed(() =>
   font-size: 13px;
   color: var(--myst-gold);
   text-align: right;
+}
+
+.panel-registry-link {
+  display: block;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--myst-line-14);
+  font-family: var(--myst-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--myst-ink-muted);
+  transition: color 0.25s ease;
+}
+
+.panel-registry-link:hover {
+  color: var(--myst-gold);
 }
 
 @media (max-width: 980px) {

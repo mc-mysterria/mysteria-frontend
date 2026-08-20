@@ -18,6 +18,7 @@
             currentLanguage === 'uk' ? 'Дані можуть дещо відрізнятися від поточної версії гри' : 'Details may differ slightly from the current game version'
           }}
         </div>
+        <RouterLink class="registry-cta" to="/ascension">{{ ui.registryCta }} →</RouterLink>
       </header>
       <section class="archive-layout">
         <aside class="pathway-browser">
@@ -117,6 +118,7 @@ import {
   pathwayName as localizedPathwayName,
   pathways,
   pathwaysLastUpdated,
+  sequenceRank as localizedSequenceRank,
 } from '@/data/pathways';
 
 const formattedLastUpdated = computed(() => new Intl.DateTimeFormat(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
@@ -142,7 +144,8 @@ const copy = {
     designation: 'Designation',
     noResults: 'Nothing found in the archive.',
     noAbilities: 'No matching abilities',
-    trySearch: 'Try another search or clear the field.'
+    trySearch: 'Try another search or clear the field.',
+    registryCta: 'Sequence 3–0 seats are limited — see live availability'
   },
   uk: {
     archive: 'АРХІВ ПОТОЙБІЧНОГО',
@@ -160,7 +163,8 @@ const copy = {
     designation: 'Назва',
     noResults: 'В архіві нічого не знайдено.',
     noAbilities: 'Здібностей не знайдено',
-    trySearch: 'Спробуйте інший запит або очистьте поле.'
+    trySearch: 'Спробуйте інший запит або очистьте поле.',
+    registryCta: 'Місця Послідовностей 3–0 обмежені — перегляньте наявність'
   }
 };
 const {currentLanguage} = useI18n(), route = useRoute(), router = useRouter(), query = ref(''),
@@ -249,13 +253,8 @@ watch(filteredPathways, (matches) => {
     router.replace({name: 'pathways', params: {pathway: matches[0].id}})
   }
 }, {flush: 'post'});
-const ranks = {
-  en: {4: 'Demigod', 3: 'Saint', 2: 'Angel', 1: 'Archangel', 0: 'Deity'},
-  uk: {4: 'Напівбог', 3: 'Святий', 2: 'Янгол', 1: 'Архангел', 0: 'Божество'}
-} as const;
-
 function sequenceRank(n: number) {
-  return n <= 4 ? ranks[currentLanguage.value][n as keyof typeof ranks.en] : ''
+  return localizedSequenceRank(n, currentLanguage.value)
 }
 
 function sequenceClass(n: number) {
@@ -1106,6 +1105,25 @@ onUnmounted(() => {
   border-radius: 50%;
   background: var(--myst-gold);
   box-shadow: 0 0 7px rgba(200, 178, 115, .65)
+}
+
+.registry-cta {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 16px;
+  border: 1px solid rgba(200, 178, 115, .34);
+  background: rgba(200, 178, 115, .06);
+  color: #d7c88f;
+  font: 10px 'JetBrains Mono', monospace;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  transition: .25s
+}
+
+.registry-cta:hover {
+  border-color: var(--myst-gold);
+  color: var(--myst-gold);
+  background: rgba(200, 178, 115, .12)
 }
 
 @media (max-width: 560px) {
