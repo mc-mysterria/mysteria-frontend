@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import vercel from 'vite-plugin-vercel'
 import type {IncomingMessage, ServerResponse} from 'node:http'
 import type {ConfigEnv, Connect, Plugin, PluginOption, UserConfig, ViteDevServer} from 'vite'
-import {loadBeyonderStats} from './server/beyonderAggregate'
+import {loadBeyonderStats} from './api/beyonder-stats'
 
 // Mirrors the production guard in api/catwalk-proxy.ts: the dev server proxies
 // /catwalk/* straight to the upstream service (bypassing that Vercel function),
