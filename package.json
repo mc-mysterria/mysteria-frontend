@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:icons && run-p type-check \"build-only {@}\" -- && npm run build:sitemap",
+    "build": "npm run build:icons && npm run build:zh-tw && run-p type-check \"build-only {@}\" -- && npm run build:sitemap",
     "build:sitemap": "node scripts/build-sitemap.mjs",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -14,7 +14,11 @@
     "build:icons": "node scripts/build-fontawesome-subset.mjs",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "build:zh-tw": "node scripts/build-zh-tw.mjs",
+    "check:zh-tw": "node scripts/build-zh-tw.mjs --check",
+    "check:canon-zh": "node scripts/check-canon-zh.mjs --renamed-only",
+    "seed:zh": "node scripts/seed-pathways-zh.mjs"
   },
   "dependencies": {
     "@mdx-js/esbuild": "^3.1.0",
@@ -69,6 +73,7 @@
     "imagemin-webp": "^8.0.0",
     "jsdom": "^25.0.1",
     "npm-run-all2": "^7.0.2",
+    "opencc-js": "^1.4.2",
     "postcss": "^8.5.6",
     "prettier": "^3.3.3",
     "rollup": "^4.44.0",

@@ -10,11 +10,11 @@
         <div class="seat-legend">
           <div v-for="rank in seatRanks" :key="rank.sequence" :class="`legend-chip rank-${rank.sequence}`">
             <b>{{ rank.sequence }}</b>
-            <span><strong>{{ rank.name }}</strong><small>{{ rank.limit }} {{ seatsLabel(rank.limit) }}</small></span>
+            <span><strong>{{ rank.name }}</strong><small>{{ rank.limit }} {{ plural(rank.limit, ui.seatWord) }}</small></span>
           </div>
         </div>
 
-        <RouterLink class="archive-link" to="/pathways">{{ ui.archiveLink }} →</RouterLink>
+        <RouterLink :to="$lp('/pathways')" class="archive-link">{{ ui.archiveLink }} →</RouterLink>
       </header>
 
       <section class="registry-body">
@@ -57,7 +57,7 @@
               <article v-for="row in group.rows" :key="row.id"
                        :class="['seat-card', {'deity-claimed': row.deityClaimed}]">
                 <header class="card-head">
-                  <RouterLink :to="`/pathways/${row.id}`" class="card-identity">
+                  <RouterLink :to="$lp(`/pathways/${row.id}`)" class="card-identity">
                     <span class="sigil"><img v-if="pathwayImage(row.id)" :src="pathwayImage(row.id)" alt=""><b v-else>{{
                         row.id[0].toUpperCase()
                       }}</b></span>
@@ -99,84 +99,28 @@ import {computed, ref} from 'vue';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
+import type {Translations} from '@/locales';
 import {breadcrumbLd, useSeo} from '@/composables/useSeo';
 import {useBeyonderStats} from '@/composables/useBeyonderStats';
 import {
   boonPathwayIds,
+  deityName,
   HIGH_SEAT_LIMITS,
   type Pathway,
   pathwayImage,
   pathwayName,
   pathways,
+  pick,
   sequenceRank,
 } from '@/data/pathways';
 
-const copy = {
-  en: {
-    eyebrow: 'HIGH SEQUENCE REGISTRY',
-    title: 'Thrones of Ascension',
-    subtitle: 'Above Sequence 4 the ladder narrows: every pathway seats only so many Beyonders at once. Survey who has climbed - and where a throne still stands empty - before you choose your road.',
-    archiveLink: 'Study the pathways in the archive',
-    epochTitle: 'The Epoch will turn',
-    epochBody: 'When the next Epoch begins, every Beyonder is reset and all of these seats are vacated. Whatever is claimed below is held only for now - come the new Epoch, everyone fights for the thrones again.',
-    seatsClaimed: 'seats claimed',
-    deitiesSeated: 'Deities enthroned',
-    pathwaysOpen: 'pathways fully open',
-    sortLabel: 'Sort pathways',
-    sortContested: 'Contested first',
-    sortOpen: 'Open first',
-    sortAz: 'A–Z',
-    badges: {deity: 'Deity enthroned', contested: 'Contested', open: 'All seats open'},
-    standard: 'Standard Pathways',
-    boons: 'Boons',
-    claimedShort: 'claimed',
-    liveNote: 'Counts come from the server itself and refresh every few minutes.',
-    asOf: 'As of',
-    errorTitle: 'The registry is unreachable',
-    errorBody: 'The census could not be consulted. Try again in a moment.',
-    retry: 'Consult again',
-  },
-  uk: {
-    eyebrow: 'РЕЄСТР ВИСОКИХ ПОСЛІДОВНОСТЕЙ',
-    title: 'Трони Вознесіння',
-    subtitle: 'Вище Послідовності 4 драбина звужується: кожен Шлях вміщує лише обмежену кількість Потойбічних водночас. Погляньте, хто вже піднявся - і де трон досі порожній - перш ніж обрати свою дорогу.',
-    archiveLink: 'Дослідити Шляхи в архіві',
-    epochTitle: 'Епоха зміниться',
-    epochBody: 'З початком нової Епохи кожного Потойбічного буде скинуто, і всі ці місця звільняться. Здобуте нижче утримується лише до часу - у новій Епосі боротьба за трони почнеться знову.',
-    seatsClaimed: 'місць зайнято',
-    deitiesSeated: 'Божеств на тронах',
-    pathwaysOpen: 'Шляхів повністю вільні',
-    sortLabel: 'Сортування Шляхів',
-    sortContested: 'Спершу зайняті',
-    sortOpen: 'Спершу вільні',
-    sortAz: 'А–Я',
-    badges: {deity: 'Божество на троні', contested: 'Є претенденти', open: 'Усі місця вільні'},
-    standard: 'Звичайні Шляхи',
-    boons: 'Благословення',
-    claimedShort: 'зайнято',
-    liveNote: 'Дані надходять із самого сервера й оновлюються щокілька хвилин.',
-    asOf: 'Станом на',
-    errorTitle: 'Реєстр недоступний',
-    errorBody: 'Не вдалося звернутися до перепису. Спробуйте ще раз за мить.',
-    retry: 'Запитати знову',
-  },
-};
 
-const {currentLanguage} = useI18n();
-const ui = computed(() => copy[currentLanguage.value]);
+const {currentLanguage, intlLocale, tree, plural} = useI18n();
+const ui = computed(() => tree<Translations["ascensionPage"]>("ascensionPage"));
 const {stats, loading, highSeats, fetchedAt, reload} = useBeyonderStats();
 
 /** The four limited rungs, thrones first - Deity at the top of every listing. */
 const HIGH_SEQUENCES = [0, 1, 2, 3] as const;
-
-function seatsLabel(count: number): string {
-  if (currentLanguage.value === 'uk') {
-    if (count === 1) return 'місце';
-    if (count >= 2 && count <= 4) return 'місця';
-    return 'місць';
-  }
-  return count === 1 ? 'seat' : 'seats';
-}
 
 const seatRanks = computed(() => HIGH_SEQUENCES.map(sequence => ({
   sequence,
@@ -220,10 +164,12 @@ function buildRow(pathway: Pathway): PathwayRow | null {
     return {
       sequence,
       rank: sequenceRank(sequence, currentLanguage.value),
-      // A pathway's Sequence 0 bears the pathway's own name - the deity title.
+      // Sequence 0 bears the deity title. In English that is the pathway name;
+      // in Chinese the pathway is named after Sequence 9, so 占卜家途径 is
+      // crowned by 愚者 and the two must not be conflated here.
       designation: rung
-          ? (rung.name[currentLanguage.value] || rung.name.en)
-          : pathwayName(pathway.id, currentLanguage.value),
+          ? pick(rung.name, currentLanguage.value)
+          : deityName(pathway.id, currentLanguage.value),
       count: counts[sequence] ?? 0,
       limit: HIGH_SEAT_LIMITS[sequence],
     };
@@ -281,7 +227,7 @@ const totals = computed(() => {
 
 const formattedFetchedAt = computed(() => {
   if (!fetchedAt.value) return '';
-  return new Intl.DateTimeFormat(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
+  return new Intl.DateTimeFormat(intlLocale.value, {
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(fetchedAt.value));

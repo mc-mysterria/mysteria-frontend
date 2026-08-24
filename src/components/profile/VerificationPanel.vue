@@ -72,7 +72,7 @@ interface VerificationCode {
 }
 
 const {show} = useNotification();
-const {t, currentLanguage} = useI18n();
+const {t, intlLocale} = useI18n();
 const isGenerating = ref(false);
 const verificationCode = ref<VerificationCode | null>(null);
 const copied = ref(false);
@@ -112,7 +112,7 @@ const copyCode = async () => {
 };
 
 const formatExpiry = (expiresAt: string) =>
-    new Date(expiresAt).toLocaleString(currentLanguage.value === "uk" ? "uk-UA" : "en-US");
+    new Date(expiresAt).toLocaleString(intlLocale.value);
 </script>
 
 <style scoped>

@@ -102,10 +102,10 @@ import type {NotificationDto} from '@/types/notifications';
 
 const router = useRouter();
 const store = useAccountNotificationsStore();
-const {t, currentLanguage} = useI18n();
+const {t, intlLocale} = useI18n();
 
 const items = computed(() => store.items);
-const locale = computed(() => (currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US'));
+const locale = intlLocale;
 
 const goToPage = (page: number) => {
   if (page >= 0 && page < store.totalPages) {

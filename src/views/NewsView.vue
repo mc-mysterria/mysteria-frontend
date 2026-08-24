@@ -50,7 +50,7 @@
             v-for="entry in earlier"
             :key="entry.id"
             class="earlier-row"
-            :to="`/news/${entry.slug}`"
+            :to="$lp(`/news/${entry.slug}`)"
         >
           <span class="earlier-date">{{ formatDate(entry.publishedAt) }}</span>
           <span class="earlier-copy">
@@ -74,6 +74,8 @@ import type {NewsArticle, NewsPreview} from '@/types/news';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
+import {localePath} from '@/composables/useLocalePath';
+import {ARTICLE_LOCALES, type ArticleLocale, hasOwnArticles, LANGUAGES} from '@/locales';
 import MarkdownIt from 'markdown-it';
 import {pathwayEmojiPlugin} from '@/utils/pathwayPlugin';
 import {articleLd, breadcrumbLd, useSeo} from '@/composables/useSeo';
@@ -83,7 +85,7 @@ const router = useRouter();
 const article = ref<NewsArticle | null>(null);
 const earlier = ref<NewsPreview[]>([]);
 const loading = ref(true);
-const {currentLanguage, setLanguage, t} = useI18n();
+const {currentLanguage, intlLocale, locale, t} = useI18n();
 
 const md = new MarkdownIt({html: true, linkify: true, typographer: true});
 md.use(pathwayEmojiPlugin);
@@ -95,18 +97,21 @@ const renderedContent = computed(() => {
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return '';
-  return new Date(dateString).toLocaleDateString(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
+  return new Date(dateString).toLocaleDateString(intlLocale.value, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
 };
 
-const SUPPORTED_LOCALES = new Set<'en' | 'uk'>(['en', 'uk']);
+const SUPPORTED_LOCALES = new Set<string>(ARTICLE_LOCALES);
 
 /*
- * News is the one place where a locale really does live in the URL
- * (/news/uk/:slug), so it is the one place hreflang alternates are truthful.
+ * Articles are authored in the CMS in English and Ukrainian only, so a Chinese
+ * reader is served the English text. The canonical URL therefore points at the
+ * article's own language (/en/news/:slug), not at the reader's locale - two
+ * URLs showing the same English article would otherwise compete as duplicates.
+ * hreflang advertises only the locales the article genuinely exists in.
  */
 useSeo(() => {
   const current = article.value;
@@ -120,7 +125,8 @@ useSeo(() => {
   }
 
   const slug = current.slug;
-  const path = currentLanguage.value === 'uk' ? `/news/uk/${slug}` : `/news/${slug}`;
+  const articleLanguage = locale.value.articleLocale;
+  const path = localePath(`/news/${slug}`, articleLanguage);
   const published = 'publishedAt' in current ? current.publishedAt : undefined;
   const description = current.shortDescription || current.title;
 
@@ -133,7 +139,16 @@ useSeo(() => {
     imageAlt: current.title,
     publishedTime: published,
     modifiedTime: 'updatedAt' in current ? (current as { updatedAt?: string }).updatedAt : undefined,
-    alternates: {en: `/news/${slug}`, uk: `/news/uk/${slug}`},
+    /*
+     * A locale is advertised only if it has its own edition. Chinese readers are
+     * served the English text, so claiming a Chinese alternate would point Google
+     * at an English page under a Chinese hreflang. Derived from articleLocale so
+     * that giving a locale its own articles needs no edit here.
+     */
+    alternates: Object.fromEntries(LANGUAGES.map(language => [
+      language,
+      hasOwnArticles(language) ? localePath(`/news/${slug}`, language) : null,
+    ])),
     jsonLd: [
       articleLd({
         title: current.title,
@@ -142,7 +157,7 @@ useSeo(() => {
         image: current.preview || undefined,
         published,
         modified: 'updatedAt' in current ? (current as { updatedAt?: string }).updatedAt : undefined,
-        language: currentLanguage.value,
+        language: locale.value.articleLocale,
       }),
       breadcrumbLd([
         {name: 'Home', path: '/'},
@@ -153,14 +168,17 @@ useSeo(() => {
   };
 });
 
-const resolveLanguage = () => {
+/*
+ * Which language to request the article in. A legacy /news/:locale/:slug URL
+ * pins it explicitly; otherwise it follows from the reader's locale. This no
+ * longer changes the site language - that is owned by the URL's locale segment.
+ */
+const resolveArticleLocale = (): ArticleLocale => {
   const localeParam = route.params.locale as string | undefined;
-  const lang = localeParam && SUPPORTED_LOCALES.has(localeParam as 'en' | 'uk')
-      ? (localeParam as 'en' | 'uk')
-      : currentLanguage.value;
-
-  if (localeParam && lang !== currentLanguage.value) setLanguage(lang);
-  return lang;
+  if (localeParam && SUPPORTED_LOCALES.has(localeParam)) {
+    return localeParam as ArticleLocale;
+  }
+  return locale.value.articleLocale;
 };
 
 const byFeatured = (a: NewsPreview, b: NewsPreview) =>
@@ -169,7 +187,7 @@ const byFeatured = (a: NewsPreview, b: NewsPreview) =>
 
 const loadNews = async () => {
   const slug = route.params.slug as string | undefined;
-  const lang = resolveLanguage();
+  const lang = resolveArticleLocale();
 
   loading.value = true;
 
@@ -220,8 +238,8 @@ watch(() => route.fullPath, (next, previous) => {
 });
 
 watch(currentLanguage, () => {
-  // A /news/:locale/:slug URL pins its own language; only the language switcher
-  // should re-fetch, and that path already set currentLanguage itself.
+  // A legacy /news/:locale/:slug URL pins the article language, so switching the
+  // site language cannot change which article is shown.
   if (route.params.locale) return;
   void reload();
 });

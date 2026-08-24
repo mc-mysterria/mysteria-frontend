@@ -1,0 +1,50 @@
+{
+  "$comment": [
+    "Simplified Chinese copy for the crawler meta-proxy (link previews in Discord,",
+    "Telegram, Facebook and so on). AUTHORED - meta-copy.zh-TW.json is generated",
+    "from this file by scripts/build-zh-tw.mjs.",
+    "",
+    "Kept separate from src/locales because these are SEO/preview descriptions, not",
+    "UI strings: they are written to read well as a shared-link blurb and are sized",
+    "for Open Graph rather than for a page.",
+    "",
+    "{name}, {count}, {first}, {firstSeq}, {final}, {finalSeq} and {abilities} are",
+    "substituted by api/meta-proxy.ts. Ukrainian previews still fall back to the",
+    "English copy in that file - a pre-existing gap, not something Chinese changed."
+  ],
+
+  "pathwayTitle": "{name}途径 · 序列与能力 | Mysterria",
+  "pathwayIndexTitle": "途径与序列 · 非凡者档案 | Mysterria",
+  "pathwayDescription": "探索{name}途径，从序列{first}{firstSeq}一路攀至序列{final}{finalSeq}。在 Mysterria 发掘 {abilities} 项非凡能力。",
+  "pathwayIndexDescription": "探索全部 {count} 条非凡者途径、每一个序列的名称，以及 Mysterria 上的所有非凡能力。",
+  "pathwaySigilAlt": "{name}途径的印记",
+  "pathwayIndexAlt": "Mysterria 非凡者途径",
+  "redirecting": "正在前往",
+
+  "pages": {
+    "rules": {
+      "title": "服务器规则 - Mysterria",
+      "description": "阅读在 Mysterria 游玩的规则与准则。Mysterria 是一座受《诡秘之主》启发的 Minecraft 服务器——这里写明我们的社区标准与游戏规范。"
+    },
+    "store": {
+      "title": "商店 - Mysterria",
+      "description": "支持 Mysterria，同时解锁专属内容。浏览这座《诡秘之主》主题 Minecraft 服务器的头衔、物品与特色功能——绝不出售战斗力。"
+    },
+    "ascension": {
+      "title": "晋升名录 - Mysterria",
+      "description": "Mysterria 高序列席位的实时占用情况：每条途径最多容纳 18 位圣者、9 位天使、3 位大天使，以及唯一一位神灵。在你攀登之前，先看看哪些王座已被占据。"
+    },
+    "guide": {
+      "title": "新人指南 - Mysterria",
+      "description": "初次来到 Mysterria？了解如何在这座受《诡秘之主》启发的服务器上起步——认识途径、序列，以及等着你的神秘冒险。"
+    },
+    "profile": {
+      "title": "个人资料 - Mysterria",
+      "description": "查看并管理你的 Mysterria 个人资料，追踪你在序列与途径上的攀登进度。"
+    },
+    "default": {
+      "title": "Mysterria - 《诡秘之主》主题 Minecraft 服务器",
+      "description": "Mysterria —— 一座受网络小说《诡秘之主》启发的 Minecraft 服务器。行走神秘途径、配制魔药、晋升序列，沉浸在神与教会的世界之中。"
+    }
+  }
+}

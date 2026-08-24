@@ -1,0 +1,72 @@
+{
+  "$comment": [
+    "The locale table, and the single source of truth for it.",
+    "",
+    "It lives in JSON rather than in src/locales/index.ts because four consumers",
+    "need it and only one of them is inside the Vite graph: the app imports it and",
+    "types it as Record<Language, LocaleMeta>, while scripts/build-sitemap.mjs,",
+    "scripts/i18n-coverage.mjs and api/meta-proxy.ts read it directly. Each of",
+    "those used to carry its own copy of the list under a 'keep in step with",
+    "src/locales/index.ts' comment - a missed entry silently dropped a locale from",
+    "the sitemap or served crawlers the wrong <html lang>, neither of which is",
+    "visible in the app.",
+    "",
+    "Array order is the language-picker order, and the order hreflang alternates",
+    "are emitted in. Field meanings are documented on the LocaleMeta interface in",
+    "src/locales/index.ts."
+  ],
+  "locales": [
+    {
+      "code": "en",
+      "nativeName": "English",
+      "short": "EN",
+      "htmlLang": "en",
+      "hreflang": "en",
+      "intlLocale": "en-US",
+      "ogLocale": "en_US",
+      "accepts": ["en"],
+      "pointsOnly": false,
+      "pluralStyle": "english",
+      "articleLocale": "en"
+    },
+    {
+      "code": "uk",
+      "nativeName": "Українська",
+      "short": "UK",
+      "htmlLang": "uk",
+      "hreflang": "uk",
+      "intlLocale": "uk-UA",
+      "ogLocale": "uk_UA",
+      "accepts": ["uk"],
+      "pointsOnly": true,
+      "pluralStyle": "slavic",
+      "articleLocale": "uk"
+    },
+    {
+      "code": "zh-TW",
+      "nativeName": "繁體中文",
+      "short": "繁",
+      "htmlLang": "zh-Hant",
+      "hreflang": "zh-Hant",
+      "intlLocale": "zh-TW",
+      "ogLocale": "zh_TW",
+      "accepts": ["zh-hant", "zh-tw", "zh-hk", "zh-mo"],
+      "pointsOnly": false,
+      "pluralStyle": "none",
+      "articleLocale": "en"
+    },
+    {
+      "code": "zh-CN",
+      "nativeName": "简体中文",
+      "short": "简",
+      "htmlLang": "zh-Hans",
+      "hreflang": "zh-Hans",
+      "intlLocale": "zh-CN",
+      "ogLocale": "zh_CN",
+      "accepts": ["zh-hans", "zh-cn", "zh-sg", "zh-my", "zh"],
+      "pointsOnly": false,
+      "pluralStyle": "none",
+      "articleLocale": "en"
+    }
+  ]
+}

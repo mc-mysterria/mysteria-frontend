@@ -1,1168 +1,137 @@
+/*
+ * Translation engine. The strings themselves live in src/locales/<code>.ts;
+ * this file only resolves keys against the active locale.
+ *
+ * The active locale is driven by the URL. Every route carries a locale segment
+ * (/zh-TW/guide), the router calls applyLanguage() with it, and this module is
+ * the single place that holds the resulting state. Nothing else should write
+ * currentLanguage - to change language, navigate.
+ */
+
 import {computed, ref} from "vue";
-
-export type Language = "en" | "uk";
-
-const currentLanguage = ref<Language>("en");
-
-const translations = {
-    en: {
-        // Navigation
-        navHome: "Home",
-        navShop: "Shop",
-        navWiki: "Wiki",
-        navGame: "Guide",
-        navPathways: "Pathways",
-        navNews: "News",
-        navServices: "Services",
-        header: {
-            tagline: "Beyond the Fog",
-            navLabel: "Primary",
-            toggleNav: "Toggle navigation",
-            closeNav: "Close navigation",
-            seasonHeadline: "Season II has just begun!",
-            seasonLink: "Read the announcement",
-        },
-        footer: {
-            disclaimer: "An unofficial fan project inspired by Lord of the Mysteries. Not affiliated with the author or Mojang.",
-            playHeading: "Play",
-            accountHeading: "Account",
-            communityHeading: "Community",
-            legalLabel: "Legal and quick links",
-            linkGuide: "New player guide",
-            linkArchive: "Beyonder Archive",
-            linkRules: "Laws of Mysterria",
-            linkStaff: "The Order (staff)",
-            linkCompanion: "COI Client (optional mod)",
-            linkDossier: "Beyonder dossier",
-            linkShop: "Wares of the Evernight",
-            linkNews: "News & dispatches",
-        },
-
-        // ---- Redesign: home ----
-        homePage: {
-            heroEyebrowBefore: "A",
-            heroEyebrowBrand: "Lord of the Mysteries",
-            heroEyebrowAfter: "Minecraft server",
-            heroTagline: "Drink the potion. Act the role. Climb from Sequence 9 toward godhood - before the Fog claims you.",
-            heroPrimaryCta: "Begin the journey",
-            heroSecondaryCta: "Choose a pathway",
-            serverIpLabel: "Server IP",
-            copyHint: "Click to copy",
-            copiedHint: "✓ Copied",
-            statBeyonders: "Beyonders",
-            statPathways: "Pathways",
-            statCountdown: "To next season",
-            circleEyebrow: "The Circle of Imagination",
-            circleTitle: "Every power in the novel. Playable.",
-            circleLede: "Our custom plugin implements the full Beyonder power system - 22 pathways, potions, rituals, acting, and loss of control. No mods required; a client-side companion adds the visuals.",
-            circleStepOneTitle: "Find your recipe",
-            circleStepOneBody: "Loot refilling chests, trade with players, or hunt mystical creatures for a Sequence 9 potion formula from any of the 22 pathways.",
-            circleStepTwoTitle: "Brew & drink the potion",
-            circleStepTwoBody: "Gather the main ingredients, work the cauldron, and swallow your fate. Real abilities, spirituality costs - and real madness if you rush.",
-            circleStepThreeTitle: "Act your role. Advance.",
-            circleStepThreeBody: "Digest the potion by living your Sequence's role. Perform rituals, complete the acting, and climb 9 → 0 across a season-long journey.",
-            tarotEyebrow: "Beyonder Archive",
-            tarotTitle: "Which card will you draw?",
-            tarotSeq: "SEQ 9",
-            tarotCta: "Open the full archive",
-            tarotCtaCount: "22 pathways",
-            observatoryEyebrow: "The Observatory",
-            observatoryTitle: "A living world of {count} Beyonders",
-            observatoryLede: "Live census of every awakened player this season - which pathways they walk and how far they've climbed. Updated hourly from the server itself.",
-            observatoryAdvanced: "Advanced (Seq 0–3)",
-            observatoryAverage: "Average Sequence",
-            observatoryActive: "Active Pathways",
-            observatoryPanelTitle: "Most walked pathways",
-            observatoryPanelNote: "This season",
-            observatoryRegistryCta: "Sequence 3–0 seats are limited - view the Ascension Registry",
-            newsEyebrow: "From Behind the Fog",
-            newsTitle: "Latest dispatches",
-            newsAll: "All news",
-            newsPinned: "Pinned",
-            newsRead: "Read the dispatch",
-            closingEyebrow: "The invitation",
-            closingTitleLineOne: "The Fog is waiting.",
-            closingTitleLineTwo: "Will you look inside?",
-            closingLede: "Free to join. Java 26.1.2+, accept the resource pack, and your first Sequence is about an evening away.",
-            closingCopy: "Copy the server IP",
-            closingCopied: "✓ IP copied",
-            closingDiscord: "Join the Discord",
-        },
-
-        // ---- Redesign: companion mod ----
-        companion: {
-            eyebrow: "The Companion",
-            title: "COI Client",
-            lede: "Mysterria plays perfectly on a plain Minecraft client - every Beyonder mechanic lives on the server. The COI Client is a small, optional mod that adds the one thing a vanilla client cannot draw: the magic itself.",
-            featureHotkeysTitle: "Cast from the keyboard",
-            featureHotkeysBody: "Bind your abilities to hotkeys and cast mid-fight without ever opening a menu.",
-            featureVisualsTitle: "See your pathway",
-            featureVisualsBody: "Ritual circles, sigils and casting effects rendered in full on your own client.",
-            featurePresenceTitle: "Hear it, and show it",
-            featurePresenceBody: "Server-specific sound design, plus Discord rich presence carrying your Sequence.",
-            downloadEyebrow: "Get the mod",
-            platformNote: "Latest release · installs alongside the server resource pack",
-            optionalLabel: "Optional",
-            optional: "Nothing on the server is locked behind the mod, and you will never be asked to install it. Pick whichever platform you already use - all three carry the same build.",
-        },
-
-        // ---- Redesign: guide ----
-        guidePage: {
-            joinNoMods: "No client mods required",
-            joinBedrock: "Bedrock supported via Geyser",
-            joinFree: "Free to play, forever",
-            joinCompanion: "Want the visuals? Get the COI Client",
-            checklistEyebrow: "The First Hour",
-            checklistTitle: "Six steps from the server list to your first objective",
-            checklistLede: "Check them off as you go - your progress is saved on this device.",
-            checklistProgress: "Progress",
-            topicsCount: "topics",
-            noTopics: "No topic matches that phrase. Browse everything below.",
-            browseAll: "Browse every major system",
-        },
-
-        // ---- Redesign: shop ----
-        shopPage: {
-            eyebrow: "The Reliquary",
-            title: "Wares of the Evernight",
-            lede: "Support the server, never buy power. Everything here is cosmetic, convenience, or a way to commission the staff - the Sequence climb stays sacred.",
-            tabAll: "All wares",
-            showing: "Showing {shown} of {total} manifestations",
-            giftable: "Everything is giftable to another player",
-            perMonth: "Per month",
-            oneTime: "One time",
-            fairPlayLabel: "Fair play promise",
-            fairPlay: "No purchase grants combat power, Sequence progress, recipes, or ingredients. Purchases fund hosting and development of the Circle of Imagination plugin.",
-        },
-
-        // ---- Redesign: profile ----
-        profilePage: {
-            eyebrow: "Beyonder Dossier",
-            verified: "Verified",
-            unverified: "Unverified",
-            role: "Role",
-            logOut: "Log out",
-            pathwayOfThe: "Pathway of the",
-            sequence: "Sequence",
-            actingProgress: "Acting progress",
-            actingHint: "Digest your potion by living your role. At 100% you may attempt the next Sequence ritual.",
-            climb: "The climb · 9 → 0",
-            climbed: "Climbed",
-            youAreHere: "You are here",
-            nextRitual: "Next ritual",
-            balance: "Balance",
-            topUp: "Top up",
-            subscription: "Subscription",
-            account: "Account",
-            discordId: "Discord ID",
-            ledgerEyebrow: "Financial ledger",
-            filterAll: "All",
-            filterIncome: "Income",
-            filterSpending: "Spending",
-            crossGuideTitle: "Advancement stuck?",
-            crossGuideBody: "The handbook covers acting, rituals and madness.",
-            crossPathwayTitle: "Study your pathway",
-            crossPathwayBody: "Every ability, Sequence 9 → 0, in the archive.",
-            noBeyonder: "No Beyonder record yet. Verify your account and drink your first potion.",
-        },
-
-        // ---- Redesign: news ----
-        newsPage: {
-            eyebrow: "From Behind the Fog",
-            title: "Dispatches",
-            earlier: "Earlier dispatches",
-            season: "Season II · 2026",
-            notFound: "Registry entry not found or restricted.",
-        },
-
-        // ---- Redesign: rules ----
-        rulesPage: {
-            eyebrow: "The Covenant",
-            lede: "Short, human-readable, and enforced with judgement rather than scripts. When in doubt: don't ruin someone's day.",
-            appeals: "Appeals go through a Discord ticket - never in public chat.",
-            staffNote: "This is the player covenant. Staff operate under a separate, stricter code - visible to staff accounts on this page.",
-            severityWarn: "Warn",
-            severityMute: "Mute",
-            severityBan: "Ban",
-            severityInstant: "Instant action",
-        },
-
-        // ---- Redesign: staff ----
-        staffOrder: {
-            eyebrow: "Keepers of the Fog",
-            title: "The Order",
-            lede: "The administrators, moderators and builders who keep the world turning. Reach them in Discord for tickets and appeals - never in DMs.",
-            helpQuestion: "Need help, or want to report something?",
-            openTicket: "Open a ticket",
-        },
-
-        // Services
-        servicesWikiDesc: "Knowledge base & guides",
-        servicesDiscord: "Discord",
-        servicesDiscordDesc: "Join our community",
-        servicesMap: "Live Map",
-        servicesMapDesc: "Explore the world",
-
-        serverName: "Mysterria",
-        login: "Login",
-        logout: "Logout",
-        loginWithDiscord: "Login with Discord",
-        processing: "Processing...",
-        secureLoginDisclaimer: "Secure login via Discord - your privacy is protected",
-
-        purchase: "Purchase",
-        price: "Price",
-        item: "Item",
-        items: "Items",
-        subscription: "Subscription",
-        marks: "Marks",
-        giftable: "Giftable",
-        bulkPurchase: "Bulk Purchase",
-        amount: "Amount",
-        buyAsGift: "Purchase as a gift",
-        recipient: "Recipient",
-        searchRecipient: "Search by nickname...",
-        totalCost: "Total Cost",
-        pricePerUnit: "Price per unit",
-        selectRecipient: "Select recipient...",
-        giftFrom: "Gift from",
-        giftSuccess: "Gift sent successfully!",
-        giftSentFor: "for",
-        purchaseSuccessPrefix: "Successfully purchased",
-        purchaseSuccessFor: "for",
-        loginRequired: "Authentication required for purchase",
-        noUsersFound: "No verified users found",
-        errorSearchingUsers: "Failed to search users. Please try again.",
-        unknown: "Unknown",
-
-        transactionHistoryTitle: "Transaction History",
-        verification: "Verification",
-        close: "Close",
-        cancel: "Cancel",
-        loading: "Loading",
-        back: "Back",
-        next: "Next",
-        previous: "Previous",
-        details: "Details",
-
-        copyError: "Failed to copy",
-        errorDetailsClickToCopy: "Click to copy detailed information for administrator",
-        errorDetailsCopied: "Error information copied to clipboard",
-        errorDetailsFailedToCopy: "Failed to copy information",
-        errorLabel: "Error",
-        messageLabel: "Message",
-        timeLabel: "Time",
-        requestIdLabel: "Request ID",
-        urlLabel: "URL",
-        requestParamsLabel: "Request Parameters",
-        requestDataLabel: "Request Data",
-        additionalInfoLabel: "Additional Information",
-        errorDetailsFooter: "Please provide this information to the administrator for faster problem resolution.",
-
-        filter: "Filter",
-        role: "Role",
-        verified: "Verified",
-        pathway: "Pathway",
-        sequence: "Sequence",
-        pageNotFoundTitle: "Oops! Looks like you're lost...",
-        pageNotFoundMessage:
-            "Unfortunately, the page you are looking for was not found. But don't worry, you can always go back.",
-        goBack: "Go Back",
-
-        verifyMinecraftAccount: "Verify Minecraft Account",
-        unavailable: "Unavailable",
-
-        // Verification Panel
-        verificationDescriptionPre: "To verify your Minecraft account, generate a code below and enter the command",
-        verificationDescriptionCommand: "/verify <code>",
-        verificationDescriptionPost: "on the server.",
-        generateCode: "Generate Code",
-        yourVerificationCode: "Your verification code:",
-        codeValidUntil: "Code valid until:",
-        enterOnServer: "Enter on server:",
-        verificationCodeGenerated: "Verification code generated!",
-        verificationCodeError: "Error generating verification code",
-
-        authCallback: {
-            processing: "Processing authentication...",
-            authError: "Authentication Error",
-            authSuccess: "Authentication Successful!",
-            closeWindow: "You can close this window",
-            authorizationCodeNotReceived: "Authorization code not received",
-            authenticationFailed: "Authentication failed",
-            authCancelled: "Authentication was cancelled",
-            authTimeout: "Authorization timeout. Please try again.",
-            logoutSuccess: "Successfully logged out",
-            invalidRedirectUrl: "That redirect address is not allowed.",
-        },
-        popupBlocked: "Popup window blocked. Please allow popups for this site.",
-
-        // Error Messages
-        errorAuthRequired: "Authentication required",
-        errorAuthPermissionDenied: "Access denied",
-        errorValidationError: "Data validation error",
-        errorNotFound: "Resource not found",
-        errorInternalError: "Internal server error",
-        errorRateLimitExceeded: "Rate limit exceeded",
-        errorMaintenanceMode: "Maintenance mode",
-        errorUnknown: "Unknown error!",
-
-        // Store Error Messages
-        errorFetchingBalance: "Error fetching balance",
-        errorLoadingBalance: "Failed to load balance",
-        errorFetchingServices: "Error fetching services",
-        errorLoadingServicesList: "Error loading services list",
-        errorFetchingUserData: "Error fetching user data",
-        errorPurchasing: "Error making purchase",
-        errorInsufficientBalance: "Insufficient balance",
-        errorServiceNotFoundOrUnavailable: "Service not found or no longer available",
-        errorInsufficientPermissions: "Insufficient permissions to make purchase",
-        errorInvalidAmount: "Invalid transaction amount",
-        errorAlreadyPurchased: "This item has already been purchased",
-        errorLimitExceeded: "Purchase limit exceeded for this item",
-        errorServerSelectionRequired: "This item requires server selection. Feature will be added soon.",
-        errorInternalServer: "Internal server error. Please contact administration.",
-        errorContactSupport: "If the problem persists, contact administration via Discord or ticket system",
-        errorUnknownPurchase: "Unknown error making purchase. Please contact administration.",
-        errorDetailsInConsole: "Error details saved in browser console for diagnostics",
-
-        // Balance Messages
-        balanceWaitingTopUp: "Waiting for balance top-up...",
-        balanceTopUpSuccess: "Balance successfully topped up!",
-        balanceTopUpTimeout: "Balance top-up waiting time expired",
-
-        errorLogoutConsole: "Logout error",
-
-        unknownError: "Unknown error",
-        loading2: "Loading...",
-        loadMore: "Load more",
-        errorLoadingTransactionHistory: "Error loading transaction history",
-        transactionHistory: {
-            loading: "Loading transaction history...",
-            noTransactions: "Transaction history is empty",
-            noTransactionsDescription: "Your transaction history will appear here once you make your first transaction.",
-        },
-        transactionTypes: {
-            PURCHASE: "Purchase",
-            DONATION: "Donation",
-            VOTE_REWARD: "Vote Reward",
-            ADMIN_ADJUST: "Admin Adjustment",
-            REFUND: "Refund",
-            SUBSCRIPTION: "Subscription",
-            PENALTY: "Penalty",
-            REWARD: "Reward",
-        },
-
-        insufficientFundsMessage:
-            "Insufficient funds for purchase. Would you like to top up by",
-        confirmPurchase: "Confirm Purchase",
-        shopLoginRequired: "Log in to your account to access the Shop!",
-        profileSetupRequired: "Please verify your account and set up your profile to make purchases",
-        itemNotFound: "Item not found",
-        itemNotAvailable: "This item is currently unavailable for purchase",
-        noItemsFound: "Nothing is offered in this category yet.",
-
-        shopLoading: "Loading shop...",
-        shopLoadFailed: "Failed to load shop",
-        tryAgain: "Try Again",
-        serviceTypeItem: "Item",
-        serviceTypePermission: "Permission",
-        serviceTypeSubscription: "Subscription",
-        serviceTypeDiscordRole: "Discord Role",
-
-        // Service Page
-        loadingService: "Loading service...",
-        serviceNotFound: "Item not found",
-        serviceNotFoundMessage: "This item description is not available yet or has been moved.",
-        serviceContentNotCreated: "The detailed information for this service has not been created yet.",
-        backToShop: "Back to Shop",
-        loginToPurchase: "Please log in to purchase this service",
-        purchaseError: "Failed to prepare purchase",
-        authenticationRequired: "Authentication Required",
-        accessExclusiveItems: "Access exclusive items",
-        manageYourBalance: "Manage your balance",
-
-        // Currency Modal
-        currencySettings: "Currency Settings",
-        displayCurrency: "Display Currency",
-        displayCurrencyDesc: "Display balance & prices in:",
-        paymentConversionRates: "Payment Conversion Rates",
-        donationWarning: "Important: When making a donation, please set your name to your in-game nickname so we can credit your account.",
-        topUpBalance: "Top Up Balance",
-        showActualPoints: "Show actual points",
-        oneCurrencyRate: "1 {currency} = {rate} Marks",
-
-        copySuccess: "Copied!",
-        profileTitle: "Setup Your Profile",
-        termsViewTitle: "TOS",
-        privacyViewTitle: "Privacy",
-        slaViewTitle: "SLA",
-        navRules: "Rules",
-        lawsOfMysterria: "Laws of Mysterria",
-
-        tableOfContents: "Table of Contents",
-        staffRules: "Staff Rules",
-        examples: "Examples",
-        playerRules: "Player Rules",
-        staffPage: {
-            members: "members",
-            loadError: "Failed to load staff members. Please try again later.",
-        },
-
-        dailyBonusCatTitle: "A strange resonance...",
-        dailyBonusCatAlt: "A mysterious cat",
-        dailyBonusFound: "You found the Emporium Crystal! +20 Brilliant Emporium Points awarded.",
-        dailyBonusAlreadyClaimed: "Come back tomorrow – the crystal has already been claimed today.",
-        dailyBonusLinkMinecraft: "Link your Minecraft account first to collect Emporium Points.",
-
-        // Account Notifications
-        notifications: {
-            title: "Notifications",
-            markAllRead: "Mark all read",
-            empty: "No notifications yet.",
-            viewAll: "View all",
-            page: "Page",
-            total: "total",
-            types: {
-                PURCHASE: "Your purchase of {serviceName} completed (×{amount}).",
-                VERIFICATION: "Your Minecraft account was linked to your website account.",
-                UNVERIFICATION: "Your Minecraft account was unlinked by staff.",
-                PUNISHMENT_ISSUED: "You received a {punishmentType}: {reason}",
-                PUNISHMENT_REMOVED: "Your {punishmentType} was revoked by staff.",
-                COMMISSION_SLOT_AVAILABLE: "A commission slot is available – you can submit a spell rework request.",
-                COMMISSION_STATUS_CHANGED: "Your commission request status changed to {status}.",
-            },
-            actions: {
-                createCommission: "Create Commission",
-                resubmitCommission: "Resubmit Commission",
-            },
-        },
-
-        // Commission Requests
-        commissions: {
-            pageTitle: "Commission Requests",
-            pageSubtitle: "Submit a spell rework request using your available commission slots.",
-            terms: {
-                eyebrow: "Terms & Guidelines",
-                title: "Magic System Commission",
-                price: "$50 per slot",
-                whatIsItLabel: "What is it?",
-                whatIsIt: "A custom development service that lets magic practitioners request focused, lore-accurate tweaks to existing spells, mechanics, or abilities – reviewed by our testers and developers, then implemented directly by our engineering team.",
-                whatYouCanRequestLabel: "What you can request",
-                requestOptions: [
-                    "A shared budget of 6 points per request – a Major Change costs 3 points, a Minor Change costs 1.",
-                    "Up to 2 Major Changes – a full lore alignment rewrite, a balance rework of one ability, or one new spell/scaling addition.",
-                    "Up to 6 Minor Changes – small numeric tweaks (cooldown, damage, mana cost, scaling constants) or small lore-flavor edits, across one or several spells/abilities.",
-                    "Mix and match within budget – e.g. 1 Major + 3 Minor uses the full 6 points, same as 2 Major or 6 Minor alone.",
-                ],
-                requirementsLabel: "Every request must be",
-                requirements: [
-                    "Justified – explain the gameplay or lore reasoning behind it.",
-                    "Lore-accurate – grounded in established setting/source material, not invented from scratch.",
-                    "Non-fundamental – no core system reworks or architecture changes.",
-                    "Considerate of recent work – don't request a redo of a spell/ability that was reworked recently and is currently in good, balanced shape just for a different take. If it's genuinely become unbalanced, outdated, or broken since – regardless of who touched it last – that's fair game to request.",
-                ],
-                howItWorksLabel: "How it works",
-                howItWorksSteps: [
-                    "Fill out the form below.",
-                    "Testers and developers review it for feasibility and lore accuracy (Staff Verification).",
-                    "Approved requests are scheduled and implemented.",
-                    "You're notified when it's live.",
-                ],
-                note: "Requests that don't fit these bounds will be scoped into multiple commissions – we'll tell you exactly how many before anything is charged further.",
-            },
-            status: {
-                PENDING_REVIEW: "Pending Review",
-                APPROVED: "Approved",
-                REJECTED: "Rejected",
-                RESCOPE_REQUIRED: "Rescope Required",
-                COMPLETED: "Completed",
-            },
-            majorType: {
-                LORE_ALIGNMENT: "Lore Alignment",
-                BALANCE_REWORK: "Balance Rework",
-                NEW_SPELL: "New Spell",
-            },
-            summary: {
-                major: "{count} major",
-                minor: "{count} minor",
-            },
-            form: {
-                eyebrow: "Spell Commission",
-                title: "Submit a Commission Request",
-                staffNotesLabel: "Staff Notes",
-                buyMoreCta: "Buy a Commission Slot",
-                buyMoreNotice: "You need {count} more commission slot(s) before you can submit this request.",
-                slotsLabel: "Commission Slots",
-                slotsNeeded: "{count} slot(s) will be spent on this request.",
-                slotLabel: "Commission Slot",
-                budgetLabel: "Budget",
-                budgetUsedFormat: "{used} / {max} used",
-                budgetHint: "A Major Change costs 3 points, a Minor Change costs 1 – spend up to 6 points however you like.",
-                budgetOverBudget: "Over budget – remove a change or reduce scope.",
-                pointsUnit: "pts",
-                majorSectionTitle: "Major Changes",
-                majorSectionHint: "Up to 2 – a full lore rewrite, balance rework, or new spell/scaling addition.",
-                minorSectionTitle: "Minor Changes",
-                minorSectionHint: "Up to 6 – small numeric tweaks or lore-flavor edits.",
-                emptyStateHint: "Add a Major or Minor change below to spend your budget.",
-                majorChangeLabel: "Major Change",
-                addMajorChange: "Add Major Change",
-                targetNameLabel: "Target Name",
-                majorTypeLabel: "Type of Rework",
-                selectPlaceholder: "Select…",
-                requestedChangeLabel: "Requested Change",
-                motivationLabel: "Motivation",
-                loreReferenceLabel: "Lore Reference",
-                minorChangeLabel: "Minor Change",
-                changeDescriptionLabel: "Change Description",
-                addMinorChange: "Add Minor Change",
-                confirmLoreGrounded: "I confirm this change is grounded in existing lore.",
-                confirmNoFundamentalRework: "I confirm this is not a request for a fundamental rework.",
-                confirmNoNerfOtherCommission: "I confirm this isn't a redundant redo of another player's recent, currently-balanced commissioned work.",
-                confirmUnderstandsScope: "I understand the scope of this commission and that a slot will be spent on submission.",
-                submit: "Submit Request",
-                submitting: "Submitting…",
-                submitSuccess: "Your commission request has been submitted! Staff have been notified.",
-                errorRequired: "This field is required.",
-                errorConfirmations: "You must check all confirmations before submitting.",
-                errorSlots: "Select the required number of commission slots.",
-                errorBudgetExceeded: "This exceeds your budget of {max} points. Remove a change or reduce scope.",
-                errorAtLeastOneChange: "Add at least one Major or Minor change.",
-            },
-            mine: {
-                eyebrow: "Your Requests",
-                title: "My Commissions",
-                empty: "You haven't submitted any commission requests yet.",
-                slotsUsed: "Slots used",
-                slotsRequired: "Slots required",
-                staffNotes: "Staff Notes",
-                resubmit: "Resubmit",
-                viewDetails: "View Details",
-            },
-            card: {
-                eyebrow: "Spell Commissions",
-                slotsAvailable: "Slots Available",
-                pending: "Pending",
-                needsAction: "Needs Action",
-                viewCta: "View Commissions",
-            },
-            detail: {
-                title: "Commission Request",
-                submitted: "Submitted",
-                updated: "Last Updated",
-                notFound: "This commission request couldn't be found, or doesn't belong to you.",
-                contentUnavailable: "The full submission content isn't available for this request.",
-            },
-        },
-    },
-    uk: {
-        // Navigation
-        navHome: "Головна",
-        navShop: "Крамниця",
-        navWiki: "Вікіпедія",
-        navGame: "Довідник",
-        navPathways: "Шляхи",
-        navNews: "Новини",
-        navServices: "Сервіси",
-        header: {
-            tagline: "За межами Туману",
-            navLabel: "Головне меню",
-            toggleNav: "Відкрити меню",
-            closeNav: "Закрити меню",
-            seasonHeadline: "Сезон II щойно розпочався!",
-            seasonLink: "Читати оголошення",
-        },
-        footer: {
-            disclaimer: "Неофіційний фанатський проєкт, натхненний «Володарем Таємниць». Не пов'язаний з автором або Mojang.",
-            playHeading: "Гра",
-            accountHeading: "Акаунт",
-            communityHeading: "Спільнота",
-            legalLabel: "Правові та швидкі посилання",
-            linkGuide: "Довідник новачка",
-            linkArchive: "Архів Потойбічного",
-            linkRules: "Закони Містеррії",
-            linkStaff: "Орден (персонал)",
-            linkCompanion: "COI Client (опційний мод)",
-            linkDossier: "Досьє Потойбічного",
-            linkShop: "Товари Вічної Ночі",
-            linkNews: "Новини та депеші",
-        },
-
-        // ---- Редизайн: головна ----
-        homePage: {
-            heroEyebrowBefore: "Minecraft-сервер за",
-            heroEyebrowBrand: "Володарем Таємниць",
-            heroEyebrowAfter: "",
-            heroTagline: "Випий зілля. Зіграй роль. Піднімись від Послідовності 9 до божественності - перш ніж Туман забере тебе.",
-            heroPrimaryCta: "Почати шлях",
-            heroSecondaryCta: "Обрати Шлях",
-            serverIpLabel: "IP сервера",
-            copyHint: "Натисніть, щоб скопіювати",
-            copiedHint: "✓ Скопійовано",
-            statBeyonders: "Потойбічних",
-            statPathways: "Шляхів",
-            statCountdown: "До нового сезону",
-            circleEyebrow: "Коло Уяви",
-            circleTitle: "Кожна сила з роману. Ігрова.",
-            circleLede: "Наш власний плагін реалізує повну систему сил Потойбічних - 22 Шляхи, зілля, ритуали, акторство та втрату контролю. Моди не потрібні; клієнтський компаньйон додає візуал.",
-            circleStepOneTitle: "Знайди рецепт",
-            circleStepOneBody: "Обшукуй скрині, що поповнюються, торгуй з гравцями або полюй на містичних істот заради формули зілля Послідовності 9 будь-якого з 22 Шляхів.",
-            circleStepTwoTitle: "Звари та випий зілля",
-            circleStepTwoBody: "Збери основні інгредієнти, попрацюй з казаном і прийми свою долю. Справжні здібності, витрати духовності - і справжнє божевілля, якщо поспішиш.",
-            circleStepThreeTitle: "Зіграй роль. Просувайся.",
-            circleStepThreeBody: "Перетрави зілля, живучи роллю своєї Послідовності. Проводь ритуали, завершуй акторство і піднімайся 9 → 0 упродовж цілого сезону.",
-            tarotEyebrow: "Архів Потойбічного",
-            tarotTitle: "Яку карту ви витягнете?",
-            tarotSeq: "ПОСЛ. 9",
-            tarotCta: "Відкрити повний архів",
-            tarotCtaCount: "22 Шляхи",
-            observatoryEyebrow: "Обсерваторія",
-            observatoryTitle: "Живий світ із {count} Потойбічних",
-            observatoryLede: "Живий перепис кожного пробудженого гравця цього сезону - якими Шляхами вони йдуть і як високо піднялись. Оновлюється щогодини із самого сервера.",
-            observatoryAdvanced: "Просунуті (Посл. 0–3)",
-            observatoryAverage: "Середня Послідовність",
-            observatoryActive: "Активні Шляхи",
-            observatoryPanelTitle: "Найпопулярніші Шляхи",
-            observatoryPanelNote: "Цього сезону",
-            observatoryRegistryCta: "Місця Послідовностей 3–0 обмежені - перегляньте Реєстр Вознесіння",
-            newsEyebrow: "З-за Туману",
-            newsTitle: "Останні депеші",
-            newsAll: "Усі новини",
-            newsPinned: "Закріплено",
-            newsRead: "Читати депешу",
-            closingEyebrow: "Запрошення",
-            closingTitleLineOne: "Туман чекає.",
-            closingTitleLineTwo: "Чи зазирнете ви всередину?",
-            closingLede: "Безкоштовний вхід. Java 26.1.2+, прийміть ресурспак - і до першої Послідовності лишиться один вечір.",
-            closingCopy: "Скопіювати IP сервера",
-            closingCopied: "✓ IP скопійовано",
-            closingDiscord: "Приєднатись до Discord",
-        },
-
-        // ---- Редизайн: клієнтський мод ----
-        companion: {
-            eyebrow: "Компаньйон",
-            title: "COI Client",
-            lede: "Містеррія чудово працює на звичайному клієнті Minecraft - уся механіка Потойбічних живе на сервері. COI Client - невеликий необов'язковий мод, який додає єдине, чого ванільний клієнт намалювати не може: саму магію.",
-            featureHotkeysTitle: "Кастуй з клавіатури",
-            featureHotkeysBody: "Прив'яжи здібності до гарячих клавіш і кастуй посеред бою, не відкриваючи меню.",
-            featureVisualsTitle: "Побач свій Шлях",
-            featureVisualsBody: "Ритуальні кола, сигіли та ефекти кастування у повному вигляді на твоєму клієнті.",
-            featurePresenceTitle: "Почуй і покажи",
-            featurePresenceBody: "Серверний звуковий дизайн і Discord rich presence із твоєю Послідовністю.",
-            downloadEyebrow: "Завантажити мод",
-            platformNote: "Останній реліз · встановлюється поряд із серверним ресурспаком",
-            optionalLabel: "Необов'язково",
-            optional: "Жоден вміст сервера не закритий за модом, і встановлювати його ніхто не змусить. Обирай ту платформу, якою вже користуєшся - на всіх трьох однакова збірка.",
-        },
-
-        // ---- Редизайн: довідник ----
-        guidePage: {
-            joinNoMods: "Моди не потрібні",
-            joinBedrock: "Bedrock підтримується через Geyser",
-            joinFree: "Безкоштовно, назавжди",
-            joinCompanion: "Хочеш візуал? Встанови COI Client",
-            checklistEyebrow: "Перша година",
-            checklistTitle: "Шість кроків від списку серверів до першої мети",
-            checklistLede: "Відмічайте кроки - прогрес зберігається на цьому пристрої.",
-            checklistProgress: "Прогрес",
-            topicsCount: "тем",
-            noTopics: "Немає теми за цим запитом. Перегляньте всі теми нижче.",
-            browseAll: "Огляд усіх систем",
-        },
-
-        // ---- Редизайн: крамниця ----
-        shopPage: {
-            eyebrow: "Реліквіарій",
-            title: "Товари Вічної Ночі",
-            lede: "Підтримайте сервер, а не купуйте силу. Усе тут - косметика, зручність або замовлення персоналу; сходження Послідовностями лишається священним.",
-            tabAll: "Усі товари",
-            showing: "Показано {shown} з {total} проявів",
-            giftable: "Усе можна подарувати іншому гравцю",
-            perMonth: "На місяць",
-            oneTime: "Одноразово",
-            fairPlayLabel: "Обіцянка чесної гри",
-            fairPlay: "Жодна покупка не дає бойової сили, прогресу Послідовності, рецептів чи інгредієнтів. Кошти йдуть на хостинг і розробку плагіна «Коло Уяви».",
-        },
-
-        // ---- Редизайн: профіль ----
-        profilePage: {
-            eyebrow: "Досьє Потойбічного",
-            verified: "Підтверджено",
-            unverified: "Не підтверджено",
-            role: "Роль",
-            logOut: "Вийти",
-            pathwayOfThe: "Шлях",
-            sequence: "Послідовність",
-            actingProgress: "Прогрес акторства",
-            actingHint: "Перетравлюйте зілля, живучи своєю роллю. На 100% ви зможете спробувати ритуал наступної Послідовності.",
-            climb: "Сходження · 9 → 0",
-            climbed: "Пройдено",
-            youAreHere: "Ви тут",
-            nextRitual: "Наступний ритуал",
-            balance: "Баланс",
-            topUp: "Поповнити",
-            subscription: "Підписка",
-            account: "Акаунт",
-            discordId: "Discord ID",
-            ledgerEyebrow: "Фінансовий журнал",
-            filterAll: "Усі",
-            filterIncome: "Надходження",
-            filterSpending: "Витрати",
-            crossGuideTitle: "Застрягли з просуванням?",
-            crossGuideBody: "Довідник пояснює акторство, ритуали та божевілля.",
-            crossPathwayTitle: "Вивчіть свій Шлях",
-            crossPathwayBody: "Усі здібності, Послідовності 9 → 0, в архіві.",
-            noBeyonder: "Запису Потойбічного ще немає. Підтвердіть акаунт і випийте перше зілля.",
-        },
-
-        // ---- Редизайн: новини ----
-        newsPage: {
-            eyebrow: "З-за Туману",
-            title: "Депеші",
-            earlier: "Попередні депеші",
-            season: "Сезон II · 2026",
-            notFound: "Запис не знайдено або доступ обмежено.",
-        },
-
-        // ---- Редизайн: правила ----
-        rulesPage: {
-            eyebrow: "Завіт",
-            lede: "Стисло, зрозуміло і з судженням, а не за скриптом. Якщо сумніваєтесь - не псуйте комусь день.",
-            appeals: "Апеляції подаються тікетом у Discord - ніколи в загальному чаті.",
-            staffNote: "Це завіт гравців. Персонал працює за окремим, суворішим кодексом - він видимий персоналу на цій сторінці.",
-            severityWarn: "Попередження",
-            severityMute: "Мут",
-            severityBan: "Бан",
-            severityInstant: "Миттєва дія",
-        },
-
-        // ---- Редизайн: персонал ----
-        staffOrder: {
-            eyebrow: "Хранителі Туману",
-            title: "Орден",
-            lede: "Адміністратори, модератори та білдери, які тримають світ у русі. Звертайтесь у Discord за тікетами й апеляціями - ніколи в особисті.",
-            helpQuestion: "Потрібна допомога або хочете щось повідомити?",
-            openTicket: "Відкрити тікет",
-        },
-
-        // Services
-        servicesWikiDesc: "База знань та посібники",
-        servicesDiscord: "Discord",
-        servicesDiscordDesc: "Приєднуйтесь до спільноти",
-        servicesMap: "Мапа",
-        servicesMapDesc: "Досліджуйте світ",
-
-        serverName: "Містеррія",
-        login: "Увійти",
-        logout: "Вийти",
-        loginWithDiscord: "Увійти через Discord",
-        processing: "Обробка...",
-        secureLoginDisclaimer: "Безпечний вхід через Discord - ваша конфіденційність захищена",
-
-        purchase: "Придбати",
-        price: "Ціна",
-        item: "Предмет",
-        items: "Предмети",
-        subscription: "Підписка",
-        marks: "Марок",
-        giftable: "Можна подарувати",
-        bulkPurchase: "Оптова покупка",
-        amount: "Кількість",
-        buyAsGift: "Придбати як подарунок",
-        recipient: "Одержувач",
-        searchRecipient: "Шукати за нікнеймом...",
-        totalCost: "Загальна вартість",
-        pricePerUnit: "Ціна за одиницю",
-        selectRecipient: "Оберіть одержувача...",
-        giftFrom: "Подарунок від",
-        giftSuccess: "Подарунок успішно відправлено!",
-        giftSentFor: "за",
-        purchaseSuccessPrefix: "Успішно придбано",
-        purchaseSuccessFor: "за",
-        loginRequired: "Для покупки необхідно увійти в систему",
-        noUsersFound: "Верифіковані користувачі не знайдені",
-        errorSearchingUsers: "Помилка пошуку користувачів. Будь ласка, спробуйте ще раз.",
-        unknown: "Невідомо",
-
-        transactionHistoryTitle: "Історія транзакцій",
-        verification: "Верифікація",
-        close: "Закрити",
-        cancel: "Скасувати",
-        loading: "Завантаження",
-        back: "Назад",
-        next: "Далі",
-        previous: "Попередній",
-        details: "Деталі",
-
-        copyError: "Не вдалося скопіювати",
-        errorDetailsClickToCopy: "Натисніть щоб скопіювати детальну інформацію для адміністратора",
-        errorDetailsCopied: "Інформацію про помилку скопійовано в буфер обміну",
-        errorDetailsFailedToCopy: "Не вдалося скопіювати інформацію",
-        errorLabel: "Помилка",
-        messageLabel: "Повідомлення",
-        timeLabel: "Час",
-        requestIdLabel: "ID запиту",
-        urlLabel: "URL",
-        requestParamsLabel: "Параметри запиту",
-        requestDataLabel: "Дані запиту",
-        additionalInfoLabel: "Додаткова інформація",
-        errorDetailsFooter: "Будь ласка, надайте цю інформацію адміністратору для швидшого вирішення проблеми.",
-
-        filter: "Фільтр",
-        role: "Роль",
-        verified: "Підтверджено",
-        pathway: "Шлях",
-        sequence: "Послідовність",
-        pageNotFoundTitle: "Ой! Схоже, ви заблукали...",
-        pageNotFoundMessage:
-            "На жаль, сторінку, яку ви шукаєте, не знайдено. Але не хвилюйтеся, ви завжди можете повернутися назад.",
-        goBack: "Повернутись",
-
-        verifyMinecraftAccount: "Верифікація Minecraft акаунту",
-        unavailable: "Недоступно",
-
-        // Verification Panel
-        verificationDescriptionPre: "Щоб підтвердити свій Minecraft акаунт, згенеруйте код нижче і введіть команду",
-        verificationDescriptionCommand: "/verify <код>",
-        verificationDescriptionPost: "на сервері.",
-        generateCode: "Згенерувати код",
-        yourVerificationCode: "Ваш код верифікації:",
-        codeValidUntil: "Код дійсний до:",
-        enterOnServer: "Введіть на сервері:",
-        verificationCodeGenerated: "Код верифікації згенеровано!",
-        verificationCodeError: "Помилка при генеруванні коду верифікації",
-
-        authCallback: {
-            processing: "Обробка автентифікації...",
-            authError: "Помилка автентифікації",
-            authSuccess: "Автентифікація успішна!",
-            closeWindow: "Ви можете закрити це вікно",
-            authorizationCodeNotReceived: "Код авторизації не отримано",
-            authenticationFailed: "Автентифікація не вдалася",
-            authCancelled: "Авторизація була скасована",
-            authTimeout: "Час очікування авторизації вийшов. Спробуйте ще раз.",
-            logoutSuccess: "Успішний вихід з системи",
-            invalidRedirectUrl: "Ця адреса перенаправлення не дозволена.",
-        },
-        popupBlocked: "Спливаюче вікно заблоковано. Будь ласка, дозвольте спливаючі вікна для цього сайту.",
-
-        // Error Messages
-        errorAuthRequired: "Необхідна авторизація",
-        errorAuthPermissionDenied: "Відмовлено в доступі",
-        errorValidationError: "Помилка валідації даних",
-        errorNotFound: "Ресурс не знайдено",
-        errorInternalError: "Внутрішня помилка сервера",
-        errorRateLimitExceeded: "Перевищено ліміт запитів",
-        errorMaintenanceMode: "Технічні роботи",
-        errorUnknown: "Невідома помилка!",
-
-        // Store Error Messages
-        errorFetchingBalance: "Помилка при отриманні балансу",
-        errorLoadingBalance: "Не вдалося завантажити баланс",
-        errorFetchingServices: "Помилка при отриманні послуг",
-        errorLoadingServicesList: "Помилка при отриманні списку послуг",
-        errorFetchingUserData: "Помилка при отриманні даних користувача",
-        errorPurchasing: "Помилка при здійсненні покупки",
-        errorInsufficientBalance: "Недостатньо коштів на балансі",
-        errorServiceNotFoundOrUnavailable: "Товар не знайдено або більше не доступний",
-        errorInsufficientPermissions: "Недостатньо прав для здійснення покупки",
-        errorInvalidAmount: "Некоректна сума транзакції",
-        errorAlreadyPurchased: "Цей товар вже придбано",
-        errorLimitExceeded: "Перевищено ліміт покупок для цього товару",
-        errorServerSelectionRequired: "Цей товар потребує вибору сервера. Функція буде додана незабаром.",
-        errorInternalServer: "Внутрішня помилка сервера. Зверніться до адміністрації.",
-        errorContactSupport: "Якщо проблема повторюється, зверніться до адміністрації через Discord або тікет-систему",
-        errorUnknownPurchase: "Невідома помилка при здійсненні покупки. Зверніться до адміністрації.",
-        errorDetailsInConsole: "Деталі помилки збережено в консолі браузера для діагностики",
-
-        // Balance Messages
-        balanceWaitingTopUp: "Очікуємо поповнення балансу...",
-        balanceTopUpSuccess: "Баланс успішно поповнено!",
-        balanceTopUpTimeout: "Час очікування поповнення балансу війшов",
-
-        errorLogoutConsole: "Помилка при виході",
-
-        unknownError: "Невідома помилка",
-        loading2: "Завантаження...",
-        loadMore: "Завантажити більше",
-        errorLoadingTransactionHistory:
-            "Помилка при завантаженні історії транзакцій",
-        transactionHistory: {
-            loading: "Завантаження історії транзакцій...",
-            noTransactions: "Історія транзакцій порожня",
-            noTransactionsDescription: "Ваша історія транзакцій з'явиться тут після першої транзакції.",
-        },
-        transactionTypes: {
-            PURCHASE: "Покупка",
-            DONATION: "Донат",
-            VOTE_REWARD: "Винагорода за голос",
-            ADMIN_ADJUST: "Корегування адміна",
-            REFUND: "Повернення",
-            SUBSCRIPTION: "Підписка",
-            PENALTY: "Штраф",
-            REWARD: "Нагорода",
-        },
-
-        insufficientFundsMessage:
-            "Недостатньо коштів для покупки. Чи не бажаєте ви поповнити на",
-        confirmPurchase: "Підтвердити покупку",
-        shopLoginRequired:
-            "Увійдіть у свій обліковий запис, щоб мати доступ до Крамниці!",
-        profileSetupRequired: "Будь ласка, підтвердіть свій акаунт і налаштуйте профіль для здійснення покупок",
-        itemNotFound: "Товар не знайдено",
-        itemNotAvailable: "Цей товар наразі недоступний для покупки",
-        noItemsFound: "У цій категорії поки нічого не пропонують.",
-
-        shopLoading: "Завантаження крамниці...",
-        shopLoadFailed: "Не вдалося завантажити крамницю",
-        tryAgain: "Спробувати знову",
-        serviceTypeItem: "Предмет",
-        serviceTypePermission: "Дозвіл",
-        serviceTypeSubscription: "Підписка",
-        serviceTypeDiscordRole: "Discord Роль",
-
-        // Service Page
-        loadingService: "Завантаження сервісу...",
-        serviceNotFound: "Товар не знайдено",
-        serviceNotFoundMessage: "Вміст цього товару ще недоступний або був переміщений.",
-        serviceContentNotCreated: "Детальна інформація для цього сервісу ще не була створена.",
-        backToShop: "Назад до Крамниці",
-        loginToPurchase: "Будь ласка, увійдіть в систему, щоб придбати цей сервіс",
-        purchaseError: "Не вдалося підготувати покупку",
-        authenticationRequired: "Необхідна автентифікація",
-        accessExclusiveItems: "Доступ до ексклюзивних товарів",
-        manageYourBalance: "Керування вашим балансом",
-
-        // Currency Modal
-        currencySettings: "Налаштування Валюти",
-        displayCurrency: "Валюта Відображення",
-        displayCurrencyDesc: "Відображати баланс та ціни в:",
-        paymentConversionRates: "Курси Конвертації Платежів",
-        donationWarning: "Важливо: При здійсненні донату, будь ласка, вкажіть ваш ігровий нікнейм, щоб ми могли зарахувати кошти на ваш акаунт.",
-        topUpBalance: "Поповнити Баланс",
-        showActualPoints: "Показувати фактичні марки",
-        oneCurrencyRate: "1 {currency} = {rate} Марок",
-
-        copySuccess: "Скопійовано!",
-        profileTitle: "Налаштування Профілю",
-        navRules: "Правила",
-        termsViewTitle: "TOS",
-        privacyViewTitle: "Приватність",
-        slaViewTitle: "SLA",
-
-        lawsOfMysterria: "Закони Містеррії",
-        tableOfContents: "Зміст",
-        staffRules: "Правила Персоналу",
-        examples: "Приклади",
-        playerRules: "Правила Гравців",
-        staffPage: {
-            members: "учасників",
-            loadError: "Не вдалося завантажити список персоналу. Спробуйте пізніше.",
-        },
-
-        dailyBonusCatTitle: "Дивний резонанс...",
-        dailyBonusCatAlt: "Таємничий кіт",
-        dailyBonusFound: "Ти знайшов Кристал Емпоріуму! +20 Блискучих Очок Емпоріуму нараховано.",
-        dailyBonusAlreadyClaimed: "Повернись завтра – кристал вже було зібрано сьогодні.",
-        dailyBonusLinkMinecraft: "Спочатку прив'яжи акаунт Minecraft, щоб збирати Очки Емпоріуму.",
-
-        // Сповіщення про акаунт
-        notifications: {
-            title: "Сповіщення",
-            markAllRead: "Позначити всі як прочитані",
-            empty: "Поки що немає сповіщень.",
-            viewAll: "Переглянути всі",
-            page: "Сторінка",
-            total: "всього",
-            types: {
-                PURCHASE: "Вашу покупку {serviceName} завершено (×{amount}).",
-                VERIFICATION: "Ваш акаунт Minecraft прив'язано до акаунта на сайті.",
-                UNVERIFICATION: "Ваш акаунт Minecraft відв'язано персоналом.",
-                PUNISHMENT_ISSUED: "Ви отримали покарання ({punishmentType}): {reason}",
-                PUNISHMENT_REMOVED: "Ваше покарання ({punishmentType}) скасовано персоналом.",
-                COMMISSION_SLOT_AVAILABLE: "Доступний слот для замовлення – ви можете подати заявку на доопрацювання заклинання.",
-                COMMISSION_STATUS_CHANGED: "Статус вашої заявки на замовлення змінено на {status}.",
-            },
-            actions: {
-                createCommission: "Створити замовлення",
-                resubmitCommission: "Подати повторно",
-            },
-        },
-
-        // Заявки на замовлення
-        commissions: {
-            pageTitle: "Заявки на замовлення",
-            pageSubtitle: "Подайте заявку на доопрацювання заклинання, використовуючи доступні слоти замовлень.",
-            terms: {
-                eyebrow: "Умови та правила",
-                title: "Замовлення на доопрацювання магічної системи",
-                price: "$50 за слот",
-                whatIsItLabel: "Що це таке?",
-                whatIsIt: "Послуга кастомної розробки, яка дозволяє практикам магії замовляти точкові, лорно-обґрунтовані зміни до існуючих заклинань, механік чи здібностей – розглянуті тестувальниками та розробниками, а потім реалізовані безпосередньо нашою командою розробників.",
-                whatYouCanRequestLabel: "Що можна замовити",
-                requestOptions: [
-                    "Спільний бюджет 6 балів на заявку – велика зміна коштує 3 бали, мала – 1 бал.",
-                    "До 2 великих змін – повне переписання під лор, балансне доопрацювання однієї здібності, або додавання одного нового заклинання/скейлінгу.",
-                    "До 6 малих змін – невеликі числові коригування (перезарядка, шкода, вартість мани, коефіцієнти масштабування) або невеликі лорні правки, для одного чи кількох заклинань/здібностей.",
-                    "Комбінуйте в межах бюджету – наприклад, 1 велика + 3 малі використовують усі 6 балів, так само як 2 великі або 6 малих окремо.",
-                ],
-                requirementsLabel: "Кожен запит має бути",
-                requirements: [
-                    "Обґрунтований – поясніть ігрову або лорну причину зміни.",
-                    "Лорно точний – базується на усталеному сеттінгу/джерельному матеріалі, а не вигаданий з нуля.",
-                    "Не фундаментальний – без перероблення ключових систем чи архітектури.",
-                    "Враховує нещодавню роботу – не варто просити переробити заклинання/здібність, яку нещодавно доопрацювали і яка зараз у гарному, збалансованому стані, просто заради іншого підходу. Якщо вона справді стала розбалансованою, застарілою чи зламаною – незалежно від того, хто торкався її востаннє – це справедливий привід для запиту.",
-                ],
-                howItWorksLabel: "Як це працює",
-                howItWorksSteps: [
-                    "Заповніть форму нижче.",
-                    "Тестувальники та розробники перевіряють запит на реалізованість та відповідність лору (Staff Verification).",
-                    "Схвалені запити плануються та реалізуються.",
-                    "Вас повідомлять, коли зміну застосовано.",
-                ],
-                note: "Запити, що виходять за ці межі, будуть розбиті на кілька замовлень – ми повідомимо точну кількість до будь-якого додаткового списання.",
-            },
-            status: {
-                PENDING_REVIEW: "На розгляді",
-                APPROVED: "Схвалено",
-                REJECTED: "Відхилено",
-                RESCOPE_REQUIRED: "Потребує уточнення",
-                COMPLETED: "Завершено",
-            },
-            majorType: {
-                LORE_ALIGNMENT: "Відповідність лору",
-                BALANCE_REWORK: "Балансне доопрацювання",
-                NEW_SPELL: "Нове заклинання",
-            },
-            summary: {
-                major: "{count} велика(их)",
-                minor: "{count} мала(их)",
-            },
-            form: {
-                eyebrow: "Замовлення заклинання",
-                title: "Подати заявку на замовлення",
-                staffNotesLabel: "Примітки персоналу",
-                buyMoreCta: "Купити слот замовлення",
-                buyMoreNotice: "Вам потрібно ще {count} слот(ів) замовлення, щоб подати цю заявку.",
-                slotsLabel: "Слоти замовлень",
-                slotsNeeded: "На цю заявку буде витрачено {count} слот(ів).",
-                slotLabel: "Слот замовлення",
-                budgetLabel: "Бюджет",
-                budgetUsedFormat: "{used} / {max} використано",
-                budgetHint: "Велика зміна коштує 3 бали, мала – 1 бал – витрачайте до 6 балів як завгодно.",
-                budgetOverBudget: "Перевищено бюджет – приберіть зміну або зменшіть обсяг.",
-                pointsUnit: "бал.",
-                majorSectionTitle: "Великі зміни",
-                majorSectionHint: "До 2 – повне переписання під лор, балансне доопрацювання, або нове заклинання/скейлінг.",
-                minorSectionTitle: "Малі зміни",
-                minorSectionHint: "До 6 – невеликі числові коригування або лорні правки.",
-                emptyStateHint: "Додайте велику або малу зміну нижче, щоб використати бюджет.",
-                majorChangeLabel: "Велика зміна",
-                addMajorChange: "Додати велику зміну",
-                targetNameLabel: "Назва цілі",
-                majorTypeLabel: "Тип доопрацювання",
-                selectPlaceholder: "Оберіть…",
-                requestedChangeLabel: "Бажана зміна",
-                motivationLabel: "Обґрунтування",
-                loreReferenceLabel: "Посилання на лор",
-                minorChangeLabel: "Мала зміна",
-                changeDescriptionLabel: "Опис зміни",
-                addMinorChange: "Додати малу зміну",
-                confirmLoreGrounded: "Підтверджую, що ця зміна ґрунтується на існуючому лорі.",
-                confirmNoFundamentalRework: "Підтверджую, що це не запит на фундаментальне перероблення.",
-                confirmNoNerfOtherCommission: "Підтверджую, що це не зайве повторне доопрацювання нещодавньої, наразі збалансованої заявки іншого гравця.",
-                confirmUnderstandsScope: "Розумію обсяг цього замовлення і що слот буде витрачено після подання.",
-                submit: "Подати заявку",
-                submitting: "Подання…",
-                submitSuccess: "Вашу заявку на замовлення подано! Персонал повідомлено.",
-                errorRequired: "Це поле обов'язкове.",
-                errorConfirmations: "Перед поданням потрібно позначити всі підтвердження.",
-                errorSlots: "Оберіть потрібну кількість слотів замовлень.",
-                errorBudgetExceeded: "Перевищено бюджет у {max} балів. Приберіть зміну або зменшіть обсяг.",
-                errorAtLeastOneChange: "Додайте хоча б одну велику або малу зміну.",
-            },
-            mine: {
-                eyebrow: "Ваші заявки",
-                title: "Мої замовлення",
-                empty: "Ви ще не подавали заявок на замовлення.",
-                slotsUsed: "Використано слотів",
-                slotsRequired: "Потрібно слотів",
-                staffNotes: "Примітки персоналу",
-                resubmit: "Подати повторно",
-                viewDetails: "Переглянути деталі",
-            },
-            card: {
-                eyebrow: "Замовлення заклинань",
-                slotsAvailable: "Доступно слотів",
-                pending: "На розгляді",
-                needsAction: "Потребує дії",
-                viewCta: "Переглянути замовлення",
-            },
-            detail: {
-                title: "Заявка на замовлення",
-                submitted: "Подано",
-                updated: "Останнє оновлення",
-                notFound: "Цю заявку на замовлення не знайдено, або вона вам не належить.",
-                contentUnavailable: "Повний вміст цієї заявки недоступний.",
-            },
-        },
-    },
-};
+import {
+    DEFAULT_LANGUAGE,
+    type Language,
+    LANGUAGE_STORAGE_KEY,
+    type LocaleMeta,
+    LOCALES,
+    resolveLanguage,
+    translations,
+} from "@/locales";
+
+const currentLanguage = ref<Language>(DEFAULT_LANGUAGE);
+
+let initialized = false;
+
+/**
+ * Picks up the stored choice, or the browser's preference for a first-time
+ * visitor. Called once, lazily, so that importing this module never touches
+ * localStorage on its own.
+ */
+function ensureInitialized() {
+    if (initialized) return;
+    initialized = true;
+    currentLanguage.value = resolveLanguage();
+}
+
+/**
+ * Switches locale and remembers it. The URL is the source of truth, so this is
+ * called by the router once it has resolved the locale segment - not from
+ * components. Use the router to change language.
+ */
+export function applyLanguage(language: Language) {
+    initialized = true;
+    if (currentLanguage.value !== language) currentLanguage.value = language;
+    try {
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    } catch {
+        // Blocked storage: the URL still carries the locale, so this is survivable.
+    }
+}
+
+/** Walks a dotted key path. Returns undefined rather than throwing. */
+function lookup(tree: unknown, path: readonly string[]): unknown {
+    let value = tree;
+    for (const segment of path) {
+        if (value && typeof value === "object" && segment in value) {
+            value = (value as Record<string, unknown>)[segment];
+        } else {
+            return undefined;
+        }
+    }
+    return value;
+}
+
+/**
+ * Resolves a key in the active locale, falling back to English.
+ *
+ * The fallback matters for Chinese: the locale files are generated and reviewed
+ * in batches, so a key can legitimately be missing mid-review. Showing the
+ * English string is a far better failure than showing a raw dotted key to a
+ * reader.
+ */
+function resolve(key: string): unknown {
+    const path = key.split(".");
+    const active = lookup(translations[currentLanguage.value], path);
+    if (active !== undefined) return active;
+    return lookup(translations[DEFAULT_LANGUAGE], path);
+}
 
 export function useI18n() {
-    const setLanguage = (lang: Language) => {
-        currentLanguage.value = lang;
-        localStorage.setItem("mysterria-language", lang);
-    };
+    ensureInitialized();
 
     const t = (key: string): string => {
-        const keys = key.split(".");
-        let value: unknown = translations[currentLanguage.value];
-
-        for (const k of keys) {
-            if (value && typeof value === "object" && k in value) {
-                value = (value as Record<string, unknown>)[k];
-            } else {
-                return key;
-            }
-        }
-
-        if (typeof value === "string") {
-            return value;
-        } else if (Array.isArray(value)) {
-            return value.join(" ");
-        }
-
+        const value = resolve(key);
+        if (typeof value === "string") return value;
+        if (Array.isArray(value)) return value.join(" ");
         return key;
     };
 
     const tArray = (key: string): string[] => {
-        const keys = key.split(".");
-        let value: unknown = translations[currentLanguage.value];
-
-        for (const k of keys) {
-            if (value && typeof value === "object" && k in value) {
-                value = (value as Record<string, unknown>)[k];
-            } else {
-                return [];
-            }
-        }
-
-        return Array.isArray(value) ? value : [];
+        const value = resolve(key);
+        return Array.isArray(value) ? (value as string[]) : [];
     };
 
-    // Initialize from localStorage
-    const savedLang = localStorage.getItem("mysterria-language") as Language;
-    if (savedLang && (savedLang === "en" || savedLang === "uk")) {
-        currentLanguage.value = savedLang;
-    }
+    /**
+     * Returns a whole subtree rather than one string, for views that render a
+     * block of related copy (`ui.title`, `ui.badges.deity`) instead of calling
+     * `t()` per label. Completeness is guaranteed by the `Translations` type, so
+     * the returned object always has every key.
+     */
+    const tree = <T>(key: string): T => resolve(key) as T;
+
+    const locale = computed<LocaleMeta>(() => LOCALES[currentLanguage.value]);
 
     return {
         currentLanguage: computed(() => currentLanguage.value),
-        setLanguage,
+        /** Full metadata for the active locale (html lang, og:locale, hreflang…). */
+        locale,
+        /** Locale tag for `Intl` and `toLocale*String`. */
+        intlLocale: computed(() => locale.value.intlLocale),
         t,
         tArray,
+        tree,
+        /**
+         * Picks the right plural form for a count under the active locale's
+         * rule. English needs one/many, Ukrainian the Slavic one/few/many, and
+         * Chinese has no plural - so callers just supply all three forms.
+         */
+        plural: (count: number, forms: { one: string; few: string; many: string }): string => {
+            switch (locale.value.pluralStyle) {
+                case "none":
+                    return forms.many;
+                case "slavic": {
+                    const mod10 = count % 10;
+                    const mod100 = count % 100;
+                    if (mod10 === 1 && mod100 !== 11) return forms.one;
+                    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms.few;
+                    return forms.many;
+                }
+                default:
+                    return count === 1 ? forms.one : forms.many;
+            }
+        },
     };
 }
+
+export type {Language};

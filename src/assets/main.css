@@ -796,3 +796,70 @@ html {
         scroll-behavior: auto !important;
     }
 }
+
+/* ==========================================================================
+   CJK typography
+   ==========================================================================
+
+   Inter, Playfair Display and JetBrains Mono carry no CJK glyphs, so Chinese
+   text would otherwise fall through to whatever the browser picks - which on
+   Windows is frequently a mismatched serif. These stacks name a real font per
+   platform and, importantly, split Simplified from Traditional: several
+   codepoints are drawn differently in mainland and Taiwan/Hong Kong fonts, and
+   a native reader notices a page set in the wrong regional face.
+
+   The switch keys off <html lang>, which useSeo.ts sets to zh-Hans / zh-Hant.
+   ------------------------------------------------------------------------- */
+
+:root {
+    /* Simplified is the default; Traditional overrides below. */
+    --myst-cjk-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", "Source Han Sans SC", sans-serif;
+    --myst-cjk-serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC",
+    SimSun, serif;
+}
+
+html[lang="zh-Hant"] {
+    --myst-cjk-sans: "PingFang TC", "Hiragino Sans CNS", "Microsoft JhengHei",
+    "Noto Sans TC", "Source Han Sans TC", sans-serif;
+    --myst-cjk-serif: "Songti TC", "Noto Serif TC", "Source Han Serif TC",
+    PMingLiU, serif;
+}
+
+/* Latin faces stay first, so English inside Chinese copy keeps its own type. */
+html[lang^="zh"] {
+    --myst-font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    var(--myst-cjk-sans);
+    --myst-font-display: "Playfair Display", Georgia, var(--myst-cjk-serif);
+    --myst-font-mono: "JetBrains Mono", ui-monospace, var(--myst-cjk-sans);
+}
+
+html[lang^="zh"] body {
+    font-family: var(--myst-font-body);
+    /* CJK has no spaces, so lines must be allowed to break between characters. */
+    line-break: strict;
+    overflow-wrap: break-word;
+    /* Denser glyphs need more room between lines than Latin text does. */
+    line-height: 1.75;
+}
+
+/*
+   The design tracks small mono labels out hard (0.2em-0.4em). On Latin capitals
+   that reads as engraved; on CJK, where every glyph is already full-width, it
+   reads as broken spacing. Tighten it wherever the design applies it.
+*/
+html[lang^="zh"] .eyebrow,
+html[lang^="zh"] .section-eyebrow,
+html[lang^="zh"] .brand-tagline,
+html[lang^="zh"] .season-headline,
+html[lang^="zh"] .mobile-section-label {
+    letter-spacing: 0.08em;
+}
+
+/* Chinese has no case, so uppercasing is a no-op that only breaks any Latin
+   brand words sitting inside the same label. */
+html[lang^="zh"] .eyebrow,
+html[lang^="zh"] .section-eyebrow,
+html[lang^="zh"] .season-headline {
+    text-transform: none;
+}

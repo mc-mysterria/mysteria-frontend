@@ -3,7 +3,7 @@
     <div class="footer-shell">
       <div v-if="variant === 'full'" class="footer-columns">
         <div class="footer-identity">
-          <RouterLink class="footer-brand" to="/">
+          <RouterLink :to="$lp('/')" class="footer-brand">
             <img :src="logo" alt="" width="34" height="34">
             <span>Mysterria</span>
           </RouterLink>
@@ -12,18 +12,18 @@
 
         <div class="footer-column">
           <p class="footer-heading">{{ t('footer.playHeading') }}</p>
-          <RouterLink to="/guide">{{ t('footer.linkGuide') }}</RouterLink>
-          <RouterLink to="/pathways">{{ t('footer.linkArchive') }}</RouterLink>
-          <RouterLink to="/rules">{{ t('footer.linkRules') }}</RouterLink>
-          <RouterLink to="/staff">{{ t('footer.linkStaff') }}</RouterLink>
-          <RouterLink to="/#companion">{{ t('footer.linkCompanion') }}</RouterLink>
+          <RouterLink :to="$lp('/guide')">{{ t('footer.linkGuide') }}</RouterLink>
+          <RouterLink :to="$lp('/pathways')">{{ t('footer.linkArchive') }}</RouterLink>
+          <RouterLink :to="$lp('/rules')">{{ t('footer.linkRules') }}</RouterLink>
+          <RouterLink :to="$lp('/staff')">{{ t('footer.linkStaff') }}</RouterLink>
+          <RouterLink :to="$lp('/#companion')">{{ t('footer.linkCompanion') }}</RouterLink>
         </div>
 
         <div class="footer-column">
           <p class="footer-heading">{{ t('footer.accountHeading') }}</p>
-          <RouterLink to="/profile">{{ t('footer.linkDossier') }}</RouterLink>
-          <RouterLink to="/store">{{ t('footer.linkShop') }}</RouterLink>
-          <RouterLink to="/news">{{ t('footer.linkNews') }}</RouterLink>
+          <RouterLink :to="$lp('/profile')">{{ t('footer.linkDossier') }}</RouterLink>
+          <RouterLink :to="$lp('/store')">{{ t('footer.linkShop') }}</RouterLink>
+          <RouterLink :to="$lp('/news')">{{ t('footer.linkNews') }}</RouterLink>
         </div>
 
         <div class="footer-column">
@@ -47,15 +47,15 @@
         <span class="footer-copy">© {{ year }} Mysterria † {{ SERVER_IP }}</span>
         <nav class="footer-legal" :aria-label="t('footer.legalLabel')">
           <template v-if="variant === 'slim'">
-            <RouterLink to="/">{{ t('navHome') }}</RouterLink>
-            <RouterLink to="/guide">{{ t('navGame') }}</RouterLink>
-            <RouterLink to="/store">{{ t('navShop') }}</RouterLink>
-            <RouterLink to="/rules">{{ t('navRules') }}</RouterLink>
+            <RouterLink :to="$lp('/')">{{ t('navHome') }}</RouterLink>
+            <RouterLink :to="$lp('/guide')">{{ t('navGame') }}</RouterLink>
+            <RouterLink :to="$lp('/store')">{{ t('navShop') }}</RouterLink>
+            <RouterLink :to="$lp('/rules')">{{ t('navRules') }}</RouterLink>
           </template>
           <template v-else>
-            <RouterLink to="/terms">{{ t('termsViewTitle') }}</RouterLink>
-            <RouterLink to="/privacy">{{ t('privacyViewTitle') }}</RouterLink>
-            <RouterLink to="/sla">{{ t('slaViewTitle') }}</RouterLink>
+            <RouterLink :to="$lp('/terms')">{{ t('termsViewTitle') }}</RouterLink>
+            <RouterLink :to="$lp('/privacy')">{{ t('privacyViewTitle') }}</RouterLink>
+            <RouterLink :to="$lp('/sla')">{{ t('slaViewTitle') }}</RouterLink>
           </template>
         </nav>
       </div>

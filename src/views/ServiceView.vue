@@ -89,7 +89,7 @@
             }}
           </p>
           <div class="error-actions">
-            <router-link class="back-to-shop-btn" to="/store">
+            <router-link :to="$lp('/store')" class="back-to-shop-btn">
               <i class="fa-solid fa-arrow-left"></i>
               {{ t('backToShop') || 'Back to Shop' }}
             </router-link>

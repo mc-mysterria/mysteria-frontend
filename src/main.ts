@@ -11,6 +11,8 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 import App from "./App.vue";
 import router from "./router";
 import {useAuthStore} from "@/stores/auth";
+import {localePath} from "@/composables/useLocalePath";
+import {useI18n} from "@/composables/useI18n";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -19,6 +21,14 @@ app.use(pinia);
 app.use(router);
 app.use(VueCookies);
 app.use(VueDOMPurifyHTML);
+
+/*
+ * `$lp` prefixes an internal path with the active locale, so templates can write
+ * :to="$lp('/guide')" without importing anything. Registered globally because
+ * essentially every template with a link needs it.
+ */
+const {currentLanguage} = useI18n();
+app.config.globalProperties.$lp = (path: string) => localePath(path, currentLanguage.value);
 
 window.$cookies = VueCookies.VueCookies;
 

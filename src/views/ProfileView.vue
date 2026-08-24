@@ -53,7 +53,7 @@
                   <IconMark class="stat-mark"/>
                   {{ formattedBalance }}
                 </div>
-                <RouterLink class="stat-link" to="/store">{{ t('profilePage.topUp') }} →</RouterLink>
+                <RouterLink :to="$lp('/store')" class="stat-link">{{ t('profilePage.topUp') }} →</RouterLink>
               </div>
 
               <div class="stat-card myst-panel">
@@ -84,7 +84,7 @@
             />
 
             <section class="cross-links">
-              <RouterLink class="cross-card myst-panel" to="/guide">
+              <RouterLink :to="$lp('/guide')" class="cross-card myst-panel">
                 <span class="cross-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></span>
                 <span>
                   <strong>{{ t('profilePage.crossGuideTitle') }}</strong>
@@ -92,7 +92,7 @@
                 </span>
               </RouterLink>
 
-              <RouterLink class="cross-card myst-panel" :to="pathwayLink">
+              <RouterLink :to="$lp(pathwayLink)" class="cross-card myst-panel">
                 <span class="cross-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></span>
                 <span>
                   <strong>{{ t('profilePage.crossPathwayTitle') }}</strong>
@@ -128,7 +128,7 @@ import {useSeo} from "@/composables/useSeo";
 import type {UserProfileDto} from "@/types/auth";
 import type {BeyonderData, BeyonderResponse} from "@/types/users";
 
-const {t, currentLanguage} = useI18n();
+const {t, intlLocale} = useI18n();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const balanceStore = useBalanceStore();
@@ -158,7 +158,7 @@ const displayRole = computed(() => displayedUser.value?.role || t('unknown'));
 const formattedBalance = computed(() => {
   const amount = balanceStore.currentBalance?.amount;
   if (amount === undefined || amount === null) return "-";
-  return Number(amount).toLocaleString(currentLanguage.value === "uk" ? "uk-UA" : "en-US");
+  return Number(amount).toLocaleString(intlLocale.value);
 });
 
 /** Discord IDs are long; show only the ends, as the dossier design does. */

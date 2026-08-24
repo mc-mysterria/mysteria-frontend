@@ -1,0 +1,746 @@
+/* English guide copy - the source text every other locale is translated from. */
+import type {GuideContent} from "./types";
+
+export const en: GuideContent = {
+    ui: {
+        eyebrow: "NEW PLAYER HANDBOOK",
+        title: "Your first steps through the Fog",
+        lede: "Start playing in minutes, understand the choices that matter, and find a direct answer when Mysterria does something differently from ordinary Minecraft.",
+        serverAddress: "SERVER ADDRESS",
+        copyAddress: "Copy address",
+        copied: "Copied",
+        startJourney: "Start your first hour",
+        findAnswer: "Find an answer",
+        quickFactsLabel: "BEFORE YOU CONNECT",
+        expectationsEyebrow: "MYSTERRIA IS DIFFERENT",
+        expectationsTitle: "Know these before you settle",
+        expectationsLede: "The server makes a few deliberate choices that surprise players coming from conventional survival servers.",
+        tasksEyebrow: "QUICK HELP",
+        tasksTitle: "What are you trying to do?",
+        tasksLede: "Choose a goal or search in your own words. You will only see the information needed for that task.",
+        searchPlaceholder: "Try “first potion”, “teleport home”, or “missing UI”…",
+        clearSearch: "Clear",
+        searchResults: "Matching answers",
+        noResults: "No direct answer found",
+        noResultsHint: "Try a shorter phrase, browse the topics below, or ask in Discord.",
+        firstHourEyebrow: "FIRST HOUR",
+        firstHourTitle: "From joining to your first real objective",
+        firstHourLede: "This is the shortest reliable route from the server list to knowing what you should do next.",
+        openStep: "See details",
+        starterEyebrow: "ONE IMPORTANT DECISION",
+        starterTitle: "Choose help, not your fate",
+        starterLede: "The pathway selected in the newbie menu only aims your starter bonus. You may later drink a Sequence 9 potion from a completely different pathway.",
+        benefit: "You receive",
+        cost: "Permanent cost",
+        bestFor: "Best for",
+        recommended: "FULL POWER",
+        important: "Important",
+        starterWarning: "The bonus choice cannot normally be changed. Staff may reset a genuine mistake through a Discord ticket, but the confirmation should be treated as final.",
+        directionEyebrow: "YOUR FIRST OBJECTIVE",
+        directionTitle: "Pick a direction instead of wandering",
+        directionLede: "Both approaches are valid, and neither locks you out of the other later.",
+        browseEyebrow: "HANDBOOK",
+        browseTitle: "Browse every major system",
+        browseLede: "Advanced information stays out of your way until you need it.",
+        topics: "topics",
+        popularEyebrow: "ASKED OFTEN",
+        popularTitle: "Popular player questions",
+        openTopic: "Open guide",
+        backToGuide: "Back to guide home",
+        quickAnswer: "QUICK ANSWER",
+        onThisPage: "ON THIS PAGE",
+        relatedTopics: "Continue reading",
+        commonMistake: "COMMON MISTAKE",
+        usefulTip: "USEFUL TIP",
+        screenshotsLabel: "WHAT YOU WILL SEE",
+        screenshotIp: "Add the server address",
+        screenshotPortal: "Choose Mysteries in the selector",
+        screenshotJoin: "The server in your list",
+        profileCta: "Open profile",
+        pathwaysCta: "Explore pathways",
+        fullRulesCta: "Read full rules",
+        supportCta: "Ask in Discord",
+        mobileBrowse: "Browse topics",
+    },
+    facts: [
+        {label: "CLIENT", value: "Java recommended", note: "Bedrock works through Geyser with limited custom UI"},
+        {label: "VERSION", value: "26.1.2+", note: "Use a current client if the resource pack fails"},
+        {label: "REQUIRED", value: "Accept resource pack", note: "No client mods are required"},
+    ],
+    expectations: [
+        {
+            icon: "fa-solid fa-route",
+            title: "There are no teleport commands",
+            summary: "No /home, /spawn, /tpa, /rtp, or /back.",
+            detail: "Distance is a strategic cost, and mobility is one of the rewards offered by pathways such as Door. Choose where you settle carefully.",
+        },
+        {
+            icon: "fa-solid fa-hourglass-half",
+            title: "Progression is deliberately long",
+            summary: "Early Sequences take about a week; high tiers take months.",
+            detail: "Mysterria is designed around a season-long journey, not reaching maximum power over a weekend.",
+        },
+        {
+            icon: "fa-solid fa-rotate",
+            title: "The world is seasonal",
+            summary: "A full reset happens roughly every six months.",
+            detail: "The reset includes Beyonder progress. It keeps the world healthy and means joining in the middle of a season is still worthwhile.",
+        },
+        {
+            icon: "fa-solid fa-shield-halved",
+            title: "Exploration is normally safe",
+            summary: "Wilderness PvP is disabled and griefing is banned.",
+            detail: "PvP only exists in announced zones, Cosmos Incursions, or town claims where an owner intentionally enables it.",
+        },
+        {
+            icon: "fa-solid fa-box-open",
+            title: "Vanilla chests are magical loot",
+            summary: "Naturally generated chests refill over time.",
+            detail: "Villages, mineshafts, temples, shipwrecks, bastions, and other structures are renewable Beyonder loot sources.",
+        },
+    ],
+    tasks: [
+        {
+            icon: "fa-solid fa-plug",
+            title: "Join the server",
+            description: "Versions, resource pack, accounts, and verification.",
+            topicId: "connect"
+        },
+        {
+            icon: "fa-solid fa-scale-balanced",
+            title: "Choose my starter bonus",
+            description: "Understand Shortcut, Resolve, and what the pathway choice means.",
+            topicId: "starter-choice"
+        },
+        {
+            icon: "fa-solid fa-flask",
+            title: "Become Sequence 9",
+            description: "Recipe, cauldron, ingredients, brewing, and drinking.",
+            topicId: "first-potion"
+        },
+        {
+            icon: "fa-solid fa-box-open",
+            title: "Find recipes or ingredients",
+            description: "Loot chests, focusing, creatures, nodes, and trading.",
+            topicId: "loot"
+        },
+        {
+            icon: "fa-solid fa-arrow-trend-up",
+            title: "Advance my Sequence",
+            description: "Acting, rituals, Spirituality, Madness, and progression.",
+            topicId: "progression"
+        },
+        {
+            icon: "fa-solid fa-dungeon",
+            title: "Find a dungeon",
+            description: "Use /subspace, weaken Rifts, form a party, and understand cooldowns.",
+            topicId: "activities"
+        },
+        {
+            icon: "fa-solid fa-house-flag",
+            title: "Join or build a town",
+            description: "Protected land, group play, nations, and going solo.",
+            topicId: "towns"
+        },
+        {
+            icon: "fa-solid fa-wand-magic-sparkles",
+            title: "Fix missing custom UI",
+            description: "Resource-pack, client-version, and Bedrock limitations.",
+            topicId: "troubleshooting"
+        },
+    ],
+    firstHour: [
+        {
+            title: "Connect and accept the resource pack",
+            description: "Add mc.mysterria.net, join Mysteries through the lobby selector, and accept the server pack.",
+            topicId: "connect"
+        },
+        {
+            title: "Register only if Minecraft asks",
+            description: "Offline accounts use /register and /login. Official premium accounts are authenticated automatically.",
+            topicId: "connect"
+        },
+        {
+            title: "Verify your Minecraft account",
+            description: "Generate a code on your profile, then enter it in the verification window shown in-game.",
+            topicId: "connect"
+        },
+        {
+            title: "Choose your starter bonus carefully",
+            description: "The pathway is only a direction for your bonus. Shortcut and Resolve have very different long-term costs.",
+            topicId: "starter-choice"
+        },
+        {
+            title: "Choose town life or self-sufficiency",
+            description: "Ask for a recruiting town, or begin a solo chest-running and exploration loop.",
+            topicId: "towns"
+        },
+        {
+            title: "Work toward your first potion",
+            description: "Your first Sequence needs a recipe, cauldron, ingredients, successful brew, and nothing else.",
+            topicId: "first-potion"
+        },
+    ],
+    starterChoices: [
+        {
+            name: "Path of Shortcut",
+            eyebrow: "PLAY WITH ABILITIES NOW",
+            benefit: "Instant Sequence 9 in the selected pathway.",
+            cost: "−10% maximum Spirituality forever, at every Sequence.",
+            bestFor: "Players who value an immediate start more than maximum long-term power.",
+        },
+        {
+            name: "Path of Resolve",
+            eyebrow: "LEARN THE FULL LOOP",
+            benefit: "The next loot chest is guaranteed to contain a recipe.",
+            cost: "None.",
+            bestFor: "Players who want to learn brewing and retain their full potential.",
+            recommended: true,
+        },
+    ],
+    directions: [
+        {
+            icon: "fa-solid fa-people-roof",
+            title: "Join an established town",
+            eyebrow: "LOWER FRICTION",
+            description: "Ask in chat or Discord for a town accepting new members.",
+            points: [
+                "Share cauldrons, recipes, ingredients, and protected land.",
+                "Find groups for Guardians, dungeons, Wild Beyonders, and Incursions.",
+                "Use an established base network in a world without teleport commands.",
+            ],
+            topicId: "towns",
+        },
+        {
+            icon: "fa-solid fa-compass",
+            title: "Go solo",
+            eyebrow: "SELF-DIRECTED",
+            description: "Entirely viable, but slower and more dependent on exploration.",
+            points: [
+                "Open every generated chest; their Beyonder loot regenerates.",
+                "Hunt Beyonder Creatures and note renewable resource nodes.",
+                "Trade surplus materials and join groups when specific content calls for it.",
+            ],
+            topicId: "loot",
+        },
+    ],
+    categories: {
+        start: "Start here",
+        progression: "Beyonder progression",
+        world: "World and activities",
+        community: "Economy and society",
+        help: "Help and reference",
+    },
+    popularQuestions: [
+        {question: "How do I teleport home?", topicId: "server-basics"},
+        {question: "Why does the game look like vanilla?", topicId: "troubleshooting"},
+        {question: "Did choosing a pathway lock me in?", topicId: "starter-choice"},
+        {question: "How do I become Sequence 9?", topicId: "first-potion"},
+        {question: "Where are the special loot chests?", topicId: "loot"},
+        {question: "Why is my acting progress not moving?", topicId: "progression"},
+        {question: "Can someone kill me while I explore?", topicId: "server-basics"},
+        {question: "How do I locate a dungeon?", topicId: "activities"},
+    ],
+    topics: [
+        {
+            id: "connect",
+            category: "start",
+            icon: "fa-solid fa-plug",
+            title: "Connect, register, and verify",
+            shortTitle: "Connect and verify",
+            summary: "Everything needed to reach Mysteries with the correct client and unlock your starter bonus.",
+            answer: "Join mc.mysterria.net with a current Java client, accept the resource pack, select Mysteries in the lobby, and verify through your website profile.",
+            tags: ["ip", "address", "join", "java", "bedrock", "geyser", "register", "login", "verify", "discord", "resource pack", "version", "premium", "offline"],
+            sections: [
+                {
+                    title: "Server details",
+                    bullets: [
+                        "Address: mc.mysterria.net.",
+                        "Supported versions: 26.1.2 and newer.",
+                        "Java Edition is the fully supported experience; no client mods are required.",
+                        "Bedrock can connect through Geyser, but pathway icons and some custom interfaces may render incorrectly.",
+                    ],
+                },
+                {
+                    title: "Connect",
+                    steps: [
+                        "Open Multiplayer, add mc.mysterria.net, and join the server.",
+                        "Accept the server resource pack when Minecraft asks.",
+                        "In the lobby server selector, choose Mysteries.",
+                        "Read the lobby NPC dialogue before leaving; it contains useful orientation.",
+                    ],
+                    warning: "If everything looks like plain vanilla Minecraft, the resource pack was declined or the Java client is too old. Enable server resource packs and update the client.",
+                },
+                {
+                    title: "Account registration",
+                    paragraphs: [
+                        "Official premium Minecraft accounts skip registration and log in automatically.",
+                        "Offline accounts register once with /register <password> <password>, then use /login <password> on future joins.",
+                    ],
+                },
+                {
+                    title: "Discord verification",
+                    steps: [
+                        "Sign in on the Mysterria website and open your profile.",
+                        "Generate a Minecraft verification code.",
+                        "Enter the code in the verification window that appears in-game.",
+                        "Once confirmed, the newbie pathway and starter-bonus menu becomes available.",
+                    ],
+                },
+            ],
+            related: ["starter-choice", "troubleshooting", "server-basics"],
+        },
+        {
+            id: "server-basics",
+            category: "start",
+            icon: "fa-solid fa-map",
+            title: "How the Mysterria world works",
+            shortTitle: "World basics",
+            summary: "Travel, safety, death, seasonal resets, and the rules that differ from conventional survival servers.",
+            answer: "Mysterria is a bounded seasonal world where distance matters, wilderness exploration is safe, and naturally generated chests provide renewable magical loot.",
+            tags: ["home", "spawn", "tpa", "rtp", "back", "teleport", "map", "pvp", "grief", "death", "keep inventory", "reset", "season", "world border", "safe"],
+            sections: [
+                {
+                    title: "Map and travel",
+                    paragraphs: ["The Overworld is bounded at 15,000 × 15,000 blocks. Nether and special dimensions exist, but most Beyonder content lives in the Overworld."],
+                    warning: "There is no /home, /sethome, /spawn, /tpa, /rtp, or /back. This preserves the value of travel planning and mobility pathways such as Door.",
+                },
+                {
+                    title: "Safety and PvP",
+                    bullets: [
+                        "Wilderness PvP is disabled by default.",
+                        "PvP is limited to designated PvP areas and Cosmos Incursion zones.",
+                        "Town owners can intentionally enable PvP for specific roles inside their claims.",
+                        "Griefing is forbidden and town claims add land protection.",
+                    ],
+                },
+                {
+                    title: "Death",
+                    paragraphs: ["Death otherwise follows vanilla rules: items drop and there is no keep-inventory. Beyonders also gain a small amount of temporary Madness."],
+                    tip: "Only a player carrying a Uniqueness suffers the additional accommodation penalty. Ordinary players do not lose Sequence progress from normal death.",
+                },
+                {
+                    title: "Seasonal resets",
+                    paragraphs: ["Approximately every six months, the world and Beyonder progress reset. This keeps the map healthy and allows mid-season newcomers to compete without being permanently behind."],
+                },
+            ],
+            related: ["towns", "activities", "progression"],
+        },
+        {
+            id: "starter-choice",
+            category: "start",
+            icon: "fa-solid fa-scale-balanced",
+            title: "The newbie pathway and starter bonus",
+            shortTitle: "Starter choice",
+            summary: "What the initial pathway selection actually changes, and the permanent trade-off between Shortcut and Resolve.",
+            answer: "The pathway you select does not make you a Beyonder or lock your future pathway. It only aims one of two starter bonuses.",
+            tags: ["newbie", "bonus", "shortcut", "resolve", "pathway", "locked", "repick", "magic", "sequence 9", "spirituality", "recipe guarantee"],
+            sections: [
+                {
+                    title: "Your pathway is not locked",
+                    paragraphs: [
+                        "You become a pathway only when you drink its Sequence 9 potion. If the newbie menu says Fool but you later drink a Door potion, you become Door.",
+                        "/magic is an optional suggestion menu. Seeing a pathway there does not prove you are already a Beyonder.",
+                    ],
+                },
+                {
+                    title: "Path of Shortcut",
+                    paragraphs: ["You become Sequence 9 immediately without brewing, but permanently lose 10% of maximum Spirituality at every Sequence and acting level."],
+                    warning: "The Spirituality penalty is permanent. It is not recovered by advancing or completing acting.",
+                },
+                {
+                    title: "Path of Resolve",
+                    paragraphs: ["Your recipe focusing counter is moved one step below its guarantee, so the very next natural loot chest contains a recipe. There is no permanent cost."],
+                    tip: "Resolve teaches the normal recipe → cauldron → ingredients → brew loop and preserves full long-term power.",
+                },
+                {
+                    title: "Confirmation and mistakes",
+                    paragraphs: ["Players cannot repick after confirming. For a genuine new-player mistake, open a Discord ticket; staff sometimes provide a reset."],
+                },
+            ],
+            related: ["first-potion", "progression", "connect"],
+        },
+        {
+            id: "first-potion",
+            category: "progression",
+            icon: "fa-solid fa-flask",
+            title: "Brew and drink your first potion",
+            shortTitle: "First potion",
+            summary: "The complete Sequence 9 recipe and brewing loop without community myths.",
+            answer: "To reach Sequence 9: obtain a recipe, build a cauldron, gather its ingredients, brew successfully, and drink. Your first potion needs no acting, ritual, or Madness cost.",
+            tags: ["sequence 9", "potion", "brew", "brewing", "cauldron", "recipe", "ingredient", "char", "ritual", "altar", "expire", "slots"],
+            sections: [
+                {
+                    title: "What you need",
+                    bullets: [
+                        "A complete Sequence 9 recipe, or all of its different recipe pages.",
+                        "A Magic Cauldron built from an Altar Scroll blueprint.",
+                        "Pathway- and Sequence-specific main and supplementary ingredients.",
+                        "Beyonder Chars may replace every main ingredient in a recipe at once.",
+                    ],
+                    warning: "Sacrificial Altars are for Boons, not potion brewing. Their blueprints resemble cauldron blueprints.",
+                },
+                {
+                    title: "Brewing order",
+                    steps: [
+                        "Place main ingredients, or Beyonder Chars, in the left slots.",
+                        "Place supplementary ingredients in the right slots.",
+                        "Place the recipe in the centre slot.",
+                        "Keep every item in the same order shown by the recipe.",
+                        "On success, drink the potion to become Sequence 9.",
+                    ],
+                    tip: "Failed brewing does not consume ingredients. Higher-tier cauldrons improve success chance rather than reducing loss.",
+                },
+                {
+                    title: "Ingredients",
+                    bullets: [
+                        "Foundable ingredients appear only in generated loot chests.",
+                        "Droppable ingredients come only from Beyonder Creatures.",
+                        "Mineable ingredients grow as distinct world nodes; right-click to harvest them.",
+                    ],
+                },
+                {
+                    title: "Potion expiration",
+                    paragraphs: ["A potion lasts two real-time days from the moment it exists. Brew when you are ready to drink. An expired potion changes into a matching Sealed Artifact where possible, but it no longer provides the intended advancement."],
+                },
+            ],
+            related: ["loot", "starter-choice", "progression"],
+        },
+        {
+            id: "loot",
+            category: "progression",
+            icon: "fa-solid fa-box-open",
+            title: "Find loot, recipes, and ingredients",
+            shortTitle: "Loot and focusing",
+            summary: "Where magical materials actually come from and how the focusing guarantee reduces bad luck.",
+            answer: "Every naturally generated vanilla chest is a renewable Beyonder loot container. Open them repeatedly and focus the reward category you currently need.",
+            tags: ["loot", "chest", "container", "recipe", "page", "ingredient", "altar scroll", "focus", "focusing", "pity", "guarantee", "wild beyonder", "creature", "node", "energy shard"],
+            sections: [
+                {
+                    title: "Loot containers",
+                    paragraphs: ["Village, mineshaft, dungeon, temple, shipwreck, buried-treasure, bastion, and ruined-portal chests all qualify. There is no special glowing Beyonder chest."],
+                    tip: "Contents regenerate over time. Previously explored structures remain valuable and should be revisited.",
+                },
+                {
+                    title: "Reward focusing",
+                    paragraphs: ["Choose one of four categories: Potions, Recipes, Pages, or Altar Scrolls. Each eligible chest without that reward advances a visible counter; the threshold chest is guaranteed to contain it."],
+                    warning: "Ingredients cannot be focused. They must be found in chests, taken from creatures, harvested from resource nodes, traded for, or converted through other systems.",
+                },
+                {
+                    title: "Targeted acquisition",
+                    bullets: [
+                        "Trade with a peaceful Wild Beyonder for specific pathway goods.",
+                        "Use /subspace and run dungeons for repeatable materials.",
+                        "Hunt Beyonder Creatures for droppable ingredients and acting points.",
+                        "Trade surplus ingredients to a professionless villager for Energy Shards.",
+                        "Check the rotating Brilliant Emporium inventory.",
+                    ],
+                },
+            ],
+            related: ["first-potion", "activities", "economy"],
+        },
+        {
+            id: "progression",
+            category: "progression",
+            icon: "fa-solid fa-arrow-trend-up",
+            title: "Acting, rituals, Spirituality, and Madness",
+            shortTitle: "Advancement",
+            summary: "How progression after Sequence 9 works and where to inspect your current status.",
+            answer: "After becoming a Beyonder, advancement combines acting from several sources, the next potion, and increasingly important rituals. Your complete status is inside the inventory pathway interface.",
+            tags: ["acting", "digestion", "ritual", "spirituality", "mana", "madness", "mutation", "health", "stats", "status", "sequence", "advance", "bounty", "bottle"],
+            sections: [
+                {
+                    title: "Check your character",
+                    steps: [
+                        "Open your inventory.",
+                        "Click the pathway icon in the top-left corner.",
+                        "Hover over your character's head in the interface.",
+                    ],
+                    tip: "This displays Sequence, acting and digestion, Spirituality, and Madness. There is no status command.",
+                },
+                {
+                    title: "Acting and digestion",
+                    paragraphs: ["Simply casting spells does not necessarily advance acting. Every ability has a specific acting method, and successful acting produces an action-bar notification."],
+                    bullets: [
+                        "Passive play and ability-specific acting methods.",
+                        "Acting Bottles and rotating bounties.",
+                        "Dungeon completion for PvE acting.",
+                        "Cosmos Incursions for PvP acting.",
+                    ],
+                    warning: "No single acting source can reach 100% by itself. Combine several sources.",
+                },
+                {
+                    title: "Rituals",
+                    bullets: [
+                        "Sequence 9 never requires a ritual.",
+                        "For target Sequences 8–6, rituals are optional but skipping them adds permanent seasonal Madness.",
+                        "At target Sequence 5 and above, the ritual is mandatory.",
+                    ],
+                },
+                {
+                    title: "Spirituality and Madness",
+                    paragraphs: [
+                        "Spirituality powers abilities and regenerates over time. Maximum Spirituality grows with Sequence and acting progress.",
+                        "Madness has temporary, permanent, and raw components. Death and unsafe advancement add it; rest and some mechanics reduce only recoverable parts.",
+                    ],
+                    warning: "High Madness has real gameplay effects and can lead to Mutation. Treat advancement warnings seriously.",
+                },
+            ],
+            related: ["first-potion", "activities", "advanced"],
+        },
+        {
+            id: "activities",
+            category: "world",
+            icon: "fa-solid fa-dungeon",
+            title: "Creatures, Wild Beyonders, dungeons, and Incursions",
+            shortTitle: "Activities and dungeons",
+            summary: "The major repeatable activities that provide loot, acting progress, and group objectives.",
+            answer: "Use /subspace to locate dungeons, hunt Beyonder Creatures while exploring, trade with compatible Wild Beyonders, and enter Cosmos Incursions only after checking the zone colour.",
+            tags: ["dungeon", "subspace", "rift", "party", "cooldown", "help card", "creature", "crimson moon", "wild beyonder", "guardian", "incursion", "pvp", "black zone"],
+            sections: [
+                {
+                    title: "Dungeons and Rifts",
+                    steps: [
+                        "Run /subspace to see every dungeon, its Rift location, your relative power, and cooldowns.",
+                        "Walk to the Rift and contribute Energy Fragments if it still needs weakening.",
+                        "Form a party with /party and enter when available.",
+                    ],
+                    bullets: [
+                        "Real loot is available once per dungeon every three days.",
+                        "Two Help Card runs are available each day without normal loot.",
+                        "Low-manning is allowed when the remaining party is not overpowered, with no reward reduction.",
+                    ],
+                },
+                {
+                    title: "Creatures and the Crimson Moon",
+                    paragraphs: ["Beyonder Creatures provide XP, acting points, and pathway ingredients. During the roughly weekly Crimson Moon, fishing becomes a valuable but more dangerous alternate loot stream."],
+                },
+                {
+                    title: "Wild Beyonders and Guardians",
+                    paragraphs: ["A Wild Beyonder's attitude depends on pathway relationships. Peaceful ones offer the most targeted ingredient and recipe trading in the game; hostile ones are serious fights. Guardians protect important objectives and are designed for groups."],
+                },
+                {
+                    title: "Cosmos Incursions",
+                    paragraphs: ["Incursions are announced PvP objectives. Green and Yellow zones mainly risk carried items and balance damage between Sequences. Black zones carry the serious risk of Sequence regression."],
+                    warning: "Read the zone colour and rules before entering. Walking into an Incursion is a deliberate PvP choice.",
+                },
+            ],
+            related: ["loot", "progression", "server-basics"],
+        },
+        {
+            id: "towns",
+            category: "community",
+            icon: "fa-solid fa-house-flag",
+            title: "Towns, nations, wars, and going solo",
+            shortTitle: "Towns and nations",
+            summary: "How protected settlements change the early game and what a self-sufficient route looks like.",
+            answer: "Joining a town is the fastest social start, while solo play remains fully viable. Towns provide protected claims, shared infrastructure, group access, and later passive perks.",
+            tags: ["town", "lands", "claim", "nation", "war", "solo", "join", "settle", "base", "grief", "role", "perk"],
+            sections: [
+                {
+                    title: "Joining a town",
+                    paragraphs: ["Ask in game chat or Discord for a town accepting newcomers. Established players can share recipes, ingredients, cauldrons, knowledge, and groups for difficult content."],
+                    tip: "In a world without teleport commands, a useful settlement location and experienced neighbours are substantial advantages.",
+                },
+                {
+                    title: "Going solo",
+                    steps: [
+                        "Choose a sensible base location and record important coordinates.",
+                        "Open every generated chest and set reward focus to your current bottleneck.",
+                        "Hunt creatures, note resource nodes, and use Wild Beyonder trades.",
+                        "Join temporary dungeon or Incursion groups without giving up independence.",
+                    ],
+                },
+                {
+                    title: "Claims, levels, and nations",
+                    paragraphs: ["Towns use Lands-style roles and claims. Higher town levels unlock population capacity, treasury requirements, passive perks, and architectural benefits. Domain-level towns may form Nations."],
+                },
+                {
+                    title: "Wars",
+                    paragraphs: ["Wars are structured opt-in conflicts managed through their own commands and server rules. Normal wilderness exploration remains protected outside designated combat contexts."],
+                },
+            ],
+            related: ["server-basics", "economy", "social"],
+        },
+        {
+            id: "economy",
+            category: "community",
+            icon: "fa-solid fa-coins",
+            title: "Currency, Energy Shards, and the Emporium",
+            shortTitle: "Economy",
+            summary: "What the different currencies buy and how ordinary play turns surplus materials into useful progress.",
+            answer: "Use /wallet for Coppets, Licks, and Verl d'or; convert unwanted magical materials into Energy Shards; earn separate Emporium points through community activities.",
+            tags: ["money", "currency", "wallet", "coppet", "lick", "verl", "energy shard", "emporium", "daily", "vote", "income", "silk touch", "sell"],
+            sections: [
+                {
+                    title: "Money and the Wallet",
+                    paragraphs: ["The main currencies are Coppets, Licks, and Verl d'or, managed through /wallet. Item evaluation is the main income source, but only non-renewable ores mined with Silk Touch qualify."],
+                },
+                {
+                    title: "Energy Shards",
+                    paragraphs: ["Trade surplus pathway ingredients and recipes to a professionless nitwit villager. Energy Shards fund Wild Beyonder trades, Rift weakening, Secret Order upgrades, and seasonal activities."],
+                },
+                {
+                    title: "Brilliant Emporium",
+                    paragraphs: ["The Emporium rotates useful goods, including magic recipes. Emporium points are separate from normal money and come from voting, login streaks, and accepted bug reports."],
+                    commands: [
+                        {command: "/emporium or /emp", purpose: "Open the Brilliant Emporium"},
+                        {command: "/daily", purpose: "Open the daily reward menu"},
+                        {command: "/vote", purpose: "Open server voting"},
+                        {command: "/wallet", purpose: "Store money, evaluate items, and make payments"},
+                    ],
+                },
+            ],
+            related: ["loot", "towns", "advanced"],
+        },
+        {
+            id: "social",
+            category: "community",
+            icon: "fa-solid fa-people-group",
+            title: "Couriers, Secret Orders, and social play",
+            shortTitle: "Social systems",
+            summary: "The systems for communication, deliveries, private groups, and shared infrastructure.",
+            answer: "Use normal private messages for conversation, Couriers for physical deliveries, and Secret Orders for persistent private groups with their own upgrades and spaces.",
+            tags: ["courier", "horn", "send", "message", "msg", "secret order", "order", "oc", "invite", "sos", "group"],
+            sections: [
+                {
+                    title: "Couriers",
+                    paragraphs: ["Courier horns summon different courier types for sending physical items. Deliveries have their own capacity, distance, and safety rules, so inspect the chosen courier before committing valuable cargo."],
+                },
+                {
+                    title: "Secret Orders",
+                    paragraphs: ["Orders are persistent private organizations with members, officers, chat, upgrades, and emergency tools. They can eventually provide mobility options such as Instant Summon and a Secret Lair."],
+                    commands: [
+                        {command: "/o invite, /o kick", purpose: "Manage Order membership"},
+                        {command: "/o vice set/remove", purpose: "Manage vice leaders"},
+                        {command: "/o sos", purpose: "Use the Order emergency system"},
+                        {command: "/oc", purpose: "Open private Order chat"},
+                    ],
+                },
+                {
+                    title: "Private messages",
+                    commands: [
+                        {command: "/msg, /pm, /w", purpose: "Send a private message"},
+                        {command: "/reply", purpose: "Reply to the latest private message"},
+                    ],
+                },
+            ],
+            related: ["towns", "economy", "advanced"],
+        },
+        {
+            id: "advanced",
+            category: "world",
+            icon: "fa-solid fa-star-of-life",
+            title: "Long-term and advanced systems",
+            shortTitle: "Advanced systems",
+            summary: "A concise map of the systems that become relevant later in a season.",
+            answer: "Boons, Sealed Artifacts, Churches, Honorific Names, Uniquenesses, firearms, and other specialist systems are long-term layers-not requirements for your first days.",
+            tags: ["boon", "sealed artifact", "church", "honorific name", "uniqueness", "sequence 0", "firearm", "beverage", "battlepass", "subscription", "store", "creator"],
+            sections: [
+                {
+                    title: "Boons and Sacrificial Altars",
+                    paragraphs: ["Boons are a separate progression track advanced through Sacrificial Altars. They do not replace your pathway and their altars cannot brew potions."],
+                },
+                {
+                    title: "Sealed Artifacts",
+                    paragraphs: ["Artifacts provide powerful effects paired with drawbacks. They can come from crafting, loot, or expired potions and are meant to be evaluated as trade-offs, not unconditional upgrades."],
+                },
+                {
+                    title: "Churches and Honorific Names",
+                    paragraphs: ["Churches are late-game institutions built around faith, anchors, prayer, land, and variable perks. Honorific Names allow ritual communication and become shorter as their owner rises in Sequence."],
+                },
+                {
+                    title: "Uniqueness and Sequence 0",
+                    paragraphs: ["A pathway's Uniqueness is part of the route to Sequence 0 and requires accommodation. Holding one adds a death penalty to accommodation progress."],
+                },
+                {
+                    title: "Optional support",
+                    paragraphs: ["The store, premium Battlepass, and subscriptions support the server and provide convenience. A free player can still reach every level of power."],
+                },
+            ],
+            related: ["progression", "economy", "social"],
+        },
+        {
+            id: "troubleshooting",
+            category: "help",
+            icon: "fa-solid fa-screwdriver-wrench",
+            title: "Connection and interface troubleshooting",
+            shortTitle: "Troubleshooting",
+            summary: "Fast answers for missing custom UI, verification problems, incompatible clients, and Bedrock limitations.",
+            answer: "Missing magical interfaces almost always mean the resource pack was declined or the Java client needs updating. Bedrock has unavoidable custom-UI limitations.",
+            tags: ["problem", "broken", "missing", "vanilla", "ui", "interface", "resource pack", "verify", "code", "expired", "bedrock", "mobile", "geyser", "outdated client", "connect"],
+            sections: [
+                {
+                    title: "The server looks like vanilla",
+                    steps: [
+                        "Edit the server entry and set Server Resource Packs to Enabled.",
+                        "Reconnect and accept the pack.",
+                        "If it still fails silently, update the Java client and reconnect.",
+                    ],
+                    warning: "Bedrock players may still see missing pathway icons or incorrectly rendered custom GUIs. This is a known Geyser limitation.",
+                },
+                {
+                    title: "Verification did not complete",
+                    steps: [
+                        "Return to the profile and generate a fresh code.",
+                        "Enter it in the in-game verification window.",
+                        "If the Discord website login itself failed, retry after clearing site cookies.",
+                        "Open a Discord ticket if the account remains unlinked.",
+                    ],
+                },
+                {
+                    title: "I cannot connect",
+                    bullets: [
+                        "Confirm the address is exactly mc.mysterria.net.",
+                        "Use Minecraft 26.1.2 or newer.",
+                        "Offline accounts must use /login after their first registration.",
+                    ],
+                },
+            ],
+            related: ["connect", "commands", "server-basics"],
+        },
+        {
+            id: "commands",
+            category: "help",
+            icon: "fa-solid fa-terminal",
+            title: "Essential command reference",
+            shortTitle: "Commands",
+            summary: "A focused list of commands players commonly need, plus commands intentionally unavailable.",
+            answer: "Most character information is accessed through inventory interfaces. Commands primarily open menus, manage communities, or communicate.",
+            tags: ["command", "magic", "daily", "vote", "wallet", "subspace", "party", "bounty", "lands", "claim", "war", "church", "home", "spawn", "tpa"],
+            sections: [
+                {
+                    title: "Starting and progression",
+                    commands: [
+                        {command: "/register <pass> <pass>", purpose: "Register an offline account once"},
+                        {command: "/login <pass>", purpose: "Log into an offline account"},
+                        {command: "/magic", purpose: "Open the optional next-step companion"},
+                        {command: "/subspace", purpose: "Browse dungeons, locations, power, and cooldowns"},
+                        {command: "/party", purpose: "Create or manage a dungeon party"},
+                        {command: "/bounty", purpose: "Open the acting bounty menu"},
+                    ],
+                },
+                {
+                    title: "Economy and community",
+                    commands: [
+                        {command: "/wallet", purpose: "Manage currency, evaluation, and payments"},
+                        {command: "/daily", purpose: "Open daily rewards"},
+                        {command: "/emporium or /emp", purpose: "Open the Brilliant Emporium"},
+                        {command: "/vote", purpose: "Open voting options"},
+                        {command: "/lands …", purpose: "Manage towns, roles, and claims"},
+                        {command: "/claim and /unclaim", purpose: "Claim or release the current chunk"},
+                        {command: "/wars", purpose: "Open war management"},
+                    ],
+                },
+                {
+                    title: "Commands that do not exist",
+                    paragraphs: ["There is deliberately no /home, /sethome, /spawn, /tpa, /rtp, or /back. Travel and mobility are part of progression."],
+                    warning: "Checking Sequence, acting, Spirituality, and Madness is not a command. Open inventory, click the top-left pathway icon, and hover over your character's head.",
+                },
+            ],
+            related: ["server-basics", "activities", "economy"],
+        },
+    ],
+};
+
+export default en;

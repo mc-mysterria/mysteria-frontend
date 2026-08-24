@@ -1,0 +1,384 @@
+{
+  "$comment": [
+    "The novel's own Sequence ladder for the 22 canonical Pathways, in Simplified",
+    "Chinese, as published on Qidian. This is a reference table, not app data: it",
+    "records what the source fandom already knows each rung is called, so that any",
+    "Chinese string Mysterria ships can be checked against it.",
+    "",
+    "Keys are Mysterria pathway ids. `seq` maps Sequence number -> canonical",
+    "Simplified name, and it is the authority: everything else is derived from it.",
+    "",
+    "IMPORTANT - Chinese names a pathway after its SEQUENCE 9, where English names",
+    "it after its Sequence 0. English 'Fool pathway' is Chinese 占卜家途径 (Seer",
+    "pathway); 愚者 is not the pathway, it is the god at the top of it. The Chinese",
+    "LOTM wiki files this route under 占卜家途径, and 百度百科's 愚者 entry is about",
+    "the Sequence 0 deity ('序列0代表最高的真神层级，获得相应的神话名号').",
+    "",
+    "So: seq['9'] is the pathway label, seq['0'] is the deity title. Both ship -",
+    "see pathwayNames and deityNames in pathways.zh-CN.json. `canonName` and",
+    "`alsoCalled` below are documentation only; nothing reads them.",
+    "",
+    "Where Mysterria's own English name for a rung does not correspond to the",
+    "canonical rung, scripts/check-canon-zh.mjs reports it rather than silently",
+    "picking one. Sequence 0 entries are included for completeness even though",
+    "Mysterria's data stops at Sequence 1 for most pathways."
+  ],
+  "source": "https://m.ali213.net/news/gl2508/1687939.html (cross-checked against 百度百科 per-pathway entries)",
+  "pathways": {
+    "fool": {
+      "canonName": "愚者途径",
+      "alsoCalled": "占卜家途径",
+      "seq": {
+        "9": "占卜家",
+        "8": "小丑",
+        "7": "魔术师",
+        "6": "无面人",
+        "5": "秘偶大师",
+        "4": "诡法师",
+        "3": "古代学者",
+        "2": "奇迹师",
+        "1": "诡秘侍者",
+        "0": "愚者"
+      }
+    },
+    "door": {
+      "canonName": "门途径",
+      "alsoCalled": "学徒途径",
+      "seq": {
+        "9": "学徒",
+        "8": "戏法大师",
+        "7": "占星人",
+        "6": "记录官",
+        "5": "旅行家",
+        "4": "秘法师",
+        "3": "漫游者",
+        "2": "旅法师",
+        "1": "星之匙",
+        "0": "门"
+      }
+    },
+    "error": {
+      "canonName": "错误途径",
+      "alsoCalled": "偷盗者途径",
+      "seq": {
+        "9": "偷盗者",
+        "8": "诈骗师",
+        "7": "解密学者",
+        "6": "盗火人",
+        "5": "窃梦家",
+        "4": "寄生者",
+        "3": "欺瞒导师",
+        "2": "命运木马",
+        "1": "时之虫",
+        "0": "错误"
+      }
+    },
+    "visionary": {
+      "canonName": "空想家途径",
+      "alsoCalled": "观众途径",
+      "seq": {
+        "9": "观众",
+        "8": "读心者",
+        "7": "心理医生",
+        "6": "催眠师",
+        "5": "梦境行者",
+        "4": "操纵师",
+        "3": "织梦人",
+        "2": "洞察者",
+        "1": "作家",
+        "0": "空想家"
+      }
+    },
+    "sun": {
+      "canonName": "太阳途径",
+      "alsoCalled": "歌颂者途径",
+      "seq": {
+        "9": "歌颂者",
+        "8": "祈光人",
+        "7": "太阳神官",
+        "6": "公证人",
+        "5": "光之祭司",
+        "4": "无暗者",
+        "3": "正义导师",
+        "2": "逐光者",
+        "1": "纯白天使",
+        "0": "太阳"
+      }
+    },
+    "tower": {
+      "canonName": "白塔途径",
+      "alsoCalled": "阅读者途径",
+      "seq": {
+        "9": "阅读者",
+        "8": "推理学员",
+        "7": "侦探",
+        "6": "博学者",
+        "5": "秘术导师",
+        "4": "预言家",
+        "3": "洞悉者",
+        "2": "智天使",
+        "1": "全知之眼",
+        "0": "白塔"
+      },
+      "notes": {
+        "7": "侦探 is the modern name; 守知者 is the archaic form used in-universe."
+      }
+    },
+    "tyrant": {
+      "canonName": "暴君途径",
+      "alsoCalled": "水手途径",
+      "seq": {
+        "9": "水手",
+        "8": "暴怒之民",
+        "7": "航海家",
+        "6": "风眷者",
+        "5": "海洋歌者",
+        "4": "灾难主祭",
+        "3": "海王",
+        "2": "天灾",
+        "1": "雷神",
+        "0": "暴君"
+      }
+    },
+    "hanged": {
+      "canonName": "倒吊人途径",
+      "alsoCalled": "秘祈人途径",
+      "seq": {
+        "9": "秘祈人",
+        "8": "倾听者",
+        "7": "隐修士",
+        "6": "蔷薇主教",
+        "5": "牧羊人",
+        "4": "黑骑士",
+        "3": "三首圣堂",
+        "2": "秽语长老",
+        "1": "暗天使",
+        "0": "倒吊人"
+      }
+    },
+    "death": {
+      "canonName": "死神途径",
+      "alsoCalled": "收尸人途径",
+      "seq": {
+        "9": "收尸人",
+        "8": "掘墓人",
+        "7": "通灵者",
+        "6": "死灵导师",
+        "5": "看门人",
+        "4": "不死者",
+        "3": "摆渡人",
+        "2": "死亡执政官",
+        "1": "苍白皇帝",
+        "0": "死神"
+      }
+    },
+    "darkness": {
+      "canonName": "黑暗途径",
+      "alsoCalled": "不眠者途径",
+      "seq": {
+        "9": "不眠者",
+        "8": "午夜诗人",
+        "7": "梦魇",
+        "6": "安魂师",
+        "5": "灵巫",
+        "4": "守夜人",
+        "3": "恐惧主教",
+        "2": "隐秘之仆",
+        "1": "厄难骑士",
+        "0": "黑暗"
+      }
+    },
+    "giant": {
+      "canonName": "黄昏巨人途径",
+      "alsoCalled": "战士途径",
+      "seq": {
+        "9": "战士",
+        "8": "格斗家",
+        "7": "武器大师",
+        "6": "黎明骑士",
+        "5": "守护者",
+        "4": "猎魔者",
+        "3": "银骑士",
+        "2": "荣耀者",
+        "1": "神明之手",
+        "0": "黄昏巨人"
+      }
+    },
+    "priest": {
+      "canonName": "红祭司途径",
+      "alsoCalled": "猎人途径",
+      "seq": {
+        "9": "猎人",
+        "8": "挑衅者",
+        "7": "纵火家",
+        "6": "阴谋家",
+        "5": "收割者",
+        "4": "铁血骑士",
+        "3": "战争主教",
+        "2": "天气术士",
+        "1": "征服者",
+        "0": "红祭司"
+      }
+    },
+    "demoness": {
+      "canonName": "原初魔女途径",
+      "alsoCalled": "刺客途径",
+      "seq": {
+        "9": "刺客",
+        "8": "教唆者",
+        "7": "女巫",
+        "6": "欢愉",
+        "5": "痛苦",
+        "4": "绝望",
+        "3": "不老",
+        "2": "灾难",
+        "1": "末日",
+        "0": "原初魔女"
+      }
+    },
+    "mother": {
+      "canonName": "母亲途径",
+      "alsoCalled": "耕种者途径",
+      "seq": {
+        "9": "耕种者",
+        "8": "医师",
+        "7": "丰收祭司",
+        "6": "生物学家",
+        "5": "德鲁伊",
+        "4": "古代炼金师",
+        "3": "抬棺人",
+        "2": "荒芜主母",
+        "1": "自然行者",
+        "0": "母亲"
+      }
+    },
+    "moon": {
+      "canonName": "月亮途径",
+      "alsoCalled": "药师途径",
+      "seq": {
+        "9": "药师",
+        "8": "驯兽师",
+        "7": "吸血鬼",
+        "6": "魔药教授",
+        "5": "深红学者",
+        "4": "巫王",
+        "3": "召唤大师",
+        "2": "创生者",
+        "1": "美神",
+        "0": "月亮"
+      }
+    },
+    "emperor": {
+      "canonName": "黑皇帝途径",
+      "alsoCalled": "律师途径",
+      "seq": {
+        "9": "律师",
+        "8": "野蛮人",
+        "7": "贿赂者",
+        "6": "腐化男爵",
+        "5": "混乱导师",
+        "4": "堕落伯爵",
+        "3": "狂乱法师",
+        "2": "熵之公爵",
+        "1": "弑序亲王",
+        "0": "黑皇帝"
+      }
+    },
+    "justiciar": {
+      "canonName": "审判者途径",
+      "alsoCalled": "仲裁人途径",
+      "seq": {
+        "9": "仲裁人",
+        "8": "治安官",
+        "7": "审讯者",
+        "6": "法官",
+        "5": "惩戒骑士",
+        "4": "律令法师",
+        "3": "混乱猎手",
+        "2": "平衡者",
+        "1": "秩序之手",
+        "0": "审判者"
+      }
+    },
+    "abyss": {
+      "canonName": "深渊途径",
+      "alsoCalled": "罪犯途径",
+      "seq": {
+        "9": "罪犯",
+        "8": "折翼天使",
+        "7": "连环杀手",
+        "6": "恶魔",
+        "5": "欲望使徒",
+        "4": "魔鬼",
+        "3": "呓语者",
+        "2": "鲜血大公",
+        "1": "污秽君王",
+        "0": "深渊"
+      }
+    },
+    "chained": {
+      "canonName": "被缚者途径",
+      "alsoCalled": "囚犯途径",
+      "seq": {
+        "9": "囚犯",
+        "8": "疯子",
+        "7": "狼人",
+        "6": "活尸",
+        "5": "怨魂",
+        "4": "木偶",
+        "3": "沉默门徒",
+        "2": "古代邪物",
+        "1": "神孽",
+        "0": "被缚者"
+      }
+    },
+    "hermit": {
+      "canonName": "隐者途径",
+      "alsoCalled": "窥秘人途径",
+      "seq": {
+        "9": "窥秘人",
+        "8": "格斗学者",
+        "7": "巫师",
+        "6": "卷轴教授",
+        "5": "星象师",
+        "4": "神秘学家",
+        "3": "预言大师",
+        "2": "贤者",
+        "1": "知识皇帝",
+        "0": "隐者"
+      }
+    },
+    "paragon": {
+      "canonName": "完美者途径",
+      "alsoCalled": "通识者途径",
+      "seq": {
+        "9": "通识者",
+        "8": "考古学家",
+        "7": "鉴定师",
+        "6": "机械专家",
+        "5": "天文学家",
+        "4": "炼金术士",
+        "3": "奥秘学者",
+        "2": "知识导师",
+        "1": "启蒙者",
+        "0": "完美者"
+      }
+    },
+    "fortune": {
+      "canonName": "命运之轮途径",
+      "alsoCalled": "怪物途径",
+      "seq": {
+        "9": "怪物",
+        "8": "机器",
+        "7": "幸运儿",
+        "6": "灾祸教士",
+        "5": "赢家",
+        "4": "厄运法师",
+        "3": "混乱行者",
+        "2": "先知",
+        "1": "水银之蛇",
+        "0": "命运之轮"
+      }
+    }
+  }
+}

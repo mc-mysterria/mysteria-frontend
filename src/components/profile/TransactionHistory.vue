@@ -89,7 +89,7 @@ interface TransactionPage {
 }
 
 const {show} = useNotification();
-const {t, currentLanguage} = useI18n();
+const {t, intlLocale} = useI18n();
 const userStore = useUserStore();
 
 const PAGE_SIZE = 8;
@@ -163,7 +163,7 @@ const amountClass = (amount: number) => (amount > 0 ? "plus" : amount < 0 ? "min
 const formatAmount = (amount: number) => (amount > 0 ? `+${amount}` : amount < 0 ? `−${Math.abs(amount)}` : "0");
 
 const formatDate = (value: string) =>
-    new Date(value).toLocaleDateString(currentLanguage.value === "uk" ? "uk-UA" : "en-US", {
+    new Date(value).toLocaleDateString(intlLocale.value, {
       year: "numeric",
       month: "short",
       day: "numeric",

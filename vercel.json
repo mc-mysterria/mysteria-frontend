@@ -199,11 +199,134 @@
       "destination": "/index.html"
     },
     {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/pathways/:pathway",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=pathways/:pathway&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/pathways",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=pathways&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/news/:locale/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=news/:locale/:slug&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/news/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=news/:slug&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/rules",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=rules&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/store",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=store&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/guide",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=guide&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/ascension",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=ascension&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/profile",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=profile&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/services/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=services/:slug&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/api/meta-proxy",
+      "destination": "/api/meta-proxy?lang=:lang"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept-Language"
+        }
+      ]
+    },
     {
       "source": "/sentry",
       "headers": [
@@ -251,6 +374,259 @@
           "value": "public, max-age=3600"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^\\s*zh-(TW|HK|MO|Hant).*"
+        }
+      ],
+      "destination": "/zh-TW",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^\\s*zh.*"
+        }
+      ],
+      "destination": "/zh-CN",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^\\s*uk.*"
+        }
+      ],
+      "destination": "/uk",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "destination": "/en",
+      "permanent": false
+    },
+    {
+      "source": "/store",
+      "destination": "/en/store",
+      "permanent": true
+    },
+    {
+      "source": "/store/:path*",
+      "destination": "/en/store/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/rules",
+      "destination": "/en/rules",
+      "permanent": true
+    },
+    {
+      "source": "/rules/:path*",
+      "destination": "/en/rules/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/staff",
+      "destination": "/en/staff",
+      "permanent": true
+    },
+    {
+      "source": "/staff/:path*",
+      "destination": "/en/staff/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "/en/terms",
+      "permanent": true
+    },
+    {
+      "source": "/terms/:path*",
+      "destination": "/en/terms/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/en/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/privacy/:path*",
+      "destination": "/en/privacy/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/sla",
+      "destination": "/en/sla",
+      "permanent": true
+    },
+    {
+      "source": "/sla/:path*",
+      "destination": "/en/sla/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/ascension",
+      "destination": "/en/ascension",
+      "permanent": true
+    },
+    {
+      "source": "/ascension/:path*",
+      "destination": "/en/ascension/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/wiki",
+      "destination": "/en/wiki",
+      "permanent": true
+    },
+    {
+      "source": "/wiki/:path*",
+      "destination": "/en/wiki/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/game",
+      "destination": "/en/game",
+      "permanent": true
+    },
+    {
+      "source": "/game/:path*",
+      "destination": "/en/game/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/login",
+      "destination": "/en/login",
+      "permanent": true
+    },
+    {
+      "source": "/login/:path*",
+      "destination": "/en/login/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/logout",
+      "destination": "/en/logout",
+      "permanent": true
+    },
+    {
+      "source": "/logout/:path*",
+      "destination": "/en/logout/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/profile",
+      "destination": "/en/profile",
+      "permanent": true
+    },
+    {
+      "source": "/profile/:path*",
+      "destination": "/en/profile/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/notifications",
+      "destination": "/en/notifications",
+      "permanent": true
+    },
+    {
+      "source": "/notifications/:path*",
+      "destination": "/en/notifications/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/commissions",
+      "destination": "/en/commissions",
+      "permanent": true
+    },
+    {
+      "source": "/commissions/:path*",
+      "destination": "/en/commissions/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/admin",
+      "destination": "/en/admin",
+      "permanent": true
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/en/admin/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/edit",
+      "destination": "/en/edit",
+      "permanent": true
+    },
+    {
+      "source": "/edit/:path*",
+      "destination": "/en/edit/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/guide",
+      "destination": "/en/guide",
+      "permanent": true
+    },
+    {
+      "source": "/guide/:path*",
+      "destination": "/en/guide/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/pathways",
+      "destination": "/en/pathways",
+      "permanent": true
+    },
+    {
+      "source": "/pathways/:path*",
+      "destination": "/en/pathways/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/news",
+      "destination": "/en/news",
+      "permanent": true
+    },
+    {
+      "source": "/news/:path*",
+      "destination": "/en/news/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/en/services",
+      "permanent": true
+    },
+    {
+      "source": "/services/:path*",
+      "destination": "/en/services/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/tools",
+      "destination": "/en/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/:path*",
+      "destination": "/en/tools/:path*",
+      "permanent": true
     }
   ]
 }

@@ -42,7 +42,7 @@
           </div>
 
           <div class="entry-actions">
-            <RouterLink :to="`/commissions/${c.id}`" class="view-details-btn">
+            <RouterLink :to="$lp(`/commissions/${c.id}`)" class="view-details-btn">
               {{ t('commissions.mine.viewDetails') }}
             </RouterLink>
             <button v-if="c.status === 'RESCOPE_REQUIRED'" class="resubmit-btn" @click="resubmit(c.id)">
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useI18n} from '@/composables/useI18n';
 import {commissionsAPI} from '@/utils/api/commissions';
@@ -66,12 +66,12 @@ import CommissionStatusBadge from '@/components/commissions/CommissionStatusBadg
 import type {CommissionResponseDto} from '@/types/commissions';
 
 const router = useRouter();
-const {t, currentLanguage} = useI18n();
+const {t, intlLocale} = useI18n();
 
 const loading = ref(false);
 const commissions = ref<CommissionResponseDto[]>([]);
 const expanded = ref<Set<string>>(new Set());
-const locale = computed(() => (currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US'));
+const locale = intlLocale;
 
 const load = async () => {
   loading.value = true;

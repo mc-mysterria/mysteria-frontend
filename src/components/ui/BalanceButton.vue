@@ -53,7 +53,7 @@
               </div>
             </div>
 
-            <div v-if="currentLanguage === 'en'" class="ritual-warning-box">
+            <div v-if="usesRealCurrency" class="ritual-warning-box">
               <p class="warning-ritual-text">
                 † {{ t('donationWarning') }}
               </p>
@@ -85,8 +85,8 @@ defineProps<{
 
 const balanceStore = useBalanceStore();
 const userStore = useUserStore();
-const {t, currentLanguage} = useI18n();
-const {currentCurrency, setCurrency} = useCurrency();
+const {t, intlLocale} = useI18n();
+const {currentCurrency, setCurrency, usesRealCurrency} = useCurrency();
 
 const profile = computed(() => userStore.currentUser);
 
@@ -95,12 +95,13 @@ const profile = computed(() => userStore.currentUser);
 const formattedBalance = computed(() => {
   const amount = balanceStore.currentBalance?.amount;
   if (amount === undefined || amount === null) return "-";
-  return Number(amount).toLocaleString(currentLanguage.value === "uk" ? "uk-UA" : "en-US");
+  return Number(amount).toLocaleString(intlLocale.value);
 });
 
 const donatelloUrl = computed(() => balanceStore.donatelloUrl);
+/* Donatello is the Ukrainian processor; everyone else tops up in real currency. */
 const topUpUrl = computed(() =>
-    currentLanguage.value === 'en'
+    usesRealCurrency.value
         ? 'https://buymeacoffee.com/mysterria'
         : donatelloUrl.value
 );
@@ -127,7 +128,7 @@ const selectCurrency = (currency: 'USD' | 'EUR' | 'POINTS') => {
 };
 
 const handleTopUpClick = () => {
-  if (currentLanguage.value === 'en') {
+  if (usesRealCurrency.value) {
     showCurrencyModal.value = true;
   } else {
     window.open(donatelloUrl.value, '_blank');

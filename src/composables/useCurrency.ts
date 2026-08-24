@@ -1,5 +1,6 @@
 import {computed, ref, watch} from 'vue';
 import {useI18n} from '@/composables/useI18n';
+import {isLanguage, LOCALES, storedLanguage} from '@/locales';
 import Decimal from 'decimal.js';
 
 export type CurrencyType = 'USD' | 'EUR' | 'POINTS';
@@ -18,14 +19,21 @@ const CURRENCY_SYMBOLS = {
 
 const STORAGE_KEY = 'mysteria-currency-preference';
 
+/**
+ * Whether a locale quotes the store in points rather than real currency.
+ * Ukrainian does (it tops up through Donatello); English and both Chinese
+ * locales do not - Taiwan and Hong Kong players pay by card.
+ */
+const isPointsOnly = (language: unknown): boolean =>
+    isLanguage(language) ? LOCALES[language].pointsOnly : false;
+
 // Initialize from localStorage or default based on language
 const getInitialCurrency = (): CurrencyType => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored && (stored === 'USD' || stored === 'EUR' || stored === 'POINTS')) {
         return stored as CurrencyType;
     }
-    const lang = localStorage.getItem('mysterria-language');
-    return lang && lang !== 'en' ? 'POINTS' : 'USD';
+    return isPointsOnly(storedLanguage()) ? 'POINTS' : 'USD';
 };
 
 const currentCurrency = ref<CurrencyType>(getInitialCurrency());
@@ -33,16 +41,16 @@ const currentCurrency = ref<CurrencyType>(getInitialCurrency());
 export function useCurrency() {
     const {currentLanguage} = useI18n();
 
-    // Watch language changes and reset to default if switching to/from English
+    // Follow the locale across a points-only boundary, so a reader switching
+    // into Ukrainian stops seeing USD prices and vice versa.
     watch(currentLanguage, (newLang, oldLang) => {
-        if (newLang === 'en' && oldLang !== 'en') {
-            // Switching to English, use USD if currently POINTS
-            if (currentCurrency.value === 'POINTS') {
-                currentCurrency.value = 'USD';
-            }
-        } else if (newLang !== 'en' && oldLang === 'en') {
-            // Switching from English, use POINTS
+        const nowPoints = isPointsOnly(newLang);
+        if (nowPoints === isPointsOnly(oldLang)) return;
+
+        if (nowPoints) {
             currentCurrency.value = 'POINTS';
+        } else if (currentCurrency.value === 'POINTS') {
+            currentCurrency.value = 'USD';
         }
     });
 
@@ -88,10 +96,8 @@ export function useCurrency() {
         return CURRENCY_RATES[currency || currentCurrency.value];
     };
 
-    const isEnglish = computed(() => currentLanguage.value === 'en');
-
-    // For English users, show currency options. For others, always use POINTS
-    const showCurrencyToggle = computed(() => isEnglish.value);
+    /** Locales that quote real money can choose between USD, EUR and points. */
+    const usesRealCurrency = computed(() => !isPointsOnly(currentLanguage.value));
 
     return {
         currentCurrency: computed(() => currentCurrency.value),
@@ -101,8 +107,7 @@ export function useCurrency() {
         formatCurrency,
         getCurrencySymbol,
         getCurrencyRate,
-        showCurrencyToggle,
-        isEnglish,
+        usesRealCurrency,
         CURRENCY_RATES,
     };
 }

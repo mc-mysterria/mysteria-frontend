@@ -5,7 +5,7 @@
     </template>
 
     <template v-else-if="user">
-      <RouterLink class="profile-chip" to="/profile" @click="emitMobileAction">
+      <RouterLink :to="$lp('/profile')" class="profile-chip" @click="emitMobileAction">
         <span class="profile-nickname">{{ user.nickname || t('profileTitle') }}</span>
         <UserAvatar :nickname="user.nickname" :src="user.avatarUrl" class="profile-avatar" size="xs"/>
       </RouterLink>
@@ -29,22 +29,22 @@
           <div v-if="isDropdownOpen" class="registry-menu">
             <p class="registry-heading">Registry</p>
 
-            <RouterLink v-if="canManageNews" class="registry-item" to="/edit/news" @click="closeDropdown">
+            <RouterLink v-if="canManageNews" :to="$lp('/edit/news')" class="registry-item" @click="closeDropdown">
               <i class="fa-solid fa-pen-nib"></i>
               <span><strong>Archives</strong><small>Edit news &amp; lore</small></span>
             </RouterLink>
 
-            <RouterLink v-if="canManageShop" class="registry-item" to="/edit/services" @click="closeDropdown">
+            <RouterLink v-if="canManageShop" :to="$lp('/edit/services')" class="registry-item" @click="closeDropdown">
               <i class="fa-solid fa-gem"></i>
               <span><strong>Reliquary</strong><small>Manage services</small></span>
             </RouterLink>
 
-            <RouterLink v-if="canTuneBalance" class="registry-item" to="/tools/balance" @click="closeDropdown">
+            <RouterLink v-if="canTuneBalance" :to="$lp('/tools/balance')" class="registry-item" @click="closeDropdown">
               <i class="fa-solid fa-scale-balanced"></i>
               <span><strong>Observatory</strong><small>Balance tuning</small></span>
             </RouterLink>
 
-            <RouterLink v-if="canManageCommissions" class="registry-item" to="/admin/commissions"
+            <RouterLink v-if="canManageCommissions" :to="$lp('/admin/commissions')" class="registry-item"
                         @click="closeDropdown">
               <i class="fa-solid fa-scroll"></i>
               <span><strong>Commissions</strong><small>Review requests</small></span>
@@ -52,7 +52,7 @@
 
             <template v-if="canAccessAdmin">
               <div class="registry-divider" aria-hidden="true"></div>
-              <RouterLink class="registry-item" to="/admin" @click="closeDropdown">
+              <RouterLink :to="$lp('/admin')" class="registry-item" @click="closeDropdown">
                 <i class="fa-solid fa-shield-halved"></i>
                 <span><strong>Full registry</strong><small>Admin dashboard</small></span>
               </RouterLink>

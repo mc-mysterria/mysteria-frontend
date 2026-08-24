@@ -44,7 +44,7 @@
 
           <!-- "No mods required" always raises the same follow-up question, so the
                answer sits directly underneath it. -->
-          <RouterLink class="join-companion" to="/#companion">
+          <RouterLink :to="$lp('/#companion')" class="join-companion">
             <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
             {{ t('guidePage.joinCompanion') }}
           </RouterLink>
@@ -191,9 +191,9 @@
         </details>
 
         <div class="support-row">
-          <RouterLink class="myst-btn-gold" to="/profile">{{ content.ui.profileCta }}</RouterLink>
-          <RouterLink class="myst-btn-outline" to="/pathways">{{ content.ui.pathwaysCta }}</RouterLink>
-          <RouterLink class="myst-btn-outline" to="/rules">{{ content.ui.fullRulesCta }}</RouterLink>
+          <RouterLink :to="$lp('/profile')" class="myst-btn-gold">{{ content.ui.profileCta }}</RouterLink>
+          <RouterLink :to="$lp('/pathways')" class="myst-btn-outline">{{ content.ui.pathwaysCta }}</RouterLink>
+          <RouterLink :to="$lp('/rules')" class="myst-btn-outline">{{ content.ui.fullRulesCta }}</RouterLink>
           <a
               class="myst-btn-outline"
               href="https://discord.com/invite/jc7GSxBWgb"

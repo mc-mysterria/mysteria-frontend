@@ -7,11 +7,70 @@ const pathwayData = require('../src/assets/sources/pathway-abilities.json') as {
         id: string;
         sequences: Array<{
             sequence: number;
-            name: { en: string; uk: string };
+            name: Record<string, string>;
             abilities: unknown[];
         }>;
     }>;
 };
+
+type ProxyLocale = 'en' | 'uk' | 'zh-CN' | 'zh-TW';
+
+/*
+ * The locale table, shared with the app (src/locales/index.ts) and
+ * scripts/build-sitemap.mjs. Read rather than restated: a private copy here
+ * silently serves crawlers the wrong <html lang> and the wrong link-preview
+ * copy, which is invisible everywhere except Search Console.
+ */
+const LOCALE_TABLE = require('../src/assets/sources/locales.json').locales as Array<{
+    code: ProxyLocale;
+    htmlLang: string;
+}>;
+
+const PROXY_LOCALES: ProxyLocale[] = LOCALE_TABLE.map(entry => entry.code);
+
+const HTML_LANG = Object.fromEntries(
+    LOCALE_TABLE.map(entry => [entry.code, entry.htmlLang]),
+) as Record<ProxyLocale, string>;
+
+interface MetaCopy {
+    pathwayTitle: string;
+    pathwayIndexTitle: string;
+    pathwayDescription: string;
+    pathwayIndexDescription: string;
+    pathwaySigilAlt: string;
+    pathwayIndexAlt: string;
+    redirecting: string;
+    pages: Record<string, { title: string; description: string }>;
+}
+
+const ZH_COPY: Partial<Record<ProxyLocale, MetaCopy>> = {
+    'zh-CN': require('../src/assets/sources/meta-copy.zh-CN.json') as MetaCopy,
+    'zh-TW': require('../src/assets/sources/meta-copy.zh-TW.json') as MetaCopy,
+};
+
+/** Localized pathway and Sequence names, from the same overlays the app uses. */
+const ZH_PATHWAYS: Partial<Record<ProxyLocale, {
+    pathwayNames?: Record<string, string>;
+    sequences?: Record<string, Record<string, string>>;
+}>> = {
+    'zh-CN': require('../src/assets/sources/pathways.zh-CN.json'),
+    'zh-TW': require('../src/assets/sources/pathways.zh-TW.json'),
+};
+
+function resolveLocale(value: unknown): ProxyLocale {
+    return typeof value === 'string' && (PROXY_LOCALES as string[]).includes(value)
+        ? (value as ProxyLocale)
+        : 'en';
+}
+
+/** Fills {placeholder} slots in a copy template. */
+function fill(template: string, values: Record<string, string | number>): string {
+    return template.replace(/\{(\w+)}/g, (_match, key) =>
+        key in values ? String(values[key]) : `{${key}}`);
+}
+
+/** Root URL for a locale: locale-prefixed, since that is where readers land. */
+const localeBase = (baseUrl: string, locale: ProxyLocale) => `${baseUrl}/${locale}`;
 
 function escapeHtml(text: string): string {
     if (!text) return '';
@@ -83,28 +142,61 @@ const PATHWAY_NAMES: Record<string, string> = {
 };
 const PATHWAY_IMAGE_ALIASES: Record<string, string> = {aeon: 'eternalaeon'};
 
-function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string): string | null {
+function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, locale: ProxyLocale = 'en'): string | null {
     const pathway = pathwayId ? pathwayData.pathways.find((item) => item.id === pathwayId) : undefined;
     if (pathwayId && !pathway) return null;
 
-    const name = pathwayId ? (PATHWAY_NAMES[pathwayId] || pathwayId) : '';
+    const copy = ZH_COPY[locale];
+    const overlay = ZH_PATHWAYS[locale];
+
+    const name = pathwayId
+        ? (overlay?.pathwayNames?.[pathwayId] || PATHWAY_NAMES[pathwayId] || pathwayId)
+        : '';
     const abilityCount = pathway?.sequences.reduce((total, sequence) => total + sequence.abilities.length, 0) || 0;
-    const firstSequence = pathway?.sequences[0]?.name.en;
-    const finalSequence = pathway?.sequences[pathway.sequences.length - 1]?.name.en;
-    const title = pathway
-        ? `${name} Pathway – Sequences & Abilities | Mysterria`
-        : 'Pathways & Sequences – Beyonder Archive | Mysterria';
-    const description = pathway
-        ? `Explore the ${name} Pathway from Sequence ${pathway.sequences[0]?.sequence} ${firstSequence} to Sequence ${pathway.sequences[pathway.sequences.length - 1]?.sequence} ${finalSequence}. Discover ${abilityCount} abilities available on Mysterria.`
-        : `Explore all ${pathwayData.pathways.length} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.`;
-    const pageUrl = `${baseUrl}/pathways${pathwayId ? `/${pathwayId}` : ''}`;
+
+    const firstRung = pathway?.sequences[0];
+    const finalRung = pathway?.sequences[pathway.sequences.length - 1];
+    const rungName = (rung: typeof firstRung) => {
+        if (!rung) return '';
+        return overlay?.sequences?.[pathway!.id]?.[String(rung.sequence)] || rung.name.en;
+    };
+    const firstSequence = rungName(firstRung);
+    const finalSequence = rungName(finalRung);
+
+    const slots = {
+        name,
+        count: pathwayData.pathways.length,
+        first: firstRung?.sequence ?? '',
+        firstSeq: firstSequence,
+        final: finalRung?.sequence ?? '',
+        finalSeq: finalSequence,
+        abilities: abilityCount,
+    };
+
+    const title = copy
+        ? fill(pathway ? copy.pathwayTitle : copy.pathwayIndexTitle, slots)
+        : pathway
+            ? `${name} Pathway – Sequences & Abilities | Mysterria`
+            : 'Pathways & Sequences – Beyonder Archive | Mysterria';
+
+    const description = copy
+        ? fill(pathway ? copy.pathwayDescription : copy.pathwayIndexDescription, slots)
+        : pathway
+            ? `Explore the ${name} Pathway from Sequence ${firstRung?.sequence} ${firstSequence} to Sequence ${finalRung?.sequence} ${finalSequence}. Discover ${abilityCount} abilities available on Mysterria.`
+            : `Explore all ${pathwayData.pathways.length} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.`;
+
+    const pageUrl = `${localeBase(baseUrl, locale)}/pathways${pathwayId ? `/${pathwayId}` : ''}`;
     const imageName = pathwayId ? (PATHWAY_IMAGE_ALIASES[pathwayId] || pathwayId) : '';
     const hasImage = imageName && ['abyss', 'chained', 'darkness', 'death', 'demoness', 'door', 'emperor', 'error', 'eternalaeon', 'fool', 'fortune', 'giant', 'hanged', 'hermit', 'justiciar', 'moon', 'mother', 'paragon', 'patriarch', 'priest', 'sublunary', 'sun', 'tower', 'tyrant', 'visionary'].includes(imageName);
     const imageUrl = hasImage ? `${baseUrl}/pathways/${imageName}.webp` : `${baseUrl}/banner.webp`;
 
-    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    const sigilAlt = copy
+        ? fill(pathway ? copy.pathwaySigilAlt : copy.pathwayIndexAlt, {name})
+        : (pathway ? `${name} Pathway symbol` : 'Mysterria Beyonder Pathways');
+
+    return `<!DOCTYPE html><html lang="${HTML_LANG[locale]}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(title)}</title><meta name="title" content="${escapeHtml(title)}"><meta name="description" content="${escapeHtml(description)}">
-    <link rel="canonical" href="${pageUrl}"><meta property="og:type" content="website"><meta property="og:site_name" content="Mysterria"><meta property="og:url" content="${pageUrl}"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:image" content="${imageUrl}"><meta property="og:image:alt" content="${escapeHtml(pathway ? `${name} Pathway symbol` : 'Mysterria Beyonder Pathways')}">
+    <link rel="canonical" href="${pageUrl}"><meta property="og:type" content="website"><meta property="og:site_name" content="Mysterria"><meta property="og:url" content="${pageUrl}"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:image" content="${imageUrl}"><meta property="og:image:alt" content="${escapeHtml(sigilAlt)}">
     <meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="${pageUrl}"><meta name="twitter:title" content="${escapeHtml(title)}"><meta name="twitter:description" content="${escapeHtml(description)}"><meta name="twitter:image" content="${imageUrl}">
     <meta http-equiv="refresh" content="0;url=${pageUrl}"><script>window.location.href=${JSON.stringify(pageUrl)}</script></head><body><a href="${pageUrl}">${escapeHtml(title)}</a></body></html>`;
 }
@@ -137,18 +229,24 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     },
 };
 
-function generateStaticPageHTML(pageName: string, baseUrl: string): string {
-    const meta = STATIC_PAGES[pageName] || {
+function generateStaticPageHTML(pageName: string, baseUrl: string, locale: ProxyLocale = 'en'): string {
+    const fallback = STATIC_PAGES[pageName] || {
         title: 'Mysterria - Lord of The Mysteries Minecraft Server',
         description: 'Mysterria – A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches.',
         image: '/banner.webp',
     };
 
-    const pageUrl = `${baseUrl}/${pageName}`;
+    const localized = ZH_COPY[locale]?.pages;
+    const translated = localized?.[pageName] ?? localized?.default;
+    const meta: PageMeta = translated
+        ? {title: translated.title, description: translated.description, image: fallback.image}
+        : fallback;
+
+    const pageUrl = `${localeBase(baseUrl, locale)}/${pageName}`;
     const imageUrl = meta.image.startsWith('http') ? meta.image : `${baseUrl}${meta.image}`;
 
     return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${HTML_LANG[locale]}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -177,13 +275,14 @@ function generateStaticPageHTML(pageName: string, baseUrl: string): string {
     <script>window.location.href = '${pageUrl}';</script>
 </head>
 <body>
-    <p>Redirecting to <a href="${pageUrl}">${escapeHtml(meta.title)}</a>...</p>
+    <p>${escapeHtml(ZH_COPY[locale]?.redirecting ?? 'Redirecting to')} <a href="${pageUrl}">${escapeHtml(meta.title)}</a>...</p>
 </body>
 </html>`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const {path} = req.query;
+    const siteLocale = resolveLocale(req.query.lang);
 
     // Validate path parameter
     if (typeof path !== 'string') {
@@ -197,7 +296,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         if (path === 'pathways' || path.startsWith('pathways/')) {
             const pathwayId = path.split('/')[1];
-            const html = generatePathwayHTML(pathwayId, baseUrl);
+            const html = generatePathwayHTML(pathwayId, baseUrl, siteLocale);
             if (!html) return res.status(404).send('Pathway not found');
             return res.status(200).setHeader('Content-Type', 'text/html; charset=utf-8').setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600').send(html);
         }
@@ -205,7 +304,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Handle static pages (single path segment like "rules", "store", etc.)
         if (!path.includes('/')) {
             console.log('Generating meta tags for static page:', path);
-            const html = generateStaticPageHTML(path, baseUrl);
+            const html = generateStaticPageHTML(path, baseUrl, siteLocale);
             return res
                 .status(200)
                 .setHeader('Content-Type', 'text/html; charset=utf-8')
@@ -245,12 +344,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const imageUrl = article.preview?.startsWith('http')
                 ? article.preview
                 : `${baseUrl}${article.preview || '/banner.webp'}`;
-            const articleUrl = locale !== 'en'
-                ? `${baseUrl}/news/${locale}/${article.slug}`
-                : `${baseUrl}/news/${article.slug}`;
+            // An article lives at its own language's URL, not the sharer's locale.
+            const articleUrl = `${baseUrl}/${locale}/news/${article.slug}`;
             const title = `${escapeHtml(article.title)} - Mysterria`;
             const description = escapeHtml(article.shortDescription || article.title);
-            const htmlLang = locale === 'uk' ? 'uk' : 'en';
+            const htmlLang = HTML_LANG[locale];
 
             // Generate complete HTML with meta tags and redirect
             const html = `<!DOCTYPE html>
@@ -319,7 +417,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const title = `${escapeHtml(service.name)} - Mysterria`;
             const rawDescription = service.markdownContent || service.markdownContentEn || service.markdownContentUk || service.name;
             const description = escapeHtml(stripMarkdown(rawDescription));
-            const htmlLang = locale === 'uk' ? 'uk' : 'en';
+            const htmlLang = HTML_LANG[locale];
 
             const html = `<!DOCTYPE html>
 <html lang="${htmlLang}">

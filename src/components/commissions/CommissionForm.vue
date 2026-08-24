@@ -21,7 +21,7 @@
       <div v-if="buyMoreNeeded > 0" class="buy-more-notice">
         <i class="fa-solid fa-triangle-exclamation"></i>
         <p>{{ buyMoreMessage }}</p>
-        <RouterLink class="buy-more-link" to="/services/spell-rework">
+        <RouterLink :to="$lp('/services/spell-rework')" class="buy-more-link">
           {{ t('commissions.form.buyMoreCta') }}
         </RouterLink>
       </div>
@@ -279,13 +279,8 @@ import {useRoute} from 'vue-router';
 import {useI18n} from '@/composables/useI18n';
 import {useNotification} from '@/services/useNotification';
 import {commissionsAPI} from '@/utils/api/commissions';
-import {COMMISSION_LIMITS as LIMITS, MAJOR_TYPES, computeBudgetUsed} from '@/types/commissions';
-import type {
-  CommissionSlotDto,
-  MajorChangeDto,
-  MinorChangeDto,
-  SubmitCommissionRequestDto,
-} from '@/types/commissions';
+import type {CommissionSlotDto, MajorChangeDto, MinorChangeDto, SubmitCommissionRequestDto,} from '@/types/commissions';
+import {COMMISSION_LIMITS as LIMITS, computeBudgetUsed, MAJOR_TYPES} from '@/types/commissions';
 
 type DraftMajorChange = Omit<MajorChangeDto, 'loreReference'> & { key: number; loreReference: string };
 type DraftMinorChange = MinorChangeDto & { key: number };

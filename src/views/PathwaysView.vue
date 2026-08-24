@@ -12,25 +12,25 @@
             ui.abilities
           }}</span></div>
         <div class="archive-freshness"><span
-            class="freshness-dot"/>{{ currentLanguage === 'uk' ? 'Оновлено' : 'Last updated' }} {{
+            class="freshness-dot"/>{{ ui.lastUpdated }} {{
             formattedLastUpdated
           }} <i>·</i> {{
-            currentLanguage === 'uk' ? 'Дані можуть дещо відрізнятися від поточної версії гри' : 'Details may differ slightly from the current game version'
+            ui.dataDisclaimer
           }}
         </div>
-        <RouterLink class="registry-cta" to="/ascension">{{ ui.registryCta }} →</RouterLink>
+        <RouterLink :to="$lp('/ascension')" class="registry-cta">{{ ui.registryCta }} →</RouterLink>
       </header>
       <section class="archive-layout">
         <aside class="pathway-browser">
           <label class="search-label"
-                 for="pathway-search">{{ currentLanguage === 'uk' ? 'Пошук в архіві' : 'Search the archive' }}</label>
+                 for="pathway-search">{{ ui.searchLabel }}</label>
           <label class="search-box">
             <svg viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7"/>
               <path d="m20 20-4-4"/>
             </svg>
             <input id="pathway-search" v-model="query" :placeholder="ui.search" type="search">
-            <button v-if="query" :aria-label="currentLanguage === 'uk' ? 'Очистити пошук' : 'Clear search'"
+            <button v-if="query" :aria-label="ui.clearSearch"
                     @click="query=''">×
             </button>
             <kbd v-else>⌕</kbd></label>
@@ -105,6 +105,7 @@ import {useRoute, useRouter} from 'vue-router';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
+import type {Translations} from '@/locales';
 import {breadcrumbLd, itemListLd, useSeo} from '@/composables/useSeo';
 import {
   type Ability,
@@ -112,69 +113,30 @@ import {
   corePathways,
   type Localized,
   type Pathway,
-  type Sequence,
   pathwayImage,
   pathwayImageName,
   pathwayName as localizedPathwayName,
   pathways,
   pathwaysLastUpdated,
+  pick,
+  type Sequence,
   sequenceRank as localizedSequenceRank,
 } from '@/data/pathways';
 
-const formattedLastUpdated = computed(() => new Intl.DateTimeFormat(currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US', {
+const formattedLastUpdated = computed(() => new Intl.DateTimeFormat(intlLocale.value, {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
   timeZone: 'UTC'
 }).format(new Date(`${pathwaysLastUpdated}T00:00:00Z`)));
-const copy = {
-  en: {
-    archive: 'BEYONDER ARCHIVE',
-    title: 'Pathways & Sequences',
-    subtitle: 'Study every route to the divine. Discover each Sequence and the abilities it unlocks before choosing your fate.',
-    pathways: 'Pathways',
-    sequences: 'Sequences',
-    abilities: 'Abilities',
-    search: 'Search pathways or abilities…',
-    allPathways: 'All pathways',
-    pathway: 'Pathway',
-    progression: 'Sequence progression · 9 → 0',
-    seq: 'SEQ',
-    sequence: 'Sequence',
-    designation: 'Designation',
-    noResults: 'Nothing found in the archive.',
-    noAbilities: 'No matching abilities',
-    trySearch: 'Try another search or clear the field.',
-    registryCta: 'Sequence 3–0 seats are limited - see live availability'
-  },
-  uk: {
-    archive: 'АРХІВ ПОТОЙБІЧНОГО',
-    title: 'Шляхи та Послідовності',
-    subtitle: 'Дослідіть кожен шлях до божественного. Дізнайтеся про Послідовності та здібності, перш ніж обрати свою долю.',
-    pathways: 'Шляхів',
-    sequences: 'Послідовностей',
-    abilities: 'Здібностей',
-    search: 'Пошук Шляхів або здібностей…',
-    allPathways: 'Усі Шляхи',
-    pathway: 'Шлях',
-    progression: 'Розвиток Послідовності · 9 → 0',
-    seq: 'ПОСЛ',
-    sequence: 'Послідовність',
-    designation: 'Назва',
-    noResults: 'В архіві нічого не знайдено.',
-    noAbilities: 'Здібностей не знайдено',
-    trySearch: 'Спробуйте інший запит або очистьте поле.',
-    registryCta: 'Місця Послідовностей 3–0 обмежені - перегляньте наявність'
-  }
-};
-const {currentLanguage} = useI18n(), route = useRoute(), router = useRouter(), query = ref(''),
+const {currentLanguage, intlLocale, tree} = useI18n(), route = useRoute(), router = useRouter(), query = ref(''),
     activeSequence = ref<number>();
-const ui = computed(() => copy[currentLanguage.value]);
+const ui = computed(() => tree<Translations["pathwaysPage"]>("pathwaysPage"));
 const routeId = computed(() => typeof route.params.pathway === 'string' && pathways.some(p => p.id === route.params.pathway) ? route.params.pathway : pathways[0].id),
     selectedId = ref(routeId.value);
 watch(routeId, id => selectedId.value = id);
 const selected = computed(() => pathways.find(p => p.id === selectedId.value) ?? pathways[0]);
-const localized = (v: Localized) => v[currentLanguage.value] || v.en;
+const localized = (v: Localized) => pick(v, currentLanguage.value);
 const pathwayName = (id: string) => localizedPathwayName(id, currentLanguage.value);
 const imageFor = (id: string) => pathwayImage(id);
 const totalSequences = computed(() => pathways.reduce((n, p) => n + p.sequences.length, 0)),
@@ -187,12 +149,12 @@ const filteredPathways = computed(() => {
 const pathwayGroups = computed(() => [
   {
     id: 'normal',
-    label: currentLanguage.value === 'uk' ? 'Звичайні Шляхи' : 'Standard Pathways',
+    label: ui.value.groupStandard,
     pathways: filteredPathways.value.filter(p => !boonPathwayIds.has(p.id))
   },
   {
     id: 'boons',
-    label: currentLanguage.value === 'uk' ? 'Благословення' : 'Boons',
+    label: ui.value.groupBoons,
     pathways: filteredPathways.value.filter(p => boonPathwayIds.has(p.id))
   }
 ]);
@@ -250,7 +212,7 @@ const visibleSequences = computed(() => {
 watch(filteredPathways, (matches) => {
   if (query.value.trim() && matches.length && !matches.some(p => p.id === selectedId.value)) {
     selectedId.value = matches[0].id;
-    router.replace({name: 'pathways', params: {pathway: matches[0].id}})
+    router.replace({name: 'pathways', params: {...route.params, pathway: matches[0].id}})
   }
 }, {flush: 'post'});
 function sequenceRank(n: number) {
@@ -293,7 +255,7 @@ function updateActiveSequence() {
 function selectPathway(id: string) {
   selectedId.value = id;
   activeSequence.value = pathways.find(p => p.id === id)?.sequences[0]?.sequence;
-  router.replace({name: 'pathways', params: {pathway: id}});
+  router.replace({name: 'pathways', params: {...route.params, pathway: id}});
   if (innerWidth < 900) requestAnimationFrame(() => document.querySelector('.pathway-detail')?.scrollIntoView({behavior: 'smooth'}))
 }
 

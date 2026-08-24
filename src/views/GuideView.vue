@@ -187,7 +187,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, watch, type DirectiveBinding} from "vue";
+import {computed, type DirectiveBinding, onBeforeUnmount, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
@@ -195,11 +195,7 @@ import GuideChoiceComparison from "@/components/guide/GuideChoiceComparison.vue"
 import GuideHome from "@/components/guide/GuideHome.vue";
 import {useI18n} from "@/composables/useI18n";
 import {breadcrumbLd, faqLd, useSeo} from "@/composables/useSeo";
-import {
-  guideContent,
-  type GuideCategory,
-  type GuideTopic,
-} from "@/data/guideContent";
+import {type GuideCategory, guideFor, type GuideTopic,} from "@/data/guideContent";
 import ipScreenshot from "@/assets/images/guide/ip.webp";
 import portalScreenshot from "@/assets/images/guide/portal.webp";
 import joinScreenshot from "@/assets/images/guide/join.webp";
@@ -208,7 +204,7 @@ const {currentLanguage} = useI18n();
 const route = useRoute();
 const router = useRouter();
 
-const content = computed(() => guideContent[currentLanguage.value]);
+const content = computed(() => guideFor(currentLanguage.value));
 let revealObserver: IntersectionObserver | null = null;
 
 type RevealElement = HTMLElement & { __guideRevealDelay?: number };
@@ -311,7 +307,7 @@ watch(
     () => route.params.topic,
     topicId => {
       if (topicId && typeof topicId === "string" && !content.value.topics.some(topic => topic.id === topicId)) {
-        void router.replace({name: "guide"});
+        void router.replace({name: "guide", params: {...route.params}});
       }
     },
     {immediate: true},
@@ -323,11 +319,11 @@ onBeforeUnmount(() => {
 });
 
 function openTopic(topicId: string) {
-  void router.push({name: "guide", params: {topic: topicId}});
+  void router.push({name: "guide", params: {...route.params, topic: topicId}});
 }
 
 function backToGuide() {
-  void router.push({name: "guide"});
+  void router.push({name: "guide", params: {...route.params, topic: undefined}});
 }
 
 function scrollToId(id: string) {

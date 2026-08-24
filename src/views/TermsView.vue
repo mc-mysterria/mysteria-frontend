@@ -40,7 +40,7 @@
               <p>Players must adhere to the community rules established for both the game server and the Discord
                 community. Failure to follow these rules may result in suspension without notice.</p>
               <p>Our full rules can be found at
-                <RouterLink to="/rules" class="ledger-link">mysterria.net/rules</RouterLink>
+                <RouterLink :to="$lp('/rules')" class="ledger-link">mysterria.net/rules</RouterLink>
                 .
               </p>
             </div>

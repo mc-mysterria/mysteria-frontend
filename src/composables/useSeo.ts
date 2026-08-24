@@ -1,5 +1,7 @@
 import {onScopeDispose, watchEffect} from "vue";
 import {useI18n} from "@/composables/useI18n";
+import {localePath, stripLocale} from "@/composables/useLocalePath";
+import {DEFAULT_LANGUAGE, type Language, LANGUAGES, LOCALES} from "@/locales";
 
 export const SITE_URL = "https://mysterria.net";
 export const SITE_NAME = "Mysterria";
@@ -25,11 +27,15 @@ export interface SeoInput {
     publishedTime?: string;
     modifiedTime?: string;
     /**
-     * Language-specific URLs for this page. Most of the site serves both
-     * languages from one URL, so alternates are only correct where the route
-     * actually carries a locale (news articles).
+     * Language-specific URLs for this page.
+     *
+     * Normally you do not need this: every route carries a locale segment, so
+     * the alternates are derived by swapping that segment. Set it only where the
+     * mapping is not one-to-one - a news article that exists in some languages
+     * but not others - and pass `null` for a locale that has no version of the
+     * page, so no false alternate is advertised.
      */
-    alternates?: Partial<Record<"en" | "uk", string>>;
+    alternates?: Partial<Record<Language, string | null>>;
     /** JSON-LD objects to publish alongside the page. */
     jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
@@ -75,10 +81,42 @@ function upsertLink(rel: string, href: string, hreflang?: string) {
 
 const MANAGED_JSON_LD = "data-seo-jsonld";
 const MANAGED_ALTERNATE = "data-seo-alternate";
+const MANAGED_OG_ALTERNATE = "data-seo-og-locale-alt";
 
 function clearManaged() {
     document.head.querySelectorAll(`[${MANAGED_JSON_LD}]`).forEach(node => node.remove());
     document.head.querySelectorAll(`link[${MANAGED_ALTERNATE}]`).forEach(node => node.remove());
+    document.head.querySelectorAll(`meta[${MANAGED_OG_ALTERNATE}]`).forEach(node => node.remove());
+}
+
+function appendAlternate(hreflang: string, href: string) {
+    const tag = document.createElement("link");
+    tag.rel = "alternate";
+    tag.hreflang = hreflang;
+    tag.href = absolute(href);
+    tag.setAttribute(MANAGED_ALTERNATE, "");
+    document.head.appendChild(tag);
+}
+
+/**
+ * Every locale's URL for the current page.
+ *
+ * Since each route is served under a locale segment, the alternate set is just
+ * the same path under each other segment - no page has to declare it. An
+ * explicit `alternates` entry overrides a locale, and an explicit `null` drops
+ * it, which is what news articles need when a translation does not exist.
+ */
+function resolveAlternates(
+    path: string,
+    overrides: SeoInput["alternates"],
+): Array<{ language: Language; href: string }> {
+    const unprefixed = stripLocale(path);
+
+    return LANGUAGES.flatMap(language => {
+        const override = overrides?.[language];
+        if (override === null) return [];
+        return [{language, href: override ?? localePath(unprefixed, language)}];
+    });
 }
 
 /**
@@ -105,8 +143,13 @@ export function useSeo(source: () => SeoInput) {
         const image = absolute(seo.image ?? DEFAULT_IMAGE);
         const type = seo.type ?? "website";
 
+        const meta = LOCALES[language];
+
         document.title = title;
-        document.documentElement.lang = language;
+        // `zh-Hans` / `zh-Hant` rather than `zh-CN` / `zh-TW`: the script is what
+        // tells a reader (and a browser's translate prompt) whether the page is
+        // readable to them, and it serves HK/MO/SG as well.
+        document.documentElement.lang = meta.htmlLang;
 
         upsertMeta("title", "name", title);
         upsertMeta("description", "name", description);
@@ -119,7 +162,7 @@ export function useSeo(source: () => SeoInput) {
         upsertMeta("og:description", "property", description);
         upsertMeta("og:image", "property", image);
         upsertMeta("og:image:alt", "property", seo.imageAlt ?? SITE_NAME);
-        upsertMeta("og:locale", "property", language === "uk" ? "uk_UA" : "en_US");
+        upsertMeta("og:locale", "property", meta.ogLocale);
 
         upsertMeta("twitter:card", "name", "summary_large_image");
         upsertMeta("twitter:url", "name", canonical);
@@ -144,27 +187,28 @@ export function useSeo(source: () => SeoInput) {
 
         clearManaged();
 
-        // hreflang is only truthful where the URL itself differs by language
-        if (seo.alternates) {
-            for (const [code, href] of Object.entries(seo.alternates)) {
-                if (!href) continue;
-                const tag = document.createElement("link");
-                tag.rel = "alternate";
-                tag.hreflang = code;
-                tag.href = absolute(href);
-                tag.setAttribute(MANAGED_ALTERNATE, "");
-                document.head.appendChild(tag);
-            }
-            const fallback = seo.alternates.en;
-            if (fallback) {
-                const tag = document.createElement("link");
-                tag.rel = "alternate";
-                tag.hreflang = "x-default";
-                tag.href = absolute(fallback);
-                tag.setAttribute(MANAGED_ALTERNATE, "");
-                document.head.appendChild(tag);
-            }
+        /*
+         * hreflang for every locale this page exists in. Google wants the set to
+         * be reciprocal and to include the page itself, so the current locale is
+         * emitted alongside the others.
+         */
+        const alternates = resolveAlternates(seo.path ?? window.location.pathname, seo.alternates);
+
+        for (const {language: code, href} of alternates) {
+            appendAlternate(LOCALES[code].hreflang, href);
+
+            // og:locale:alternate is a separate, repeatable tag from hreflang.
+            if (code === language) continue;
+            const tag = document.createElement("meta");
+            tag.setAttribute("property", "og:locale:alternate");
+            tag.setAttribute("content", LOCALES[code].ogLocale);
+            tag.setAttribute(MANAGED_OG_ALTERNATE, "");
+            document.head.appendChild(tag);
         }
+
+        // x-default is what a reader with no matching language should get.
+        const fallback = alternates.find(entry => entry.language === DEFAULT_LANGUAGE);
+        if (fallback) appendAlternate("x-default", fallback.href);
 
         const blocks = seo.jsonLd ? (Array.isArray(seo.jsonLd) ? seo.jsonLd : [seo.jsonLd]) : [];
         for (const block of blocks) {
@@ -212,7 +256,7 @@ export const websiteLd = () => ({
     "@id": `${SITE_URL}/#website`,
     url: SITE_URL,
     name: SITE_NAME,
-    inLanguage: ["en", "uk"],
+    inLanguage: LANGUAGES.map(code => LOCALES[code].hreflang),
     publisher: {"@id": `${SITE_URL}/#organization`},
 });
 
@@ -230,7 +274,7 @@ export const videoGameLd = (playerCount?: number) => ({
     gamePlatform: ["PC", "Minecraft: Java Edition", "Minecraft: Bedrock Edition"],
     applicationCategory: "Game",
     genre: ["Roleplaying", "MMORPG", "Survival"],
-    inLanguage: ["en", "uk"],
+    inLanguage: LANGUAGES.map(code => LOCALES[code].hreflang),
     isAccessibleForFree: true,
     publisher: {"@id": `${SITE_URL}/#organization`},
     ...(playerCount ? {audience: {"@type": "Audience", audienceType: `${playerCount} Beyonders`}} : {}),

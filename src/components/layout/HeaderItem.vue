@@ -3,7 +3,7 @@
   <div v-if="showAnnouncement && announcement && !announcementDismissed" class="season-bar">
     <span class="season-headline">{{ announcement.headline }}</span>
     <span class="season-divider" aria-hidden="true">†</span>
-    <RouterLink v-if="announcement.to" class="season-link" :to="announcement.to">
+    <RouterLink v-if="announcement.to" :to="$lp(announcement.to)" class="season-link">
       {{ announcement.linkLabel }} →
     </RouterLink>
     <button :aria-label="t('header.closeNav')" class="season-dismiss" @click="dismissAnnouncement">
@@ -13,7 +13,7 @@
 
   <header class="site-header">
     <div class="header-grid">
-      <RouterLink class="brand" to="/" @click="closeMobileNav">
+      <RouterLink :to="$lp('/')" class="brand" @click="closeMobileNav">
         <img :src="logo" alt="Mysterria" class="brand-mark" width="38" height="38">
         <span class="brand-words">
           <span class="brand-name">Mysterria</span>
@@ -26,7 +26,7 @@
             v-for="link in navigationLinks"
             :key="link.path"
             :class="['nav-link', { active: isActive(link) }]"
-            :to="link.path"
+            :to="$lp(link.path)"
         >
           {{ link.title }}
           <span v-if="isActive(link)" class="nav-underline" aria-hidden="true"></span>
@@ -59,7 +59,7 @@
         <div class="mobile-nav-backdrop" @click="closeMobileNav"></div>
         <nav class="mobile-nav">
           <div class="mobile-nav-header">
-            <RouterLink class="brand compact" to="/" @click="closeMobileNav">
+            <RouterLink :to="$lp('/')" class="brand compact" @click="closeMobileNav">
               <img :src="logo" alt="" class="brand-mark" width="30" height="30">
               <span class="brand-name">Mysterria</span>
             </RouterLink>
@@ -73,7 +73,7 @@
                 v-for="link in navigationLinks"
                 :key="link.path"
                 :class="['mobile-nav-link', { active: isActive(link) }]"
-                :to="link.path"
+                :to="$lp(link.path)"
                 @click="closeMobileNav"
             >
               {{ link.title }}
@@ -124,6 +124,7 @@ import IconMap from "@/assets/icons/IconMap.vue";
 import IconWiki from "@/assets/icons/IconWiki.vue";
 import IconDiscord from "@/assets/icons/IconDiscord.vue";
 import {useI18n} from "@/composables/useI18n";
+import {useLocalePath} from "@/composables/useLocalePath";
 import {SEASON_ANNOUNCEMENT_SLUG} from "@/constants/season";
 import {useAuthStore} from "@/stores/auth";
 import logo from "@/assets/icons/sources/IconLogo.webp";
@@ -139,6 +140,7 @@ withDefaults(defineProps<{ showAnnouncement?: boolean }>(), {showAnnouncement: f
 
 const route = useRoute();
 const {t} = useI18n();
+const {unprefixedPath} = useLocalePath();
 const authStore = useAuthStore();
 const isMobileNavOpen = ref(false);
 const navigationRef = ref<HTMLElement | null>(null);
@@ -207,10 +209,14 @@ const servicesLinks = computed(() => [
   },
 ]);
 
+/* Nav targets are written without a locale segment, so they are compared
+   against the route with its segment stripped - otherwise /zh-TW/guide would
+   never match /guide and nothing would ever light up. */
 const isActive = (link: NavLink) => {
-  if (link.path === "/") return route.path === "/";
-  if (route.path.startsWith(link.path)) return true;
-  return (link.matches ?? []).some(prefix => route.path.startsWith(prefix));
+  const path = unprefixedPath.value;
+  if (link.path === "/") return path === "/";
+  if (path.startsWith(link.path)) return true;
+  return (link.matches ?? []).some(prefix => path.startsWith(prefix));
 };
 
 const toggleMobileNav = () => (isMobileNavOpen.value = !isMobileNavOpen.value);

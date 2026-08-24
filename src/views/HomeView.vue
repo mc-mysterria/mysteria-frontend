@@ -37,7 +37,7 @@
         <p class="hero-tagline">{{ t('homePage.heroTagline') }}</p>
 
         <div class="hero-ctas">
-          <RouterLink class="myst-btn-gold hero-cta-primary" to="/guide">
+          <RouterLink :to="$lp('/guide')" class="myst-btn-gold hero-cta-primary">
             {{ t('homePage.heroPrimaryCta') }}
           </RouterLink>
           <a class="myst-btn-outline hero-cta-secondary" href="#pathways">
@@ -122,9 +122,11 @@
                 v-for="(card, index) in tarotCards"
                 :key="card.id"
                 :class="['tarot-card', `tilt-${index % 5}`]"
-                :to="`/pathways/${card.id}`"
+                :to="$lp(`/pathways/${card.id}`)"
             >
-              <span class="tarot-seq">{{ t('homePage.tarotSeq') }} · {{ card.role }}</span>
+              <span class="tarot-seq">{{ t('homePage.tarotSeq') }}<template v-if="card.role"> · {{
+                  card.role
+                }}</template></span>
               <img :alt="card.name" :src="card.image" class="tarot-sigil" loading="lazy">
               <span class="tarot-name">{{ card.name }}</span>
             </RouterLink>
@@ -135,7 +137,7 @@
         </div>
 
         <div class="tarot-cta">
-          <RouterLink class="myst-btn-outline" to="/pathways">
+          <RouterLink :to="$lp('/pathways')" class="myst-btn-outline">
             {{ t('homePage.tarotCta') }} - {{ t('homePage.tarotCtaCount') }}
             <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
           </RouterLink>
@@ -157,10 +159,10 @@
             <p class="myst-eyebrow">{{ t('homePage.newsEyebrow') }}</p>
             <h2 class="news-title">{{ t('homePage.newsTitle') }}</h2>
           </div>
-          <RouterLink class="news-all" to="/news">{{ t('homePage.newsAll') }} →</RouterLink>
+          <RouterLink :to="$lp('/news')" class="news-all">{{ t('homePage.newsAll') }} →</RouterLink>
         </header>
 
-        <RouterLink v-if="featured" class="news-featured" :to="`/news/${featured.slug}`">
+        <RouterLink v-if="featured" :to="$lp(`/news/${featured.slug}`)" class="news-featured">
           <div class="featured-media">
             <img :alt="featured.title" :src="featured.preview || bannerWebp" loading="lazy">
             <span v-if="featured.isPinned" class="featured-badge">{{ t('homePage.newsPinned') }}</span>
@@ -177,7 +179,7 @@
             v-for="entry in compactNews"
             :key="entry.id"
             class="news-row"
-            :to="`/news/${entry.slug}`"
+            :to="$lp(`/news/${entry.slug}`)"
         >
           <span class="row-date">{{ formatDate(entry.publishedAt || entry.createdAt) }}</span>
           <span class="row-copy">
@@ -240,7 +242,7 @@ import {corePathways, pathwayImage, pathwayName, sequenceNineName} from "@/data/
 import bannerWebp from "@/assets/images/optimized/banner.webp";
 import kleinWebp from "@/assets/images/optimized/Klein.webp";
 
-const {t, currentLanguage} = useI18n();
+const {t, currentLanguage, intlLocale, locale} = useI18n();
 const {copied, copyIp} = useCopyIp();
 const {totalBeyonders, uniquePathways} = useBeyonderStats();
 
@@ -275,12 +277,21 @@ const tarotCards = computed(() => {
     ...corePathways.map(pathway => pathway.id).filter(id => !FEATURED_IDS.includes(id)),
   ];
 
-  return ordered.map(id => ({
-    id,
-    name: pathwayName(id, currentLanguage.value),
-    role: sequenceNineName(id, currentLanguage.value).toUpperCase(),
-    image: pathwayImage(id),
-  }));
+  return ordered.map(id => {
+    const name = pathwayName(id, currentLanguage.value);
+    const role = sequenceNineName(id, currentLanguage.value).toUpperCase();
+    return {
+      id,
+      name,
+      /*
+       * Chinese names a pathway after its Sequence 9, so the label and the role
+       * are the same word (占卜家 / 序列9 · 占卜家). Drop the role rather than
+       * print it twice; the rung number still carries the information.
+       */
+      role: role === name.toUpperCase() ? "" : role,
+      image: pathwayImage(id),
+    };
+  });
 });
 
 const tarotTrack = ref<HTMLElement | null>(null);
@@ -491,7 +502,7 @@ const compactNews = computed(() =>
 
 const formatDate = (value?: string) => {
   if (!value) return "";
-  return new Date(value).toLocaleDateString(currentLanguage.value === "uk" ? "uk-UA" : "en-US", {
+  return new Date(value).toLocaleDateString(intlLocale.value, {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -501,8 +512,8 @@ const formatDate = (value?: string) => {
 const loadNews = async () => {
   try {
     const [latest, pinnedResponse] = await Promise.all([
-      newsAPI.getLatest(currentLanguage.value),
-      newsAPI.getPinned(currentLanguage.value),
+      newsAPI.getLatest(locale.value.articleLocale),
+      newsAPI.getPinned(locale.value.articleLocale),
     ]);
     news.value = latest.data;
     pinned.value = pinnedResponse.data;

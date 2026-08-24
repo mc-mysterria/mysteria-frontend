@@ -2,7 +2,7 @@
   <section v-if="isOwnProfile" class="commissions-card myst-panel">
     <header class="card-head">
       <h3>{{ t('commissions.pageTitle') }}</h3>
-      <RouterLink class="card-link" to="/commissions">{{ t('commissions.card.viewCta') }} →</RouterLink>
+      <RouterLink :to="$lp('/commissions')" class="card-link">{{ t('commissions.card.viewCta') }} →</RouterLink>
     </header>
 
     <div v-if="loading" class="card-loading" aria-hidden="true">

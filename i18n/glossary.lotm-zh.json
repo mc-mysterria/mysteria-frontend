@@ -1,0 +1,641 @@
+{
+  "$comment": [
+    "Locked Chinese terminology for Mysterria. This file is the authority: every",
+    "Chinese string that ships must use these renderings, and every AI translation",
+    "prompt injects it verbatim.",
+    "",
+    "`canon: true` means the term appears in the original Qidian webnovel 《诡秘之主》",
+    "by 爱潜水的乌贼. Those renderings are NOT open to translator preference - they are",
+    "what the source fandom already reads, and a paraphrase reads as a bad fan",
+    "translation no matter how accurate it is. `canon: false` marks Mysterria's own",
+    "invented terms, translated in the novel's register but not quotable from it.",
+    "",
+    "zh-TW is generated from zh-CN by OpenCC `s2twp` (see scripts/build-zh-tw.mjs).",
+    "Where the correct Traditional form is NOT what s2twp produces, the term is",
+    "listed in `openccOverrides` below and the converter is corrected after the fact."
+  ],
+  "sources": [
+    "https://m.ali213.net/news/gl2508/1687939.html - full 22-pathway sequence table",
+    "https://zh.wikipedia.org/zh-tw/诡秘之主 - Traditional title and author",
+    "https://www.books.com.tw/products/0010876694 - Taiwan print edition (飛燕文創), title as published",
+    "https://lordofthemysteries.fandom.com/zh/wiki/非凡途径 - fandom terminology reference"
+  ],
+  "openccOverrides": {
+    "$comment": [
+      "Applied after s2twp. Left side is what s2twp emits, right side is correct.",
+      "Deliberately near-empty: opencc-js already gets the cases we checked right",
+      "(it emits 詭秘之主, matching the Taiwan print edition, and leaves 神秘 alone).",
+      "Add an entry only with evidence that s2twp is wrong for a specific phrase -",
+      "never a single-character rule like 秘->祕, which would corrupt 詭秘之主.",
+      "Taiwan vocabulary that s2twp misses is the native TW reviewer's pass; see",
+      "reviewCandidates."
+    ]
+  },
+  "reviewCandidates": {
+    "$comment": [
+      "Terms where Taiwan usage may differ from what s2twp emits, flagged for the",
+      "native TW/HK pass rather than guessed at now. Resolve each with a TW reader,",
+      "then move it into openccOverrides."
+    ],
+    "神秘學": "TW often writes 神祕學. s2twp leaves 神秘學. Confirm which the TW print edition uses.",
+    "秘偶大師": "Sequence 5 of the Fool pathway. Check whether the TW edition writes 祕偶大師.",
+    "詭秘侍者": "Sequence 1 of the Fool pathway. Same 秘/祕 question as above."
+  },
+  "core": [
+    {
+      "en": "Lord of the Mysteries",
+      "zh-CN": "诡秘之主",
+      "zh-TW": "詭秘之主",
+      "canon": true,
+      "note": "Novel title. Taiwan print edition keeps 秘; do not let s2twp turn it into 詭祕之主."
+    },
+    {
+      "en": "Pathway",
+      "zh-CN": "途径",
+      "zh-TW": "途徑",
+      "canon": true,
+      "note": "One of the 22 routes to godhood. Never 路径 or 道路."
+    },
+    {
+      "en": "Sequence",
+      "zh-CN": "序列",
+      "zh-TW": "序列",
+      "canon": true,
+      "note": "Both the rung (序列9) and the system. Never 等级 or 阶级."
+    },
+    {
+      "en": "Beyonder",
+      "zh-CN": "非凡者",
+      "zh-TW": "非凡者",
+      "canon": true,
+      "note": "Never 超凡者 - that is a different novel's term."
+    },
+    {
+      "en": "Beyonder Characteristic",
+      "zh-CN": "非凡特性",
+      "zh-TW": "非凡特性",
+      "canon": true
+    },
+    {
+      "en": "Beyonder power / ability",
+      "zh-CN": "非凡能力",
+      "zh-TW": "非凡能力",
+      "canon": true
+    },
+    {
+      "en": "Potion",
+      "zh-CN": "魔药",
+      "zh-TW": "魔藥",
+      "canon": true,
+      "note": "Never 药水 - that is the generic game word and reads as a mistranslation to this fandom."
+    },
+    {
+      "en": "Potion formula",
+      "zh-CN": "魔药配方",
+      "zh-TW": "魔藥配方",
+      "canon": true
+    },
+    {
+      "en": "Main ingredient",
+      "zh-CN": "主材料",
+      "zh-TW": "主材料",
+      "canon": true
+    },
+    {
+      "en": "Supplementary ingredient",
+      "zh-CN": "辅助材料",
+      "zh-TW": "輔助材料",
+      "canon": true
+    },
+    {
+      "en": "Loss of control",
+      "zh-CN": "失控",
+      "zh-TW": "失控",
+      "canon": true
+    },
+    {
+      "en": "Acting method",
+      "zh-CN": "扮演法",
+      "zh-TW": "扮演法",
+      "canon": true,
+      "note": "The digestion technique: act the role the Sequence names."
+    },
+    {
+      "en": "Digest (a potion)",
+      "zh-CN": "消化",
+      "zh-TW": "消化",
+      "canon": true
+    },
+    {
+      "en": "Advancement",
+      "zh-CN": "晋升",
+      "zh-TW": "晉升",
+      "canon": true,
+      "note": "Moving up a Sequence. Not 飞升, which carries Taoist-immortal connotations absent from the novel."
+    },
+    {
+      "en": "Uniqueness",
+      "zh-CN": "独一性",
+      "zh-TW": "獨一性",
+      "canon": true,
+      "note": "The single Sequence 0 seat per pathway."
+    },
+    {
+      "en": "Grey Fog",
+      "zh-CN": "灰雾",
+      "zh-TW": "灰霧",
+      "canon": true
+    },
+    {
+      "en": "Above the grey fog",
+      "zh-CN": "灰雾之上",
+      "zh-TW": "灰霧之上",
+      "canon": true
+    },
+    {
+      "en": "Tarot Club",
+      "zh-CN": "塔罗会",
+      "zh-TW": "塔羅會",
+      "canon": true
+    },
+    {
+      "en": "Mr. Fool",
+      "zh-CN": "愚者先生",
+      "zh-TW": "愚者先生",
+      "canon": true
+    },
+    {
+      "en": "Sealed Artifact",
+      "zh-CN": "封印物",
+      "zh-TW": "封印物",
+      "canon": true
+    },
+    {
+      "en": "Mysticism",
+      "zh-CN": "神秘学",
+      "zh-TW": "神祕學",
+      "canon": true,
+      "note": "Here TW DOES take 祕 - unlike the book title."
+    },
+    {
+      "en": "Ritual",
+      "zh-CN": "仪式",
+      "zh-TW": "儀式",
+      "canon": true
+    },
+    {
+      "en": "Ritual magic",
+      "zh-CN": "仪式魔法",
+      "zh-TW": "儀式魔法",
+      "canon": true
+    },
+    {
+      "en": "Divination",
+      "zh-CN": "占卜",
+      "zh-TW": "占卜",
+      "canon": true
+    },
+    {
+      "en": "Spirituality",
+      "zh-CN": "灵性",
+      "zh-TW": "靈性",
+      "canon": true
+    },
+    {
+      "en": "Spirit World",
+      "zh-CN": "灵界",
+      "zh-TW": "靈界",
+      "canon": true
+    },
+    {
+      "en": "Outer Deity",
+      "zh-CN": "外神",
+      "zh-TW": "外神",
+      "canon": true
+    },
+    {
+      "en": "Old One",
+      "zh-CN": "旧日",
+      "zh-TW": "舊日",
+      "canon": true
+    },
+    {
+      "en": "True God",
+      "zh-CN": "真神",
+      "zh-TW": "真神",
+      "canon": true
+    },
+    {
+      "en": "Demigod",
+      "zh-CN": "半神",
+      "zh-TW": "半神",
+      "canon": true
+    },
+    {
+      "en": "Angel",
+      "zh-CN": "天使",
+      "zh-TW": "天使",
+      "canon": true
+    },
+    {
+      "en": "Church",
+      "zh-CN": "教会",
+      "zh-TW": "教會",
+      "canon": true
+    },
+    {
+      "en": "Monster (lost control)",
+      "zh-CN": "怪物",
+      "zh-TW": "怪物",
+      "canon": true
+    },
+    {
+      "en": "Saint",
+      "zh-CN": "圣者",
+      "zh-TW": "聖者",
+      "canon": false,
+      "note": "Mysterria rank for Sequence 3. The novel does not use a single fixed word here."
+    },
+    {
+      "en": "Archangel",
+      "zh-CN": "大天使",
+      "zh-TW": "大天使",
+      "canon": false,
+      "note": "Mysterria rank for Sequence 1."
+    },
+    {
+      "en": "Deity",
+      "zh-CN": "神灵",
+      "zh-TW": "神靈",
+      "canon": false,
+      "note": "Mysterria rank for Sequence 0."
+    },
+    {
+      "en": "Ascension Registry",
+      "zh-CN": "晋升名录",
+      "zh-TW": "晉升名錄",
+      "canon": false,
+      "note": "Mysterria page listing who holds the high Sequences."
+    },
+    {
+      "en": "Beyonder Archive",
+      "zh-CN": "非凡者档案",
+      "zh-TW": "非凡者檔案",
+      "canon": false
+    },
+    {
+      "en": "Boon pathway",
+      "zh-CN": "恩赐途径",
+      "zh-TW": "恩賜途徑",
+      "canon": false,
+      "note": "Mysterria's supplementary routes outside the canonical 22."
+    },
+    {
+      "en": "The Circle of Imagination",
+      "zh-CN": "空想之环",
+      "zh-TW": "空想之環",
+      "canon": false,
+      "note": "DO NOT translate literally as 想象之环 or similar. The English name is a pun on 《宿命之环》(Circle of Inevitability), the sequel novel: swap Inevitability for Imagination and you get Minecraft's 'the only limit is your imagination'. 空想之环 keeps the pun intact, and 空想 is itself the canonical word the novel uses (空想家 = Visionary, 空想天使 = Angel of Imagination), so a LOTM reader hears the reference immediately. Flattening it to a literal rendering throws away the whole joke."
+    },
+    {
+      "en": "Circle of Inevitability",
+      "zh-CN": "宿命之环",
+      "zh-TW": "宿命之環",
+      "canon": true,
+      "note": "The sequel novel. Present only as the reference 空想之环 plays off."
+    },
+    {
+      "en": "COI Client",
+      "zh-CN": "COI 客户端",
+      "zh-TW": "COI 客戶端",
+      "canon": false,
+      "note": "Keep the COI acronym - it is the mod's distributed name and how players find it."
+    }
+  ],
+  "pathways": {
+    "$comment": [
+      "Keyed by the pathway id in src/assets/sources/pathway-abilities.json.",
+      "IMPORTANT - `zh-CN`/`zh-TW` is the PATHWAY label and comes from the novel's",
+      "Sequence 9, because that is how Chinese names a pathway. English \"Fool",
+      "pathway\" is 占卜家途径 (Seer pathway). `deity-zh-CN`/`deity-zh-TW` is the",
+      "Sequence 0 title - the god at the summit - which English happens to reuse as",
+      "the pathway name and Chinese does not. Do not swap them.",
+      "",
+      "The ten boon pathways are Outer God (外神) routes from the novel, NOT Mysterria",
+      "inventions - the 22 are the Primordial Creator's routes plus six taken from",
+      "Outer Gods, and the Outer Gods have many more. Their zh values below are",
+      "PROVISIONAL translations standing in for canon that has not been looked up.",
+      "See i18n/checklist.boon-pathways.md before trusting any of them."
+    ],
+    "fool": {
+      "en": "Fool",
+      "zh-CN": "占卜家",
+      "zh-TW": "占卜家",
+      "canonPathway": "占卜家途径",
+      "canon": true,
+      "deity-zh-CN": "愚者",
+      "deity-zh-TW": "愚者",
+      "note": "Chinese names this route after its Sequence 9 (占卜家途径), not its Sequence 0. 愚者 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "door": {
+      "en": "Door",
+      "zh-CN": "学徒",
+      "zh-TW": "學徒",
+      "canonPathway": "学徒途径",
+      "canon": true,
+      "deity-zh-CN": "门",
+      "deity-zh-TW": "門",
+      "note": "Chinese names this route after its Sequence 9 (学徒途径), not its Sequence 0. 门 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "error": {
+      "en": "Error",
+      "zh-CN": "偷盗者",
+      "zh-TW": "偷盜者",
+      "canonPathway": "偷盗者途径",
+      "canon": true,
+      "deity-zh-CN": "错误",
+      "deity-zh-TW": "錯誤",
+      "note": "Chinese names this route after its Sequence 9 (偷盗者途径), not its Sequence 0. 错误 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "visionary": {
+      "en": "Visionary",
+      "zh-CN": "观众",
+      "zh-TW": "觀眾",
+      "canonPathway": "观众途径",
+      "canon": true,
+      "note": "Chinese names this route after its Sequence 9 (观众途径), not its Sequence 0. 空想家 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label.",
+      "deity-zh-CN": "空想家",
+      "deity-zh-TW": "空想家"
+    },
+    "sun": {
+      "en": "Sun",
+      "zh-CN": "歌颂者",
+      "zh-TW": "歌頌者",
+      "canonPathway": "歌颂者途径",
+      "canon": true,
+      "deity-zh-CN": "太阳",
+      "deity-zh-TW": "太陽",
+      "note": "Chinese names this route after its Sequence 9 (歌颂者途径), not its Sequence 0. 太阳 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "tower": {
+      "en": "White Tower",
+      "zh-CN": "阅读者",
+      "zh-TW": "閱讀者",
+      "canonPathway": "阅读者途径",
+      "canon": true,
+      "deity-zh-CN": "白塔",
+      "deity-zh-TW": "白塔",
+      "note": "Chinese names this route after its Sequence 9 (阅读者途径), not its Sequence 0. 白塔 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "tyrant": {
+      "en": "Tyrant",
+      "zh-CN": "水手",
+      "zh-TW": "水手",
+      "canonPathway": "水手途径",
+      "canon": true,
+      "deity-zh-CN": "暴君",
+      "deity-zh-TW": "暴君",
+      "note": "Chinese names this route after its Sequence 9 (水手途径), not its Sequence 0. 暴君 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "hanged": {
+      "en": "Hanged Man",
+      "zh-CN": "秘祈人",
+      "zh-TW": "秘祈人",
+      "canonPathway": "秘祈人途径",
+      "canon": true,
+      "deity-zh-CN": "倒吊人",
+      "deity-zh-TW": "倒吊人",
+      "note": "Chinese names this route after its Sequence 9 (秘祈人途径), not its Sequence 0. 倒吊人 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "death": {
+      "en": "Death",
+      "zh-CN": "收尸人",
+      "zh-TW": "收屍人",
+      "canonPathway": "收尸人途径",
+      "canon": true,
+      "deity-zh-CN": "死神",
+      "deity-zh-TW": "死神",
+      "note": "Chinese names this route after its Sequence 9 (收尸人途径), not its Sequence 0. 死神 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "darkness": {
+      "en": "Darkness",
+      "zh-CN": "不眠者",
+      "zh-TW": "不眠者",
+      "canonPathway": "不眠者途径",
+      "canon": true,
+      "deity-zh-CN": "黑暗",
+      "deity-zh-TW": "黑暗",
+      "note": "Chinese names this route after its Sequence 9 (不眠者途径), not its Sequence 0. 黑暗 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "giant": {
+      "en": "Twilight Giant",
+      "zh-CN": "战士",
+      "zh-TW": "戰士",
+      "canonPathway": "战士途径",
+      "canon": true,
+      "deity-zh-CN": "黄昏巨人",
+      "deity-zh-TW": "黃昏巨人",
+      "note": "Chinese names this route after its Sequence 9 (战士途径), not its Sequence 0. 黄昏巨人 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "priest": {
+      "en": "Red Priest",
+      "zh-CN": "猎人",
+      "zh-TW": "獵人",
+      "canonPathway": "猎人途径",
+      "canon": true,
+      "deity-zh-CN": "红祭司",
+      "deity-zh-TW": "紅祭司",
+      "note": "Chinese names this route after its Sequence 9 (猎人途径), not its Sequence 0. 红祭司 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "demoness": {
+      "en": "Demoness",
+      "zh-CN": "刺客",
+      "zh-TW": "刺客",
+      "canonPathway": "刺客途径",
+      "canon": true,
+      "deity-zh-CN": "原初魔女",
+      "deity-zh-TW": "原初魔女",
+      "note": "Chinese names this route after its Sequence 9 (刺客途径), not its Sequence 0. 原初魔女 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "mother": {
+      "en": "Mother",
+      "zh-CN": "耕种者",
+      "zh-TW": "耕種者",
+      "canonPathway": "耕种者途径",
+      "canon": true,
+      "deity-zh-CN": "母亲",
+      "deity-zh-TW": "母親",
+      "note": "Chinese names this route after its Sequence 9 (耕种者途径), not its Sequence 0. 母亲 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "moon": {
+      "en": "Moon",
+      "zh-CN": "药师",
+      "zh-TW": "藥師",
+      "canonPathway": "药师途径",
+      "canon": true,
+      "deity-zh-CN": "月亮",
+      "deity-zh-TW": "月亮",
+      "note": "Chinese names this route after its Sequence 9 (药师途径), not its Sequence 0. 月亮 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "emperor": {
+      "en": "Black Emperor",
+      "zh-CN": "律师",
+      "zh-TW": "律師",
+      "canonPathway": "律师途径",
+      "canon": true,
+      "deity-zh-CN": "黑皇帝",
+      "deity-zh-TW": "黑皇帝",
+      "note": "Chinese names this route after its Sequence 9 (律师途径), not its Sequence 0. 黑皇帝 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "justiciar": {
+      "en": "Justiciar",
+      "zh-CN": "仲裁人",
+      "zh-TW": "仲裁人",
+      "canonPathway": "仲裁人途径",
+      "canon": true,
+      "note": "Chinese names this route after its Sequence 9 (仲裁人途径), not its Sequence 0. 审判者 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label.",
+      "deity-zh-CN": "审判者",
+      "deity-zh-TW": "審判者"
+    },
+    "abyss": {
+      "en": "Abyss",
+      "zh-CN": "罪犯",
+      "zh-TW": "罪犯",
+      "canonPathway": "罪犯途径",
+      "canon": true,
+      "deity-zh-CN": "深渊",
+      "deity-zh-TW": "深淵",
+      "note": "Chinese names this route after its Sequence 9 (罪犯途径), not its Sequence 0. 深渊 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "chained": {
+      "en": "Chained",
+      "zh-CN": "囚犯",
+      "zh-TW": "囚犯",
+      "canonPathway": "囚犯途径",
+      "canon": true,
+      "deity-zh-CN": "被缚者",
+      "deity-zh-TW": "被縛者",
+      "note": "Chinese names this route after its Sequence 9 (囚犯途径), not its Sequence 0. 被缚者 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "hermit": {
+      "en": "Hermit",
+      "zh-CN": "窥秘人",
+      "zh-TW": "窺秘人",
+      "canonPathway": "窥秘人途径",
+      "canon": true,
+      "deity-zh-CN": "隐者",
+      "deity-zh-TW": "隱者",
+      "note": "Chinese names this route after its Sequence 9 (窥秘人途径), not its Sequence 0. 隐者 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "paragon": {
+      "en": "Paragon",
+      "zh-CN": "通识者",
+      "zh-TW": "通識者",
+      "canonPathway": "通识者途径",
+      "canon": true,
+      "note": "Chinese names this route after its Sequence 9 (通识者途径), not its Sequence 0. 完美者 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label.",
+      "deity-zh-CN": "完美者",
+      "deity-zh-TW": "完美者"
+    },
+    "fortune": {
+      "en": "Wheel of Fortune",
+      "zh-CN": "怪物",
+      "zh-TW": "怪物",
+      "canonPathway": "怪物途径",
+      "canon": true,
+      "deity-zh-CN": "命运之轮",
+      "deity-zh-TW": "命運之輪",
+      "note": "Chinese names this route after its Sequence 9 (怪物途径), not its Sequence 0. 命运之轮 is the god at its summit - use deity-zh-CN for the Sequence 0 throne, never as the pathway label."
+    },
+    "aeon": {
+      "en": "Eternal Aeon",
+      "zh-CN": "宿命之环",
+      "zh-TW": "宿命之環",
+      "outerGod": "宿命之环 (Circle of Inevitability)",
+      "canonStatus": "canon",
+      "canonLadder": "舞蹈家 / 托钵僧侣 / 受契之人 / 苦修士 / 猎命师 (then 环中人, 受难者, 罪人). The Outer God the plugin name 空想之环 puns on.",
+      "note": "Outer God (外神) route. The label is the Outer God's own name rather than the Sequence 9 rung, so a reader can tell an Outer God route from one of the 22 at a glance. Mysterria's English ladder is a direct translation of the canon Chinese one, rung for rung."
+    },
+    "chaos": {
+      "en": "Chaos",
+      "zh-CN": "堕落母神",
+      "zh-TW": "墮落母神",
+      "outerGod": "堕落母神 (Fallen Mother Goddess)",
+      "canonStatus": "canon",
+      "canonLadder": "恶棍 / 园丁 / 邪术师 / 播种者 / 女妖 (Seq 4 is 夫人)",
+      "note": "Outer God (外神) route. The label is the Outer God's own name rather than the Sequence 9 rung, so a reader can tell an Outer God route from one of the 22 at a glance. Mysterria's English ladder is a direct translation of the canon Chinese one, rung for rung."
+    },
+    "chaosmist": {
+      "en": "Chaos Mist",
+      "zh-CN": "混沌之子",
+      "zh-TW": "混沌之子",
+      "outerGod": "混沌之子 (Child of Chaos)",
+      "canonStatus": "canon",
+      "canonLadder": "掮客 / 阴影商人 / 公诉人 / 野心家 / 暗箱 (Seq 4 is 监督者)",
+      "note": "Outer God (外神) route. The label is the Outer God's own name rather than the Sequence 9 rung, so a reader can tell an Outer God route from one of the 22 at a glance. Mysterria's English ladder is a direct translation of the canon Chinese one, rung for rung."
+    },
+    "condenser": {
+      "en": "Condenser",
+      "zh-CN": "超星主宰",
+      "zh-TW": "超星主宰",
+      "outerGod": "超星主宰 (Hyperstar Sovereign)",
+      "canonStatus": "canon",
+      "canonLadder": "天文爱好者 / 拜星人 / 祭星师 / 领航员 / 潮汐学者",
+      "note": "Outer God (外神) route. The label is the Outer God's own name rather than the Sequence 9 rung, so a reader can tell an Outer God route from one of the 22 at a glance. Mysterria's English ladder is a direct translation of the canon Chinese one, rung for rung."
+    },
+    "devouring": {
+      "en": "Devouring",
+      "zh-CN": "原初饥饿",
+      "zh-TW": "原初飢餓",
+      "outerGod": "原初饥饿 (Primordial Hunger)",
+      "canonStatus": "canon",
+      "canonLadder": "流浪汉 / 贪吃者 / 美食家 / 厨师 / 剥夺者 (Seq 0 is 吞尾者)",
+      "note": "Outer God (外神) route. The label is the Outer God's own name rather than the Sequence 9 rung, so a reader can tell an Outer God route from one of the 22 at a glance. Mysterria's English ladder is a direct translation of the canon Chinese one, rung for rung."
+    },
+    "edict": {
+      "en": "Edict",
+      "zh-CN": "命运女神",
+      "zh-TW": "命運女神",
+      "outerGod": "命运女神 / 命运编织者 (Goddess of Fate / Weaver of Fate)",
+      "canonStatus": "canon",
+      "canonLadder": "失梦人 / 乐师 / 窥命师 / 哑巴 / 逝者",
+      "note": "Outer God (外神) route. The label is the Outer God's own name rather than the Sequence 9 rung, so a reader can tell an Outer God route from one of the 22 at a glance. Mysterria's English ladder is a direct translation of the canon Chinese one, rung for rung."
+    },
+    "everlasting": {
+      "en": "Everlasting",
+      "zh-CN": "不熄的呓语",
+      "zh-TW": "不熄的囈語",
+      "outerGod": "不熄的呓语 (Unextinguished Whispers)",
+      "canonStatus": "partial",
+      "canonLadder": "入门者 (Seq 9), 演说家 and 歌者 confirmed as rungs of this pathway (Seq 3 is 呓语者). 评述者 / 密传者 still need a canon check.",
+      "note": "Outer God (外神) route. Canon covers only part of this ladder - see canonLadder. Rungs canon does not name are ordinary translation of Mysterria's own English."
+    },
+    "patriarch": {
+      "en": "Patriarch",
+      "zh-CN": "欲望母树",
+      "zh-TW": "慾望母樹",
+      "outerGod": "欲望母树 (Mother Tree of Desire)",
+      "canonStatus": "canon",
+      "canonLadder": "吝啬鬼 / 性瘾病人 / 演员 / 受勋者 / 堕落树精 (Seq 0 is 主父 - which is what Mysterria's English label 'Patriarch' names)",
+      "note": "Outer God (外神) route. The label is the Outer God's own name rather than the Sequence 9 rung, so a reader can tell an Outer God route from one of the 22 at a glance. Mysterria's English ladder is a direct translation of the canon Chinese one, rung for rung."
+    },
+    "secondlaw": {
+      "en": "Second Law",
+      "zh-CN": "衰败君王",
+      "zh-TW": "衰敗君王",
+      "outerGod": "衰败君王 (Lord of Decay)",
+      "canonStatus": "partial",
+      "canonLadder": "canon has 瘟疫医生 at Seq 9 and 带菌者 at Seq 8. Mysterria SHUFFLED them - Carrier at 9, Plague Doctor at 7 - so both canon words are used at Mysterria's positions and 接种者 / 疫病学者 / 大疫贤者 are ordinary translation.",
+      "note": "Outer God (外神) route. Canon covers only part of this ladder - see canonLadder. Rungs canon does not name are ordinary translation of Mysterria's own English."
+    },
+    "sublunary": {
+      "en": "Sublunary",
+      "zh-CN": "高维俯视者",
+      "zh-TW": "高維俯視者",
+      "outerGod": "高维俯视者 (High-Dimensional Overlooker)",
+      "canonStatus": "partial",
+      "canonLadder": "canon gives 画家 (Seq 9) and 妖精 (Seq 5). Mysterria's ladder is SHUFFLED against canon - it puts Painter at Seq 7 - so the canon words sit at Mysterria's own positions and 萨满 / 记者 / 文学爱好者 are ordinary translation.",
+      "note": "Outer God (外神) route. Canon covers only part of this ladder - see canonLadder. Rungs canon does not name are ordinary translation of Mysterria's own English."
+    }
+  }
+}

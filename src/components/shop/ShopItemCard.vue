@@ -1,6 +1,6 @@
 <template>
   <article v-if="item.is_active" class="ware-card">
-    <RouterLink :aria-label="itemName" :to="getServiceDetailPath(item)" class="ware-media">
+    <RouterLink :aria-label="itemName" :to="$lp(getServiceDetailPath(item))" class="ware-media">
       <img
           v-if="imageUrl && !imageFailed"
           :alt="itemName"
@@ -72,8 +72,8 @@ const props = withDefaults(defineProps<{
 }>(), {isProcessing: false, imagePriority: 'auto'});
 
 const emit = defineEmits<{ (e: "purchase", itemId: string): void }>();
-const {t, currentLanguage} = useI18n();
-const {currentCurrency, formatCurrency, getCurrencySymbol} = useCurrency();
+const {t} = useI18n();
+const {currentCurrency, formatCurrency, getCurrencySymbol, usesRealCurrency} = useCurrency();
 
 const imageFailed = ref(false);
 const itemName = computed(() => props.item.display_name || props.item.name);
@@ -104,7 +104,7 @@ const hasDiscount = computed(() => Boolean(activeDiscount.value));
 const discountPercent = computed(() => activeDiscount.value?.discount_percent || 0);
 const finalPrice = computed(() => new Decimal(props.item.price).mul(new Decimal(1).minus(new Decimal(discountPercent.value).div(100))));
 
-const formatPrice = (price: Decimal) => currentLanguage.value === 'en' && currentCurrency.value !== 'POINTS'
+const formatPrice = (price: Decimal) => usesRealCurrency.value && currentCurrency.value !== 'POINTS'
     ? formatCurrency(price, {showSymbol: false, decimals: 2})
     : price.toString();
 

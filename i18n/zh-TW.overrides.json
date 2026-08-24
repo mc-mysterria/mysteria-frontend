@@ -1,0 +1,69 @@
+{
+  "$comment": [
+    "Traditional-Chinese corrections applied after OpenCC s2twp, by",
+    "scripts/build-zh-tw.mjs. This is where the native TW/HK reviewer pass lands:",
+    "Taiwan vocabulary and register that s2twp does not know about.",
+    "",
+    "Rules:",
+    "  - phrases only, never single characters. A bare 秘->祕 rule would corrupt",
+    "    詭秘之主, whose Taiwan print edition keeps 秘.",
+    "  - keep each entry narrow enough that it cannot fire in the wrong sense.",
+    "    通過 is left alone in general because it is correct for 'approved'",
+    "    (已通過, 通過的申請); only the 'via X' readings are rewritten.",
+    "",
+    "Add an entry when a TW reader confirms s2twp is wrong. Move anything from",
+    "reviewCandidates here once it has been confirmed."
+  ],
+  "overrides": {
+    "無麵人": "無面人",
+    "迴圈": "循環",
+    "平臺": "平台",
+    "觀星臺": "觀星台",
+    "這臺裝置": "這台裝置",
+    "裡克": "里克",
+    "賬戶": "帳戶",
+    "賬簿": "帳簿",
+    "賬號": "帳號",
+    "入賬": "入帳",
+    "許可權": "權限",
+    "釋出": "發布",
+    "私信": "私訊",
+    "語音訊道": "語音頻道",
+    "頻道里": "頻道裡",
+    "程式碼質量": "程式碼品質",
+    "廢棄礦井": "廢棄礦坑",
+    "精準採集": "絲綢之觸",
+    "自定義": "自訂",
+    "稽核": "審核",
+    "繫結": "綁定",
+    "定製開發": "客製化開發"
+  },
+  "$comment-patterns": [
+    "Regex overrides, applied after the literal ones. Use these ONLY for a rule",
+    "that grows with the volume of copy rather than with vocabulary - a literal",
+    "list would need a new entry per sentence. Everything else belongs above,",
+    "where a TW reviewer can read it without parsing a regex.",
+    "",
+    "Each key is a regex source, compiled with flags 'gu'."
+  ],
+  "patterns": {
+    "通過(?!率|的申請|驗證|審核|審查|考試|測試|[\"',。」）\n])": "透過"
+  },
+  "reviewCandidates": {
+    "$comment": "Plausible but unconfirmed. Left as s2twp emitted them until a TW reader rules.",
+    "$note-mianzi": "無麵人 above is a real s2twp failure, not a preference: it read 面 (face) as 麵 (noodles) and turned the Fool pathway's Sequence 6 into 'Noodle-less Man'. Worth re-checking after any opencc-js upgrade, and worth grepping new Chinese copy for 麵. Note 檯面之下 IS correct - 檯面 is the right Traditional form for a table surface.",
+    "$note-loop": "迴圈 above is another real s2twp failure: it maps 循环 to the Taiwan *programming* term for a loop. Correct for code, wrong for the dozens of ability descriptions that say 'left-click cycles modes' or 'the cycle of decay', which want 循環. 迴避 and 輪迴 come from 回避/轮回 and are untouched by this rule.",
+    "$note-likè": "裡克 is a real s2twp failure of the same class as 無麵人: it read the currency 里克 (Lick) as 里 'inside' and emitted 裡克. The three currencies are the novel's Intis ladder - 1 因蒂費爾 = 10 里克 = 100 科佩 - so this is a canon name, not a preference. Every other 裡 in the Chinese copy is the correct 'inside' reading and is left alone.",
+    "$note-tongguo": "通過 was twelve literal entries (通過網站, 通過交易, 通過獻祭…) for one rule: TW reads instrumental 通過 ('by means of') as a mainland-ism but keeps it for 'approved' (已通過, 通過的申請). That list grew with every new sentence, so it is now the single regex in \"patterns\" - the same negative lookahead the build guard already used, in one place instead of two.",
+    "$note-segmentation": "語音訊道 is a segmentation failure, not a character choice: s2twp found 音頻 inside 語音頻道 and applied the correct-in-isolation 音頻->音訊 (audio) mapping, producing a word that does not exist. 許可權 is the same class - 權限 read as 許可+權. 頻道里 is the opposite failure: s2twp left 里 alone where it means 'inside' and should be 裡.",
+    "$note-release": "釋出 is what s2twp emits for BOTH 發布 (publish) and 釋出 (release). TW wants 發布 for publishing, so the override rewrites it - which is only safe because pathways.zh-CN.json was normalised to use 释放, never 释出, for unleashing an attack. Keep it that way: writing 释出 in Simplified copy will now silently become 發布.",
+    "$note-minecraft": "廢棄礦井->廢棄礦坑 and 精準採集->絲綢之觸 are Minecraft's own zh_tw strings, which differ from zh_cn by more than characters. Players match the guide against what their client shows them, so the client's wording wins. Add an entry here for any further Minecraft term whose TW name is not just the Traditional form of the CN one.",
+    "$note-tai": "臺 vs 台 is a register choice, not an error. s2twp emits the formal 臺 everywhere; Taiwan tech writing overwhelmingly uses 台 for 平台 and as the measure word for machines. Only the tech-register cases are overridden above - leave 臺 alone in formal prose.",
+    "慾望母樹": "s2twp turns the Outer God 欲望母树 into 慾望母樹. 慾望 is the normal TW spelling of 'desire', so this is probably right - but it is a proper noun, so check it against the Taiwan print edition of the novel before treating it as settled.",
+    "獲取": "TW often prefers 取得. s2twp emits 獲取, which is understood but reads mainland-ish.",
+    "實現": "TW software register often prefers 實作 for 'implement'. 實現 is acceptable.",
+    "神秘學": "TW usually writes 神祕學. s2twp leaves 神秘學. Confirm against the TW print edition.",
+    "秘偶大師": "Fool pathway Sequence 5. Check whether the TW edition writes 祕偶大師.",
+    "詭秘侍者": "Fool pathway Sequence 1. Same 秘/祕 question."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$comment": [
+    "Traditional Chinese. GENERATED - do not edit.",
+    "Produced from src/assets/sources/meta-copy.zh-CN.json by scripts/build-zh-tw.mjs (OpenCC s2twp plus the",
+    "override lists in i18n/). Any edit here is overwritten on the next build.",
+    "",
+    "To change a string: if it is wrong in both Chinese locales, fix the",
+    "Simplified source (src/assets/sources/meta-copy.zh-CN.json); if only the Traditional form is wrong, add it",
+    "to i18n/zh-TW.overrides.json."
+  ],
+  "pathwayTitle": "{name}途徑 · 序列與能力 | Mysterria",
+  "pathwayIndexTitle": "途徑與序列 · 非凡者檔案 | Mysterria",
+  "pathwayDescription": "探索{name}途徑，從序列{first}{firstSeq}一路攀至序列{final}{finalSeq}。在 Mysterria 發掘 {abilities} 項非凡能力。",
+  "pathwayIndexDescription": "探索全部 {count} 條非凡者途徑、每一個序列的名稱，以及 Mysterria 上的所有非凡能力。",
+  "pathwaySigilAlt": "{name}途徑的印記",
+  "pathwayIndexAlt": "Mysterria 非凡者途徑",
+  "redirecting": "正在前往",
+  "pages": {
+    "rules": {
+      "title": "伺服器規則 - Mysterria",
+      "description": "閱讀在 Mysterria 遊玩的規則與準則。Mysterria 是一座受《詭秘之主》啟發的 Minecraft 伺服器——這裡寫明我們的社群標準與遊戲規範。"
+    },
+    "store": {
+      "title": "商店 - Mysterria",
+      "description": "支援 Mysterria，同時解鎖專屬內容。瀏覽這座《詭秘之主》主題 Minecraft 伺服器的頭銜、物品與特色功能——絕不出售戰鬥力。"
+    },
+    "ascension": {
+      "title": "晉升名錄 - Mysterria",
+      "description": "Mysterria 高序列席位的即時佔用情況：每條途徑最多容納 18 位聖者、9 位天使、3 位大天使，以及唯一一位神靈。在你攀登之前，先看看哪些王座已被佔據。"
+    },
+    "guide": {
+      "title": "新人指南 - Mysterria",
+      "description": "初次來到 Mysterria？瞭解如何在這座受《詭秘之主》啟發的伺服器上起步——認識途徑、序列，以及等著你的神秘冒險。"
+    },
+    "profile": {
+      "title": "個人資料 - Mysterria",
+      "description": "檢視並管理你的 Mysterria 個人資料，追蹤你在序列與途徑上的攀登進度。"
+    },
+    "default": {
+      "title": "Mysterria - 《詭秘之主》主題 Minecraft 伺服器",
+      "description": "Mysterria —— 一座受網路小說《詭秘之主》啟發的 Minecraft 伺服器。行走神秘途徑、配製魔藥、晉升序列，沉浸在神與教會的世界之中。"
+    }
+  }
+}

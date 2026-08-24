@@ -36,10 +36,38 @@ const API = process.env.SITEMAP_API_URL || "https://api.mysterria.net";
 
 const today = new Date().toISOString().slice(0, 10);
 
-/** @type {Array<{loc: string, priority: string, changefreq: string, lastmod?: string}>} */
+/*
+ * Every page is served under a locale segment, so each route is offered to
+ * search engines once per locale, and each entry carries xhtml:link alternates
+ * naming all of them. That is what tells Google these are translations of one
+ * page rather than duplicates competing with each other.
+ *
+ * The locale list comes from src/assets/sources/locales.json, which the app and
+ * api/meta-proxy.ts also read - a private copy here silently drops a locale from
+ * every page's alternate set, and nothing in the app would show it.
+ */
+const LOCALES = require("../src/assets/sources/locales.json").locales;
+const DEFAULT_LOCALE = "en";
+
+/** "/guide" under a locale -> "/zh-TW/guide"; "/" -> "/zh-TW". */
+const withLocale = (code, route) => (route === "/" ? `/${code}` : `/${code}${route}`);
+
+/** @type {Array<{loc: string, priority: string, changefreq: string, lastmod?: string, alternates?: Array<{hreflang: string, loc: string}>}>} */
 const urls = [];
-const add = (loc, priority, changefreq, lastmod = today) =>
-    urls.push({loc, priority, changefreq, lastmod});
+
+/**
+ * Adds a translated route: one <url> per locale, each listing every locale as
+ * an alternate. x-default points at English.
+ */
+const add = (route, priority, changefreq, lastmod = today) => {
+    const alternates = [
+        ...LOCALES.map(locale => ({hreflang: locale.hreflang, loc: withLocale(locale.code, route)})),
+        {hreflang: "x-default", loc: withLocale(DEFAULT_LOCALE, route)},
+    ];
+    for (const locale of LOCALES) {
+        urls.push({loc: withLocale(locale.code, route), priority, changefreq, lastmod, alternates});
+    }
+};
 
 /* ---- stable routes ---- */
 add("/", "1.0", "daily");
@@ -62,11 +90,12 @@ for (const pathway of pathwayData.pathways) {
 }
 
 /* ---- one page per guide topic ---- */
-const guideSource = fs.readFileSync(path.join(root, "src/data/guideContent.ts"), "utf8");
-const enBlock = guideSource.slice(guideSource.indexOf("const en: GuideContent"), guideSource.indexOf("const uk: GuideContent"));
+// Read the English copy directly: it is the one locale guaranteed to define
+// every topic, and the other locales are translations of the same id set.
+const guideSource = fs.readFileSync(path.join(root, "src/data/guide/en.ts"), "utf8");
 // GuideTopic is the only shape in this file with a bare `id:` string field.
-const topicIds = [...new Set([...enBlock.matchAll(/^\s+id:\s*"([a-z0-9-]+)"/gm)].map(m => m[1]))];
-if (!topicIds.length) throw new Error("build-sitemap: found no guide topics — has guideContent.ts changed shape?");
+const topicIds = [...new Set([...guideSource.matchAll(/^\s+id:\s*"([a-z0-9-]+)"/gm)].map(m => m[1]))];
+if (!topicIds.length) throw new Error("build-sitemap: found no guide topics — has src/data/guide/en.ts changed shape?");
 for (const id of topicIds) add(`/guide/${id}`, "0.7", "monthly");
 
 /* ---- published news, best effort ---- */
@@ -84,8 +113,13 @@ async function newsUrls() {
             if (!Array.isArray(articles)) continue;
             for (const article of articles) {
                 if (!article?.slug) continue;
+                /*
+                 * Articles exist only in the language they were written in, so
+                 * they are not offered under the Chinese locales - a Chinese
+                 * reader is served the English dispatch at its English URL.
+                 */
                 found.push({
-                    loc: locale === "uk" ? `/news/uk/${article.slug}` : `/news/${article.slug}`,
+                    loc: `/${locale}/news/${article.slug}`,
                     priority: "0.6",
                     changefreq: "monthly",
                     lastmod: (article.publishedAt || article.createdAt || today).slice(0, 10),
@@ -98,22 +132,31 @@ async function newsUrls() {
     return found;
 }
 
+// Articles carry no alternates: each exists in exactly one language.
 const articleUrls = await newsUrls();
 urls.push(...articleUrls);
 
 const body = urls
-    .map(
-        url =>
+    .map(url => {
+        const alternates = (url.alternates ?? [])
+            .map(alt => `    <xhtml:link rel="alternate" hreflang="${alt.hreflang}" href="${SITE}${alt.loc}"/>\n`)
+            .join("");
+        return (
             `  <url>\n` +
             `    <loc>${SITE}${url.loc}</loc>\n` +
             `    <lastmod>${url.lastmod}</lastmod>\n` +
             `    <changefreq>${url.changefreq}</changefreq>\n` +
             `    <priority>${url.priority}</priority>\n` +
-            `  </url>`,
-    )
+            alternates +
+            `  </url>`
+        );
+    })
     .join("\n");
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
+const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n` +
+    `${body}\n</urlset>\n`;
 
 const written = [];
 for (const dir of OUT_DIRS) {
@@ -127,6 +170,6 @@ for (const dir of OUT_DIRS) {
 }
 
 console.log(
-    `Sitemap: ${urls.length} URLs ` +
+    `Sitemap: ${urls.length} URLs across ${LOCALES.length} locales ` +
     `(${topicIds.length} guide topics, ${pathwayData.pathways.length} pathways, ${articleUrls.length} news) -> ${written.join(", ")}`,
 );

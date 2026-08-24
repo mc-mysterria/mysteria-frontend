@@ -37,7 +37,7 @@
               v-for="pathway in topFive"
               :key="pathway.name"
               class="pathway-row"
-              :to="`/pathways/${pathway.name.toLowerCase()}`"
+              :to="$lp(`/pathways/${pathway.name.toLowerCase()}`)"
           >
             <img :alt="pathwayName(pathway.name, currentLanguage)" :src="pathwayImage(pathway.name)" class="row-sigil">
             <span class="row-name">{{ pathwayName(pathway.name, currentLanguage) }}</span>
@@ -48,7 +48,7 @@
           </RouterLink>
         </div>
 
-        <RouterLink class="panel-registry-link" to="/ascension">
+        <RouterLink :to="$lp('/ascension')" class="panel-registry-link">
           {{ t('homePage.observatoryRegistryCta') }} →
         </RouterLink>
       </div>

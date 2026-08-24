@@ -46,7 +46,7 @@
           </div>
         </div>
 
-        <RouterLink class="notif-view-all" to="/notifications" @click="isOpen = false">
+        <RouterLink :to="$lp('/notifications')" class="notif-view-all" @click="isOpen = false">
           {{ t('notifications.viewAll') }}
         </RouterLink>
       </div>
@@ -72,7 +72,7 @@ import type {NotificationDto} from '@/types/notifications';
 const router = useRouter();
 const authStore = useAuthStore();
 const store = useAccountNotificationsStore();
-const {t, currentLanguage} = useI18n();
+const {t, intlLocale} = useI18n();
 
 const isOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);
@@ -80,7 +80,7 @@ const dropdownRef = ref<HTMLElement | null>(null);
 const items = computed(() => store.items);
 const unreadCount = computed(() => store.unreadCount);
 const badgeLabel = computed(() => (unreadCount.value > 9 ? '9+' : String(unreadCount.value)));
-const locale = computed(() => (currentLanguage.value === 'uk' ? 'uk-UA' : 'en-US'));
+const locale = intlLocale;
 
 const toggle = () => {
   isOpen.value = !isOpen.value;
