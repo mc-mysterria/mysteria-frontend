@@ -1,0 +1,25 @@
+# Validates translated files.
+
+name: i18n
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install --no-audit --no-fund
+      - run: npm run check:i18n
+      - run: npm run check:zh-tw
+      - run: npm run type-check
+      - run: npx vitest run

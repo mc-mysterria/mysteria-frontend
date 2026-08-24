@@ -58,28 +58,45 @@ duplicate the title (`HomeView.vue`). If you would rather show the deity there �
 
 ## Who owns what
 
-| File                                      | Status                                       |
-|-------------------------------------------|----------------------------------------------|
-| `src/locales/en.ts`                       | authored — the reference key shape           |
-| `src/locales/uk.ts`                       | authored                                     |
-| `src/locales/zh-CN.ts`                    | **authored** — the Chinese source of truth   |
-| `src/locales/zh-TW.ts`                    | **generated** — do not edit                  |
-| `src/assets/sources/pathways.zh-CN.json`  | **authored** — pathway/Sequence/ability text |
-| `src/assets/sources/pathways.zh-TW.json`  | **generated**                                |
-| `src/assets/sources/meta-copy.zh-CN.json` | **authored** — link-preview copy             |
-| `src/assets/sources/meta-copy.zh-TW.json` | **generated**                                |
-| `src/data/guide/zh-CN.ts`                 | **authored** — long-form onboarding prose    |
-| `src/data/guide/zh-TW.ts`                 | **generated**                                |
-| `src/assets/sources/rules_zh-CN.json`     | **authored** — player rules                  |
-| `src/assets/sources/rules_zh-TW.json`     | **generated**                                |
-| `staff_rules_zh-CN.json` (same dir)       | **authored** — staff rules                   |
-| `staff_rules_zh-TW.json` (same dir)       | **generated**                                |
-| `i18n/glossary.lotm-zh.json`              | authored — locked terminology                |
-| `i18n/canon.sequences-zh.json`            | reference — the novel's own ladder           |
-| `i18n/zh-TW.overrides.json`               | authored — where the TW reviewer pass lands  |
+Three kinds of file, and which one you are looking at decides where a fix goes.
+**English source** is authored in this repo and is what Crowdin translates from.
+**Crowdin** files are written by a Crowdin sync - edit them in Crowdin, because a
+repo-side edit is overwritten on the next pull. **Generated** files are built by a
+script.
 
-Fix Simplified text in the `zh-CN` files. Fix Traditional-only wording in
-`zh-TW.overrides.json`. Never edit a generated file: the next build overwrites it.
+| File                                      | Status                                            |
+|-------------------------------------------|---------------------------------------------------|
+| `src/locales/en.json`                     | **English source** — the reference key shape      |
+| `src/locales/{uk,zh-CN}.json`             | **Crowdin** — `/ui.json` in the project           |
+| `src/locales/zh-TW.json`                  | **generated** — do not edit                       |
+| `src/data/guide/en.json`                  | **English source** — long-form onboarding prose   |
+| `src/data/guide/{uk,zh-CN}.json`          | **Crowdin** — `/guide.json`                       |
+| `src/data/guide/zh-TW.json`               | **generated**                                     |
+| `src/assets/sources/meta-copy.en.json`    | **English source** — link-preview copy            |
+| `src/assets/sources/meta-copy.{uk,zh-CN}` | **Crowdin** — `/link-previews.json`               |
+| `src/assets/sources/meta-copy.zh-TW.json` | **generated**                                     |
+| `src/assets/sources/rules_en.json`        | **English source** — player rules                 |
+| `src/assets/sources/rules_{uk,zh-CN}`     | **Crowdin** — `/rules.json`                       |
+| `src/assets/sources/rules_zh-TW.json`     | **generated**                                     |
+| `staff_rules_en.json` (same dir)          | **English source** — staff rules                  |
+| `staff_rules_{uk,zh-CN}.json` (same dir)  | **Crowdin** — `/staff-rules.json`                 |
+| `staff_rules_zh-TW.json` (same dir)       | **generated**                                     |
+| `src/assets/sources/pathways.zh-CN.json`  | **authored here** — canon lookup, *not* in Crowdin |
+| `src/assets/sources/pathways.zh-TW.json`  | **generated**                                     |
+| `i18n/glossary.lotm-zh.json`              | authored — locked terminology, seeds the Glossary  |
+| `i18n/crowdin-glossary.csv`               | **generated** from it — `npm run build:glossary`   |
+| `i18n/canon.sequences-zh.json`            | reference — the novel's own ladder                 |
+| `i18n/zh-TW.overrides.json`               | authored — where the TW reviewer pass lands        |
+
+So: fix UI, guide, rules and preview copy **in Crowdin**. Fix pathway and ability
+text **upstream in the Circle of Imagination plugin**, or in `pathways.zh-CN.json`
+for the canon overlay. Fix Traditional-only wording in `zh-TW.overrides.json`.
+Never edit a generated file - the next build overwrites it.
+
+Every translatable file is JSON, including the UI strings and the guide, which
+were `.ts` modules until Crowdin needed to write them in place. `Translations` is
+still derived from `en.json`, so a locale the app imports with a missing key is
+still a compile error.
 
 ---
 
@@ -88,10 +105,67 @@ Fix Simplified text in the `zh-CN` files. Fix Traditional-only wording in
 ```bash
 npm run build:zh-tw       # regenerate every Traditional file (runs in `npm run build`)
 npm run check:zh-tw       # CI: fail if a committed generated file is stale
+npm run check:i18n        # CI: placeholders intact, identifiers untranslated
+npm run build:glossary    # rebuild i18n/crowdin-glossary.csv for import
 npm run seed:zh           # add empty slots after the plugin exports new abilities
 npm run check:canon-zh    # report where Mysterria's rungs diverge from the novel
 node scripts/i18n-coverage.mjs   # translation coverage per surface
 ```
+
+---
+
+## Crowdin
+
+`crowdin.yml` maps five files: UI strings, guide prose, player rules, staff rules
+and link-preview copy. Its header lists what is deliberately excluded and why.
+
+Two things are worth knowing before touching it.
+
+**Traditional Chinese is not a Crowdin language, and must never be added as
+one.** It is generated from Simplified, so a Crowdin pull would overwrite the
+generated files with translator input and silently drop the OpenCC tripwires in
+this directory.
+
+Not adding it *is* the guard. `crowdin.yml` carries no
+`excluded_target_languages` for it, because that option only accepts languages
+the project already has - listing an absent language is a config error
+(`Project doesn't have 'zh-TW' language(s)`). The backstop if one ever gets added
+anyway is `npm run check:zh-tw`, which regenerates from `zh-CN` and fails on any
+committed Traditional file that does not match; it runs in CI on every PR.
+
+Translators work in `zh-CN`. `.github/workflows/crowdin-regenerate.yml` then runs
+`npm run build:zh-tw` on Crowdin's own branch, so the regenerated Traditional
+files are part of the pull request a human reviews rather than turning up after
+they merge it. Without that step `npm run check:zh-tw` fails every Crowdin PR.
+
+**Two things a translator can break that a type error will not catch.** A
+`{placeholder}` is substituted by the call site, not by `t()`, so a dropped slot
+renders literal braces to a reader. And `id` / `severity` in the rules files are
+identifiers the app matches on, not copy. `npm run check:i18n` guards both, over
+every locale file present - including a language Crowdin has landed but that is
+not yet wired into `locales.json`.
+
+### Adding a language
+
+Crowdin will start writing `src/locales/es.json` and friends as soon as a target
+language is added there. The app ignores them until the locale is registered, so
+these can be done in either order:
+
+1. `src/assets/sources/locales.json` — the entry the whole app reads from. Check
+   `pluralStyle` against the language's real rule rather than picking the nearest
+   of the three that exist: Spanish, German and French are `"english"` (one/many),
+   but **Romanian is none of them.** Its CLDR rule is one for `n == 1`, *few* for
+   `n == 0` or `n % 100` in 2-19, other above that - so "2 locuri" and "20 de
+   locuri" take different forms. Adding `ro` means adding a `"romanian"` case to
+   `pluralStyle` and to the `switch` in `useI18n.ts`, not reusing `"slavic"`.
+2. `src/locales/index.ts` — add to the `Language` union and the `translations` map.
+3. `src/data/guideContent.ts` — add to the `guideContent` map.
+4. `vercel.json` — the `:lang(en|uk|zh-CN|zh-TW)` route patterns, in every one.
+5. `src/assets/css/main.css` — a font stack, if the script is not Latin. Inter,
+   Playfair Display and JetBrains Mono carry no CJK glyphs.
+6. `api/meta-proxy.ts` — `META_COPY`, or the locale falls back to English previews.
+
+`npm run check:i18n` and `npm run type-check` will name anything missed in 1-3.
 
 ## How Traditional is produced
 

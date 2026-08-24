@@ -1,0 +1,1134 @@
+{
+  "ui": {
+    "eyebrow": "新玩家手册",
+    "title": "你穿过灰雾的第一步",
+    "lede": "几分钟内开始游戏，弄清真正重要的选择，并在 Mysterria 的机制与原版 Minecraft 不同时，直接找到答案。",
+    "serverAddress": "服务器地址",
+    "copyAddress": "复制地址",
+    "copied": "已复制",
+    "startJourney": "开始你的第一小时",
+    "findAnswer": "查找答案",
+    "quickFactsLabel": "连接之前",
+    "expectationsEyebrow": "MYSTERRIA 与众不同",
+    "expectationsTitle": "定居之前先了解这些",
+    "expectationsLede": "服务器有几项刻意的设计，习惯了传统生存服的玩家往往会感到意外。",
+    "tasksEyebrow": "快速帮助",
+    "tasksTitle": "你想做什么？",
+    "tasksLede": "选择一个目标，或用你自己的话搜索。你只会看到完成该目标所需的信息。",
+    "searchPlaceholder": "试试「第一瓶魔药」「传送回家」或「界面缺失」…",
+    "clearSearch": "清除",
+    "searchResults": "相关答案",
+    "noResults": "没有找到直接的答案",
+    "noResultsHint": "换一个更短的说法，浏览下方的条目，或者在 Discord 里提问。",
+    "firstHourEyebrow": "第一小时",
+    "firstHourTitle": "从进服到明确自己的第一个目标",
+    "firstHourLede": "这是从服务器列表走到「知道下一步该做什么」的最短且可靠的路线。",
+    "openStep": "查看详情",
+    "starterEyebrow": "一个重要的决定",
+    "starterTitle": "你选的是助力，不是命运",
+    "starterLede": "新手菜单里选择的途径只决定初始奖励的方向。你之后仍然可以饮用完全不同途径的序列9魔药。",
+    "benefit": "你将获得",
+    "cost": "永久代价",
+    "bestFor": "适合",
+    "recommended": "完整潜力",
+    "important": "重要",
+    "starterWarning": "奖励一经确认通常无法更改。若确属新手误操作，管理组可能通过 Discord 工单重置，但请把确认当作最终决定。",
+    "directionEyebrow": "你的第一个目标",
+    "directionTitle": "选定一个方向，而不是四处游荡",
+    "directionLede": "两种玩法都成立，选了任何一种也不会挡住之后走另一种。",
+    "browseEyebrow": "手册",
+    "browseTitle": "浏览所有主要系统",
+    "browseLede": "进阶内容在你需要之前不会来打扰你。",
+    "topics": "个条目",
+    "popularEyebrow": "高频提问",
+    "popularTitle": "玩家常问的问题",
+    "openTopic": "打开指南",
+    "backToGuide": "返回指南首页",
+    "quickAnswer": "快速回答",
+    "onThisPage": "本页内容",
+    "relatedTopics": "继续阅读",
+    "commonMistake": "常见误区",
+    "usefulTip": "实用提示",
+    "screenshotsLabel": "你会看到的画面",
+    "screenshotIp": "添加服务器地址",
+    "screenshotPortal": "在选择器中选择 Mysteries",
+    "screenshotJoin": "列表中的服务器",
+    "profileCta": "打开个人资料",
+    "pathwaysCta": "浏览途径",
+    "fullRulesCta": "阅读完整规则",
+    "supportCta": "在 Discord 提问",
+    "mobileBrowse": "浏览条目"
+  },
+  "facts": [
+    {
+      "label": "客户端",
+      "value": "推荐 Java 版",
+      "note": "基岩版可通过 Geyser 进入，但自定义界面支持有限"
+    },
+    {
+      "label": "版本",
+      "value": "26.1.2 及以上",
+      "note": "若资源包加载失败，请使用最新客户端"
+    },
+    {
+      "label": "必需",
+      "value": "接受资源包",
+      "note": "不需要任何客户端模组"
+    }
+  ],
+  "expectations": [
+    {
+      "icon": "fa-solid fa-route",
+      "title": "没有任何传送指令",
+      "summary": "没有 /home、/spawn、/tpa、/rtp 或 /back。",
+      "detail": "距离本身就是一种战略成本，而机动性正是「门」等途径所提供的回报之一。请谨慎选择定居的地点。"
+    },
+    {
+      "icon": "fa-solid fa-hourglass-half",
+      "title": "晋升被刻意拉长",
+      "summary": "低序列约需一周，高序列则需数月。",
+      "detail": "Mysterria 的设计是一整个赛季的旅程，而不是一个周末就把力量堆到顶。"
+    },
+    {
+      "icon": "fa-solid fa-rotate",
+      "title": "世界是赛季制的",
+      "summary": "大约每六个月进行一次完全重置。",
+      "detail": "重置同样包括非凡者进度。这让世界保持健康，也意味着在赛季中途加入依然值得。"
+    },
+    {
+      "icon": "fa-solid fa-shield-halved",
+      "title": "探索通常是安全的",
+      "summary": "野外 PvP 已关闭，破坏他人建筑属违规。",
+      "detail": "PvP 只存在于公告过的区域、宇宙入侵，或城镇主人主动开启 PvP 的领地之内。"
+    },
+    {
+      "icon": "fa-solid fa-box-open",
+      "title": "原版箱子里装的是魔法战利品",
+      "summary": "自然生成的箱子会随时间重新填充。",
+      "detail": "村庄、废弃矿井、神殿、沉船、堡垒遗迹等结构都是可再生的非凡战利品来源。"
+    }
+  ],
+  "tasks": [
+    {
+      "icon": "fa-solid fa-plug",
+      "title": "进入服务器",
+      "description": "版本、资源包、账号与验证。",
+      "topicId": "connect"
+    },
+    {
+      "icon": "fa-solid fa-scale-balanced",
+      "title": "选择初始奖励",
+      "description": "了解「捷径」与「决心」，以及途径选择究竟意味着什么。",
+      "topicId": "starter-choice"
+    },
+    {
+      "icon": "fa-solid fa-flask",
+      "title": "成为序列9",
+      "description": "配方、坩埚、材料、炼制与饮用。",
+      "topicId": "first-potion"
+    },
+    {
+      "icon": "fa-solid fa-box-open",
+      "title": "寻找配方或材料",
+      "description": "战利品箱、定向、生物、资源节点与交易。",
+      "topicId": "loot"
+    },
+    {
+      "icon": "fa-solid fa-arrow-trend-up",
+      "title": "提升我的序列",
+      "description": "扮演、仪式、灵性、疯狂与晋升。",
+      "topicId": "progression"
+    },
+    {
+      "icon": "fa-solid fa-dungeon",
+      "title": "寻找地牢",
+      "description": "使用 /subspace、削弱裂隙、组队，并了解冷却时间。",
+      "topicId": "activities"
+    },
+    {
+      "icon": "fa-solid fa-house-flag",
+      "title": "加入或建立城镇",
+      "description": "受保护的土地、组队玩法、国家，以及独自发展。",
+      "topicId": "towns"
+    },
+    {
+      "icon": "fa-solid fa-wand-magic-sparkles",
+      "title": "修复缺失的自定义界面",
+      "description": "资源包、客户端版本与基岩版的限制。",
+      "topicId": "troubleshooting"
+    }
+  ],
+  "firstHour": [
+    {
+      "title": "连接服务器并接受资源包",
+      "description": "添加 mc.mysterria.net，在大厅选择器中进入 Mysteries，并接受服务器资源包。",
+      "topicId": "connect"
+    },
+    {
+      "title": "只在 Minecraft 要求时才注册",
+      "description": "离线账号使用 /register 与 /login。正版账号会自动完成验证。",
+      "topicId": "connect"
+    },
+    {
+      "title": "验证你的 Minecraft 账号",
+      "description": "在个人资料页生成验证码，然后在游戏内弹出的验证窗口中输入。",
+      "topicId": "connect"
+    },
+    {
+      "title": "谨慎选择初始奖励",
+      "description": "途径只是奖励的方向。「捷径」与「决心」的长期代价截然不同。",
+      "topicId": "starter-choice"
+    },
+    {
+      "title": "选择城镇生活或自给自足",
+      "description": "找一个正在招人的城镇，或者开始独自搜刮箱子与探索的循环。",
+      "topicId": "towns"
+    },
+    {
+      "title": "朝你的第一瓶魔药努力",
+      "description": "第一个序列只需要配方、坩埚、材料和一次成功的炼制，别无其他。",
+      "topicId": "first-potion"
+    }
+  ],
+  "starterChoices": [
+    {
+      "name": "捷径之路",
+      "eyebrow": "立刻用上能力",
+      "benefit": "在所选途径中直接成为序列9。",
+      "cost": "在每一个序列都永久损失 10% 灵性上限。",
+      "bestFor": "更看重立刻上手、而非长期最高强度的玩家。"
+    },
+    {
+      "name": "决心之路",
+      "eyebrow": "完整学会整个流程",
+      "benefit": "下一个战利品箱必定开出配方。",
+      "cost": "无。",
+      "bestFor": "想学会炼制流程并保留完整潜力的玩家。",
+      "recommended": true
+    }
+  ],
+  "directions": [
+    {
+      "icon": "fa-solid fa-people-roof",
+      "title": "加入已有的城镇",
+      "eyebrow": "阻力更小",
+      "description": "在聊天频道或 Discord 里询问哪个城镇正在接收新成员。",
+      "points": [
+        "共享坩埚、配方、材料与受保护的土地。",
+        "更容易凑到打守护者、地牢、野生非凡者与入侵的队伍。",
+        "在没有传送指令的世界里，直接用上现成的基地网络。"
+      ],
+      "topicId": "towns"
+    },
+    {
+      "icon": "fa-solid fa-compass",
+      "title": "独自发展",
+      "eyebrow": "自己作主",
+      "description": "完全可行，只是更慢，也更依赖探索。",
+      "points": [
+        "打开每一个自然生成的箱子，它们的非凡战利品会再生。",
+        "猎杀非凡生物，并记下可再生的资源节点。",
+        "把多余的材料拿去交易，遇到特定内容时再临时组队。"
+      ],
+      "topicId": "loot"
+    }
+  ],
+  "categories": {
+    "start": "从这里开始",
+    "progression": "非凡者晋升",
+    "world": "世界与活动",
+    "community": "经济与社会",
+    "help": "帮助与速查"
+  },
+  "popularQuestions": [
+    {
+      "question": "我怎么传送回家？",
+      "topicId": "server-basics"
+    },
+    {
+      "question": "为什么游戏看起来跟原版一样？",
+      "topicId": "troubleshooting"
+    },
+    {
+      "question": "选了途径就锁定了吗？",
+      "topicId": "starter-choice"
+    },
+    {
+      "question": "我怎么才能成为序列9？",
+      "topicId": "first-potion"
+    },
+    {
+      "question": "特殊的战利品箱在哪里？",
+      "topicId": "loot"
+    },
+    {
+      "question": "我的扮演进度为什么不动？",
+      "topicId": "progression"
+    },
+    {
+      "question": "探索的时候会被人杀吗？",
+      "topicId": "server-basics"
+    },
+    {
+      "question": "我怎么找到地牢？",
+      "topicId": "activities"
+    }
+  ],
+  "topics": [
+    {
+      "id": "connect",
+      "category": "start",
+      "icon": "fa-solid fa-plug",
+      "title": "连接、注册与验证",
+      "shortTitle": "连接与验证",
+      "summary": "用正确的客户端进入 Mysteries 并解锁初始奖励所需的全部步骤。",
+      "answer": "用较新的 Java 版客户端连接 mc.mysterria.net，接受资源包，在大厅中选择 Mysteries，然后通过网站个人资料完成验证。",
+      "tags": [
+        "ip",
+        "地址",
+        "进服",
+        "java",
+        "基岩版",
+        "geyser",
+        "注册",
+        "登录",
+        "验证",
+        "discord",
+        "资源包",
+        "版本",
+        "正版",
+        "离线"
+      ],
+      "sections": [
+        {
+          "title": "服务器信息",
+          "bullets": [
+            "地址：mc.mysterria.net。",
+            "支持版本：26.1.2 及更新版本。",
+            "Java 版是完整支持的体验，且不需要任何客户端模组。",
+            "基岩版可以通过 Geyser 连接，但途径图标和部分自定义界面可能显示异常。"
+          ]
+        },
+        {
+          "title": "连接",
+          "steps": [
+            "打开「多人游戏」，添加 mc.mysterria.net，然后进入服务器。",
+            "当 Minecraft 询问时，接受服务器资源包。",
+            "在大厅的服务器选择器中选择 Mysteries。",
+            "离开前读一读大厅 NPC 的对话，里面有不少有用的入门信息。"
+          ],
+          "warning": "如果一切看起来都像原版 Minecraft，说明资源包被拒绝了，或者 Java 客户端版本过旧。请启用服务器资源包并更新客户端。"
+        },
+        {
+          "title": "账号注册",
+          "paragraphs": [
+            "正版 Minecraft 账号无需注册，会自动登录。",
+            "离线账号需用 /register <密码> <密码> 注册一次，之后每次进服使用 /login <密码>。"
+          ]
+        },
+        {
+          "title": "Discord 验证",
+          "steps": [
+            "在 Mysterria 网站登录并打开个人资料。",
+            "生成 Minecraft 验证码。",
+            "在游戏内出现的验证窗口中输入该验证码。",
+            "确认之后，新手途径与初始奖励菜单便会开放。"
+          ]
+        }
+      ],
+      "related": [
+        "starter-choice",
+        "troubleshooting",
+        "server-basics"
+      ]
+    },
+    {
+      "id": "server-basics",
+      "category": "start",
+      "icon": "fa-solid fa-map",
+      "title": "Mysterria 的世界如何运作",
+      "shortTitle": "世界基础",
+      "summary": "移动、安全、死亡、赛季重置，以及与传统生存服不同的规则。",
+      "answer": "Mysterria 是一个有边界的赛季制世界：距离有意义，野外探索是安全的，自然生成的箱子提供可再生的魔法战利品。",
+      "tags": [
+        "home",
+        "spawn",
+        "tpa",
+        "rtp",
+        "back",
+        "传送",
+        "地图",
+        "pvp",
+        "破坏",
+        "死亡",
+        "保留物品栏",
+        "重置",
+        "赛季",
+        "世界边界",
+        "安全"
+      ],
+      "sections": [
+        {
+          "title": "地图与移动",
+          "paragraphs": [
+            "主世界的边界为 15,000 × 15,000 格。下界与特殊维度同样存在，但绝大多数非凡内容都在主世界。"
+          ],
+          "warning": "没有 /home、/sethome、/spawn、/tpa、/rtp 或 /back。这样才能保住规划路线的价值，以及「门」这类机动途径的意义。"
+        },
+        {
+          "title": "安全与 PvP",
+          "bullets": [
+            "野外 PvP 默认关闭。",
+            "PvP 仅限于指定的 PvP 区域和宇宙入侵区域。",
+            "城镇主人可以在自己领地内为特定身份主动开启 PvP。",
+            "破坏他人建筑是被禁止的，城镇领地还会额外提供土地保护。"
+          ]
+        },
+        {
+          "title": "死亡",
+          "paragraphs": [
+            "除此之外，死亡遵循原版规则：物品会掉落，且不保留物品栏。非凡者还会额外获得少量临时疯狂。"
+          ],
+          "tip": "只有携带唯一性的玩家才会受到额外的适应惩罚。普通玩家不会因为正常死亡而损失序列进度。"
+        },
+        {
+          "title": "赛季重置",
+          "paragraphs": [
+            "大约每六个月，世界与非凡者进度会一并重置。这既让地图保持健康，也让赛季中途加入的新人不会永远落在后面。"
+          ]
+        }
+      ],
+      "related": [
+        "towns",
+        "activities",
+        "progression"
+      ]
+    },
+    {
+      "id": "starter-choice",
+      "category": "start",
+      "icon": "fa-solid fa-scale-balanced",
+      "title": "新手途径与初始奖励",
+      "shortTitle": "初始选择",
+      "summary": "最初选择的途径实际改变了什么，以及「捷径」与「决心」之间的永久取舍。",
+      "answer": "你选择的途径既不会让你成为非凡者，也不会锁定你未来的途径。它只决定两种初始奖励之一的方向。",
+      "tags": [
+        "新手",
+        "奖励",
+        "捷径",
+        "决心",
+        "途径",
+        "锁定",
+        "重选",
+        "magic",
+        "序列9",
+        "灵性",
+        "配方保底"
+      ],
+      "sections": [
+        {
+          "title": "你的途径并没有被锁定",
+          "paragraphs": [
+            "只有饮下某条途径的序列9魔药，你才真正走上这条途径。如果新手菜单里写的是「愚者」，而你之后喝了「门」的魔药，那你就是「门」途径。",
+            "/magic 只是一个可选的建议菜单。在那里看到某条途径，并不证明你已经是非凡者。"
+          ]
+        },
+        {
+          "title": "捷径之路",
+          "paragraphs": [
+            "你无需炼制便立刻成为序列9，但在每一个序列与每一级扮演上，都永久损失 10% 的灵性上限。"
+          ],
+          "warning": "灵性惩罚是永久的。晋升或完成扮演都无法把它补回来。"
+        },
+        {
+          "title": "决心之路",
+          "paragraphs": [
+            "你的配方定向计数会被推进到保底的前一步，因此下一个自然战利品箱必定开出配方。此选择没有任何永久代价。"
+          ],
+          "tip": "「决心」能让你学会「配方 → 坩埚 → 材料 → 炼制」的正常流程，同时保住全部的长期强度。"
+        },
+        {
+          "title": "确认与失误",
+          "paragraphs": [
+            "确认之后玩家无法重选。若确实是新手误操作，可以开一张 Discord 工单，管理组有时会予以重置。"
+          ]
+        }
+      ],
+      "related": [
+        "first-potion",
+        "progression",
+        "connect"
+      ]
+    },
+    {
+      "id": "first-potion",
+      "category": "progression",
+      "icon": "fa-solid fa-flask",
+      "title": "炼制并饮下你的第一瓶魔药",
+      "shortTitle": "第一瓶魔药",
+      "summary": "完整的序列9配方与炼制流程，不含社区里流传的各种误解。",
+      "answer": "抵达序列9需要：拿到配方、搭好坩埚、收集材料、成功炼制、然后饮用。你的第一瓶魔药不需要扮演、仪式，也没有疯狂代价。",
+      "tags": [
+        "序列9",
+        "魔药",
+        "炼制",
+        "坩埚",
+        "配方",
+        "材料",
+        "非凡特性",
+        "仪式",
+        "祭坛",
+        "过期",
+        "槽位"
+      ],
+      "sections": [
+        {
+          "title": "你需要什么",
+          "bullets": [
+            "一份完整的序列9配方，或者它全部不同的配方书页。",
+            "一座依照祭坛卷轴蓝图搭建的魔法坩埚。",
+            "与途径和序列对应的主材料与辅助材料。",
+            "非凡特性可以一次性替换配方中的全部主材料。"
+          ],
+          "warning": "献祭祭坛用于恩赐，不能炼制魔药。它的蓝图与坩埚蓝图长得很像。"
+        },
+        {
+          "title": "炼制顺序",
+          "steps": [
+            "把主材料或非凡特性放入左侧槽位。",
+            "把辅助材料放入右侧槽位。",
+            "把配方放入中央槽位。",
+            "所有物品都要严格按照配方给出的顺序摆放。",
+            "成功之后，饮下魔药即可成为序列9。"
+          ],
+          "tip": "炼制失败不会消耗材料。更高级的坩埚提升的是成功率，而不是减少损失。"
+        },
+        {
+          "title": "材料",
+          "bullets": [
+            "可搜寻类材料只会出现在自然生成的战利品箱中。",
+            "可掉落类材料只能从非凡生物身上获得。",
+            "可采集类材料以独立的世界节点形式生长，右键即可采集。"
+          ]
+        },
+        {
+          "title": "魔药过期",
+          "paragraphs": [
+            "魔药从存在的那一刻起，只能保存两个现实日。请在准备好饮用时再炼制。过期的魔药在条件允许时会变成对应的封印物，但不再提供原本的晋升效果。"
+          ]
+        }
+      ],
+      "related": [
+        "loot",
+        "starter-choice",
+        "progression"
+      ]
+    },
+    {
+      "id": "loot",
+      "category": "progression",
+      "icon": "fa-solid fa-box-open",
+      "title": "寻找战利品、配方与材料",
+      "shortTitle": "战利品与定向",
+      "summary": "魔法材料究竟从哪里来，以及定向保底如何降低运气的影响。",
+      "answer": "每一个自然生成的原版箱子都是可再生的非凡战利品容器。反复搜刮它们，并把奖励定向到你当前缺的那一类。",
+      "tags": [
+        "战利品",
+        "箱子",
+        "容器",
+        "配方",
+        "书页",
+        "材料",
+        "祭坛卷轴",
+        "定向",
+        "保底",
+        "野生非凡者",
+        "生物",
+        "节点",
+        "能量碎片"
+      ],
+      "sections": [
+        {
+          "title": "战利品容器",
+          "paragraphs": [
+            "村庄、废弃矿井、地牢、神殿、沉船、埋藏的宝藏、堡垒遗迹和废弃传送门里的箱子都算。并不存在什么会发光的特殊非凡箱子。"
+          ],
+          "tip": "箱子内容会随时间再生。已经探索过的结构依然有价值，值得回头再去。"
+        },
+        {
+          "title": "奖励定向",
+          "paragraphs": [
+            "从四类中选择一类：魔药、配方、书页或祭坛卷轴。每一个没开出该奖励的合格箱子都会推进一个可见的计数，达到阈值的那个箱子必定开出它。"
+          ],
+          "warning": "材料无法定向。它们只能从箱子里找到、从生物身上取得、从资源节点采集、通过交易换取，或者经由其他系统转化而来。"
+        },
+        {
+          "title": "定向获取",
+          "bullets": [
+            "与态度平和的野生非凡者交易，换取特定途径的物资。",
+            "使用 /subspace 并反复打地牢，获得可重复产出的材料。",
+            "猎杀非凡生物，获取可掉落材料与扮演点数。",
+            "把多余的材料交给无职业的傻子村民，换取能量碎片。",
+            "留意璀璨商行轮换的货品。"
+          ]
+        }
+      ],
+      "related": [
+        "first-potion",
+        "activities",
+        "economy"
+      ]
+    },
+    {
+      "id": "progression",
+      "category": "progression",
+      "icon": "fa-solid fa-arrow-trend-up",
+      "title": "扮演、仪式、灵性与疯狂",
+      "shortTitle": "晋升",
+      "summary": "序列9之后的晋升如何运作，以及在哪里查看自己的当前状态。",
+      "answer": "成为非凡者之后，晋升需要来自多个来源的扮演、下一瓶魔药，以及越来越重要的仪式。你的完整状态都在物品栏内的途径界面里。",
+      "tags": [
+        "扮演",
+        "消化",
+        "仪式",
+        "灵性",
+        "法力",
+        "疯狂",
+        "异变",
+        "生命",
+        "属性",
+        "状态",
+        "序列",
+        "晋升",
+        "悬赏",
+        "瓶"
+      ],
+      "sections": [
+        {
+          "title": "查看你的角色",
+          "steps": [
+            "打开物品栏。",
+            "点击左上角的途径图标。",
+            "把鼠标悬停在界面中角色的头部上。"
+          ],
+          "tip": "这里会显示序列、扮演与消化、灵性以及疯狂。没有查看状态的指令。"
+        },
+        {
+          "title": "扮演与消化",
+          "paragraphs": [
+            "单纯地释放法术并不一定推进扮演。每种能力都有其特定的扮演方式，扮演成功时会在物品栏上方出现提示。"
+          ],
+          "bullets": [
+            "日常游玩与各能力专属的扮演方式。",
+            "扮演之瓶与轮换的悬赏任务。",
+            "完成地牢，获得 PvE 扮演。",
+            "参与宇宙入侵，获得 PvP 扮演。"
+          ],
+          "warning": "任何单一的扮演来源都无法独自达到 100%。请把多种来源结合起来。"
+        },
+        {
+          "title": "仪式",
+          "bullets": [
+            "序列9从不需要仪式。",
+            "晋升至序列8–6时，仪式是可选的，但跳过会带来永久的赛季疯狂。",
+            "晋升至序列5及以上时，仪式是强制的。"
+          ]
+        },
+        {
+          "title": "灵性与疯狂",
+          "paragraphs": [
+            "灵性驱动能力，并会随时间恢复。灵性上限随序列与扮演进度而增长。",
+            "疯狂分为临时、永久与原始三部分。死亡与不安全的晋升会增加疯狂；休息和某些机制只能降低其中可恢复的部分。"
+          ],
+          "warning": "高疯狂会带来实际的游戏影响，并可能导致异变。请认真对待晋升时的警告。"
+        }
+      ],
+      "related": [
+        "first-potion",
+        "activities",
+        "advanced"
+      ]
+    },
+    {
+      "id": "activities",
+      "category": "world",
+      "icon": "fa-solid fa-dungeon",
+      "title": "生物、野生非凡者、地牢与入侵",
+      "shortTitle": "活动与地牢",
+      "summary": "提供战利品、扮演进度与团队目标的主要可重复活动。",
+      "answer": "用 /subspace 定位地牢，在探索途中猎杀非凡生物，与途径相合的野生非凡者交易，并且务必先看清区域颜色再进入宇宙入侵。",
+      "tags": [
+        "地牢",
+        "subspace",
+        "裂隙",
+        "队伍",
+        "冷却",
+        "协助卡",
+        "生物",
+        "血月",
+        "野生非凡者",
+        "守护者",
+        "入侵",
+        "pvp",
+        "黑色区域"
+      ],
+      "sections": [
+        {
+          "title": "地牢与裂隙",
+          "steps": [
+            "运行 /subspace，查看所有地牢、其裂隙位置、你的相对强度以及冷却时间。",
+            "走到裂隙处，若它仍需削弱，则投入能量碎块。",
+            "用 /party 组队，并在可进入时进入。"
+          ],
+          "bullets": [
+            "每座地牢每三天可获得一次真实战利品。",
+            "每天另有两次协助卡挑战，但不产出正常战利品。",
+            "只要剩下的队伍不算超模，减员挑战是允许的，且奖励不会减少。"
+          ]
+        },
+        {
+          "title": "生物与血月",
+          "paragraphs": [
+            "非凡生物提供经验、扮演点数与途径材料。在大约每周一次的血月期间，钓鱼会变成一条价值可观但更危险的额外战利品来源。"
+          ]
+        },
+        {
+          "title": "野生非凡者与守护者",
+          "paragraphs": [
+            "野生非凡者的态度取决于途径之间的关系。态度平和的能提供全服最有针对性的材料与配方交易；抱有敌意的则是硬仗。守护者守护着重要目标，是为团队设计的。"
+          ]
+        },
+        {
+          "title": "宇宙入侵",
+          "paragraphs": [
+            "入侵是公告过的 PvP 目标。绿色与黄色区域主要只危及随身物品，并会平衡不同序列之间的伤害。黑色区域则带有序列跌落的严重风险。"
+          ],
+          "warning": "进入之前请先读清区域颜色与规则。走进入侵，就是主动选择了 PvP。"
+        }
+      ],
+      "related": [
+        "loot",
+        "progression",
+        "server-basics"
+      ]
+    },
+    {
+      "id": "towns",
+      "category": "community",
+      "icon": "fa-solid fa-house-flag",
+      "title": "城镇、国家、战争与独自发展",
+      "shortTitle": "城镇与国家",
+      "summary": "受保护的聚落如何改变前期体验，以及自给自足的路线是什么样的。",
+      "answer": "加入城镇是最快的社交开局，而独自游玩同样完全可行。城镇提供受保护的领地、共享的基础设施、组队渠道，以及后期的被动加成。",
+      "tags": [
+        "城镇",
+        "lands",
+        "领地",
+        "国家",
+        "战争",
+        "单人",
+        "加入",
+        "定居",
+        "基地",
+        "破坏",
+        "身份",
+        "加成"
+      ],
+      "sections": [
+        {
+          "title": "加入城镇",
+          "paragraphs": [
+            "在游戏聊天或 Discord 里询问哪个城镇在接收新人。老玩家可以分享配方、材料、坩埚、经验，以及挑战困难内容所需的队伍。"
+          ],
+          "tip": "在一个没有传送指令的世界里，一个位置好的聚落和一群有经验的邻居，是相当可观的优势。"
+        },
+        {
+          "title": "独自发展",
+          "steps": [
+            "选一个合理的基地位置，并记下重要坐标。",
+            "打开每一个自然生成的箱子，并把奖励定向到你当前最缺的东西。",
+            "猎杀生物、记录资源节点，并利用野生非凡者的交易。",
+            "临时加入地牢或入侵队伍，同时不必放弃独立性。"
+          ]
+        },
+        {
+          "title": "领地、等级与国家",
+          "paragraphs": [
+            "城镇采用 Lands 风格的身份与领地。城镇等级越高，越能解锁人口上限、金库要求、被动加成与建筑收益。达到领域级别的城镇可以组成国家。"
+          ]
+        },
+        {
+          "title": "战争",
+          "paragraphs": [
+            "战争是自愿参与的结构化冲突，通过专门的指令和服务器规则来管理。在指定的战斗场合之外，正常的野外探索依然受到保护。"
+          ]
+        }
+      ],
+      "related": [
+        "server-basics",
+        "economy",
+        "social"
+      ]
+    },
+    {
+      "id": "economy",
+      "category": "community",
+      "icon": "fa-solid fa-coins",
+      "title": "货币、能量碎片与璀璨商行",
+      "shortTitle": "经济",
+      "summary": "不同货币各自能买什么，以及日常游玩如何把多余的材料变成实际进度。",
+      "answer": "用 /wallet 管理科佩、里克与因蒂费尔；把不需要的魔法材料转化为能量碎片；通过社区活动赚取独立的商行点数。",
+      "tags": [
+        "金钱",
+        "货币",
+        "钱包",
+        "科佩",
+        "里克",
+        "因蒂费尔",
+        "能量碎片",
+        "商行",
+        "每日",
+        "投票",
+        "收入",
+        "精准采集",
+        "出售"
+      ],
+      "sections": [
+        {
+          "title": "金钱与钱包",
+          "paragraphs": [
+            "主要货币为科佩、里克与因蒂费尔，通过 /wallet 管理。物品估价是主要收入来源，但只有用精准采集开采的不可再生矿石才符合条件。"
+          ]
+        },
+        {
+          "title": "能量碎片",
+          "paragraphs": [
+            "把多余的途径材料与配方交给无职业的傻子村民。能量碎片可用于野生非凡者交易、削弱裂隙、秘密组织升级以及赛季活动。"
+          ]
+        },
+        {
+          "title": "璀璨商行",
+          "paragraphs": [
+            "商行轮换各类实用货品，其中包括魔药配方。商行点数与普通货币彼此独立，来自投票、连续登录以及被采纳的错误报告。"
+          ],
+          "commands": [
+            {
+              "command": "/emporium 或 /emp",
+              "purpose": "打开璀璨商行"
+            },
+            {
+              "command": "/daily",
+              "purpose": "打开每日奖励菜单"
+            },
+            {
+              "command": "/vote",
+              "purpose": "打开服务器投票"
+            },
+            {
+              "command": "/wallet",
+              "purpose": "存放金钱、估价物品与进行支付"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "loot",
+        "towns",
+        "advanced"
+      ]
+    },
+    {
+      "id": "social",
+      "category": "community",
+      "icon": "fa-solid fa-people-group",
+      "title": "信使、秘密组织与社交玩法",
+      "shortTitle": "社交系统",
+      "summary": "用于交流、寄送、私密团体与共享设施的各项系统。",
+      "answer": "日常交流用普通私聊，寄送实物用信使，长期的私密团体则用秘密组织——它有自己的升级与专属空间。",
+      "tags": [
+        "信使",
+        "号角",
+        "寄送",
+        "消息",
+        "msg",
+        "秘密组织",
+        "组织",
+        "oc",
+        "邀请",
+        "sos",
+        "团体"
+      ],
+      "sections": [
+        {
+          "title": "信使",
+          "paragraphs": [
+            "信使号角可以召来不同类型的信使，用于寄送实物。每种寄送在容量、距离和安全性上都有自己的规则，所以在托运贵重货物之前，请先查清所选的信使。"
+          ]
+        },
+        {
+          "title": "秘密组织",
+          "paragraphs": [
+            "组织是长期存在的私密团体，拥有成员、干部、聊天频道、升级与紧急工具。发展到后期还能提供「即时召唤」和秘密巢穴之类的机动手段。"
+          ],
+          "commands": [
+            {
+              "command": "/o invite、/o kick",
+              "purpose": "管理组织成员"
+            },
+            {
+              "command": "/o vice set/remove",
+              "purpose": "管理副首领"
+            },
+            {
+              "command": "/o sos",
+              "purpose": "使用组织紧急求援系统"
+            },
+            {
+              "command": "/oc",
+              "purpose": "打开组织私密频道"
+            }
+          ]
+        },
+        {
+          "title": "私聊",
+          "commands": [
+            {
+              "command": "/msg、/pm、/w",
+              "purpose": "发送私聊消息"
+            },
+            {
+              "command": "/reply",
+              "purpose": "回复最近一条私聊"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "towns",
+        "economy",
+        "advanced"
+      ]
+    },
+    {
+      "id": "advanced",
+      "category": "world",
+      "icon": "fa-solid fa-star-of-life",
+      "title": "长期与进阶系统",
+      "shortTitle": "进阶系统",
+      "summary": "简要梳理那些在赛季后期才变得重要的系统。",
+      "answer": "恩赐、封印物、教会、尊名、唯一性、火器等专门系统都属于长期的额外层次，而不是你头几天的必修课。",
+      "tags": [
+        "恩赐",
+        "封印物",
+        "教会",
+        "尊名",
+        "唯一性",
+        "序列0",
+        "火器",
+        "饮品",
+        "战斗通行证",
+        "订阅",
+        "商店",
+        "创作者"
+      ],
+      "sections": [
+        {
+          "title": "恩赐与献祭祭坛",
+          "paragraphs": [
+            "恩赐是一条独立的成长线，通过献祭祭坛推进。它不会取代你的途径，而它的祭坛也无法炼制魔药。"
+          ]
+        },
+        {
+          "title": "封印物",
+          "paragraphs": [
+            "封印物提供强大的效果，同时伴随负面影响。它们可以来自制作、战利品或过期的魔药，应当被当作取舍来权衡，而不是无条件的升级。"
+          ]
+        },
+        {
+          "title": "教会与尊名",
+          "paragraphs": [
+            "教会是围绕信仰、锚点、祈祷、土地与可变加成建立的后期机构。尊名允许进行仪式性的沟通，并且随着持有者序列的提升而变短。"
+          ]
+        },
+        {
+          "title": "唯一性与序列0",
+          "paragraphs": [
+            "一条途径的唯一性是通往序列0的路上的一环，并且需要适应。持有唯一性会让死亡额外惩罚适应进度。"
+          ]
+        },
+        {
+          "title": "可选的支持方式",
+          "paragraphs": [
+            "商店、付费战斗通行证与订阅用于支持服务器并提供便利。免费玩家依然可以抵达每一个层级的力量。"
+          ]
+        }
+      ],
+      "related": [
+        "progression",
+        "economy",
+        "social"
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "category": "help",
+      "icon": "fa-solid fa-screwdriver-wrench",
+      "title": "连接与界面问题排查",
+      "shortTitle": "问题排查",
+      "summary": "针对自定义界面缺失、验证失败、客户端不兼容与基岩版限制的快速解答。",
+      "answer": "魔法界面缺失，几乎总是意味着资源包被拒绝，或者 Java 客户端需要更新。基岩版在自定义界面上存在无法回避的限制。",
+      "tags": [
+        "问题",
+        "损坏",
+        "缺失",
+        "原版",
+        "界面",
+        "ui",
+        "资源包",
+        "验证",
+        "验证码",
+        "过期",
+        "基岩版",
+        "手机",
+        "geyser",
+        "客户端过旧",
+        "连接"
+      ],
+      "sections": [
+        {
+          "title": "服务器看起来像原版",
+          "steps": [
+            "编辑服务器条目，把「服务器资源包」设为「启用」。",
+            "重新连接并接受资源包。",
+            "如果仍然静默失败，请更新 Java 客户端后重连。"
+          ],
+          "warning": "基岩版玩家仍可能看到途径图标缺失或自定义界面显示错乱。这是 Geyser 的已知限制。"
+        },
+        {
+          "title": "验证没有完成",
+          "steps": [
+            "回到个人资料页，重新生成一个验证码。",
+            "在游戏内的验证窗口中输入它。",
+            "如果是 Discord 网站登录本身失败，请清除站点 Cookie 后重试。",
+            "若账号始终无法绑定，请开一张 Discord 工单。"
+          ]
+        },
+        {
+          "title": "我连不上服务器",
+          "bullets": [
+            "确认地址完全是 mc.mysterria.net。",
+            "使用 Minecraft 26.1.2 或更新版本。",
+            "离线账号首次注册之后，每次都必须使用 /login。"
+          ]
+        }
+      ],
+      "related": [
+        "connect",
+        "commands",
+        "server-basics"
+      ]
+    },
+    {
+      "id": "commands",
+      "category": "help",
+      "icon": "fa-solid fa-terminal",
+      "title": "核心指令速查",
+      "shortTitle": "指令",
+      "summary": "玩家常用指令的精简清单，以及那些被刻意取消的指令。",
+      "answer": "绝大多数角色信息都通过物品栏界面查看。指令主要用于打开菜单、管理团体或进行交流。",
+      "tags": [
+        "指令",
+        "magic",
+        "daily",
+        "vote",
+        "wallet",
+        "subspace",
+        "party",
+        "bounty",
+        "lands",
+        "claim",
+        "war",
+        "church",
+        "home",
+        "spawn",
+        "tpa"
+      ],
+      "sections": [
+        {
+          "title": "开局与晋升",
+          "commands": [
+            {
+              "command": "/register <密码> <密码>",
+              "purpose": "为离线账号注册一次"
+            },
+            {
+              "command": "/login <密码>",
+              "purpose": "登录离线账号"
+            },
+            {
+              "command": "/magic",
+              "purpose": "打开可选的下一步指引"
+            },
+            {
+              "command": "/subspace",
+              "purpose": "浏览地牢、位置、强度与冷却"
+            },
+            {
+              "command": "/party",
+              "purpose": "创建或管理地牢队伍"
+            },
+            {
+              "command": "/bounty",
+              "purpose": "打开扮演悬赏菜单"
+            }
+          ]
+        },
+        {
+          "title": "经济与社区",
+          "commands": [
+            {
+              "command": "/wallet",
+              "purpose": "管理货币、估价与支付"
+            },
+            {
+              "command": "/daily",
+              "purpose": "打开每日奖励"
+            },
+            {
+              "command": "/emporium 或 /emp",
+              "purpose": "打开璀璨商行"
+            },
+            {
+              "command": "/vote",
+              "purpose": "打开投票选项"
+            },
+            {
+              "command": "/lands …",
+              "purpose": "管理城镇、身份与领地"
+            },
+            {
+              "command": "/claim 与 /unclaim",
+              "purpose": "圈定或释放当前区块"
+            },
+            {
+              "command": "/wars",
+              "purpose": "打开战争管理"
+            }
+          ]
+        },
+        {
+          "title": "不存在的指令",
+          "paragraphs": [
+            "服务器刻意没有 /home、/sethome、/spawn、/tpa、/rtp 或 /back。移动与机动性本身就是晋升的一部分。"
+          ],
+          "warning": "查看序列、扮演、灵性与疯狂不是靠指令。请打开物品栏，点击左上角的途径图标，然后把鼠标悬停在角色头部上。"
+        }
+      ],
+      "related": [
+        "server-basics",
+        "activities",
+        "economy"
+      ]
+    }
+  ]
+}

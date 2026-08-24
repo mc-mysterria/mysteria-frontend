@@ -72,6 +72,13 @@ export interface GuideTopic {
     related: string[];
 }
 
+
+export type Jsonified<T> =
+    T extends string ? string
+        : T extends readonly (infer U)[] ? Jsonified<U>[]
+            : T extends object ? { [K in keyof T]: Jsonified<T[K]> }
+                : T;
+
 export interface GuideContent {
     ui: {
         eyebrow: string;

@@ -1,0 +1,51 @@
+# Crowdin configuration for Mysterria.
+
+project_id_env: CROWDIN_PROJECT_ID
+api_token_env: CROWDIN_PERSONAL_TOKEN
+
+base_path: "."
+preserve_hierarchy: true
+
+files:
+  - source: /src/locales/en.json
+    translation: /src/locales/%locale%.json
+    dest: /ui.json
+    languages_mapping: &repo_codes
+      locale:
+        uk: uk
+        zh-CN: zh-CN
+        es-ES: es
+        de: de
+        fr: fr
+        ro: ro
+
+    content_segmentation: 0
+    update_option: update_as_unapproved
+
+  - source: /src/data/guide/en.json
+    translation: /src/data/guide/%locale%.json
+    dest: /guide.json
+    languages_mapping: *repo_codes
+    content_segmentation: 0
+    update_option: update_as_unapproved
+
+  - source: /src/assets/sources/rules_en.json
+    translation: /src/assets/sources/rules_%locale%.json
+    dest: /rules.json
+    languages_mapping: *repo_codes
+    content_segmentation: 0
+    update_option: update_as_unapproved
+
+  - source: /src/assets/sources/staff_rules_en.json
+    translation: /src/assets/sources/staff_rules_%locale%.json
+    dest: /staff-rules.json
+    languages_mapping: *repo_codes
+    content_segmentation: 0
+    update_option: update_as_unapproved
+
+  - source: /src/assets/sources/meta-copy.en.json
+    translation: /src/assets/sources/meta-copy.%locale%.json
+    dest: /link-previews.json
+    languages_mapping: *repo_codes
+    content_segmentation: 0
+    update_option: update_as_unapproved

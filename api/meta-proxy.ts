@@ -59,14 +59,27 @@ interface MetaCopy {
 }
 
 /*
- * Preview copy per locale. A locale with no entry falls back to the English
- * strings below, which is what English itself uses.
+ * English preview copy. It used to be inline in this file, in two places: the
+ * `copy ? ... : ...` ternaries below and a STATIC_PAGES table. It is a data file
+ * now because Crowdin translates from it (see crowdin.yml), and a string a
+ * translator can see but the code does not use is worse than no string at all.
+ */
+const EN_COPY = require('../src/assets/sources/meta-copy.en.json') as MetaCopy;
+
+/*
+ * Preview copy per locale. English is an ordinary entry rather than a special
+ * case, and any locale without a file of its own falls back to it - which is
+ * the state every newly-added Crowdin language starts in.
  */
 const META_COPY: Partial<Record<ProxyLocale, MetaCopy>> = {
+    en: EN_COPY,
     uk: require('../src/assets/sources/meta-copy.uk.json') as MetaCopy,
     'zh-CN': require('../src/assets/sources/meta-copy.zh-CN.json') as MetaCopy,
     'zh-TW': require('../src/assets/sources/meta-copy.zh-TW.json') as MetaCopy,
 };
+
+/** Preview copy for a locale, falling back to English. Never undefined. */
+const copyFor = (locale: ProxyLocale): MetaCopy => META_COPY[locale] ?? EN_COPY;
 
 /**
  * Localized pathway and Sequence names, from the same overlays the app uses.
@@ -172,7 +185,7 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, loc
     const pathway = pathwayId ? pathwayData.pathways.find((item) => item.id === pathwayId) : undefined;
     if (pathwayId && !pathway) return null;
 
-    const copy = META_COPY[locale];
+    const copy = copyFor(locale);
     const overlay = PATHWAY_COPY[locale];
 
     const name = pathwayId
@@ -203,26 +216,15 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, loc
         abilities: abilityCount,
     };
 
-    const title = copy
-        ? fill(pathway ? copy.pathwayTitle : copy.pathwayIndexTitle, slots)
-        : pathway
-            ? `${name} Pathway - Sequences & Abilities | Mysterria`
-            : 'Pathways & Sequences - Beyonder Archive | Mysterria';
-
-    const description = copy
-        ? fill(pathway ? copy.pathwayDescription : copy.pathwayIndexDescription, slots)
-        : pathway
-            ? `Explore the ${name} Pathway from Sequence ${firstRung?.sequence} ${firstSequence} to Sequence ${finalRung?.sequence} ${finalSequence}. Discover ${abilityCount} abilities available on Mysterria.`
-            : `Explore all ${pathwayData.pathways.length} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.`;
+    const title = fill(pathway ? copy.pathwayTitle : copy.pathwayIndexTitle, slots);
+    const description = fill(pathway ? copy.pathwayDescription : copy.pathwayIndexDescription, slots);
 
     const pageUrl = `${localeBase(baseUrl, locale)}/pathways${pathwayId ? `/${pathwayId}` : ''}`;
     const imageName = pathwayId ? (PATHWAY_IMAGE_ALIASES[pathwayId] || pathwayId) : '';
     const hasImage = imageName && ['abyss', 'chained', 'darkness', 'death', 'demoness', 'door', 'emperor', 'error', 'eternalaeon', 'fool', 'fortune', 'giant', 'hanged', 'hermit', 'justiciar', 'moon', 'mother', 'paragon', 'patriarch', 'priest', 'sublunary', 'sun', 'tower', 'tyrant', 'visionary'].includes(imageName);
     const imageUrl = hasImage ? `${baseUrl}/pathways/${imageName}.webp` : `${baseUrl}/banner.webp`;
 
-    const sigilAlt = copy
-        ? fill(pathway ? copy.pathwaySigilAlt : copy.pathwayIndexAlt, {name})
-        : (pathway ? `${name} Pathway symbol` : 'Mysterria Beyonder Pathways');
+    const sigilAlt = fill(pathway ? copy.pathwaySigilAlt : copy.pathwayIndexAlt, {name});
 
     return `<!DOCTYPE html><html lang="${HTML_LANG[locale]}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(title)}</title><meta name="title" content="${escapeHtml(title)}"><meta name="description" content="${escapeHtml(description)}">
@@ -238,82 +240,37 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, loc
 const HOME_PAGE = 'home';
 
 /*
- * English preview copy, and the fallback for any locale without its own
- * meta-copy file. Each entry mirrors what the matching view passes to useSeo,
- * so a crawler and a reader are told the same thing about the page.
+ * The preview image per page. Titles and descriptions used to sit alongside
+ * these in one table; they live in the meta-copy files now, English included,
+ * because they are the part a translator owns. An image is not translatable, so
+ * it stays in code and is the same for every locale.
+ *
+ * A page with no entry gets the banner, which is what most pages use anyway.
  */
-const STATIC_PAGES: Record<string, PageMeta> = {
-    home: {
-        title: 'Mysterria - Lord of the Mysteries Minecraft Server',
-        description: 'Drink the potion. Act the role. Climb 22 Beyonder Pathways from Sequence 9 toward godhood on a Lord of the Mysteries Minecraft server.',
-        image: '/banner.webp',
-    },
-    rules: {
-        title: 'Server Rules - Mysterria',
-        description: 'Read the rules and guidelines for playing on Mysterria, the Lord of the Mysteries inspired Minecraft server. Learn about our community standards and gameplay policies.',
-        image: '/banner.webp',
-    },
-    store: {
-        title: 'Store - Mysterria',
-        description: 'Support Mysterria and unlock exclusive perks! Browse our store for ranks, items, and special features for the Lord of the Mysteries Minecraft server.',
-        image: '/banner.webp',
-    },
-    ascension: {
-        title: 'Ascension Registry - Mysterria',
-        description: 'Live seat availability for the high Sequences on Mysterria: every pathway seats at most 18 Saints, 9 Angels, 3 Archangels and a single Deity. See which thrones are taken before you climb.',
-        image: '/banner.webp',
-    },
-    guide: {
-        title: 'Getting Started Guide - Mysterria',
-        description: 'New to Mysterria? Learn how to get started on our Lord of the Mysteries inspired server. Discover Pathways, Sequences, and mystical adventures.',
-        image: '/klein.webp',
-    },
-    profile: {
-        title: 'Your Profile - Mysterria',
-        description: 'View and manage your Mysterria profile. Track your progress through Sequences and Pathways on our Lord of the Mysteries Minecraft server.',
-        image: '/klein.webp',
-    },
-    news: {
-        title: 'Dispatches - Mysterria',
-        description: 'Patch notes, season announcements and dispatches from Mysterria, the Lord of the Mysteries Minecraft server.',
-        image: '/banner.webp',
-    },
-    staff: {
-        title: 'The Order - Mysterria',
-        description: 'The admins, moderators and builders who keep the world running. Reach them on Discord for tickets and appeals, never in DMs.',
-        image: '/banner.webp',
-    },
-    terms: {
-        title: 'Terms of Service - Mysterria',
-        description: 'The terms of service for Mysterria, the Lord of the Mysteries inspired Minecraft server.',
-        image: '/banner.webp',
-    },
-    privacy: {
-        title: 'Privacy - Mysterria',
-        description: 'How Mysterria handles your account data, Discord linkage and cookies.',
-        image: '/banner.webp',
-    },
-    sla: {
-        title: 'SLA - Mysterria',
-        description: 'Uptime commitments and service expectations for the Mysterria Minecraft server.',
-        image: '/banner.webp',
-    },
+const PAGE_IMAGES: Record<string, string> = {
+    guide: '/klein.webp',
+    profile: '/klein.webp',
 };
 
-function generateStaticPageHTML(pageName: string, baseUrl: string, locale: ProxyLocale = 'en'): string {
-    const fallback = STATIC_PAGES[pageName] || {
-        title: 'Mysterria - Lord of The Mysteries Minecraft Server',
-        description: 'Mysterria - A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches.',
-        image: '/banner.webp',
-    };
+const DEFAULT_PAGE_IMAGE = '/banner.webp';
 
-    const localized = META_COPY[locale]?.pages;
-    // `default` is the brand copy, which is also the home copy - so the locale
-    // root reads correctly without a duplicate `home` entry in every meta-copy file.
-    const translated = localized?.[pageName] ?? localized?.default;
-    const meta: PageMeta = translated
-        ? {title: translated.title, description: translated.description, image: fallback.image}
-        : fallback;
+function generateStaticPageHTML(pageName: string, baseUrl: string, locale: ProxyLocale = 'en'): string {
+    const pages = copyFor(locale).pages;
+    /*
+     * `default` is the brand copy, which is also the home copy - so the locale
+     * root, and any page name without an entry, read correctly without a
+     * duplicate `home` key in every meta-copy file.
+     *
+     * English falls through the same two steps as every other locale now, so an
+     * untranslated page in a new Crowdin language behaves exactly like an
+     * unrecognised page name in English.
+     */
+    const translated = pages[pageName] ?? pages.default ?? EN_COPY.pages.default;
+    const meta: PageMeta = {
+        title: translated.title,
+        description: translated.description,
+        image: PAGE_IMAGES[pageName] ?? DEFAULT_PAGE_IMAGE,
+    };
 
     const pageUrl = pageName === HOME_PAGE
         ? localeBase(baseUrl, locale)
@@ -352,7 +309,7 @@ function generateStaticPageHTML(pageName: string, baseUrl: string, locale: Proxy
     <script>window.location.href = '${pageUrl}';</script>
 </head>
 <body>
-    <p>${escapeHtml(META_COPY[locale]?.redirecting ?? 'Redirecting to')} <a href="${pageUrl}">${escapeHtml(meta.title)}</a>...</p>
+    <p>${escapeHtml(copyFor(locale).redirecting)} <a href="${pageUrl}">${escapeHtml(meta.title)}</a>...</p>
 </body>
 </html>`;
 }

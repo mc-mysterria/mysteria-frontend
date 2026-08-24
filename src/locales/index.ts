@@ -11,10 +11,22 @@
  */
 
 import localeTable from "@/assets/sources/locales.json";
-import {en, type Translations} from "./en";
-import {uk} from "./uk";
-import {zhCN} from "./zh-CN";
-import {zhTW} from "./zh-TW";
+import en from "./en.json";
+import uk from "./uk.json";
+import zhCN from "./zh-CN.json";
+import zhTW from "./zh-TW.json";
+
+/*
+ * The strings are JSON rather than TypeScript so that Crowdin can read and
+ * write them directly - see crowdin.yml. Nothing else changed: `Translations`
+ * is still derived from the English tree, so a locale missing a key is still a
+ * type error rather than a runtime fallback.
+ *
+ * The declaration lives here because JSON has no type position of its own; it
+ * used to sit at the foot of en.ts.
+ */
+/** Key shape every locale must satisfy. */
+export type Translations = typeof en;
 
 export type Language = "en" | "uk" | "zh-CN" | "zh-TW";
 
@@ -170,5 +182,3 @@ export function storedLanguage(): Language | null {
 export function resolveLanguage(): Language {
     return storedLanguage() ?? detectLanguage();
 }
-
-export type {Translations};

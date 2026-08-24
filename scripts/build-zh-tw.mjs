@@ -84,7 +84,7 @@ const SIMPLIFIED_LEFTOVER = /[这个国说话让为门开关东车马达发无�
 /**
  * Standard banner for a generated file. The source path is the only thing that
  * differs between targets, so there is one wording, not six. The full path, not
- * the basename: two targets are both named zh-CN.ts.
+ * the basename: two targets are both named zh-CN.json.
  */
 const banner = from => [
     "Traditional Chinese. GENERATED - do not edit.",
@@ -95,21 +95,6 @@ const banner = from => [
     `Simplified source (${from}); if only the Traditional form is wrong, add it`,
     "to i18n/zh-TW.overrides.json.",
 ];
-
-/**
- * A `.ts` content module. The source exports `zhCN` and opens with an
- * `import type`, so the output swaps that identifier and replaces the source's
- * "AUTHORED" header with a generated-from banner.
- */
-const tsTarget = (from, to) => ({
-    from,
-    to,
-    transform(text) {
-        const out = toTraditional(text).replace(/zhCN/g, "zhTW");
-        const header = banner(from).map(line => ` * ${line}`.trimEnd()).join("\n");
-        return `/*\n${header}\n */\n\n${out.slice(out.indexOf("import type"))}`;
-    },
-});
 
 /**
  * A JSON document. Re-parsed and re-serialised so a conversion that breaks the
@@ -132,11 +117,14 @@ const jsonTarget = (from, to) => ({
 
 /*
  * Every Chinese surface. Adding one is a line here rather than a new transform:
- * these two factories cover the only two output shapes that exist.
+ * every translatable file in the repo is now JSON, so one factory covers them
+ * all. The UI strings and the guide copy used to be `.ts` modules with a second
+ * transform of their own; they became JSON so Crowdin could write them, and the
+ * transform went with them.
  */
 const targets = [
-    tsTarget("src/locales/zh-CN.ts", "src/locales/zh-TW.ts"),
-    tsTarget("src/data/guide/zh-CN.ts", "src/data/guide/zh-TW.ts"),
+    jsonTarget("src/locales/zh-CN.json", "src/locales/zh-TW.json"),
+    jsonTarget("src/data/guide/zh-CN.json", "src/data/guide/zh-TW.json"),
     jsonTarget("src/assets/sources/meta-copy.zh-CN.json", "src/assets/sources/meta-copy.zh-TW.json"),
     jsonTarget("src/assets/sources/pathways.zh-CN.json", "src/assets/sources/pathways.zh-TW.json"),
     jsonTarget("src/assets/sources/rules_zh-CN.json", "src/assets/sources/rules_zh-TW.json"),

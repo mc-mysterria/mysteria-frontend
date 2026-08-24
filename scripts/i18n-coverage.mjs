@@ -21,19 +21,27 @@ const wanted = process.argv.includes("--missing")
  * UI strings: count leaf string literals per locale file.
  * ------------------------------------------------------------------ */
 /*
- * A quoted value in a locale or guide tree: `key: "text"`. Anchoring on the
- * colon skips quoted keys, so this counts translatable strings rather than every
- * quoted run, and one pattern serves both the UI and guide sections below.
+ * Counts leaf strings in a locale or guide tree. These files used to be `.ts`
+ * modules counted with a regex over their text; they are JSON now, so the tree
+ * is walked for real - which also stops `$comment` banners in the generated
+ * Traditional files from inflating their score.
  */
-const VALUE_STRING = /: "(?:[^"\\]|\\.)*"/g;
-
 function countStrings(file) {
-    const text = fs.readFileSync(p(file), "utf8");
-    return (text.slice(text.indexOf("= {")).match(VALUE_STRING) || []).length;
+    const walk = node => {
+        if (typeof node === "string") return 1;
+        if (Array.isArray(node)) return node.reduce((sum, item) => sum + walk(item), 0);
+        if (node && typeof node === "object") {
+            return Object.entries(node)
+                .filter(([key]) => key !== "$comment")
+                .reduce((sum, [, value]) => sum + walk(value), 0);
+        }
+        return 0;
+    };
+    return walk(readJson(file));
 }
 
 const uiRows = readJson("src/assets/sources/locales.json").locales
-    .map(({code}) => ({code, file: `src/locales/${code}.ts`}))
+    .map(({code}) => ({code, file: `src/locales/${code}.json`}))
     .map(row => ({...row, count: countStrings(row.file)}));
 
 const uiBaseline = uiRows.find(row => row.code === "en").count;
@@ -83,9 +91,9 @@ for (const pathway of source.pathways) {
  */
 const guideDir = p("src/data/guide");
 const guideRows = fs.readdirSync(guideDir)
-    .filter(name => name.endsWith(".ts") && name !== "types.ts")
+    .filter(name => name.endsWith(".json"))
     .map(name => ({
-        code: name.replace(/\.ts$/, ""),
+        code: name.replace(/\.json$/, ""),
         strings: countStrings(`src/data/guide/${name}`),
         generated: /GENERATED - do not edit/.test(fs.readFileSync(path.join(guideDir, name), "utf8")),
     }))
@@ -106,7 +114,7 @@ const bar = (done, total) => {
     return `[${"#".repeat(filled)}${".".repeat(width - filled)}]`;
 };
 
-console.log("\nUI strings (src/locales/*.ts)");
+console.log("\nUI strings (src/locales/*.json)");
 for (const row of uiRows) {
     const label = row.code.padEnd(6);
     const ratio = row.code === "en" ? "baseline" : `${bar(row.count, uiBaseline)} ${pct(row.count, uiBaseline)}`;
@@ -119,7 +127,7 @@ console.log(`  sequence names  ${String(sequenceDone).padStart(4)}/${sequenceTot
 console.log(`  ability strings ${String(abilityDone).padStart(4)}/${abilityTotal}   ${bar(abilityDone, abilityTotal)} ${pct(abilityDone, abilityTotal)}`);
 
 console.log("\nLong-form prose (separate passes, English fallback until done)");
-console.log("  guide (src/data/guide/*.ts)");
+console.log("  guide (src/data/guide/*.json)");
 for (const row of guideRows) {
     const label = row.code.padEnd(6);
     const note = row.generated ? " generated" : "";

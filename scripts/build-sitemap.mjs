@@ -92,10 +92,11 @@ for (const pathway of pathwayData.pathways) {
 /* ---- one page per guide topic ---- */
 // Read the English copy directly: it is the one locale guaranteed to define
 // every topic, and the other locales are translations of the same id set.
-const guideSource = fs.readFileSync(path.join(root, "src/data/guide/en.ts"), "utf8");
-// GuideTopic is the only shape in this file with a bare `id:` string field.
-const topicIds = [...new Set([...guideSource.matchAll(/^\s+id:\s*"([a-z0-9-]+)"/gm)].map(m => m[1]))];
-if (!topicIds.length) throw new Error("build-sitemap: found no guide topics — has src/data/guide/en.ts changed shape?");
+// The copy is JSON now (Crowdin writes it in place), so the topic ids are read
+// from the structure rather than scraped with a regex over a `.ts` module.
+const guideSource = JSON.parse(fs.readFileSync(path.join(root, "src/data/guide/en.json"), "utf8"));
+const topicIds = [...new Set((guideSource.topics ?? []).map(topic => topic.id).filter(Boolean))];
+if (!topicIds.length) throw new Error("build-sitemap: found no guide topics — has src/data/guide/en.json changed shape?");
 for (const id of topicIds) add(`/guide/${id}`, "0.7", "monthly");
 
 /* ---- published news, best effort ---- */
