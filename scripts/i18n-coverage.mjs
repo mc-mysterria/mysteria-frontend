@@ -10,7 +10,6 @@
  *      node scripts/i18n-coverage.mjs --missing pathways.abilities   (list gaps)
  */
 import fs from "node:fs";
-import path from "node:path";
 import {p, readJson} from "./lib/repo.mjs";
 
 const wanted = process.argv.includes("--missing")
@@ -18,33 +17,74 @@ const wanted = process.argv.includes("--missing")
     : null;
 
 /* ------------------------------------------------------------------ *
- * UI strings: count leaf string literals per locale file.
+ * UI strings and guide prose: how much of each locale is really translated.
  * ------------------------------------------------------------------ */
 /*
- * Counts leaf strings in a locale or guide tree. These files used to be `.ts`
- * modules counted with a regex over their text; they are JSON now, so the tree
- * is walked for real - which also stops `$comment` banners in the generated
- * Traditional files from inflating their score.
+ * A leaf counts as translated when it DIFFERS from English at the same path,
+ * rather than merely existing.
+ *
+ * The distinction arrived with Crowdin. A Crowdin export fills every
+ * untranslated string with the English source, so a language nobody has started
+ * yet downloads as a file with exactly as many strings as English and no
+ * translation in it whatsoever. Counting strings reported those at 100%, which
+ * is the one number this script exists to not print.
+ *
+ * It reads a shade low in the other direction: "Mysterria", "Discord" and the
+ * guide's search tags are the same word in every language, so a finished locale
+ * lands in the high nineties rather than at exactly 100. That is the right
+ * direction to be wrong in.
  */
-function countStrings(file) {
-    const walk = node => {
-        if (typeof node === "string") return 1;
-        if (Array.isArray(node)) return node.reduce((sum, item) => sum + walk(item), 0);
-        if (node && typeof node === "object") {
-            return Object.entries(node)
-                .filter(([key]) => key !== "$comment")
-                .reduce((sum, [, value]) => sum + walk(value), 0);
+function flatten(node, prefix = "", out = {}) {
+    if (typeof node === "string") {
+        out[prefix] = node;
+        return out;
+    }
+    if (Array.isArray(node)) {
+        node.forEach((item, index) => flatten(item, `${prefix}[${index}]`, out));
+        return out;
+    }
+    if (node && typeof node === "object") {
+        for (const [key, value] of Object.entries(node)) {
+            // Generated banners are not copy and would inflate the score.
+            if (key === "$comment") continue;
+            flatten(value, prefix ? `${prefix}.${key}` : key, out);
         }
-        return 0;
-    };
-    return walk(readJson(file));
+    }
+    return out;
 }
 
-const uiRows = readJson("src/assets/sources/locales.json").locales
-    .map(({code}) => ({code, file: `src/locales/${code}.json`}))
-    .map(row => ({...row, count: countStrings(row.file)}));
+/** `{total, translated}` for one locale file against the English tree. */
+function coverage(englishLeaves, file) {
+    const theirs = flatten(readJson(file));
+    let translated = 0;
+    for (const [path, english] of Object.entries(englishLeaves)) {
+        const value = theirs[path];
+        if (value !== undefined && value !== english) translated++;
+    }
+    return {total: Object.keys(englishLeaves).length, translated};
+}
 
-const uiBaseline = uiRows.find(row => row.code === "en").count;
+/*
+ * Locales are discovered from the directory, not from locales.json, because the
+ * interesting case is a language Crowdin has landed but the app does not import
+ * yet - which is exactly the one locales.json does not know about.
+ */
+function localeRows(dir, englishLeaves) {
+    return fs.readdirSync(p(dir))
+        .filter(name => name.endsWith(".json"))
+        .map(name => {
+            const file = `${dir}/${name}`;
+            return {
+                code: name.replace(/\.json$/, ""),
+                ...coverage(englishLeaves, file),
+                generated: /GENERATED - do not edit/.test(fs.readFileSync(p(file), "utf8")),
+            };
+        })
+        .sort((a, b) => (a.code === "en" ? -1 : b.code === "en" ? 1 : a.code.localeCompare(b.code)));
+}
+
+const uiLeaves = flatten(readJson("src/locales/en.json"));
+const uiRows = localeRows("src/locales", uiLeaves);
 
 /* ------------------------------------------------------------------ *
  * Pathway data: names, Sequence names, ability names + descriptions.
@@ -84,21 +124,12 @@ for (const pathway of source.pathways) {
  * Long-form prose that has its own translation pass.
  * ------------------------------------------------------------------ */
 /*
- * The guide is one file per locale. There is no key-by-key diff to do because
- * GuideContent is a closed type - a locale that compiles has every field - so
- * what is worth reporting is whether a locale exists at all, and whether its
- * prose looks complete rather than half-copied from English.
+ * The guide is one file per locale, scored the same way as the UI strings above:
+ * against English, leaf by leaf. It reads lower than the UI does because a good
+ * fraction of the tree is search tags and proper nouns that stay English on
+ * purpose.
  */
-const guideDir = p("src/data/guide");
-const guideRows = fs.readdirSync(guideDir)
-    .filter(name => name.endsWith(".json"))
-    .map(name => ({
-        code: name.replace(/\.json$/, ""),
-        strings: countStrings(`src/data/guide/${name}`),
-        generated: /GENERATED - do not edit/.test(fs.readFileSync(path.join(guideDir, name), "utf8")),
-    }))
-    .sort((a, b) => (a.code === "en" ? -1 : b.code === "en" ? 1 : a.code.localeCompare(b.code)));
-const guideBaseline = guideRows.find(row => row.code === "en")?.strings ?? 0;
+const guideRows = localeRows("src/data/guide", flatten(readJson("src/data/guide/en.json")));
 
 const ruleFiles = fs.readdirSync(p("src/assets/sources"))
     .filter(name => /^(staff_)?rules_/.test(name))
@@ -114,12 +145,17 @@ const bar = (done, total) => {
     return `[${"#".repeat(filled)}${".".repeat(width - filled)}]`;
 };
 
-console.log("\nUI strings (src/locales/*.json)");
-for (const row of uiRows) {
+/** One locale's line: how many leaves differ from English, out of how many. */
+const localeLine = (row, indent) => {
     const label = row.code.padEnd(6);
-    const ratio = row.code === "en" ? "baseline" : `${bar(row.count, uiBaseline)} ${pct(row.count, uiBaseline)}`;
-    console.log(`  ${label} ${String(row.count).padStart(4)} strings   ${ratio}`);
-}
+    const note = row.generated ? " generated" : "";
+    if (row.code === "en") return `${indent}${label} ${String(row.total).padStart(4)} strings   baseline`;
+    const count = `${String(row.translated).padStart(4)}/${row.total}`;
+    return `${indent}${label} ${count}   ${bar(row.translated, row.total)} ${pct(row.translated, row.total)}${note}`;
+};
+
+console.log("\nUI strings (src/locales/*.json) - leaves differing from English");
+for (const row of uiRows) console.log(localeLine(row, "  "));
 
 console.log("\nPathway data (zh-CN overlay; zh-TW is generated from it)");
 console.log(`  pathway names   ${String(pathwayDone).padStart(4)}/${pathwayTotal}   ${bar(pathwayDone, pathwayTotal)} ${pct(pathwayDone, pathwayTotal)}`);
@@ -128,14 +164,7 @@ console.log(`  ability strings ${String(abilityDone).padStart(4)}/${abilityTotal
 
 console.log("\nLong-form prose (separate passes, English fallback until done)");
 console.log("  guide (src/data/guide/*.json)");
-for (const row of guideRows) {
-    const label = row.code.padEnd(6);
-    const note = row.generated ? " generated" : "";
-    const ratio = row.code === "en"
-        ? "baseline"
-        : `${bar(row.strings, guideBaseline)} ${pct(row.strings, guideBaseline)}`;
-    console.log(`    ${label} ${String(row.strings).padStart(4)} strings   ${ratio}${note}`);
-}
+for (const row of guideRows) console.log(localeLine(row, "    "));
 console.log(`  rules            files present:   ${ruleFiles.join(", ")}`);
 
 const gaps = missing.abilities.length + missing.sequences.length + missing.pathwayNames.length;

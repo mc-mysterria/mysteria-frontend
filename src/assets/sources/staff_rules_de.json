@@ -1,0 +1,179 @@
+[
+  {
+    "group": "General Staff Rules",
+    "rules": [
+      {
+        "id": "G1",
+        "title": "Double Life Usage",
+        "content": "Staff must only use the Double Life mode for administrative duties (ticket handling, bug investigation, helping players). It must never be used for personal gain, resource collection, or teleportation for fun. Every action is logged and reviewed.",
+        "examples": "Allowed: teleporting to verify a bug report. Disallowed: teleporting to a friend’s base or giving yourself loot."
+      },
+      {
+        "id": "G2",
+        "title": "Command and Permission Abuse",
+        "content": "All commands executed in Double Life mode are logged. Using powers for personal advantage, to punish without reason, or to benefit friends will result in a council trial.",
+        "examples": "Allowed: using /ban on a confirmed hacker. Disallowed: using /ban on someone because of a personal argument."
+      },
+      {
+        "id": "G3",
+        "title": "Stability First",
+        "content": "Any file edits or configuration changes must be backed up before applying to production servers. Never apply untested changes directly without a backup.",
+        "examples": "Allowed: save the old config to your PC, then apply edits. Disallowed: directly editing configs on the live server with no backup."
+      },
+      {
+        "id": "G4",
+        "title": "Testing Before Deploy",
+        "content": "All plugin or configuration changes must be tested on a test server first. Production servers must remain stable.",
+        "examples": "Allowed: testing a new recipe system on test server. Disallowed: adding untested code directly to production."
+      },
+      {
+        "id": "G5",
+        "title": "No Hidden Mechanics",
+        "content": "Staff must not create or use hidden mechanics available only to themselves or a small circle. New features must be released officially for all players.",
+        "examples": "Allowed: releasing a new potion recipe in a patch. Disallowed: keeping a secret command for personal use."
+      },
+      {
+        "id": "G6",
+        "title": "Secrecy of Internal Knowledge",
+        "content": "Do not leak unreleased information (mechanics, recipes, exploits, configs) outside staff channels.",
+        "examples": "Allowed: confirming in a ticket if a recipe works. Disallowed: sending a friend the full recipe list."
+      },
+      {
+        "id": "G7",
+        "title": "Conflict Resolution",
+        "content": "If unsure about a decision, escalate it to admins, developers, or the council. Never act on uncertainty alone.",
+        "examples": "Allowed: pausing an issue and asking higher-ups for advice. Disallowed: implementing a controversial change without discussion."
+      },
+      {
+        "id": "G8",
+        "title": "Bug Handling",
+        "content": "Do not try to hotfix serious bugs on the live server without a plan. Report to the team, design a fix, and test it.",
+        "examples": "Allowed: disabling a broken plugin temporarily while discussing fix. Disallowed: rewriting parts of a plugin directly on live."
+      },
+      {
+        "id": "G9",
+        "title": "Git & Collaboration",
+        "content": "Never use force pushes or destructive commands on shared repositories. Document commits clearly and preserve others’ work.",
+        "examples": "Allowed: using merge commits and pull requests. Disallowed: `git push --force` deleting others’ changes."
+      }
+    ]
+  },
+  {
+    "group": "Developers",
+    "rules": [
+      {
+        "id": "D1",
+        "title": "Independence & Responsibility",
+        "content": "Developers may implement features independently but must ensure stability and documentation."
+      },
+      {
+        "id": "D2",
+        "title": "Code Quality",
+        "content": "All code must be clean, maintainable, and documented. Changes should be understandable to other developers.",
+        "examples": "Allowed: commenting on complex logic in plugins. Disallowed: pushing unreadable one-line fixes with no explanation."
+      },
+      {
+        "id": "D3",
+        "title": "Backups and Versioning",
+        "content": "Always keep backups of critical systems and test before merging changes to production."
+      },
+      {
+        "id": "D4",
+        "title": "Communication",
+        "content": "Report major changes, fixes, or refactors to the rest of the dev team. Transparency is mandatory."
+      }
+    ]
+  },
+  {
+    "group": "Trial Developers",
+    "rules": [
+      {
+        "id": "TD1",
+        "title": "Learning Path",
+        "content": "Trial developers are learners. They are expected to grow by completing tasks assigned by developers and seeking reviews."
+      },
+      {
+        "id": "TD2",
+        "title": "Weekly Progress",
+        "content": "Trial developers must show weekly progress (tasks completed, learning milestones, code experiments)."
+      },
+      {
+        "id": "TD3",
+        "title": "Mentorship",
+        "content": "They must request feedback and reviews, learn from resources (such as courses), and communicate openly about difficulties."
+      },
+      {
+        "id": "TD4",
+        "title": "Restrictions",
+        "content": "Trial developers cannot push unreviewed changes to production. All work must be supervised and approved by developers."
+      }
+    ]
+  },
+  {
+    "group": "Administrators",
+    "rules": [
+      {
+        "id": "A1",
+        "title": "Server Stability",
+        "content": "Admins oversee the uptime, stability, and core functionality of the servers."
+      },
+      {
+        "id": "A2",
+        "title": "Authority of Discipline",
+        "content": "Admins may mute, ban, or strike players, but only with valid reasons. Abuse will be reviewed by council."
+      },
+      {
+        "id": "A3",
+        "title": "Overseeing Moderators",
+        "content": "Admins guide moderators, review their actions, and handle escalated cases."
+      },
+      {
+        "id": "A4",
+        "title": "Executive Action",
+        "content": "If higher-ups are absent, admins may make executive decisions, but they are subject to later review."
+      }
+    ]
+  },
+  {
+    "group": "Moderators",
+    "rules": [
+      {
+        "id": "M1",
+        "title": "Ticket Resolution",
+        "content": "Moderators handle tickets, disputes, and reports fairly and respectfully."
+      },
+      {
+        "id": "M2",
+        "title": "Use of Double Life",
+        "content": "Moderators may use Double Life only when required to check a ticket or investigate an issue. It is not for personal use.",
+        "examples": "Allowed: teleporting to confirm a griefing report. Disallowed: teleporting to a friend for fun."
+      },
+      {
+        "id": "M3",
+        "title": "Mute and Ban Authority",
+        "content": "Moderators may mute or ban players for clear rule violations. Borderline cases must be escalated to admins."
+      },
+      {
+        "id": "M4",
+        "title": "Reporting",
+        "content": "All significant actions (bans, mutes, unusual behavior) must be reported to admins or logged as required."
+      }
+    ]
+  },
+  {
+    "group": "Disciplinary Actions",
+    "rules": [
+      {
+        "id": "P1",
+        "title": "Council Judgment",
+        "content": "Punishments for staff are decided by the Council or higher-ups after reviewing logs and context."
+      },
+      {
+        "id": "P2",
+        "title": "Range of Punishments",
+        "content": "Possible outcomes include warnings, loss of permissions, demotion, removal from staff, or permanent ban depending on severity.",
+        "examples": "Minor first-time offense = warning. Severe abuse of Double Life = removal and ban."
+      }
+    ]
+  }
+]

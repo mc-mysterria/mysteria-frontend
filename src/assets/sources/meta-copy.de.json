@@ -1,0 +1,55 @@
+{
+  "pathwayTitle": "{name} Pathway - Sequences & Abilities | Mysterria",
+  "pathwayIndexTitle": "Pathways & Sequences - Beyonder Archive | Mysterria",
+  "pathwayDescription": "Explore the {name} Pathway from Sequence {first} {firstSeq} to Sequence {final} {finalSeq}. Discover {abilities} abilities available on Mysterria.",
+  "pathwayIndexDescription": "Explore all {count} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.",
+  "pathwaySigilAlt": "{name} Pathway symbol",
+  "pathwayIndexAlt": "Mysterria Beyonder Pathways",
+  "redirecting": "Redirecting to",
+  "pages": {
+    "rules": {
+      "title": "Server Rules - Mysterria",
+      "description": "Read the rules and guidelines for playing on Mysterria, the Lord of the Mysteries inspired Minecraft server. Learn about our community standards and gameplay policies."
+    },
+    "store": {
+      "title": "Store - Mysterria",
+      "description": "Support Mysterria and unlock exclusive perks! Browse our store for ranks, items, and special features for the Lord of the Mysteries Minecraft server."
+    },
+    "ascension": {
+      "title": "Ascension Registry - Mysterria",
+      "description": "Live seat availability for the high Sequences on Mysterria: every pathway seats at most 18 Saints, 9 Angels, 3 Archangels and a single Deity. See which thrones are taken before you climb."
+    },
+    "guide": {
+      "title": "Getting Started Guide - Mysterria",
+      "description": "New to Mysterria? Learn how to get started on our Lord of the Mysteries inspired server. Discover Pathways, Sequences, and mystical adventures."
+    },
+    "profile": {
+      "title": "Your Profile - Mysterria",
+      "description": "View and manage your Mysterria profile. Track your progress through Sequences and Pathways on our Lord of the Mysteries Minecraft server."
+    },
+    "news": {
+      "title": "Dispatches - Mysterria",
+      "description": "Patch notes, season announcements and dispatches from Mysterria, the Lord of the Mysteries Minecraft server."
+    },
+    "staff": {
+      "title": "The Order - Mysterria",
+      "description": "The admins, moderators and builders who keep the world running. Reach them on Discord for tickets and appeals, never in DMs."
+    },
+    "terms": {
+      "title": "Terms of Service - Mysterria",
+      "description": "The terms of service for Mysterria, the Lord of the Mysteries inspired Minecraft server."
+    },
+    "privacy": {
+      "title": "Privacy - Mysterria",
+      "description": "How Mysterria handles your account data, Discord linkage and cookies."
+    },
+    "sla": {
+      "title": "SLA - Mysterria",
+      "description": "Uptime commitments and service expectations for the Mysterria Minecraft server."
+    },
+    "default": {
+      "title": "Mysterria - Lord of the Mysteries Minecraft Server",
+      "description": "Drink the potion. Act the role. Climb 22 Beyonder Pathways from Sequence 9 toward godhood on a Lord of the Mysteries Minecraft server."
+    }
+  }
+}
