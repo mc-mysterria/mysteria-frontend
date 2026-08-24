@@ -309,6 +309,72 @@
       "destination": "/api/meta-proxy?path=services/:slug&lang=:lang"
     },
     {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/news",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=news&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/staff",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=staff&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/terms",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=terms&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/privacy",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=privacy&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)/sla",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=sla&lang=:lang"
+    },
+    {
+      "source": "/:lang(en|uk|zh-CN|zh-TW)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|pinterest|reddit).*"
+        }
+      ],
+      "destination": "/api/meta-proxy?path=home&lang=:lang"
+    },
+    {
       "source": "/:lang(en|uk|zh-CN|zh-TW)/api/meta-proxy",
       "destination": "/api/meta-proxy?lang=:lang"
     },

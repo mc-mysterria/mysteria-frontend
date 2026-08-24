@@ -1,4 +1,5 @@
 import source from "@/assets/sources/pathway-abilities.json";
+import ukOverlay from "@/assets/sources/pathways.uk.json";
 import zhCNOverlay from "@/assets/sources/pathways.zh-CN.json";
 import zhTWOverlay from "@/assets/sources/pathways.zh-TW.json";
 import type {Language} from "@/locales";
@@ -17,14 +18,18 @@ export type Sequence = { sequence: number; name: Localized; abilities: Ability[]
 export type Pathway = { id: string; sequences: Sequence[] };
 
 /*
- * Chinese pathway text lives in a separate overlay rather than inside
+ * Translated pathway text lives in separate overlays rather than inside
  * pathway-abilities.json, because that file is re-exported from the Circle of
  * Imagination plugin and would drop any locale added to it. The overlays are
  * keyed by pathway id / Sequence number / ability id and folded in here, once,
  * at module load - so every accessor below stays locale-agnostic.
  *
  * An overlay entry that is missing simply leaves English in place; `pick()`
- * handles the fallback.
+ * handles the fallback. Ukrainian only fills in `pathwayNames`: its Sequence
+ * names do ship in pathway-abilities.json, so there is nothing to overlay.
+ *
+ * api/meta-proxy.ts reads these same files for link previews, which is why they
+ * are JSON and not part of this module.
  */
 interface PathwayOverlay {
     sequenceRanks?: Record<string, string>;
@@ -35,6 +40,7 @@ interface PathwayOverlay {
 }
 
 const OVERLAYS: Partial<Record<Language, PathwayOverlay>> = {
+    uk: ukOverlay as PathwayOverlay,
     "zh-CN": zhCNOverlay as PathwayOverlay,
     "zh-TW": zhTWOverlay as PathwayOverlay,
 };
@@ -131,34 +137,6 @@ const pathwayNames: Record<string, string> = {
     sublunary: "Sublunary",
 };
 
-const pathwayNamesUk: Record<string, string> = {
-    abyss: "Безодня",
-    chained: "Прикутий",
-    darkness: "Темрява",
-    death: "Смерть",
-    demoness: "Демонеса",
-    door: "Двері",
-    emperor: "Чорний Імператор",
-    error: "Помилка",
-    fool: "Дурень",
-    fortune: "Колесо Фортуни",
-    giant: "Сутінковий Велетень",
-    hanged: "Повішений",
-    hermit: "Відлюдник",
-    justiciar: "Юстиціар",
-    moon: "Місяць",
-    mother: "Мати",
-    paragon: "Парагон",
-    priest: "Червоний Жрець",
-    sun: "Сонце",
-    tower: "Біла Вежа",
-    tyrant: "Тиран",
-    visionary: "Візіонер",
-    aeon: "Вічний Еон",
-    patriarch: "Патріарх",
-    sublunary: "Підмісячний",
-};
-
 const images = import.meta.glob("/src/assets/images/pathways/*.webp", {
     eager: true,
     query: "?url",
@@ -181,14 +159,13 @@ export function pathwayImageName(id: string): string {
  * Chinese names a pathway: English "Fool pathway" is 占卜家途径 (Seer pathway).
  * The Sequence 0 name is the god at the summit, not the route - see `deityName`.
  *
- * Ukrainian has its own table; the Chinese names are read straight out of
- * OVERLAYS rather than copied into a second locale->data map, so there is one
- * place a locale's pathway data is registered.
+ * Every locale's labels are read straight out of OVERLAYS rather than from a
+ * second locale->data map, so there is one place a locale's pathway data is
+ * registered - and one place api/meta-proxy.ts can read the same labels from.
  */
 export function pathwayName(id: string, language: Language = "en"): string {
     const key = id.toLowerCase();
-    const localized = language === "uk" ? pathwayNamesUk[key] : OVERLAYS[language]?.pathwayNames?.[key];
-    return localized || pathwayNames[key] || titleCase(key);
+    return OVERLAYS[language]?.pathwayNames?.[key] || pathwayNames[key] || titleCase(key);
 }
 
 /**

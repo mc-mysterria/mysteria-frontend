@@ -191,3 +191,38 @@ describe("Chinese pathway data", () => {
         }
     });
 });
+
+describe("Ukrainian pathway data", () => {
+    /*
+     * The Ukrainian labels used to live in a private table inside pathways.ts.
+     * They moved to pathways.uk.json so api/meta-proxy.ts could serve them in
+     * link previews, and pathwayName() lost its `language === "uk"` special
+     * case. These assert the overlay is actually wired up, since a broken
+     * registration would silently fall back to English.
+     */
+    it("labels pathways from the Ukrainian overlay", () => {
+        expect(pathwayName("fool", "uk")).toBe("Блазень");
+        expect(pathwayName("tower", "uk")).toBe("Біла Вежа");
+        expect(pathwayName("visionary", "uk")).toBe("Провидець");
+        expect(pathwayName("emperor", "uk")).toBe("Чорний Імператор");
+    });
+
+    it("leaves English in place for a pathway the overlay omits", () => {
+        // Boon pathways were never translated; that is the existing behaviour.
+        expect(pathwayName("secondlaw", "uk")).toBe("Second Law");
+        expect(pathwayName("chaos", "uk")).toBe("Chaos");
+    });
+
+    it("shares the pathway label with the Sequence 0 deity", () => {
+        // Unlike Chinese, Ukrainian names the route after its god, as English does.
+        expect(deityName("fool", "uk")).toBe(pathwayName("fool", "uk"));
+        expect(deityName("tower", "uk")).toBe(pathwayName("tower", "uk"));
+    });
+
+    it("keeps Ukrainian Sequence names, which ship in the source file", () => {
+        // The overlay has no `sequences` block, so these must survive the merge -
+        // it is what the proxy reads for Ukrainian pathway previews.
+        expect(pathwayLadder("fool", "uk")[0].name).toBe("Провидець");
+        expect(pathwayLadder("tower", "uk")[0].name).toBe("Читець");
+    });
+});

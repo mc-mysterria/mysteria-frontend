@@ -24,6 +24,8 @@ type ProxyLocale = 'en' | 'uk' | 'zh-CN' | 'zh-TW';
 const LOCALE_TABLE = require('../src/assets/sources/locales.json').locales as Array<{
     code: ProxyLocale;
     htmlLang: string;
+    ogLocale: string;
+    articleLocale: ProxyLocale;
 }>;
 
 const PROXY_LOCALES: ProxyLocale[] = LOCALE_TABLE.map(entry => entry.code);
@@ -31,6 +33,19 @@ const PROXY_LOCALES: ProxyLocale[] = LOCALE_TABLE.map(entry => entry.code);
 const HTML_LANG = Object.fromEntries(
     LOCALE_TABLE.map(entry => [entry.code, entry.htmlLang]),
 ) as Record<ProxyLocale, string>;
+
+const OG_LOCALE = Object.fromEntries(
+    LOCALE_TABLE.map(entry => [entry.code, entry.ogLocale]),
+) as Record<ProxyLocale, string>;
+
+/*
+ * Which language's articles a locale reads. Not every locale has its own
+ * newsroom: the Chinese locales point at English, which is why this is a field
+ * on the locale table rather than the locale code itself.
+ */
+const ARTICLE_LOCALE = Object.fromEntries(
+    LOCALE_TABLE.map(entry => [entry.code, entry.articleLocale]),
+) as Record<ProxyLocale, ProxyLocale>;
 
 interface MetaCopy {
     pathwayTitle: string;
@@ -43,16 +58,27 @@ interface MetaCopy {
     pages: Record<string, { title: string; description: string }>;
 }
 
-const ZH_COPY: Partial<Record<ProxyLocale, MetaCopy>> = {
+/*
+ * Preview copy per locale. A locale with no entry falls back to the English
+ * strings below, which is what English itself uses.
+ */
+const META_COPY: Partial<Record<ProxyLocale, MetaCopy>> = {
+    uk: require('../src/assets/sources/meta-copy.uk.json') as MetaCopy,
     'zh-CN': require('../src/assets/sources/meta-copy.zh-CN.json') as MetaCopy,
     'zh-TW': require('../src/assets/sources/meta-copy.zh-TW.json') as MetaCopy,
 };
 
-/** Localized pathway and Sequence names, from the same overlays the app uses. */
-const ZH_PATHWAYS: Partial<Record<ProxyLocale, {
+/**
+ * Localized pathway and Sequence names, from the same overlays the app uses.
+ *
+ * Ukrainian carries pathway names only; its Sequence names ship inside
+ * pathway-abilities.json, which `rungName` reads directly.
+ */
+const PATHWAY_COPY: Partial<Record<ProxyLocale, {
     pathwayNames?: Record<string, string>;
     sequences?: Record<string, Record<string, string>>;
 }>> = {
+    uk: require('../src/assets/sources/pathways.uk.json'),
     'zh-CN': require('../src/assets/sources/pathways.zh-CN.json'),
     'zh-TW': require('../src/assets/sources/pathways.zh-TW.json'),
 };
@@ -146,8 +172,8 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, loc
     const pathway = pathwayId ? pathwayData.pathways.find((item) => item.id === pathwayId) : undefined;
     if (pathwayId && !pathway) return null;
 
-    const copy = ZH_COPY[locale];
-    const overlay = ZH_PATHWAYS[locale];
+    const copy = META_COPY[locale];
+    const overlay = PATHWAY_COPY[locale];
 
     const name = pathwayId
         ? (overlay?.pathwayNames?.[pathwayId] || PATHWAY_NAMES[pathwayId] || pathwayId)
@@ -156,9 +182,13 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, loc
 
     const firstRung = pathway?.sequences[0];
     const finalRung = pathway?.sequences[pathway.sequences.length - 1];
+    // Overlay first, then the locale's own name in pathway-abilities.json (which
+    // is where Ukrainian Sequence names live), then English.
     const rungName = (rung: typeof firstRung) => {
         if (!rung) return '';
-        return overlay?.sequences?.[pathway!.id]?.[String(rung.sequence)] || rung.name.en;
+        return overlay?.sequences?.[pathway!.id]?.[String(rung.sequence)]
+            || rung.name[locale]
+            || rung.name.en;
     };
     const firstSequence = rungName(firstRung);
     const finalSequence = rungName(finalRung);
@@ -176,8 +206,8 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, loc
     const title = copy
         ? fill(pathway ? copy.pathwayTitle : copy.pathwayIndexTitle, slots)
         : pathway
-            ? `${name} Pathway – Sequences & Abilities | Mysterria`
-            : 'Pathways & Sequences – Beyonder Archive | Mysterria';
+            ? `${name} Pathway - Sequences & Abilities | Mysterria`
+            : 'Pathways & Sequences - Beyonder Archive | Mysterria';
 
     const description = copy
         ? fill(pathway ? copy.pathwayDescription : copy.pathwayIndexDescription, slots)
@@ -201,7 +231,23 @@ function generatePathwayHTML(pathwayId: string | undefined, baseUrl: string, loc
     <meta http-equiv="refresh" content="0;url=${pageUrl}"><script>window.location.href=${JSON.stringify(pageUrl)}</script></head><body><a href="${pageUrl}">${escapeHtml(title)}</a></body></html>`;
 }
 
+/*
+ * The locale root, e.g. /zh-TW. Named rather than empty so it can travel as a
+ * `path` query value from vercel.json like every other static page.
+ */
+const HOME_PAGE = 'home';
+
+/*
+ * English preview copy, and the fallback for any locale without its own
+ * meta-copy file. Each entry mirrors what the matching view passes to useSeo,
+ * so a crawler and a reader are told the same thing about the page.
+ */
 const STATIC_PAGES: Record<string, PageMeta> = {
+    home: {
+        title: 'Mysterria - Lord of the Mysteries Minecraft Server',
+        description: 'Drink the potion. Act the role. Climb 22 Beyonder Pathways from Sequence 9 toward godhood on a Lord of the Mysteries Minecraft server.',
+        image: '/banner.webp',
+    },
     rules: {
         title: 'Server Rules - Mysterria',
         description: 'Read the rules and guidelines for playing on Mysterria, the Lord of the Mysteries inspired Minecraft server. Learn about our community standards and gameplay policies.',
@@ -227,22 +273,51 @@ const STATIC_PAGES: Record<string, PageMeta> = {
         description: 'View and manage your Mysterria profile. Track your progress through Sequences and Pathways on our Lord of the Mysteries Minecraft server.',
         image: '/klein.webp',
     },
+    news: {
+        title: 'Dispatches - Mysterria',
+        description: 'Patch notes, season announcements and dispatches from Mysterria, the Lord of the Mysteries Minecraft server.',
+        image: '/banner.webp',
+    },
+    staff: {
+        title: 'The Order - Mysterria',
+        description: 'The admins, moderators and builders who keep the world running. Reach them on Discord for tickets and appeals, never in DMs.',
+        image: '/banner.webp',
+    },
+    terms: {
+        title: 'Terms of Service - Mysterria',
+        description: 'The terms of service for Mysterria, the Lord of the Mysteries inspired Minecraft server.',
+        image: '/banner.webp',
+    },
+    privacy: {
+        title: 'Privacy - Mysterria',
+        description: 'How Mysterria handles your account data, Discord linkage and cookies.',
+        image: '/banner.webp',
+    },
+    sla: {
+        title: 'SLA - Mysterria',
+        description: 'Uptime commitments and service expectations for the Mysterria Minecraft server.',
+        image: '/banner.webp',
+    },
 };
 
 function generateStaticPageHTML(pageName: string, baseUrl: string, locale: ProxyLocale = 'en'): string {
     const fallback = STATIC_PAGES[pageName] || {
         title: 'Mysterria - Lord of The Mysteries Minecraft Server',
-        description: 'Mysterria – A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches.',
+        description: 'Mysterria - A unique Minecraft server inspired by the Lord of the Mysteries web novel. Explore mystical Pathways, brew Potions, advance through Sequences, and immerse yourself in a world of gods and churches.',
         image: '/banner.webp',
     };
 
-    const localized = ZH_COPY[locale]?.pages;
+    const localized = META_COPY[locale]?.pages;
+    // `default` is the brand copy, which is also the home copy - so the locale
+    // root reads correctly without a duplicate `home` entry in every meta-copy file.
     const translated = localized?.[pageName] ?? localized?.default;
     const meta: PageMeta = translated
         ? {title: translated.title, description: translated.description, image: fallback.image}
         : fallback;
 
-    const pageUrl = `${localeBase(baseUrl, locale)}/${pageName}`;
+    const pageUrl = pageName === HOME_PAGE
+        ? localeBase(baseUrl, locale)
+        : `${localeBase(baseUrl, locale)}/${pageName}`;
     const imageUrl = meta.image.startsWith('http') ? meta.image : `${baseUrl}${meta.image}`;
 
     return `<!DOCTYPE html>
@@ -258,10 +333,12 @@ function generateStaticPageHTML(pageName: string, baseUrl: string, locale: Proxy
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mysterria" />
     <meta property="og:url" content="${pageUrl}" />
     <meta property="og:title" content="${escapeHtml(meta.title)}" />
     <meta property="og:description" content="${escapeHtml(meta.description)}" />
     <meta property="og:image" content="${imageUrl}" />
+    <meta property="og:locale" content="${OG_LOCALE[locale]}" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -275,7 +352,7 @@ function generateStaticPageHTML(pageName: string, baseUrl: string, locale: Proxy
     <script>window.location.href = '${pageUrl}';</script>
 </head>
 <body>
-    <p>${escapeHtml(ZH_COPY[locale]?.redirecting ?? 'Redirecting to')} <a href="${pageUrl}">${escapeHtml(meta.title)}</a>...</p>
+    <p>${escapeHtml(META_COPY[locale]?.redirecting ?? 'Redirecting to')} <a href="${pageUrl}">${escapeHtml(meta.title)}</a>...</p>
 </body>
 </html>`;
 }
@@ -320,10 +397,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(400).json({error: 'Invalid path', details: 'Expected format: type/slug or pagename'});
         }
 
+        /*
+         * An article URL may name its own language (/news/uk/slug). When it does
+         * not (/uk/news/slug), fall back to the language the sharer's own locale
+         * reads articles in - not a hardcoded 'en', which served a Ukrainian
+         * reader an English preview of an article they were looking at in
+         * Ukrainian.
+         */
         const SUPPORTED_LOCALES = new Set(['en', 'uk']);
         const [type, second, third] = pathParts;
-        const locale = third && SUPPORTED_LOCALES.has(second) ? second : 'en';
-        const slug = third && SUPPORTED_LOCALES.has(second) ? third : second;
+        const explicit = Boolean(third) && SUPPORTED_LOCALES.has(second);
+        const locale: ProxyLocale = explicit ? (second as ProxyLocale) : ARTICLE_LOCALE[siteLocale];
+        const slug = explicit ? third : second;
         console.log('Type:', type, 'Locale:', locale, 'Slug:', slug);
 
         if (type === 'news') {

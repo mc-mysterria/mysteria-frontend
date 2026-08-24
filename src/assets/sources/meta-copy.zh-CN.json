@@ -42,6 +42,26 @@
       "title": "个人资料 - Mysterria",
       "description": "查看并管理你的 Mysterria 个人资料，追踪你在序列与途径上的攀登进度。"
     },
+    "news": {
+      "title": "讯报 - Mysterria",
+      "description": "来自 Mysterria 的更新日志、赛季公告与讯报。这是一座受《诡秘之主》启发的 Minecraft 服务器。"
+    },
+    "staff": {
+      "title": "修会 - Mysterria",
+      "description": "维持这个世界运转的管理员、监督员与建筑师。工单与申诉请在 Discord 联系他们，切勿发送私信。"
+    },
+    "terms": {
+      "title": "服务条款 - Mysterria",
+      "description": "Mysterria 的服务条款。这是一座受《诡秘之主》启发的 Minecraft 服务器。"
+    },
+    "privacy": {
+      "title": "隐私政策 - Mysterria",
+      "description": "Mysterria 如何处理你的账号数据、Discord 绑定信息与 Cookie。"
+    },
+    "sla": {
+      "title": "服务等级协议 - Mysterria",
+      "description": "Mysterria Minecraft 服务器的可用性承诺与服务预期。"
+    },
     "default": {
       "title": "Mysterria - 《诡秘之主》主题 Minecraft 服务器",
       "description": "Mysterria —— 一座受网络小说《诡秘之主》启发的 Minecraft 服务器。行走神秘途径、配制魔药、晋升序列，沉浸在神与教会的世界之中。"

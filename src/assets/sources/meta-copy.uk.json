@@ -1,0 +1,68 @@
+{
+  "$comment": [
+    "Ukrainian link-preview copy for api/meta-proxy.ts.",
+    "",
+    "Hand-authored, unlike meta-copy.zh-TW.json which is generated. Where a page",
+    "already says something in Ukrainian the string is taken from there",
+    "(src/locales/uk.ts, src/data/guide/uk.ts), so a shared link reads like the",
+    "page it opens rather than like a second, drifting translation.",
+    "",
+    "Counts are parenthesised or follow a colon rather than sitting inline before",
+    "a noun. Ukrainian declines that noun by the numeral ('3 Архангели' but",
+    "'9 Янголів'), and the proxy has no plural machinery - the count here comes",
+    "straight from the data and can change."
+  ],
+  "pathwayTitle": "Шлях {name} · Послідовності та здібності | Mysterria",
+  "pathwayIndexTitle": "Шляхи та Послідовності · Архів Потойбічного | Mysterria",
+  "pathwayDescription": "Дослідіть шлях {name}: від Послідовності {first} ({firstSeq}) до Послідовності {final} ({finalSeq}). Здібностей у Mysterria: {abilities}.",
+  "pathwayIndexDescription": "Дослідіть усі Шляхи Потойбічного ({count}), назви кожної Послідовності та всі здібності, доступні в Mysterria.",
+  "pathwaySigilAlt": "Символ шляху {name}",
+  "pathwayIndexAlt": "Шляхи Потойбічного в Mysterria",
+  "redirecting": "Перехід до",
+  "pages": {
+    "rules": {
+      "title": "Закони Містеррії - Mysterria",
+      "description": "Правила та настанови для гри в Mysterria, Minecraft-сервері за «Володарем Таємниць». Стисло, зрозуміло і з судженням, а не за скриптом."
+    },
+    "store": {
+      "title": "Товари Вічної Ночі - Mysterria",
+      "description": "Підтримайте сервер, а не купуйте силу. Усе тут - косметика, зручність або замовлення персоналу; сходження Послідовностями лишається священним."
+    },
+    "ascension": {
+      "title": "Реєстр Сходження - Mysterria",
+      "description": "Живий облік місць на високих Послідовностях Mysterria: кожен шлях вміщає щонайбільше 18 Святих, 9 Янголів, 3 Архангели й одне Божество. Погляньте, які престоли вже зайняті, перш ніж почати сходження."
+    },
+    "guide": {
+      "title": "Твої перші кроки крізь Туман - Mysterria",
+      "description": "Почни грати за кілька хвилин, зрозумій важливі рішення та швидко знаходь відповіді, коли Mysterria працює не так, як звичайний Minecraft."
+    },
+    "profile": {
+      "title": "Досьє Потойбічного - Mysterria",
+      "description": "Перегляньте свій профіль у Mysterria та керуйте ним: шлях, Послідовність, баланс і підтвердження акаунта."
+    },
+    "news": {
+      "title": "Новини - Mysterria",
+      "description": "Патчноути, анонси сезонів і новини з Mysterria, Minecraft-сервера за «Володарем Таємниць»."
+    },
+    "staff": {
+      "title": "Орден - Mysterria",
+      "description": "Адміністратори, модератори та білдери, які тримають світ у русі. Звертайтесь у Discord за тікетами й апеляціями - ніколи в особисті."
+    },
+    "terms": {
+      "title": "Умови користування - Mysterria",
+      "description": "Умови користування Mysterria, Minecraft-сервером за «Володарем Таємниць»."
+    },
+    "privacy": {
+      "title": "Приватність - Mysterria",
+      "description": "Як Mysterria працює з даними вашого акаунта, привʼязкою Discord і файлами cookie."
+    },
+    "sla": {
+      "title": "SLA - Mysterria",
+      "description": "Зобовʼязання щодо доступності та очікування від сервісу Minecraft-сервера Mysterria."
+    },
+    "default": {
+      "title": "Mysterria - Minecraft-сервер за «Володарем Таємниць»",
+      "description": "Випий зілля. Зіграй роль. Піднімись від Послідовності 9 до божественності - перш ніж Туман забере тебе."
+    }
+  }
+}
