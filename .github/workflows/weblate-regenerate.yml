@@ -1,0 +1,66 @@
+# .github/workflows/weblate-regenerate.yml
+#
+# Regenerates Traditional Chinese on Weblate's own branch.
+#
+# Weblate translates Simplified only - every zh-TW.json is derived from it by
+# scripts/build-zh-tw.mjs. So a Weblate pull request that touches any zh-CN file
+# leaves its Traditional counterpart stale, and the `check:zh-tw` step in
+# i18n.yml would fail that pull request.
+#
+# This runs on Weblate's branch rather than on the pull request, so the
+# regenerated files are part of the PR a human reviews instead of appearing after
+# they approve it.
+#
+# Replaces crowdin-regenerate.yml. The branch name is the only real difference:
+# Crowdin used l10n_<base>, Weblate uses the `push_branch` set in
+# i18n/weblate.json. Only the 'ui' component has its own push branch - the other
+# four share its clone via weblate://, so they all land on the same one.
+
+name: Weblate regenerate
+
+on:
+  push:
+    branches:
+      - weblate-website-ui
+      - "weblate-**"
+      - "l10n_**"
+
+permissions:
+  contents: write
+
+# A second Weblate push while this is running would race the commit below.
+concurrency:
+  group: weblate-regenerate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Regenerate Traditional Chinese
+        run: npm run build:zh-tw
+
+      - name: Commit
+        run: |
+          if git diff --quiet; then
+            echo "Traditional Chinese already in step with Simplified - nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add 'src/locales/zh-TW.json' \
+                  'src/data/guide/zh-TW.json' \
+                  'src/assets/sources/*zh-TW*.json'
+          git commit -m "Regenerate Traditional Chinese from Simplified"
+          git push

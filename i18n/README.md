@@ -59,42 +59,43 @@ duplicate the title (`HomeView.vue`). If you would rather show the deity there �
 ## Who owns what
 
 Three kinds of file, and which one you are looking at decides where a fix goes.
-**English source** is authored in this repo and is what Crowdin translates from.
-**Crowdin** files are written by a Crowdin sync - edit them in Crowdin, because a
+**English source** is authored in this repo and is what Weblate translates from.
+**Weblate** files are written by a Weblate push - edit them in Weblate, because a
 repo-side edit is overwritten on the next pull. **Generated** files are built by a
 script.
 
 | File                                      | Status                                            |
 |-------------------------------------------|---------------------------------------------------|
 | `src/locales/en.json`                     | **English source** — the reference key shape      |
-| `src/locales/{uk,zh-CN}.json`             | **Crowdin** — `/ui.json` in the project           |
+| `src/locales/{uk,zh-CN,de,es,ro}.json`    | **Weblate** — component `ui`                      |
 | `src/locales/zh-TW.json`                  | **generated** — do not edit                       |
 | `src/data/guide/en.json`                  | **English source** — long-form onboarding prose   |
-| `src/data/guide/{uk,zh-CN}.json`          | **Crowdin** — `/guide.json`                       |
+| `src/data/guide/{uk,zh-CN,de,es,ro}.json` | **Weblate** — component `guide`                   |
 | `src/data/guide/zh-TW.json`               | **generated**                                     |
 | `src/assets/sources/meta-copy.en.json`    | **English source** — link-preview copy            |
-| `src/assets/sources/meta-copy.{uk,zh-CN}` | **Crowdin** — `/link-previews.json`               |
+| `src/assets/sources/meta-copy.<lang>`     | **Weblate** — component `link-previews`           |
 | `src/assets/sources/meta-copy.zh-TW.json` | **generated**                                     |
 | `src/assets/sources/rules_en.json`        | **English source** — player rules                 |
-| `src/assets/sources/rules_{uk,zh-CN}`     | **Crowdin** — `/rules.json`                       |
+| `src/assets/sources/rules_<lang>`         | **Weblate** — component `rules`                   |
 | `src/assets/sources/rules_zh-TW.json`     | **generated**                                     |
 | `staff_rules_en.json` (same dir)          | **English source** — staff rules                  |
-| `staff_rules_{uk,zh-CN}.json` (same dir)  | **Crowdin** — `/staff-rules.json`                 |
+| `staff_rules_<lang>.json` (same dir)      | **Weblate** — component `staff-rules`             |
 | `staff_rules_zh-TW.json` (same dir)       | **generated**                                     |
-| `src/assets/sources/pathways.zh-CN.json`  | **authored here** — canon lookup, *not* in Crowdin |
+| `src/assets/sources/pathways.zh-CN.json`  | **authored here** — canon lookup, *not* in Weblate |
 | `src/assets/sources/pathways.zh-TW.json`  | **generated**                                     |
-| `i18n/glossary.lotm-zh.json`              | authored — locked terminology, seeds the Glossary  |
-| `i18n/crowdin-glossary.csv`               | **generated** from it — `npm run build:glossary`   |
+| `i18n/glossary.lotm-zh.json`              | authored — locked terminology, source of truth     |
+| (the Weblate glossary itself)             | **pushed** from it — `npm run sync:glossary`       |
 | `i18n/canon.sequences-zh.json`            | reference — the novel's own ladder                 |
 | `i18n/zh-TW.overrides.json`               | authored — where the TW reviewer pass lands        |
 
-So: fix UI, guide, rules and preview copy **in Crowdin**. Fix pathway and ability
+So: fix UI, guide, rules and preview copy **in Weblate**. Fix pathway and ability
 text **upstream in the Circle of Imagination plugin**, or in `pathways.zh-CN.json`
 for the canon overlay. Fix Traditional-only wording in `zh-TW.overrides.json`.
 Never edit a generated file - the next build overwrites it.
 
 Every translatable file is JSON, including the UI strings and the guide, which
-were `.ts` modules until Crowdin needed to write them in place. `Translations` is
+were `.ts` modules until the translation platform needed to write them in place.
+`Translations` is
 still derived from `en.json`, so a locale the app imports with a missing key is
 still a compile error.
 
@@ -106,7 +107,8 @@ still a compile error.
 npm run build:zh-tw       # regenerate every Traditional file (runs in `npm run build`)
 npm run check:zh-tw       # CI: fail if a committed generated file is stale
 npm run check:i18n        # CI: placeholders intact, identifiers untranslated
-npm run build:glossary    # rebuild i18n/crowdin-glossary.csv for import
+npm run sync:glossary     # push i18n/glossary.lotm-zh.json into the Weblate glossary
+npm run provision:weblate # apply i18n/weblate.json to the Weblate server
 npm run seed:zh           # add empty slots after the plugin exports new abilities
 npm run check:canon-zh    # report where Mysterria's rungs diverge from the novel
 node scripts/i18n-coverage.mjs   # translation coverage per surface
@@ -114,42 +116,82 @@ node scripts/i18n-coverage.mjs   # translation coverage per surface
 
 ---
 
-## Crowdin
+## Weblate
 
-`crowdin.yml` maps five files: UI strings, guide prose, player rules, staff rules
-and link-preview copy. Its header lists what is deliberately excluded and why.
+Self-hosted at <https://weblate.mysterria.net>, project `mysterria-website`.
+
+`i18n/weblate.json` defines five components - UI strings, guide prose, player
+rules, staff rules and link-preview copy - and `scripts/provision_weblate.py`
+applies it. That file replaces `crowdin.yml`, and its `_comment` block lists what
+is deliberately excluded and why. Prefer editing it and re-running the script
+over changing settings in the Weblate UI, or the two drift apart silently.
+
+Only the `ui` component names a real git URL. The other four use
+`repo: weblate://mysterria-website/ui`, so all five share one clone instead of
+fighting each other on push.
 
 Two things are worth knowing before touching it.
 
-**Traditional Chinese is not a Crowdin language, and must never be added as
-one.** It is generated from Simplified, so a Crowdin pull would overwrite the
-generated files with translator input and silently drop the OpenCC tripwires in
-this directory.
+**Traditional Chinese must never become a Weblate language.** It is generated
+from Simplified, so a Weblate pull would overwrite the generated files with
+translator input and silently drop the OpenCC tripwires in this directory.
 
-Not adding it *is* the guard. `crowdin.yml` carries no
-`excluded_target_languages` for it, because that option only accepts languages
-the project already has - listing an absent language is a config error
-(`Project doesn't have 'zh-TW' language(s)`). The backstop if one ever gets added
-anyway is `npm run check:zh-tw`, which regenerates from `zh-CN` and fails on any
-committed Traditional file that does not match; it runs in CI on every PR.
+**The guard is not the same one Crowdin needed, and it is easier to break.** On
+Crowdin, simply not adding the language *was* the guard. Weblate does not work
+that way: it discovers translations by globbing `filemask` against the
+repository, and every `zh-TW.json` is committed. Left alone it imports them as
+ordinary editable translations. What prevents that is `language_regex` on each
+component:
 
-Translators work in `zh-CN`. `.github/workflows/crowdin-regenerate.yml` then runs
-`npm run build:zh-tw` on Crowdin's own branch, so the regenerated Traditional
+```
+^(?!zh[_-]TW$|zh[_-]Hant$|zh_Hant_TW$).+$
+```
+
+All three spellings are excluded because Weblate normalises Chinese codes
+internally - Simplified arrives from `zh-CN.json` but is stored as `zh_Hans`. Do
+not relax the regex. The backstop if someone does is `npm run check:zh-tw`, which
+regenerates from `zh-CN` and fails on any committed Traditional file that does
+not match; it runs in CI on every PR.
+
+Translators work in `zh-CN`. `.github/workflows/weblate-regenerate.yml` then runs
+`npm run build:zh-tw` on Weblate's own branch, so the regenerated Traditional
 files are part of the pull request a human reviews rather than turning up after
-they merge it. Without that step `npm run check:zh-tw` fails every Crowdin PR.
+they merge it. Without that step `npm run check:zh-tw` fails every Weblate PR.
 
 **Two things a translator can break that a type error will not catch.** A
 `{placeholder}` is substituted by the call site, not by `t()`, so a dropped slot
 renders literal braces to a reader. And `id` / `severity` in the rules files are
 identifiers the app matches on, not copy. `npm run check:i18n` guards both, over
-every locale file present - including a language Crowdin has landed but that is
+every locale file present - including a language Weblate has landed but that is
 not yet wired into `locales.json`.
+
+That second one matters more here than it did on Crowdin: Weblate exposes **every
+JSON leaf** as a translatable string, structural fields included, and it has no
+per-key exclusion for JSON. The planned fix is the *Bulk edit* add-on per
+component, query `key:*.id OR key:*.severity`, flag `read-only`. Until that is
+in place `check:i18n` is the only thing standing between a well-meaning
+translator and a rule the app can no longer match.
+
+### Coverage is reported against English, not by key count
+
+`node scripts/i18n-coverage.mjs` scores a string as translated only when it
+**differs** from English. Files seeded by a platform export carry the source text
+for untranslated strings, so counting keys that merely exist scores a brand-new
+language at 100%. Weblate's own percentages have the same blind spot - it reports
+`de`, `es` and `ro` at 100% because those files are full of English.
 
 ### Adding a language
 
-Crowdin will start writing `src/locales/es.json` and friends as soon as a target
+Weblate will start writing `src/locales/es.json` and friends as soon as a target
 language is added there. The app ignores them until the locale is registered, so
 these can be done in either order:
+
+Watch the **filename** Weblate picks. Crowdin needed a `languages_mapping` block
+to keep its `zh-CN` from becoming something else; Weblate instead binds to files
+that already exist, which is why `zh_Hans` internally still writes `zh-CN.json`.
+For a language with no file yet it names the file from its own code, which may
+not be the code `locales.json` expects. Commit an empty file under the name you
+want first and Weblate will use it.
 
 1. `src/assets/sources/locales.json` — the entry the whole app reads from. Check
    `pluralStyle` against the language's real rule rather than picking the nearest

@@ -17,8 +17,8 @@ import zhCN from "./zh-CN.json";
 import zhTW from "./zh-TW.json";
 
 /*
- * The strings are JSON rather than TypeScript so that Crowdin can read and
- * write them directly - see crowdin.yml. Nothing else changed: `Translations`
+ * The strings are JSON rather than TypeScript so that Weblate can read and
+ * write them directly - see i18n/weblate.json. Nothing else changed: `Translations`
  * is still derived from the English tree, so a locale missing a key is still a
  * type error rather than a runtime fallback.
  *

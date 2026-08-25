@@ -61,7 +61,7 @@ interface MetaCopy {
 /*
  * English preview copy. It used to be inline in this file, in two places: the
  * `copy ? ... : ...` ternaries below and a STATIC_PAGES table. It is a data file
- * now because Crowdin translates from it (see crowdin.yml), and a string a
+ * now because Weblate translates from it (see i18n/weblate.json), and a string a
  * translator can see but the code does not use is worse than no string at all.
  */
 const EN_COPY = require('../src/assets/sources/meta-copy.en.json') as MetaCopy;
@@ -69,7 +69,7 @@ const EN_COPY = require('../src/assets/sources/meta-copy.en.json') as MetaCopy;
 /*
  * Preview copy per locale. English is an ordinary entry rather than a special
  * case, and any locale without a file of its own falls back to it - which is
- * the state every newly-added Crowdin language starts in.
+ * the state every newly-added Weblate language starts in.
  */
 const META_COPY: Partial<Record<ProxyLocale, MetaCopy>> = {
     en: EN_COPY,
@@ -262,7 +262,7 @@ function generateStaticPageHTML(pageName: string, baseUrl: string, locale: Proxy
      * duplicate `home` key in every meta-copy file.
      *
      * English falls through the same two steps as every other locale now, so an
-     * untranslated page in a new Crowdin language behaves exactly like an
+     * untranslated page in a new Weblate language behaves exactly like an
      * unrecognised page name in English.
      */
     const translated = pages[pageName] ?? pages.default ?? EN_COPY.pages.default;

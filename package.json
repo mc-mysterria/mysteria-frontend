@@ -18,9 +18,10 @@
     "build:zh-tw": "node scripts/build-zh-tw.mjs",
     "check:zh-tw": "node scripts/build-zh-tw.mjs --check",
     "check:i18n": "node scripts/check-i18n.mjs",
-    "build:glossary": "node scripts/build-crowdin-glossary.mjs",
     "check:canon-zh": "node scripts/check-canon-zh.mjs --renamed-only",
-    "seed:zh": "node scripts/seed-pathways-zh.mjs"
+    "seed:zh": "node scripts/seed-pathways-zh.mjs",
+    "sync:glossary": "node scripts/sync-glossary-weblate.mjs",
+    "provision:weblate": "python scripts/provision_weblate.py"
   },
   "dependencies": {
     "@mdx-js/esbuild": "^3.1.0",

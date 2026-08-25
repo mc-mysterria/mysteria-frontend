@@ -1,5 +1,5 @@
 /*
- * Structural checks on the files Crowdin writes.
+ * Structural checks on the files Weblate writes.
  *
  * Type-checking already guarantees the *shape* of a locale that the app imports
  * (`Translations`, `GuideContent`). What it cannot see is the two things a
@@ -13,7 +13,7 @@
  *     matching.
  *
  * It also covers the locales the app does not import yet. A language added in
- * Crowdin lands its file here well before it is wired into locales.json, and
+ * Weblate lands its file here well before it is wired into locales.json, and
  * until then nothing else in the repo looks at it at all.
  *
  * Run: node scripts/check-i18n.mjs      (also `npm run check:i18n`)
@@ -22,10 +22,10 @@ import fs from "node:fs";
 import {p, readJson} from "./lib/repo.mjs";
 
 /*
- * Every Crowdin-managed surface, mirroring the `files` list in crowdin.yml.
+ * Every Weblate-managed surface, mirroring the `components` list in i18n/weblate.json.
  *
  * `match` is how a locale's file is recognised among its siblings, rather than a
- * list of expected codes: the point is to catch a file the moment Crowdin lands
+ * list of expected codes: the point is to catch a file the moment Weblate lands
  * it, including for a language nothing else in the repo knows about.
  *
  * `frozen` names fields that are identifiers rather than copy, compared against
@@ -154,7 +154,7 @@ for (const note of notes) console.log(`note  ${note}`);
 if (problems.length) {
     console.error(`\n${problems.length} problem(s) in translated files:\n`);
     for (const problem of problems) console.error(`  ${problem}`);
-    console.error("\nFix these in Crowdin, not in the repo - a repo-side edit is overwritten by the next sync.");
+    console.error("\nFix these in Weblate, not in the repo - a repo-side edit is overwritten by the next sync.");
     process.exit(1);
 }
 

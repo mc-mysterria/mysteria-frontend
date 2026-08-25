@@ -5,8 +5,8 @@
  * en and uk are authored. zh-CN is authored and zh-TW is GENERATED from it by
  * scripts/build-zh-tw.mjs - never edit src/data/guide/zh-TW.json by hand.
  *
- * The copy is JSON rather than TypeScript so Crowdin can read and write it in
- * place; see crowdin.yml.
+ * The copy is JSON rather than TypeScript so Weblate can read and write it in
+ * place; see i18n/weblate.json.
  */
 import type {Language} from "@/locales";
 import en from "./guide/en.json";
