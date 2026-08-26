@@ -51,7 +51,7 @@
     "circleStepTwoTitle": "Prepară și bea elixirul",
     "circleStepTwoBody": "Adună ingredientele principale, folosește cazanul și înghite-ți soarta. Abilități reale, costuri de spiritualitate - și nebunie reală dacă te grăbești.",
     "circleStepThreeTitle": "Interpretează rolul. Avansează.",
-    "circleStepThreeBody": "Digera elixirul trăind rolul Secvenței tale. Efectuează ritualuri, completează interpretarea și urcă de la 9 → 0 de-a lungul unei călătorii de un sezon.",
+    "circleStepThreeBody": "Digeră elixirul trăind rolul Secvenței tale. Efectuează ritualuri, completează interpretarea și urcă de la 9 → 0 de-a lungul unei călătorii de un sezon.",
     "tarotEyebrow": "Arhiva Beyonderilor",
     "tarotTitle": "Ce carte vei trage?",
     "tarotSeq": "SEQ 9",
@@ -110,7 +110,7 @@
   "shopPage": {
     "eyebrow": "Relicvariul",
     "title": "Mărfurile Eternității Nopții",
-    "lede": "Susține serverul, nu cumpăra niciodată putere. Totul aici este cosmetic, comoditate sau o modalitate de a comanda lucru de la echipă - ascensiunea prin Secvențe rămâne sacră.",
+    "lede": "Susține serverul, nu cumpăra niciodată putere. Totul aici este cosmetic, comoditate sau o modalitate de a comanda o lucrare echipei - ascensiunea prin Secvențe rămâne sacră.",
     "tabAll": "Toate mărfurile",
     "showing": "Se afișează {shown} din {total} manifestări",
     "giftable": "Totul poate fi dăruit altui jucător",
@@ -464,7 +464,7 @@
       "requirementsLabel": "Fiecare cerere trebuie să fie",
       "requirements": [
         "Justificată – explică raționamentul de gameplay sau lore din spatele ei.",
-        "Fidelă lore-ului – bazată pe material de setting/sursă stabilit, nu inventată de la zero.",
+        "Fidelă lore-ului – bazată pe universul stabilit sau pe materialul-sursă, nu inventată de la zero.",
         "Nefundamentală – fără refaceri ale sistemului de bază sau modificări de arhitectură.",
         "Atentă la munca recentă – nu solicita refacerea unei vrăji/abilități lucrate recent și aflate într-o stare bună și echilibrată doar pentru o altă interpretare. Dacă între timp a devenit cu adevărat neechilibrată, depășită sau defectă, poți solicita acest lucru indiferent de cine a lucrat ultima dată la ea."
       ],
