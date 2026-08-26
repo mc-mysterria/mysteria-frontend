@@ -155,6 +155,11 @@
     "season": "Season II · 2026",
     "notFound": "Intrarea din registru nu a fost găsită sau este restricționată."
   },
+  "contentLanguageNotice": {
+    "label": "Notă privind limba",
+    "body": "Știrile și produsele din magazin nu sunt încă disponibile în limba ta, așa că sunt afișate în engleză. Ne pare rău - tot restul site-ului este tradus.",
+    "dismiss": "Închide această notă"
+  },
   "rulesPage": {
     "eyebrow": "Legământul",
     "lede": "Scurt, ușor de citit și aplicat cu judecată, nu cu scripturi. Când ai dubii: nu strica ziua cuiva.",

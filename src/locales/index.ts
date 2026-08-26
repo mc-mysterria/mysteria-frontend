@@ -70,12 +70,13 @@ export interface LocaleMeta {
      */
     pluralStyle: "english" | "romanian" | "slavic" | "none";
     /**
-     * Which language the news backend should be asked for.
+     * Which language the content backend should be asked for.
      *
-     * News articles are authored in the CMS, not translated here, and it only
-     * carries English and Ukrainian - so Chinese readers are served the English
-     * dispatches rather than an empty news page. Change a locale's value to its
-     * own code once articles exist for it.
+     * News articles and shop listings are authored in the CMS, not translated
+     * here, and it only carries English and Ukrainian - so a German reader is
+     * served the English dispatches and wares rather than an empty page. The
+     * name is historical: this governs every CMS-backed surface, not only news.
+     * Change a locale's value to its own code once content exists for it.
      */
     articleLocale: ArticleLocale;
 }
@@ -111,6 +112,16 @@ export const LANGUAGES: Language[] = (localeTable.locales as LocaleMeta[]).map(m
 /** Whether a locale has its own articles, rather than borrowing another's. */
 export const hasOwnArticles = (language: Language): boolean =>
     LOCALES[language].articleLocale === language;
+
+/**
+ * Which language to request CMS content in. Every fetch of news or shop copy
+ * must go through this rather than passing the UI locale straight through: the
+ * backend only knows "en" and "uk", and a call site that forwards "de" gets
+ * whichever of the two that endpoint happens to default to - which is how
+ * German readers ended up with a Ukrainian store.
+ */
+export const contentLocale = (language: Language): ArticleLocale =>
+    LOCALES[language].articleLocale;
 
 export const translations: Record<Language, Translations> = {
     en,

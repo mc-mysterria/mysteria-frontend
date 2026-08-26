@@ -155,6 +155,11 @@
     "season": "Saison II – 2026",
     "notFound": "Registereintrag nicht gefunden oder eingeschränkt."
   },
+  "contentLanguageNotice": {
+    "label": "Sprachhinweis",
+    "body": "Meldungen und Waren des Shops sind noch nicht in deiner Sprache verfügbar und werden daher auf Englisch angezeigt. Wir bitten um Entschuldigung - alles andere auf der Seite ist übersetzt.",
+    "dismiss": "Hinweis schließen"
+  },
   "rulesPage": {
     "eyebrow": "Der Bund",
     "lede": "Kurz, verständlich und mit Urteilsvermägen statt Skripten durchgesetzt. Im Zweifel: Verderbe niemandem den Tag.",

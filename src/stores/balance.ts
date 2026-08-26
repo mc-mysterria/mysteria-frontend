@@ -5,6 +5,7 @@ import {useAuthStore} from "@/stores/auth";
 import {watch} from "vue";
 import {useNotification} from "@/services/useNotification";
 import {useI18n} from "@/composables/useI18n";
+import {type ArticleLocale, contentLocale} from "@/locales";
 import {useCurrency} from "@/composables/useCurrency";
 import {Decimal} from "decimal.js";
 import {APIError, RequestError} from "@/utils/api/errors";
@@ -12,7 +13,7 @@ import {debounce} from "lodash-es";
 
 const serviceTransformCache = new Map<string, ServiceResponse>();
 
-function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): ServiceResponse {
+function convertServiceDtoToLegacy(service: ServiceDto, lang: ArticleLocale = "en"): ServiceResponse {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateTime = (service as any).updatedAt || service.createdAt || Date.now();
     const cacheKey = `${service.id}-${lang}-${updateTime}`;
@@ -21,17 +22,17 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
         return serviceTransformCache.get(cacheKey)!;
     }
 
-    const name = lang === "en"
-        ? (service.nameEn || service.name)
-        : (service.nameUk || service.name);
+    const name = lang === "uk"
+        ? (service.nameUk || service.name)
+        : (service.nameEn || service.name);
 
-    const description = lang === "en"
-        ? (service.descriptionEn || service.description)
-        : (service.descriptionUk || service.description);
+    const description = lang === "uk"
+        ? (service.descriptionUk || service.description)
+        : (service.descriptionEn || service.description);
 
-    const bulletPoints = lang === "en"
-        ? (service.bulletPointsEn || [])
-        : (service.bulletPointsUk || []);
+    const bulletPoints = lang === "uk"
+        ? (service.bulletPointsUk || [])
+        : (service.bulletPointsEn || []);
 
     // Create service points from bullet points or generate from metadata
     const points: ServicePoint[] = [];
@@ -46,59 +47,59 @@ function convertServiceDtoToLegacy(service: ServiceDto, lang: string = "uk"): Se
         // Add duration info if available
         if (service.durationDays) {
             if (service.durationDays === 1) {
-                points.push({text: lang === "en" ? "Duration: 1 day" : "Термін дії: 1 день"});
+                points.push({text: lang === "uk" ? "Термін дії: 1 день" : "Duration: 1 day"});
             } else if (service.durationDays < 30) {
                 points.push({
-                    text: lang === "en"
-                        ? `Duration: ${service.durationDays} days`
-                        : `Термін дії: ${service.durationDays} днів`
+                    text: lang === "uk"
+                        ? `Термін дії: ${service.durationDays} днів`
+                        : `Duration: ${service.durationDays} days`
                 });
             } else {
                 const months = Math.round(service.durationDays / 30);
                 points.push({
-                    text: lang === "en"
-                        ? `Duration: ${months} month${months > 1 ? 's' : ''}`
-                        : `Термін дії: ${months} ${months === 1 ? "місяць" : "місяці"}`,
+                    text: lang === "uk"
+                        ? `Термін дії: ${months} ${months === 1 ? "місяць" : "місяці"}`
+                        : `Duration: ${months} month${months > 1 ? 's' : ''}`,
                 });
             }
         } else {
-            points.push({text: lang === "en" ? "Permanent" : "Назавжди"});
+            points.push({text: lang === "uk" ? "Назавжди" : "Permanent"});
         }
 
         // Add type-specific information
         switch (service.type) {
             case "DISCORD_ROLE":
-                points.push({text: lang === "en" ? "Server role" : "Роль на сервері"});
+                points.push({text: lang === "uk" ? "Роль на сервері" : "Server role"});
                 if (service.metadata?.role) {
-                    points.push({text: lang === "en" ? `Role: ${service.metadata.role}` : `Роль: ${service.metadata.role}`});
+                    points.push({text: lang === "uk" ? `Роль: ${service.metadata.role}` : `Role: ${service.metadata.role}`});
                 }
                 break;
             case "ITEM":
-                points.push({text: lang === "en" ? "In-game item" : "Предмет в грі"});
+                points.push({text: lang === "uk" ? "Предмет в грі" : "In-game item"});
                 if (service.metadata?.item) {
-                    points.push({text: lang === "en" ? `Item: ${service.metadata.item}` : `Предмет: ${service.metadata.item}`});
+                    points.push({text: lang === "uk" ? `Предмет: ${service.metadata.item}` : `Item: ${service.metadata.item}`});
                 }
                 if (service.metadata?.items && Array.isArray(service.metadata.items)) {
                     points.push({
-                        text: lang === "en"
-                            ? `Number of items: ${service.metadata.items.length}`
-                            : `Кількість предметів: ${service.metadata.items.length}`,
+                        text: lang === "uk"
+                            ? `Кількість предметів: ${service.metadata.items.length}`
+                            : `Number of items: ${service.metadata.items.length}`,
                     });
                 }
                 if (service.metadata?.enchantments) {
-                    points.push({text: lang === "en" ? "With enchantments" : "З зачаруваннями"});
+                    points.push({text: lang === "uk" ? "З зачаруваннями" : "With enchantments"});
                 }
                 break;
             case "PERMISSION":
-                points.push({text: lang === "en" ? "Permission/rights" : "Дозвіл/права"});
+                points.push({text: lang === "uk" ? "Дозвіл/права" : "Permission/rights"});
                 if (service.metadata?.permission) {
-                    points.push({text: lang === "en" ? `Permission: ${service.metadata.permission}` : `Дозвіл: ${service.metadata.permission}`});
+                    points.push({text: lang === "uk" ? `Дозвіл: ${service.metadata.permission}` : `Permission: ${service.metadata.permission}`});
                 }
                 break;
             case "SUBSCRIPTION":
-                points.push({text: lang === "en" ? "Subscription service" : "Підписка"});
+                points.push({text: lang === "uk" ? "Підписка" : "Subscription service"});
                 if (service.metadata?.type) {
-                    points.push({text: lang === "en" ? `Type: ${service.metadata.type}` : `Тип: ${service.metadata.type}`});
+                    points.push({text: lang === "uk" ? `Тип: ${service.metadata.type}` : `Type: ${service.metadata.type}`});
                 }
                 break;
         }
@@ -272,7 +273,12 @@ export const useBalanceStore = defineStore("balance", {
         async fetchServices(requireAuth: boolean = true): Promise<void> {
             const authStore = useAuthStore();
             const {currentLanguage} = useI18n();
-            const lang = currentLanguage.value;
+            /*
+             * The store carries only English and Ukrainian copy. Forwarding the
+             * UI locale here made /shop/services?lang=de fall back to Ukrainian,
+             * so every locale without its own wares is asked in English.
+             */
+            const lang = contentLocale(currentLanguage.value);
 
             // Check if we have a token when authentication is required
             if (requireAuth && !authStore.accessToken) {
@@ -432,7 +438,9 @@ export const useBalanceStore = defineStore("balance", {
                 }
 
                 const {currentLanguage} = useI18n();
-                const serviceName = (currentLanguage.value === 'en' && service.nameEn) ? service.nameEn : service.name;
+                const serviceName = contentLocale(currentLanguage.value) === 'uk'
+                    ? (service.nameUk || service.name)
+                    : (service.nameEn || service.name);
 
                 const message = recipientId
                     ? `${t('giftSuccess')} "${serviceName}" ${t('giftSentFor') || 'for'} ${priceDisplay}`

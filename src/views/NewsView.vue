@@ -1,6 +1,7 @@
 <template>
   <div class="news-page">
     <HeaderItem/>
+    <ContentLanguageNotice/>
 
     <main class="dispatch">
       <header class="dispatch-masthead">
@@ -72,6 +73,7 @@ import {useRoute, useRouter} from 'vue-router';
 import {newsAPI} from '@/utils/api/news';
 import type {NewsArticle, NewsPreview} from '@/types/news';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
+import ContentLanguageNotice from '@/components/ui/ContentLanguageNotice.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
 import {localePath} from '@/composables/useLocalePath';

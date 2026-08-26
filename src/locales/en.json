@@ -155,6 +155,11 @@
     "season": "Season II · 2026",
     "notFound": "Registry entry not found or restricted."
   },
+  "contentLanguageNotice": {
+    "label": "Language notice",
+    "body": "Dispatches and store wares aren't available in your language yet, so they are shown in English. We're sorry about that - everything else on the site is translated.",
+    "dismiss": "Dismiss this notice"
+  },
   "rulesPage": {
     "eyebrow": "The Covenant",
     "lede": "Short, human-readable, and enforced with judgement rather than scripts. When in doubt: don't ruin someone's day.",

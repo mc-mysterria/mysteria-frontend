@@ -1,6 +1,7 @@
 <template>
   <div class="service-page">
     <HeaderItem/>
+    <ContentLanguageNotice/>
     <main class="service-detail-container">
       <div v-if="service" class="service-layout">
         <div class="back-button-container">
@@ -133,8 +134,10 @@ import {shopAPI} from '@/utils/api/shop';
 import type {ServiceMarkdownDto} from '@/types/services';
 import {ServiceType} from '@/types/services';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
+import ContentLanguageNotice from '@/components/ui/ContentLanguageNotice.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
 import {useI18n} from '@/composables/useI18n';
+import {contentLocale} from '@/locales';
 import {useAuthStore} from '@/stores/auth';
 import {useBalanceStore} from '@/stores/balance';
 import {useUserStore} from '@/stores/user';
@@ -313,7 +316,7 @@ const loadService = async () => {
       loading.value = true;
       console.log('Loading service with slug:', slug);
 
-      const response = await shopAPI.getServiceContent(slug, currentLanguage.value);
+      const response = await shopAPI.getServiceContent(slug, contentLocale(currentLanguage.value));
       service.value = response.data;
       imageLoaded.value = false;
       imageFailed.value = false;

@@ -155,6 +155,11 @@
     "season": "Temporada II · 2026",
     "notFound": "No se encontró la entrada del registro o está restringida."
   },
+  "contentLanguageNotice": {
+    "label": "Aviso de idioma",
+    "body": "Las noticias y los artículos de la tienda aún no están disponibles en tu idioma, por lo que se muestran en inglés. Lo sentimos: todo lo demás del sitio sí está traducido.",
+    "dismiss": "Cerrar este aviso"
+  },
   "rulesPage": {
     "eyebrow": "El Pacto",
     "lede": "Breves, comprensibles y aplicadas con criterio, no con scripts. Ante la duda: no le arruines el día a nadie.",

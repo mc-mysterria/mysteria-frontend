@@ -1,5 +1,5 @@
 import {describe, expect, it} from "vitest";
-import {detectLanguage, LANGUAGES, LOCALES, matchLanguage} from "@/locales";
+import {contentLocale, detectLanguage, LANGUAGES, LOCALES, matchLanguage} from "@/locales";
 
 describe("matchLanguage", () => {
     it("resolves plain language tags", () => {
@@ -90,5 +90,21 @@ describe("locale registry", () => {
         for (const code of LANGUAGES) {
             expect(["en", "uk"]).toContain(LOCALES[code].articleLocale);
         }
+    });
+
+    /*
+     * Ukrainian is the only non-English edition, so English is the fallback for
+     * everyone else. A locale silently pointed at "uk" is the bug moderators
+     * reported: a German interface serving a Ukrainian store.
+     */
+    it("falls back to English, never Ukrainian, for locales without content", () => {
+        for (const code of LANGUAGES) {
+            if (code === "uk") continue;
+            expect(contentLocale(code)).toBe("en");
+        }
+    });
+
+    it("keeps Ukrainian on its own edition", () => {
+        expect(contentLocale("uk")).toBe("uk");
     });
 });

@@ -155,6 +155,11 @@
     "season": "Season II В· 2026",
     "notFound": "Entrée du registre introuvable ou restreinte."
   },
+  "contentLanguageNotice": {
+    "label": "Note sur la langue",
+    "body": "Les dépêches et les articles de la boutique ne sont pas encore disponibles dans ta langue ; ils s'affichent donc en anglais. Nous en sommes désolés - tout le reste du site est traduit.",
+    "dismiss": "Fermer cette note"
+  },
   "rulesPage": {
     "eyebrow": "Le Pacte",
     "lede": "Courtes, compréhensibles et appliquées avec jugement plutôt qu’avec des scripts. En cas de doute : ne gâche pas la journée de quelqu’un.",

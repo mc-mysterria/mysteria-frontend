@@ -1,6 +1,7 @@
 <template>
   <div class="shop-page">
     <HeaderItem/>
+    <ContentLanguageNotice/>
 
     <section class="shop-hero">
       <div class="shop-hero-glow" aria-hidden="true"></div>
@@ -102,6 +103,7 @@
 <script lang="ts" setup>
 import {computed, onMounted, ref, watch} from "vue";
 import HeaderItem from "@/components/layout/HeaderItem.vue";
+import ContentLanguageNotice from "@/components/ui/ContentLanguageNotice.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import ModalItem from "@/components/ui/ModalItem.vue";
 import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
