@@ -18,11 +18,11 @@
   "pages": {
     "rules": {
       "title": "伺服器規則 - Mysterria",
-      "description": "閱讀在 Mysterria 遊玩的規則與準則。Mysterria 是一座受《詭秘之主》啟發的 Minecraft 伺服器——這裡寫明我們的社群標準與遊戲規範。"
+      "description": "閱讀在 Mysterria 遊玩的規則與準則。Mysterria 是一座受《詭秘之主》啟發的 Minecraft 伺服器--這裡寫明我們的社群標準與遊戲規範。"
     },
     "store": {
       "title": "商店 - Mysterria",
-      "description": "支援 Mysterria，同時解鎖專屬內容。瀏覽這座《詭秘之主》主題 Minecraft 伺服器的頭銜、物品與特色功能——絕不出售戰鬥力。"
+      "description": "支援 Mysterria，同時解鎖專屬內容。瀏覽這座《詭秘之主》主題 Minecraft 伺服器的頭銜、物品與特色功能--絕不出售戰鬥力。"
     },
     "ascension": {
       "title": "晉升名錄 - Mysterria",
@@ -30,7 +30,7 @@
     },
     "guide": {
       "title": "新人指南 - Mysterria",
-      "description": "初次來到 Mysterria？瞭解如何在這座受《詭秘之主》啟發的伺服器上起步——認識途徑、序列，以及等著你的神秘冒險。"
+      "description": "初次來到 Mysterria？瞭解如何在這座受《詭秘之主》啟發的伺服器上起步--認識途徑、序列，以及等著你的神秘冒險。"
     },
     "profile": {
       "title": "個人資料 - Mysterria",
@@ -58,7 +58,7 @@
     },
     "default": {
       "title": "Mysterria - 《詭秘之主》主題 Minecraft 伺服器",
-      "description": "Mysterria —— 一座受網路小說《詭秘之主》啟發的 Minecraft 伺服器。行走神秘途徑、配製魔藥、晉升序列，沉浸在神與教會的世界之中。"
+      "description": "Mysterria -- 一座受網路小說《詭秘之主》啟發的 Minecraft 伺服器。行走神秘途徑、配製魔藥、晉升序列，沉浸在神與教會的世界之中。"
     }
   }
 }

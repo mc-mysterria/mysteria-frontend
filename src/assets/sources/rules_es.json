@@ -1,210 +1,210 @@
 [
   {
     "id": "1",
-    "title": "Corruption of Spirit (Chat & Communication)",
-    "content": "Words, sounds, and messages shape the atmosphere of Mysterria. Whether you speak in Minecraft chat, Discord, or private DMs, keep them clean and respectful."
+    "title": "Corrupción del espíritu (chat y comunicación)",
+    "content": "Las palabras, los sonidos y los mensajes dan forma a la atmósfera de Mysterria. Ya sea en el chat de Minecraft, Discord o mensajes privados, mantén una comunicación respetuosa y apropiada."
   },
   {
     "id": "1.1",
-    "title": "Toxicity & Harassment",
-    "content": "Flaming, bullying, or harassing others is not allowed. This includes constant arguing to provoke people, personal insults, and targeting someone repeatedly. Example: calling someone trash every time they speak = warnable offense.",
+    "title": "Toxicidad y acoso",
+    "content": "No se permiten los ataques verbales, la intimidación ni el acoso. Esto incluye discutir constantemente para provocar, insultos personales y atacar repetidamente a alguien. Ejemplo: llamar basura a alguien cada vez que habla = infracción sancionable con advertencia.",
     "severity": "warn"
   },
   {
     "id": "1.2",
-    "title": "Swearing & Vulgarity",
-    "content": "Mild swearing is fine, but excessive profanity, sexual jokes, or constant foul language are not. Example: saying 'damn' in frustration is okay, spamming f-bombs or sexual comments is not.",
+    "title": "Groserías y vulgaridad",
+    "content": "Las groserías leves están bien, pero no la profanidad excesiva, los chistes sexuales ni el lenguaje obsceno constante. Ejemplo: decir «mierda» por frustración es aceptable; saturar el chat con insultos o comentarios sexuales no lo es.",
     "severity": "warn"
   },
   {
     "id": "1.3",
-    "title": "Spam & Noise",
-    "content": "Do not spam chat or flood voice channels. This includes repeating the same message, mic spamming, or abusing soundboards. Example: spamming 'ez' in chat or blasting loud noises in VC = punishable.",
+    "title": "Spam y ruido",
+    "content": "No hagas spam en el chat ni inundes los canales de voz. Esto incluye repetir el mismo mensaje, saturar el micrófono o abusar de las botoneras de sonidos. Ejemplo: hacer spam con «ez» en el chat o emitir ruidos fuertes en un canal de voz = sancionable.",
     "severity": "mute"
   },
   {
     "id": "1.4",
-    "title": "Private Harassment",
-    "content": "Harassing people in DMs (Minecraft or Discord) counts just the same as public harassment. Example: sending 20 messages to annoy someone after they told you to stop = warn.",
+    "title": "Acoso privado",
+    "content": "Acosar a otras personas por MD, en Minecraft o Discord, cuenta igual que el acoso público. Ejemplo: enviar 20 mensajes para molestar a alguien después de que te pidió que pararas = advertencia.",
     "severity": "warn"
   },
   {
     "id": "1.5",
-    "title": "Names & Avatars",
-    "content": "Nicknames, avatars, or skins with offensive, extremist, or NSFW content are forbidden. Example: Nazi skins, hentai profile pics, or racist usernames = instant action by staff.",
+    "title": "Nombres y avatares",
+    "content": "Se prohíben apodos, avatares o skins con contenido ofensivo, extremista o NSFW. Ejemplo: skins nazis, fotos de perfil hentai o nombres de usuario racistas = acción inmediata del equipo.",
     "severity": "instant"
   },
   {
     "id": "2",
-    "title": "Profane Creations (Builds & World Behavior)",
-    "content": "What you create in Mysterria must not harm others or the world itself."
+    "title": "Creaciones profanas (construcciones y comportamiento en el mundo)",
+    "content": "Lo que crees en Mysterria no debe perjudicar a otras personas ni al mundo."
   },
   {
     "id": "2.1",
-    "title": "Offensive Builds & Content",
-    "content": "No extremist symbols, sexual structures, or other offensive builds. Example: swastikas, inappropriate statues, or extremist banners = instant removal + punishment.",
+    "title": "Construcciones y contenido ofensivos",
+    "content": "No se permiten símbolos extremistas, estructuras sexuales ni otras construcciones ofensivas. Ejemplo: esvásticas, estatuas inapropiadas o estandartes extremistas = eliminación y sanción inmediatas.",
     "severity": "instant"
   },
   {
     "id": "2.2",
-    "title": "Griefing & Stealing",
-    "content": "Breaking builds, stealing items, or trolling others without consent is forbidden. Example: destroying a house or taking chest loot that isn’t yours = punishable.",
+    "title": "Griefing y robo",
+    "content": "Está prohibido destruir construcciones, robar objetos o trollear a otras personas sin su consentimiento. Ejemplo: destruir una casa o tomar el botín de un cofre ajeno = sancionable.",
     "severity": "ban"
   },
   {
     "id": "2.3",
-    "title": "Lag & Exploit Machines",
-    "content": "Machines or farms that cause lag (like TNT spam) or unauthorized chunk loaders are not allowed. Example: building a redstone clock to crash the server = ban.",
+    "title": "Máquinas de lag y exploits",
+    "content": "No se permiten máquinas o granjas que provoquen lag, como el spam de TNT, ni cargadores de chunks no autorizados. Ejemplo: construir un reloj de redstone para bloquear el servidor = expulsión.",
     "severity": "ban"
   },
   {
     "id": "3",
-    "title": "Forbidden Powers (Cheats & Exploits)",
-    "content": "Unfair advantages break the balance of Mysterria. Cheating is never tolerated."
+    "title": "Poderes prohibidos (trampas y exploits)",
+    "content": "Las ventajas injustas rompen el equilibrio de Mysterria. Las trampas nunca se toleran."
   },
   {
     "id": "3.1",
-    "title": "Hacks & Cheats",
-    "content": "Using hacks, x-ray, autoclickers, macros, dupes, or bug exploits is an instant permanent ban. Example: x-ray mining for diamonds = permaban.",
+    "title": "Hacks y trampas",
+    "content": "Usar hacks, x-ray, autoclickers, macros, duplicaciones o exploits de errores implica expulsión permanente inmediata. Ejemplo: minar diamantes con x-ray = expulsión permanente.",
     "severity": "instant"
   },
   {
     "id": "3.2",
-    "title": "Bug Abuse",
-    "content": "If you find a glitch, report it. Do not abuse it. Example: finding a way to duplicate items and using it = permaban. You will be rewarded for reporting it.",
+    "title": "Abuso de errores",
+    "content": "Si encuentras un error, repórtalo. No abuses de él. Ejemplo: encontrar y usar una forma de duplicar objetos = expulsión permanente. Se recompensará reportarlo.",
     "severity": "ban"
   },
   {
     "id": "4",
-    "title": "Veil & Identity (Privacy & Accounts)",
-    "content": "Respect real-world privacy and keep your account tied to your own soul."
+    "title": "Velo e identidad (privacidad y cuentas)",
+    "content": "Respeta la privacidad fuera del juego y mantén tu cuenta vinculada a tu propia alma."
   },
   {
     "id": "4.1",
-    "title": "Privacy & Doxxing",
-    "content": "Never share personal info (real names, addresses, social media, etc.). Example: leaking someone’s Instagram without permission = instant permaban.",
+    "title": "Privacidad y doxxing",
+    "content": "Nunca compartas información personal, como nombres reales, direcciones o redes sociales. Ejemplo: filtrar el Instagram de alguien sin permiso = expulsión permanente inmediata.",
     "severity": "instant"
   },
   {
     "id": "4.2",
-    "title": "Outside Influence",
-    "content": "Don’t use Discord/DMs to manipulate in-game actions unfairly (metagaming). Example: telling your friend over Discord to ambush someone’s base = punishable.",
+    "title": "Influencia externa",
+    "content": "No uses Discord ni MD para manipular injustamente acciones dentro del juego (metagaming). Ejemplo: decirle por Discord a una amistad que embosque la base de alguien = sancionable.",
     "severity": "warn"
   },
   {
     "id": "4.3",
-    "title": "Alt Accounts",
-    "content": "Only one account per person unless approved by staff. Unauthorized alts = permaban. Example: making a second account to avoid a mute = instant ban.",
+    "title": "Cuentas alternativas",
+    "content": "Solo se permite una cuenta por persona, salvo aprobación del equipo. Las cuentas alternativas no autorizadas implican expulsión permanente. Ejemplo: crear una segunda cuenta para evitar un silencio = expulsión inmediata.",
     "severity": "ban"
   },
   {
     "id": "4.4",
-    "title": "Impersonation",
-    "content": "Do not impersonate staff or other players. Faking evidence or pretending to be a Guardian = permanent ban.",
+    "title": "Suplantación de identidad",
+    "content": "No suplantes a miembros del equipo ni a otros jugadores. Falsificar pruebas o hacerse pasar por un Guardián = expulsión permanente.",
     "severity": "instant"
   },
   {
     "id": "5",
-    "title": "Respect of Souls (Community Behavior)",
-    "content": "Mysterria thrives on respect. Treat others fairly and keep the community positive."
+    "title": "Respeto por las almas (comportamiento en la comunidad)",
+    "content": "Mysterria prospera gracias al respeto. Trata a los demás con justicia y ayuda a mantener una comunidad positiva."
   },
   {
     "id": "5.1",
-    "title": "Hate Speech",
-    "content": "Racism, sexism, homophobia, and other hate speech is forbidden. Example: using slurs = instant warn or ban depending on severity.",
+    "title": "Discurso de odio",
+    "content": "Se prohíben el racismo, el sexismo, la homofobia y cualquier otro discurso de odio. Ejemplo: usar insultos discriminatorios = advertencia o expulsión inmediata según la gravedad.",
     "severity": "instant"
   },
   {
     "id": "5.2",
-    "title": "False Accusations",
-    "content": "Making false reports against players or staff wastes time and spreads toxicity. Example: faking screenshots to get someone banned = punishable.",
+    "title": "Acusaciones falsas",
+    "content": "Presentar reportes falsos contra jugadores o miembros del equipo hace perder tiempo y propaga la toxicidad. Ejemplo: falsificar capturas de pantalla para lograr que expulsen a alguien = sancionable.",
     "severity": "ban"
   },
   {
     "id": "5.3",
-    "title": "Disrespecting Staff",
-    "content": "Guardians (staff) must be respected. Insulting or trolling staff directly = heavy punishment.",
+    "title": "Falta de respeto al equipo",
+    "content": "Los Guardianes, es decir, el equipo, deben ser respetados. Insultar o trollear directamente al equipo = sanción grave.",
     "severity": "warn"
   },
   {
     "id": "5.4",
-    "title": "Drama & Negativity",
-    "content": "Creating drama, spreading negativity, or constantly complaining ruins the atmosphere. Example: repeatedly saying 'this server sucks' = warnable offense.",
+    "title": "Drama y negatividad",
+    "content": "Crear drama, difundir negatividad o quejarse constantemente arruina la atmósfera. Ejemplo: repetir «este servidor apesta» = infracción sancionable con advertencia.",
     "severity": "warn"
   },
   {
     "id": "5.5",
-    "title": "Begging & Pestering",
-    "content": "Do not spam staff for free items, ranks, or attention. Example: 'pls gimme op' every 5 minutes = punishable.",
+    "title": "Mendigar e insistir",
+    "content": "No hagas spam al equipo pidiendo objetos gratis, rangos o atención. Ejemplo: escribir «pls dame op» cada 5 minutos = sancionable.",
     "severity": "warn"
   },
   {
     "id": "5.6",
-    "title": "Black Market",
-    "content": "Trading in-game valuables for real money bypassing the server is strictly prohibited. We respect your entrepreneurial spirit, but please, let’s not turn the server into a marketplace!",
+    "title": "Mercado negro",
+    "content": "Está estrictamente prohibido comerciar bienes valiosos del juego por dinero real fuera del servidor. Respetamos tu espíritu emprendedor, pero no convirtamos el servidor en un mercado.",
     "severity": "ban"
   },
   {
     "id": "6",
-    "title": "Ritual Order (Channels & Promotion)",
-    "content": "Stay organized and respect how communication channels are used."
+    "title": "Orden ritual (canales y promoción)",
+    "content": "Mantente organizado y respeta el uso previsto de los canales de comunicación."
   },
   {
     "id": "6.1",
-    "title": "Stay On-Topic",
-    "content": "Use the right channels for the right discussions. Example: posting memes in #announcements = warn.",
+    "title": "Mantente en el tema",
+    "content": "Usa los canales adecuados para cada conversación. Ejemplo: publicar memes en #announcements = advertencia.",
     "severity": "warn"
   },
   {
     "id": "6.2",
-    "title": "Advertising",
-    "content": "No advertising or promotion unless approved by staff. This includes other servers, Discords, or YouTube channels. Example: DMing players your server IP = ban.",
+    "title": "Publicidad",
+    "content": "No se permite publicidad ni promoción sin aprobación del equipo. Esto incluye otros servidores, Discords o canales de YouTube. Ejemplo: enviar por MD a jugadores la IP de tu servidor = expulsión.",
     "severity": "ban"
   },
   {
     "id": "7",
-    "title": "Judgment of Guardians (Punishments)",
-    "content": "Punishments are handled through the Warning Path. Some actions bypass it entirely."
+    "title": "Juicio de los Guardianes (sanciones)",
+    "content": "Las sanciones se aplican mediante la Ruta de Advertencias. Algunas acciones la omiten por completo."
   },
   {
     "id": "7.1",
-    "title": "The Warning Path",
-    "content": "Each offense = 1 warning. Punishments double each time: mute, longer mute, tempban, longer tempban. 8 warnings = permanent ban. Warnings expire after 6 months.",
+    "title": "La Ruta de Advertencias",
+    "content": "Cada infracción = 1 advertencia. Las sanciones se duplican cada vez: silencio, silencio más largo, expulsión temporal, expulsión temporal más larga. 8 advertencias = expulsión permanente. Las advertencias vencen después de 6 meses.",
     "severity": "warn"
   },
   {
     "id": "7.2",
-    "title": "Instant Permanent Bans",
-    "content": "Some actions lead to instant permaban: hacking, dupes, bug abuse, doxxing, extremist symbols, NSFW builds. No second chances.",
+    "title": "Expulsiones permanentes inmediatas",
+    "content": "Algunas acciones implican expulsión permanente inmediata: hacking, duplicaciones, abuso de errores, doxxing, símbolos extremistas y construcciones NSFW. No hay segundas oportunidades.",
     "severity": "instant"
   },
   {
     "id": "7.3",
-    "title": "Final Authority",
-    "content": "Staff decisions are final. No appeals, no exceptions.",
+    "title": "Autoridad final",
+    "content": "Las decisiones del equipo son definitivas. No hay apelaciones ni excepciones.",
     "severity": "warn"
   },
   {
     "id": "8",
-    "title": "Bounded Realms (Affiliates & External Spaces)",
-    "content": "Our light reaches beyond these walls. Any world tethered to Mysterria must remain a sanctuary for all souls."
+    "title": "Reinos vinculados (afiliados y espacios externos)",
+    "content": "Nuestra luz llega más allá de estos muros. Todo mundo vinculado a Mysterria debe seguir siendo un refugio para todas las almas."
   },
   {
     "id": "8.1",
-    "title": "Guardian Presence",
-    "content": "Any server, 'town' (e.g., GHC or PHG), or community published or promoted within Mysterria community must include a Staff member in its ranks. They must be granted audit log access to ensure the safety of our players. Example: Promoting your town’s Discord in our channels requires a moderator to be present in that Discord.",
+    "title": "Presencia de un Guardián",
+    "content": "Todo servidor, «ciudad» (por ejemplo, GHC o PHG) o comunidad publicada o promocionada dentro de la comunidad de Mysterria debe incluir a un miembro del equipo entre sus rangos. Debe tener acceso a los registros de auditoría para garantizar la seguridad de nuestros jugadores. Ejemplo: promocionar el Discord de tu ciudad en nuestros canales requiere que haya un moderador presente en ese Discord.",
     "severity": "warn"
   },
   {
     "id": "8.2",
-    "title": "Extended Accountability",
-    "content": "Members represent the Mysterria community wherever our connections reach. Severe violations - specifically racism, hate speech (slurs), or doxxing–committed on affiliated servers will result in the same punishments as if they occurred here. Example: Using racial slurs in a town's Discord will result in a ban from the main Mysterria server.",
+    "title": "Responsabilidad ampliada",
+    "content": "Los miembros representan a la comunidad de Mysterria allí donde lleguen nuestras conexiones. Las infracciones graves, en particular el racismo, el discurso de odio o el doxxing, cometidas en servidores afiliados recibirán las mismas sanciones que si ocurrieran aquí. Ejemplo: usar insultos raciales en el Discord de una ciudad implicará expulsión del servidor principal de Mysterria.",
     "severity": "ban"
   },
   {
     "id": "8.3",
-    "title": "Severing the Tie",
-    "content": "If an affiliated server fails to maintain proper moderation standards or refuses Staff oversight, its 'approved' status will be revoked and all associated links will be removed. Example: A town leader who ignores toxicity in their own chat will lose the right to promote their project within Mysterria.",
+    "title": "Ruptura del vínculo",
+    "content": "Si un servidor afiliado no mantiene estándares de moderación adecuados o rechaza la supervisión del equipo, se revocará su estado de «aprobado» y se eliminarán todos los enlaces asociados. Ejemplo: quien lidere una ciudad e ignore la toxicidad en su propio chat perderá el derecho a promocionar su proyecto dentro de Mysterria.",
     "severity": "ban"
   }
 ]

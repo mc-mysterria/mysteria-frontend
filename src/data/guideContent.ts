@@ -2,14 +2,18 @@
  * Guide registry. The copy itself lives in src/data/guide/<code>.json, one file
  * per locale, mirroring how src/locales/ is laid out.
  *
- * en and uk are authored. zh-CN is authored and zh-TW is GENERATED from it by
+ * All files except zh-TW are translated directly. zh-TW is GENERATED from zh-CN by
  * scripts/build-zh-tw.mjs - never edit src/data/guide/zh-TW.json by hand.
  *
  * The copy is JSON rather than TypeScript so Weblate can read and write it in
  * place; see i18n/weblate.json.
  */
 import type {Language} from "@/locales";
+import de from "./guide/de.json";
 import en from "./guide/en.json";
+import es from "./guide/es.json";
+import fr from "./guide/fr.json";
+import ro from "./guide/ro.json";
 import uk from "./guide/uk.json";
 import zhCN from "./guide/zh-CN.json";
 import zhTW from "./guide/zh-TW.json";
@@ -44,6 +48,10 @@ const asGuide = (raw: Jsonified<GuideContent>): GuideContent => raw as GuideCont
 export const guideContent: Record<Language, GuideContent> = {
     en: asGuide(en),
     uk: asGuide(uk),
+    ro: asGuide(ro),
+    de: asGuide(de),
+    es: asGuide(es),
+    fr: asGuide(fr),
     "zh-CN": asGuide(zhCN),
     "zh-TW": asGuide(zhTW),
 };

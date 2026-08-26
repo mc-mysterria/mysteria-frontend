@@ -5,11 +5,19 @@ describe("matchLanguage", () => {
     it("resolves plain language tags", () => {
         expect(matchLanguage("en")).toBe("en");
         expect(matchLanguage("uk")).toBe("uk");
+        expect(matchLanguage("ro")).toBe("ro");
+        expect(matchLanguage("de")).toBe("de");
+        expect(matchLanguage("es")).toBe("es");
+        expect(matchLanguage("fr")).toBe("fr");
     });
 
     it("resolves regional tags to their locale", () => {
         expect(matchLanguage("en-GB")).toBe("en");
         expect(matchLanguage("uk-UA")).toBe("uk");
+        expect(matchLanguage("ro-MD")).toBe("ro");
+        expect(matchLanguage("de-AT")).toBe("de");
+        expect(matchLanguage("es-MX")).toBe("es");
+        expect(matchLanguage("fr-CA")).toBe("fr");
     });
 
     /*
@@ -37,7 +45,6 @@ describe("matchLanguage", () => {
     });
 
     it("returns null for languages the site does not serve", () => {
-        expect(matchLanguage("de")).toBeNull();
         expect(matchLanguage("ja")).toBeNull();
         // Deliberately not matched by the `zh` prefix rule.
         expect(matchLanguage("zu")).toBeNull();
@@ -47,12 +54,13 @@ describe("matchLanguage", () => {
 
 describe("detectLanguage", () => {
     it("takes the first supported entry in the browser's preference order", () => {
-        expect(detectLanguage(["de", "zh-TW", "en"])).toBe("zh-TW");
+        expect(detectLanguage(["ja", "zh-TW", "en"])).toBe("zh-TW");
+        expect(detectLanguage(["de-CH", "fr"])).toBe("de");
         expect(detectLanguage(["ja-JP", "en-US"])).toBe("en");
     });
 
     it("falls back to English when nothing is supported", () => {
-        expect(detectLanguage(["de", "fr", "ja"])).toBe("en");
+        expect(detectLanguage(["ja", "ko", "it"])).toBe("en");
         expect(detectLanguage([])).toBe("en");
     });
 

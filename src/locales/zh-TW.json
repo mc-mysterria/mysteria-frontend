@@ -34,7 +34,7 @@
     "heroEyebrowBefore": "一座",
     "heroEyebrowBrand": "詭秘之主",
     "heroEyebrowAfter": "主題 Minecraft 伺服器",
-    "heroTagline": "服下魔藥，扮演角色，從序列9一路攀向神位——在灰霧將你吞沒之前。",
+    "heroTagline": "服下魔藥，扮演角色，從序列9一路攀向神位--在灰霧將你吞沒之前。",
     "heroPrimaryCta": "啟程",
     "heroSecondaryCta": "選擇途徑",
     "serverIpLabel": "伺服器 IP",
@@ -45,11 +45,11 @@
     "statCountdown": "距下個賽季",
     "circleEyebrow": "空想之環",
     "circleTitle": "原著中的每一種力量，都可實際遊玩。",
-    "circleLede": "我們自研的外掛完整實現了非凡者力量體系——22 條途徑、魔藥、儀式、扮演與失控。無需任何模組即可遊玩；客戶端伴隨模組則會補上視覺效果。",
+    "circleLede": "我們自研的外掛完整實現了非凡者力量體系--22 條途徑、魔藥、儀式、扮演與失控。無需任何模組即可遊玩；客戶端伴隨模組則會補上視覺效果。",
     "circleStepOneTitle": "尋得配方",
     "circleStepOneBody": "搜刮會自動補充的箱子、與其他玩家交易，或獵殺神秘生物，以獲取 22 條途徑中任意一條的序列9魔藥配方。",
     "circleStepTwoTitle": "配製並服下魔藥",
-    "circleStepTwoBody": "收集主材料，操作鍊金鍋，然後嚥下自己的命運。能力是真實的，靈性消耗也是真實的——若你貪快，失控同樣真實。",
+    "circleStepTwoBody": "收集主材料，操作鍊金鍋，然後嚥下自己的命運。能力是真實的，靈性消耗也是真實的--若你貪快，失控同樣真實。",
     "circleStepThreeTitle": "扮演你的角色，然後晉升。",
     "circleStepThreeBody": "以序列所指定的角色生活，藉此消化魔藥。舉行儀式、完成扮演，在長達一個賽季的旅途中從序列9攀至序列0。",
     "tarotEyebrow": "非凡者檔案",
@@ -59,13 +59,13 @@
     "tarotCtaCount": "22 條途徑",
     "observatoryEyebrow": "觀星台",
     "observatoryTitle": "一個由 {count} 位非凡者構成的鮮活世界",
-    "observatoryLede": "本賽季每一位已覺醒玩家的即時統計——他們行走於哪條途徑，又攀到了多高。資料每小時自伺服器更新。",
+    "observatoryLede": "本賽季每一位已覺醒玩家的即時統計--他們行走於哪條途徑，又攀到了多高。資料每小時自伺服器更新。",
     "observatoryAdvanced": "高序列（序列0–3）",
     "observatoryAverage": "平均序列",
     "observatoryActive": "活躍途徑",
     "observatoryPanelTitle": "最多人行走的途徑",
     "observatoryPanelNote": "本賽季",
-    "observatoryRegistryCta": "序列3–0 席位有限——檢視晉升名錄",
+    "observatoryRegistryCta": "序列3–0 席位有限--檢視晉升名錄",
     "newsEyebrow": "自灰霧之後",
     "newsTitle": "最新訊報",
     "newsAll": "全部新聞",
@@ -82,7 +82,7 @@
   "companion": {
     "eyebrow": "伴隨模組",
     "title": "COI 客戶端",
-    "lede": "Mysterria 在原版 Minecraft 客戶端上就能完美執行——所有非凡者機制都在服務端。COI 客戶端是一個小巧的可選模組，只補上原版客戶端畫不出來的那一樣東西：魔法本身。",
+    "lede": "Mysterria 在原版 Minecraft 客戶端上就能完美執行--所有非凡者機制都在服務端。COI 客戶端是一個小巧的可選模組，只補上原版客戶端畫不出來的那一樣東西：魔法本身。",
     "featureHotkeysTitle": "以鍵盤施法",
     "featureHotkeysBody": "把能力綁定到快捷鍵，戰鬥中無需開啟任何選單即可施放。",
     "featureVisualsTitle": "看見你的途徑",
@@ -92,7 +92,7 @@
     "downloadEyebrow": "獲取模組",
     "platformNote": "最新版本 · 與伺服器資源包一同安裝",
     "optionalLabel": "可選",
-    "optional": "伺服器上沒有任何內容需要該模組才能解鎖，我們也絕不會要求你安裝它。挑你本來就在用的平台即可——三者提供的是同一個構建。"
+    "optional": "伺服器上沒有任何內容需要該模組才能解鎖，我們也絕不會要求你安裝它。挑你本來就在用的平台即可--三者提供的是同一個構建。"
   },
   "guidePage": {
     "joinNoMods": "無需任何客戶端模組",
@@ -101,7 +101,7 @@
     "joinCompanion": "想要視覺效果？獲取 COI 客戶端",
     "checklistEyebrow": "最初一小時",
     "checklistTitle": "從伺服器列表到你的第一個目標，共六步",
-    "checklistLede": "邊做邊勾選——進度會儲存在這台裝置上。",
+    "checklistLede": "邊做邊勾選--進度會儲存在這台裝置上。",
     "checklistProgress": "進度",
     "topicsCount": "個主題",
     "noTopics": "沒有主題符合該關鍵詞。請瀏覽下方全部內容。",
@@ -110,7 +110,7 @@
   "shopPage": {
     "eyebrow": "聖物庫",
     "title": "永夜珍品",
-    "lede": "支援伺服器，但絕不購買力量。這裡的一切都是外觀、便利，或是向管理團隊發起委託的途徑——序列攀登始終神聖不可侵犯。",
+    "lede": "支援伺服器，但絕不購買力量。這裡的一切都是外觀、便利，或是向管理團隊發起委託的途徑--序列攀登始終神聖不可侵犯。",
     "tabAll": "全部貨品",
     "showing": "已顯示 {shown} / {total} 件顯化",
     "giftable": "所有貨品均可贈送給其他玩家",
@@ -158,8 +158,8 @@
   "rulesPage": {
     "eyebrow": "契約",
     "lede": "簡短、易讀，靠判斷力而非指令碼來執行。若有疑慮，請記住：不要毀掉別人的一天。",
-    "appeals": "申訴一律透過 Discord 工單處理——絕不在公共聊天中進行。",
-    "staffNote": "這是玩家契約。管理團隊另有一套更嚴格的準則——該頁面僅對管理團隊帳戶顯示。",
+    "appeals": "申訴一律透過 Discord 工單處理--絕不在公共聊天中進行。",
+    "staffNote": "這是玩家契約。管理團隊另有一套更嚴格的準則--該頁面僅對管理團隊帳戶顯示。",
     "severityWarn": "警告",
     "severityMute": "禁言",
     "severityBan": "封禁",
@@ -168,7 +168,7 @@
   "staffOrder": {
     "eyebrow": "灰霧守望者",
     "title": "修會",
-    "lede": "維持這個世界運轉的管理員、監督員與建築師。工單與申訴請在 Discord 聯絡他們——切勿傳送私訊。",
+    "lede": "維持這個世界運轉的管理員、監督員與建築師。工單與申訴請在 Discord 聯絡他們--切勿傳送私訊。",
     "helpQuestion": "需要幫助，或想舉報什麼？",
     "openTicket": "提交工單"
   },
@@ -189,7 +189,7 @@
     "noResults": "檔案中沒有找到任何內容。",
     "noAbilities": "沒有匹配的能力",
     "trySearch": "試試其他關鍵詞，或清空搜尋框。",
-    "registryCta": "序列3–0 席位有限——檢視即時空缺",
+    "registryCta": "序列3–0 席位有限--檢視即時空缺",
     "lastUpdated": "最後更新",
     "dataDisclaimer": "部分內容可能與當前遊戲版本略有差異",
     "searchLabel": "檢索檔案",
@@ -200,10 +200,10 @@
   "ascensionPage": {
     "eyebrow": "高序列名錄",
     "title": "晉升之座",
-    "subtitle": "序列4 之上，階梯陡然收窄：每條途徑同時只能容納這麼多位非凡者。在選定自己的道路之前，先看看誰已攀上高位——以及哪一座王座仍然空懸。",
+    "subtitle": "序列4 之上，階梯陡然收窄：每條途徑同時只能容納這麼多位非凡者。在選定自己的道路之前，先看看誰已攀上高位--以及哪一座王座仍然空懸。",
     "archiveLink": "在檔案中研讀各條途徑",
     "epochTitle": "紀元終將輪轉",
-    "epochBody": "新的紀元開啟時，所有非凡者都會被重置，這些席位也將全部空出。下方已被佔據的一切，都只是暫時屬於某人——新紀元一到，眾人將重新爭奪這些王座。",
+    "epochBody": "新的紀元開啟時，所有非凡者都會被重置，這些席位也將全部空出。下方已被佔據的一切，都只是暫時屬於某人--新紀元一到，眾人將重新爭奪這些王座。",
     "seatsClaimed": "席位已被佔據",
     "deitiesSeated": "位神靈已登座",
     "pathwaysOpen": "條途徑完全空缺",
@@ -240,7 +240,7 @@
   "logout": "登出",
   "loginWithDiscord": "使用 Discord 登入",
   "processing": "處理中……",
-  "secureLoginDisclaimer": "透過 Discord 安全登入——你的隱私受到保護",
+  "secureLoginDisclaimer": "透過 Discord 安全登入--你的隱私受到保護",
   "purchase": "購買",
   "price": "價格",
   "item": "物品",
@@ -417,7 +417,7 @@
   "dailyBonusCatTitle": "一陣奇異的共鳴……",
   "dailyBonusCatAlt": "一隻神秘的貓",
   "dailyBonusFound": "你找到了商會水晶！獲得 +20 璀璨商會點數。",
-  "dailyBonusAlreadyClaimed": "明天再來吧——今天的水晶已經被領取了。",
+  "dailyBonusAlreadyClaimed": "明天再來吧--今天的水晶已經被領取了。",
   "dailyBonusLinkMinecraft": "請先綁定你的 Minecraft 帳戶，才能領取商會點數。",
   "notifications": {
     "title": "通知",
@@ -432,7 +432,7 @@
       "UNVERIFICATION": "你的 Minecraft 帳戶已被管理團隊解綁。",
       "PUNISHMENT_ISSUED": "你收到了一項{punishmentType}：{reason}",
       "PUNISHMENT_REMOVED": "你的{punishmentType}已被管理團隊撤銷。",
-      "COMMISSION_SLOT_AVAILABLE": "有一個委託名額可用——你可以提交法術重製申請。",
+      "COMMISSION_SLOT_AVAILABLE": "有一個委託名額可用--你可以提交法術重製申請。",
       "COMMISSION_STATUS_CHANGED": "你的委託申請狀態已變更為 {status}。"
     },
     "actions": {
@@ -448,20 +448,20 @@
       "title": "魔法體系委託",
       "price": "每個名額 50 美元",
       "whatIsItLabel": "這是什麼？",
-      "whatIsIt": "一項客製化開發服務，讓魔法使用者可以針對現有法術、機制或能力，申請聚焦且符合設定的調整——先由我們的測試員與開發者審核，再由工程團隊直接實現。",
+      "whatIsIt": "一項客製化開發服務，讓魔法使用者可以針對現有法術、機制或能力，申請聚焦且符合設定的調整--先由我們的測試員與開發者審核，再由工程團隊直接實現。",
       "whatYouCanRequestLabel": "你可以申請什麼",
       "requestOptions": [
-        "每份申請共享 6 點預算——一項重大改動消耗 3 點，一項細微改動消耗 1 點。",
-        "最多 2 項重大改動——一次完整的設定校正重寫、一項能力的平衡重製，或一個新法術／新成長曲線的加入。",
-        "最多 6 項細微改動——小幅數值調整（冷卻、傷害、法力消耗、成長係數）或小幅設定風味修改，可跨一個或多個法術／能力。",
-        "在預算內自由搭配——例如 1 項重大 + 3 項細微正好用滿 6 點，與單獨 2 項重大或 6 項細微相同。"
+        "每份申請共享 6 點預算--一項重大改動消耗 3 點，一項細微改動消耗 1 點。",
+        "最多 2 項重大改動--一次完整的設定校正重寫、一項能力的平衡重製，或一個新法術／新成長曲線的加入。",
+        "最多 6 項細微改動--小幅數值調整（冷卻、傷害、法力消耗、成長係數）或小幅設定風味修改，可跨一個或多個法術／能力。",
+        "在預算內自由搭配--例如 1 項重大 + 3 項細微正好用滿 6 點，與單獨 2 項重大或 6 項細微相同。"
       ],
       "requirementsLabel": "每份申請都必須",
       "requirements": [
-        "有正當理由——說明其背後的玩法或設定考量。",
-        "符合設定——立足於既有的世界觀／原作素材，而非憑空創造。",
-        "非根本性——不涉及核心系統重製或架構變更。",
-        "顧及近期工作——不要僅因為想換個思路，就申請重做一個近期已被重製、目前狀態良好且平衡的法術／能力。若它確實自那以後變得失衡、過時或損壞——無論上一次是誰改動的——都可以正當申請。"
+        "有正當理由--說明其背後的玩法或設定考量。",
+        "符合設定--立足於既有的世界觀／原作素材，而非憑空創造。",
+        "非根本性--不涉及核心系統重製或架構變更。",
+        "顧及近期工作--不要僅因為想換個思路，就申請重做一個近期已被重製、目前狀態良好且平衡的法術／能力。若它確實自那以後變得失衡、過時或損壞--無論上一次是誰改動的--都可以正當申請。"
       ],
       "howItWorksLabel": "流程如何運作",
       "howItWorksSteps": [
@@ -470,7 +470,7 @@
         "通過的申請會被排期並實現。",
         "上線後你會收到通知。"
       ],
-      "note": "超出上述範圍的申請會被拆分為多份委託——在進一步收費之前，我們會明確告知你需要幾份。"
+      "note": "超出上述範圍的申請會被拆分為多份委託--在進一步收費之前，我們會明確告知你需要幾份。"
     },
     "status": {
       "PENDING_REVIEW": "待審核",
@@ -499,13 +499,13 @@
       "slotLabel": "委託名額",
       "budgetLabel": "預算",
       "budgetUsedFormat": "已用 {used} / {max}",
-      "budgetHint": "一項重大改動消耗 3 點，一項細微改動消耗 1 點——6 點預算可自由分配。",
-      "budgetOverBudget": "已超出預算——請移除一項改動或縮小範圍。",
+      "budgetHint": "一項重大改動消耗 3 點，一項細微改動消耗 1 點--6 點預算可自由分配。",
+      "budgetOverBudget": "已超出預算--請移除一項改動或縮小範圍。",
       "pointsUnit": "點",
       "majorSectionTitle": "重大改動",
-      "majorSectionHint": "最多 2 項——完整的設定重寫、平衡重製，或新法術／新成長曲線的加入。",
+      "majorSectionHint": "最多 2 項--完整的設定重寫、平衡重製，或新法術／新成長曲線的加入。",
       "minorSectionTitle": "細微改動",
-      "minorSectionHint": "最多 6 項——小幅數值調整或設定風味修改。",
+      "minorSectionHint": "最多 6 項--小幅數值調整或設定風味修改。",
       "emptyStateHint": "在下方新增一項重大或細微改動，以使用你的預算。",
       "majorChangeLabel": "重大改動",
       "addMajorChange": "新增重大改動",

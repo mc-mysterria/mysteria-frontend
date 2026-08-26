@@ -4,7 +4,7 @@ import type {VercelRequest, VercelResponse} from '@vercel/node';
  * Self-contained on purpose: Vercel compiles this file natively as a per-file
  * ESM module, so a relative runtime import (e.g. from a shared ../server/
  * module) dies with ERR_MODULE_NOT_FOUND in production. The dev middleware in
- * vite.config.ts imports loadBeyonderStats from here instead — the @vercel/node
+ * vite.config.ts imports loadBeyonderStats from here instead - the @vercel/node
  * import above is type-only and gets erased when the config is bundled.
  *
  * Only pre-aggregated counts ever leave this module; the per-player roster

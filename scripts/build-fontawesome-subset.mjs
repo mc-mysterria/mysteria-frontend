@@ -1,7 +1,7 @@
 /*
  * Generates src/assets/fontawesome-subset.css.
  *
- * The site used to pull the whole Font Awesome stylesheet from cdnjs — an extra
+ * The site used to pull the whole Font Awesome stylesheet from cdnjs - an extra
  * DNS + TLS handshake to a third party, ~30 KB gzipped of CSS for a few dozen
  * icons, and icons that could only paint once a remote webfont arrived.
  *
@@ -62,7 +62,7 @@ const full = fs.readFileSync(path.join(faRoot, "css/all.css"), "utf8");
 
 /*
  * Since 6.6 the glyph is carried by a `--fa` custom property rather than a
- * `content:` declaration — `.fa-route { --fa: "\f4d7"; }` — and one shared
+ * `content:` declaration - `.fa-route { --fa: "\f4d7"; }` - and one shared
  * `::before` rule pipes it into `content`.
  */
 const glyphs = new Map();

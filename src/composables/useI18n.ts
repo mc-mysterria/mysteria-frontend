@@ -113,8 +113,9 @@ export function useI18n() {
         tree,
         /**
          * Picks the right plural form for a count under the active locale's
-         * rule. English needs one/many, Ukrainian the Slavic one/few/many, and
-         * Chinese has no plural - so callers just supply all three forms.
+         * rule. English/German/Spanish/French use one/many, Romanian and
+         * Ukrainian each use their own one/few/many rule, and Chinese has no
+         * plural - so callers just supply all three forms.
          */
         plural: (count: number, forms: { one: string; few: string; many: string }): string => {
             switch (locale.value.pluralStyle) {
@@ -126,6 +127,13 @@ export function useI18n() {
                     if (mod10 === 1 && mod100 !== 11) return forms.one;
                     if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms.few;
                     return forms.many;
+                }
+                case "romanian": {
+                    if (count === 1) return forms.one;
+                    const mod100 = count % 100;
+                    return count === 0 || (mod100 >= 2 && mod100 <= 19)
+                        ? forms.few
+                        : forms.many;
                 }
                 default:
                     return count === 1 ? forms.one : forms.many;

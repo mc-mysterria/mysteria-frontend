@@ -1,55 +1,55 @@
 {
-  "pathwayTitle": "{name} Pathway - Sequences & Abilities | Mysterria",
-  "pathwayIndexTitle": "Pathways & Sequences - Beyonder Archive | Mysterria",
-  "pathwayDescription": "Explore the {name} Pathway from Sequence {first} {firstSeq} to Sequence {final} {finalSeq}. Discover {abilities} abilities available on Mysterria.",
-  "pathwayIndexDescription": "Explore all {count} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.",
-  "pathwaySigilAlt": "{name} Pathway symbol",
-  "pathwayIndexAlt": "Mysterria Beyonder Pathways",
-  "redirecting": "Redirecting to",
+  "pathwayTitle": "Sendero de {name}: secuencias y habilidades | Mysterria",
+  "pathwayIndexTitle": "Senderos y secuencias: Archivo de Trascendentes | Mysterria",
+  "pathwayDescription": "Explora el Sendero de {name}, desde la Secuencia {first} {firstSeq} hasta la Secuencia {final} {finalSeq}. Descubre las {abilities} habilidades disponibles en Mysterria.",
+  "pathwayIndexDescription": "Explora los {count} Senderos Trascendentes, sus nombres de Secuencia y todas las habilidades disponibles en Mysterria.",
+  "pathwaySigilAlt": "Símbolo del Sendero de {name}",
+  "pathwayIndexAlt": "Senderos Trascendentes de Mysterria",
+  "redirecting": "Redirigiendo a",
   "pages": {
     "rules": {
-      "title": "Server Rules - Mysterria",
-      "description": "Read the rules and guidelines for playing on Mysterria, the Lord of the Mysteries inspired Minecraft server. Learn about our community standards and gameplay policies."
+      "title": "Reglas del servidor | Mysterria",
+      "description": "Lee las reglas y pautas para jugar en Mysterria, el servidor de Minecraft inspirado en Lord of the Mysteries. Conoce las normas de la comunidad y las políticas de juego."
     },
     "store": {
-      "title": "Store - Mysterria",
-      "description": "Support Mysterria and unlock exclusive perks! Browse our store for ranks, items, and special features for the Lord of the Mysteries Minecraft server."
+      "title": "Tienda | Mysterria",
+      "description": "¡Apoya a Mysterria y desbloquea ventajas exclusivas! Explora nuestra tienda de rangos, objetos y funciones especiales para el servidor de Minecraft de Lord of the Mysteries."
     },
     "ascension": {
-      "title": "Ascension Registry - Mysterria",
-      "description": "Live seat availability for the high Sequences on Mysterria: every pathway seats at most 18 Saints, 9 Angels, 3 Archangels and a single Deity. See which thrones are taken before you climb."
+      "title": "Registro de Ascensos | Mysterria",
+      "description": "Disponibilidad en vivo de los puestos de las Secuencias altas de Mysterria: cada sendero admite como máximo 18 Santos, 9 Ángeles, 3 Arcángeles y una sola Deidad. Mira qué tronos están ocupados antes de ascender."
     },
     "guide": {
-      "title": "Getting Started Guide - Mysterria",
-      "description": "New to Mysterria? Learn how to get started on our Lord of the Mysteries inspired server. Discover Pathways, Sequences, and mystical adventures."
+      "title": "Guía para empezar | Mysterria",
+      "description": "¿Eres nuevo en Mysterria? Aprende a empezar en nuestro servidor inspirado en Lord of the Mysteries. Descubre Senderos, Secuencias y aventuras místicas."
     },
     "profile": {
-      "title": "Your Profile - Mysterria",
-      "description": "View and manage your Mysterria profile. Track your progress through Sequences and Pathways on our Lord of the Mysteries Minecraft server."
+      "title": "Tu perfil | Mysterria",
+      "description": "Consulta y administra tu perfil de Mysterria. Sigue tu progreso por las Secuencias y Senderos en nuestro servidor de Minecraft de Lord of the Mysteries."
     },
     "news": {
-      "title": "Dispatches - Mysterria",
-      "description": "Patch notes, season announcements and dispatches from Mysterria, the Lord of the Mysteries Minecraft server."
+      "title": "Comunicados | Mysterria",
+      "description": "Notas de actualización, anuncios de temporada y comunicados de Mysterria, el servidor de Minecraft de Lord of the Mysteries."
     },
     "staff": {
-      "title": "The Order - Mysterria",
-      "description": "The admins, moderators and builders who keep the world running. Reach them on Discord for tickets and appeals, never in DMs."
+      "title": "La Orden | Mysterria",
+      "description": "Administradores, moderadores y constructores que mantienen el mundo en marcha. Contáctalos por Discord para tickets y apelaciones, nunca por MD."
     },
     "terms": {
-      "title": "Terms of Service - Mysterria",
-      "description": "The terms of service for Mysterria, the Lord of the Mysteries inspired Minecraft server."
+      "title": "Términos de servicio | Mysterria",
+      "description": "Los términos de servicio de Mysterria, el servidor de Minecraft inspirado en Lord of the Mysteries."
     },
     "privacy": {
-      "title": "Privacy - Mysterria",
-      "description": "How Mysterria handles your account data, Discord linkage and cookies."
+      "title": "Privacidad | Mysterria",
+      "description": "Cómo gestiona Mysterria los datos de tu cuenta, la vinculación con Discord y las cookies."
     },
     "sla": {
-      "title": "SLA - Mysterria",
-      "description": "Uptime commitments and service expectations for the Mysterria Minecraft server."
+      "title": "SLA | Mysterria",
+      "description": "Compromisos de disponibilidad y expectativas de servicio para el servidor de Minecraft Mysterria."
     },
     "default": {
-      "title": "Mysterria - Lord of the Mysteries Minecraft Server",
-      "description": "Drink the potion. Act the role. Climb 22 Beyonder Pathways from Sequence 9 toward godhood on a Lord of the Mysteries Minecraft server."
+      "title": "Mysterria: servidor de Minecraft de Lord of the Mysteries",
+      "description": "Bebe la pócima. Interpreta el papel. Asciende por 22 Senderos Trascendentes desde la Secuencia 9 hacia la divinidad en un servidor de Minecraft de Lord of the Mysteries."
     }
   }
 }

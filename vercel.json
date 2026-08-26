@@ -199,7 +199,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/pathways/:pathway",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/pathways/:pathway",
       "has": [
         {
           "type": "header",
@@ -210,7 +210,7 @@
       "destination": "/api/meta-proxy?path=pathways/:pathway&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/pathways",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/pathways",
       "has": [
         {
           "type": "header",
@@ -221,7 +221,7 @@
       "destination": "/api/meta-proxy?path=pathways&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/news/:locale/:slug",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/news/:locale/:slug",
       "has": [
         {
           "type": "header",
@@ -232,7 +232,7 @@
       "destination": "/api/meta-proxy?path=news/:locale/:slug&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/news/:slug",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/news/:slug",
       "has": [
         {
           "type": "header",
@@ -243,7 +243,7 @@
       "destination": "/api/meta-proxy?path=news/:slug&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/rules",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/rules",
       "has": [
         {
           "type": "header",
@@ -254,7 +254,7 @@
       "destination": "/api/meta-proxy?path=rules&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/store",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/store",
       "has": [
         {
           "type": "header",
@@ -265,7 +265,7 @@
       "destination": "/api/meta-proxy?path=store&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/guide",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/guide",
       "has": [
         {
           "type": "header",
@@ -276,7 +276,7 @@
       "destination": "/api/meta-proxy?path=guide&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/ascension",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/ascension",
       "has": [
         {
           "type": "header",
@@ -287,7 +287,7 @@
       "destination": "/api/meta-proxy?path=ascension&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/profile",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/profile",
       "has": [
         {
           "type": "header",
@@ -298,7 +298,7 @@
       "destination": "/api/meta-proxy?path=profile&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/services/:slug",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/services/:slug",
       "has": [
         {
           "type": "header",
@@ -309,7 +309,7 @@
       "destination": "/api/meta-proxy?path=services/:slug&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/news",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/news",
       "has": [
         {
           "type": "header",
@@ -320,7 +320,7 @@
       "destination": "/api/meta-proxy?path=news&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/staff",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/staff",
       "has": [
         {
           "type": "header",
@@ -331,7 +331,7 @@
       "destination": "/api/meta-proxy?path=staff&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/terms",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/terms",
       "has": [
         {
           "type": "header",
@@ -342,7 +342,7 @@
       "destination": "/api/meta-proxy?path=terms&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/privacy",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/privacy",
       "has": [
         {
           "type": "header",
@@ -353,7 +353,7 @@
       "destination": "/api/meta-proxy?path=privacy&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/sla",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/sla",
       "has": [
         {
           "type": "header",
@@ -364,7 +364,7 @@
       "destination": "/api/meta-proxy?path=sla&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)",
       "has": [
         {
           "type": "header",
@@ -375,7 +375,7 @@
       "destination": "/api/meta-proxy?path=home&lang=:lang"
     },
     {
-      "source": "/:lang(en|uk|zh-CN|zh-TW)/api/meta-proxy",
+      "source": "/:lang(en|uk|ro|de|es|fr|zh-CN|zh-TW)/api/meta-proxy",
       "destination": "/api/meta-proxy?lang=:lang"
     },
     {
@@ -477,6 +477,54 @@
         }
       ],
       "destination": "/uk",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^\\s*ro.*"
+        }
+      ],
+      "destination": "/ro",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^\\s*de.*"
+        }
+      ],
+      "destination": "/de",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^\\s*es.*"
+        }
+      ],
+      "destination": "/es",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^\\s*fr.*"
+        }
+      ],
+      "destination": "/fr",
       "permanent": false
     },
     {

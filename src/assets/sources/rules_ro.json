@@ -1,210 +1,210 @@
 [
   {
     "id": "1",
-    "title": "Corruption of Spirit (Chat & Communication)",
-    "content": "Words, sounds, and messages shape the atmosphere of Mysterria. Whether you speak in Minecraft chat, Discord, or private DMs, keep them clean and respectful."
+    "title": "Coruperea spiritului (chat și comunicare)",
+    "content": "Cuvintele, sunetele și mesajele modelează atmosfera Mysterriei. Fie că vorbești în chatul Minecraft, pe Discord sau prin mesaje private, păstrează-le curate și respectuoase."
   },
   {
     "id": "1.1",
-    "title": "Toxicity & Harassment",
-    "content": "Flaming, bullying, or harassing others is not allowed. This includes constant arguing to provoke people, personal insults, and targeting someone repeatedly. Example: calling someone trash every time they speak = warnable offense.",
+    "title": "Toxicitate și hărțuire",
+    "content": "Nu sunt permise atacurile verbale, intimidarea sau hărțuirea altora. Aceasta include certurile constante menite să provoace oameni, insultele personale și vizarea repetată a cuiva. Exemplu: să numești pe cineva „jalnic” de fiecare dată când vorbește = abatere care atrage avertisment.",
     "severity": "warn"
   },
   {
     "id": "1.2",
-    "title": "Swearing & Vulgarity",
-    "content": "Mild swearing is fine, but excessive profanity, sexual jokes, or constant foul language are not. Example: saying 'damn' in frustration is okay, spamming f-bombs or sexual comments is not.",
+    "title": "Înjurături și vulgaritate",
+    "content": "Înjurăturile ușoare sunt acceptabile, însă profanitatea excesivă, glumele sexuale sau limbajul obscen constant nu sunt. Exemplu: să spui „la naiba” din frustrare este în regulă; spamul cu înjurături grele sau comentarii sexuale nu este.",
     "severity": "warn"
   },
   {
     "id": "1.3",
-    "title": "Spam & Noise",
-    "content": "Do not spam chat or flood voice channels. This includes repeating the same message, mic spamming, or abusing soundboards. Example: spamming 'ez' in chat or blasting loud noises in VC = punishable.",
+    "title": "Spam și zgomot",
+    "content": "Nu face spam în chat și nu inunda canalele vocale. Aceasta include repetarea aceluiași mesaj, spamul la microfon sau abuzarea soundboardurilor. Exemplu: spamul cu „ez” în chat sau redarea de zgomote puternice pe VC = sancționabil.",
     "severity": "mute"
   },
   {
     "id": "1.4",
-    "title": "Private Harassment",
-    "content": "Harassing people in DMs (Minecraft or Discord) counts just the same as public harassment. Example: sending 20 messages to annoy someone after they told you to stop = warn.",
+    "title": "Hărțuire în privat",
+    "content": "Hărțuirea oamenilor prin mesaje private (Minecraft sau Discord) este tratată la fel ca hărțuirea publică. Exemplu: să trimiți 20 de mesaje ca să enervezi pe cineva după ce ți-a spus să te oprești = avertisment.",
     "severity": "warn"
   },
   {
     "id": "1.5",
-    "title": "Names & Avatars",
-    "content": "Nicknames, avatars, or skins with offensive, extremist, or NSFW content are forbidden. Example: Nazi skins, hentai profile pics, or racist usernames = instant action by staff.",
+    "title": "Nume și avatare",
+    "content": "Sunt interzise poreclele, avatarele sau skinurile cu conținut ofensator, extremist ori NSFW. Exemplu: skinuri naziste, poze de profil hentai sau nume de utilizator rasiste = acțiune imediată din partea echipei.",
     "severity": "instant"
   },
   {
     "id": "2",
-    "title": "Profane Creations (Builds & World Behavior)",
-    "content": "What you create in Mysterria must not harm others or the world itself."
+    "title": "Creații profane (construcții și comportament în lume)",
+    "content": "Ceea ce creezi în Mysterria nu trebuie să facă rău altora sau lumii înseși."
   },
   {
     "id": "2.1",
-    "title": "Offensive Builds & Content",
-    "content": "No extremist symbols, sexual structures, or other offensive builds. Example: swastikas, inappropriate statues, or extremist banners = instant removal + punishment.",
+    "title": "Construcții și conținut ofensator",
+    "content": "Fără simboluri extremiste, structuri sexuale sau alte construcții ofensatoare. Exemplu: svastici, statui nepotrivite sau bannere extremiste = eliminare imediată + sancțiune.",
     "severity": "instant"
   },
   {
     "id": "2.2",
-    "title": "Griefing & Stealing",
-    "content": "Breaking builds, stealing items, or trolling others without consent is forbidden. Example: destroying a house or taking chest loot that isn’t yours = punishable.",
+    "title": "Griefing și furt",
+    "content": "Este interzis să distrugi construcții, să furi obiecte sau să trollezi alți jucători fără consimțământ. Exemplu: distrugerea unei case sau luarea prăzii dintr-un cufăr care nu îți aparține = sancționabil.",
     "severity": "ban"
   },
   {
     "id": "2.3",
-    "title": "Lag & Exploit Machines",
-    "content": "Machines or farms that cause lag (like TNT spam) or unauthorized chunk loaders are not allowed. Example: building a redstone clock to crash the server = ban.",
+    "title": "Mașini de lag și exploituri",
+    "content": "Nu sunt permise mașinile sau fermele care produc lag (precum spamul cu TNT) și nici încărcătoarele de chunkuri neautorizate. Exemplu: construirea unui ceas de redstone pentru a bloca serverul = ban.",
     "severity": "ban"
   },
   {
     "id": "3",
-    "title": "Forbidden Powers (Cheats & Exploits)",
-    "content": "Unfair advantages break the balance of Mysterria. Cheating is never tolerated."
+    "title": "Puteri interzise (cheat-uri și exploituri)",
+    "content": "Avantajele neloiale distrug echilibrul Mysterriei. Trișatul nu este tolerat niciodată."
   },
   {
     "id": "3.1",
-    "title": "Hacks & Cheats",
-    "content": "Using hacks, x-ray, autoclickers, macros, dupes, or bug exploits is an instant permanent ban. Example: x-ray mining for diamonds = permaban.",
+    "title": "Hack-uri și cheat-uri",
+    "content": "Folosirea hack-urilor, x-ray-ului, autoclickerelor, macro-urilor, duplicărilor sau exploit-urilor de buguri duce la ban permanent imediat. Exemplu: minarea diamantelor cu x-ray = ban permanent.",
     "severity": "instant"
   },
   {
     "id": "3.2",
-    "title": "Bug Abuse",
-    "content": "If you find a glitch, report it. Do not abuse it. Example: finding a way to duplicate items and using it = permaban. You will be rewarded for reporting it.",
+    "title": "Abuzarea bugurilor",
+    "content": "Dacă găsești un bug, raportează-l. Nu îl exploata. Exemplu: găsirea și folosirea unei metode de duplicare a obiectelor = ban permanent. Vei fi recompensat dacă îl raportezi.",
     "severity": "ban"
   },
   {
     "id": "4",
-    "title": "Veil & Identity (Privacy & Accounts)",
-    "content": "Respect real-world privacy and keep your account tied to your own soul."
+    "title": "Vălul și identitatea (confidențialitate și conturi)",
+    "content": "Respectă confidențialitatea din lumea reală și păstrează-ți contul legat de propriul suflet."
   },
   {
     "id": "4.1",
-    "title": "Privacy & Doxxing",
-    "content": "Never share personal info (real names, addresses, social media, etc.). Example: leaking someone’s Instagram without permission = instant permaban.",
+    "title": "Confidențialitate și doxxing",
+    "content": "Nu distribui niciodată informații personale (nume reale, adrese, rețele sociale etc.). Exemplu: divulgarea Instagramului cuiva fără permisiune = ban permanent imediat.",
     "severity": "instant"
   },
   {
     "id": "4.2",
-    "title": "Outside Influence",
-    "content": "Don’t use Discord/DMs to manipulate in-game actions unfairly (metagaming). Example: telling your friend over Discord to ambush someone’s base = punishable.",
+    "title": "Influență externă",
+    "content": "Nu folosi Discordul sau mesajele private pentru a manipula neloial acțiunile din joc (metagaming). Exemplu: să-i spui unui prieten pe Discord să atace prin surprindere baza cuiva = sancționabil.",
     "severity": "warn"
   },
   {
     "id": "4.3",
-    "title": "Alt Accounts",
-    "content": "Only one account per person unless approved by staff. Unauthorized alts = permaban. Example: making a second account to avoid a mute = instant ban.",
+    "title": "Conturi alternative",
+    "content": "Este permis un singur cont per persoană, exceptând aprobarea echipei. Conturile alternative neautorizate = ban permanent. Exemplu: crearea unui al doilea cont pentru a evita un mute = ban imediat.",
     "severity": "ban"
   },
   {
     "id": "4.4",
-    "title": "Impersonation",
-    "content": "Do not impersonate staff or other players. Faking evidence or pretending to be a Guardian = permanent ban.",
+    "title": "Uzurparea identității",
+    "content": "Nu te da drept membru al echipei sau alt jucător. Falsificarea dovezilor ori pretinderea că ești un Gardian = ban permanent.",
     "severity": "instant"
   },
   {
     "id": "5",
-    "title": "Respect of Souls (Community Behavior)",
-    "content": "Mysterria thrives on respect. Treat others fairly and keep the community positive."
+    "title": "Respectul sufletelor (comportament în comunitate)",
+    "content": "Mysterria prosperă prin respect. Tratează-i corect pe ceilalți și păstrează o atmosferă pozitivă în comunitate."
   },
   {
     "id": "5.1",
-    "title": "Hate Speech",
-    "content": "Racism, sexism, homophobia, and other hate speech is forbidden. Example: using slurs = instant warn or ban depending on severity.",
+    "title": "Discurs instigator la ură",
+    "content": "Rasismul, sexismul, homofobia și alte forme de discurs instigator la ură sunt interzise. Exemplu: folosirea insultelor discriminatorii = avertisment sau ban imediat, în funcție de gravitate.",
     "severity": "instant"
   },
   {
     "id": "5.2",
-    "title": "False Accusations",
-    "content": "Making false reports against players or staff wastes time and spreads toxicity. Example: faking screenshots to get someone banned = punishable.",
+    "title": "Acuzații false",
+    "content": "Raportările false împotriva jucătorilor sau a echipei irosesc timp și răspândesc toxicitate. Exemplu: falsificarea capturilor de ecran pentru a obține banarea cuiva = sancționabil.",
     "severity": "ban"
   },
   {
     "id": "5.3",
-    "title": "Disrespecting Staff",
-    "content": "Guardians (staff) must be respected. Insulting or trolling staff directly = heavy punishment.",
+    "title": "Lipsa de respect față de echipă",
+    "content": "Gardienii (echipa) trebuie respectați. Insultarea sau trolarea directă a echipei = sancțiune severă.",
     "severity": "warn"
   },
   {
     "id": "5.4",
-    "title": "Drama & Negativity",
-    "content": "Creating drama, spreading negativity, or constantly complaining ruins the atmosphere. Example: repeatedly saying 'this server sucks' = warnable offense.",
+    "title": "Dramă și negativitate",
+    "content": "Crearea de dramă, răspândirea negativității sau plângerile constante strică atmosfera. Exemplu: să spui repetat „serverul ăsta e groaznic” = abatere care atrage avertisment.",
     "severity": "warn"
   },
   {
     "id": "5.5",
-    "title": "Begging & Pestering",
-    "content": "Do not spam staff for free items, ranks, or attention. Example: 'pls gimme op' every 5 minutes = punishable.",
+    "title": "Cerșit și insistență",
+    "content": "Nu face spam echipei pentru obiecte gratuite, ranguri sau atenție. Exemplu: „pls dă-mi op” la fiecare 5 minute = sancționabil.",
     "severity": "warn"
   },
   {
     "id": "5.6",
-    "title": "Black Market",
-    "content": "Trading in-game valuables for real money bypassing the server is strictly prohibited. We respect your entrepreneurial spirit, but please, let’s not turn the server into a marketplace!",
+    "title": "Piața neagră",
+    "content": "Este strict interzis comerțul cu bunuri valoroase din joc pentru bani reali, ocolind serverul. Îți respectăm spiritul antreprenorial, dar te rugăm să nu transformăm serverul într-o piață!",
     "severity": "ban"
   },
   {
     "id": "6",
-    "title": "Ritual Order (Channels & Promotion)",
-    "content": "Stay organized and respect how communication channels are used."
+    "title": "Ordinea ritualului (canale și promovare)",
+    "content": "Păstrează ordinea și respectă modul de utilizare a canalelor de comunicare."
   },
   {
     "id": "6.1",
-    "title": "Stay On-Topic",
-    "content": "Use the right channels for the right discussions. Example: posting memes in #announcements = warn.",
+    "title": "Rămâi la subiect",
+    "content": "Folosește canalele potrivite pentru discuțiile potrivite. Exemplu: postarea de meme-uri în #announcements = avertisment.",
     "severity": "warn"
   },
   {
     "id": "6.2",
-    "title": "Advertising",
-    "content": "No advertising or promotion unless approved by staff. This includes other servers, Discords, or YouTube channels. Example: DMing players your server IP = ban.",
+    "title": "Publicitate",
+    "content": "Nu este permisă publicitatea sau promovarea fără aprobarea echipei. Aceasta include alte servere, servere Discord sau canale YouTube. Exemplu: trimiterea IP-ului serverului tău jucătorilor prin mesaje private = ban.",
     "severity": "ban"
   },
   {
     "id": "7",
-    "title": "Judgment of Guardians (Punishments)",
-    "content": "Punishments are handled through the Warning Path. Some actions bypass it entirely."
+    "title": "Judecata Gardienilor (sancțiuni)",
+    "content": "Sancțiunile sunt gestionate prin Calea avertismentelor. Unele acțiuni ocolesc complet acest sistem."
   },
   {
     "id": "7.1",
-    "title": "The Warning Path",
-    "content": "Each offense = 1 warning. Punishments double each time: mute, longer mute, tempban, longer tempban. 8 warnings = permanent ban. Warnings expire after 6 months.",
+    "title": "Calea avertismentelor",
+    "content": "Fiecare abatere = 1 avertisment. Sancțiunile se dublează de fiecare dată: mute, mute mai lung, ban temporar, ban temporar mai lung. 8 avertismente = ban permanent. Avertismentele expiră după 6 luni.",
     "severity": "warn"
   },
   {
     "id": "7.2",
-    "title": "Instant Permanent Bans",
-    "content": "Some actions lead to instant permaban: hacking, dupes, bug abuse, doxxing, extremist symbols, NSFW builds. No second chances.",
+    "title": "Banuri permanente imediate",
+    "content": "Unele acțiuni duc la ban permanent imediat: hacking, duplicări, abuzarea bugurilor, doxxing, simboluri extremiste, construcții NSFW. Nu există a doua șansă.",
     "severity": "instant"
   },
   {
     "id": "7.3",
-    "title": "Final Authority",
-    "content": "Staff decisions are final. No appeals, no exceptions.",
+    "title": "Autoritate finală",
+    "content": "Deciziile echipei sunt finale. Fără contestații, fără excepții.",
     "severity": "warn"
   },
   {
     "id": "8",
-    "title": "Bounded Realms (Affiliates & External Spaces)",
-    "content": "Our light reaches beyond these walls. Any world tethered to Mysterria must remain a sanctuary for all souls."
+    "title": "Tărâmuri legate (afiliați și spații externe)",
+    "content": "Lumina noastră ajunge dincolo de aceste ziduri. Orice lume legată de Mysterria trebuie să rămână un sanctuar pentru toate sufletele."
   },
   {
     "id": "8.1",
-    "title": "Guardian Presence",
-    "content": "Any server, 'town' (e.g., GHC or PHG), or community published or promoted within Mysterria community must include a Staff member in its ranks. They must be granted audit log access to ensure the safety of our players. Example: Promoting your town’s Discord in our channels requires a moderator to be present in that Discord.",
+    "title": "Prezența unui Gardian",
+    "content": "Orice server, „oraș” (de exemplu GHC sau PHG) ori comunitate publicată sau promovată în comunitatea Mysterria trebuie să includă un membru al echipei. Acesta trebuie să primească acces la jurnalul de audit pentru siguranța jucătorilor noștri. Exemplu: promovarea Discordului orașului tău pe canalele noastre necesită prezența unui moderator pe acel Discord.",
     "severity": "warn"
   },
   {
     "id": "8.2",
-    "title": "Extended Accountability",
-    "content": "Members represent the Mysterria community wherever our connections reach. Severe violations - specifically racism, hate speech (slurs), or doxxing–committed on affiliated servers will result in the same punishments as if they occurred here. Example: Using racial slurs in a town's Discord will result in a ban from the main Mysterria server.",
+    "title": "Responsabilitate extinsă",
+    "content": "Membrii reprezintă comunitatea Mysterria oriunde ajung conexiunile noastre. Încălcările grave - în special rasismul, discursul instigator la ură (insulte discriminatorii) sau doxxingul - comise pe servere afiliate atrag aceleași sancțiuni ca și cum ar fi avut loc aici. Exemplu: folosirea insultelor rasiste pe Discordul unui oraș va duce la banarea de pe serverul principal Mysterria.",
     "severity": "ban"
   },
   {
     "id": "8.3",
-    "title": "Severing the Tie",
-    "content": "If an affiliated server fails to maintain proper moderation standards or refuses Staff oversight, its 'approved' status will be revoked and all associated links will be removed. Example: A town leader who ignores toxicity in their own chat will lose the right to promote their project within Mysterria.",
+    "title": "Ruperea legăturii",
+    "content": "Dacă un server afiliat nu menține standarde corespunzătoare de moderare sau refuză supravegherea echipei, statutul său de „aprobat” va fi retras și toate legăturile asociate vor fi eliminate. Exemplu: un lider de oraș care ignoră toxicitatea din propriul chat pierde dreptul de a-și promova proiectul în Mysterria.",
     "severity": "ban"
   }
 ]

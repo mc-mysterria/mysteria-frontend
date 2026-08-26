@@ -42,7 +42,7 @@ describe("locale-prefixed links", () => {
             for (const match of template.matchAll(RAW_TO)) {
                 const line = template.slice(0, match.index).split("\n").length;
                 const rel = path.relative(VUE_DIR, file).replace(/\\/g, "/");
-                offenders.push(`${rel}:${line} — ${match[0]}… should be :to="$lp('/…')"`);
+                offenders.push(`${rel}:${line} - ${match[0]}… should be :to="$lp('/…')"`);
             }
         }
 

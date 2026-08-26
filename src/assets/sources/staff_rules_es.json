@@ -1,178 +1,178 @@
 [
   {
-    "group": "General Staff Rules",
+    "group": "Reglas generales del equipo",
     "rules": [
       {
         "id": "G1",
-        "title": "Double Life Usage",
-        "content": "Staff must only use the Double Life mode for administrative duties (ticket handling, bug investigation, helping players). It must never be used for personal gain, resource collection, or teleportation for fun. Every action is logged and reviewed.",
-        "examples": "Allowed: teleporting to verify a bug report. Disallowed: teleporting to a friend’s base or giving yourself loot."
+        "title": "Uso de Double Life",
+        "content": "El equipo solo debe usar el modo Double Life para tareas administrativas (gestión de tickets, investigación de errores y ayuda a jugadores). Nunca debe usarse para beneficio personal, recolectar recursos ni teletransportarse por diversión. Cada acción queda registrada y se revisa.",
+        "examples": "Permitido: teletransportarse para comprobar un reporte de error. Prohibido: teletransportarse a la base de una amistad o darse botín."
       },
       {
         "id": "G2",
-        "title": "Command and Permission Abuse",
-        "content": "All commands executed in Double Life mode are logged. Using powers for personal advantage, to punish without reason, or to benefit friends will result in a council trial.",
-        "examples": "Allowed: using /ban on a confirmed hacker. Disallowed: using /ban on someone because of a personal argument."
+        "title": "Abuso de comandos y permisos",
+        "content": "Todos los comandos ejecutados en modo Double Life quedan registrados. Usar poderes para obtener ventaja personal, castigar sin motivo o favorecer a amistades dará lugar a una revisión del consejo.",
+        "examples": "Permitido: usar /ban contra un hacker confirmado. Prohibido: usar /ban contra alguien por una discusión personal."
       },
       {
         "id": "G3",
-        "title": "Stability First",
-        "content": "Any file edits or configuration changes must be backed up before applying to production servers. Never apply untested changes directly without a backup.",
-        "examples": "Allowed: save the old config to your PC, then apply edits. Disallowed: directly editing configs on the live server with no backup."
+        "title": "La estabilidad primero",
+        "content": "Toda edición de archivos o cambio de configuración debe tener una copia de seguridad antes de aplicarse a los servidores de producción. Nunca apliques cambios sin probar directamente y sin respaldo.",
+        "examples": "Permitido: guardar la configuración anterior en tu PC y después aplicar las ediciones. Prohibido: editar configuraciones directamente en el servidor activo sin copia de seguridad."
       },
       {
         "id": "G4",
-        "title": "Testing Before Deploy",
-        "content": "All plugin or configuration changes must be tested on a test server first. Production servers must remain stable.",
-        "examples": "Allowed: testing a new recipe system on test server. Disallowed: adding untested code directly to production."
+        "title": "Pruebas antes del despliegue",
+        "content": "Todos los cambios de plugins o configuración deben probarse primero en un servidor de pruebas. Los servidores de producción deben mantenerse estables.",
+        "examples": "Permitido: probar un nuevo sistema de recetas en el servidor de pruebas. Prohibido: añadir código sin probar directamente a producción."
       },
       {
         "id": "G5",
-        "title": "No Hidden Mechanics",
-        "content": "Staff must not create or use hidden mechanics available only to themselves or a small circle. New features must be released officially for all players.",
-        "examples": "Allowed: releasing a new potion recipe in a patch. Disallowed: keeping a secret command for personal use."
+        "title": "Sin mecánicas ocultas",
+        "content": "El equipo no debe crear ni usar mecánicas ocultas disponibles solo para sí o para un círculo reducido. Las funciones nuevas deben publicarse oficialmente para todos los jugadores.",
+        "examples": "Permitido: publicar una nueva receta de pócima en una actualización. Prohibido: conservar un comando secreto para uso personal."
       },
       {
         "id": "G6",
-        "title": "Secrecy of Internal Knowledge",
-        "content": "Do not leak unreleased information (mechanics, recipes, exploits, configs) outside staff channels.",
-        "examples": "Allowed: confirming in a ticket if a recipe works. Disallowed: sending a friend the full recipe list."
+        "title": "Confidencialidad de la información interna",
+        "content": "No filtres información no publicada (mecánicas, recetas, exploits o configuraciones) fuera de los canales del equipo.",
+        "examples": "Permitido: confirmar en un ticket si una receta funciona. Prohibido: enviar a una amistad la lista completa de recetas."
       },
       {
         "id": "G7",
-        "title": "Conflict Resolution",
-        "content": "If unsure about a decision, escalate it to admins, developers, or the council. Never act on uncertainty alone.",
-        "examples": "Allowed: pausing an issue and asking higher-ups for advice. Disallowed: implementing a controversial change without discussion."
+        "title": "Resolución de conflictos",
+        "content": "Si no tienes certeza sobre una decisión, escálala a administradores, desarrolladores o al consejo. Nunca actúes por tu cuenta ante la duda.",
+        "examples": "Permitido: pausar un asunto y pedir consejo a responsables superiores. Prohibido: implementar un cambio polémico sin debatirlo."
       },
       {
         "id": "G8",
-        "title": "Bug Handling",
-        "content": "Do not try to hotfix serious bugs on the live server without a plan. Report to the team, design a fix, and test it.",
-        "examples": "Allowed: disabling a broken plugin temporarily while discussing fix. Disallowed: rewriting parts of a plugin directly on live."
+        "title": "Gestión de errores",
+        "content": "No intentes corregir errores graves sobre la marcha en el servidor activo sin un plan. Repórtalos al equipo, diseña una solución y pruébala.",
+        "examples": "Permitido: desactivar temporalmente un plugin roto mientras se debate la solución. Prohibido: reescribir partes de un plugin directamente en producción."
       },
       {
         "id": "G9",
-        "title": "Git & Collaboration",
-        "content": "Never use force pushes or destructive commands on shared repositories. Document commits clearly and preserve others’ work.",
-        "examples": "Allowed: using merge commits and pull requests. Disallowed: `git push --force` deleting others’ changes."
+        "title": "Git y colaboración",
+        "content": "Nunca uses force push ni comandos destructivos en repositorios compartidos. Documenta claramente los commits y conserva el trabajo de los demás.",
+        "examples": "Permitido: usar merge commits y pull requests. Prohibido: usar `git push --force` para eliminar cambios de otras personas."
       }
     ]
   },
   {
-    "group": "Developers",
+    "group": "Desarrolladores",
     "rules": [
       {
         "id": "D1",
-        "title": "Independence & Responsibility",
-        "content": "Developers may implement features independently but must ensure stability and documentation."
+        "title": "Independencia y responsabilidad",
+        "content": "Los desarrolladores pueden implementar funciones de forma independiente, pero deben garantizar la estabilidad y la documentación."
       },
       {
         "id": "D2",
-        "title": "Code Quality",
-        "content": "All code must be clean, maintainable, and documented. Changes should be understandable to other developers.",
-        "examples": "Allowed: commenting on complex logic in plugins. Disallowed: pushing unreadable one-line fixes with no explanation."
+        "title": "Calidad del código",
+        "content": "Todo el código debe ser limpio, mantenible y documentado. Los cambios deben poder entenderse por otros desarrolladores.",
+        "examples": "Permitido: comentar la lógica compleja en los plugins. Prohibido: subir correcciones ilegibles de una sola línea sin explicación."
       },
       {
         "id": "D3",
-        "title": "Backups and Versioning",
-        "content": "Always keep backups of critical systems and test before merging changes to production."
+        "title": "Copias de seguridad y versionado",
+        "content": "Conserva siempre copias de seguridad de los sistemas críticos y prueba antes de fusionar cambios en producción."
       },
       {
         "id": "D4",
-        "title": "Communication",
-        "content": "Report major changes, fixes, or refactors to the rest of the dev team. Transparency is mandatory."
+        "title": "Comunicación",
+        "content": "Informa al resto del equipo de desarrollo de los cambios importantes, correcciones o refactorizaciones. La transparencia es obligatoria."
       }
     ]
   },
   {
-    "group": "Trial Developers",
+    "group": "Desarrolladores en prueba",
     "rules": [
       {
         "id": "TD1",
-        "title": "Learning Path",
-        "content": "Trial developers are learners. They are expected to grow by completing tasks assigned by developers and seeking reviews."
+        "title": "Ruta de aprendizaje",
+        "content": "Los desarrolladores en prueba están aprendiendo. Se espera que progresen completando las tareas asignadas por los desarrolladores y solicitando revisiones."
       },
       {
         "id": "TD2",
-        "title": "Weekly Progress",
-        "content": "Trial developers must show weekly progress (tasks completed, learning milestones, code experiments)."
+        "title": "Progreso semanal",
+        "content": "Los desarrolladores en prueba deben mostrar progreso semanal (tareas completadas, hitos de aprendizaje y experimentos de código)."
       },
       {
         "id": "TD3",
-        "title": "Mentorship",
-        "content": "They must request feedback and reviews, learn from resources (such as courses), and communicate openly about difficulties."
+        "title": "Mentoría",
+        "content": "Deben pedir comentarios y revisiones, aprender de recursos como cursos y comunicar abiertamente las dificultades."
       },
       {
         "id": "TD4",
-        "title": "Restrictions",
-        "content": "Trial developers cannot push unreviewed changes to production. All work must be supervised and approved by developers."
+        "title": "Restricciones",
+        "content": "Los desarrolladores en prueba no pueden subir cambios sin revisar a producción. Todo trabajo debe estar supervisado y aprobado por desarrolladores."
       }
     ]
   },
   {
-    "group": "Administrators",
+    "group": "Administradores",
     "rules": [
       {
         "id": "A1",
-        "title": "Server Stability",
-        "content": "Admins oversee the uptime, stability, and core functionality of the servers."
+        "title": "Estabilidad del servidor",
+        "content": "Los administradores supervisan la disponibilidad, estabilidad y funcionalidad principal de los servidores."
       },
       {
         "id": "A2",
-        "title": "Authority of Discipline",
-        "content": "Admins may mute, ban, or strike players, but only with valid reasons. Abuse will be reviewed by council."
+        "title": "Autoridad disciplinaria",
+        "content": "Los administradores pueden silenciar, expulsar o sancionar a jugadores, pero solo por motivos válidos. El abuso será revisado por el consejo."
       },
       {
         "id": "A3",
-        "title": "Overseeing Moderators",
-        "content": "Admins guide moderators, review their actions, and handle escalated cases."
+        "title": "Supervisión de moderadores",
+        "content": "Los administradores orientan a los moderadores, revisan sus acciones y atienden los casos escalados."
       },
       {
         "id": "A4",
-        "title": "Executive Action",
-        "content": "If higher-ups are absent, admins may make executive decisions, but they are subject to later review."
+        "title": "Acción ejecutiva",
+        "content": "Si las personas responsables no están presentes, los administradores pueden tomar decisiones ejecutivas, sujetas a revisión posterior."
       }
     ]
   },
   {
-    "group": "Moderators",
+    "group": "Moderadores",
     "rules": [
       {
         "id": "M1",
-        "title": "Ticket Resolution",
-        "content": "Moderators handle tickets, disputes, and reports fairly and respectfully."
+        "title": "Resolución de tickets",
+        "content": "Los moderadores gestionan tickets, disputas y reportes de forma justa y respetuosa."
       },
       {
         "id": "M2",
-        "title": "Use of Double Life",
-        "content": "Moderators may use Double Life only when required to check a ticket or investigate an issue. It is not for personal use.",
-        "examples": "Allowed: teleporting to confirm a griefing report. Disallowed: teleporting to a friend for fun."
+        "title": "Uso de Double Life",
+        "content": "Los moderadores pueden usar Double Life únicamente cuando sea necesario para revisar un ticket o investigar un problema. No es para uso personal.",
+        "examples": "Permitido: teletransportarse para confirmar un reporte de griefing. Prohibido: teletransportarse a una amistad por diversión."
       },
       {
         "id": "M3",
-        "title": "Mute and Ban Authority",
-        "content": "Moderators may mute or ban players for clear rule violations. Borderline cases must be escalated to admins."
+        "title": "Autoridad para silenciar y expulsar",
+        "content": "Los moderadores pueden silenciar o expulsar a jugadores por infracciones claras de las reglas. Los casos dudosos deben escalarse a los administradores."
       },
       {
         "id": "M4",
-        "title": "Reporting",
-        "content": "All significant actions (bans, mutes, unusual behavior) must be reported to admins or logged as required."
+        "title": "Registro de acciones",
+        "content": "Todas las acciones importantes (expulsiones, silencios o comportamiento inusual) deben reportarse a los administradores o registrarse según corresponda."
       }
     ]
   },
   {
-    "group": "Disciplinary Actions",
+    "group": "Acciones disciplinarias",
     "rules": [
       {
         "id": "P1",
-        "title": "Council Judgment",
-        "content": "Punishments for staff are decided by the Council or higher-ups after reviewing logs and context."
+        "title": "Juicio del consejo",
+        "content": "Las sanciones al equipo las decide el Consejo o las personas responsables tras revisar los registros y el contexto."
       },
       {
         "id": "P2",
-        "title": "Range of Punishments",
-        "content": "Possible outcomes include warnings, loss of permissions, demotion, removal from staff, or permanent ban depending on severity.",
-        "examples": "Minor first-time offense = warning. Severe abuse of Double Life = removal and ban."
+        "title": "Alcance de las sanciones",
+        "content": "Los posibles resultados incluyen advertencias, pérdida de permisos, degradación, expulsión del equipo o expulsión permanente, según la gravedad.",
+        "examples": "Infracción menor por primera vez = advertencia. Abuso grave de Double Life = expulsión del equipo y expulsión permanente."
       }
     ]
   }

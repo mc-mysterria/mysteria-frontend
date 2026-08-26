@@ -24,11 +24,11 @@
   "pages": {
     "rules": {
       "title": "服务器规则 - Mysterria",
-      "description": "阅读在 Mysterria 游玩的规则与准则。Mysterria 是一座受《诡秘之主》启发的 Minecraft 服务器——这里写明我们的社区标准与游戏规范。"
+      "description": "阅读在 Mysterria 游玩的规则与准则。Mysterria 是一座受《诡秘之主》启发的 Minecraft 服务器--这里写明我们的社区标准与游戏规范。"
     },
     "store": {
       "title": "商店 - Mysterria",
-      "description": "支持 Mysterria，同时解锁专属内容。浏览这座《诡秘之主》主题 Minecraft 服务器的头衔、物品与特色功能——绝不出售战斗力。"
+      "description": "支持 Mysterria，同时解锁专属内容。浏览这座《诡秘之主》主题 Minecraft 服务器的头衔、物品与特色功能--绝不出售战斗力。"
     },
     "ascension": {
       "title": "晋升名录 - Mysterria",
@@ -36,7 +36,7 @@
     },
     "guide": {
       "title": "新人指南 - Mysterria",
-      "description": "初次来到 Mysterria？了解如何在这座受《诡秘之主》启发的服务器上起步——认识途径、序列，以及等着你的神秘冒险。"
+      "description": "初次来到 Mysterria？了解如何在这座受《诡秘之主》启发的服务器上起步--认识途径、序列，以及等着你的神秘冒险。"
     },
     "profile": {
       "title": "个人资料 - Mysterria",
@@ -64,7 +64,7 @@
     },
     "default": {
       "title": "Mysterria - 《诡秘之主》主题 Minecraft 服务器",
-      "description": "Mysterria —— 一座受网络小说《诡秘之主》启发的 Minecraft 服务器。行走神秘途径、配制魔药、晋升序列，沉浸在神与教会的世界之中。"
+      "description": "Mysterria -- 一座受网络小说《诡秘之主》启发的 Minecraft 服务器。行走神秘途径、配制魔药、晋升序列，沉浸在神与教会的世界之中。"
     }
   }
 }

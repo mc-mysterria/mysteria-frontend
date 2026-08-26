@@ -12,6 +12,10 @@
 
 import localeTable from "@/assets/sources/locales.json";
 import en from "./en.json";
+import de from "./de.json";
+import es from "./es.json";
+import fr from "./fr.json";
+import ro from "./ro.json";
 import uk from "./uk.json";
 import zhCN from "./zh-CN.json";
 import zhTW from "./zh-TW.json";
@@ -28,7 +32,7 @@ import zhTW from "./zh-TW.json";
 /** Key shape every locale must satisfy. */
 export type Translations = typeof en;
 
-export type Language = "en" | "uk" | "zh-CN" | "zh-TW";
+export type Language = "en" | "uk" | "ro" | "de" | "es" | "fr" | "zh-CN" | "zh-TW";
 
 export interface LocaleMeta {
     code: Language;
@@ -60,10 +64,11 @@ export interface LocaleMeta {
      */
     pointsOnly: boolean;
     /**
-     * Which plural rule applies. "english" is one/many, "slavic" is the
-     * Ukrainian one/few/many, and "none" is Chinese, which has no plural.
+     * Which plural rule applies. "english" is one/many, "romanian" is
+     * one/few/many with its own 0 and 2-19 cases, "slavic" is Ukrainian, and
+     * "none" is Chinese, which has no plural.
      */
-    pluralStyle: "english" | "slavic" | "none";
+    pluralStyle: "english" | "romanian" | "slavic" | "none";
     /**
      * Which language the news backend should be asked for.
      *
@@ -110,6 +115,10 @@ export const hasOwnArticles = (language: Language): boolean =>
 export const translations: Record<Language, Translations> = {
     en,
     uk,
+    ro,
+    de,
+    es,
+    fr,
     "zh-CN": zhCN,
     "zh-TW": zhTW,
 };

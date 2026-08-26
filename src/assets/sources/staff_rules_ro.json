@@ -1,178 +1,178 @@
 [
   {
-    "group": "General Staff Rules",
+    "group": "Reguli generale pentru echipă",
     "rules": [
       {
         "id": "G1",
-        "title": "Double Life Usage",
-        "content": "Staff must only use the Double Life mode for administrative duties (ticket handling, bug investigation, helping players). It must never be used for personal gain, resource collection, or teleportation for fun. Every action is logged and reviewed.",
-        "examples": "Allowed: teleporting to verify a bug report. Disallowed: teleporting to a friend’s base or giving yourself loot."
+        "title": "Utilizarea modului Double Life",
+        "content": "Echipa trebuie să utilizeze modul Double Life numai pentru atribuții administrative (gestionarea tichetelor, investigarea bugurilor, ajutarea jucătorilor). Nu trebuie folosit niciodată pentru câștig personal, colectarea resurselor sau teleportare de distracție. Fiecare acțiune este înregistrată și verificată.",
+        "examples": "Permis: teleportarea pentru a verifica un raport de bug. Interzis: teleportarea la baza unui prieten sau oferirea de pradă propriei persoane."
       },
       {
         "id": "G2",
-        "title": "Command and Permission Abuse",
-        "content": "All commands executed in Double Life mode are logged. Using powers for personal advantage, to punish without reason, or to benefit friends will result in a council trial.",
-        "examples": "Allowed: using /ban on a confirmed hacker. Disallowed: using /ban on someone because of a personal argument."
+        "title": "Abuzarea comenzilor și permisiunilor",
+        "content": "Toate comenzile executate în modul Double Life sunt înregistrate. Folosirea puterilor pentru avantaj personal, pentru a sancționa fără motiv sau pentru a favoriza prieteni va duce la judecata consiliului.",
+        "examples": "Permis: folosirea comenzii /ban pentru un hacker confirmat. Interzis: folosirea comenzii /ban împotriva cuiva din cauza unei dispute personale."
       },
       {
         "id": "G3",
-        "title": "Stability First",
-        "content": "Any file edits or configuration changes must be backed up before applying to production servers. Never apply untested changes directly without a backup.",
-        "examples": "Allowed: save the old config to your PC, then apply edits. Disallowed: directly editing configs on the live server with no backup."
+        "title": "Stabilitatea înainte de toate",
+        "content": "Orice modificare de fișier sau de configurare trebuie să aibă copie de rezervă înainte de aplicarea pe serverele de producție. Nu aplica niciodată modificări netestate direct, fără o copie de rezervă.",
+        "examples": "Permis: salvează configurarea veche pe PC, apoi aplică modificările. Interzis: editarea directă a configurărilor pe serverul live fără copie de rezervă."
       },
       {
         "id": "G4",
-        "title": "Testing Before Deploy",
-        "content": "All plugin or configuration changes must be tested on a test server first. Production servers must remain stable.",
-        "examples": "Allowed: testing a new recipe system on test server. Disallowed: adding untested code directly to production."
+        "title": "Testare înainte de lansare",
+        "content": "Toate modificările de plugin sau configurare trebuie testate mai întâi pe un server de test. Serverele de producție trebuie să rămână stabile.",
+        "examples": "Permis: testarea unui nou sistem de rețete pe serverul de test. Interzis: adăugarea codului netestat direct în producție."
       },
       {
         "id": "G5",
-        "title": "No Hidden Mechanics",
-        "content": "Staff must not create or use hidden mechanics available only to themselves or a small circle. New features must be released officially for all players.",
-        "examples": "Allowed: releasing a new potion recipe in a patch. Disallowed: keeping a secret command for personal use."
+        "title": "Fără mecanici ascunse",
+        "content": "Echipa nu trebuie să creeze sau să folosească mecanici ascunse disponibile doar ei ori unui cerc restrâns. Funcțiile noi trebuie lansate oficial pentru toți jucătorii.",
+        "examples": "Permis: lansarea unei noi formule de elixir într-un patch. Interzis: păstrarea unei comenzi secrete pentru uz personal."
       },
       {
         "id": "G6",
-        "title": "Secrecy of Internal Knowledge",
-        "content": "Do not leak unreleased information (mechanics, recipes, exploits, configs) outside staff channels.",
-        "examples": "Allowed: confirming in a ticket if a recipe works. Disallowed: sending a friend the full recipe list."
+        "title": "Confidențialitatea informațiilor interne",
+        "content": "Nu divulga informații nelansate (mecanici, rețete, exploituri, configurări) în afara canalelor echipei.",
+        "examples": "Permis: confirmarea într-un tichet că o rețetă funcționează. Interzis: trimiterea listei complete de rețete unui prieten."
       },
       {
         "id": "G7",
-        "title": "Conflict Resolution",
-        "content": "If unsure about a decision, escalate it to admins, developers, or the council. Never act on uncertainty alone.",
-        "examples": "Allowed: pausing an issue and asking higher-ups for advice. Disallowed: implementing a controversial change without discussion."
+        "title": "Rezolvarea conflictelor",
+        "content": "Dacă nu ești sigur de o decizie, escaladeaz-o către administratori, dezvoltatori sau consiliu. Nu acționa niciodată singur în incertitudine.",
+        "examples": "Permis: punerea unei probleme pe pauză și cererea unui sfat de la superiori. Interzis: implementarea unei modificări controversate fără discuție."
       },
       {
         "id": "G8",
-        "title": "Bug Handling",
-        "content": "Do not try to hotfix serious bugs on the live server without a plan. Report to the team, design a fix, and test it.",
-        "examples": "Allowed: disabling a broken plugin temporarily while discussing fix. Disallowed: rewriting parts of a plugin directly on live."
+        "title": "Gestionarea bugurilor",
+        "content": "Nu încerca să repari rapid buguri grave pe serverul live fără un plan. Raportează echipei, concepe o remediere și testeaz-o.",
+        "examples": "Permis: dezactivarea temporară a unui plugin defect cât timp se discută soluția. Interzis: rescrierea directă a unor părți dintr-un plugin pe serverul live."
       },
       {
         "id": "G9",
-        "title": "Git & Collaboration",
-        "content": "Never use force pushes or destructive commands on shared repositories. Document commits clearly and preserve others’ work.",
-        "examples": "Allowed: using merge commits and pull requests. Disallowed: `git push --force` deleting others’ changes."
+        "title": "Git și colaborare",
+        "content": "Nu folosi niciodată force push-uri sau comenzi distructive în depozite partajate. Documentează clar commiturile și păstrează munca celorlalți.",
+        "examples": "Permis: folosirea merge commiturilor și a pull requesturilor. Interzis: `git push --force` care șterge modificările altora."
       }
     ]
   },
   {
-    "group": "Developers",
+    "group": "Dezvoltatori",
     "rules": [
       {
         "id": "D1",
-        "title": "Independence & Responsibility",
-        "content": "Developers may implement features independently but must ensure stability and documentation."
+        "title": "Independență și responsabilitate",
+        "content": "Dezvoltatorii pot implementa funcții independent, dar trebuie să asigure stabilitatea și documentația."
       },
       {
         "id": "D2",
-        "title": "Code Quality",
-        "content": "All code must be clean, maintainable, and documented. Changes should be understandable to other developers.",
-        "examples": "Allowed: commenting on complex logic in plugins. Disallowed: pushing unreadable one-line fixes with no explanation."
+        "title": "Calitatea codului",
+        "content": "Tot codul trebuie să fie curat, mentenabil și documentat. Modificările trebuie să poată fi înțelese de ceilalți dezvoltatori.",
+        "examples": "Permis: comentarea logicii complexe din pluginuri. Interzis: trimiterea unor remedieri ilizibile pe o singură linie, fără explicație."
       },
       {
         "id": "D3",
-        "title": "Backups and Versioning",
-        "content": "Always keep backups of critical systems and test before merging changes to production."
+        "title": "Copii de rezervă și versionare",
+        "content": "Păstrează întotdeauna copii de rezervă ale sistemelor critice și testează înainte de a îmbina modificările în producție."
       },
       {
         "id": "D4",
-        "title": "Communication",
-        "content": "Report major changes, fixes, or refactors to the rest of the dev team. Transparency is mandatory."
+        "title": "Comunicare",
+        "content": "Raportează modificările majore, remediile sau refactorizările restului echipei de dezvoltare. Transparența este obligatorie."
       }
     ]
   },
   {
-    "group": "Trial Developers",
+    "group": "Dezvoltatori în probă",
     "rules": [
       {
         "id": "TD1",
-        "title": "Learning Path",
-        "content": "Trial developers are learners. They are expected to grow by completing tasks assigned by developers and seeking reviews."
+        "title": "Calea învățării",
+        "content": "Dezvoltatorii în probă sunt cursanți. Se așteaptă să evolueze îndeplinind sarcinile atribuite de dezvoltatori și cerând recenzii."
       },
       {
         "id": "TD2",
-        "title": "Weekly Progress",
-        "content": "Trial developers must show weekly progress (tasks completed, learning milestones, code experiments)."
+        "title": "Progres săptămânal",
+        "content": "Dezvoltatorii în probă trebuie să arate progres săptămânal (sarcini finalizate, etape de învățare, experimente de cod)."
       },
       {
         "id": "TD3",
-        "title": "Mentorship",
-        "content": "They must request feedback and reviews, learn from resources (such as courses), and communicate openly about difficulties."
+        "title": "Mentorat",
+        "content": "Trebuie să solicite feedback și recenzii, să învețe din resurse (precum cursurile) și să comunice deschis despre dificultăți."
       },
       {
         "id": "TD4",
-        "title": "Restrictions",
-        "content": "Trial developers cannot push unreviewed changes to production. All work must be supervised and approved by developers."
+        "title": "Restricții",
+        "content": "Dezvoltatorii în probă nu pot trimite modificări nerevizuite în producție. Toată munca trebuie supravegheată și aprobată de dezvoltatori."
       }
     ]
   },
   {
-    "group": "Administrators",
+    "group": "Administratori",
     "rules": [
       {
         "id": "A1",
-        "title": "Server Stability",
-        "content": "Admins oversee the uptime, stability, and core functionality of the servers."
+        "title": "Stabilitatea serverelor",
+        "content": "Administratorii supraveghează disponibilitatea, stabilitatea și funcționalitatea de bază a serverelor."
       },
       {
         "id": "A2",
-        "title": "Authority of Discipline",
-        "content": "Admins may mute, ban, or strike players, but only with valid reasons. Abuse will be reviewed by council."
+        "title": "Autoritatea disciplinară",
+        "content": "Administratorii pot aplica mute-uri, banuri sau avertismente jucătorilor, dar numai pentru motive valide. Abuzurile vor fi revizuite de consiliu."
       },
       {
         "id": "A3",
-        "title": "Overseeing Moderators",
-        "content": "Admins guide moderators, review their actions, and handle escalated cases."
+        "title": "Supravegherea moderatorilor",
+        "content": "Administratorii îndrumă moderatorii, le verifică acțiunile și gestionează cazurile escalate."
       },
       {
         "id": "A4",
-        "title": "Executive Action",
-        "content": "If higher-ups are absent, admins may make executive decisions, but they are subject to later review."
+        "title": "Acțiune executivă",
+        "content": "Dacă superiorii lipsesc, administratorii pot lua decizii executive, însă acestea sunt supuse unei revizuiri ulterioare."
       }
     ]
   },
   {
-    "group": "Moderators",
+    "group": "Moderatori",
     "rules": [
       {
         "id": "M1",
-        "title": "Ticket Resolution",
-        "content": "Moderators handle tickets, disputes, and reports fairly and respectfully."
+        "title": "Rezolvarea tichetelor",
+        "content": "Moderatorii gestionează tichetele, disputele și raportările corect și respectuos."
       },
       {
         "id": "M2",
-        "title": "Use of Double Life",
-        "content": "Moderators may use Double Life only when required to check a ticket or investigate an issue. It is not for personal use.",
-        "examples": "Allowed: teleporting to confirm a griefing report. Disallowed: teleporting to a friend for fun."
+        "title": "Utilizarea Double Life",
+        "content": "Moderatorii pot folosi Double Life numai când este necesar pentru verificarea unui tichet sau investigarea unei probleme. Nu este pentru uz personal.",
+        "examples": "Permis: teleportarea pentru confirmarea unui raport de griefing. Interzis: teleportarea la un prieten de distracție."
       },
       {
         "id": "M3",
-        "title": "Mute and Ban Authority",
-        "content": "Moderators may mute or ban players for clear rule violations. Borderline cases must be escalated to admins."
+        "title": "Autoritatea de mute și ban",
+        "content": "Moderatorii pot aplica mute sau ban jucătorilor pentru încălcări clare ale regulilor. Cazurile la limită trebuie escalate către administratori."
       },
       {
         "id": "M4",
-        "title": "Reporting",
-        "content": "All significant actions (bans, mutes, unusual behavior) must be reported to admins or logged as required."
+        "title": "Raportare",
+        "content": "Toate acțiunile semnificative (banuri, mute-uri, comportament neobișnuit) trebuie raportate administratorilor sau înregistrate după cum se cere."
       }
     ]
   },
   {
-    "group": "Disciplinary Actions",
+    "group": "Acțiuni disciplinare",
     "rules": [
       {
         "id": "P1",
-        "title": "Council Judgment",
-        "content": "Punishments for staff are decided by the Council or higher-ups after reviewing logs and context."
+        "title": "Judecata consiliului",
+        "content": "Sancțiunile pentru echipă sunt decise de Consiliu sau de superiori după verificarea jurnalelor și a contextului."
       },
       {
         "id": "P2",
-        "title": "Range of Punishments",
-        "content": "Possible outcomes include warnings, loss of permissions, demotion, removal from staff, or permanent ban depending on severity.",
-        "examples": "Minor first-time offense = warning. Severe abuse of Double Life = removal and ban."
+        "title": "Gama sancțiunilor",
+        "content": "Consecințele posibile includ avertismente, pierderea permisiunilor, retrogradarea, eliminarea din echipă sau ban permanent, în funcție de gravitate.",
+        "examples": "Abatere minoră la prima dată = avertisment. Abuz grav al Double Life = eliminare și ban."
       }
     ]
   }

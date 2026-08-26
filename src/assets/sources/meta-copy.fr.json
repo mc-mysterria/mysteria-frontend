@@ -1,0 +1,55 @@
+{
+  "pathwayTitle": "Voie de {name} - Séquences et capacités | Mysterria",
+  "pathwayIndexTitle": "Voies et Séquences - Archives Beyonder | Mysterria",
+  "pathwayDescription": "Explore la Voie de {name}, de la Séquence {first} {firstSeq} à la Séquence {final} {finalSeq}. Découvre les {abilities} capacités disponibles sur Mysterria.",
+  "pathwayIndexDescription": "Explore les {count} Voies Beyonder, leurs noms de Séquence et toutes les capacités disponibles sur Mysterria.",
+  "pathwaySigilAlt": "Symbole de la Voie de {name}",
+  "pathwayIndexAlt": "Voies Beyonder de Mysterria",
+  "redirecting": "Redirection vers",
+  "pages": {
+    "rules": {
+      "title": "Règles du serveur - Mysterria",
+      "description": "Lis les règles et directives pour jouer sur Mysterria, le serveur Minecraft inspiré de Lord of the Mysteries. Découvre nos standards communautaires et nos règles de jeu."
+    },
+    "store": {
+      "title": "Boutique - Mysterria",
+      "description": "Soutiens Mysterria et débloque des avantages exclusifs ! Parcours notre boutique pour les rangs, objets et fonctionnalités spéciales du serveur Minecraft Lord of the Mysteries."
+    },
+    "ascension": {
+      "title": "Registre des Ascensions - Mysterria",
+      "description": "Disponibilité des sièges en direct pour les hautes Séquences sur Mysterria : chaque Voie accueille au plus 18 Saints, 9 Anges, 3 Archanges et une seule Divinité. Découvre quels trônes sont occupés avant de t’élever."
+    },
+    "guide": {
+      "title": "Guide de démarrage - Mysterria",
+      "description": "Tu découvres Mysterria ? Apprends comment commencer sur notre serveur inspiré de Lord of the Mysteries. Découvre les Voies, les Séquences et des aventures mystiques."
+    },
+    "profile": {
+      "title": "Ton profil - Mysterria",
+      "description": "Consulte et gère ton profil Mysterria. Suis ta progression à travers les Séquences et les Voies sur notre serveur Minecraft Lord of the Mysteries."
+    },
+    "news": {
+      "title": "Dépêches - Mysterria",
+      "description": "Notes de mise à jour, annonces de saison et dépêches de Mysterria, le serveur Minecraft Lord of the Mysteries."
+    },
+    "staff": {
+      "title": "L’Ordre - Mysterria",
+      "description": "Les administrateurs, modérateurs et bâtisseurs qui font tourner le monde. Contacte-les sur Discord pour les tickets et recours, jamais en message privé."
+    },
+    "terms": {
+      "title": "Conditions d’utilisation - Mysterria",
+      "description": "Les conditions d’utilisation de Mysterria, le serveur Minecraft inspiré de Lord of the Mysteries."
+    },
+    "privacy": {
+      "title": "Confidentialité - Mysterria",
+      "description": "Comment Mysterria traite les données de ton compte, l’association à Discord et les cookies."
+    },
+    "sla": {
+      "title": "SLA - Mysterria",
+      "description": "Engagements de disponibilité et attentes de service pour le serveur Minecraft Mysterria."
+    },
+    "default": {
+      "title": "Mysterria - Serveur Minecraft Lord of the Mysteries",
+      "description": "Bois l’élixir. Gravis 22 Voies Beyonder, de la Séquence 9 vers la divinité, sur un serveur Minecraft Lord of the Mysteries."
+    }
+  }
+}

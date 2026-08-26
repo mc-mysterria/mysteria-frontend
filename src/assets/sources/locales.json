@@ -43,6 +43,58 @@
       "articleLocale": "uk"
     },
     {
+      "code": "ro",
+      "nativeName": "Română",
+      "short": "RO",
+      "htmlLang": "ro",
+      "hreflang": "ro",
+      "intlLocale": "ro-RO",
+      "ogLocale": "ro_RO",
+      "accepts": ["ro"],
+      "pointsOnly": false,
+      "pluralStyle": "romanian",
+      "articleLocale": "en"
+    },
+    {
+      "code": "de",
+      "nativeName": "Deutsch",
+      "short": "DE",
+      "htmlLang": "de",
+      "hreflang": "de",
+      "intlLocale": "de-DE",
+      "ogLocale": "de_DE",
+      "accepts": ["de"],
+      "pointsOnly": false,
+      "pluralStyle": "english",
+      "articleLocale": "en"
+    },
+    {
+      "code": "es",
+      "nativeName": "Español",
+      "short": "ES",
+      "htmlLang": "es",
+      "hreflang": "es",
+      "intlLocale": "es-ES",
+      "ogLocale": "es_ES",
+      "accepts": ["es"],
+      "pointsOnly": false,
+      "pluralStyle": "english",
+      "articleLocale": "en"
+    },
+    {
+      "code": "fr",
+      "nativeName": "Français",
+      "short": "FR",
+      "htmlLang": "fr",
+      "hreflang": "fr",
+      "intlLocale": "fr-FR",
+      "ogLocale": "fr_FR",
+      "accepts": ["fr"],
+      "pointsOnly": false,
+      "pluralStyle": "english",
+      "articleLocale": "en"
+    },
+    {
       "code": "zh-TW",
       "nativeName": "繁體中文",
       "short": "繁",

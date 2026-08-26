@@ -13,7 +13,7 @@ const pathwayData = require('../src/assets/sources/pathway-abilities.json') as {
     }>;
 };
 
-type ProxyLocale = 'en' | 'uk' | 'zh-CN' | 'zh-TW';
+type ProxyLocale = 'en' | 'uk' | 'ro' | 'de' | 'es' | 'fr' | 'zh-CN' | 'zh-TW';
 
 /*
  * The locale table, shared with the app (src/locales/index.ts) and
@@ -74,6 +74,10 @@ const EN_COPY = require('../src/assets/sources/meta-copy.en.json') as MetaCopy;
 const META_COPY: Partial<Record<ProxyLocale, MetaCopy>> = {
     en: EN_COPY,
     uk: require('../src/assets/sources/meta-copy.uk.json') as MetaCopy,
+    ro: require('../src/assets/sources/meta-copy.ro.json') as MetaCopy,
+    de: require('../src/assets/sources/meta-copy.de.json') as MetaCopy,
+    es: require('../src/assets/sources/meta-copy.es.json') as MetaCopy,
+    fr: require('../src/assets/sources/meta-copy.fr.json') as MetaCopy,
     'zh-CN': require('../src/assets/sources/meta-copy.zh-CN.json') as MetaCopy,
     'zh-TW': require('../src/assets/sources/meta-copy.zh-TW.json') as MetaCopy,
 };

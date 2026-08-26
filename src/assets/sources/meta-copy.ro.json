@@ -1,55 +1,55 @@
 {
-  "pathwayTitle": "{name} Pathway - Sequences & Abilities | Mysterria",
-  "pathwayIndexTitle": "Pathways & Sequences - Beyonder Archive | Mysterria",
-  "pathwayDescription": "Explore the {name} Pathway from Sequence {first} {firstSeq} to Sequence {final} {finalSeq}. Discover {abilities} abilities available on Mysterria.",
-  "pathwayIndexDescription": "Explore all {count} Beyonder Pathways, their Sequence names, and every ability available on Mysterria.",
-  "pathwaySigilAlt": "{name} Pathway symbol",
-  "pathwayIndexAlt": "Mysterria Beyonder Pathways",
-  "redirecting": "Redirecting to",
+  "pathwayTitle": "Calea {name} - Secvențe și abilități | Mysterria",
+  "pathwayIndexTitle": "Căi și secvențe - Arhiva Beyonder | Mysterria",
+  "pathwayDescription": "Explorează Calea {name}, de la Secvența {first} {firstSeq} până la Secvența {final} {finalSeq}. Descoperă cele {abilities} abilități disponibile pe Mysterria.",
+  "pathwayIndexDescription": "Explorează toate cele {count} Căi ale Beyonderilor, numele Secvențelor lor și fiecare abilitate disponibilă pe Mysterria.",
+  "pathwaySigilAlt": "Simbolul Căii {name}",
+  "pathwayIndexAlt": "Căile Beyonderilor din Mysterria",
+  "redirecting": "Redirecționare către",
   "pages": {
     "rules": {
-      "title": "Server Rules - Mysterria",
-      "description": "Read the rules and guidelines for playing on Mysterria, the Lord of the Mysteries inspired Minecraft server. Learn about our community standards and gameplay policies."
+      "title": "Regulile serverului - Mysterria",
+      "description": "Citește regulile și îndrumările pentru a juca pe Mysterria, serverul Minecraft inspirat de Lord of the Mysteries. Află standardele comunității și politicile de joc."
     },
     "store": {
-      "title": "Store - Mysterria",
-      "description": "Support Mysterria and unlock exclusive perks! Browse our store for ranks, items, and special features for the Lord of the Mysteries Minecraft server."
+      "title": "Magazin - Mysterria",
+      "description": "Susține Mysterria și deblochează beneficii exclusive! Răsfoiește magazinul pentru ranguri, obiecte și funcții speciale ale serverului Minecraft Lord of the Mysteries."
     },
     "ascension": {
-      "title": "Ascension Registry - Mysterria",
-      "description": "Live seat availability for the high Sequences on Mysterria: every pathway seats at most 18 Saints, 9 Angels, 3 Archangels and a single Deity. See which thrones are taken before you climb."
+      "title": "Registrul Ascensiunii - Mysterria",
+      "description": "Disponibilitatea în timp real a locurilor pentru Secvențele înalte din Mysterria: fiecare cale are cel mult 18 Sfinți, 9 Îngeri, 3 Arhangheli și o singură Zeitate. Vezi ce tronuri sunt ocupate înainte să urci."
     },
     "guide": {
-      "title": "Getting Started Guide - Mysterria",
-      "description": "New to Mysterria? Learn how to get started on our Lord of the Mysteries inspired server. Discover Pathways, Sequences, and mystical adventures."
+      "title": "Ghid de început - Mysterria",
+      "description": "Ești nou pe Mysterria? Află cum să începi pe serverul nostru inspirat de Lord of the Mysteries. Descoperă Căi, Secvențe și aventuri mistice."
     },
     "profile": {
-      "title": "Your Profile - Mysterria",
-      "description": "View and manage your Mysterria profile. Track your progress through Sequences and Pathways on our Lord of the Mysteries Minecraft server."
+      "title": "Profilul tău - Mysterria",
+      "description": "Vezi și gestionează-ți profilul Mysterria. Urmărește-ți progresul prin Secvențe și Căi pe serverul Minecraft Lord of the Mysteries."
     },
     "news": {
-      "title": "Dispatches - Mysterria",
-      "description": "Patch notes, season announcements and dispatches from Mysterria, the Lord of the Mysteries Minecraft server."
+      "title": "Buletine - Mysterria",
+      "description": "Note de actualizare, anunțuri de sezon și buletine din Mysterria, serverul Minecraft Lord of the Mysteries."
     },
     "staff": {
-      "title": "The Order - Mysterria",
-      "description": "The admins, moderators and builders who keep the world running. Reach them on Discord for tickets and appeals, never in DMs."
+      "title": "Ordinul - Mysterria",
+      "description": "Administratorii, moderatorii și constructorii care țin lumea în mișcare. Contactează-i pe Discord pentru tichete și contestații, niciodată prin mesaje private."
     },
     "terms": {
-      "title": "Terms of Service - Mysterria",
-      "description": "The terms of service for Mysterria, the Lord of the Mysteries inspired Minecraft server."
+      "title": "Termeni de utilizare - Mysterria",
+      "description": "Termenii de utilizare pentru Mysterria, serverul Minecraft inspirat de Lord of the Mysteries."
     },
     "privacy": {
-      "title": "Privacy - Mysterria",
-      "description": "How Mysterria handles your account data, Discord linkage and cookies."
+      "title": "Confidențialitate - Mysterria",
+      "description": "Cum gestionează Mysterria datele contului tău, legătura cu Discord și cookie-urile."
     },
     "sla": {
       "title": "SLA - Mysterria",
-      "description": "Uptime commitments and service expectations for the Mysterria Minecraft server."
+      "description": "Angajamente de disponibilitate și așteptări privind serviciul pentru serverul Minecraft Mysterria."
     },
     "default": {
-      "title": "Mysterria - Lord of the Mysteries Minecraft Server",
-      "description": "Drink the potion. Act the role. Climb 22 Beyonder Pathways from Sequence 9 toward godhood on a Lord of the Mysteries Minecraft server."
+      "title": "Mysterria - Server Minecraft Lord of the Mysteries",
+      "description": "Bea elixirul. Interpretează rolul. Urcă pe 22 de Căi ale Beyonderilor, de la Secvența 9 spre divinitate, pe un server Minecraft Lord of the Mysteries."
     }
   }
 }

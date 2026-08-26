@@ -9,7 +9,7 @@
  *
  * This walks the app's own data files for the routes that actually exist, and
  * optionally folds in published news articles from the API. If the API is
- * unreachable the build still succeeds — it just omits the article URLs.
+ * unreachable the build still succeeds - it just omits the article URLs.
  *
  * Runs from `npm run build`, after vite build (so the output dirs exist).
  *
@@ -96,7 +96,7 @@ for (const pathway of pathwayData.pathways) {
 // from the structure rather than scraped with a regex over a `.ts` module.
 const guideSource = JSON.parse(fs.readFileSync(path.join(root, "src/data/guide/en.json"), "utf8"));
 const topicIds = [...new Set((guideSource.topics ?? []).map(topic => topic.id).filter(Boolean))];
-if (!topicIds.length) throw new Error("build-sitemap: found no guide topics — has src/data/guide/en.json changed shape?");
+if (!topicIds.length) throw new Error("build-sitemap: found no guide topics - has src/data/guide/en.json changed shape?");
 for (const id of topicIds) add(`/guide/${id}`, "0.7", "monthly");
 
 /* ---- published news, best effort ---- */
@@ -127,7 +127,7 @@ async function newsUrls() {
                 });
             }
         } catch {
-            // Offline build or API down — the stable routes above are still shipped.
+            // Offline build or API down - the stable routes above are still shipped.
         }
     }
     return found;

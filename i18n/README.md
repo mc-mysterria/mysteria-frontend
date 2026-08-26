@@ -1,6 +1,7 @@
 # Localization
 
-Four locales: `en`, `uk`, `zh-CN` (Simplified), `zh-TW` (Traditional).
+Eight locales: `en`, `uk`, `ro`, `de`, `es`, `fr`, `zh-CN` (Simplified), and
+`zh-TW` (Traditional).
 
 Chinese ships as two locales rather than one. Traditional is the official-facing
 one for Taiwan and Hong Kong; Simplified serves mainland readers who arrive on
@@ -19,7 +20,7 @@ as a bad fan translation no matter how accurate it is. Everything canonical is
 locked in [`glossary.lotm-zh.json`](glossary.lotm-zh.json) and
 [`canon.sequences-zh.json`](canon.sequences-zh.json).
 
-途径 · 序列 · 非凡者 · 魔药 · 灰雾 · 扮演 · 晋升 · 失控 — never substitute these.
+途径 · 序列 · 非凡者 · 魔药 · 灰雾 · 扮演 · 晋升 · 失控 - never substitute these.
 
 ### Pathways are named after Sequence 9, not Sequence 0
 
@@ -32,7 +33,7 @@ Sequence 0; Chinese names it after its Sequence 9.**
 | the god at its summit | Fool         | **愚者**                   |
 
 English reuses one word for both. Chinese does not, and 愚者途径 is not how the
-fandom refers to the route — the Chinese LOTM wiki files it under 占卜家途径, and
+fandom refers to the route - the Chinese LOTM wiki files it under 占卜家途径, and
 百度百科's 愚者 entry is about the Sequence 0 deity
 (*序列0代表最高的真神层级，获得相应的神话名号*).
 
@@ -47,12 +48,12 @@ So two separate fields ship, and conflating them is a bug:
 
 The ten boon pathways currently keep a direct translation of Mysterria's own
 English label (永恒纪元, 第二法则, 月下). **This is unverified and probably wrong
-— see "Boon pathways need a canon pass" below.**
+- see "Boon pathways need a canon pass" below.**
 
 One knock-on: on the home page's tarot cards the pathway label and the "SEQ 9"
 role are now the same word in Chinese, so the role is suppressed when it would
-duplicate the title (`HomeView.vue`). If you would rather show the deity there —
-占卜家 crowned by 愚者 — that is a design call, not a translation one.
+duplicate the title (`HomeView.vue`). If you would rather show the deity there -
+占卜家 crowned by 愚者 - that is a design call, not a translation one.
 
 ---
 
@@ -66,27 +67,27 @@ script.
 
 | File                                      | Status                                            |
 |-------------------------------------------|---------------------------------------------------|
-| `src/locales/en.json`                     | **English source** — the reference key shape      |
-| `src/locales/{uk,zh-CN,de,es,ro}.json`    | **Weblate** — component `ui`                      |
-| `src/locales/zh-TW.json`                  | **generated** — do not edit                       |
-| `src/data/guide/en.json`                  | **English source** — long-form onboarding prose   |
-| `src/data/guide/{uk,zh-CN,de,es,ro}.json` | **Weblate** — component `guide`                   |
+| `src/locales/en.json`                     | **English source** - the reference key shape      |
+| `src/locales/{uk,zh-CN,ro,de,es,fr}.json` | **Weblate** - component `ui`                      |
+| `src/locales/zh-TW.json`                  | **generated** - do not edit                       |
+| `src/data/guide/en.json`                  | **English source** - long-form onboarding prose   |
+| `src/data/guide/{uk,zh-CN,ro,de,es,fr}.json` | **Weblate** - component `guide`                 |
 | `src/data/guide/zh-TW.json`               | **generated**                                     |
-| `src/assets/sources/meta-copy.en.json`    | **English source** — link-preview copy            |
-| `src/assets/sources/meta-copy.<lang>`     | **Weblate** — component `link-previews`           |
+| `src/assets/sources/meta-copy.en.json`    | **English source** - link-preview copy            |
+| `src/assets/sources/meta-copy.<lang>`     | **Weblate** - component `link-previews`           |
 | `src/assets/sources/meta-copy.zh-TW.json` | **generated**                                     |
-| `src/assets/sources/rules_en.json`        | **English source** — player rules                 |
-| `src/assets/sources/rules_<lang>`         | **Weblate** — component `rules`                   |
+| `src/assets/sources/rules_en.json`        | **English source** - player rules                 |
+| `src/assets/sources/rules_<lang>`         | **Weblate** - component `rules`                   |
 | `src/assets/sources/rules_zh-TW.json`     | **generated**                                     |
-| `staff_rules_en.json` (same dir)          | **English source** — staff rules                  |
-| `staff_rules_<lang>.json` (same dir)      | **Weblate** — component `staff-rules`             |
+| `staff_rules_en.json` (same dir)          | **English source** - staff rules                  |
+| `staff_rules_<lang>.json` (same dir)      | **Weblate** - component `staff-rules`             |
 | `staff_rules_zh-TW.json` (same dir)       | **generated**                                     |
-| `src/assets/sources/pathways.zh-CN.json`  | **authored here** — canon lookup, *not* in Weblate |
+| `src/assets/sources/pathways.zh-CN.json`  | **authored here** - canon lookup, *not* in Weblate |
 | `src/assets/sources/pathways.zh-TW.json`  | **generated**                                     |
-| `i18n/glossary.lotm-zh.json`              | authored — locked terminology, source of truth     |
-| (the Weblate glossary itself)             | **pushed** from it — `npm run sync:glossary`       |
-| `i18n/canon.sequences-zh.json`            | reference — the novel's own ladder                 |
-| `i18n/zh-TW.overrides.json`               | authored — where the TW reviewer pass lands        |
+| `i18n/glossary.lotm-zh.json`              | authored - locked terminology, source of truth     |
+| (the Weblate glossary itself)             | **pushed** from it - `npm run sync:glossary`       |
+| `i18n/canon.sequences-zh.json`            | reference - the novel's own ladder                 |
+| `i18n/zh-TW.overrides.json`               | authored - where the TW reviewer pass lands        |
 
 So: fix UI, guide, rules and preview copy **in Weblate**. Fix pathway and ability
 text **upstream in the Circle of Imagination plugin**, or in `pathways.zh-CN.json`
@@ -177,8 +178,8 @@ translator and a rule the app can no longer match.
 `node scripts/i18n-coverage.mjs` scores a string as translated only when it
 **differs** from English. Files seeded by a platform export carry the source text
 for untranslated strings, so counting keys that merely exist scores a brand-new
-language at 100%. Weblate's own percentages have the same blind spot - it reports
-`de`, `es` and `ro` at 100% because those files are full of English.
+language at 100%. Weblate's own percentages have the same blind spot; use the
+repository report when auditing newly seeded languages.
 
 ### Adding a language
 
@@ -193,19 +194,19 @@ For a language with no file yet it names the file from its own code, which may
 not be the code `locales.json` expects. Commit an empty file under the name you
 want first and Weblate will use it.
 
-1. `src/assets/sources/locales.json` — the entry the whole app reads from. Check
+1. `src/assets/sources/locales.json` - the entry the whole app reads from. Check
    `pluralStyle` against the language's real rule rather than picking the nearest
    of the three that exist: Spanish, German and French are `"english"` (one/many),
    but **Romanian is none of them.** Its CLDR rule is one for `n == 1`, *few* for
    `n == 0` or `n % 100` in 2-19, other above that - so "2 locuri" and "20 de
    locuri" take different forms. Adding `ro` means adding a `"romanian"` case to
    `pluralStyle` and to the `switch` in `useI18n.ts`, not reusing `"slavic"`.
-2. `src/locales/index.ts` — add to the `Language` union and the `translations` map.
-3. `src/data/guideContent.ts` — add to the `guideContent` map.
-4. `vercel.json` — the `:lang(en|uk|zh-CN|zh-TW)` route patterns, in every one.
-5. `src/assets/css/main.css` — a font stack, if the script is not Latin. Inter,
+2. `src/locales/index.ts` - add to the `Language` union and the `translations` map.
+3. `src/data/guideContent.ts` - add to the `guideContent` map.
+4. `vercel.json` - the locale alternation in every `:lang(...)` route pattern.
+5. `src/assets/css/main.css` - a font stack, if the script is not Latin. Inter,
    Playfair Display and JetBrains Mono carry no CJK glyphs.
-6. `api/meta-proxy.ts` — `META_COPY`, or the locale falls back to English previews.
+6. `api/meta-proxy.ts` - `META_COPY`, or the locale falls back to English previews.
 
 `npm run check:i18n` and `npm run type-check` will name anything missed in 1-3.
 
@@ -218,7 +219,7 @@ Conversion runs over whole files. Every key, id and placeholder in them is ASCII
 so OpenCC only rewrites Chinese characters and leaves structure untouched.
 
 The converter is good but not correct. Two failures it made here, both caught and
-overridden — worth re-checking after any `opencc-js` upgrade:
+overridden - worth re-checking after any `opencc-js` upgrade:
 
 - **无面人 → 無麵人.** Read 面 (face) as 麵 (noodles) and renamed the Fool
   pathway's Sequence 6 to "Noodle-less Man".
@@ -229,7 +230,7 @@ overridden — worth re-checking after any `opencc-js` upgrade:
   权限 as 許可+權, and found 音频 inside 语音频道 and applied the
   correct-in-isolation 音頻→音訊 (audio) mapping. Both produce non-words.
 - **里克 → 裡克.** Read the currency 里克 (Lick) as 里 "inside". The three
-  currencies are the novel's Intis ladder — 1 因蒂費爾 = 10 里克 = 100 科佩 —
+  currencies are the novel's Intis ladder - 1 因蒂費爾 = 10 里克 = 100 科佩 -
   so this is a canon name, not a preference.
 - **频道里 → 頻道里.** The opposite miss: left 里 alone where it does mean
   "inside" and wanted 裡.
@@ -252,7 +253,7 @@ One coupling to keep in mind: the 釋出 → 發布 override is only safe becaus
 attack. Writing 释出 in Simplified copy will now silently become 發布.
 
 Overrides are phrase-level and applied longest-first. **Never add a
-single-character rule** — a bare 秘→祕 would corrupt 詭秘之主, whose Taiwan print
+single-character rule** - a bare 秘→祕 would corrupt 詭秘之主, whose Taiwan print
 edition keeps 秘. The script refuses single-character overrides outright.
 
 ---
@@ -278,7 +279,7 @@ The Chinese ships the novel's names, per the terminology rule above:
 
 So a Chinese reader and an English reader will call the same rung different
 things. Mysterria's own ability text already references "Servant of Concealment"
-— the canon Sequence 2 name — which suggests the English drifted rather than the
+- the canon Sequence 2 name - which suggests the English drifted rather than the
 Chinese being wrong.
 
 **The clean fix is upstream**: rename these rungs to canon in the Circle of
@@ -286,7 +287,7 @@ Imagination plugin, which regenerates `pathway-abilities.json`. Until then, the
 divergence is deliberate. To reverse it instead, replace the `darkness` block in
 `scripts/fill-pathways-zh-names.mjs` and re-run it.
 
-### 2. Boon pathways — resolved, 42 of 50 rungs from canon
+### 2. Boon pathways - resolved, 42 of 50 rungs from canon
 
 **The ten "boon" pathways are not Mysterria inventions.** They are Outer God
 (外神) routes from the novel. The 22 are the routes of the Primordial Creator
@@ -295,11 +296,11 @@ the real total is well above 22.
 
 The canon was looked up rather than guessed, and the result changed the framing
 entirely: **Mysterria's English boon ladders are direct translations of the canon
-Chinese ones — 34 of 35 rungs line up position for position.** These were never
+Chinese ones - 34 of 35 rungs line up position for position.** These were never
 translation choices. Two things fell out of that:
 
-- `Ex Saddict` is a garbled *Sex Addict* — canon 性瘾病人.
-- `Patriarch` is 主父, the **Sequence 0** of 欲望母树 — exactly how English names
+- `Ex Saddict` is a garbled *Sex Addict* - canon 性瘾病人.
+- `Patriarch` is 主父, the **Sequence 0** of 欲望母树 - exactly how English names
   the 22 after their Sequence 0. The server's boon labels follow the same rule
   its standard labels do.
 
@@ -332,13 +333,13 @@ sequence number is the obvious mistake to make here.
 What is left is in `i18n/checklist.boon-pathways.md`: eight rungs across the three
 partial ladders, and a register check on 慾望母樹.
 
-The 22 core pathways are unaffected — and were independently re-verified against a
+The 22 core pathways are unaffected - and were independently re-verified against a
 full published ladder while doing this. All 22 matched.
 
 ### 3. Sixteen other rungs were renamed less severely
 
 Typos (`Flithy Monarch`, `Iron-bloodied Knight`) and synonyms (`Spirit Guide` for
-Mentor of Spirits, `Artisan` for Mechanical Expert) — all shipped as canon, which
+Mentor of Spirits, `Artisan` for Mechanical Expert) - all shipped as canon, which
 is uncontroversial. See `npm run check:canon-zh`.
 
 One is a genuine data bug: **Wheel of Fortune Sequence 5 is labelled `Lucky 1`,
@@ -347,7 +348,7 @@ Worth fixing in the English.
 
 ### 4. `%%` in English ability descriptions
 
-Several descriptions contain a literal `%%` (`20%%`, `35%%`) — a plugin
+Several descriptions contain a literal `%%` (`20%%`, `35%%`) - a plugin
 format-string artifact that reaches the site verbatim and renders as `20%%`.
 Chinese normalizes these to a single `%`. Fixing the English is an upstream job.
 
@@ -362,34 +363,34 @@ move it into `overrides`.
 
 ## What still falls back to English
 
-Everything below renders English for Chinese readers. Nothing is broken — `t()`
+Everything below renders English for Chinese readers. Nothing is broken - `t()`
 and `pick()` fall back per key, so partial coverage is a valid state.
 
-- **Legal pages** — `TermsView`, `PrivacyView` and `SLAView` have their copy
+- **Legal pages** - `TermsView`, `PrivacyView` and `SLAView` have their copy
   hardcoded in the template, in English, for *every* locale including Ukrainian.
   This is a pre-existing gap rather than a Chinese one, and translating terms of
   service is a decision for whoever owns the legal text, not the i18n pass.
-- **Staff-only tooling** — the admin panel, balance dashboard, and the news and
+- **Staff-only tooling** - the admin panel, balance dashboard, and the news and
   service editors are English-only by design. They are never shown to players.
-- **News articles** — authored in the CMS, which only carries en/uk. Chinese
+- **News articles** - authored in the CMS, which only carries en/uk. Chinese
   readers are served the English dispatch at its English URL, and hreflang
   deliberately advertises no Chinese version. Flip `articleLocale` in
   `src/locales/index.ts` once zh articles exist.
-- **Ukrainian link previews** in the crawler meta-proxy — a pre-existing gap.
+- **Ukrainian link previews** in the crawler meta-proxy - a pre-existing gap.
 
 ---
 
 ## URLs and SEO
 
 Every page is served under a locale segment: `/en/guide`, `/zh-TW/guide`. The URL
-is the source of truth for language — the router reads the segment and tells the
+is the source of truth for language - the router reads the segment and tells the
 i18n layer, so a shared link always opens in the language it was shared in.
 
 - `/auth/callback` stays **outside** the prefix: it is registered with Discord as
   the OAuth redirect URI and matched literally in `stores/auth.ts`.
 - The bare domain negotiates language at the edge from `Accept-Language`
   (`vercel.json` → `redirects`), as a 307 with `Vary: Accept-Language`. It has to
-  be temporary — a permanent redirect would let a CDN pin one visitor's language
+  be temporary - a permanent redirect would let a CDN pin one visitor's language
   for everyone.
 - Legacy unprefixed deep links 308 to their `/en/` equivalents, preserving the
   ranking of URLs that served English before locales existed.
@@ -404,7 +405,7 @@ i18n layer, so a shared link always opens in the language it was shared in.
 
 Inter, Playfair Display and JetBrains Mono carry no CJK glyphs. `main.css`
 defines per-script CJK stacks that key off `<html lang>`, splitting Simplified
-from Traditional — several codepoints are drawn differently in mainland and
+from Traditional - several codepoints are drawn differently in mainland and
 Taiwan fonts, and a native reader notices the wrong regional face. It also
 tightens the design's wide mono letter-spacing, which reads as broken on
 full-width glyphs, and drops `text-transform: uppercase`, which does nothing to
