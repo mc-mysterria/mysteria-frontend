@@ -1,59 +1,179 @@
 [
-  {
-    "group": "Règles générales du staff",
-    "rules": [
-      { "id": "G1", "title": "Utilisation de Double Life", "content": "Le staff ne doit utiliser le mode Double Life que pour des tâches administratives (gestion des tickets, enquête sur les bugs, aide aux joueurs). Il ne doit jamais servir au gain personnel, à la collecte de ressources ou à se téléporter pour s’amuser. Chaque action est enregistrée et contrôlée.", "examples": "Autorisé : se téléporter pour vérifier un signalement de bug. Interdit : se téléporter à la base d’un ami ou se donner du butin." },
-      { "id": "G2", "title": "Abus de commandes et de permissions", "content": "Toutes les commandes exécutées en mode Double Life sont enregistrées. Utiliser des pouvoirs pour son avantage personnel, sanctionner sans raison ou favoriser des amis entraînera un jugement du conseil.", "examples": "Autorisé : utiliser /ban contre un hacker confirmé. Interdit : utiliser /ban contre quelqu’un à cause d’une dispute personnelle." },
-      { "id": "G3", "title": "La stabilité avant tout", "content": "Toute modification de fichier ou de configuration doit être sauvegardée avant d’être appliquée aux serveurs de production. N’applique jamais directement de changements non testés sans sauvegarde.", "examples": "Autorisé : enregistrer l’ancienne configuration sur ton PC, puis appliquer les modifications. Interdit : modifier directement les configurations du serveur en ligne sans sauvegarde." },
-      { "id": "G4", "title": "Tester avant le déploiement", "content": "Toute modification de plugin ou de configuration doit d’abord être testée sur un serveur de test. Les serveurs de production doivent rester stables.", "examples": "Autorisé : tester un nouveau système de recettes sur le serveur de test. Interdit : ajouter du code non testé directement en production." },
-      { "id": "G5", "title": "Aucune mécanique cachée", "content": "Le staff ne doit ni créer ni utiliser de mécaniques cachées qui ne seraient accessibles qu’à lui-même ou à un petit cercle. Les nouvelles fonctionnalités doivent être publiées officiellement pour tous les joueurs.", "examples": "Autorisé : publier une nouvelle recette d’élixir dans une mise à jour. Interdit : conserver une commande secrète pour son usage personnel." },
-      { "id": "G6", "title": "Secret des connaissances internes", "content": "Ne divulgue pas d’informations non publiées (mécaniques, recettes, exploits, configurations) en dehors des salons du staff.", "examples": "Autorisé : confirmer dans un ticket si une recette fonctionne. Interdit : envoyer à un ami la liste complète des recettes." },
-      { "id": "G7", "title": "Résolution des conflits", "content": "En cas de doute sur une décision, transmets-la aux administrateurs, développeurs ou au conseil. N’agis jamais seul dans l’incertitude.", "examples": "Autorisé : mettre un problème en pause et demander conseil à un supérieur. Interdit : appliquer un changement controversé sans discussion." },
-      { "id": "G8", "title": "Gestion des bugs", "content": "N’essaie pas de corriger à chaud des bugs graves sur le serveur en ligne sans plan. Signale-les à l’équipe, prépare une correction et teste-la.", "examples": "Autorisé : désactiver temporairement un plugin défectueux pendant la discussion sur sa correction. Interdit : réécrire des parties d’un plugin directement sur le serveur en ligne." },
-      { "id": "G9", "title": "Git et collaboration", "content": "N’utilise jamais de force push ni de commande destructive sur des dépôts partagés. Documente clairement les commits et préserve le travail des autres.", "examples": "Autorisé : utiliser des commits de fusion et des pull requests. Interdit : utiliser `git push --force` et supprimer les changements des autres." }
-    ]
-  },
-  {
-    "group": "Développeurs",
-    "rules": [
-      { "id": "D1", "title": "Indépendance et responsabilité", "content": "Les développeurs peuvent implémenter des fonctionnalités de manière indépendante, mais doivent assurer leur stabilité et leur documentation." },
-      { "id": "D2", "title": "Qualité du code", "content": "Tout code doit être propre, maintenable et documenté. Les autres développeurs doivent pouvoir comprendre les changements.", "examples": "Autorisé : commenter une logique complexe dans les plugins. Interdit : envoyer des corrections illisibles sur une seule ligne sans explication." },
-      { "id": "D3", "title": "Sauvegardes et versionnage", "content": "Conserve toujours des sauvegardes des systèmes critiques et teste avant de fusionner les changements en production." },
-      { "id": "D4", "title": "Communication", "content": "Signale les changements majeurs, corrections ou refactorisations au reste de l’équipe de développement. La transparence est obligatoire." }
-    ]
-  },
-  {
-    "group": "Développeurs à l’essai",
-    "rules": [
-      { "id": "TD1", "title": "Voie d’apprentissage", "content": "Les développeurs à l’essai sont en apprentissage. Ils doivent progresser en accomplissant les tâches attribuées par les développeurs et en demandant des revues." },
-      { "id": "TD2", "title": "Progression hebdomadaire", "content": "Les développeurs à l’essai doivent montrer une progression chaque semaine (tâches terminées, jalons d’apprentissage, expérimentations de code)." },
-      { "id": "TD3", "title": "Mentorat", "content": "Ils doivent demander des retours et des revues, apprendre grâce à des ressources (telles que des cours) et communiquer ouvertement sur leurs difficultés." },
-      { "id": "TD4", "title": "Restrictions", "content": "Les développeurs à l’essai ne peuvent pas envoyer en production de changements non relus. Tout travail doit être supervisé et approuvé par les développeurs." }
-    ]
-  },
-  {
-    "group": "Administrateurs",
-    "rules": [
-      { "id": "A1", "title": "Stabilité du serveur", "content": "Les administrateurs supervisent la disponibilité, la stabilité et les fonctionnalités fondamentales des serveurs." },
-      { "id": "A2", "title": "Autorité disciplinaire", "content": "Les administrateurs peuvent mute, bannir ou avertir des joueurs, mais uniquement pour des raisons valables. Tout abus sera examiné par le conseil." },
-      { "id": "A3", "title": "Supervision des modérateurs", "content": "Les administrateurs guident les modérateurs, examinent leurs actions et gèrent les cas remontés." },
-      { "id": "A4", "title": "Action exécutive", "content": "En l’absence des supérieurs, les administrateurs peuvent prendre des décisions exécutives, mais celles-ci seront examinées ultérieurement." }
-    ]
-  },
-  {
-    "group": "Modérateurs",
-    "rules": [
-      { "id": "M1", "title": "Résolution des tickets", "content": "Les modérateurs traitent les tickets, litiges et signalements de façon équitable et respectueuse." },
-      { "id": "M2", "title": "Utilisation de Double Life", "content": "Les modérateurs ne peuvent utiliser Double Life que lorsqu’il est nécessaire de vérifier un ticket ou d’enquêter sur un problème. Ce n’est pas destiné à un usage personnel.", "examples": "Autorisé : se téléporter pour confirmer un signalement de grief. Interdit : se téléporter auprès d’un ami pour s’amuser." },
-      { "id": "M3", "title": "Autorité de mute et de bannissement", "content": "Les modérateurs peuvent mute ou bannir des joueurs pour des violations évidentes des règles. Les cas limites doivent être transmis aux administrateurs." },
-      { "id": "M4", "title": "Signalement", "content": "Toute action importante (bannissements, mutes, comportement inhabituel) doit être signalée aux administrateurs ou enregistrée comme requis." }
-    ]
-  },
-  {
-    "group": "Actions disciplinaires",
-    "rules": [
-      { "id": "P1", "title": "Jugement du conseil", "content": "Les sanctions concernant le staff sont décidées par le Conseil ou les supérieurs après examen des journaux et du contexte." },
-      { "id": "P2", "title": "Éventail des sanctions", "content": "Les conséquences possibles comprennent les avertissements, la perte de permissions, la rétrogradation, l’exclusion du staff ou le bannissement permanent selon la gravité.", "examples": "Première infraction mineure = avertissement. Abus grave de Double Life = exclusion et bannissement." }
-    ]
-  }
+    {
+        "group": "Règles générales du staff",
+        "rules": [
+            {
+                "id": "G1",
+                "title": "Utilisation de Double Life",
+                "content": "Le staff ne doit utiliser le mode Double Life que pour des tâches administratives (gestion des tickets, enquête sur les bugs, aide aux joueurs). Il ne doit jamais servir au gain personnel, à la collecte de ressources ou à se téléporter pour s’amuser. Chaque action est enregistrée et contrôlée.",
+                "examples": "Autorisé : se téléporter pour vérifier un signalement de bug. Interdit : se téléporter à la base d’un ami ou se donner du butin."
+            },
+            {
+                "id": "G2",
+                "title": "Abus de commandes et de permissions",
+                "content": "Toutes les commandes exécutées en mode Double Life sont enregistrées. Utiliser des pouvoirs pour son avantage personnel, sanctionner sans raison ou favoriser des amis entraînera un jugement du conseil.",
+                "examples": "Autorisé : utiliser /ban contre un hacker confirmé. Interdit : utiliser /ban contre quelqu’un à cause d’une dispute personnelle."
+            },
+            {
+                "id": "G3",
+                "title": "La stabilité avant tout",
+                "content": "Toute modification de fichier ou de configuration doit être sauvegardée avant d’être appliquée aux serveurs de production. N’applique jamais directement de changements non testés sans sauvegarde.",
+                "examples": "Autorisé : enregistrer l’ancienne configuration sur ton PC, puis appliquer les modifications. Interdit : modifier directement les configurations du serveur en ligne sans sauvegarde."
+            },
+            {
+                "id": "G4",
+                "title": "Tester avant le déploiement",
+                "content": "Toute modification de plugin ou de configuration doit d’abord être testée sur un serveur de test. Les serveurs de production doivent rester stables.",
+                "examples": "Autorisé : tester un nouveau système de recettes sur le serveur de test. Interdit : ajouter du code non testé directement en production."
+            },
+            {
+                "id": "G5",
+                "title": "Aucune mécanique cachée",
+                "content": "Le staff ne doit ni créer ni utiliser de mécaniques cachées qui ne seraient accessibles qu’à lui-même ou à un petit cercle. Les nouvelles fonctionnalités doivent être publiées officiellement pour tous les joueurs.",
+                "examples": "Autorisé : publier une nouvelle formule de potion dans une mise à jour. Interdit : conserver une commande secrète pour son usage personnel."
+            },
+            {
+                "id": "G6",
+                "title": "Secret des connaissances internes",
+                "content": "Ne divulgue pas d’informations non publiées (mécaniques, recettes, exploits, configurations) en dehors des salons du staff.",
+                "examples": "Autorisé : confirmer dans un ticket si une recette fonctionne. Interdit : envoyer à un ami la liste complète des recettes."
+            },
+            {
+                "id": "G7",
+                "title": "Résolution des conflits",
+                "content": "En cas de doute sur une décision, transmets-la aux administrateurs, développeurs ou au conseil. N’agis jamais seul dans l’incertitude.",
+                "examples": "Autorisé : mettre un problème en pause et demander conseil à un supérieur. Interdit : appliquer un changement controversé sans discussion."
+            },
+            {
+                "id": "G8",
+                "title": "Gestion des bugs",
+                "content": "N’essaie pas de corriger à chaud des bugs graves sur le serveur en ligne sans plan. Signale-les à l’équipe, prépare une correction et teste-la.",
+                "examples": "Autorisé : désactiver temporairement un plugin défectueux pendant la discussion sur sa correction. Interdit : réécrire des parties d’un plugin directement sur le serveur en ligne."
+            },
+            {
+                "id": "G9",
+                "title": "Git et collaboration",
+                "content": "N’utilise jamais de force push ni de commande destructive sur des dépôts partagés. Documente clairement les commits et préserve le travail des autres.",
+                "examples": "Autorisé : utiliser des commits de fusion et des pull requests. Interdit : utiliser `git push --force` et supprimer les changements des autres."
+            }
+        ]
+    },
+    {
+        "group": "Développeurs",
+        "rules": [
+            {
+                "id": "D1",
+                "title": "Indépendance et responsabilité",
+                "content": "Les développeurs peuvent implémenter des fonctionnalités de manière indépendante, mais doivent assurer leur stabilité et leur documentation."
+            },
+            {
+                "id": "D2",
+                "title": "Qualité du code",
+                "content": "Tout code doit être propre, maintenable et documenté. Les autres développeurs doivent pouvoir comprendre les changements.",
+                "examples": "Autorisé : commenter une logique complexe dans les plugins. Interdit : envoyer des corrections illisibles sur une seule ligne sans explication."
+            },
+            {
+                "id": "D3",
+                "title": "Sauvegardes et versionnage",
+                "content": "Conserve toujours des sauvegardes des systèmes critiques et teste avant de fusionner les changements en production."
+            },
+            {
+                "id": "D4",
+                "title": "Communication",
+                "content": "Signale les changements majeurs, corrections ou refactorisations au reste de l’équipe de développement. La transparence est obligatoire."
+            }
+        ]
+    },
+    {
+        "group": "Développeurs à l’essai",
+        "rules": [
+            {
+                "id": "TD1",
+                "title": "Voie d’apprentissage",
+                "content": "Les développeurs à l’essai sont en apprentissage. Ils doivent progresser en accomplissant les tâches attribuées par les développeurs et en demandant des revues."
+            },
+            {
+                "id": "TD2",
+                "title": "Progression hebdomadaire",
+                "content": "Les développeurs à l’essai doivent montrer une progression chaque semaine (tâches terminées, jalons d’apprentissage, expérimentations de code)."
+            },
+            {
+                "id": "TD3",
+                "title": "Mentorat",
+                "content": "Ils doivent demander des retours et des revues, apprendre grâce à des ressources (telles que des cours) et communiquer ouvertement sur leurs difficultés."
+            },
+            {
+                "id": "TD4",
+                "title": "Restrictions",
+                "content": "Les développeurs à l’essai ne peuvent pas envoyer en production de changements non relus. Tout travail doit être supervisé et approuvé par les développeurs."
+            }
+        ]
+    },
+    {
+        "group": "Administrateurs",
+        "rules": [
+            {
+                "id": "A1",
+                "title": "Stabilité du serveur",
+                "content": "Les administrateurs supervisent la disponibilité, la stabilité et les fonctionnalités fondamentales des serveurs."
+            },
+            {
+                "id": "A2",
+                "title": "Autorité disciplinaire",
+                "content": "Les administrateurs peuvent mute, bannir ou avertir des joueurs, mais uniquement pour des raisons valables. Tout abus sera examiné par le conseil."
+            },
+            {
+                "id": "A3",
+                "title": "Supervision des modérateurs",
+                "content": "Les administrateurs guident les modérateurs, examinent leurs actions et gèrent les cas remontés."
+            },
+            {
+                "id": "A4",
+                "title": "Action exécutive",
+                "content": "En l’absence des supérieurs, les administrateurs peuvent prendre des décisions exécutives, mais celles-ci seront examinées ultérieurement."
+            }
+        ]
+    },
+    {
+        "group": "Modérateurs",
+        "rules": [
+            {
+                "id": "M1",
+                "title": "Résolution des tickets",
+                "content": "Les modérateurs traitent les tickets, litiges et signalements de façon équitable et respectueuse."
+            },
+            {
+                "id": "M2",
+                "title": "Utilisation de Double Life",
+                "content": "Les modérateurs ne peuvent utiliser Double Life que lorsqu’il est nécessaire de vérifier un ticket ou d’enquêter sur un problème. Ce n’est pas destiné à un usage personnel.",
+                "examples": "Autorisé : se téléporter pour confirmer un signalement de grief. Interdit : se téléporter auprès d’un ami pour s’amuser."
+            },
+            {
+                "id": "M3",
+                "title": "Autorité de mute et de bannissement",
+                "content": "Les modérateurs peuvent mute ou bannir des joueurs pour des violations évidentes des règles. Les cas limites doivent être transmis aux administrateurs."
+            },
+            {
+                "id": "M4",
+                "title": "Signalement",
+                "content": "Toute action importante (bannissements, mutes, comportement inhabituel) doit être signalée aux administrateurs ou enregistrée comme requis."
+            }
+        ]
+    },
+    {
+        "group": "Actions disciplinaires",
+        "rules": [
+            {
+                "id": "P1",
+                "title": "Jugement du conseil",
+                "content": "Les sanctions concernant le staff sont décidées par le Conseil ou les supérieurs après examen des journaux et du contexte."
+            },
+            {
+                "id": "P2",
+                "title": "Éventail des sanctions",
+                "content": "Les conséquences possibles comprennent les avertissements, la perte de permissions, la rétrogradation, l’exclusion du staff ou le bannissement permanent selon la gravité.",
+                "examples": "Première infraction mineure = avertissement. Abus grave de Double Life = exclusion et bannissement."
+            }
+        ]
+    }
 ]
