@@ -65,7 +65,7 @@
         "observatoryActive": "Voies actives",
         "observatoryPanelTitle": "Voies les plus parcourues",
         "observatoryPanelNote": "Cette saison",
-        "observatoryRegistryCta": "Les sièges des Séquences 3–0 sont limités : consulter le Registre des Ascensions",
+        "observatoryRegistryCta": "Les sièges des Séquences 3–0 sont limités : consulter le Registre des Ascensions",
         "newsEyebrow": "Depuis l’autre côté de la Brume",
         "newsTitle": "Dernières dépêches",
         "newsAll": "Toutes les actualités",
@@ -74,7 +74,7 @@
         "closingEyebrow": "L’invitation",
         "closingTitleLineOne": "La Brume attend.",
         "closingTitleLineTwo": "Oseras-tu regarder à l’intérieur ?",
-        "closingLede": "Rejoins-nous gratuitement. Avec Java 26.1.2+, accepte le pack de ressources : ta première Séquence n’est plus qu’à une soirée.",
+        "closingLede": "Rejoins-nous gratuitement. Avec Java 26.1.2+, accepte le pack de ressources : ta première Séquence n’est plus qu’à une soirée.",
         "closingCopy": "Copier l’IP du serveur",
         "closingCopied": "✓ IP copiée",
         "closingDiscord": "Rejoindre le Discord"
@@ -110,7 +110,7 @@
     "shopPage": {
         "eyebrow": "Le Reliquaire",
         "title": "Marchandises de l’Éternelle Nuit",
-        "lede": "Soutiens le serveur sans jamais acheter de puissance. Tout ce qui est proposé ici est cosmétique, pratique ou permet de commander une prestation au staff : l’Ascension des Séquences reste sacrée.",
+        "lede": "Soutiens le serveur sans jamais acheter de puissance. Tout ce qui est proposé ici est cosmétique, pratique ou permet de commander une prestation au staff : l’Ascension des Séquences reste sacrée.",
         "tabAll": "Toutes les marchandises",
         "showing": "Affichage de {shown} manifestations sur {total}",
         "giftable": "Tout peut être offert à un autre joueur",
@@ -205,7 +205,7 @@
     "ascensionPage": {
         "eyebrow": "REGISTRE DES HAUTES SÉQUENCES",
         "title": "Trônes de l’Ascension",
-        "subtitle": "Au-dessus de la Séquence 4, l’échelle se resserre : chaque Voie n’accueille qu’un nombre limité de Beyonders. Découvre qui s’est élevé et quels trônes restent vides avant de choisir ta route.",
+        "subtitle": "Au-dessus de la Séquence 4, l’échelle se resserre : chaque Voie n’accueille qu’un nombre limité de Beyonders. Découvre qui s’est élevé et quels trônes restent vides avant de choisir ta route.",
         "archiveLink": "Étudier les Voies dans les archives",
         "epochTitle": "L’Époque changera",
         "epochBody": "Au début de la prochaine Époque, chaque Beyonder est réinitialisé et tous ces sièges sont libérés. Ce qui est revendiqué ci-dessous ne l’est que pour l’instant : à la nouvelle Époque, chacun se bat à nouveau pour les trônes.",
