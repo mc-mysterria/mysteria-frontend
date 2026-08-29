@@ -113,7 +113,7 @@
             "icon": "fa-solid fa-plug",
             "title": "Rejoindre le serveur",
             "description": "Versions, pack de ressources, comptes et vérification.",
-            "topicId": "connect"
+            "topicId": "Connexion"
         },
         {
             "icon": "fa-solid fa-scale-balanced",
@@ -130,7 +130,7 @@
         {
             "icon": "fa-solid fa-box-open",
             "title": "Trouver des formules ou ingrédients",
-            "description": "Coffres, focalisation, créatures, nœuds et échanges.",
+            "description": "Coffres, focalisation, créatures, gisement et échanges.",
             "topicId": "loot"
         },
         {
@@ -162,17 +162,17 @@
         {
             "title": "Connecte-toi et accepte le pack de ressources",
             "description": "Ajoute mc.mysterria.net, rejoins Mysteries via le sélecteur du lobby et accepte le pack du serveur.",
-            "topicId": "connect"
+            "topicId": "connexion"
         },
         {
             "title": "Inscris-toi seulement si Minecraft le demande",
             "description": "Les comptes hors ligne utilisent /register et /login. Les comptes premium officiels sont authentifiés automatiquement.",
-            "topicId": "connect"
+            "topicId": "connexion"
         },
         {
             "title": "Vérifie ton compte Minecraft",
             "description": "Génère un code sur ton profil, puis saisis-le dans la fenêtre de vérification affichée en jeu.",
-            "topicId": "connect"
+            "topicId": "connexion"
         },
         {
             "title": "Choisis soigneusement ton bonus de départ",
@@ -182,7 +182,7 @@
         {
             "title": "Choisis la vie en ville ou l’autonomie",
             "description": "Rejoins une ville qui recrute ou pars explorer en solo à la recherche de coffres.",
-            "topicId": "towns"
+            "topicId": "villes"
         },
         {
             "title": "Travaille pour obtenir ta première potion",
@@ -227,7 +227,7 @@
             "description": "Une option tout à fait viable, mais plus lente et davantage dépendante de l’exploration.",
             "points": [
                 "Ouvre chaque coffre généré : leur butin Beyonder se régénère.",
-                "Chasse les créatures Beyonder et repère les nœuds de ressources renouvelables.",
+                "Chasse les créatures Beyonder et repère les gisement de ressources renouvelables.",
                 "Échange tes matériaux excédentaires et rejoins des groupes lorsque le contenu l’exige."
             ],
             "topicId": "loot"
@@ -363,7 +363,7 @@
                 "mort",
                 "keep inventory",
                 "reset",
-                "season",
+                "saison",
                 "world border",
                 "safe"
             ],
@@ -421,7 +421,7 @@
                 "Verrouillé",
                 "repick",
                 "magic",
-                "sequence 9",
+                "séquence 9",
                 "spiritualité",
                 "formule garantie"
             ],
@@ -457,11 +457,11 @@
             "related": [
                 "premire potion",
                 "progression",
-                "connect"
+                "Connexion"
             ]
         },
         {
-            "id": "first-potion",
+            "id": "première-potion",
             "category": "progression",
             "icon": "fa-solid fa-flask",
             "title": "Prépare et bois ta première potion",
@@ -469,7 +469,7 @@
             "summary": "La formule complète de Séquence 9 et le cycle de préparation, sans les mythes de la communauté.",
             "answer": "Pour atteindre la Séquence 9 : obtiens une formule, construis un chaudron, rassemble ses ingrédients, prépare-la avec succès et bois. Ta première potion ne demande ni Interprétation, ni rituel, ni coût de Folie.",
             "tags": [
-                "sequence 9",
+                "séquence 9",
                 "potion",
                 "préparer",
                 "préparation",
@@ -509,13 +509,13 @@
                     "bullets": [
                         "Les ingrédients trouvables n’apparaissent que dans les coffres de butin générés.",
                         "Les ingrédients récupérables viennent uniquement des créatures Beyonder.",
-                        "Les ingrédients minables poussent sous forme de nœuds distincts dans le monde : fais un clic droit pour les récolter."
+                        "Les ingrédients minables poussent sous forme de gisement distincts dans le monde : fais un clic droit pour les récolter."
                     ]
                 },
                 {
                     "title": "Expiration des potions",
                     "paragraphs": [
-                        "Un élixir dure deux jours réels à partir du moment où il existe. Prépare-la lorsque tu es prêt à le boire. une potion expiré devient, lorsque possible, un Artefact scellé correspondant, mais ne confère plus l’Ascension prévue."
+                        "Une potion dure deux jours réels à partir du moment où il existe. Prépare-la lorsque tu es prêt à le boire. une potion expiré devient, lorsque possible, un Artefact scellé correspondant, mais ne confère plus l’Ascension prévue."
                     ]
                 }
             ],
@@ -536,14 +536,14 @@
             "tags": [
                 "loot",
                 "coffre",
-                "container",
+                "Conteneur",
                 "formule",
                 "page",
                 "Ingrédient",
                 "schémas d'autel",
-                "focus",
-                "focusing",
-                "pity",
+                "Cible",
+                "Ciblage",
+                "Seuil de grâce",
                 "Garantie",
                 "beyonder sauvage",
                 "créature",
@@ -601,8 +601,8 @@
                 "santé",
                 "stats",
                 "status",
-                "sequence",
-                "advance",
+                "séquence",
+                "Avancer",
                 "prime",
                 "bouteille"
             ],
@@ -926,7 +926,7 @@
                 "église",
                 "Nom honorifique",
                 "Unicité",
-                "sequence 0",
+                "séquence 0",
                 "Arme à feu",
                 "Boisson",
                 "Passe de combat",
@@ -1026,7 +1026,7 @@
                 }
             ],
             "related": [
-                "connect",
+                "connexion",
                 "commands",
                 "server-basics"
             ]
