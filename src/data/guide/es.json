@@ -589,32 +589,32 @@
             "title": "Actuación, rituales, Espiritualidad y Locura",
             "shortTitle": "Ascenso",
             "summary": "Cómo funciona la progresión tras la Secuencia 9 y dónde consultar tu estado actual.",
-            "answer": "Después de convertirte en Trascendente, el ascenso combina Actuación de varias fuentes, la siguiente pócima y rituales cada vez más importantes. Tu estado completo está en la interfaz de Sendero del inventario.",
+            "answer": "Después de convertirte en Beyonder, el ascenso combina Actuación de varias fuentes, la siguiente pocion y rituales cada vez más difíciles. Tu estado completo está en la interfaz de Camino del inventario.",
             "tags": [
-                "acting",
-                "digestion",
+                "Actuacion",
+                "Digestion",
                 "ritual",
-                "spirituality",
+                "Espiritualidad",
                 "mana",
-                "madness",
-                "mutation",
-                "health",
-                "stats",
-                "status",
-                "sequence",
-                "advance",
-                "bounty",
-                "bottle"
+                "Locura",
+                "mutación",
+                "Salud",
+                "Estadísticas",
+                "Estado",
+                "secuencia",
+                "Avanzar",
+                "Contrato",
+                "Botella"
             ],
             "sections": [
                 {
                     "title": "Consulta tu personaje",
                     "steps": [
                         "Abre tu inventario.",
-                        "Haz clic en el icono de Sendero de la esquina superior izquierda.",
+                        "Haz clic en el icono de Camino de la esquina superior izquierda.",
                         "Pasa el cursor sobre la cabeza de tu personaje en la interfaz."
                     ],
-                    "tip": "Esto muestra la Secuencia, Actuación y digestión, Espiritualidad y Locura. No existe un comando de estado."
+                    "tip": "Esto muestra la Secuencia, Actuación y Digestión, Espiritualidad y Locura. No hay comandos para mostrar el estado."
                 },
                 {
                     "title": "Actuación y digestión",
