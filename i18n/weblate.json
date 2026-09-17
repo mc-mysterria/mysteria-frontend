@@ -22,17 +22,16 @@
     "web": "https://mysterria.net",
     "use_shared_tm": true,
     "contribute_shared_tm": true,
-    "translation_review": true,
-    "set_language_team": false
+    "translation_review": true
   },
   "components": [
     {
       "name": "UI strings",
       "slug": "ui",
-      "repo": "https://github.com/mc-mysterria/mysteria-frontend.git",
-      "push": "https://github.com/mc-mysterria/mysteria-frontend.git",
+      "repo": "git@github-frontend:mc-mysterria/mysteria-frontend.git",
+      "push": "git@github-frontend:mc-mysterria/mysteria-frontend.git",
       "branch": "main",
-      "vcs": "github",
+      "vcs": "git",
       "file_format": "json-nested",
       "filemask": "src/locales/*.json",
       "template": "src/locales/en.json",
@@ -126,7 +125,9 @@
     "file_format": "json-nested, not json. The locale files are nested objects; the flat 'json' format would key them as literal dotted strings and lose the structure on write.",
     "rules_filemask": "'rules_*.json' does not match 'staff_rules_en.json' - the filename has to start with 'rules_' - so the two components do not overlap. Verified, not assumed.",
     "frozen_fields": "check-i18n.mjs freezes rule 'id' and 'severity' and guide topic 'id' because the site keys off them. Weblate will still show them as translatable strings. Follow-up: add the 'Bulk edit' add-on to each component with query 'key:*.id OR key:*.severity' and flag 'read-only', which greys them out in the editor. Until then check-i18n.mjs in CI is what catches an edit.",
-    "vcs": "github on the 'ui' component only; the other four inherit it through repo: weblate://mysterria-website/ui. Weblate opens a pull request on push_branch rather than committing to main. No credentials appear in these URLs and none are stored per-component: this repo is PUBLIC, so the clone is anonymous, and the push plus pull-request API use WEBLATE_GITHUB_TOKEN from the server's environment. Contrast the plugin repo, which is private and therefore has to carry credentials in its clone URL.",
+    "vcs": "Plain 'git' over SSH, set on the 'ui' component only; the other four inherit it through repo: weblate://mysterria-website/ui. Authentication is a GitHub deploy key held in Weblate's own /app/data/ssh, so no token is stored in Weblate's database and nothing secret appears in this file. The host is the alias 'github-frontend', not github.com: the Weblate container serves two repositories, and its generated ssh wrapper offers both private keys with id_rsa first, so whichever key is valid first wins and locks the connection to that key's repository. The alias exists to pin this repo to id_rsa and CircleOfImagination to id_ed25519 - see the comments in /app/data/ssh/config on the server. Do not change the host here without updating that file.",
+    "vcs_not_github": "'github' (GitHub pull request) is deliberately NOT used, and switching to it will break the component. GithubRepository.format_api_host() maps only the literal host 'github.com' to api.github.com, and get_credentials_by_hostname() then looks the result up in GITHUB_CREDENTIALS, which is keyed 'api.github.com'. Our host is the SSH alias 'github-frontend', so the lookup raises 'GitHub API access for github-frontend is not configured'; and were the key added, format_url() would treat the unknown host as GitHub Enterprise and build https://github-frontend/api/v3/... The alias and the github vcs are mutually exclusive. Checked against the Weblate 2026.8 source in the running container, not assumed.",
+    "push_branch": "Load-bearing, and empty on the server at one point, which is what this file was reconciled against. Weblate commits translations to its own clone and then pushes; with push_branch set, GitRepository.push() runs 'git push origin main:weblate-website-ui' instead of pushing to main. Three things hang off that branch name: .github/workflows/weblate-regenerate.yml triggers on it and regenerates Traditional Chinese so the derived files are in the pull request rather than landing after review; the i18n.yml checks (check:zh-tw, check:i18n) get a chance to fail before the change is in main; and a human reviews the result. With push_branch empty, Weblate pushes straight to main and all three are skipped. Because vcs is 'git' and not a merge-request backend, Weblate pushes the branch but does not open the pull request - do that by hand, as with PR #2.",
     "commit_messages": "Deliberately unset. Weblate's project-level conventional-commit defaults are better than anything worth hardcoding and stay current across upgrades."
   }
 }
