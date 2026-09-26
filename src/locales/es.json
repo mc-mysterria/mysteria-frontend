@@ -163,12 +163,19 @@
     "rulesPage": {
         "eyebrow": "El Pacto",
         "lede": "Breves, comprensibles y aplicadas con criterio, no con scripts. Ante la duda: no le arruines el día a nadie.",
-        "appeals": "Las apelaciones se hacen mediante un ticket de Discord, nunca en el chat público.",
+        "appeals": "Las apelaciones se hacen mediante un ticket de Discord.",
         "staffNote": "Este es el pacto de los jugadores. El equipo opera bajo un código independiente y más estricto, visible para las cuentas del equipo en esta página.",
-        "severityWarn": "Advertencia",
-        "severityMute": "Silencio",
-        "severityBan": "Expulsión",
-        "severityInstant": "Acción inmediata"
+        "warnForms": {
+            "one": "aviso",
+            "few": "avisos",
+            "many": "avisos"
+        },
+        "noWarning": "sin aviso",
+        "permanent": "permanente",
+        "ladderHeading": "Cómo se cuenta",
+        "ladderAria": "Mostrar cómo se cuenta esta regla",
+        "ladderCase": "Qué hiciste",
+        "ladderCost": "Coste"
     },
     "staffOrder": {
         "eyebrow": "Guardianes de la Niebla",

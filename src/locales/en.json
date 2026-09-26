@@ -163,12 +163,19 @@
   "rulesPage": {
     "eyebrow": "The Covenant",
     "lede": "Short, human-readable, and enforced with judgement rather than scripts. When in doubt: don't ruin someone's day.",
-    "appeals": "Appeals go through a Discord ticket - never in public chat.",
+    "appeals": "Appeals go through a Discord ticket",
     "staffNote": "This is the player covenant. Staff operate under a separate, stricter code - visible to staff accounts on this page.",
-    "severityWarn": "Warn",
-    "severityMute": "Mute",
-    "severityBan": "Ban",
-    "severityInstant": "Instant action"
+    "warnForms": {
+      "one": "warn",
+      "few": "warns",
+      "many": "warns"
+    },
+    "noWarning": "no warning",
+    "permanent": "permanent",
+    "ladderHeading": "How this is counted",
+    "ladderAria": "Show how this rule is counted",
+    "ladderCase": "What you did",
+    "ladderCost": "Cost"
   },
   "staffOrder": {
     "eyebrow": "Keepers of the Fog",

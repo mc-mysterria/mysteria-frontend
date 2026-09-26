@@ -127,7 +127,12 @@ const targets = [
     jsonTarget("src/data/guide/zh-CN.json", "src/data/guide/zh-TW.json"),
     jsonTarget("src/assets/sources/meta-copy.zh-CN.json", "src/assets/sources/meta-copy.zh-TW.json"),
     jsonTarget("src/assets/sources/pathways.zh-CN.json", "src/assets/sources/pathways.zh-TW.json"),
-    jsonTarget("src/assets/sources/rules_zh-CN.json", "src/assets/sources/rules_zh-TW.json"),
+    /*
+     * No player-rules target. The rules were rewritten from scratch and only
+     * English and Ukrainian were carried over, so rules_zh-CN.json does not
+     * exist to derive from - RulesView falls back to English for every other
+     * locale. Restore this line once Weblate has a Simplified translation again.
+     */
     jsonTarget("src/assets/sources/staff_rules_zh-CN.json", "src/assets/sources/staff_rules_zh-TW.json"),
 ];
 

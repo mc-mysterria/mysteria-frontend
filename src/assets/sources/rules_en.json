@@ -1,210 +1,384 @@
 [
   {
     "id": "1",
-    "title": "Corruption of Spirit (Chat & Communication)",
-    "content": "Words, sounds, and messages shape the atmosphere of Mysterria. Whether you speak in Minecraft chat, Discord, or private DMs, keep them clean and respectful."
+    "title": "Chat and communication",
+    "content": "Most of Mysterria is people talking to each other. Keep it bearable."
   },
   {
     "id": "1.1",
-    "title": "Toxicity & Harassment",
-    "content": "Flaming, bullying, or harassing others is not allowed. This includes constant arguing to provoke people, personal insults, and targeting someone repeatedly. Example: calling someone trash every time they speak = warnable offense.",
-    "severity": "warn"
+    "title": "Harassment",
+    "content": "Insulting people, following someone around to pick fights, or joining a pile-on. One heated argument is not harassment. Carrying on after someone has asked you to stop is.",
+    "ladder": [
+      {
+        "case": "A one-off insult in a bad moment",
+        "warns": 1
+      },
+      {
+        "case": "Going after the same person repeatedly",
+        "warns": 2
+      },
+      {
+        "case": "Organising others to do it with you",
+        "warns": 4
+      }
+    ]
   },
   {
     "id": "1.2",
-    "title": "Swearing & Vulgarity",
-    "content": "Mild swearing is fine, but excessive profanity, sexual jokes, or constant foul language are not. Example: saying 'damn' in frustration is okay, spamming f-bombs or sexual comments is not.",
-    "severity": "warn"
+    "title": "Swearing",
+    "content": "Swearing is fine. Sexual talk and relentless filth are not, and neither is a slur with a joke wrapped around it.",
+    "warns": 1
   },
   {
     "id": "1.3",
-    "title": "Spam & Noise",
-    "content": "Do not spam chat or flood voice channels. This includes repeating the same message, mic spamming, or abusing soundboards. Example: spamming 'ez' in chat or blasting loud noises in VC = punishable.",
-    "severity": "mute"
+    "title": "Spam",
+    "content": "Repeating yourself, flooding a channel, or playing noise over voice.",
+    "warns": 1
   },
   {
     "id": "1.4",
-    "title": "Private Harassment",
-    "content": "Harassing people in DMs (Minecraft or Discord) counts just the same as public harassment. Example: sending 20 messages to annoy someone after they told you to stop = warn.",
-    "severity": "warn"
+    "title": "Private messages",
+    "content": "Harassment in DMs counts exactly as much as harassment in public. Block the person and open a ticket instead of trading insults.",
+    "warns": 2
   },
   {
     "id": "1.5",
-    "title": "Names & Avatars",
-    "content": "Nicknames, avatars, or skins with offensive, extremist, or NSFW content are forbidden. Example: Nazi skins, hentai profile pics, or racist usernames = instant action by staff.",
-    "severity": "instant"
+    "title": "Names, avatars and skins",
+    "content": "Nothing offensive, extremist or pornographic. Staff will ask you to change it first.",
+    "ladder": [
+      {
+        "case": "You change it when asked",
+        "warns": 0
+      },
+      {
+        "case": "You refuse to change it",
+        "warns": 2
+      },
+      {
+        "case": "Extremist or pornographic to begin with",
+        "warns": 8
+      }
+    ]
   },
   {
     "id": "2",
-    "title": "Profane Creations (Builds & World Behavior)",
-    "content": "What you create in Mysterria must not harm others or the world itself."
+    "title": "Building and the world",
+    "content": "What you build is permanent for everyone else too."
   },
   {
     "id": "2.1",
-    "title": "Offensive Builds & Content",
-    "content": "No extremist symbols, sexual structures, or other offensive builds. Example: swastikas, inappropriate statues, or extremist banners = instant removal + punishment.",
-    "severity": "instant"
+    "title": "Offensive builds",
+    "content": "Extremist symbols and pornographic structures come down, and whoever placed them answers for it.",
+    "ladder": [
+      {
+        "case": "A crude joke, removed when asked",
+        "warns": 1
+      },
+      {
+        "case": "Extremist symbols or sexual content",
+        "warns": 8
+      }
+    ]
   },
   {
     "id": "2.2",
-    "title": "Griefing & Stealing",
-    "content": "Breaking builds, stealing items, or trolling others without consent is forbidden. Example: destroying a house or taking chest loot that isn’t yours = punishable.",
-    "severity": "ban"
+    "title": "Griefing and stealing",
+    "content": "Breaking what someone else built, or taking what is not yours. Consent changes this entirely: agreed wars and agreed raids are not griefing.",
+    "ladder": [
+      {
+        "case": "Minor damage, returned or repaired",
+        "warns": 1
+      },
+      {
+        "case": "Destroying or looting someone's build",
+        "warns": 3
+      },
+      {
+        "case": "Wiping a town or emptying its vaults",
+        "warns": 6
+      }
+    ]
   },
   {
     "id": "2.3",
-    "title": "Lag & Exploit Machines",
-    "content": "Machines or farms that cause lag (like TNT spam) or unauthorized chunk loaders are not allowed. Example: building a redstone clock to crash the server = ban.",
-    "severity": "ban"
+    "title": "Lag machines",
+    "content": "Farms and contraptions that hurt server performance, and chunk loaders nobody approved.",
+    "ladder": [
+      {
+        "case": "Careless build, taken down when asked",
+        "warns": 1
+      },
+      {
+        "case": "Built deliberately to lag the server",
+        "warns": 6
+      }
+    ]
   },
   {
     "id": "3",
-    "title": "Forbidden Powers (Cheats & Exploits)",
-    "content": "Unfair advantages break the balance of Mysterria. Cheating is never tolerated."
+    "title": "Cheating",
+    "content": "Everything here is about taking something the game did not give you."
   },
   {
     "id": "3.1",
-    "title": "Hacks & Cheats",
-    "content": "Using hacks, x-ray, autoclickers, macros, dupes, or bug exploits is an instant permanent ban. Example: x-ray mining for diamonds = permaban.",
-    "severity": "instant"
+    "title": "Cheats and hacks",
+    "content": "X-ray, kill aura, reach, autoclickers, macros, and anything else that plays the game for you.",
+    "warns": 8
   },
   {
     "id": "3.2",
-    "title": "Bug Abuse",
-    "content": "If you find a glitch, report it. Do not abuse it. Example: finding a way to duplicate items and using it = permaban. You will be rewarded for reporting it.",
-    "severity": "ban"
+    "title": "Abusing a bug",
+    "content": "Find a glitch and report it in the bug forum. Reports are rewarded. Using one instead is the offence, and how far you take it decides what it costs you.",
+    "ladder": [
+      {
+        "case": "You triggered it once and reported it yourself",
+        "warns": 0
+      },
+      {
+        "case": "You kept using it after you knew",
+        "warns": 3
+      },
+      {
+        "case": "You duped anything of value",
+        "warns": 8
+      },
+      {
+        "case": "You handed out duped items or taught the method",
+        "warns": 8
+      }
+    ]
   },
   {
     "id": "4",
-    "title": "Veil & Identity (Privacy & Accounts)",
-    "content": "Respect real-world privacy and keep your account tied to your own soul."
+    "title": "Accounts and privacy",
+    "content": "One person, one account, and nothing about anyone's real life without their say-so."
   },
   {
     "id": "4.1",
-    "title": "Privacy & Doxxing",
-    "content": "Never share personal info (real names, addresses, social media, etc.). Example: leaking someone’s Instagram without permission = instant permaban.",
-    "severity": "instant"
+    "title": "Personal information",
+    "content": "Do not post someone's real name, address, photographs, workplace or other accounts. Not as a threat, not as a joke, not as proof of anything.",
+    "warns": 8
   },
   {
     "id": "4.2",
-    "title": "Outside Influence",
-    "content": "Don’t use Discord/DMs to manipulate in-game actions unfairly (metagaming). Example: telling your friend over Discord to ambush someone’s base = punishable.",
-    "severity": "warn"
+    "title": "Coordinating outside the game",
+    "content": "Planning raids, trades, wars and town business in Discord is ordinary play and always allowed. Organising a group against one person, or manufacturing evidence to get someone punished, is not.",
+    "warns": 4
   },
   {
     "id": "4.3",
-    "title": "Alt Accounts",
-    "content": "Only one account per person unless approved by staff. Unauthorized alts = permaban. Example: making a second account to avoid a mute = instant ban.",
-    "severity": "ban"
+    "title": "Alt accounts",
+    "content": "One account each. Alts exist to be caught, so assume they will be.",
+    "ladder": [
+      {
+        "case": "An alt that gained you nothing",
+        "warns": 1
+      },
+      {
+        "case": "Extra plots, extra event rewards, extra votes",
+        "warns": 3
+      },
+      {
+        "case": "Evading a ban or a mute",
+        "warns": 8
+      }
+    ]
   },
   {
     "id": "4.4",
-    "title": "Impersonation",
-    "content": "Do not impersonate staff or other players. Faking evidence or pretending to be a Guardian = permanent ban.",
-    "severity": "instant"
+    "title": "Pretending to be someone else",
+    "content": "Copying another player's name and skin to trade on their reputation, or passing yourself off as staff.",
+    "ladder": [
+      {
+        "case": "A joke that gets cleared up immediately",
+        "warns": 1
+      },
+      {
+        "case": "Impersonating another player",
+        "warns": 3
+      },
+      {
+        "case": "Impersonating staff",
+        "warns": 5
+      }
+    ]
   },
   {
     "id": "5",
-    "title": "Respect of Souls (Community Behavior)",
-    "content": "Mysterria thrives on respect. Treat others fairly and keep the community positive."
+    "title": "Community conduct",
+    "content": "The rules that are not about mechanics at all."
   },
   {
     "id": "5.1",
-    "title": "Hate Speech",
-    "content": "Racism, sexism, homophobia, and other hate speech is forbidden. Example: using slurs = instant warn or ban depending on severity.",
-    "severity": "instant"
+    "title": "Hate speech",
+    "content": "Slurs, and attacks on race, ethnicity, religion, nationality, gender or sexuality. There is no ironic version of this rule.",
+    "warns": 8
   },
   {
     "id": "5.2",
-    "title": "False Accusations",
-    "content": "Making false reports against players or staff wastes time and spreads toxicity. Example: faking screenshots to get someone banned = punishable.",
-    "severity": "ban"
+    "title": "False reports",
+    "content": "Reporting something you believe happened is always fine, even if you turn out to be wrong. Inventing it is not.",
+    "ladder": [
+      {
+        "case": "An honest mistake",
+        "warns": 0
+      },
+      {
+        "case": "A report you knew was false",
+        "warns": 3
+      },
+      {
+        "case": "Faked screenshots or edited logs",
+        "warns": 6
+      }
+    ]
   },
   {
     "id": "5.3",
-    "title": "Disrespecting Staff",
-    "content": "Guardians (staff) must be respected. Insulting or trolling staff directly = heavy punishment.",
-    "severity": "warn"
+    "title": "Arguing with staff",
+    "content": "Disagreeing with a decision is not an offence, and a ticket will get it read. Abusing the person who made it is the offence.",
+    "warns": 2
   },
   {
     "id": "5.4",
-    "title": "Drama & Negativity",
-    "content": "Creating drama, spreading negativity, or constantly complaining ruins the atmosphere. Example: repeatedly saying 'this server sucks' = warnable offense.",
-    "severity": "warn"
+    "title": "Begging",
+    "content": "Asking once is asking. Asking eight people in a row for items, ranks or free potions is spam.",
+    "warns": 1
   },
   {
     "id": "5.5",
-    "title": "Begging & Pestering",
-    "content": "Do not spam staff for free items, ranks, or attention. Example: 'pls gimme op' every 5 minutes = punishable.",
-    "severity": "warn"
-  },
-  {
-    "id": "5.6",
-    "title": "Black Market",
-    "content": "Trading in-game valuables for real money bypassing the server is strictly prohibited. We respect your entrepreneurial spirit, but please, let’s not turn the server into a marketplace!",
-    "severity": "ban"
+    "title": "Real money trading",
+    "content": "Accounts, items and currency are not for sale for real money. The shop is the only place value enters the server from outside.",
+    "warns": 5
   },
   {
     "id": "6",
-    "title": "Ritual Order (Channels & Promotion)",
-    "content": "Stay organized and respect how communication channels are used."
+    "title": "Channels and promotion",
+    "content": "Where things go, and what cannot be posted anywhere."
   },
   {
     "id": "6.1",
-    "title": "Stay On-Topic",
-    "content": "Use the right channels for the right discussions. Example: posting memes in #announcements = warn.",
-    "severity": "warn"
+    "title": "Wrong channel",
+    "content": "Posts in the wrong place get moved. Doing it on purpose and repeatedly is spam.",
+    "warns": 1
   },
   {
     "id": "6.2",
     "title": "Advertising",
-    "content": "No advertising or promotion unless approved by staff. This includes other servers, Discords, or YouTube channels. Example: DMing players your server IP = ban.",
-    "severity": "ban"
+    "content": "Other servers, paid services and referral links.",
+    "ladder": [
+      {
+        "case": "Answering a friend who asked where you play",
+        "warns": 0
+      },
+      {
+        "case": "Posting an advert in chat",
+        "warns": 3
+      },
+      {
+        "case": "Mass DMing members",
+        "warns": 6
+      }
+    ]
   },
   {
     "id": "7",
-    "title": "Judgment of Guardians (Punishments)",
-    "content": "Punishments are handled through the Warning Path. Some actions bypass it entirely."
+    "title": "Warnings and bans",
+    "content": "Every rule above carries a number. This chapter is what those numbers do."
   },
   {
     "id": "7.1",
-    "title": "The Warning Path",
-    "content": "Each offense = 1 warning. Punishments double each time: mute, longer mute, tempban, longer tempban. 8 warnings = permanent ban. Warnings expire after 6 months.",
-    "severity": "warn"
+    "title": "How warnings add up",
+    "content": "Warnings stack. Eight of them bans you permanently from both the Minecraft server and the Discord, and waiting does not reverse that ban. A warning expires six months after it was issued, so what counts is how many you hold now, not how many you have ever been given."
   },
   {
     "id": "7.2",
-    "title": "Instant Permanent Bans",
-    "content": "Some actions lead to instant permaban: hacking, dupes, bug abuse, doxxing, extremist symbols, NSFW builds. No second chances.",
-    "severity": "instant"
+    "title": "What each warning costs",
+    "content": "One: the warning alone. Two: a 2 hour mute. Three: a 4 hour mute... The next consequent warning doubles the punishment. Eight: permanent ban, on both platforms."
   },
   {
     "id": "7.3",
-    "title": "Final Authority",
-    "content": "Staff decisions are final. No appeals, no exceptions.",
-    "severity": "warn"
+    "title": "Why one rule can cost different amounts",
+    "content": "Several rules carry a range, because the same rule has to cover a careless mistake and a deliberate campaign. Where a rule shows a range, the marker beside it lists what each amount is for."
+  },
+  {
+    "id": "7.4",
+    "title": "Appeals",
+    "content": "Open a ticket in Discord. An admin who was not involved reviews it, and warnings can be reduced or lifted. Reductions and unbans are posted publicly beside the original punishment. Once an appeal has been decided, that decision stands."
   },
   {
     "id": "8",
-    "title": "Bounded Realms (Affiliates & External Spaces)",
-    "content": "Our light reaches beyond these walls. Any world tethered to Mysterria must remain a sanctuary for all souls."
+    "title": "Affiliated servers",
+    "content": "Towns and communities we link to are still full of our players."
   },
   {
     "id": "8.1",
-    "title": "Guardian Presence",
-    "content": "Any server, 'town' (e.g., GHC or PHG), or community published or promoted within Mysterria community must include a Staff member in its ranks. They must be granted audit log access to ensure the safety of our players. Example: Promoting your town’s Discord in our channels requires a moderator to be present in that Discord.",
-    "severity": "warn"
+    "title": "Staff presence",
+    "content": "Any server or community promoted inside Mysterria must carry a Mysterria staff member with audit log access. That is the price of being promoted here."
   },
   {
     "id": "8.2",
-    "title": "Extended Accountability",
-    "content": "Members represent the Mysterria community wherever our connections reach. Severe violations - specifically racism, hate speech (slurs), or doxxing–committed on affiliated servers will result in the same punishments as if they occurred here. Example: Using racial slurs in a town's Discord will result in a ban from the main Mysterria server.",
-    "severity": "ban"
+    "title": "Conduct elsewhere",
+    "content": "Slurs, hate speech and doxxing on an affiliated server are punished here exactly as if they had happened here.",
+    "warns": 8
   },
   {
     "id": "8.3",
-    "title": "Severing the Tie",
-    "content": "If an affiliated server fails to maintain proper moderation standards or refuses Staff oversight, its 'approved' status will be revoked and all associated links will be removed. Example: A town leader who ignores toxicity in their own chat will lose the right to promote their project within Mysterria.",
-    "severity": "ban"
+    "title": "Losing affiliate status",
+    "content": "A community that will not moderate itself, or refuses staff oversight, loses its approved status and its links come down."
+  },
+  {
+    "id": "9",
+    "title": "PvP and incursions",
+    "content": "PvP exists in announced zones, Cosmos Incursions, and town claims where the owner has switched it on. Everywhere else it is off. Entering a zone is consent to fight, and nothing else is."
+  },
+  {
+    "id": "9.1",
+    "title": "Consent is the zone",
+    "content": "Inside a PvP zone anyone may attack you, and that is what the zone is for. Outside one, any ability that damages, drains or debuffs another player is an attack, whatever the ability is called.",
+    "warns": 2
+  },
+  {
+    "id": "9.2",
+    "title": "Dragging people into a fight",
+    "content": "Teleporting, pulling or pushing someone into a PvP zone, or into a fight they are not part of, without their agreement.",
+    "warns": 3
+  },
+  {
+    "id": "9.3",
+    "title": "Spectators and the dead",
+    "content": "If you are dead, spectating or otherwise out of the fight and can't be harmed, you are out of it. Draining, cursing, buffing or scouting from that state is not allowed.",
+    "warns": 3
+  },
+  {
+    "id": "9.4",
+    "title": "Effects that follow you out",
+    "content": "An effect that landed on you inside a zone stays on you when you leave, and that is fair - you were in the zone when it was applied. What it does not buy is control of that player once they are outside. Steering someone with it, above all into a zone where dying costs them more than where they started, is the offence.",
+    "warns": 3
+  },
+  {
+    "id": "9.5",
+    "title": "Locking others out of event mechanics",
+    "content": "Holding a beacon, capture point or objective so that no other player can reach it and no other player can stop you. The test is whether any counter exists at all, not whether it is hard.",
+    "ladder": [
+      {
+        "case": "A strong position others can still break",
+        "warns": 0
+      },
+      {
+        "case": "No counterplay left for anyone",
+        "warns": 3
+      },
+      {
+        "case": "Doing it from a state where you cannot be harmed",
+        "warns": 5
+      }
+    ]
+  },
+  {
+    "id": "9.6",
+    "title": "Abilities known to be broken",
+    "content": "Once an ability is publicly known to be bugged, using it in PvP is bug abuse under 3.2 rather than clever play. Reporting it is worth more than the fight is.",
+    "warns": 3
   }
 ]

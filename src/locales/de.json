@@ -163,12 +163,19 @@
   "rulesPage": {
     "eyebrow": "Der Bund",
     "lede": "Kurz, verständlich und mit Urteilsvermögen statt Skripten durchgesetzt. Im Zweifel: Verderbe niemandem den Tag.",
-    "appeals": "Einsprüche erfolgen über ein Discord-Ticket – niemals im öffentlichen Chat.",
+    "appeals": "Einsprüche erfolgen über ein Discord-Ticket.",
     "staffNote": "Dies ist das Spielerbündnis. Mitarbeiter arbeiten unter einem separaten, strengeren Code - sichtbar für Mitarbeiterkonten auf dieser Seite.",
-    "severityWarn": "Verwarnen",
-    "severityMute": "Stummschalten",
-    "severityBan": "Sperren",
-    "severityInstant": "Sofortige Maßnahme"
+    "warnForms": {
+      "one": "Verwarnung",
+      "few": "Verwarnungen",
+      "many": "Verwarnungen"
+    },
+    "noWarning": "keine Verwarnung",
+    "permanent": "dauerhaft",
+    "ladderHeading": "Wie das gezählt wird",
+    "ladderAria": "Zeigen, wie diese Regel gezählt wird",
+    "ladderCase": "Was du getan hast",
+    "ladderCost": "Kosten"
   },
   "staffOrder": {
     "eyebrow": "Hüter des Nebels",

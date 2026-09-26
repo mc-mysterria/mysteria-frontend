@@ -8,9 +8,9 @@
  *   - a placeholder. `{name}`, `{count}` and friends are substituted by the call
  *     site, not by t(), so a dropped or renamed slot renders the literal brace
  *     text to a reader and there is no type error anywhere.
- *   - a field that only looks like copy. `id` and `severity` in the rules files
- *     are identifiers the app switches on; translated, they silently stop
- *     matching.
+ *   - a field that only looks like copy. `id` and `warns` in the rules files
+ *     are identifiers the app switches on; translated or renumbered, they
+ *     silently stop matching.
  *
  * It also covers the locales the app does not import yet. A language added in
  * Weblate lands its file here well before it is wired into locales.json, and
@@ -46,7 +46,7 @@ const SURFACES = [
         label: "rules",
         dir: "src/assets/sources",
         match: /^rules_(.+)\.json$/,
-        frozen: ["id", "severity"],
+        frozen: ["id", "warns"],
     },
     {
         label: "staff rules",

@@ -165,10 +165,17 @@
     "lede": "简短、易读，靠判断力而非脚本来执行。若有疑虑，请记住：不要毁掉别人的一天。",
     "appeals": "申诉一律通过 Discord 工单处理--绝不在公共聊天中进行。",
     "staffNote": "这是玩家契约。管理团队另有一套更严格的准则--该页面仅对管理团队账户显示。",
-    "severityWarn": "警告",
-    "severityMute": "禁言",
-    "severityBan": "封禁",
-    "severityInstant": "立即处置"
+    "warnForms": {
+      "one": "次警告",
+      "few": "次警告",
+      "many": "次警告"
+    },
+    "noWarning": "无警告",
+    "permanent": "永久",
+    "ladderHeading": "如何计算",
+    "ladderAria": "显示该规则的计算方式",
+    "ladderCase": "你做了什么",
+    "ladderCost": "代价"
   },
   "staffOrder": {
     "eyebrow": "灰雾守望者",

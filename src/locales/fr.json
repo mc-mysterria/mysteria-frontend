@@ -163,12 +163,19 @@
     "rulesPage": {
         "eyebrow": "Le Pacte",
         "lede": "Courtes, compréhensibles et appliquées avec jugement plutôt qu’avec des scripts. En cas de doute : ne gâche pas la journée de quelqu’un.",
-        "appeals": "Les recours passent par un ticket Discord, jamais par le chat public.",
+        "appeals": "Les recours passent par un ticket Discord.",
         "staffNote": "Voici le pacte des joueurs. Le staff suit un code distinct et plus strict, visible aux comptes du staff sur cette page.",
-        "severityWarn": "Avertissement",
-        "severityMute": "Silence",
-        "severityBan": "Bannissement",
-        "severityInstant": "Action immédiate"
+        "warnForms": {
+            "one": "avertissement",
+            "few": "avertissements",
+            "many": "avertissements"
+        },
+        "noWarning": "aucun avertissement",
+        "permanent": "définitif",
+        "ladderHeading": "Comment c'est compté",
+        "ladderAria": "Afficher comment cette règle est comptée",
+        "ladderCase": "Ce que vous avez fait",
+        "ladderCost": "Coût"
     },
     "staffOrder": {
         "eyebrow": "Gardiens de la Brume",

@@ -76,16 +76,58 @@
                     v-for="rule in chapter.rules"
                     :id="`rule-${rule.id}`"
                     :key="rule.id"
-                    class="rule-row"
+                    class="rule-row rule-row--costed"
                 >
                   <span class="rule-id">{{ rule.id }}</span>
                   <div class="rule-copy">
                     <strong>{{ rule.title }}</strong>
                     <p>{{ rule.content }}</p>
                   </div>
-                  <span v-if="rule.severity" :class="['severity', rule.severity]">
-                    {{ severityLabel(rule.severity) }}
-                  </span>
+                  <div class="rule-cost">
+                    <span
+                        v-if="hasCost(rule)"
+                        :class="['warns', toneFor(headlineWarns(rule))]"
+                    >
+                      {{ costLabel(rule) }}
+                    </span>
+                    <span v-else class="warns-spacer"></span>
+
+                    <button
+                        v-if="rule.ladder"
+                        :aria-expanded="openLadder === rule.id"
+                        :aria-label="t('rulesPage.ladderAria')"
+                        class="cost-info"
+                        type="button"
+                        @click="toggleLadder(rule.id)"
+                    >
+                      <i aria-hidden="true" class="fa-solid fa-circle-info"></i>
+                    </button>
+                    <span v-else class="cost-info-spacer"></span>
+
+                    <div
+                        v-if="rule.ladder"
+                        :class="['ladder', { open: openLadder === rule.id }]"
+                        role="note"
+                    >
+                      <p class="ladder-heading">{{ t('rulesPage.ladderHeading') }}</p>
+                      <table class="ladder-table">
+                        <thead>
+                        <tr>
+                          <th scope="col">{{ t('rulesPage.ladderCase') }}</th>
+                          <th scope="col">{{ t('rulesPage.ladderCost') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(step, index) in rule.ladder" :key="index">
+                          <td>{{ step.case }}</td>
+                          <td :class="['ladder-cost', toneFor(step.warns)]">
+                            {{ warnLabel(step.warns) }}
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -127,9 +169,6 @@
                       {{ rule.examples }}
                     </p>
                   </div>
-                  <span v-if="rule.severity" :class="['severity', rule.severity]">
-                    {{ severityLabel(rule.severity) }}
-                  </span>
                 </div>
               </div>
             </section>
@@ -153,18 +192,33 @@ import HeaderItem from "@/components/layout/HeaderItem.vue";
 import FooterItem from "@/components/layout/FooterItem.vue";
 import DailyBonusCat from "@/components/ui/DailyBonusCat.vue";
 
-const {t, currentLanguage} = useI18n();
+const {t, tree, plural, currentLanguage} = useI18n();
 const authStore = useAuthStore();
 const route = useRoute();
 
-type Severity = 'warn' | 'mute' | 'ban' | 'instant';
+/*
+ * A rule costs warnings, and warnings are the only scale on the page: they run
+ * 1 to 8, and 8 is a permanent ban from both platforms. That is why nothing here
+ * carries a separate "instant ban" category - an offence that ends it on the
+ * spot is simply worth 8.
+ *
+ * A rule that has to cover both a careless mistake and a deliberate campaign
+ * carries a `ladder` instead of a flat cost, and the badge then shows the range
+ * rather than one number. The ladder is the source of truth for those: deriving
+ * the badge from it means the headline can never drift from the breakdown.
+ */
+interface LadderStep {
+  case: string
+  warns: number
+}
 
 interface Rule {
   id: string
   title: string
   content: string
   examples?: string
-  severity?: Severity
+  warns?: number
+  ladder?: LadderStep[]
 }
 
 interface StaffRuleGroup {
@@ -235,12 +289,58 @@ const tocEntries = computed(() => {
   ]);
 });
 
-const severityLabel = (severity: Severity) => ({
-  warn: t('rulesPage.severityWarn'),
-  mute: t('rulesPage.severityMute'),
-  ban: t('rulesPage.severityBan'),
-  instant: t('rulesPage.severityInstant'),
-}[severity]);
+const PERMANENT = 8;
+
+const hasCost = (rule: Rule) => rule.warns !== undefined || Boolean(rule.ladder);
+
+const warnsIn = (rule: Rule) => rule.ladder?.map(step => step.warns) ?? [];
+
+/** The number the badge is coloured by: the worst outcome the rule allows. */
+const headlineWarns = (rule: Rule) =>
+    rule.ladder ? Math.max(...warnsIn(rule)) : rule.warns ?? 0;
+
+const warnWord = (count: number) =>
+    plural(count, tree<{ one: string; few: string; many: string }>('rulesPage.warnForms'));
+
+const countLabel = (count: number) =>
+    count === 0 ? t('rulesPage.noWarning') : `${count} ${warnWord(count)}`;
+
+/** Table cell: the full outcome, permanence spelled out. */
+const warnLabel = (count: number) =>
+    count >= PERMANENT ? `${countLabel(count)} · ${t('rulesPage.permanent')}` : countLabel(count);
+
+/*
+ * Badge: the count alone, never the permanence tail. Every badge on the page is
+ * one fixed-width box, and "8 warns · permanent" is twice the width of "1 warn"
+ * - so permanence is carried by the filled red treatment instead, and spelled
+ * out where there is room for it: the ladder table, and rules 7.1 and 7.2.
+ */
+const costLabel = (rule: Rule) => {
+  if (!rule.ladder) return countLabel(rule.warns ?? 0);
+
+  const counts = warnsIn(rule);
+  const low = Math.min(...counts);
+  const high = Math.max(...counts);
+  if (low === high) return countLabel(high);
+
+  // An en dash, not "to": the range has to survive translation without a word.
+  return `${low}–${high} ${warnWord(high)}`;
+};
+
+const toneFor = (count: number) => {
+  if (count === 0) return 'none';
+  if (count >= PERMANENT) return 'permanent';
+  if (count >= 5) return 'severe';
+  if (count >= 3) return 'major';
+  return 'minor';
+};
+
+/*
+ * The ladder opens on hover and on keyboard focus through CSS alone; this state
+ * exists for touch, where neither fires. Only one is open at a time.
+ */
+const openLadder = ref<string>('');
+const toggleLadder = (id: string) => (openLadder.value = openLadder.value === id ? '' : id);
 
 const HEADER_OFFSET = 92;
 
@@ -364,8 +464,17 @@ watch(activeId, id => {
   const item = panel.querySelector<HTMLElement>(`[data-toc-id="${CSS.escape(id)}"]`);
   if (!item) return;
 
-  const itemTop = item.offsetTop - panel.offsetTop;
-  const itemBottom = itemTop + item.offsetHeight;
+  /*
+   * Measured through rects rather than offsetTop. The panel is `position:
+   * sticky`, which makes it the offsetParent, so item.offsetTop is already
+   * panel-relative - subtracting panel.offsetTop then drove every result
+   * negative and clamped the scroll to 0, which is why the list never followed
+   * the reader.
+   */
+  const itemRect = item.getBoundingClientRect();
+  const panelRect = panel.getBoundingClientRect();
+  const itemTop = itemRect.top - panelRect.top + panel.scrollTop;
+  const itemBottom = itemTop + itemRect.height;
   const margin = 40;
 
   if (itemTop < panel.scrollTop + margin) {
@@ -580,6 +689,18 @@ watch(activeTab, () => (activeId.value = ''));
   border: 1px solid var(--myst-line-12);
 }
 
+/*
+ * Player rules reserve a fixed cost column so every badge is the same box in
+ * the same place. The width is set here once, and has to clear the longest
+ * label any locale produces - "0-8 AVERTISSEMENTS" in French, not "1 WARN" in
+ * English - because the UI strings localise even while the rules themselves
+ * fall back to English.
+ */
+.rule-row--costed {
+  --cost-badge: 144px;
+  grid-template-columns: 48px 1fr calc(var(--cost-badge) + 26px);
+}
+
 .rule-id {
   padding-top: 2px;
   font-family: var(--myst-font-mono);
@@ -614,27 +735,186 @@ watch(activeTab, () => (activeId.value = ''));
   font-style: normal;
 }
 
-/* Severity badges */
-.severity {
-  padding: 5px 10px;
-  border: 1px solid;
-  font-family: var(--myst-font-mono);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  white-space: nowrap;
+/*
+ * What a rule costs, in warnings.
+ *
+ * The badge is one fixed width for every rule on the page, and the column is
+ * reserved even on the rules that carry no cost at all (7.1-7.4, 8.1, 8.3), so
+ * the badges line up as a column rather than ragging along the right edge.
+ */
+.rule-cost {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--cost-badge) 20px;
+  gap: 6px;
+  align-items: center;
 }
 
-.severity.warn,
-.severity.mute {
+.warns,
+.warns-spacer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cost-badge);
+  min-height: 26px;
+  box-sizing: border-box;
+  padding: 5px 8px;
+  font-family: var(--myst-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.warns {
+  border: 1px solid;
+}
+
+.warns.none {
+  color: var(--myst-ink-muted);
+  border-color: var(--myst-line-20);
+}
+
+.warns.minor,
+.warns.major {
   color: var(--myst-amber);
   border-color: rgba(224, 160, 79, 0.35);
 }
 
-.severity.ban,
-.severity.instant {
+.warns.severe {
   color: var(--myst-red);
   border-color: rgba(217, 106, 106, 0.4);
+}
+
+/* Filled rather than outlined: 8 warnings is the end of the ladder, and the
+   badge no longer has room to say so in words. */
+.warns.permanent {
+  color: var(--myst-bg);
+  background: var(--myst-red);
+  border-color: var(--myst-red);
+  font-weight: 600;
+}
+
+.cost-info {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--myst-ink-muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.cost-info:hover,
+.cost-info:focus-visible {
+  color: var(--myst-ink);
+}
+
+/*
+ * The breakdown. Hover and keyboard focus open it through CSS; `.open` is the
+ * touch path, where neither of those fires.
+ */
+.ladder {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 5;
+  width: max-content;
+  min-width: 250px;
+  max-width: min(360px, 82vw);
+  padding: 12px 14px;
+  border: 1px solid var(--myst-line-20);
+  background: var(--myst-bg-2);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+.rule-cost:hover .ladder,
+.rule-cost:focus-within .ladder,
+.ladder.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.ladder-heading {
+  margin: 0 0 10px;
+  font-family: var(--myst-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--myst-gold);
+}
+
+.ladder-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.ladder-table th {
+  padding: 0 0 6px;
+  border-bottom: 1px solid var(--myst-line-20);
+  font-family: var(--myst-font-mono);
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--myst-ink-muted);
+}
+
+.ladder-table th:last-child,
+.ladder-cost {
+  text-align: right;
+}
+
+.ladder-table td {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--myst-line-12);
+  vertical-align: top;
+}
+
+.ladder-table tr:last-child td {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ladder-table td:first-child {
+  padding-right: 14px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--myst-ink-muted);
+}
+
+.ladder-cost {
+  font-family: var(--myst-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ladder-cost.none {
+  color: var(--myst-ink-muted);
+}
+
+.ladder-cost.minor,
+.ladder-cost.major {
+  color: var(--myst-amber);
+}
+
+.ladder-cost.severe,
+.ladder-cost.permanent {
+  color: var(--myst-red);
 }
 
 @media (max-width: 1000px) {
@@ -665,11 +945,19 @@ watch(activeTab, () => (activeId.value = ''));
     gap: 12px;
     padding: 18px 18px;
   }
+  .rule-row--costed {
+    grid-template-columns: 42px 1fr;
+  }
 
-  .severity {
+  .rule-cost {
     grid-column: 2;
     justify-self: start;
     margin-top: 4px;
+  }
+
+  .ladder {
+    right: auto;
+    left: 0;
   }
 }
 </style>

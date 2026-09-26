@@ -163,12 +163,19 @@
   "rulesPage": {
     "eyebrow": "Legământul",
     "lede": "Scurt, ușor de citit și aplicat cu judecată, nu cu scripturi. Când ai dubii: nu strica ziua cuiva.",
-    "appeals": "Contestațiile se fac printr-un tichet Discord - niciodată în chatul public.",
+    "appeals": "Contestațiile se fac printr-un tichet Discord.",
     "staffNote": "Acesta este legământul jucătorilor. Echipa operează sub un cod separat și mai strict, vizibil conturilor de echipă pe această pagină.",
-    "severityWarn": "Avertisment",
-    "severityMute": "Reducere la tăcere",
-    "severityBan": "Interdicție",
-    "severityInstant": "Acțiune imediată"
+    "warnForms": {
+      "one": "avertisment",
+      "few": "avertismente",
+      "many": "de avertismente"
+    },
+    "noWarning": "fără avertisment",
+    "permanent": "permanent",
+    "ladderHeading": "Cum se calculează",
+    "ladderAria": "Arată cum se calculează această regulă",
+    "ladderCase": "Ce ai făcut",
+    "ladderCost": "Cost"
   },
   "staffOrder": {
     "eyebrow": "Păzitorii Ceții Cenușii",
