@@ -14,7 +14,35 @@
         <p>{{ t('loadingService') }}</p>
       </div>
 
-      <div v-else-if="article" class="dispatch-layout">
+      <template v-else-if="article">
+        <!--
+          The contents dock is position: fixed, so it never takes part in the
+          article's layout - the column stays exactly where it sits without one.
+        -->
+        <aside v-if="toc.length > 2" :class="['toc-dock', {open: tocOpen}]">
+          <button
+              :aria-expanded="tocOpen"
+              aria-controls="article-toc"
+              class="toc-toggle"
+              type="button"
+              @click="setTocOpen(!tocOpen)"
+          >
+            <i aria-hidden="true" class="fa-solid fa-list"></i>
+            <span>{{ t('newsPage.contents') }}</span>
+            <!--
+              One glyph, rotated per state. The icon subset in scripts/build-fontawesome-subset.mjs
+              only collects literal `fa-solid fa-<name>` pairs, so a chevron chosen in a
+              binding would be dropped from the font.
+            -->
+            <i aria-hidden="true" class="fa-solid fa-chevron-down toggle-caret"></i>
+          </button>
+
+          <div v-show="tocOpen" id="article-toc" class="toc-panel">
+            <ArticleToc :active-id="activeHeading" :entries="toc" :label="t('newsPage.contents')"
+                        @select="goToHeading"/>
+          </div>
+        </aside>
+
         <article class="dispatch-article">
           <header class="article-head">
             <div class="article-meta">
@@ -37,23 +65,11 @@
             <span class="hero-fade" aria-hidden="true"></span>
           </div>
 
-          <details v-if="toc.length > 2" class="toc-disclosure">
-            <summary>{{ t('newsPage.contents') }}</summary>
-            <ArticleToc :active-id="activeHeading" :entries="toc" :label="t('newsPage.contents')"
-                        @select="goToHeading"/>
-          </details>
-
           <div v-dompurify-html="renderedContent" class="article-body"></div>
 
           <div class="article-end" aria-hidden="true">† † †</div>
         </article>
-
-        <aside v-if="toc.length > 2" class="toc-rail">
-          <p class="toc-rail-title">{{ t('newsPage.contents') }}</p>
-          <ArticleToc :active-id="activeHeading" :entries="toc" :label="t('newsPage.contents')"
-                      @select="goToHeading"/>
-        </aside>
-      </div>
+      </template>
 
       <div v-else class="dispatch-state">
         <p>{{ t('newsPage.notFound') }}</p>
@@ -138,6 +154,50 @@ const rendered = computed(() => {
 const renderedContent = computed(() => rendered.value.html);
 const toc = computed(() => rendered.value.toc);
 
+/*
+ * Where the dock sits, and therefore whether it may be open by default.
+ *
+ * Above this width there is room in the page margin beside the 940px column, so
+ * the panel can stand open without covering anything. Below it the panel is an
+ * overlay, so it starts closed and the reader opens it when they want it.
+ */
+const WIDE_DOCK = '(min-width: 1440px)';
+const TOC_PREF_KEY = 'news-toc-open';
+
+const tocOpen = ref(false);
+
+/** localStorage throws in some privacy modes; a contents panel is not worth an error. */
+const readTocPref = (): boolean | null => {
+  try {
+    const stored = window.localStorage.getItem(TOC_PREF_KEY);
+    return stored === null ? null : stored === '1';
+  } catch {
+    return null;
+  }
+};
+
+const setTocOpen = (open: boolean) => {
+  tocOpen.value = open;
+  try {
+    // Only an explicit choice is stored, so a reader who never touches the
+    // toggle keeps following the width default instead of being pinned to
+    // whatever the first page they opened happened to show.
+    window.localStorage.setItem(TOC_PREF_KEY, open ? '1' : '0');
+  } catch {
+    /* ignore - the preference simply does not persist */
+  }
+};
+
+const wideDock = window.matchMedia(WIDE_DOCK);
+
+/*
+ * An explicit choice always wins; without one the dock follows the width, which
+ * is why this is re-run when the breakpoint is crossed rather than only on mount.
+ */
+const applyTocPreference = () => {
+  tocOpen.value = readTocPref() ?? wideDock.matches;
+};
+
 /** Distance from the viewport top that counts as "the reader is here". */
 const headingOffset = () => {
   const header = getComputedStyle(document.documentElement).getPropertyValue('--myst-header-height');
@@ -150,6 +210,10 @@ const goToHeading = (id: string) => {
   // which only reaches CSS-driven scrolling - has to be honoured here too.
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.getElementById(id)?.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
+
+  // Narrow screens show the panel over the article, so get it out of the way of
+  // the section the reader just asked for. The margin rail stays put.
+  if (!wideDock.matches) tocOpen.value = false;
 };
 
 /*
@@ -184,6 +248,28 @@ const onScroll = () => {
   spyQueued = true;
   requestAnimationFrame(syncActiveHeading);
 };
+
+/*
+ * Keep the highlighted entry inside the panel's own scrollport on a long article,
+ * where the list is taller than the dock. Done by hand rather than with
+ * scrollIntoView, which would also scroll the window and fight the reader.
+ */
+watch(activeHeading, () => {
+  if (!tocOpen.value) return;
+
+  const panel = document.getElementById('article-toc');
+  const link = panel?.querySelector<HTMLElement>('.toc-item.active a');
+  if (!panel || !link) return;
+
+  const panelBox = panel.getBoundingClientRect();
+  const linkBox = link.getBoundingClientRect();
+
+  if (linkBox.top < panelBox.top) {
+    panel.scrollTop -= panelBox.top - linkBox.top + 8;
+  } else if (linkBox.bottom > panelBox.bottom) {
+    panel.scrollTop += linkBox.bottom - panelBox.bottom + 8;
+  }
+});
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return '';
@@ -336,11 +422,16 @@ watch(currentLanguage, () => {
 });
 
 onMounted(async () => {
+  applyTocPreference();
+  wideDock.addEventListener('change', applyTocPreference);
   window.addEventListener('scroll', onScroll, {passive: true});
   await reload();
 });
 
-onBeforeUnmount(() => window.removeEventListener('scroll', onScroll));
+onBeforeUnmount(() => {
+  wideDock.removeEventListener('change', applyTocPreference);
+  window.removeEventListener('scroll', onScroll);
+});
 </script>
 
 <style scoped>
@@ -369,74 +460,127 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll));
   margin-bottom: 14px;
 }
 
-/* Layout: article column, with the contents rail in the right margin on wide screens */
-.dispatch-layout {
-  display: block;
+/*
+ * Contents dock.
+ *
+ * Fixed, never in flow: the article column keeps the exact width and position it
+ * has on an article with no headings at all, so opening or closing the dock moves
+ * no text and no images.
+ *
+ * Under 1420px it is a floating button in the bottom-right whose panel opens over
+ * the page; at 1420px and up there is room beside the 940px column, so it moves
+ * into the page margin and stands open.
+ */
+.toc-dock {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  width: min(280px, calc(100vw - 36px));
 }
 
-.toc-rail {
-  display: none;
-}
-
-@media (min-width: 1240px) {
-  .dispatch {
-    max-width: 1256px;
-  }
-
-  .dispatch-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 260px;
-    gap: 56px;
-    align-items: start;
-  }
-
-  .dispatch-layout + .earlier,
-  .dispatch-masthead {
-    max-width: 940px;
-  }
-
-  .toc-rail {
-    display: block;
-    position: sticky;
-    top: calc(var(--myst-header-height) + 28px);
-    max-height: calc(100vh - var(--myst-header-height) - 56px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  .toc-disclosure {
-    display: none;
-  }
-}
-
-.toc-rail-title {
-  margin: 0 0 14px;
+.toc-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  border: 1px solid var(--myst-line-28);
+  background: var(--myst-panel-strong);
+  color: var(--myst-gold);
   font-family: var(--myst-font-mono);
   font-size: 10px;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--myst-gold);
-}
-
-/* Narrow screens get the same list as a disclosure above the body */
-.toc-disclosure {
-  margin: 0 0 40px;
-  padding: 16px 18px;
-  border: 1px solid var(--myst-line-14);
-  background: var(--myst-panel);
-}
-
-.toc-disclosure summary {
   cursor: pointer;
-  font-family: var(--myst-font-mono);
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--myst-gold);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.18s ease, color 0.18s ease;
 }
 
-.toc-disclosure[open] summary {
-  margin-bottom: 14px;
+.toc-toggle:hover,
+.toc-toggle:focus-visible {
+  border-color: var(--myst-line-55);
+  color: var(--myst-offwhite);
+}
+
+.toc-toggle .toggle-caret {
+  font-size: 9px;
+  opacity: 0.6;
+  /* Closed, the bottom dock opens upwards - so the caret points the way it will go. */
+  transform: rotate(180deg);
+  transition: transform 0.18s ease;
+}
+
+.toc-dock.open .toggle-caret {
+  transform: rotate(0deg);
+}
+
+.toc-panel {
+  order: -1; /* panel above the button while the dock hangs off the bottom edge */
+  width: 100%;
+  max-height: min(58vh, 420px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 18px;
+  border: 1px solid var(--myst-line-20);
+  background: var(--myst-panel-strong);
+  backdrop-filter: blur(8px);
+}
+
+/*
+ * The margin rail only turns on where it genuinely fits beside the column:
+ * 470 (half of 940) + 20 gutter + 210 rail + 20 viewport margin = 720 a side,
+ * so 1440px is the narrowest viewport that holds it without clipping.
+ */
+@media (min-width: 1440px) {
+  .toc-dock {
+    left: calc(50% + 490px);
+    right: auto;
+    top: calc(var(--myst-header-height) + 36px);
+    bottom: auto;
+    width: 210px;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .toc-toggle {
+    justify-content: space-between;
+    padding: 0 0 10px;
+    border: none;
+    border-bottom: 1px solid var(--myst-line-14);
+    background: none;
+    backdrop-filter: none;
+  }
+
+  /* In the margin the panel sits below the button, so the caret points the other way. */
+  .toc-toggle .toggle-caret {
+    transform: rotate(0deg);
+  }
+
+  .toc-dock.open .toggle-caret {
+    transform: rotate(180deg);
+  }
+
+  .toc-panel {
+    order: 0;
+    max-height: calc(100vh - var(--myst-header-height) - 150px);
+    padding: 0;
+    border: none;
+    background: none;
+    backdrop-filter: none;
+  }
+}
+
+/* The dock overlaps the text at narrow widths, so give it somewhere to hide. */
+@media (max-width: 520px) {
+  .toc-dock {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100vw - 24px);
+  }
 }
 
 /* Byline */
