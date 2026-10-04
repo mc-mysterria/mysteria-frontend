@@ -153,7 +153,9 @@
     "title": "Buletine",
     "earlier": "Buletine anterioare",
     "season": "Season II · 2026",
-    "notFound": "Intrarea din registru nu a fost găsită sau este restricționată."
+    "notFound": "Intrarea din registru nu a fost găsită sau este restricționată.",
+    "contents": "Cuprins",
+    "writtenBy": "Scris de"
   },
   "contentLanguageNotice": {
     "label": "Notă privind limba",

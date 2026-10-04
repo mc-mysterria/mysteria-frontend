@@ -153,7 +153,9 @@
     "title": "讯报",
     "earlier": "更早的讯报",
     "season": "第二赛季 · 2026",
-    "notFound": "未找到该记录条目，或其访问受限。"
+    "notFound": "未找到该记录条目，或其访问受限。",
+    "contents": "目录",
+    "writtenBy": "撰文"
   },
   "contentLanguageNotice": {
     "label": "语言提示",

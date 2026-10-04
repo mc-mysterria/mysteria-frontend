@@ -14,27 +14,46 @@
         <p>{{ t('loadingService') }}</p>
       </div>
 
-      <article v-else-if="article" class="dispatch-article">
-        <header class="article-head">
-          <div class="article-meta">
-            <span class="meta-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
-            <template v-if="article.isPinned">
-              <span class="meta-divider" aria-hidden="true">†</span>
-              <span class="meta-tag">{{ t('homePage.newsPinned') }}</span>
-            </template>
+      <div v-else-if="article" class="dispatch-layout">
+        <article class="dispatch-article">
+          <header class="article-head">
+            <div class="article-meta">
+              <span class="meta-date">{{ formatDate(article.publishedAt || article.createdAt) }}</span>
+              <template v-if="article.isPinned">
+                <span class="meta-divider" aria-hidden="true">†</span>
+                <span class="meta-tag">{{ t('homePage.newsPinned') }}</span>
+              </template>
+            </div>
+            <h2 class="article-title">{{ article.title }}</h2>
+
+            <div v-if="article.author" class="article-byline">
+              <UserAvatar :nickname="article.author.nickname" :src="article.author.avatarUrl ?? undefined" size="xs"/>
+              <span>{{ t('newsPage.writtenBy') }} <strong>{{ article.author.nickname }}</strong></span>
+            </div>
+          </header>
+
+          <div v-if="article.preview" class="article-hero">
+            <img :alt="article.title" :src="article.preview">
+            <span class="hero-fade" aria-hidden="true"></span>
           </div>
-          <h2 class="article-title">{{ article.title }}</h2>
-        </header>
 
-        <div v-if="article.preview" class="article-hero">
-          <img :alt="article.title" :src="article.preview">
-          <span class="hero-fade" aria-hidden="true"></span>
-        </div>
+          <details v-if="toc.length > 2" class="toc-disclosure">
+            <summary>{{ t('newsPage.contents') }}</summary>
+            <ArticleToc :active-id="activeHeading" :entries="toc" :label="t('newsPage.contents')"
+                        @select="goToHeading"/>
+          </details>
 
-        <div v-dompurify-html="renderedContent" class="article-body"></div>
+          <div v-dompurify-html="renderedContent" class="article-body"></div>
 
-        <div class="article-end" aria-hidden="true">† † †</div>
-      </article>
+          <div class="article-end" aria-hidden="true">† † †</div>
+        </article>
+
+        <aside v-if="toc.length > 2" class="toc-rail">
+          <p class="toc-rail-title">{{ t('newsPage.contents') }}</p>
+          <ArticleToc :active-id="activeHeading" :entries="toc" :label="t('newsPage.contents')"
+                      @select="goToHeading"/>
+        </aside>
+      </div>
 
       <div v-else class="dispatch-state">
         <p>{{ t('newsPage.notFound') }}</p>
@@ -68,18 +87,21 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, ref, watch} from 'vue';
+import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {newsAPI} from '@/utils/api/news';
 import type {NewsArticle, NewsPreview} from '@/types/news';
 import HeaderItem from '@/components/layout/HeaderItem.vue';
 import ContentLanguageNotice from '@/components/ui/ContentLanguageNotice.vue';
 import FooterItem from '@/components/layout/FooterItem.vue';
+import UserAvatar from '@/components/ui/UserAvatar.vue';
+import ArticleToc from '@/components/ui/ArticleToc.vue';
 import {useI18n} from '@/composables/useI18n';
 import {localePath} from '@/composables/useLocalePath';
 import {ARTICLE_LOCALES, type ArticleLocale, hasOwnArticles, LANGUAGES} from '@/locales';
 import MarkdownIt from 'markdown-it';
 import {pathwayEmojiPlugin} from '@/utils/pathwayPlugin';
+import {tocPlugin, type TocEntry} from '@/utils/articleToc';
 import {articleLd, breadcrumbLd, useSeo} from '@/composables/useSeo';
 
 const route = useRoute();
@@ -91,11 +113,77 @@ const {currentLanguage, intlLocale, locale, t} = useI18n();
 
 const md = new MarkdownIt({html: true, linkify: true, typographer: true});
 md.use(pathwayEmojiPlugin);
+md.use(tocPlugin);
 
-const renderedContent = computed(() => {
-  if (!article.value?.content) return article.value?.renderedContent ?? '';
-  return md.render(article.value.content);
+const activeHeading = ref<string | null>(null);
+
+/*
+ * Rendering also collects the table of contents, so the two can never disagree -
+ * the ids in the HTML and the ids in the rail come out of the same pass, which is
+ * why they are one computed rather than two.
+ *
+ * An article served only as pre-rendered HTML (no markdown source) gets no TOC,
+ * because nothing stamped ids on its headings.
+ */
+const rendered = computed(() => {
+  if (!article.value?.content) {
+    return {html: article.value?.renderedContent ?? '', toc: [] as TocEntry[]};
+  }
+
+  const env: { toc?: TocEntry[] } = {};
+  const html = md.render(article.value.content, env);
+  return {html, toc: env.toc ?? []};
 });
+
+const renderedContent = computed(() => rendered.value.html);
+const toc = computed(() => rendered.value.toc);
+
+/** Distance from the viewport top that counts as "the reader is here". */
+const headingOffset = () => {
+  const header = getComputedStyle(document.documentElement).getPropertyValue('--myst-header-height');
+  return (parseInt(header, 10) || 68) + 32;
+};
+
+const goToHeading = (id: string) => {
+  // scroll-margin-top on the headings keeps them clear of the fixed header. The
+  // behaviour is chosen in JS, so the global reduced-motion rule in main.css -
+  // which only reaches CSS-driven scrolling - has to be honoured here too.
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById(id)?.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
+};
+
+/*
+ * Scroll spy. A rAF-throttled scroll listener rather than an IntersectionObserver:
+ * "the last heading the reader has passed" is a single comparison against the
+ * header offset, where an observer would need per-heading rootMargin bookkeeping
+ * and still misreport sections shorter than the viewport.
+ */
+let spyQueued = false;
+
+const syncActiveHeading = () => {
+  spyQueued = false;
+  if (!toc.value.length) return;
+
+  const limit = headingOffset();
+  // Null until the first heading is passed, so nothing is highlighted while the
+  // reader is still on the title and the hero image.
+  let current: string | null = null;
+
+  for (const entry of toc.value) {
+    const element = document.getElementById(entry.id);
+    if (element && element.getBoundingClientRect().top <= limit) {
+      current = entry.id;
+    }
+  }
+
+  activeHeading.value = current;
+};
+
+const onScroll = () => {
+  if (spyQueued) return;
+  spyQueued = true;
+  requestAnimationFrame(syncActiveHeading);
+};
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return '';
@@ -233,6 +321,7 @@ const reload = async () => {
   await loadNews();
   await nextTick();
   scrollToTop();
+  syncActiveHeading();
 };
 
 watch(() => route.fullPath, (next, previous) => {
@@ -246,7 +335,12 @@ watch(currentLanguage, () => {
   void reload();
 });
 
-onMounted(reload);
+onMounted(async () => {
+  window.addEventListener('scroll', onScroll, {passive: true});
+  await reload();
+});
+
+onBeforeUnmount(() => window.removeEventListener('scroll', onScroll));
 </script>
 
 <style scoped>
@@ -273,6 +367,92 @@ onMounted(reload);
 
 .dispatch-masthead .myst-eyebrow {
   margin-bottom: 14px;
+}
+
+/* Layout: article column, with the contents rail in the right margin on wide screens */
+.dispatch-layout {
+  display: block;
+}
+
+.toc-rail {
+  display: none;
+}
+
+@media (min-width: 1240px) {
+  .dispatch {
+    max-width: 1256px;
+  }
+
+  .dispatch-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .dispatch-layout + .earlier,
+  .dispatch-masthead {
+    max-width: 940px;
+  }
+
+  .toc-rail {
+    display: block;
+    position: sticky;
+    top: calc(var(--myst-header-height) + 28px);
+    max-height: calc(100vh - var(--myst-header-height) - 56px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .toc-disclosure {
+    display: none;
+  }
+}
+
+.toc-rail-title {
+  margin: 0 0 14px;
+  font-family: var(--myst-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--myst-gold);
+}
+
+/* Narrow screens get the same list as a disclosure above the body */
+.toc-disclosure {
+  margin: 0 0 40px;
+  padding: 16px 18px;
+  border: 1px solid var(--myst-line-14);
+  background: var(--myst-panel);
+}
+
+.toc-disclosure summary {
+  cursor: pointer;
+  font-family: var(--myst-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--myst-gold);
+}
+
+.toc-disclosure[open] summary {
+  margin-bottom: 14px;
+}
+
+/* Byline */
+.article-byline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+  font-size: 13px;
+  color: var(--myst-ink-muted);
+}
+
+.article-byline strong {
+  color: var(--myst-offwhite);
+  font-weight: 600;
 }
 
 /* Article */
@@ -370,6 +550,14 @@ onMounted(reload);
   font-size: 26px;
   font-weight: 700;
   color: var(--myst-offwhite);
+  /* Clears the fixed header when a contents link jumps to a section */
+  scroll-margin-top: calc(var(--myst-header-height) + 28px);
+}
+
+/* Subordinate to h2, matching how the contents rail nests them */
+.article-body :deep(h3) {
+  margin-top: 36px;
+  font-size: 20px;
 }
 
 .article-body :deep(strong) {

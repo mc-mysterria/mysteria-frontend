@@ -1,3 +1,9 @@
+/** Byline for a dispatch. Absent on articles published before bylines existed. */
+export interface NewsAuthor {
+    nickname: string;
+    avatarUrl?: string | null;
+}
+
 export interface NewsArticle {
     id: number;
     title: string;
@@ -12,6 +18,7 @@ export interface NewsArticle {
     createdAt: string;
     updatedAt: string;
     publishedAt?: string;
+    author?: NewsAuthor | null;
 }
 
 export interface NewsPreview {

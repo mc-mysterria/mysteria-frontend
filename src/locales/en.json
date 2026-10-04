@@ -153,7 +153,9 @@
     "title": "Dispatches",
     "earlier": "Earlier dispatches",
     "season": "Season II · 2026",
-    "notFound": "Registry entry not found or restricted."
+    "notFound": "Registry entry not found or restricted.",
+    "contents": "Contents",
+    "writtenBy": "Written by"
   },
   "contentLanguageNotice": {
     "label": "Language notice",

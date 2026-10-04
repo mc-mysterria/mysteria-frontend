@@ -153,7 +153,9 @@
     "title": "Depeschen",
     "earlier": "Frühere Depeschen",
     "season": "Saison II · 2026",
-    "notFound": "Registereintrag nicht gefunden oder eingeschränkt."
+    "notFound": "Registereintrag nicht gefunden oder eingeschränkt.",
+    "contents": "Inhalt",
+    "writtenBy": "Geschrieben von"
   },
   "contentLanguageNotice": {
     "label": "Sprachhinweis",

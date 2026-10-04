@@ -153,7 +153,9 @@
         "title": "Comunicados",
         "earlier": "Comunicados anteriores",
         "season": "Temporada II · 2026",
-        "notFound": "No se encontró la entrada del registro o está restringida."
+        "notFound": "No se encontró la entrada del registro o está restringida.",
+        "contents": "Contenido",
+        "writtenBy": "Escrito por"
     },
     "contentLanguageNotice": {
         "label": "Aviso de idioma",

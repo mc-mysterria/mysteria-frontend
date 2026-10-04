@@ -153,7 +153,9 @@
     "title": "訊報",
     "earlier": "更早的訊報",
     "season": "第二賽季 · 2026",
-    "notFound": "未找到該記錄條目，或其訪問受限。"
+    "notFound": "未找到該記錄條目，或其訪問受限。",
+    "contents": "目錄",
+    "writtenBy": "撰文"
   },
   "contentLanguageNotice": {
     "label": "語言提示",
