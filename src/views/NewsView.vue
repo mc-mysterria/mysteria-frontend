@@ -673,14 +673,41 @@ onBeforeUnmount(() => {
   color: #c9c9cf;
 }
 
+/*
+ * Wide viewports leave a deep empty gutter either side of the reading measure,
+ * which reads as wasted once the contents dock occupies the right margin. The
+ * prose widens a little; tables, which carry far more than a line of prose does,
+ * break out to the full column.
+ *
+ * 76px is where that breakout comes from: the column's usable width is 892px
+ * (940 max-width less 2x24 padding), so (892 - 740) / 2 a side.
+ */
+@media (min-width: 1200px) {
+  .article-body {
+    max-width: 740px;
+  }
+}
+
 .article-body :deep(p) {
   margin: 0 0 26px;
 }
 
 /* Playfair drop cap on the opening paragraph */
+/*
+ * Drop cap, sized and placed against the body's own metrics rather than by eye:
+ * at 17.5px/1.85 a line box is 32.375px, and Playfair's cap height of ~0.70em at
+ * 64px is 44.8px - near enough two lines of cap-to-baseline (45.7px) to read as a
+ * proper two-line drop cap.
+ *
+ * The padding is what seats it. line-height 0.82 makes the letter's ink overflow
+ * its own box symmetrically, so the top padding is the only thing deciding where
+ * the glyph lands; at the previous 8px the cap top sat ~6px under the first
+ * line's cap and the foot ~5px under the second line's baseline, which is the
+ * "floating too low" look. 2px puts both within a pixel.
+ */
 .article-body :deep(> p:first-of-type::first-letter) {
   float: left;
-  padding: 8px 14px 0 0;
+  padding: 2px 14px 0 0;
   font-family: var(--myst-font-display);
   font-size: 64px;
   line-height: 0.82;
@@ -773,6 +800,21 @@ onBeforeUnmount(() => {
   margin: 40px 0;
   border-collapse: collapse;
   font-size: 0.9em;
+}
+
+/*
+ * A table carries far more per line than prose does, so it breaks out of the
+ * reading measure to the full column: 892px usable (940 max-width less 2x24
+ * padding) against a 740px measure is 76px a side.
+ *
+ * This has to sit after the rule above rather than beside the max-width that
+ * defines it - same specificity, so source order decides.
+ */
+@media (min-width: 1200px) {
+  .article-body :deep(table) {
+    width: calc(100% + 152px);
+    margin-left: -76px;
+  }
 }
 
 .article-body :deep(th),

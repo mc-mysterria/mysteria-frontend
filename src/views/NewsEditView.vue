@@ -33,10 +33,19 @@
     </div>
 
     <div class="controls">
+      <input
+          v-model="articleFilter"
+          aria-label="Filter articles"
+          class="article-filter"
+          placeholder="Filter by title or slug..."
+          type="search"
+      />
       <select v-model="selectedArticleId" @change="loadArticle">
-        <option value="">Select an article to edit</option>
-        <option v-for="article in articles" :key="article.id" :value="article.id">
-          {{ article.title }} ({{ article.language }})
+        <option value="">
+          {{ articleFilter ? `${filteredArticles.length} of ${articles.length} articles` : 'Select an article to edit' }}
+        </option>
+        <option v-for="article in filteredArticles" :key="article.id" :value="article.id">
+          {{ article.isPinned ? '* ' : '' }}{{ article.title }} ({{ article.language }})
         </option>
       </select>
       <button @click="createNewArticle">New Article</button>
@@ -316,6 +325,23 @@ import {PATHWAYS, getPathwayImageUrl, pathwayEmojiPlugin} from '@/utils/pathwayP
 
 const router = useRouter();
 const articles = ref<NewsArticle[]>([]);
+const articleFilter = ref('');
+
+/*
+ * A flat <select> of the whole archive is unusable once it runs to hundreds of
+ * rows, so the list is narrowed by title or slug. The currently selected article
+ * is always kept in the list, so filtering can never silently deselect it.
+ */
+const filteredArticles = computed(() => {
+  const needle = articleFilter.value.trim().toLowerCase();
+  if (!needle) return articles.value;
+
+  return articles.value.filter(article =>
+      article.id === selectedArticleId.value ||
+      article.title.toLowerCase().includes(needle) ||
+      article.slug.toLowerCase().includes(needle)
+  );
+});
 const selectedArticleId = ref<number | string>('');
 const selectedArticle = ref<NewsArticle | null>(null);
 const loading = ref(false);
@@ -615,12 +641,34 @@ const goBack = () => router.push('/profile');
 
 // – API –
 
+/*
+ * Every article, not just the first page.
+ *
+ * The admin list is paginated, and this used to take page 0 and stop - so the
+ * editor could only ever reach the newest handful, and an older pinned article
+ * could not be selected to unpin it. PAGE_LIMIT is a runaway guard, not a cap on
+ * the archive: at 200 a side it covers 20x the current article count.
+ */
+const PAGE_SIZE = 200;
+const PAGE_LIMIT = 20;
+
 const loadArticles = async () => {
   try {
     loading.value = true;
     error.value = '';
-    const response = await newsAPI.getAllAdmin();
-    articles.value = response.data.content;
+
+    const collected: NewsArticle[] = [];
+    let page = 0;
+    let totalPages = 1;
+
+    while (page < totalPages && page < PAGE_LIMIT) {
+      const response = await newsAPI.getAllAdmin({page, size: PAGE_SIZE});
+      collected.push(...response.data.content);
+      totalPages = response.data.totalPages;
+      page += 1;
+    }
+
+    articles.value = collected;
   } catch (err) {
     error.value = 'Failed to load articles';
     console.error(err);
@@ -942,6 +990,22 @@ const cancelEdit = () => {
   background: var(--myst-bg-2);
   border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 30%, transparent);
+}
+
+.controls .article-filter {
+  flex: 0 1 240px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--myst-ink-muted) 40%, transparent);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--myst-bg);
+  color: var(--myst-ink);
+  transition: border-color 0.2s ease;
+}
+
+.controls .article-filter:focus {
+  outline: none;
+  border-color: var(--myst-gold);
 }
 
 .controls select {
