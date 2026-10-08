@@ -1,0 +1,9 @@
+node_modules
+dist
+.vercel
+.git
+.github
+.idea
+.claude
+.junie
+.env.development

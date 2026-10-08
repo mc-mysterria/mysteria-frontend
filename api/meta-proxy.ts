@@ -331,6 +331,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
         console.log('Processing meta-proxy request for path:', path);
         const baseUrl = 'https://mysterria.net';
+        /*
+         * Where the article/service lookups below are fetched from. It is
+         * separate from baseUrl because baseUrl is also the public origin
+         * written into the og: tags, which must stay mysterria.net whatever
+         * host happens to be serving this.
+         *
+         * Unset (on Vercel) it stays baseUrl, so the fetch rides the
+         * `/api/:path*` rewrite as it always has. The self-hosted container
+         * sets META_API_BASE=https://api.mysterria.net so the lookup goes
+         * straight to the backend instead of leaving the box, hitting the
+         * public origin and being proxied back in again - a loop that fails
+         * whenever the origin itself is down.
+         */
+        const apiBase = process.env.META_API_BASE || baseUrl;
 
         if (path === 'pathways' || path.startsWith('pathways/')) {
             const pathwayId = path.split('/')[1];
@@ -373,7 +387,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log('Type:', type, 'Locale:', locale, 'Slug:', slug);
 
         if (type === 'news') {
-            const apiUrl = `${baseUrl}/api/news/${locale}/article/${slug}`;
+            const apiUrl = `${apiBase}/api/news/${locale}/article/${slug}`;
             console.log('Fetching article from:', apiUrl);
 
             const articleResponse = await fetch(apiUrl, {
@@ -442,7 +456,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 .setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600')
                 .send(html);
         } else if (type === 'services') {
-            const apiUrl = `${baseUrl}/api/shop/services/${slug}/content?lang=${locale}`;
+            const apiUrl = `${apiBase}/api/shop/services/${slug}/content?lang=${locale}`;
             console.log('Fetching service from:', apiUrl);
 
             const serviceResponse = await fetch(apiUrl, {

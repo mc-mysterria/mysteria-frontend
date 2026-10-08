@@ -1,0 +1,10 @@
+{
+  "name": "mysterria-frontend-server",
+  "private": true,
+  "type": "module",
+  "description": "Runtime dependencies for the self-hosted server. Kept separate from the root package.json because that one carries the whole Vite/Sentry/echarts build toolchain in `dependencies`, which an --omit=dev install in the runtime image would still pull in - a fat image, and a build that trips over vite's pinned esbuild postinstall.",
+  "dependencies": {
+    "express": "^5.1.0",
+    "tsx": "^4.21.0"
+  }
+}
