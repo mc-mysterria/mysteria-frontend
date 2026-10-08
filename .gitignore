@@ -20,7 +20,6 @@ api-docs.json
 CLAUDE.md
 
 node_modules
-package-lock.json
 .DS_Store
 dist
 dist-ssr
